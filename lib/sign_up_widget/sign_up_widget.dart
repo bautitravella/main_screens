@@ -13,6 +13,7 @@ class SignUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -37,8 +38,8 @@ class SignUpWidget extends StatelessWidget {
               ),
             ),
             Container(
-              height: 32,
-              margin: EdgeInsets.only(left: 51, top: 86, right: 213),
+              height: 35,
+              margin: EdgeInsets.only(left: 51, top: 83, right: 62),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -47,7 +48,7 @@ class SignUpWidget extends StatelessWidget {
                     child: Container(
                       width: 22,
                       height: 22,
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(top: 13),
                       child: Image.asset(
                         "assets/images/icons8-email-send-96px.png",
                         fit: BoxFit.none,
@@ -95,7 +96,7 @@ class SignUpWidget extends StatelessWidget {
             ),
             Container(
               height: 37,
-              margin: EdgeInsets.only(left: 51, top: 22, right: 165),
+              margin: EdgeInsets.only(left: 51, top: 22, right: 62),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -155,7 +156,7 @@ class SignUpWidget extends StatelessWidget {
             ),
             Container(
               height: 37,
-              margin: EdgeInsets.only(left: 51, top: 22, right: 65),
+              margin: EdgeInsets.only(left: 51, top: 22, right: 62),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
