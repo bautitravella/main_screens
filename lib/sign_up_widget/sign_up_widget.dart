@@ -37,8 +37,8 @@ class SignUpWidget extends StatelessWidget {
               ),
             ),
             Container(
-              height: 26,
-              margin: EdgeInsets.only(left: 51, top: 92, right: 213),
+              height: 32,
+              margin: EdgeInsets.only(left: 51, top: 86, right: 213),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -47,7 +47,7 @@ class SignUpWidget extends StatelessWidget {
                     child: Container(
                       width: 22,
                       height: 22,
-                      margin: EdgeInsets.only(top: 4),
+                      margin: EdgeInsets.only(top: 10),
                       child: Image.asset(
                         "assets/images/icons8-email-send-96px.png",
                         fit: BoxFit.none,
@@ -94,8 +94,8 @@ class SignUpWidget extends StatelessWidget {
               ),
             ),
             Container(
-              height: 26,
-              margin: EdgeInsets.only(left: 51, top: 32, right: 165),
+              height: 37,
+              margin: EdgeInsets.only(left: 51, top: 22, right: 165),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -104,6 +104,7 @@ class SignUpWidget extends StatelessWidget {
                     child: Container(
                       width: 26,
                       height: 26,
+                      margin: EdgeInsets.only(top: 11),
                       child: Opacity(
                         opacity: 0.7,
                         child: Image.asset(
@@ -153,8 +154,8 @@ class SignUpWidget extends StatelessWidget {
               child: Container(),
             ),
             Container(
-              height: 26,
-              margin: EdgeInsets.only(left: 51, top: 33, right: 65),
+              height: 37,
+              margin: EdgeInsets.only(left: 51, top: 22, right: 65),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -163,6 +164,7 @@ class SignUpWidget extends StatelessWidget {
                     child: Container(
                       width: 26,
                       height: 26,
+                      margin: EdgeInsets.only(top: 11),
                       child: Opacity(
                         opacity: 0.7,
                         child: Image.asset(
