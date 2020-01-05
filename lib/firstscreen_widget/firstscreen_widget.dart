@@ -4,10 +4,18 @@ import 'package:flutterui/values/values.dart';
 
 
 class FirstscreenWidget extends StatelessWidget {
-  
+
+  void onSymbol91Pressed(BuildContext context) {
+
+  }
+
+  void signUpButton(BuildContext context) {
+
+  }
+
   @override
   Widget build(BuildContext context) {
-  
+
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -71,30 +79,24 @@ class FirstscreenWidget extends StatelessWidget {
                   Spacer(),
                   Container(
                     height: 142,
-                    decoration: BoxDecoration(
+                    child: FlatButton(
+                      onPressed: () => this.onSymbol91Pressed(context),
                       color: AppColors.ternaryBackground,
-                      boxShadow: [
-                        Shadows.secondaryShadow,
-                      ],
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 24),
-                          child: Text(
-                            "LOG IN",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppColors.secondaryText,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              letterSpacing: 0.08,
-                            ),
-                          ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      textColor: Color.fromARGB(255, 255, 255, 255),
+                      padding: EdgeInsets.all(0),
+                      child: Text(
+                        "LOG IN",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
@@ -104,30 +106,23 @@ class FirstscreenWidget extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 0,
-              child: Container(
-                height: 71,
-                decoration: BoxDecoration(
-                  color: AppColors.secondaryBackground,
-                  boxShadow: [
-                    Shadows.secondaryShadow,
-                  ],
+              child: FlatButton(
+                onPressed: () => this.signUpButton(context),
+                color: AppColors.secondaryBackground,
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "SIGN UP",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.secondaryText,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                        letterSpacing: 0.08,
-                      ),
-                    ),
-                  ],
+                textColor: Color.fromARGB(255, 255, 255, 255),
+                padding: EdgeInsets.all(25),
+                child: Text(
+                  "SIGN UP",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
