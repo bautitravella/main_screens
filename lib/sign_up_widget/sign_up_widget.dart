@@ -77,6 +77,7 @@ class SignUpWidget extends StatelessWidget {
                               fontSize: 20,
                             ),
                             maxLines: 1,
+                            keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
                           ),
                         ),
