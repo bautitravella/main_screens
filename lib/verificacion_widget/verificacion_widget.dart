@@ -1,21 +1,14 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutterui/elije_un_rol_widget/elije_un_rol_widget.dart';
 import 'package:flutterui/values/values.dart';
 
-
 class VerificacionWidget extends StatelessWidget {
+  void onBtnBlueTwoPressed(BuildContext context) {}
 
-  void onBtnBlueTwoPressed(BuildContext context) {
-
-  }
-
-  void onBtnBluePressed(BuildContext context) {
-
-  }
+  void onBtnBluePressed(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -34,7 +27,7 @@ class VerificacionWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Verificacion",
+                      "Verificación",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: AppColors.accentText,
@@ -93,7 +86,7 @@ class VerificacionWidget extends StatelessWidget {
                   color: Color.fromARGB(255, 118, 118, 118),
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w400,
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: -0.1,
                   height: 1.4,
                 ),
@@ -101,7 +94,7 @@ class VerificacionWidget extends StatelessWidget {
             ),
             Container(
               height: 54,
-              margin: EdgeInsets.only(left: 4, right: 6, bottom: 60),
+              margin: EdgeInsets.only(left: 4, right: 6, bottom: 40),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -123,7 +116,9 @@ class VerificacionWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset("assets/images/icons-back-light.png",),
+                              Image.asset(
+                                "assets/images/icons-back-light.png",
+                              ),
                               SizedBox(
                                 width: 10,
                               ),
@@ -147,29 +142,36 @@ class VerificacionWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      width: 125,
-                      height: 54,
+                      width: 155,
+                      height: 44,
                       child: Opacity(
                         opacity: 0.91,
                         child: FlatButton(
-                          onPressed: () => this.onBtnBluePressed(context),
-                          color: AppColors.secondaryElement,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          textColor: Color.fromARGB(255, 255, 255, 255),
-                          padding: EdgeInsets.all(0),
-                          child: Text(
-                            "Volver a enviar mail",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppColors.secondaryText,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 11,
+                            color: AppColors.secondaryElement,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
-                          ),
-                        ),
+                            textColor: Color.fromARGB(255, 255, 255, 255),
+                            padding: EdgeInsets.all(0),
+                            child: Text(
+                              "Volver a enviar mail",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppColors.secondaryText,
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ElijeUnRolWidget()), // Temporalmente me manda a la siguiente pantalla, deberia esperar a confirmar el mail
+                              );
+                            }),
                       ),
                     ),
                   ),
