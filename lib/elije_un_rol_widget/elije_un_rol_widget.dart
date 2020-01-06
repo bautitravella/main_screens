@@ -47,7 +47,7 @@ class ElijeUnRolWidget extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.only(top: 25, bottom: 85),
+                margin: EdgeInsets.only(top: 25, bottom: 70),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -72,7 +72,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                       left: 44,
                       top: 45,
                       right: 130,
-                      bottom: 15,
+                      bottom: 30,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -91,12 +91,12 @@ class ElijeUnRolWidget extends StatelessWidget {
                                     ),
                                   ),
                                   Positioned(
-                                    left: 0,
-                                    top: 51,
-                                    right: 0,
+                                    left: -26,
+                                    top: 24,
+                                    right: -25,
                                     child: Image.asset(
                                       "assets/images/8e5cfd48fd69252a2f2c90178d05768e.png",
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.none,
                                     ),
                                   ),
                                   Positioned(
@@ -144,7 +144,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                     ),
                     Positioned(
                       top: 106,
-                      right: 62,
+                      right: 63,
                       child: Image.asset(
                         "assets/images/8e5cfd48fd69252a2f2c90178d05768e.png",
                         fit: BoxFit.none,
@@ -179,7 +179,7 @@ class ElijeUnRolWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 111, top: 85, right: 110),
+              margin: EdgeInsets.only(left: 111, top: 70, right: 110),
               child: Text(
                 "Elije un rol",
                 textAlign: TextAlign.center,
