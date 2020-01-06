@@ -108,8 +108,8 @@ class VerificacionWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      width: 114,
-                      height: 54,
+                      width: 124,
+                      height: 44,
                       child: Opacity(
                         opacity: 0.91,
                         child: FlatButton(
@@ -132,9 +132,9 @@ class VerificacionWidget extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColors.secondaryText,
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Roboto",
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 13,
+                                  fontSize: 15,
                                 ),
                               ),
                             ],
