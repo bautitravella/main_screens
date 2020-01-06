@@ -63,7 +63,7 @@ class ElijeUnRolWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 90, top: 9, right: 90),
+              margin: EdgeInsets.only(left: 0, top: 9, right: 0),
               child: Text(
                 "Esto determinara cuantos cursos \nestarán disponibles dentro de la app.",
                 textAlign: TextAlign.center,
@@ -78,11 +78,6 @@ class ElijeUnRolWidget extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Container(
-              height: 37,
-              margin: EdgeInsets.only(left: 141, right: 134, bottom: 62),
-              child: Container(),
-            ),
           ],
         ),
       ),
