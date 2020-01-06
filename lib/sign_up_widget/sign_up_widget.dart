@@ -3,7 +3,18 @@ import 'package:flutterui/values/values.dart';
 import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
 
 class SignUpWidget extends StatelessWidget {
-  void onBtnBluePressed(BuildContext context) {}
+
+  void onViewPressed(BuildContext context) {
+
+  }
+
+  void onViewTwoPressed(BuildContext context) {
+
+  }
+
+  void onBtnBluePressed(BuildContext context) {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,18 +239,84 @@ class SignUpWidget extends StatelessWidget {
               ),
             ),
           ),
-
-          //
-          //
-          //
-          //
-          //
-          //
-          //
-          //
-
-
-
+          Container(
+            height: 110,
+            margin: EdgeInsets.only(left: 47, right: 47, bottom: 37),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: 45,
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: FlatButton(
+                    onPressed: () => this.onViewPressed(context),
+                    color: AppColors.accentElement,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Color.fromARGB(112, 112, 112, 112),
+                        width: 2,
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(22.5)),
+                    ),
+                    textColor: Color.fromARGB(255, 117, 117, 117),
+                    padding: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/images/icons8-google-96px.png",),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Continue in with Google",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 117, 117, 117),
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 45,
+                  child: FlatButton(
+                    onPressed: () => this.onViewTwoPressed(context),
+                    color: Color.fromARGB(255, 59, 89, 152),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(22.5)),
+                    ),
+                    textColor: Color.fromARGB(255, 255, 255, 255),
+                    padding: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/images/icons8-facebook-96px-1.png",),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Continue in with Facebook",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: AppColors.secondaryText,
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Align(
             alignment: Alignment.topRight,
             child: Container(
