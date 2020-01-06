@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
-
 
 class ElijeUnRolWidget extends StatelessWidget {
 
@@ -9,9 +7,12 @@ class ElijeUnRolWidget extends StatelessWidget {
 
   }
 
+  void onButtonPressed(BuildContext context) {
+
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -40,13 +41,13 @@ class ElijeUnRolWidget extends StatelessWidget {
             Container(
               height: 285,
               margin: EdgeInsets.only(top: 50),
-                child: AspectRatio(
-                  aspectRatio: 177 / 140,
-              child: Image.asset(
-                "assets/images/cartel.png",
-                fit: BoxFit.fill,
+              child: AspectRatio(
+                aspectRatio: 409 / 245,
+                child: Image.asset(
+                  "assets/images/cartel_blank.png",
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
             ),
             Container(
               margin: EdgeInsets.only(left: 111, top: 74, right: 110),
