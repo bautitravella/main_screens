@@ -81,7 +81,7 @@ class FirstscreenWidget extends StatelessWidget {
                           style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w600,
                             fontSize: 20,
                           ),
                         ),
@@ -110,7 +110,7 @@ class FirstscreenWidget extends StatelessWidget {
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
                       fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                       fontSize: 20,
                     ),
                   ),
