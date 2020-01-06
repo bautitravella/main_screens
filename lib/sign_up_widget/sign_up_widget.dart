@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
 
 class SignUpWidget extends StatelessWidget {
   void onBtnBluePressed(BuildContext context) {}
@@ -7,6 +8,7 @@ class SignUpWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Container(
       constraints: BoxConstraints.expand(),
       decoration: BoxDecoration(
@@ -379,7 +381,6 @@ class SignUpWidget extends StatelessWidget {
               child: Opacity(
                 opacity: 0.91,
                 child: FlatButton(
-                  onPressed: () => this.onBtnBluePressed(context),
                   color: AppColors.secondaryElement,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -407,6 +408,12 @@ class SignUpWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VerificacionWidget()),
+                      );
+                    }
                 ),
               ),
             ),

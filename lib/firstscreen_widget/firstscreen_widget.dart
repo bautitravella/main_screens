@@ -1,23 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutterui/sign_up_widget/sign_up_widget.dart';
 import 'package:flutterui/values/values.dart';
 
-
 class FirstscreenWidget extends StatelessWidget {
+  void onSymbol91Pressed(BuildContext context) {}
 
-  void onSymbol91Pressed(BuildContext context) {
-
-  }
-
-  void signUpButton(BuildContext context) {
-
-  }
-
+  void signUpButton(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -85,7 +76,10 @@ class FirstscreenWidget extends StatelessWidget {
                       onPressed: () => this.onSymbol91Pressed(context),
                       color: AppColors.ternaryBackground,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),)),
+                          borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      )),
                       textColor: Color.fromARGB(255, 255, 255, 255),
                       padding: EdgeInsets.all(0),
                       child: Align(
@@ -97,10 +91,10 @@ class FirstscreenWidget extends StatelessWidget {
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   ),
                 ],
               ),
@@ -110,28 +104,30 @@ class FirstscreenWidget extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: FlatButton(
-                color: AppColors.secondaryBackground,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30),)),
-                textColor: Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.all(25),
-                child: Text(
-                  "SIGN UP",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
+                  color: AppColors.secondaryBackground,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  )),
+                  textColor: Color.fromARGB(255, 255, 255, 255),
+                  padding: EdgeInsets.all(25),
+                  child: Text(
+                    "SIGN UP",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
                   ),
-                ),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SignUpWidget()),
                     );
-                  }
-              ),
+                  }),
             ),
           ],
         ),
