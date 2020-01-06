@@ -125,6 +125,7 @@ class SignUpWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Contraseña",
                                 contentPadding: EdgeInsets.all(0),
@@ -185,6 +186,7 @@ class SignUpWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Confirmar contraseña",
                                 contentPadding: EdgeInsets.all(0),
