@@ -49,18 +49,14 @@ class FirstscreenWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      width: 290,
-                      height: 81,
-                      margin: EdgeInsets.only(top: 31, right: 27),
+                  Container(
+                    height:81,
+                      margin: EdgeInsets.only(left: 35, right: 35, top: 50),
                       child: Image.asset(
                         "assets/images/artboard-7.png",
                         fit: BoxFit.cover,
                       ),
                     ),
-                  ),
                   Spacer(),
                   Container(
                     height: 142,
