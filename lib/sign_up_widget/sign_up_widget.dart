@@ -87,12 +87,12 @@ class SignUpWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 3,
-                margin: EdgeInsets.only(left: 54, top: 6, right: 55),
-                child: Image.asset(
-                  "assets/images/path-1541.png",
-                  fit: BoxFit.cover,
+                height: 2,
+                margin: EdgeInsets.only(left: 54, top: 6, right: 54),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(77, 0, 0, 0),
                 ),
+                child: Container(),
               ),
               Container(
                 height: 37,
@@ -147,7 +147,7 @@ class SignUpWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 3,
+                height: 2,
                 margin: EdgeInsets.only(left: 54, top: 6, right: 54),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(77, 0, 0, 0),
@@ -207,7 +207,7 @@ class SignUpWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 3,
+                height: 2,
                 margin: EdgeInsets.only(left: 54, top: 6, right: 54),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(77, 0, 0, 0),
