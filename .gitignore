@@ -38,3 +38,6 @@ lib/generated_plugin_registrant.dart
 
 # Propios
 .packages
+pubspec.lock
+.flutter-plugins
+packages
