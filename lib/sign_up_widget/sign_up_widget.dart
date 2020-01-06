@@ -228,150 +228,18 @@ class SignUpWidget extends StatelessWidget {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              width: 266,
-              height: 110,
-              margin: EdgeInsets.only(bottom: 37),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    height: 45,
-                    child: Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                              color: AppColors.accentElement,
-                              border: Border.all(
-                                width: 2,
-                                color: Color.fromARGB(255, 112, 112, 112),
-                              ),
-                              boxShadow: [
-                                Shadows.secondaryShadow,
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(22.5)),
-                            ),
-                            child: Container(),
-                          ),
-                        ),
-                        Positioned(
-                          left: 14,
-                          top: 10,
-                          right: 44,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  width: 24,
-                                  height: 24,
-                                  child: Image.asset(
-                                    "assets/images/icons8-google-96px.png",
-                                    fit: BoxFit.none,
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 4),
-                                  child: Text(
-                                    "Continue in with Google",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 117, 117, 117),
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    height: 45,
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 59, 89, 152),
-                              boxShadow: [
-                                Shadows.secondaryShadow,
-                              ],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(22.5)),
-                            ),
-                            child: Container(),
-                          ),
-                        ),
-                        Positioned(
-                          left: 14,
-                          right: 27,
-                          bottom: 11,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Container(
-                                  width: 24,
-                                  height: 24,
-                                  child: Image.asset(
-                                    "assets/images/icons8-facebook-96px-1.png",
-                                    fit: BoxFit.none,
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 1),
-                                  child: Text(
-                                    "Continue in with Facebook",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: AppColors.secondaryText,
-                                      fontFamily: "Roboto",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+          //
+
+
+
           Align(
             alignment: Alignment.topRight,
             child: Container(
