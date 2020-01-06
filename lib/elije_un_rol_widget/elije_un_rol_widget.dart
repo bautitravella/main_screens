@@ -93,9 +93,10 @@ class ElijeUnRolWidget extends StatelessWidget {
                                   Positioned(
                                     left: 0,
                                     top: 51,
+                                    right: 0,
                                     child: Image.asset(
                                       "assets/images/8e5cfd48fd69252a2f2c90178d05768e.png",
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   Positioned(
