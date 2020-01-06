@@ -25,41 +25,39 @@ class VerificacionWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 230,
-                height: 46,
-                margin: EdgeInsets.only(left: 28, top: 85),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Verificacion",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: AppColors.accentText,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 38,
-                        ),
+            Container(
+              height: 46,
+              margin: EdgeInsets.only(left: 28, top: 85, right: 102),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Verificacion",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: AppColors.accentText,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 38,
                       ),
                     ),
-                    Align(
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Align(
                       alignment: Alignment.topLeft,
                       child: Container(
-                        width: 29,
                         height: 29,
-                        margin: EdgeInsets.only(left: 10, top: 12),
+                        margin: EdgeInsets.only(left: 11, top: 12),
                         child: Image.asset(
                           "assets/images/icons8-synchronize-100px.png",
                           fit: BoxFit.none,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Expanded(
