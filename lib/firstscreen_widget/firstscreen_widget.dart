@@ -19,9 +19,8 @@ class FirstscreenWidget extends StatelessWidget {
           alignment: Alignment.topCenter,
           children: [
             Positioned(
-              left: -58,
-              top: 22,
-              right: -59,
+              top: 0,
+              bottom: 0,
               child: Image.asset(
                 "assets/images/il-fullxfull1474175299-kn3e.png",
                 fit: BoxFit.cover,
@@ -29,12 +28,12 @@ class FirstscreenWidget extends StatelessWidget {
             ),
             Positioned(
               left: 0,
-              top: 22,
+              top: 0,
               right: 0,
+              bottom: 0,
               child: Opacity(
                 opacity: 0.63,
                 child: Container(
-                  height: 582,
                   decoration: BoxDecoration(
                     color: AppColors.ternaryBackground,
                   ),
@@ -50,13 +49,6 @@ class FirstscreenWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: AppColors.secondaryElement,
-                    ),
-                    child: Container(),
-                  ),
                   Align(
                     alignment: Alignment.topRight,
                     child: Container(
