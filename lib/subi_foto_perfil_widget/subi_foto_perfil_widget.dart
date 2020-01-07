@@ -80,10 +80,13 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                         fit: BoxFit.none,
                       ),
                     ),
-                    Container(
+                    Positioned(
+                      left: 150,
+                      top: 155,
+                      right: 150,
+                    child: Container(
                       width: 105,
                       height: 105,
-                      margin: EdgeInsets.only(left: 4, right: 4, top: 33),
                       child: Opacity(
                         opacity: 0.91,
                         child: FlatButton(
@@ -109,6 +112,7 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                    ),
                     ),
                   ],
                 ),
