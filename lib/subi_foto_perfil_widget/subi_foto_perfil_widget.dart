@@ -80,18 +80,15 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                         fit: BoxFit.none,
                       ),
                     ),
-                    Positioned(
-                      left: 150,
-                      top: 155,
-                      right: 150,
-                    child: Container(
+                    Container(
                       width: 105,
                       height: 105,
+                      margin: EdgeInsets.only(left: 4, right: 4, top: 33),
                       child: Opacity(
                         opacity: 0.91,
                         child: FlatButton(
                           onPressed: () => this.onBtnBlueTwoPressed(context),
-                          color: Color.fromARGB(0, 0, 0, 0),
+                          color: Color.fromARGB(50, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(100)),
                           ),
@@ -102,7 +99,7 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                             children: [
                               Image.asset(
                                 "assets/images/logo.png",
-                                fit: BoxFit.fitWidth,
+                                fit: BoxFit.none,
                                 alignment: Alignment.center,
                               ),
                               SizedBox(
@@ -112,7 +109,6 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
                     ),
                   ],
                 ),
