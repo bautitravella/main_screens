@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
 
+import '../subi_foto_de_perfil21_widget/subi_foto_de_perfil21_widget.dart';
+
 class SubiFotoPerfilWidget extends StatelessWidget {
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
@@ -81,7 +83,6 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
-                          onPressed: () => this.onBtnBlueTwoPressed(context),
                           color: Color.fromARGB(0, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -102,6 +103,12 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                               ),
                             ],
                           ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SubiFotoDePerfil21Widget()),
+                              );
+                            }
                         ),
                       ),
                     ),
