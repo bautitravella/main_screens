@@ -4,14 +4,13 @@ import 'package:flutterui/values/values.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {
 
-  void onButtonPressed(BuildContext context) {
-
-  }
+  void onLogoPressed(BuildContext context) {}
+  void onBtnBlueTwoPressed(BuildContext context) {}
+  void onBtnBlueOnePressed(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -25,7 +24,7 @@ class ElijeUnRolWidget extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(left: 28, top: 85),
                 child: Text(
-                  "Tu cuenta",
+                  "Tu Cuenta",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Color.fromARGB(255, 57, 57, 57),
@@ -35,35 +34,110 @@ class ElijeUnRolWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 285,
-              margin: EdgeInsets.only(top: 50),
-              child: AspectRatio(
-                aspectRatio: 177 / 140,
-                child: Image.asset(
-                  "assets/images/cartel.png",
-                  fit: BoxFit.fill,
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.only(top: 39, bottom: 12),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned(
+                      left: 92,
+                      right: 91,
+                      bottom: 0,
+                      child: Text(
+                        "Elije un rol",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 53, 38, 65),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26,
+                          letterSpacing: -0.41786,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      right: 0,
+                      child: Image.asset(
+                        "assets/images/cartelblank.png",
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Container(
+                      width: 130,
+                      height: 130,
+                      margin: EdgeInsets.only(
+                          left: 0, right: 208, top: 33, bottom: 33),
+                      child: Opacity(
+                        opacity: 1,
+                        child: FlatButton(
+                          onPressed: () => this.onBtnBlueTwoPressed(context),
+                          color: Color.fromARGB(0, 0, 0, 0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(100)),
+                          ),
+                          textColor: Color.fromARGB(0, 0, 0, 0),
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/alumno_normal.png",
+                                fit: BoxFit.none,
+                                alignment: Alignment.center,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 130,
+                      height: 130,
+                      margin: EdgeInsets.only(
+                          left: 198, right: 0, top: 36, bottom: 10),
+                      child: Opacity(
+                        opacity: 1,
+                        child: FlatButton(
+                          onPressed: () => this.onBtnBlueOnePressed(context),
+                          color: Color.fromARGB(0, 0, 0, 0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(100)),
+                          ),
+                          textColor: Color.fromARGB(0, 0, 0, 0),
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/padre_normal.png",
+                                fit: BoxFit.none,
+                                alignment: Alignment.center,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 111, top: 74, right: 110),
+              margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
               child: Text(
-                "Elije un rol",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.primaryText,
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 26,
-                  letterSpacing: -0.41786,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 0, top: 9, right: 0),
-              child: Text(
-                "Esto determinara cuantos cursos \nestarán disponibles dentro de la app.",
+                "Esto determinara cuantos cursos\nestarán disponibles dentro de la app.\n",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -72,38 +146,6 @@ class ElijeUnRolWidget extends StatelessWidget {
                   fontSize: 12,
                   letterSpacing: -0.1,
                   height: 1.4,
-                ),
-              ),
-            ),
-            Spacer(),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                width: 100,
-                height: 44,
-                margin: EdgeInsets.only(left: 219, top: 91),
-                child: FlatButton(
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0)),
-                  ),
-                  textColor: Color.fromARGB(255, 255, 255, 255),
-                  padding: EdgeInsets.all(0),
-                  child: Text(
-                    "sig",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                    ),
-                  ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SubiFotoPerfilWidget()),
-                      );
-                    }
                 ),
               ),
             ),
