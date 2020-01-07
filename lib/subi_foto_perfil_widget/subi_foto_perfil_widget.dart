@@ -1,20 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
 
-
 class SubiFotoPerfilWidget extends StatelessWidget {
-
-  void onLogoPressed(BuildContext context) {
-
-  }
-  void onBtnBlueTwoPressed(BuildContext context) {
-
-}
+  void onLogoPressed(BuildContext context) {}
+  void onBtnBlueTwoPressed(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -84,14 +76,16 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                     Container(
                       width: 105,
                       height: 105,
-                      margin: EdgeInsets.only(left: 4, right: 4, top: 33, bottom: 33),
+                      margin: EdgeInsets.only(
+                          left: 4, right: 4, top: 33, bottom: 33),
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
                           onPressed: () => this.onBtnBlueTwoPressed(context),
                           color: Color.fromARGB(0, 0, 0, 0),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
                           ),
                           textColor: Color.fromARGB(0, 0, 0, 0),
                           padding: EdgeInsets.only(left: 10),
@@ -116,7 +110,7 @@ class SubiFotoPerfilWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 108, right: 107, bottom: 100),
+              margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
               child: Text(
                 "Es importante subir una foto \nen la que salgas bien.\n",
                 textAlign: TextAlign.center,
