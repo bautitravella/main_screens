@@ -73,8 +73,9 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                     ),
                     Positioned(
                       left: 103,
-                      top: 105,
+                      top: 50,
                       right: 103,
+                      bottom: 50,
                       child: Image.asset(
                         "assets/images/uploadimage.png",
                         fit: BoxFit.none,
@@ -83,12 +84,12 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                     Container(
                       width: 105,
                       height: 105,
-                      margin: EdgeInsets.only(left: 4, right: 4, top: 33),
+                      margin: EdgeInsets.only(left: 4, right: 4, top: 33, bottom: 33),
                       child: Opacity(
-                        opacity: 0.91,
+                        opacity: 1,
                         child: FlatButton(
                           onPressed: () => this.onBtnBlueTwoPressed(context),
-                          color: Color.fromARGB(50, 0, 0, 0),
+                          color: Color.fromARGB(0, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(100)),
                           ),
