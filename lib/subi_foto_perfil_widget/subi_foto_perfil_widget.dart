@@ -5,6 +5,13 @@ import 'package:flutterui/values/values.dart';
 
 class SubiFotoPerfilWidget extends StatelessWidget {
 
+  void onLogoPressed(BuildContext context) {
+
+  }
+  void onBtnBlueTwoPressed(BuildContext context) {
+
+}
+
   @override
   Widget build(BuildContext context) {
 
@@ -32,26 +39,78 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 331,
-              margin: EdgeInsets.only(top: 23),
-              child: Image.asset(
-                "assets/images/phonochico.png",
-                fit: BoxFit.fill,
-              ),
-            ),
-            Spacer(),
-            Container(
-              margin: EdgeInsets.only(left: 92, right: 91, bottom: 12),
-              child: Text(
-                "Subí una foto",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 26,
-                  letterSpacing: -0.41786,
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.only(top: 39, bottom: 12),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned(
+                      left: 92,
+                      right: 91,
+                      bottom: 0,
+                      child: Text(
+                        "Subí una foto",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 53, 38, 65),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26,
+                          letterSpacing: -0.41786,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      right: 0,
+                      child: Image.asset(
+                        "assets/images/phonochico.png",
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Positioned(
+                      left: 103,
+                      top: 105,
+                      right: 103,
+                      child: Image.asset(
+                        "assets/images/uploadimage.png",
+                        fit: BoxFit.none,
+                      ),
+                    ),
+                    Container(
+                      width: 105,
+                      height: 105,
+                      margin: EdgeInsets.only(left: 4, right: 4, top: 33),
+                      child: Opacity(
+                        opacity: 0.91,
+                        child: FlatButton(
+                          onPressed: () => this.onBtnBlueTwoPressed(context),
+                          color: Color.fromARGB(0, 0, 0, 0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                          ),
+                          textColor: Color.fromARGB(0, 0, 0, 0),
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/logo.png",
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.center,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
