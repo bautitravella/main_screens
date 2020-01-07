@@ -70,12 +70,12 @@ class ElijeUnRolWidget extends StatelessWidget {
                       width: 130,
                       height: 130,
                       margin: EdgeInsets.only(
-                          left: 0, right: 208, top: 33, bottom: 33),
+                          left: 9, right: 208, top: 33, bottom: 33),
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
                           onPressed: () => this.onBtnBlueTwoPressed(context),
-                          color: Color.fromARGB(0, 0, 0, 0),
+                          color: Color.fromARGB(80, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
                             BorderRadius.all(Radius.circular(100)),
@@ -107,7 +107,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                         opacity: 1,
                         child: FlatButton(
                           onPressed: () => this.onBtnBlueOnePressed(context),
-                          color: Color.fromARGB(0, 0, 0, 0),
+                          color: Color.fromARGB(80, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
                             BorderRadius.all(Radius.circular(100)),

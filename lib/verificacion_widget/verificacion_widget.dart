@@ -65,7 +65,7 @@ class VerificacionWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 73, right: 73, bottom: 17),
+              margin: EdgeInsets.only(left: 3, right: 3, bottom: 17),
               child: Text(
                 "Revisa tu correo",
                 textAlign: TextAlign.center,
