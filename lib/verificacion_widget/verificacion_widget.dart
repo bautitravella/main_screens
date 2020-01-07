@@ -3,7 +3,9 @@ import 'package:flutterui/elije_un_rol_widget/elije_un_rol_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class VerificacionWidget extends StatelessWidget {
-  void onBtnBlueTwoPressed(BuildContext context) {}
+  void onBtnBlueTwoPressed(BuildContext context) {
+    Navigator.pop(context);
+  }
 
   void onBtnBluePressed(BuildContext context) {}
 
