@@ -116,7 +116,7 @@ class SubiFotoPerfilWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 108, right: 107, bottom: 164),
+              margin: EdgeInsets.only(left: 108, right: 107, bottom: 100),
               child: Text(
                 "Es importante subir una foto \nen la que salgas bien.\n",
                 textAlign: TextAlign.center,
@@ -124,7 +124,7 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                   color: Color.fromARGB(255, 118, 118, 118),
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w400,
-                  fontSize: 10,
+                  fontSize: 12,
                   letterSpacing: -0.1,
                   height: 1.4,
                 ),
