@@ -1,17 +1,15 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutterui/subi_foto_perfil_widget/subi_foto_perfil_widget.dart';
 import 'package:flutterui/values/values.dart';
-
 
 class ElijeUnRolWidget extends StatelessWidget {
 
-  void onViewValueChanged(BuildContext context) {
+  void onButtonPressed(BuildContext context) {
 
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -40,13 +38,13 @@ class ElijeUnRolWidget extends StatelessWidget {
             Container(
               height: 285,
               margin: EdgeInsets.only(top: 50),
-                child: AspectRatio(
-                  aspectRatio: 177 / 140,
-              child: Image.asset(
-                "assets/images/cartel.png",
-                fit: BoxFit.fill,
+              child: AspectRatio(
+                aspectRatio: 177 / 140,
+                child: Image.asset(
+                  "assets/images/cartel.png",
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
             ),
             Container(
               margin: EdgeInsets.only(left: 111, top: 74, right: 110),
@@ -78,6 +76,37 @@ class ElijeUnRolWidget extends StatelessWidget {
               ),
             ),
             Spacer(),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: 100,
+                height: 44,
+                margin: EdgeInsets.only(left: 219, top: 91),
+                child: FlatButton(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(0)),
+                  ),
+                  textColor: Color.fromARGB(255, 255, 255, 255),
+                  padding: EdgeInsets.all(0),
+                  child: Text(
+                    "sig",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                    ),
+                  ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SubiFotoPerfilWidget()),
+                      );
+                    }
+                ),
+              ),
+            ),
           ],
         ),
       ),
