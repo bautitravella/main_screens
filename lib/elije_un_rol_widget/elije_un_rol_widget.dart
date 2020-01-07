@@ -5,8 +5,9 @@ import 'package:flutterui/values/values.dart';
 class ElijeUnRolWidget extends StatelessWidget {
 
   void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
-  void onBtnBlueOnePressed(BuildContext context) {}
+  void onButtonPressed(BuildContext context) {}
+  void onRectangle648Pressed(BuildContext context) {}
+  void onRectangle649Pressed(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +38,19 @@ class ElijeUnRolWidget extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.only(top: 39, bottom: 12),
+                margin: EdgeInsets.only(top: 20, bottom: 12),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    Positioned(
+                      left: 60,
+                      top: 0,
+                      right: 60,
+                      child: Image.asset(
+                        "assets/images/parentandchild.png",
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                     Positioned(
                       left: 92,
                       right: 91,
@@ -57,76 +67,66 @@ class ElijeUnRolWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      right: 0,
-                      child: Image.asset(
-                        "assets/images/cartelblank.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
                     Container(
-                      width: 130,
-                      height: 130,
+                      width: 99,
+                      height: 35,
                       margin: EdgeInsets.only(
-                          left: 9, right: 208, top: 33, bottom: 33),
+                          left: 1, right: 180, top: 250, bottom: 12),
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
-                          onPressed: () => this.onBtnBlueTwoPressed(context),
-                          color: Color.fromARGB(80, 0, 0, 0),
+                          onPressed: () => this.onRectangle648Pressed(context),
+                          color: Color.fromARGB(200, 57, 57, 57),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(100)),
+                            borderRadius: BorderRadius.all(Radius.circular(17.5)),
                           ),
-                          textColor: Color.fromARGB(0, 0, 0, 0),
-                          padding: EdgeInsets.only(left: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/images/alumno_normal.png",
-                                fit: BoxFit.none,
-                                alignment: Alignment.center,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                            ],
+                          textColor: Color.fromARGB(255, 0, 0, 0),
+                          padding: EdgeInsets.all(0),
+                          child: Text(
+                            "Padre",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              letterSpacing: -0.36,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     Container(
-                      width: 130,
-                      height: 130,
+                      width: 99,
+                      height: 35,
                       margin: EdgeInsets.only(
-                          left: 198, right: 0, top: 36, bottom: 10),
+                          left: 180, right: 1, top: 250, bottom: 12),
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
-                          onPressed: () => this.onBtnBlueOnePressed(context),
-                          color: Color.fromARGB(80, 0, 0, 0),
+                          color: Color.fromARGB(200, 57, 57, 57),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(100)),
+                            borderRadius: BorderRadius.all(Radius.circular(17.5)),
                           ),
-                          textColor: Color.fromARGB(0, 0, 0, 0),
-                          padding: EdgeInsets.only(left: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/images/padre_normal.png",
-                                fit: BoxFit.none,
-                                alignment: Alignment.center,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                            ],
+                          textColor: Color.fromARGB(255, 0, 0, 0),
+                          padding: EdgeInsets.all(0),
+                          child: Text(
+                            "Alumno",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              letterSpacing: -0.36,
+                            ),
                           ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SubiFotoPerfilWidget()),
+                              );
+                            }
                         ),
                       ),
                     ),
@@ -137,7 +137,7 @@ class ElijeUnRolWidget extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
               child: Text(
-                "Esto determinara cuantos cursos\nestarán disponibles dentro de la app.\n",
+                "Esto determinara cuantos cursos \nestarán disponibles dentro de la app.\n",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
