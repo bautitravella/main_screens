@@ -25,7 +25,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               children: [
                 Positioned(
                   left: 0,
-                  top: 1,
+                  top: 0,
                   right: 0,
                   child: Image.asset(
                     "assets/images/photo-85889-landscape-850x566.png",
@@ -37,7 +37,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   top: 0,
                   right: 0,
                   child: Container(
-                    height: 269,
+                    height: 262,
                     /*shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(30),
@@ -45,9 +45,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),*/
                     decoration: BoxDecoration(
                       color: Color.fromARGB(115, 57, 57, 57),
-                      border: Border.all(
-                        width: 1,
-                        color: Color.fromARGB(255, 112, 112, 112),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(22),
                       ),
                     ),
                     child: Container(),
