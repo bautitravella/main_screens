@@ -2,10 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
 
+import '../datos_widget/datos_widget.dart';
+import '../datos_widget/datos_widget.dart';
+
 
 class SubiFotoDePerfil21Widget extends StatelessWidget {
   void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
+  void onProfilePicture(BuildContext context) {}
+  void onButtonPressed(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,7 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     Positioned(
                       left: 0,
                       top: 0,
@@ -83,7 +88,39 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
+                          onPressed: () => this.onProfilePicture(context),
                             color: Color.fromARGB(0, 0, 0, 0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(100)),
+                            ),
+                            textColor: Color.fromARGB(0, 0, 0, 0),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/avatar.png",
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment.center,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 58,
+                      height: 58,
+                      margin: EdgeInsets.only(
+                          left: 90, top: 110, bottom: 33),
+                      child: Opacity(
+                        opacity: 1,
+                        child: FlatButton(
+                            color: Color.fromARGB(255, 255, 255, 255),
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
                                 color: Color.fromARGB(255, 254, 189, 16),
@@ -99,8 +136,8 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  "assets/images/avatar.png",
-                                  fit: BoxFit.fill,
+                                  "assets/images/icons8-edit-96px-11.png",
+                                  fit: BoxFit.none,
                                   alignment: Alignment.center,
                                 ),
                                 SizedBox(
@@ -134,6 +171,49 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
                   letterSpacing: -0.1,
                   height: 1.4,
                 ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 124,
+                height: 44,
+                margin: EdgeInsets.only(right: 3, bottom: 10),
+                child: FlatButton(
+                    color: AppColors.secondaryElement,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    textColor: Color.fromARGB(255, 255, 255, 255),
+                    padding: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/images/icons-back-light-2.png",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Siguiente",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.secondaryText,
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DatosWidget()),
+                      );
+                    }),
               ),
             ),
           ],
