@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutterui/curso_alumno_widget/curso_alumno_widget.dart';
+import 'package:flutterui/datos1_widget/datos1_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 
@@ -71,7 +73,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 20, top: 81),
+                        margin: EdgeInsets.only(left: 0, right: 10, top: 81),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -96,7 +98,7 @@ class DatosWidget extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child:Container(
                     height: 2,
-                    margin: EdgeInsets.only(left: 115, right: 115, top: 120),
+                    margin: EdgeInsets.only(left: 100, right: 100, top: 120),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(77, 0, 0, 0),
                     ),
@@ -108,7 +110,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 20, top: 161),
+                        margin: EdgeInsets.only(left: 0, right: 10, top: 161),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -133,7 +135,7 @@ class DatosWidget extends StatelessWidget {
                       alignment: Alignment.topCenter,
                     child:Container(
                       height: 2,
-                      margin: EdgeInsets.only(left: 115, right: 115, top: 200),
+                      margin: EdgeInsets.only(left: 100, right: 100, top: 200),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(77, 0, 0, 0),
                       ),
@@ -145,7 +147,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 20, top: 241),
+                        margin: EdgeInsets.only(left: 0, right: 10, top: 241),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -170,7 +172,7 @@ class DatosWidget extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child:Container(
                     height: 2,
-                    margin: EdgeInsets.only(left: 115, right: 115, top: 280),
+                    margin: EdgeInsets.only(left: 100, right: 100, top: 280),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(77, 0, 0, 0),
                     ),
@@ -182,7 +184,7 @@ class DatosWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
+              margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),
               child: Text(
                 "Los datos ingresados se podrán\ncambiar mas tarde \ndentro de la app\n",
                 textAlign: TextAlign.center,
@@ -196,7 +198,49 @@ class DatosWidget extends StatelessWidget {
                 ),
               ),
             ),
-
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 124,
+                height: 44,
+                margin: EdgeInsets.only(right: 3, bottom: 10),
+                child: FlatButton(
+                    color: AppColors.secondaryElement,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    textColor: Color.fromARGB(255, 255, 255, 255),
+                    padding: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/images/icons-back-light-2.png",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Siguiente",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.secondaryText,
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CursoAlumnoWidget()),
+                      );
+                    }),
+              ),
+            ),
           ],
         ),
       ),
