@@ -159,7 +159,7 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
+              margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),
               child: Text(
                 "Es importante subir una foto \nen la que salgas bien.\n",
                 textAlign: TextAlign.center,
