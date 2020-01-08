@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutterui/terminos_ycondiciones_widget/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 
@@ -206,7 +207,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CursoAlumnoWidget()),
+                            builder: (context) => TerminosYCondicionesWidget()),
                       );
                     }),
               ),
