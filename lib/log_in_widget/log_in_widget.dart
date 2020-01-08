@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/olvidado_contrase%C3%B1a/olvidado_contrase%C3%B1a.dart';
+import 'package:flutterui/recuperation_widget/recuperation_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
 
@@ -184,7 +184,7 @@ class LogInWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OlvidadoContra()),
+                              builder: (context) => RecuperationWidget()),
                         );
                       }
                   ),
