@@ -107,7 +107,7 @@ class FirstscreenWidget extends StatelessWidget {
                   textColor: Color.fromARGB(255, 255, 255, 255),
                   padding: EdgeInsets.all(25),
                   child: Text(
-                    "SIGN UP",
+                    "La cagamos 2",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
