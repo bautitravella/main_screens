@@ -73,7 +73,7 @@ class FirstscreenWidget extends StatelessWidget {
                       child: Align(
                         alignment: Alignment(0.0, -0.5),
                         child: Text(
-                          "LOG IN",
+                          "QUE MIERDA MIRAS",
                           style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontFamily: "Montserrat",
