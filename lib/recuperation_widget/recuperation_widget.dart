@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/elije_un_rol_widget/elije_un_rol_widget.dart';
 import 'package:flutterui/values/values.dart';
 
-class OlvidadoContra extends StatelessWidget {
+class RecuperationWidget extends StatelessWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
