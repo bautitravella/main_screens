@@ -73,7 +73,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 10, top: 81),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 81),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -110,7 +110,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 10, top: 161),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 161),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -147,7 +147,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 10, top: 241),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 241),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(

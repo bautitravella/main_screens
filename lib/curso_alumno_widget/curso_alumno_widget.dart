@@ -42,8 +42,8 @@ class CursoAlumnoWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Positioned(
-                      left: 92,
-                      right: 91,
+                      left: 21,
+                      right: 21,
                       bottom: 0,
                       child: Text(
                         "Selecciona\ncolegio y curso",
@@ -80,7 +80,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 10, top: 161),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 161),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -117,7 +117,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 0, right: 10, top: 241),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 241),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -154,7 +154,7 @@ class CursoAlumnoWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),
+              margin: EdgeInsets.only(left: 10, right: 10, bottom: 30),
               child: Text(
                 "Los datos ingresados se podrán\ncambiar mas tarde \ndentro de la app\n",
                 textAlign: TextAlign.center,
