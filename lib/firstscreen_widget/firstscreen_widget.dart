@@ -73,7 +73,7 @@ class FirstscreenWidget extends StatelessWidget {
                       child: Align(
                         alignment: Alignment(0.0, -0.5),
                         child: Text(
-                          "QUE MIERDA MIRAS",
+                          "QUE MIERDA MIRAS Puto",
                           style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontFamily: "Montserrat",
