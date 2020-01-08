@@ -4,6 +4,7 @@ import 'package:flutterui/values/values.dart';
 
 
 class TerminosYCondicionesWidget extends StatelessWidget {
+
   void onButtonsLargeGreenPressed(BuildContext context) {
 
   }
@@ -54,7 +55,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(right: 208),
+                              margin: EdgeInsets.only(right: 64),
                               child: Text(
                                 "Articulo 1",
                                 textAlign: TextAlign.left,
@@ -66,51 +67,66 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 16, right: 115),
+                              margin: EdgeInsets.only(top: 16, right: 17),
                               child: Text(
                                 "Para quien use los servicios",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 69, 79, 99),
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 15,
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 57, top: 100, right: 6),
-                              child: Text(
-                                "• Step 1: You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction. \n\n• Step 2: Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 69, 79, 99),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 13,
-                                  height: 1.38462,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5, top: 36, right: 228),
-                              child: Text(
-                                "Privacidad",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 69, 79, 99),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 3, top: 10, right: 3),
+                              margin: EdgeInsets.only(left: 0, top: 10, right: 3),
                               child: Text(
                                 "When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us. ",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 120, 132, 158),
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 13,
+                                  fontSize: 15,
+                                  height: 1.38462,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 206,
+                              margin: EdgeInsets.only(left: 57, top: 18, right: 6),
+                              child: Text(
+                                "• Step 1: You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction. \n\n• Step 2: Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 69, 79, 99),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                  height: 1.38462,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 0, top: 10, right: 160),
+                              child: Text(
+                                "Privacidad",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 69, 79, 99),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 120,
+                              margin: EdgeInsets.only(left: 0, top: 10, right: 3),
+                              child: Text(
+                                "When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us. ",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 120, 132, 158),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
                                 ),
                               ),
                             ),
@@ -119,53 +135,27 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 3,
-                      top: 72,
+                      left: 4,
                       right: 3,
                       bottom: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 1),
-                            child: Text(
-                              "When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the \none that has been opened for us. ",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 120, 132, 158),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 13,
-                                height: 1.38462,
-                              ),
-                            ),
+                      height: 53,
+                      child: FlatButton(
+                        onPressed: () => this.onButtonsLargeGreenPressed(context),
+                        color: AppColors.secondaryElement,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        textColor: Color.fromARGB(255, 255, 255, 255),
+                        padding: EdgeInsets.all(0),
+                        child: Text(
+                          "CONTINUAR Y ACEPTAR",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.secondaryText,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
                           ),
-                          Spacer(),
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              width: 299,
-                              height: 53,
-                              child: FlatButton(
-                                onPressed: () => this.onButtonsLargeGreenPressed(context),
-                                color: AppColors.secondaryElement,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                ),
-                                textColor: Color.fromARGB(255, 255, 255, 255),
-                                padding: EdgeInsets.all(0),
-                                child: Text(
-                                  "CONTINUAR Y ACEPTAR",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: AppColors.secondaryText,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
