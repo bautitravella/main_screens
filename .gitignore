@@ -74,3 +74,10 @@ ios/Flutter/Flutter.podspec
 
 
 build\ios
+
+.idea/libraries/Dart_Packages.xml
+android/local.properties
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+.idea/libraries/Dart_SDK.xml
+
