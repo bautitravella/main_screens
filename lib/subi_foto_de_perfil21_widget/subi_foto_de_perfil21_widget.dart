@@ -178,7 +178,7 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
               child: Container(
                 width: 124,
                 height: 44,
-                margin: EdgeInsets.only(right: 3, bottom: 10),
+                margin: EdgeInsets.only(right: 3, bottom: 30),
                 child: FlatButton(
                     color: AppColors.secondaryElement,
                     shape: RoundedRectangleBorder(
