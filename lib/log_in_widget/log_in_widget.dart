@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/olvidado_contrase%C3%B1a/olvidado_contrase%C3%B1a.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
 
@@ -163,7 +164,6 @@ class LogInWidget extends StatelessWidget {
                 child: Opacity(
                   opacity: 0.56,
                   child: FlatButton(
-                    onPressed: () => this.onHasOlvidadoLaConPressed(context),
                     color: Color.fromARGB(0, 0, 0, 0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(0)),
@@ -180,6 +180,13 @@ class LogInWidget extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OlvidadoContra()),
+                        );
+                      }
                   ),
                 ),
               ),
