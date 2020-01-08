@@ -22,7 +22,8 @@ class RecuperationWidget extends StatelessWidget {
           children: [
             Container(
               height: 46,
-              margin: EdgeInsets.only(left: 28, top: 85, right: 102),
+              width: 200,
+              margin: EdgeInsets.only(left: 28, top: 85, right: 2),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -102,7 +103,7 @@ class RecuperationWidget extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 3, right: 3, top: 117, bottom: 20),
               child: Text(
-                "Revisa tu correo",
+                "Ingresa tu mail",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.primaryText,
@@ -116,7 +117,7 @@ class RecuperationWidget extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 73, right: 77, bottom: 80),
               child: Text(
-                "Se a enviado un mail a tu correo \ny abre el link para que podamos\ncomprobar la dirección ingresada.",
+                "Se enviara un mail para \ny poder cambiar tu contraseña.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -130,7 +131,7 @@ class RecuperationWidget extends StatelessWidget {
             ),
             Container(
               height: 54,
-              margin: EdgeInsets.only(left: 4, right: 6, bottom: 40),
+              margin: EdgeInsets.only(left: 4, right: 6, bottom: 0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
