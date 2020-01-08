@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/log_in_widget/log_in_widget.dart';
 import 'package:flutterui/sign_up_widget/sign_up_widget.dart';
 import 'package:flutterui/values/values.dart';
 
@@ -61,7 +62,6 @@ class FirstscreenWidget extends StatelessWidget {
                   Container(
                     height: 142,
                     child: FlatButton(
-                      onPressed: () => this.onSymbol91Pressed(context),
                       color: AppColors.ternaryBackground,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -82,6 +82,12 @@ class FirstscreenWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LogInWidget()),
+                          );
+                        }
                     ),
                   ),
                 ],
