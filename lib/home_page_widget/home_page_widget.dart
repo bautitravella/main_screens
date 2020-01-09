@@ -25,39 +25,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               children: [
                 Positioned(
                   left: 0,
-                  top: 1,
+                  top: 0,
                   right: 0,
-                  child: Image.asset(
+              child:Image.asset(
                     "assets/images/photo-85889-landscape-850x566.png",
                     fit: BoxFit.cover,
+                      color: Color.fromARGB(80, 0, 0, 0),
+                      colorBlendMode: BlendMode.darken,
                   ),
                 ),
                 Positioned(
                   left: 0,
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                    height: 269,
-                    /*shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(30),
-                        )
-                      ),*/
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(115, 57, 57, 57),
-                      border: Border.all(
-                        width: 1,
-                        color: Color.fromARGB(255, 112, 112, 112),
-                      ),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(30),
-                        )
-                    ),
-                    child: Container(),
-                  ),
-                ),
-                Positioned(
-                  left: 54,
                   top: 0,
                   right: 0,
                   child: Column(
@@ -65,18 +43,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     children: [
                       Container(
                         height: 143,
-                        margin: EdgeInsets.only(left: 100),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Expanded(
                               flex: 1,
                               child: Align(
-                                alignment: Alignment.topLeft,
+                                alignment: Alignment.topCenter,
                                 child: Container(
                                   height: 38,
                                   margin: EdgeInsets.only(
-                                      top: 94, right: 23, left: 23),
+                                      top: 74, right: 0, left: 130),
                                   child: Image.asset(
                                     "assets/images/buymy-whitelogo.png",
                                     fit: BoxFit.none,
@@ -85,7 +62,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                             ),
                             Align(
-                              alignment: Alignment.topLeft,
+                              alignment: Alignment.topCenter,
                               child: Container(
                                 width: 138,
                                 height: 143,
@@ -99,7 +76,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 14, right: 53),
+                        margin: EdgeInsets.only(top: 0),
                         child: Text(
                           "Todos los libros en\nun solo lugar",
                           textAlign: TextAlign.center,
@@ -113,16 +90,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 21, top: 14, right: 71),
+                        margin: EdgeInsets.only(top: 10),
                         child: Opacity(
-                          opacity: 0.71941,
+                          opacity: 0.8,
                           child: Text(
                             "!Encontralos ya!",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
                           ),
