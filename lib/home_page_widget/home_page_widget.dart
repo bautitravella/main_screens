@@ -49,6 +49,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         width: 1,
                         color: Color.fromARGB(255, 112, 112, 112),
                       ),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(30),
+                        )
                     ),
                     child: Container(),
                   ),
@@ -152,9 +155,68 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ],
             ),
           ),
+          RaisedButton(
+            child: Text('Hola maquina, segui asi'),
+          ),
+          horizontalListView, //Acaaaaaaaaaaaa podes seguir agragando las cosas que quieras agregar abajo de lafotito de los libros
         ],
       ),
     ),
+  );
+
+  static Widget horizontalListView = Container(
+    margin: EdgeInsets.symmetric(vertical: 20.0),
+    height: 200.0,
+    child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
+      Container(
+        width: 160.0,
+        color: Colors.red,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.blue,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.green,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.red,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.blue,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.green,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.red,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.blue,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.green,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.red,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.blue,
+      ),
+      Container(
+        width: 160.0,
+        color: Colors.green,
+      ),
+    ]),
   );
 
   int _selectedIndex = 0;
