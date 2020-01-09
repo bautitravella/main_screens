@@ -23,15 +23,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             child: Stack(
               alignment: Alignment.center,
               children: [
+
                 Positioned(
                   left: 0,
                   top: 0,
                   right: 0,
-              child:Image.asset(
+                  child: Image.asset(
                     "assets/images/photo-85889-landscape-850x566.png",
-                    fit: BoxFit.cover,
-                      color: Color.fromARGB(80, 0, 0, 0),
-                      colorBlendMode: BlendMode.darken,
+                    fit: BoxFit.fill,
+                    color: Color.fromARGB(80, 0, 0, 0),
+                    colorBlendMode: BlendMode.darken,
                   ),
                 ),
                 Positioned(
@@ -132,49 +133,96 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ],
             ),
           ),
-      Container(
-        height: 28,
-        margin: EdgeInsets.only(left: 10, top: 15, right: 10),
-          child: Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5, left: 21),
-                child: Text(
-                  "LIBROS DESTACADOS",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 57, 57, 57),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
+          Container(
+              height: 35,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(left: 10, top: 5, right: 10),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 0, left: 21),
+                    child: Text(
+                      "LIBROS DESTACADOS",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 57, 57, 57),
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Container(
-                height: 35,
-                width: 98,
-                margin: EdgeInsets.only(top: 5, left: 78, right: 5),
-                child: RaisedButton(
-                  color: Color.fromARGB(255, 251, 187, 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(14)),
+                  Container(
+                    height: 45,
+                    width: 98,
+                    alignment: Alignment.centerRight,
+                    margin: EdgeInsets.only(top: 0, left: 44, right: 5),
+                    child: FlatButton(
+                      onPressed: null,
+                      disabledColor: AppColors.secondaryBackground,
+                      color: Color.fromARGB(255, 251, 187, 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                      ),
+                      child: Text(
+                        "VER TODO",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
                   ),
+                ],
+              )), //Destacados y ver mas
+          horizontalListView, //Acaaaaaaaaaaaa podes seguir agragando las cosas que quieras agregar abajo de lafotito de los libros
+          Container(
+            height: 35,
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(left: 10, top: 5, right: 10),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: 21),
                   child: Text(
-                    "VER TODO",
-                    textAlign: TextAlign.center,
+                    "LIBROS DESTACADOS",
+                    textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13,
+                      color: Color.fromARGB(255, 57, 57, 57),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
                     ),
                   ),
                 ),
-              ),
-            ],
-          )
-
-
-      ),//Destacados y ver mas
+                Container(
+                  height: 45,
+                  width: 98,
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(top: 0, left: 44, right: 5),
+                  child: FlatButton(
+                    onPressed: null,
+                    disabledColor: AppColors.secondaryBackground,
+                    color: Color.fromARGB(255, 251, 187, 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(14)),
+                    ),
+                    child: Text(
+                      "VER TODO",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ), //Destacados y ver mas
           horizontalListView, //Acaaaaaaaaaaaa podes seguir agragando las cosas que quieras agregar abajo de lafotito de los libros
         ],
       ),
