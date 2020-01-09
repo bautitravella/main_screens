@@ -132,9 +132,49 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ],
             ),
           ),
-          RaisedButton(
-            child: Text('Hola maquina, segui asi'),
-          ),
+      Container(
+        height: 28,
+        margin: EdgeInsets.only(left: 10, top: 15, right: 10),
+          child: Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 5, left: 21),
+                child: Text(
+                  "LIBROS DESTACADOS",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 57, 57, 57),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              Container(
+                height: 35,
+                width: 98,
+                margin: EdgeInsets.only(top: 5, left: 78, right: 5),
+                child: RaisedButton(
+                  color: Color.fromARGB(255, 251, 187, 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(14)),
+                  ),
+                  child: Text(
+                    "VER TODO",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+
+
+      ),//Destacados y ver mas
           horizontalListView, //Acaaaaaaaaaaaa podes seguir agragando las cosas que quieras agregar abajo de lafotito de los libros
         ],
       ),
@@ -142,7 +182,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   );
 
   static Widget horizontalListView = Container(
-    margin: EdgeInsets.symmetric(vertical: 20.0),
+    margin: EdgeInsets.only(left: 30, top: 25),
     height: 200.0,
     child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
       Container(
