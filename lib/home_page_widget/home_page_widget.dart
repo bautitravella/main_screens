@@ -100,28 +100,31 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       Container(
                           height: 35,
                           alignment: Alignment.center,
-                          margin: EdgeInsets.only(left: 10, top: 5, right: 10),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.only(top: 0, left: 21),
-                                child: Text(
-                                  "LIBROS DESTACADOS",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 57, 57, 57),
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
+                                child: GestureDetector(
+                                  onTap: () =>("Destacados"),
+                                  child: Text(
+                                    "LIBROS DESTACADOS",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 57, 57, 57),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                    ),
                                   ),
-                                ),
+                                )
+
                               ),
                               Container(
                                 height: 45,
                                 width: 98,
                                 alignment: Alignment.centerRight,
-                                margin:
-                                    EdgeInsets.only(top: 0, left: 44, right: 5),
                                 child: FlatButton(
                                   onPressed: null,
                                   disabledColor: AppColors.secondaryBackground,
@@ -229,7 +232,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   static Widget horizontalListView = Container(
     margin: EdgeInsets.only(left: 30, top: 25),
     height: 200.0,
-    child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
+    child: ListView(scrollDirection: Axis.horizontal,
+        children: <Widget>[
       Container(
         width: 160.0,
         color: Colors.red,
