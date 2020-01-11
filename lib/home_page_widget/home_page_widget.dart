@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/home_page_test_widget.dart';
+import 'package:flutterui/test_files/home_page_test_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
-import 'lib/size_config.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key}) : super(key: key);
@@ -52,9 +51,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   top: 80,
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -117,18 +116,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                    margin: EdgeInsets.only(left: 21),
-                                      child: Text(
-                                        "LIBROS DESTACADOS",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 15,
-                                        ),
-                                      ),
+                                  margin: EdgeInsets.only(left: 21),
+                                  child: Text(
+                                    "LIBROS DESTACADOS",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color:
+                                      Color.fromARGB(255, 57, 57, 57),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                    ),
+                                  ),
                                 ),
                                 Container(
                                   height: 50,
@@ -137,11 +136,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   child: FlatButton(
                                     onPressed: null,
                                     disabledColor:
-                                        AppColors.secondaryBackground,
+                                    AppColors.secondaryBackground,
                                     color: Color.fromARGB(255, 251, 187, 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(14)),
+                                      BorderRadius.all(Radius.circular(14)),
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -149,19 +148,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomePageTestWidget()));
+                                                    HomeTest()));
                                       },
-                                    child: Text(
-                                      "VER TODO",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 13,
+                                      child: Text(
+                                        "VER TODO",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color:
+                                          Color.fromARGB(255, 255, 255, 255),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     ),
-                                  ),
                                   ),
                                 ),
                               ],
@@ -195,11 +194,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   child: FlatButton(
                                     onPressed: null,
                                     disabledColor:
-                                        AppColors.secondaryBackground,
+                                    AppColors.secondaryBackground,
                                     color: Color.fromARGB(255, 251, 187, 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(14)),
+                                      BorderRadius.all(Radius.circular(14)),
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -207,7 +206,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomePageTestWidget()));
+                                                    HomeTest()));
                                       },
                                       child: Text(
                                         "VER TODO",
@@ -335,7 +334,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   List<Widget> _widgetOptions(BuildContext context) {
     return <Widget>[
