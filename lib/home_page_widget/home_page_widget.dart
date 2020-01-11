@@ -17,6 +17,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -277,8 +278,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             children: <Widget>[
               Positioned(
                 bottom: 0,
+
                 child: Container(
-                  height: 40,
+                  height: 60,
                   width: 97,
                   color: Colors.white,
                   child: Padding(
@@ -364,6 +366,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: _widgetOptions(context).elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
