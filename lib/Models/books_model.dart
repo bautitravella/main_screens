@@ -1,5 +1,5 @@
 
-class Books {
+class Book {
   String imageUrl;
   String name;
   String author;
@@ -7,7 +7,7 @@ class Books {
   int rating;
   int price;
 
-  Books({
+  Book({
     this.imageUrl,
     this.name,
     this.author,
@@ -18,41 +18,41 @@ class Books {
 }
 
 
-List<Books> books = [
-  Books(
-    imageUrl: 'assets/images/venice.jpg',
+List<Book> books = [
+  Book(
+    imageUrl: 'assets/images/9780439113106-mres-4.png',
+    name: 'The Shakespeare Stealer',
+    author: 'Gary Blackwood',
+    user: 'Visit Venice for an amazing and unforgettable adventure.',
+    rating: 3,
+    price: 506,
+  ),
+  Book(
+    imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'Venice',
     author: 'Italy',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
   ),
-  Books(
-    imageUrl: 'assets/images/venice.jpg',
+  Book(
+    imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'Venice',
     author: 'Italy',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
   ),
-  Books(
-    imageUrl: 'assets/images/venice.jpg',
+  Book(
+    imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'Venice',
     author: 'Italy',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
   ),
-  Books(
-    imageUrl: 'assets/images/venice.jpg',
-    name: 'Venice',
-    author: 'Italy',
-    user: 'Visit Venice for an amazing and unforgettable adventure.',
-    rating: 3,
-    price: 506,
-  ),
-  Books(
-    imageUrl: 'assets/images/venice.jpg',
+  Book(
+    imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'Venice',
     author: 'Italy',
     user: 'Visit Venice for an amazing and unforgettable adventure.',

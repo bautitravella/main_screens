@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/home_page_test_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -11,7 +13,8 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
-  Widget _dashBoardWidget(BuildContext context) {  //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
+  Widget _dashBoardWidget(BuildContext context) {
+    //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Scaffold(
       body: Column(
@@ -20,7 +23,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           Stack(
             children: <Widget>[
               Container(
-                height: SizeConfig.blockSizeVertical * 100,
+                  height: SizeConfig.blockSizeVertical * 100,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.all(0),
                     child: Column(
@@ -47,8 +50,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   right: null,
                                   top: 80,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -81,8 +86,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       Row(
                                         children: <Widget>[
                                           Container(
-                                            margin:
-                                            EdgeInsets.only(top: 10, bottom: 20),
+                                            margin: EdgeInsets.only(
+                                                top: 10, bottom: 20),
                                             child: Text(
                                               "!Encontralos ya!",
                                               textAlign: TextAlign.center,
@@ -105,21 +110,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         Container(
                             height: 55,
                             alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
                                     margin: EdgeInsets.only(left: 21),
                                     child: GestureDetector(
-                                      onTap:(){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageTestWidget()));
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePageTestWidget()));
                                       },
                                       child: Text(
                                         "LIBROS DESTACADOS",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 57, 57, 57),
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
                                           fontFamily: "Montserrat",
                                           fontWeight: FontWeight.w700,
                                           fontSize: 15,
@@ -132,17 +143,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   alignment: Alignment.centerRight,
                                   child: FlatButton(
                                     onPressed: null,
-                                    disabledColor: AppColors.secondaryBackground,
+                                    disabledColor:
+                                        AppColors.secondaryBackground,
                                     color: Color.fromARGB(255, 251, 187, 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(14)),
+                                          BorderRadius.all(Radius.circular(14)),
                                     ),
                                     child: Text(
                                       "VER TODO",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                         fontWeight: FontWeight.w400,
                                         fontSize: 13,
                                       ),
@@ -153,51 +166,62 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             )),
                         horizontalListView,
                         Container(
-                          height: 35,
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(left: 10, top: 5, right: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 0, left: 21),
-                                child: Text(
-                                  "LIBROS DESTACADOS",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 57, 57, 57),
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 45,
-                                width: 98,
-                                alignment: Alignment.centerRight,
-                                margin: EdgeInsets.only(top: 0, left: 44, right: 5),
-                                child: FlatButton(
-                                  onPressed: null,
-                                  disabledColor: AppColors.secondaryBackground,
-                                  color: Color.fromARGB(255, 251, 187, 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(14)),
-                                  ),
-                                  child: Text(
-                                    "VER TODO",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 13,
+                            height: 55,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(left: 21),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePageTestWidget()));
+                                      },
+                                      child: Text(
+                                        "LIBROS DESTACADOS",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color:
+                                          Color.fromARGB(255, 57, 57, 57),
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    )),
+                                Container(
+                                  height: 50,
+                                  width: 98,
+                                  alignment: Alignment.centerRight,
+                                  child: FlatButton(
+                                    onPressed: null,
+                                    disabledColor:
+                                    AppColors.secondaryBackground,
+                                    color: Color.fromARGB(255, 251, 187, 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(14)),
+                                    ),
+                                    child: Text(
+                                      "VER TODO",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color:
+                                        Color.fromARGB(255, 255, 255, 255),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            )),
                         horizontalListView,
                       ],
                     ),
@@ -234,60 +258,78 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     );
   }
 
-
   static Widget horizontalListView = Container(
-    margin: EdgeInsets.only(left: 30),
-    height: 200.0,
-    child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
-      Container(
-        width: 160.0,
-        color: Colors.red,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.blue,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.green,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.red,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.blue,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.green,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.red,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.blue,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.green,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.red,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.blue,
-      ),
-      Container(
-        width: 160.0,
-        color: Colors.green,
-      ),
-    ]),
+    height: 220,
+    margin: EdgeInsets.only(left: 27),
+    color: Colors.blue,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: books.length,
+      itemBuilder: (BuildContext context, int index) {
+        Book book = books[index];
+
+        return Container(
+          margin: EdgeInsets.all(7.0),
+          width: 97,
+          color: Colors.red,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 40,
+                  width: 97,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "${book.name}",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          "(${book.author})",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Container(
+                child: Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image(
+                        height: 141,
+                        width: 97,
+                        image: AssetImage(book.imageUrl),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    ),
   );
 
   int _selectedIndex = 0;
