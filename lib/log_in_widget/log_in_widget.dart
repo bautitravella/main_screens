@@ -21,17 +21,53 @@ class _LogInWidgetState extends State<LogInWidget> {
 
   void logInWithFacebookBtn(BuildContext context) {}
 
-  void _siguienteBtn(BuildContext context) {
+  bool validateEmailAndPassword(){
     _email = emailController.text;
     _password = passwordController.text;
-    setState(() {
+
       if(_email.isEmpty ){
-        _errorText = 'Por favor completar el campo de email antes de continuar. ';
+        setState(() {
+          _errorText = 'Por favor completar el campo de email antes de continuar. ';
+        });
+        return false;
       }
       if(_password.isEmpty){
-        _errorText += 'Por favor completar el campo de password antes de continuar. ';
+        setState(() {
+          _errorText += 'Por favor completar el campo de password antes de continuar. ' ;
+        });
+        return false;
       }
-    });
+      return true;
+
+  }
+
+  void _siguienteBtn(BuildContext context) async {
+
+    _email = emailController.text;
+    _password = passwordController.text;
+
+
+    if(validateEmailAndPassword() == true){
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password))
+            .user;
+        setState(() {
+
+          _errorText = 'signed in with : ${user.uid})';
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePageWidget()),
+        );
+      }
+      catch(error){
+        setState(() {
+          _errorText = '$error';
+        });
+      }
+      }
+
 
   }
 
