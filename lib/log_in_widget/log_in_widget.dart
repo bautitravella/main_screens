@@ -3,6 +3,7 @@ import 'package:flutterui/home_page_widget/home_page_widget.dart';
 import 'package:flutterui/recuperation_widget/recuperation_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LogInWidget extends StatefulWidget {
   @override
@@ -11,16 +12,28 @@ class LogInWidget extends StatefulWidget {
 
 class _LogInWidgetState extends State<LogInWidget> {
   final emailController = TextEditingController();
-  final passwordControler = TextEditingController();
+  final passwordController = TextEditingController();
   String _email;
   String _password;
-  String _errorText;
+  String _errorText = '';
 
   void logInWithGoogleBtn(BuildContext context) {}
 
   void logInWithFacebookBtn(BuildContext context) {}
 
-  void _siguienteBtn(BuildContext context) {}
+  void _siguienteBtn(BuildContext context) {
+    _email = emailController.text;
+    _password = passwordController.text;
+    setState(() {
+      if(_email.isEmpty ){
+        _errorText = 'Por favor completar el campo de email antes de continuar. ';
+      }
+      if(_password.isEmpty){
+        _errorText += 'Por favor completar el campo de password antes de continuar. ';
+      }
+    });
+
+  }
 
 
   @override
@@ -140,7 +153,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
-                              controller: passwordControler,
+                              controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Contraseña",
