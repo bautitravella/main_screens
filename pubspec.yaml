@@ -70,15 +70,27 @@ flutter:
   fonts:
     - family: Roboto
       fonts:
-        - asset: assets/fonts/.15498.otf
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Medium.ttf
           weight: 700
+        - asset: assets/fonts/Roboto-Bold.otf
     - family: .AppleSystemUIFont
       fonts:
         - asset: assets/fonts/SFNS.ttf
     - family: Montserrat
       fonts:
-        - asset: assets/fonts/.37466.otf
+        - asset: assets/fonts/Montserrat-Regular.otf
           weight: 500
         - asset: assets/fonts/Montserrat-SemiBold.ttf
           weight: 700
-        - asset: assets/fonts/.16353.otf
+        - asset: assets/fonts/Montserrat-Bold.otf
+    - family: Gibson
+      fonts:
+            - asset: assets/fonts/Gibson-Regular.ttf
+              weight: 500
+            - asset: assets/fonts/Gibson-SemiBold.otf
+              weight: 700
+            - asset: assets/fonts/Gibson-Bold.ttf

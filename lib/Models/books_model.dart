@@ -6,6 +6,8 @@ class Book {
   String user;
   int rating;
   int price;
+  String state;
+
 
   Book({
     this.imageUrl,
@@ -14,6 +16,7 @@ class Book {
     this.user,
     this.rating,
     this.price,
+    this.state,
   });
 }
 
@@ -26,37 +29,43 @@ List<Book> books = [
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
+    state: "Usado",
+
   ),
   Book(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'Venice',
-    author: 'Italy',
+    name: 'The Shakespeare Stealer',
+    author: 'Gary Blackwood',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
+    state: "Usado",
   ),
   Book(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'Venice',
-    author: 'Italy',
+    name: 'The Shakespeare Stealer',
+    author: 'Gary Blackwood',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
+    state: "Usado",
   ),
   Book(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'Venice',
-    author: 'Italy',
+    name: 'The Shakespeare Stealer',
+    author: 'Gary Blackwood',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
+    state: "Usado",
   ),
   Book(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'Venice',
-    author: 'Italy',
+    name: 'The Shakespeare Stealer',
+    author: 'Gary Blackwood',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
     price: 506,
+    state: "Usado",
   ),
 ];

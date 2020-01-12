@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/test_files/home_page_test_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
-class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key key}) : super(key: key);
+import 'home_hub.dart';
+
+class HomeBuckupWidget extends StatefulWidget {
+
+  HomeBuckupWidget({Key key}) : super(key: key);
   @override
-  _HomePageWidgetState createState() => _HomePageWidgetState();
+  _HomeBuckupWidgetState createState() => _HomeBuckupWidgetState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget> {
+class _HomeBuckupWidgetState extends State<HomeBuckupWidget> {
   Widget _dashBoardWidget(BuildContext context) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
@@ -148,7 +150,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeTest()));
+                                                    HomeHub()));
                                       },
                                       child: Text(
                                         "VER TODO",
@@ -206,7 +208,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeTest()));
+                                                    HomeHub())
+                                        );
                                       },
                                       child: Text(
                                         "VER TODO",

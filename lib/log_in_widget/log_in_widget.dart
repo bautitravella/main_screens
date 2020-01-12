@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/home_page_widget/home_page_widget.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/recuperation_widget/recuperation_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
@@ -58,7 +58,7 @@ class _LogInWidgetState extends State<LogInWidget> {
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePageWidget()),
+          MaterialPageRoute(builder: (context) => HomeHub()),
         );
       }
       catch(error){
