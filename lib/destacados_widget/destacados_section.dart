@@ -97,67 +97,73 @@ class DestacadosSection extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: books.length,
-              itemBuilder: (BuildContext context, int index) {
-                Book book = books[index];
+            child:Container(
+              height: 220,
+              margin: EdgeInsets.all(0),
+              color: Colors.blue,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: books.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Book book = books[index];
 
-                return Stack(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.fromLTRB(40, 5, 20, 5),
-                      height: 170.0,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(100, 20, 20, 20),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[Text(book.name)],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(book.author),
-                                Container(
-                                  height: 20,
-                                  width: 50,
-                                  color: Color.fromARGB(80, 0, 0, 0),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                    height: 40,
-                                    width: 40,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child:
-                                      Image.asset("assets/images/avatar.png"),
-                                    )),
-                                Container(
-                                  height: 20,
-                                  width: 50,
-                                  color: Color.fromARGB(80, 0, 0, 0),
-                                ),
-                              ],
-                            ),
-                          ],
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(40, 5, 20, 5),
+                        height: 170.0,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                      ),
-                    )
-                  ],
-                );
-              },
-            ),
+
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(100, 20, 20, 20),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[Text(book.name)],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(book.author),
+                                  Container(
+                                    height: 20,
+                                    width: 50,
+                                    color: Color.fromARGB(80, 0, 0, 0),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      height: 40,
+                                      width: 40,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(100),
+                                        child:
+                                        Image.asset("assets/images/avatar.png"),
+                                      )),
+                                  Container(
+                                    height: 20,
+                                    width: 50,
+                                    color: Color.fromARGB(80, 0, 0, 0),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+            )
+
           )
         ],
       ),
