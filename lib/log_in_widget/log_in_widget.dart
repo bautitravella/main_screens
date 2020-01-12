@@ -4,14 +4,24 @@ import 'package:flutterui/recuperation_widget/recuperation_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
 
-class LogInWidget extends StatelessWidget {
-  void onViewPressed(BuildContext context) {}
+class LogInWidget extends StatefulWidget {
+  @override
+  _LogInWidgetState createState() => _LogInWidgetState();
+}
 
-  void onViewTwoPressed(BuildContext context) {}
+class _LogInWidgetState extends State<LogInWidget> {
+  final emailController = TextEditingController();
+  final passwordControler = TextEditingController();
+  String _email;
+  String _password;
+  String _errorText;
 
-  void onBtnBluePressed(BuildContext context) {}
+  void logInWithGoogleBtn(BuildContext context) {}
 
-  void onHasOlvidadoLaConPressed(BuildContext context) {}
+  void logInWithFacebookBtn(BuildContext context) {}
+
+  void _siguienteBtn(BuildContext context) {}
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +78,7 @@ class LogInWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              controller: emailController,
                               decoration: InputDecoration(
                                 hintText: "Correo",
                                 contentPadding: EdgeInsets.all(0),
@@ -89,7 +100,7 @@ class LogInWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              ), //Icono Email y EmailTextField
               Container(
                 height: 2,
                 margin: EdgeInsets.only(left: 54, top: 6, right: 54),
@@ -97,7 +108,7 @@ class LogInWidget extends StatelessWidget {
                   color: Color.fromARGB(77, 0, 0, 0),
                 ),
                 child: Container(),
-              ),
+              ), //Linea Abajo de EmailTextField
               Container(
                 height: 37,
                 margin: EdgeInsets.only(left: 51, top: 22, right: 62),
@@ -129,6 +140,7 @@ class LogInWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              controller: passwordControler,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Contraseña",
@@ -165,32 +177,51 @@ class LogInWidget extends StatelessWidget {
                 child: Opacity(
                   opacity: 0.56,
                   child: FlatButton(
-                    color: Color.fromARGB(0, 0, 0, 0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(0)),
-                    ),
-                    textColor: Color.fromARGB(255, 0, 0, 0),
-                    padding: EdgeInsets.all(0),
-                    child: Text(
-                      "¿Has olvidado la contraseña?",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
+                      color: Color.fromARGB(0, 0, 0, 0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(0)),
                       ),
-                    ),
+                      textColor: Color.fromARGB(255, 0, 0, 0),
+                      padding: EdgeInsets.all(0),
+                      child: Text(
+                        "¿Has olvidado la contraseña?",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => RecuperationWidget()),
                         );
-                      }
-                  ),
+                      }),
                 ),
               ),
+              Container(
+                margin: EdgeInsets.only(left: 51, top: 22, right: 62),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    child: Opacity(
+                      opacity: 0.93,
+                      child: Text(
+                        '$_errorText',
+                        style: TextStyle(
+                          color: Colors.red[500],
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ), //Texto de error
               Spacer(),
               Align(
                 alignment: Alignment.topCenter,
@@ -208,7 +239,7 @@ class LogInWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              ), //Texto de "conectate con"
               Container(
                 height: 110,
                 margin: EdgeInsets.only(left: 47, right: 47, bottom: 37),
@@ -220,7 +251,7 @@ class LogInWidget extends StatelessWidget {
                       height: 45,
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
-                        onPressed: () => this.onViewPressed(context),
+                        onPressed: () => this.logInWithGoogleBtn(context),
                         color: AppColors.accentElement,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
@@ -258,7 +289,7 @@ class LogInWidget extends StatelessWidget {
                     Container(
                       height: 45,
                       child: FlatButton(
-                        onPressed: () => this.onViewTwoPressed(context),
+                        onPressed: () => this.logInWithFacebookBtn(context),
                         color: Color.fromARGB(255, 59, 89, 152),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(22.5)),
@@ -290,7 +321,7 @@ class LogInWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              ), //Botones de google y facebook
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
@@ -327,13 +358,8 @@ class LogInWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePageWidget()),
-                          );
-                        }),
+                        onPressed: () => this._siguienteBtn(context)
+                    ),
                   ),
                 ),
               ),
