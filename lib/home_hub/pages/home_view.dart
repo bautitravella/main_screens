@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/destacados_widget/destacados_section.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
@@ -25,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
 
 
           Container(
-              height: 80,
+              height: 110,
               width: SizeConfig.blockSizeHorizontal * 100,
               color: AppColors.secondaryBackground,
               padding: EdgeInsets.only(left: 0, right: 0, top: 0)
@@ -219,7 +220,7 @@ class _HomeViewState extends State<HomeView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeHub()));
+                                                    DestacadosSection()));
                                       },
                                       child: Text(
                                         "VER TODO",
