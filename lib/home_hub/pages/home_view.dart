@@ -22,6 +22,15 @@ class _HomeViewState extends State<HomeView> {
       width: SizeConfig.blockSizeHorizontal * 100,
       child: Stack(
         children: <Widget>[
+
+
+          Container(
+              height: 80,
+              width: SizeConfig.blockSizeHorizontal * 100,
+              color: AppColors.secondaryBackground,
+              padding: EdgeInsets.only(left: 0, right: 0, top: 0)
+          ),
+
           new ListView.builder(
               padding: EdgeInsets.all(0),
               itemCount: 1,
@@ -86,12 +95,26 @@ class _HomeViewState extends State<HomeView> {
                                 left: 0,
                                 top: 0,
                                 right: 0,
-                                child: Image.asset(
-                                  "assets/images/photo-85889-landscape-850x566.png",
-                                  fit: BoxFit.fill,
-                                  color: Color.fromARGB(80, 0, 0, 0),
-                                  colorBlendMode: BlendMode.darken,
-                                ),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 6.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Image.asset(
+                                      "assets/images/photo-85889-landscape-850x566.png",
+                                      fit: BoxFit.fill,
+                                      color: Color.fromARGB(80, 0, 0, 0),
+                                      colorBlendMode: BlendMode.darken,
+                                    ),
+                                  ),
+
                               ), //BackgroudHeader
                               Positioned(
                                   left: null,
@@ -124,7 +147,7 @@ class _HomeViewState extends State<HomeView> {
                                                     255, 255, 255, 255),
                                                 fontFamily: "Montserrat",
                                                 fontWeight: FontWeight.w700,
-                                                fontSize: 26,
+                                                fontSize: 24,
                                                 height: 0.92308,
                                               ),
                                             ),
@@ -333,21 +356,30 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
-              Container(
-                child: Stack(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image(
-                        height: 141,
-                        width: 97,
-                        image: AssetImage(book.imageUrl),
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomeHub()));
+                },
+                child: Container(
+                  child: Stack(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image(
+                          height: 141,
+                          width: 97,
+                          image: AssetImage(book.imageUrl),
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         );
