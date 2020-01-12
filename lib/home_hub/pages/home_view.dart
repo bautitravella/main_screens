@@ -1,29 +1,77 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/test_files/home_page_test_widget.dart';
+import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:flutter/cupertino.dart';
 
-class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key key}) : super(key: key);
+class HomeView extends StatefulWidget {
+
+  HomeView({Key key}) : super(key: key);
   @override
-  _HomePageWidgetState createState() => _HomePageWidgetState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget> {
-  Widget _dashBoardWidget(BuildContext context) {
+class _HomeViewState extends State<HomeView> {
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return Container(
+      padding: EdgeInsets.all(0),
+      height: SizeConfig.blockSizeVertical * 100,
+      width: SizeConfig.blockSizeHorizontal * 100,
+      child: Stack(
+        children: <Widget>[
+          new ListView.builder(
+              padding: EdgeInsets.all(0),
+              itemCount: 1,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) =>
+                  homeViewItems(context, index)),
+          Container(
+            child: Container(
+              height: 143,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: <Widget>[
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        width: 138,
+                        height: 143,
+                        child: Image.asset(
+                          "assets/images/round-underpic.png",
+                          fit: BoxFit.none,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+
+      )
+
+    );
+  }
+
+  Widget homeViewItems(BuildContext context, int index) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Column(
+    return Container(
+
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Stack(
             children: <Widget>[
               Container(
-                  height: SizeConfig.blockSizeVertical * 100,
+                  height: 800,
                   child: SingleChildScrollView(
                     padding: EdgeInsets.all(0),
                     child: Column(
@@ -148,7 +196,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeTest()));
+                                                    HomeHub()));
                                       },
                                       child: Text(
                                         "VER TODO",
@@ -206,7 +254,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeTest()));
+                                                    HomeHub()));
                                       },
                                       child: Text(
                                         "VER TODO",
@@ -227,37 +275,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ],
                     ),
                   )),
-              Container(
-                child: Container(
-                  height: 143,
-                  child: Stack(
-                    alignment: Alignment.topRight,
-                    children: <Widget>[
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            width: 138,
-                            height: 143,
-                            child: Image.asset(
-                              "assets/images/round-underpic.png",
-                              fit: BoxFit.none,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ],
       ),
     );
   }
+
 
   static Widget horizontalListView = Container(
     height: 220,
@@ -330,56 +354,4 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       },
     ),
   );
-
-  int _selectedIndex = 0;
-
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  List<Widget> _widgetOptions(BuildContext context) {
-    return <Widget>[
-      _dashBoardWidget(context),
-      Text(
-        'Index 1: Business',
-        style: optionStyle,
-      ),
-      Text(
-        'Index 2: School',
-        style: optionStyle,
-      ),
-    ];
-  }
-
-  void onGroup1862Pressed(BuildContext context) {}
-
-  void onGroup1864Pressed(BuildContext context) {}
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: _widgetOptions(context).elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            title: Text('Star'),
-          ),
-        ],
-      ),
-    );
-  }
 }

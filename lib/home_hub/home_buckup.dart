@@ -1,37 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/values/colors.dart';
-import '../size_config.dart';
-import 'home_page_test_widget.dart';
+import 'package:flutterui/size_config.dart';
+import 'package:flutterui/values/values.dart';
 
-class HomeView extends StatefulWidget {
+import 'home_hub.dart';
 
-  HomeView({Key key}) : super(key: key);
+class HomeBuckupWidget extends StatefulWidget {
+
+  HomeBuckupWidget({Key key}) : super(key: key);
   @override
-  _HomeViewState createState() => _HomeViewState();
+  _HomeBuckupWidgetState createState() => _HomeBuckupWidgetState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(0),
-      height: SizeConfig.blockSizeVertical * 100,
-      width: SizeConfig.blockSizeHorizontal * 100,
-      child: new ListView.builder(
-          padding: EdgeInsets.all(0),
-          itemCount: 1,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (BuildContext context, int index) =>
-              homeViewItems(context, index)),
-    );
-  }
-
-  Widget homeViewItems(BuildContext context, int index) {
+class _HomeBuckupWidgetState extends State<HomeBuckupWidget> {
+  Widget _dashBoardWidget(BuildContext context) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
-    return Container(
-
-      child: Column(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Stack(
@@ -162,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeTest()));
+                                                    HomeHub()));
                                       },
                                       child: Text(
                                         "VER TODO",
@@ -220,7 +208,8 @@ class _HomeViewState extends State<HomeView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeTest()));
+                                                    HomeHub())
+                                        );
                                       },
                                       child: Text(
                                         "VER TODO",
@@ -344,4 +333,56 @@ class _HomeViewState extends State<HomeView> {
       },
     ),
   );
+
+  int _selectedIndex = 0;
+
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+  List<Widget> _widgetOptions(BuildContext context) {
+    return <Widget>[
+      _dashBoardWidget(context),
+      Text(
+        'Index 1: Business',
+        style: optionStyle,
+      ),
+      Text(
+        'Index 2: School',
+        style: optionStyle,
+      ),
+    ];
+  }
+
+  void onGroup1862Pressed(BuildContext context) {}
+
+  void onGroup1864Pressed(BuildContext context) {}
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: _widgetOptions(context).elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            title: Text('Star'),
+          ),
+        ],
+      ),
+    );
+  }
 }

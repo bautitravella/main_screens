@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/test_files/pages.dart';
-import 'home_view.dart';
+import 'package:flutterui/home_hub/pages/pages.dart';
+import 'package:flutterui/home_hub/pages/home_view.dart';
 
-class HomeTest extends StatefulWidget {
+
+class HomeHub extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _HomeTestState();
+    return _HomeHubState();
   }
 }
 
-class _HomeTestState extends State<HomeTest> {
+class _HomeHubState extends State<HomeHub> {
   int _currentIndex = 0;
   final List<Widget> _children = [
+
     HomeView(),
     ExplorePage(),
     PastTripsPage(),
