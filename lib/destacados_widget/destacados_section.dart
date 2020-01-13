@@ -12,14 +12,14 @@ class DestacadosSection extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned(
-              bottom: 0,
+                bottom: 0,
                 right: 0,
                 left: 0,
                 top: SizeConfig.blockSizeVertical * 25,
-                child:Container(
+                child: Container(
                   height: 220,
                   margin: EdgeInsets.all(0),
-
+                  color: Colors.blue,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: books.length,
@@ -33,17 +33,24 @@ class DestacadosSection extends StatelessWidget {
                             height: 170.0,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0.0, 2.0),
+                                    blurRadius: 6.0,
+                                  ),
+                                ]),
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(100, 20, 20, 20),
                               child: Column(
                                 children: <Widget>[
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[Text(book.name)],
                                   ),
                                   Row(
@@ -62,9 +69,10 @@ class DestacadosSection extends StatelessWidget {
                                           height: 40,
                                           width: 40,
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(100),
-                                            child:
-                                            Image.asset("assets/images/avatar.png"),
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: Image.asset(
+                                                "assets/images/avatar.png"),
                                           )),
                                       Container(
                                         height: 20,
@@ -76,16 +84,26 @@ class DestacadosSection extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          )
-
+                          ),
+                          Positioned(
+                            left: 20,
+                            top: 15,
+                            bottom: 15,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image(
+                                width: 110,
+                                image: AssetImage(
+                                  book.imageUrl,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     },
                   ),
-                )
-
-            ),
-
+                )),
             Column(
               children: <Widget>[
                 Stack(
@@ -174,13 +192,11 @@ class DestacadosSection extends StatelessWidget {
                     )
                   ],
                 ),
-
               ],
             ),
           ],
         ),
       ),
     );
-
   }
 }
