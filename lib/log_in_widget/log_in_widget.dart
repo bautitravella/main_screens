@@ -52,6 +52,7 @@ class _LogInWidgetState extends State<LogInWidget> {
         FirebaseUser user = (await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password))
             .user;
+
         setState(() {
 
           _errorText = 'signed in with : ${user.uid})';
