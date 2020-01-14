@@ -182,9 +182,9 @@ class DestacadosSection extends StatelessWidget {
                           width: 60,
                           height: 20,
                           decoration: BoxDecoration(
-                          color: Color.fromARGB(80, 0, 0, 0),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
+                            color: Color.fromARGB(80, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                           alignment: Alignment.center,
                           child: Text(
                             book.state.toUpperCase(),
@@ -201,59 +201,88 @@ class DestacadosSection extends StatelessWidget {
                       ],
                     ),
                     Row(
-
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
-                            height: 40,
-                            width: 40,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.asset("assets/images/avatar.png"),
-                            )),
                         Row(
                           children: <Widget>[
-                            Stack(
+                            Container(
+                                height: 40,
+                                width: 40,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.asset("assets/images/avatar.png"),
+                                )),
+                            Row(
                               children: <Widget>[
                                 Container(
-                                  height: 21,
-                                  width: 50,
-
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(80, 0, 0, 0),
-                                    borderRadius: BorderRadius.circular(8.0),
+                                  margin: EdgeInsets.only(left: 4),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 21,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Color.fromARGB(30, 0, 0, 0),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        alignment: Alignment.center,
+                                      ),
+                                      Positioned(
+                                        left: 5,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              '${book.rating}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: "Montserrat",
+                                                color: Color.fromARGB(100, 0, 0, 0),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.star,
+                                              size: 17,
+                                              color: Color.fromARGB(100, 0, 0, 0),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  alignment: Alignment.center,
-                                ),
-                                Row(
-
-                                  children: <Widget>[
-                                    Text('${book.rating}'),
-                                    Icon(
-                                      Icons.star,
-                                      size: 15,
-                                      color: Color.fromARGB(150, 0, 0, 0),
-                                    )
-                                  ],
                                 )
                               ],
-                            )
+                            ),
                           ],
                         ),
-
-
-                        IconButton(
-                          icon: Icon(Icons.chat_bubble_outline),
-                          iconSize: 25.0,
-                          color: Colors.black54,
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.star_border),
-                          iconSize: 25.0,
-                          color: Colors.black54,
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        Text('\$${book.price}')
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.chat_bubble_outline),
+                              iconSize: 25.0,
+                              color: Colors.black54,
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.star_border),
+                              iconSize: 25.0,
+                              color: Colors.black54,
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            Text(
+                              '\$${book.price}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 21,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: "Montserrat",
+                                color: Color.fromARGB(190, 0, 0, 0),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ],
