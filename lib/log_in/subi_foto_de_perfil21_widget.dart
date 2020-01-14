@@ -1,17 +1,19 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutterui/terminos_ycondiciones_widget/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 
+import 'datos_widget.dart';
+import 'datos_widget.dart';
 
-class CursoAlumnoWidget extends StatelessWidget {
+
+class SubiFotoDePerfil21Widget extends StatelessWidget {
   void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
+  void onProfilePicture(BuildContext context) {}
+  void onButtonPressed(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -25,7 +27,7 @@ class CursoAlumnoWidget extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(left: 28, top: 85),
                 child: Text(
-                  "Falta poco",
+                  "Perfil",
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: Color.fromARGB(255, 57, 57, 57),
@@ -43,11 +45,11 @@ class CursoAlumnoWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     Positioned(
-                      left: 21,
-                      right: 21,
+                      left: 92,
+                      right: 91,
                       bottom: 0,
                       child: Text(
-                        "Selecciona\ncolegio y curso",
+                        "Subí una foto",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color.fromARGB(255, 53, 38, 65),
@@ -58,6 +60,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     Positioned(
                       left: 0,
                       top: 0,
@@ -68,86 +71,87 @@ class CursoAlumnoWidget extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 70,
-                      top: 10,
-                      right: 70,
+                      left: 80,
+                      top: 50,
+                      right: 80,
+                      bottom: 50,
                       child: Image.asset(
-                        "assets/images/group-1840.png",
+                        "assets/images/uploadimage.png",
                         fit: BoxFit.none,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: 150,
-                        height: 60,
-                        margin: EdgeInsets.only(left: 100, right: 110, top: 161),
-                        child: Opacity(
-                          opacity: 0.57,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "NOMBRE",
-                              contentPadding: EdgeInsets.all(0),
-                              border: InputBorder.none,
+                    Container(
+                      width: 155,
+                      height: 155,
+                      margin: EdgeInsets.only(
+                          left: 4, right: 4, top: 33, bottom: 33),
+                      child: Opacity(
+                        opacity: 1,
+                        child: FlatButton(
+                          onPressed: () => this.onProfilePicture(context),
+                            color: Color.fromARGB(0, 0, 0, 0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(100)),
                             ),
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19,
+                            textColor: Color.fromARGB(0, 0, 0, 0),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/avatar.png",
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment.center,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
                             ),
-                            maxLines: 1,
-                            autocorrect: false,
-                          ),
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child:Container(
-                        height: 2,
-                        margin: EdgeInsets.only(left: 100, right: 100, top: 200),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(77, 0, 0, 0),
-                        ),
-                        child: Container(),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: 150,
-                        height: 60,
-                        margin: EdgeInsets.only(left: 100, right: 110, top: 241),
-                        child: Opacity(
-                          opacity: 0.57,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "APELLIDO",
-                              contentPadding: EdgeInsets.all(0),
-                              border: InputBorder.none,
+                    Container(
+                      width: 58,
+                      height: 58,
+                      margin: EdgeInsets.only(
+                          left: 90, top: 110, bottom: 33),
+                      child: Opacity(
+                        opacity: 1,
+                        child: FlatButton(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Color.fromARGB(255, 254, 189, 16),
+                                width: 2,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(100)),
                             ),
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19,
+                            textColor: Color.fromARGB(0, 0, 0, 0),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/icons8-edit-96px-11.png",
+                                  fit: BoxFit.none,
+                                  alignment: Alignment.center,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
                             ),
-                            maxLines: 1,
-                            autocorrect: false,
-                          ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SubiFotoDePerfil21Widget()),
+                              );
+                            }
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child:Container(
-                        height: 2,
-                        margin: EdgeInsets.only(left: 100, right: 100, top: 280),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(77, 0, 0, 0),
-                        ),
-                        child: Container(),
                       ),
                     ),
                   ],
@@ -155,9 +159,9 @@ class CursoAlumnoWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 30),
+              margin: EdgeInsets.only(left: 10, right: 10, bottom: 50),
               child: Text(
-                "Los datos ingresados se podrán\ncambiar mas tarde \ndentro de la app\n",
+                "Es importante subir una foto \nen la que salgas bien.\n",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -207,7 +211,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TerminosYCondicionesWidget()),
+                            builder: (context) => DatosWidget()),
                       );
                     }),
               ),

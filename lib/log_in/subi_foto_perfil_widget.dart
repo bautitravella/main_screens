@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
 
-import '../subi_foto_de_perfil21_widget/subi_foto_de_perfil21_widget.dart';
+import 'subi_foto_de_perfil21_widget.dart';
 
 class SubiFotoPerfilWidget extends StatelessWidget {
   void onLogoPressed(BuildContext context) {}

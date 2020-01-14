@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/log_in_widget/log_in_widget.dart';
-import 'package:flutterui/sign_up_widget/sign_up_widget.dart';
+import 'package:flutterui/log_in/log_in_widget.dart';
+import 'package:flutterui/log_in/sign_up_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class FirstscreenWidget extends StatelessWidget {
@@ -86,7 +86,7 @@ class FirstscreenWidget extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LogInWidget()),
-                          );
+                           );
                         }
                     ),
                   ),

@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutterui/firstscreen_widget/firstscreen_widget.dart';
+import 'package:flutterui/log_in/firstscreen_widget.dart';
 
 void main() => runApp(App());
 

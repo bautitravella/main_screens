@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/subi_foto_perfil_widget/subi_foto_perfil_widget.dart';
+import 'package:flutterui/log_in/subi_foto_perfil_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {

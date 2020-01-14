@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/recuperation_widget/recuperation_widget.dart';
+import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/values/values.dart';
-import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
+import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LogInWidget extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/elije_un_rol_widget/elije_un_rol_widget.dart';
+import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class VerificacionWidget extends StatelessWidget {

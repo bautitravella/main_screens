@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutterui/curso_alumno_widget/curso_alumno_widget.dart';
+import 'package:flutterui/log_in/curso_alumno_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 

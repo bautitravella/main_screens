@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
-import 'package:flutterui/verificacion_widget/verificacion_widget.dart';
+import 'package:flutterui/log_in/verificacion_widget.dart';
 
 class SignUpWidget extends StatelessWidget {
   void onViewPressed(BuildContext context) {}
