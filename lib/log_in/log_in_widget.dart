@@ -4,6 +4,7 @@ import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LogInWidget extends StatefulWidget {
   @override
@@ -17,7 +18,9 @@ class _LogInWidgetState extends State<LogInWidget> {
   String _password;
   String _errorText = '';
 
-  void logInWithGoogleBtn(BuildContext context) {}
+  void logInWithGoogleBtn(BuildContext context) async {
+    _handleSignIn();
+  }
 
   void logInWithFacebookBtn(BuildContext context) {}
 
@@ -301,7 +304,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                       height: 45,
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
-                        onPressed: () => this.logInWithGoogleBtn(context),
+                        onPressed:() => this.logInWithGoogleBtn(context),
                         color: AppColors.accentElement,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
@@ -416,5 +419,23 @@ class _LogInWidgetState extends State<LogInWidget> {
             ],
           ),
         ));
+  }
+}
+
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
+
+Future<void> _handleSignIn() async {
+  try {
+    await _googleSignIn.signIn();
+    print("Hola , " );
+    print(_googleSignIn.currentUser.email);
+  } catch (error) {
+    print(error);
   }
 }
