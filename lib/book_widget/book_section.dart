@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/Models/books_model.dart' show Book, books;
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 
 
 
 
-class DestacadosSection extends StatefulWidget {
+class BookSection extends StatefulWidget {
 
-  DestacadosSection({Key key}) : super(key: key);
+  BookSection({Key key}) : super(key: key);
+
   @override
-  _DestacadosSectionState createState() => _DestacadosSectionState();
+  _BookSectionState createState() => _BookSectionState();
 }
 
-class _DestacadosSectionState extends State<DestacadosSection> {
+class _BookSectionState extends State<BookSection> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
@@ -32,7 +33,7 @@ class _DestacadosSectionState extends State<DestacadosSection> {
                 Stack(
                   children: <Widget>[
                     Container(
-                      height: SizeConfig.blockSizeVertical * 25,
+                      height: SizeConfig.blockSizeVertical * 70,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
                           boxShadow: [
@@ -84,7 +85,7 @@ class _DestacadosSectionState extends State<DestacadosSection> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.sort),
+                                icon: Icon(Icons.star_border),
                                 iconSize: 30.0,
                                 color: Colors.black,
                                 onPressed: () => Navigator.pop(context),
@@ -99,9 +100,27 @@ class _DestacadosSectionState extends State<DestacadosSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
+                            width:SizeConfig.blockSizeVertical * 30,
+                            height: SizeConfig.blockSizeVertical*16,
+                            color: Colors.pink,
                             margin: EdgeInsets.only(left: 22, top: 130),
                             child: Text(
-                              "Destacados",
+                              book.name,
+                                style: TextStyle(
+                                fontFamily: "Gibson",
+                                color: AppColors.accentText,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width:SizeConfig.blockSizeVertical * 30,
+                            color: Colors.pink,
+                            margin: EdgeInsets.only(left: 22, top: 130),
+                            child: Text(
+                              //widget.book.name,------------------------------------------------NO ME TOMA LA CLASS AYUDA
+                              "Nombre del libro",
                               style: TextStyle(
                                 fontFamily: "Gibson",
                                 color: AppColors.accentText,
@@ -232,7 +251,7 @@ class _DestacadosSectionState extends State<DestacadosSection> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child:
-                                        Image.asset("assets/images/avatar.png"),
+                                    Image.asset("assets/images/avatar.png"),
                                   )),
                               Row(
                                 children: <Widget>[
@@ -247,7 +266,7 @@ class _DestacadosSectionState extends State<DestacadosSection> {
                                           decoration: BoxDecoration(
                                             color: Color.fromARGB(30, 0, 0, 0),
                                             borderRadius:
-                                                BorderRadius.circular(8.0),
+                                            BorderRadius.circular(8.0),
                                           ),
                                           alignment: Alignment.center,
                                         ),
@@ -255,7 +274,7 @@ class _DestacadosSectionState extends State<DestacadosSection> {
                                           left: 5,
                                           child: Row(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
                                                 '${book.rating}',
