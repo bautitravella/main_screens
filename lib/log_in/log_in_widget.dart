@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
-import 'package:flutterui/provider.dart';
+
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LogInWidget extends StatefulWidget {
   @override
@@ -23,8 +24,8 @@ class _LogInWidgetState extends State<LogInWidget> {
 
   void logInWithGoogleBtn(BuildContext context) async {
     try{
-      final _auth = Provider.of(context).auth;
-      String userUID = await _auth.signInWithGoogle();
+      final auth = Provider.of<BaseAuth>(context,listen: false);
+      String userUID = await auth.signInWithGoogle();
 
       print("Te logueaste con $userUID");
     }catch(e){
@@ -65,7 +66,7 @@ class _LogInWidgetState extends State<LogInWidget> {
 
     if (validateEmailAndPassword() == true) {
       try {
-        final auth = Provider.of(context).auth;
+        final auth = Provider.of<BaseAuth>(context,listen: false);
         String userUID =
             await auth.signInWithEmailAndPassword(_email, _password);
 
