@@ -24,7 +24,7 @@ class Book {
 List<Book> books = [
   Book(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'The Shakespeare Stealer',
+    name: 'The Shakespeare Steler Toma 1',
     author: 'Gary Blackwood',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,
@@ -33,8 +33,8 @@ List<Book> books = [
 
   ),
   Book(
-    imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'The Shakespeare Stealer',
+    imageUrl: 'assets/images/bookdescarte.png',
+    name: 'El libro nuemro 2',
     author: 'Gary Blackwood',
     user: 'Visit Venice for an amazing and unforgettable adventure.',
     rating: 3,

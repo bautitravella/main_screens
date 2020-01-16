@@ -372,7 +372,11 @@ class _HomeViewState extends State<HomeView> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              BookSection()));
+                              BookSection(
+                                book: book,
+                              ),
+                      ),
+                  );
                 },
                 child: Container(
                   child: Stack(

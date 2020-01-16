@@ -14,6 +14,7 @@ class DestacadosSection extends StatefulWidget {
 }
 
 class _DestacadosSectionState extends State<DestacadosSection> {
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
