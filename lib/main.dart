@@ -35,6 +35,7 @@ class MyDecider extends StatelessWidget{
       builder: (context, AsyncSnapshot<String> snapshot){
         if(snapshot.connectionState == ConnectionState.active){
           final bool loggedIn = snapshot.hasData;
+          String uid = snapshot.data;
           return loggedIn ? HomeHub() : FirstscreenWidget();
         }
         return CircularProgressIndicator();

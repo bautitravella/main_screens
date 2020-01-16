@@ -4,6 +4,7 @@ import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../auth.dart';
+import '../main.dart';
 
 class SignUpWidget extends StatefulWidget {
   @override
@@ -30,6 +31,10 @@ class SignUpWidgetState extends State<SignUpWidget>{
       String userUID = await auth.signInWithGoogle();
 
       print("Te logueaste con $userUID");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyDecider()),
+      );
     }catch(e){
       setState(() {
         _errorText = "$e";
@@ -83,6 +88,10 @@ class SignUpWidgetState extends State<SignUpWidget>{
         });
         auth.currentUser().then((msg) => print('MENSAJE: $msg'));
         //Navigator.push(context,MaterialPageRoute(builder: (context) => VerificacionWidget()),);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyDecider()),
+        );
       } catch (error) {
         setState(() {
           _errorText = '$error';

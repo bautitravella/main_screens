@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
+import 'package:flutterui/main.dart';
 
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
@@ -28,6 +29,10 @@ class _LogInWidgetState extends State<LogInWidget> {
       String userUID = await auth.signInWithGoogle();
 
       print("Te logueaste con $userUID");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyDecider()),
+      );
     }catch(e){
       setState(() {
         _errorText = "$e";
@@ -75,7 +80,7 @@ class _LogInWidgetState extends State<LogInWidget> {
         });
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomeHub()),
+          MaterialPageRoute(builder: (context) => MyDecider()),
         );
       } catch (error) {
         setState(() {
