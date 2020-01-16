@@ -41,7 +41,7 @@ class _BookSectionState extends State<BookSection> {
                     Container(
                       height: SizeConfig.blockSizeVertical * 34,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.only(
@@ -152,7 +152,7 @@ class _BookSectionState extends State<BookSection> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal*40,
+                        width: SizeConfig.blockSizeHorizontal * 40,
                         height: 55,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.0),
@@ -163,56 +163,57 @@ class _BookSectionState extends State<BookSection> {
                                 blurRadius: 6.0,
                               )
                             ]),
-                          child:FlatButton(
-                              color: AppColors.secondaryElement,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(24)),
-                              ),
-                              textColor: Color.fromARGB(255, 255, 255, 255),
-                              padding: EdgeInsets.all(0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.shopping_cart,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
+                        child: FlatButton(
+                            color: AppColors.secondaryElement,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(24)),
+                            ),
+                            textColor: Color.fromARGB(255, 255, 255, 255),
+                            padding: EdgeInsets.all(0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.shopping_cart,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
 
-                                  Container(
-                                    width: 2,
-                                    height: 25,
-                                    color: Colors.white,
-                                    margin: EdgeInsets.only(left:10, right: 10),
+                                Container(
+                                  width: 2,
+                                  height: 25,
+                                  color: Colors.white,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                ),
+                                Text(
+                                  '\$${widget.book.price}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: AppColors.secondaryText,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 25,
                                   ),
-                                  Text(
-                                    '\$${widget.book.price}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: AppColors.secondaryText,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 25,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomeHub())
-                                );
-                              }),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomeHub())
+                              );
+                            }),
 
                       ),
                     ),
                     Spacer(),
                     Align(
                       alignment: Alignment.bottomLeft,
-                      child:  Container(
-                        width: SizeConfig.blockSizeHorizontal*20,
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal * 20,
                         height: 55,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24.0),
@@ -223,35 +224,36 @@ class _BookSectionState extends State<BookSection> {
                                 blurRadius: 6.0,
                               )
                             ]),
-                        child:FlatButton(
+                        child: FlatButton(
 
-                              color: Colors.black54,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(24)),
+                            color: Colors.black54,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(24)),
 
-                              ),
-                              textColor: Color.fromARGB(255, 255, 255, 255),
-                              padding: EdgeInsets.all(0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.chat_bubble,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                                ],
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomeHub())
-                                );
-                              }),
-                        ),
+                            ),
+                            textColor: Color.fromARGB(255, 255, 255, 255),
+                            padding: EdgeInsets.all(0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.chat_bubble,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomeHub())
+                              );
+                            }),
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -264,16 +266,14 @@ class _BookSectionState extends State<BookSection> {
   }
 
 
-
   static Widget verticalListView(Book book) {
-    Container(
+    return Container(
       height: SizeConfig.blockSizeVertical * 100,
       margin: EdgeInsets.all(0),
       child: ListView.builder(
         itemCount: 1,
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {
-          Book book = books[index];
 
           return Stack(
             children: <Widget>[
@@ -281,7 +281,7 @@ class _BookSectionState extends State<BookSection> {
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
-                      horizontalListView,
+                      horizontalListView(book),
                     ],
                   ),
                   Row(
@@ -323,59 +323,61 @@ class _BookSectionState extends State<BookSection> {
       ),
     );
   }
-  static Widget horizontalListView = Container(
-    height: 185,
-    margin: EdgeInsets.only(left: 22, top: 60),
-    color: Colors.blue,
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
 
-        return Container(
-          margin: EdgeInsets.all(0),
-          width: 429,
-          color: Colors.red,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[
-              Positioned(
+  static Widget horizontalListView(Book book) {
+    return Container(
+      height: 185,
+      margin: EdgeInsets.only(left: 22, top: 60),
+      color: Colors.blue,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index) {
+
+          return Container(
+            margin: EdgeInsets.all(0),
+            width: 429,
+            color: Colors.red,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Positioned(
                   child: Row(
-                      children: <Widget>[
-                        Container(
-                          height: 180,
-                          width: 123,
-                          child: Image(
-                            image: AssetImage(book.imageUrl),
-                            fit: BoxFit.fitHeight,
-                          ),
+                    children: <Widget>[
+                      Container(
+                        height: 180,
+                        width: 123,
+                        child: Image(
+                          image: AssetImage(book.imageUrl),
+                          fit: BoxFit.fitHeight,
                         ),
-                        Container(
-                          height: 180,
-                          width: 123,
-                          margin: EdgeInsets.only(left: 20),
-                          child: Image(
-                            image: AssetImage(book.imageUrl),
-                            fit: BoxFit.fitHeight,
-                          ),
+                      ),
+                      Container(
+                        height: 180,
+                        width: 123,
+                        margin: EdgeInsets.only(left: 20),
+                        child: Image(
+                          image: AssetImage(book.imageUrl),
+                          fit: BoxFit.fitHeight,
                         ),
-                        Container(
-                          height: 180,
-                          width: 123,
-                          margin: EdgeInsets.only(left: 20),
-                          child: Image(
-                            image: AssetImage(book.imageUrl),
-                            fit: BoxFit.fitHeight,
-                          ),
+                      ),
+                      Container(
+                        height: 180,
+                        width: 123,
+                        margin: EdgeInsets.only(left: 20),
+                        child: Image(
+                          image: AssetImage(book.imageUrl),
+                          fit: BoxFit.fitHeight,
                         ),
-                      ],
+                      ),
+                    ],
                   ),
-              ),
-            ],
-          ),
-        );
-      },
-    ),
-  );
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
