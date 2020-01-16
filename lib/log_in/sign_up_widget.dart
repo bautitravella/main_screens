@@ -1,14 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
+import 'package:provider/provider.dart';
 
-class SignUpWidget extends StatelessWidget {
-  void onViewPressed(BuildContext context) {}
+import '../auth.dart';
 
-  void onViewTwoPressed(BuildContext context) {}
+class SignUpWidget extends StatefulWidget {
+  @override
+  SignUpWidgetState createState() {
+    return SignUpWidgetState();
+  }
 
-  void onBtnBluePressed(BuildContext context) {}
 
+}
+
+class SignUpWidgetState extends State<SignUpWidget>{
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final passwordVerificationController = TextEditingController();
+  String _email;
+  String _password;
+  String _passwordVerification;
+  String _errorText = '';
+
+
+  void logInWithGoogleBtn(BuildContext context) async {
+    try{
+      final auth = Provider.of<BaseAuth>(context,listen: false);
+      String userUID = await auth.signInWithGoogle();
+
+      print("Te logueaste con $userUID");
+    }catch(e){
+      setState(() {
+        _errorText = "$e";
+      });
+    }
+
+
+  }
+
+  void logInWithFacebookBtn(BuildContext context) {}
+
+  bool validateEmailAndPassword() {
+    _email = emailController.text;
+    _password = passwordController.text;
+    _passwordVerification = passwordVerificationController.text;
+
+    if (_email.isEmpty) {
+      setState(() {
+        _errorText =
+        'Por favor completar el campo de email antes de continuar. ';
+      });
+      return false;
+    }
+    if (_password.isEmpty) {
+      setState(() {
+        _errorText +=
+        'Por favor completar el campo de password antes de continuar. ';
+      });
+      return false;
+    }
+    if(_password != _passwordVerification){
+      setState(() {
+        _errorText += 'La password y la pasword de verificacion no coinciden';
+      });
+    }
+    return true;
+  }
+
+  void _siguienteBtn(BuildContext context) async {
+    _email = emailController.text;
+    _password = passwordController.text;
+
+    if (validateEmailAndPassword() == true) {
+      try {
+        final auth = Provider.of<BaseAuth>(context,listen: false);
+        String userUID =
+        await auth.createUserWithEmailAndPassword(_email, _password);
+        await auth.signInWithEmailAndPassword(_email, _password);
+        setState(() {
+          _errorText = 'signed in with : ${userUID})';
+        });
+        auth.currentUser().then((msg) => print('MENSAJE: $msg'));
+        //Navigator.push(context,MaterialPageRoute(builder: (context) => VerificacionWidget()),);
+      } catch (error) {
+        setState(() {
+          _errorText = '$error';
+        });
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +145,7 @@ class SignUpWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              controller: emailController,
                               decoration: InputDecoration(
                                 hintText: "Correo",
                                 contentPadding: EdgeInsets.all(0),
@@ -125,6 +207,7 @@ class SignUpWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Contraseña",
@@ -186,6 +269,7 @@ class SignUpWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              controller: passwordVerificationController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: "Confirmar contraseña",
@@ -216,6 +300,26 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 child: Container(),
               ),
+              Container(
+                margin: EdgeInsets.only(left: 51, top: 22, right: 62),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    child: Opacity(
+                      opacity: 0.93,
+                      child: Text(
+                        '$_errorText',
+                        style: TextStyle(
+                          color: Colors.red[500],
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Spacer(),
               Align(
                 alignment: Alignment.topCenter,
@@ -245,7 +349,7 @@ class SignUpWidget extends StatelessWidget {
                       height: 45,
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
-                        onPressed: () => this.onViewPressed(context),
+                        onPressed: () => this.logInWithGoogleBtn(context),
                         color: AppColors.accentElement,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
@@ -283,7 +387,7 @@ class SignUpWidget extends StatelessWidget {
                     Container(
                       height: 45,
                       child: FlatButton(
-                        onPressed: () => this.onViewTwoPressed(context),
+                        onPressed: () => this.logInWithFacebookBtn(context),
                         color: Color.fromARGB(255, 59, 89, 152),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(22.5)),
@@ -352,13 +456,7 @@ class SignUpWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VerificacionWidget()),
-                          );
-                        }),
+                        onPressed: () => this._siguienteBtn(context)),
                   ),
                 ),
               ),

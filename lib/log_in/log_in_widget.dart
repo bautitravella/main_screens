@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
+
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LogInWidget extends StatefulWidget {
   @override
@@ -18,63 +21,69 @@ class _LogInWidgetState extends State<LogInWidget> {
   String _password;
   String _errorText = '';
 
+
   void logInWithGoogleBtn(BuildContext context) async {
-    _handleSignIn();
+    try{
+      final auth = Provider.of<BaseAuth>(context,listen: false);
+      String userUID = await auth.signInWithGoogle();
+
+      print("Te logueaste con $userUID");
+    }catch(e){
+      setState(() {
+        _errorText = "$e";
+      });
+    }
+
+
   }
 
   void logInWithFacebookBtn(BuildContext context) {}
 
-  bool validateEmailAndPassword(){
+  bool validateEmailAndPassword() {
     _email = emailController.text;
     _password = passwordController.text;
 
-      if(_email.isEmpty ){
-        setState(() {
-          _errorText = 'Por favor completar el campo de email antes de continuar. ';
-        });
-        return false;
-      }
-      if(_password.isEmpty){
-        setState(() {
-          _errorText += 'Por favor completar el campo de password antes de continuar. ' ;
-        });
-        return false;
-      }
-      return true;
-
+    if (_email.isEmpty) {
+      setState(() {
+        _errorText =
+            'Por favor completar el campo de email antes de continuar. ';
+      });
+      return false;
+    }
+    if (_password.isEmpty) {
+      setState(() {
+        _errorText +=
+            'Por favor completar el campo de password antes de continuar. ';
+      });
+      return false;
+    }
+    return true;
   }
 
   void _siguienteBtn(BuildContext context) async {
-
     _email = emailController.text;
     _password = passwordController.text;
 
-
-    if(validateEmailAndPassword() == true){
+    if (validateEmailAndPassword() == true) {
       try {
-        FirebaseUser user = (await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password))
-            .user;
+        final auth = Provider.of<BaseAuth>(context,listen: false);
+        String userUID =
+            await auth.signInWithEmailAndPassword(_email, _password);
 
         setState(() {
-
-          _errorText = 'signed in with : ${user.uid})';
+          _errorText = 'signed in with : ${userUID})';
         });
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomeHub()),
         );
-      }
-      catch(error){
+      } catch (error) {
         setState(() {
           _errorText = '$error';
         });
       }
-      }
-
-
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +313,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                       height: 45,
                       margin: EdgeInsets.only(bottom: 20),
                       child: FlatButton(
-                        onPressed:() => this.logInWithGoogleBtn(context),
+                        onPressed: () => this.logInWithGoogleBtn(context),
                         color: AppColors.accentElement,
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
@@ -411,8 +420,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                             ),
                           ],
                         ),
-                        onPressed: () => this._siguienteBtn(context)
-                    ),
+                        onPressed: () => this._siguienteBtn(context)),
                   ),
                 ),
               ),
@@ -421,7 +429,6 @@ class _LogInWidgetState extends State<LogInWidget> {
         ));
   }
 }
-
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
@@ -433,7 +440,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 Future<void> _handleSignIn() async {
   try {
     await _googleSignIn.signIn();
-    print("Hola , " );
+    print("Hola , ");
     print(_googleSignIn.currentUser.email);
   } catch (error) {
     print(error);
