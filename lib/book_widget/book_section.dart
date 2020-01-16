@@ -32,7 +32,7 @@ class _BookSectionState extends State<BookSection> {
               left: 0,
               right: 0,
               bottom: 0,
-              child: verticalListView,
+              child: verticalListView(widget.book),
             ),
             Column(
               children: <Widget>[
@@ -265,62 +265,64 @@ class _BookSectionState extends State<BookSection> {
 
 
 
-  static Widget verticalListView = Container(
-    height: SizeConfig.blockSizeVertical*100,
-    margin: EdgeInsets.all(0),
-    child: ListView.builder(
-      itemCount: 1,
-      scrollDirection: Axis.vertical,
-      itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+  static Widget verticalListView(Book book) {
+    Container(
+      height: SizeConfig.blockSizeVertical * 100,
+      margin: EdgeInsets.all(0),
+      child: ListView.builder(
+        itemCount: 1,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (BuildContext context, int index) {
+          Book book = books[index];
 
-        return Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    horizontalListView,
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                        height: 60,
-                        width: 200,
-                        color: Colors.purple,
-                        margin: EdgeInsets.only(
+          return Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      horizontalListView,
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                          height: 60,
+                          width: 200,
+                          color: Colors.purple,
+                          margin: EdgeInsets.only(
                             top: 12,
                             left: 22,
-                        ),
-
-                        child: Text(
-                          '\$${book.price}',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 31,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: "Montserrat",
-                            color: Color.fromARGB(190, 0, 0, 0),
                           ),
-                        )
-                    ),
-                    Container(
-                      height: 2,
-                      margin: EdgeInsets.only(left: 22, top: 25, right: 22),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(77, 0, 0, 0),
+
+                          child: Text(
+                            '\$${book.price}',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 31,
+                              fontWeight: FontWeight.w900,
+                              fontFamily: "Montserrat",
+                              color: Color.fromARGB(190, 0, 0, 0),
+                            ),
+                          )
                       ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
-        );
-      },
-    ),
-  );
+                      Container(
+                        height: 2,
+                        margin: EdgeInsets.only(left: 22, top: 25, right: 22),
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(77, 0, 0, 0),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
   static Widget horizontalListView = Container(
     height: 185,
     margin: EdgeInsets.only(left: 22, top: 60),
