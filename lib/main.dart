@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
+import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
 
 
@@ -30,18 +33,46 @@ class MyDecider extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<BaseAuth>(context);
-    return StreamBuilder<String> (
-      stream: auth.onAuthStateChanged,
-      builder: (context, AsyncSnapshot<String> snapshot){
+    return StreamBuilder<FirebaseUser> (
+      stream: auth.onAuthStateChangedUser,
+      builder: (context, AsyncSnapshot<FirebaseUser> snapshot){
         if(snapshot.connectionState == ConnectionState.active){
           final bool loggedIn = snapshot.hasData;
-          String uid = snapshot.data;
-          return loggedIn ? HomeHub() : FirstscreenWidget();
+          if(loggedIn){
+            if(!isVerified(snapshot.data)){
+              return VerificacionWidget();
+            }else if(!isInformationCompleted(snapshot.data.uid)){
+              return ElijeUnRolWidget();
+            }
+            return HomeHub();
+          }else{
+            return FirstscreenWidget();
+          }
         }
         return CircularProgressIndicator();
       },
     );
   }
+  
+  bool isVerified(FirebaseUser user){
+    final providers = user.providerData;
+    bool isVerified = true;
+    print('CANTIDAD = ${providers.length}');
+    for (UserInfo userProviders in providers){
+      print('MENSAJE provider = ${userProviders.providerId} ');
+      if(userProviders.providerId != 'password' && userProviders.providerId != 'firebase'){
+        return true;
+      }else{
+        isVerified = user.isEmailVerified;
+      }
+    }
+    print('MENSAJE TRUE');
+    return isVerified;
 
+  }
+
+  bool isInformationCompleted(String uid){
+    return true;
+  }
 
 }

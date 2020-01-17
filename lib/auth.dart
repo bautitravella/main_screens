@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuth {
   Stream<String> get onAuthStateChanged;
+  Stream<FirebaseUser> get onAuthStateChangedUser;
   Future<String> signInWithEmailAndPassword(String email, String password,);
 
   Future<String> createUserWithEmailAndPassword(String email, String password,);
@@ -21,6 +22,9 @@ class Auth extends BaseAuth{
   @override
   Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged
       .map((FirebaseUser user ) => user?.uid,);
+
+  @override
+  Stream<FirebaseUser> get onAuthStateChangedUser => _firebaseAuth.onAuthStateChanged;
   
   @override
   Future<String> createUserWithEmailAndPassword(String email, String password) async {
