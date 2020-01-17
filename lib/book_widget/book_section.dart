@@ -10,7 +10,6 @@ class BookSection extends StatefulWidget {
 
   void onBtnBluePressed(BuildContext context) {}
 
-
   final Book book;
 
   BookSection({this.book});
@@ -166,8 +165,8 @@ class _BookSectionState extends State<BookSection> {
                         child: FlatButton(
                             color: AppColors.secondaryElement,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(24)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(24)),
                             ),
                             textColor: Color.fromARGB(255, 255, 255, 255),
                             padding: EdgeInsets.all(0),
@@ -179,7 +178,6 @@ class _BookSectionState extends State<BookSection> {
                                   color: Colors.white,
                                   size: 25,
                                 ),
-
                                 Container(
                                   width: 2,
                                   height: 25,
@@ -202,11 +200,8 @@ class _BookSectionState extends State<BookSection> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomeHub())
-                              );
+                                      builder: (context) => HomeHub()));
                             }),
-
                       ),
                     ),
                     Spacer(),
@@ -225,12 +220,10 @@ class _BookSectionState extends State<BookSection> {
                               )
                             ]),
                         child: FlatButton(
-
                             color: Colors.black54,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(24)),
-
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(24)),
                             ),
                             textColor: Color.fromARGB(255, 255, 255, 255),
                             padding: EdgeInsets.all(0),
@@ -248,9 +241,7 @@ class _BookSectionState extends State<BookSection> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomeHub())
-                              );
+                                      builder: (context) => HomeHub()));
                             }),
                       ),
                     ),
@@ -258,13 +249,11 @@ class _BookSectionState extends State<BookSection> {
                 ),
               ),
             )
-
           ],
         ),
       ),
     );
   }
-
 
   static Widget verticalListView(Book book) {
     return Container(
@@ -274,47 +263,421 @@ class _BookSectionState extends State<BookSection> {
         itemCount: 1,
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {
-
           return Stack(
             children: <Widget>[
               Column(
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
-                      horizontalListView(book),
+                      horizontalPhotos(book),
                     ],
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 22, left: 22, top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                                height: 40,
+                                width: 40,
+                                color: Colors.red,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child:
+                                      Image.asset("assets/images/avatar.png"),
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    '${book.user}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 57, 57, 57),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        '${book.rating}',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Montserrat",
+                                          color: Color.fromARGB(
+                                              255, 118, 118, 118),
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        size: 17,
+                                        color:
+                                            Color.fromARGB(255, 118, 118, 118),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(right: 5, left: 5),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 245, 245, 245),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(24)),
+                                    ),
+                                    textColor:
+                                        Color.fromARGB(255, 255, 255, 255),
+                                    padding: EdgeInsets.all(0),
+                                    child: Text(
+                                      '${book.state}'.toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w900,
+                                        fontFamily: "Montserrat",
+                                        color:
+                                            Color.fromARGB(255, 149, 149, 149),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ],
+                    ),
                   ),
                   Row(
                     children: <Widget>[
-                      Container(
-                          height: 60,
-                          width: 200,
-                          color: Colors.purple,
-                          margin: EdgeInsets.only(
-                            top: 12,
-                            left: 22,
-                          ),
-
-                          child: Text(
-                            '\$${book.price}',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 31,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: "Montserrat",
-                              color: Color.fromARGB(190, 0, 0, 0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 22, top: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Descripción",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: "Montserrat",
+                                color: Color.fromARGB(255, 57, 57, 57),
+                              ),
                             ),
-                          )
-                      ),
-                      Container(
-                        height: 2,
-                        margin: EdgeInsets.only(left: 22, top: 25, right: 22),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(77, 0, 0, 0),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                  child: Text(
+                                    book.description,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  width: SizeConfig.blockSizeHorizontal * 80,
+                                  child: Text(
+                                    "Destalles",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    "Autor:",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.only(top: 5, left: 5),
+                                  width: SizeConfig.blockSizeHorizontal * 70,
+                                  child: Text(
+                                    book.author,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 0),
+                                  child: Text(
+                                    "Editorial:",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.only(top: 0, left: 5),
+                                  width: SizeConfig.blockSizeHorizontal * 70,
+                                  child: Text(
+                                    book.editorial,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 0),
+                                  child: Text(
+                                    "ISBN:",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.only(top: 0, left: 5),
+                                  width: SizeConfig.blockSizeHorizontal * 70,
+                                  child: Text(
+                                    '${book.isbn}',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Row(
+                      children: <Widget>[
+                        Container(
+                          height: 55,
+                          width: SizeConfig.blockSizeHorizontal*100,
+                          padding:
+                          const EdgeInsets.only(right: 80, left: 80, top: 30),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(24)),
+                            ),
+                            textColor: Color.fromARGB(255, 255, 255, 255),
+                            padding: EdgeInsets.all(0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.share,
+                                  color: Color.fromARGB(180, 118, 118, 118),
+                                  size: 25,
+                                ),
+                                Text(
+                                  "Compartir".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Montserrat",
+                                    color: Color.fromARGB(180, 118, 118, 118),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                  ),
+                  Container(
+                      height: 55,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 21),
+                            child: Text(
+                              "LIBROS SIMILARES",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            width: 98,
+                            alignment: Alignment.centerRight,
+                            child: FlatButton(
+                              onPressed: null,
+                              disabledColor:
+                              AppColors.secondaryBackground,
+                              color: Color.fromARGB(255, 251, 187, 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(14)),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomeHub()));
+                                },
+                                child: Text(
+                                  "VER TODO",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
+                  horizontalListView,
+                  Container(
+                      height: 55,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 21),
+                            child: Text(
+                              "PARA VOS",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            width: 98,
+                            alignment: Alignment.centerRight,
+                            child: FlatButton(
+                              onPressed: null,
+                              disabledColor:
+                              AppColors.secondaryBackground,
+                              color: Color.fromARGB(255, 251, 187, 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(14)),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomeHub()));
+                                },
+                                child: Text(
+                                  "VER TODO",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
+                  horizontalListView,
+
                 ],
               ),
             ],
@@ -324,7 +687,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget horizontalListView(Book book) {
+  static Widget horizontalPhotos(Book book) {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
@@ -333,7 +696,6 @@ class _BookSectionState extends State<BookSection> {
         scrollDirection: Axis.horizontal,
         itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
-
           return Container(
             margin: EdgeInsets.all(0),
             width: 429,
@@ -380,4 +742,92 @@ class _BookSectionState extends State<BookSection> {
       ),
     );
   }
+  static Widget horizontalListView = Container(
+    height: 240,
+    margin: EdgeInsets.only(left: 27),
+    color: Colors.blue,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: books.length,
+      itemBuilder: (BuildContext context, int index) {
+        Book book = books[index];
+
+        return Container(
+          margin: EdgeInsets.all(7.0),
+          width: 97,
+          color: Colors.red,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 80,
+                  width: 97,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "${book.name}",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                        Text(
+                          "(${book.author})",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w400,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          BookSection(
+                            book: book,
+                          ),
+                    ),
+                  );
+                },
+                child: Container(
+                  child: Stack(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image(
+                          height: 141,
+                          width: 97,
+                          image: AssetImage(book.imageUrl),
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
 }
