@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:provider/provider.dart';
+
+import '../auth.dart';
 
 class VerificacionWidget extends StatelessWidget {
   void onBtnBlueTwoPressed(BuildContext context) {
@@ -9,8 +13,33 @@ class VerificacionWidget extends StatelessWidget {
 
   void onBtnBluePressed(BuildContext context) {}
 
+  void sendVerificationEmail(BuildContext context) async {
+    final auth = Provider.of<BaseAuth>(context,listen: false);
+    try{
+      auth.currentUser().then((user) => user.sendEmailVerification());
+    }catch (e){
+      print(e.message);
+    }
+  }
+
+  void checkIfVerified(BuildContext context){
+    final auth = Provider.of<BaseAuth>(context,listen: false);
+    try{
+      auth.currentUser().then((user) => user.isEmailVerified? Navigator.push(context, MaterialPageRoute(builder: (context) => ElijeUnRolWidget())) : null);
+
+    }catch (e){
+      print(e);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
+    try{
+      checkIfVerified(context);
+      sendVerificationEmail(context);
+    }catch(e){
+      print(e);
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -168,12 +197,7 @@ class VerificacionWidget extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ElijeUnRolWidget()), // Temporalmente me manda a la siguiente pantalla, deberia esperar a confirmar el mail
-                              );
+                              sendVerificationEmail(context);
                             }),
                       ),
                     ),
