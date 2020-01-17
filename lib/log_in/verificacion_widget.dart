@@ -1,14 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/log_in/elije_un_rol_widget.dart';
+import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
 
 import '../auth.dart';
 
 class VerificacionWidget extends StatelessWidget {
-  void onBtnBlueTwoPressed(BuildContext context) {
-    Navigator.pop(context);
+  void onGoBack(BuildContext context) {
+    Navigator.push(context,MaterialPageRoute(builder: (context) => FirstscreenWidget()));
   }
 
   void onBtnBluePressed(BuildContext context) {}
@@ -25,8 +25,8 @@ class VerificacionWidget extends StatelessWidget {
   void checkIfVerified(BuildContext context){
     final auth = Provider.of<BaseAuth>(context,listen: false);
     try{
-      auth.currentUser().then((user) => user.isEmailVerified? Navigator.push(context, MaterialPageRoute(builder: (context) => ElijeUnRolWidget())) : null);
-
+      auth.currentUser().then((user) => user.isEmailVerified ? () =>{Navigator.push(context, MaterialPageRoute(builder: (context) => ElijeUnRolWidget())), print('VERIFICACION TRUE')} : print('VERIFICACION FALSE'));
+      //auth.currentUser().then((user) => print('VERIFICACION == ${user.isEmailVerified},userUID = ${user.uid}'));
     }catch (e){
       print(e);
     }
@@ -81,6 +81,10 @@ class VerificacionWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
+                  RaisedButton(
+                    onPressed: () => checkIfVerified(context),
+                    child: Text('refreshea'),
                   ),
                 ],
               ),
@@ -138,7 +142,7 @@ class VerificacionWidget extends StatelessWidget {
                       child: Opacity(
                         opacity: 0.91,
                         child: FlatButton(
-                          onPressed: () => this.onBtnBlueTwoPressed(context),
+                          onPressed: () => this.onGoBack(context),
                           color: AppColors.secondaryElement,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -198,6 +202,7 @@ class VerificacionWidget extends StatelessWidget {
                             ),
                             onPressed: () {
                               sendVerificationEmail(context);
+                              checkIfVerified(context);
                             }),
                       ),
                     ),
