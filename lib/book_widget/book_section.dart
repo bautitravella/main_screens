@@ -706,14 +706,16 @@ class _BookSectionState extends State<BookSection> {
                 Positioned(
                   child: Row(
                     children: <Widget>[
-                      Container(
-                        height: 180,
-                        width: 123,
-                        child: Image(
-                          image: AssetImage(book.imageUrl),
-                          fit: BoxFit.fitHeight,
+
+                       Container(
+                          height: 180,
+                          width: 123,
+                          child: Image(
+                            image: AssetImage(book.imageUrl),
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
-                      ),
+
                       Container(
                         height: 180,
                         width: 123,
@@ -744,7 +746,7 @@ class _BookSectionState extends State<BookSection> {
   }
   static Widget horizontalListView = Container(
     height: 240,
-    margin: EdgeInsets.only(left: 27),
+    margin: EdgeInsets.only(left: 22),
     color: Colors.blue,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,

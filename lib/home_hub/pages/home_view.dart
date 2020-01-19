@@ -9,7 +9,6 @@ import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeView extends StatefulWidget {
-
   HomeView({Key key}) : super(key: key);
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -19,63 +18,55 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
-      padding: EdgeInsets.all(0),
-      height: SizeConfig.blockSizeVertical * 100,
-      width: SizeConfig.blockSizeHorizontal * 100,
-      child: Stack(
-        children: <Widget>[
-
-
-          Container(
-              height: 110,
-              width: SizeConfig.blockSizeHorizontal * 100,
-              color: AppColors.secondaryBackground,
-              padding: EdgeInsets.only(left: 0, right: 0, top: 0)
-          ),
-
-          new ListView.builder(
-              padding: EdgeInsets.all(0),
-              itemCount: 1,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) =>
-                  homeViewItems(context, index)),
-          Container(
-            child: Container(
-              height: 143,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: 138,
-                        height: 143,
-                        child: Image.asset(
-                          "assets/images/round-underpic.png",
-                          fit: BoxFit.none,
+        padding: EdgeInsets.all(0),
+        height: SizeConfig.blockSizeVertical * 100,
+        width: SizeConfig.blockSizeHorizontal * 100,
+        child: Stack(
+          children: <Widget>[
+            Container(
+                height: 110,
+                width: SizeConfig.blockSizeHorizontal * 100,
+                color: AppColors.secondaryBackground,
+                padding: EdgeInsets.only(left: 0, right: 0, top: 0)),
+            new ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount: 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) =>
+                    homeViewItems(context, index)),
+            Container(
+              child: Container(
+                height: 143,
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: <Widget>[
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 138,
+                          height: 143,
+                          child: Image.asset(
+                            "assets/images/round-underpic.png",
+                            fit: BoxFit.none,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-
-      )
-
-    );
+          ],
+        ));
   }
 
   Widget homeViewItems(BuildContext context, int index) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Container(
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -97,26 +88,25 @@ class _HomeViewState extends State<HomeView> {
                                 left: 0,
                                 top: 0,
                                 right: 0,
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0.0, 2.0),
-                                          blurRadius: 6.0,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Image.asset(
-                                      "assets/images/photo-85889-landscape-850x566.png",
-                                      fit: BoxFit.fill,
-                                      color: Color.fromARGB(80, 0, 0, 0),
-                                      colorBlendMode: BlendMode.darken,
-                                    ),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0.0, 2.0),
+                                        blurRadius: 6.0,
+                                      ),
+                                    ],
                                   ),
-
+                                  child: Image.asset(
+                                    "assets/images/photo-85889-landscape-850x566.png",
+                                    fit: BoxFit.fill,
+                                    color: Color.fromARGB(80, 0, 0, 0),
+                                    colorBlendMode: BlendMode.darken,
+                                  ),
+                                ),
                               ), //BackgroudHeader
                               Positioned(
                                   left: null,
@@ -124,9 +114,9 @@ class _HomeViewState extends State<HomeView> {
                                   top: 80,
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -194,8 +184,7 @@ class _HomeViewState extends State<HomeView> {
                                     "LIBROS DESTACADOS",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color:
-                                      Color.fromARGB(255, 57, 57, 57),
+                                      color: Color.fromARGB(255, 57, 57, 57),
                                       fontFamily: "Montserrat",
                                       fontWeight: FontWeight.w700,
                                       fontSize: 15,
@@ -209,11 +198,11 @@ class _HomeViewState extends State<HomeView> {
                                   child: FlatButton(
                                     onPressed: null,
                                     disabledColor:
-                                    AppColors.secondaryBackground,
+                                        AppColors.secondaryBackground,
                                     color: Color.fromARGB(255, 251, 187, 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(14)),
+                                          BorderRadius.all(Radius.circular(14)),
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -227,8 +216,8 @@ class _HomeViewState extends State<HomeView> {
                                         "VER TODO",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color:
-                                          Color.fromARGB(255, 255, 255, 255),
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
                                           fontWeight: FontWeight.w400,
                                           fontSize: 13,
                                         ),
@@ -267,11 +256,11 @@ class _HomeViewState extends State<HomeView> {
                                   child: FlatButton(
                                     onPressed: null,
                                     disabledColor:
-                                    AppColors.secondaryBackground,
+                                        AppColors.secondaryBackground,
                                     color: Color.fromARGB(255, 251, 187, 16),
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(14)),
+                                          BorderRadius.all(Radius.circular(14)),
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -310,7 +299,6 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-
 
   static Widget horizontalListView = Container(
     height: 240,
@@ -369,13 +357,12 @@ class _HomeViewState extends State<HomeView> {
               GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              BookSection(
-                                book: book,
-                              ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookSection(
+                        book: book,
                       ),
+                    ),
                   );
                 },
                 child: Container(
