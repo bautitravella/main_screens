@@ -14,6 +14,8 @@ class MyBooksView extends StatefulWidget {
 
 class MyBooksViewState extends State<MyBooksView> {
 
+  Widget verticalGridView = verticalGridViewPublicados;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +46,7 @@ class MyBooksViewState extends State<MyBooksView> {
                   topRight: Radius.circular(30),
                 ),
               ),
-              child: verticalGridViewPublicados
+              child: verticalGridView
             ),
           )
         ],
@@ -95,7 +97,15 @@ class MyBooksViewState extends State<MyBooksView> {
     ),
   );
 
-  Widget changeFunction(){
-    return null;
+  void changeFunction(int index){
+    if(index == 0){
+      setState(() {
+        verticalGridView = verticalGridViewPublicados;
+      });
+    }else{
+      setState(() {
+        verticalGridView = verticalGridViewVendidos;
+      });
+    }
   }
 }

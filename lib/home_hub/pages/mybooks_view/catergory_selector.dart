@@ -26,10 +26,6 @@ class _CategorySelectorState extends State<CategorySelector> {
    aux = state;
   }
 
-  void function(){
-    aux.changeFunction();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +67,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                               onPressed: () {
                                 setState(() {
                                   selectedIndex = index;
-
+                                  aux.changeFunction(index);
                                 });
                               }
                           ),
