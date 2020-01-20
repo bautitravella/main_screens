@@ -1,14 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/values/colors.dart';
 
 class CategorySelector extends StatefulWidget {
+
+
+
   @override
-  _CategorySelectorState createState() => _CategorySelectorState();
+  _CategorySelectorState createState() => _CategorySelectorState(parentWidget);
+
+
+  MyBooksViewState parentWidget;
+  CategorySelector(MyBooksViewState parentWidget){
+    this.parentWidget = parentWidget;
+  }
 }
 class _CategorySelectorState extends State<CategorySelector> {
   int selectedIndex = 0;
   final List<String> categories = ['Publicados', 'Vendidos'];
+  static MyBooksViewState aux;
+
+
+  _CategorySelectorState(MyBooksViewState state){
+   aux = state;
+  }
+
+  void function(){
+    aux.changeFunction();
+  }
 
   @override
   Widget build(BuildContext context) {

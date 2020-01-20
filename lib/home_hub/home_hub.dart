@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/trave/AndroidStudioProjects/main_screens/lib/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/home_hub/pages/pages.dart';
 import 'package:flutterui/home_hub/pages/home_view.dart';
+
 
 
 class HomeHub extends StatefulWidget {

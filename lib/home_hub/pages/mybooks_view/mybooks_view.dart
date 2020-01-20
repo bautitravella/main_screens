@@ -9,10 +9,10 @@ import 'package:flutterui/values/colors.dart';
 
 class MyBooksView extends StatefulWidget {
   @override
-  _MyBooksViewState createState() => _MyBooksViewState();
+  MyBooksViewState createState() => MyBooksViewState();
 }
 
-class _MyBooksViewState extends State<MyBooksView> {
+class MyBooksViewState extends State<MyBooksView> {
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +33,8 @@ class _MyBooksViewState extends State<MyBooksView> {
                 fontSize: 36,
               ),
             ),
-          ),
-          CategorySelector(),
+          ),//Cartelito "Mis Libros"
+          CategorySelector(this),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -94,4 +94,8 @@ class _MyBooksViewState extends State<MyBooksView> {
       },
     ),
   );
+
+  Widget changeFunction(){
+    return null;
+  }
 }
