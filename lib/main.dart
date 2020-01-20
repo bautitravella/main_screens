@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/auth.dart';
@@ -41,7 +42,7 @@ class MyDecider extends StatelessWidget{
           if(loggedIn){
             if(!isVerified(snapshot.data)){
               return VerificacionWidget();
-            }else if(!isInformationCompleted(snapshot.data.uid)){
+            }else if(!isInformationCompleted(snapshot.data.email)){
               return ElijeUnRolWidget();
             }
             return HomeHub();
@@ -71,8 +72,21 @@ class MyDecider extends StatelessWidget{
 
   }
 
-  bool isInformationCompleted(String uid){
-    return true;
+  bool isInformationCompleted(String email){
+    Firestore.instance.collection("Users").document(email).get().then((DocumentSnapshot ds) {
+      if(ds.exists){
+        print(ds.data);
+        if(firebaseUserInfoCompleted(ds.data)){
+          return true;
+        }
+      }
+      return false;
+    } );
+
+  }
+
+  bool firebaseUserInfoCompleted(Map<String,dynamic> data){
+
   }
 
 }
