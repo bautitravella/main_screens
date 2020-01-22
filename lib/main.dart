@@ -86,7 +86,7 @@ class MyDecider extends StatelessWidget{
   }
 
   bool firebaseUserInfoCompleted(Map<String,dynamic> data){
-
+    return true;
   }
 
 }
