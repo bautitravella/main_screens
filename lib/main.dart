@@ -7,6 +7,7 @@ import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
 
 
 void main() => runApp(App());
@@ -36,16 +37,14 @@ class MyDecider extends StatelessWidget{
     final auth = Provider.of<BaseAuth>(context);
     return StreamBuilder<FirebaseUser> (
       stream: auth.onAuthStateChangedUser,
-      builder: (context, AsyncSnapshot<FirebaseUser> snapshot){
+      builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
         if(snapshot.connectionState == ConnectionState.active){
           final bool loggedIn = snapshot.hasData;
           if(loggedIn){
             if(!isVerified(snapshot.data)){
               return VerificacionWidget();
-            }else if(!isInformationCompleted(snapshot.data.email)){
-              return ElijeUnRolWidget();
             }
-            return HomeHub();
+            return FirestoreDecider(snapshot.data.email);
           }else{
             return FirstscreenWidget();
           }
@@ -72,21 +71,48 @@ class MyDecider extends StatelessWidget{
 
   }
 
-  bool isInformationCompleted(String email){
-    Firestore.instance.collection("Users").document(email).get().then((DocumentSnapshot ds) {
-      if(ds.exists){
-        print(ds.data);
-        if(firebaseUserInfoCompleted(ds.data)){
-          return true;
-        }
-      }
-      return false;
-    } );
+}
 
+class FirestoreDecider  extends StatelessWidget{
+
+  String userEmail;
+  FirestoreDecider(String userEmail){
+    this.userEmail = userEmail;
   }
+
+  @override
+  Widget build(BuildContext context){
+    return FutureBuilder(
+        future: isInformationCompleted(userEmail),
+        builder: (context,AsyncSnapshot<Widget> answer){
+          return answer.data;
+        },
+    );
+  }
+
+  Future<Widget> isInformationCompleted(String email) {
+  return Firestore.instance.collection("Users").document(email).get().then((DocumentSnapshot ds) {
+    if(ds.exists){
+      print(ds.data);
+      if(firebaseUserInfoCompleted(ds.data)){
+        return HomeHub();
+      }
+    }
+    return ElijeUnRolWidget();
+  } );
+
+}
 
   bool firebaseUserInfoCompleted(Map<String,dynamic> data){
+    String nombre = data['nombre'];
+    String apellido = data['apellido'];
+    String fotoPerfil = data['foto de perfil'];
+    bool hasAcceptedTerms = data['hasAcceptedTerms'];
+    String rol = data['rol'];
+    String username = data['username'];
+    if(nombre == null || apellido == null || fotoPerfil == null || hasAcceptedTerms == null || rol == null || username == null){
+      return false;
+    }
     return true;
-  }
-
+}
 }
