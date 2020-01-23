@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/values/values.dart';
 
 import '../subi_foto_de_perfil21_widget/subi_foto_de_perfil21_widget.dart';
 
