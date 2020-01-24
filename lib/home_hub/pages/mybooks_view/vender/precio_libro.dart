@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
-class ComentariosMateria extends StatefulWidget {
+class PrecioLibro extends StatefulWidget {
   @override
-  _ComentariosMateriaState createState() => _ComentariosMateriaState();
+  _PrecioLibroState createState() => _PrecioLibroState();
 }
 
 void onLogoPressed(BuildContext context) {}
 void onProfilePicture(BuildContext context) {}
 void onButtonPressed(BuildContext context) {}
 
-class _ComentariosMateriaState extends State<ComentariosMateria> {
+class _PrecioLibroState extends State<PrecioLibro> {
+
   bool _isSelected = false;
 
   @override
@@ -66,7 +66,7 @@ class _ComentariosMateriaState extends State<ComentariosMateria> {
               child: Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                 child: Stack(
-                  alignment: Alignment.center,
+                  alignment: Alignment.topCenter,
                   children: [
                     Positioned(
                       left: 0,
@@ -79,100 +79,48 @@ class _ComentariosMateriaState extends State<ComentariosMateria> {
                     ),
                     Container(
                       width: 215,
-                      height: 305,
+                      height: 100,
                       margin: EdgeInsets.only(
-                          left: 4, right: 4, top: 15, bottom: 90),
-                      child: ListView(
+                          left: 4, right: 4, top: 30),
+                      child: Row(
                         children: <Widget>[
+                            Icon(Icons.attach_money,
+                            size: 60.0,
+                            color: Color.fromARGB(255, 112, 112, 112),
+                          ),
                           Stack(
                             children: <Widget>[
-                              TextField(
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  hintText: "ESTADO",
-                                  contentPadding: EdgeInsets.only(left: 6),
-                                  border: InputBorder.none,
+                              Container(
+                                height: 80,
+                                width: SizeConfig.blockSizeHorizontal*35,
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    hintText: "PRECIO",
+                                    hintStyle: TextStyle(color: Color.fromARGB(20, 0, 0, 0),),
+                                    contentPadding: EdgeInsets.only(top: 20),
+                                    border: InputBorder.none,
+                                  ),
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 112, 112, 112),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 30,),
+                                  keyboardType: TextInputType.number,
                                 ),
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 69, 79, 99),
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 20,
-                                    height: 2.1),
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                autocorrect: true,
                               ),
-                              Center(
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 42),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                    Container(
-                                      color: Color.fromARGB(255, 69, 79, 99),
-                                      height: 2,
-                                      width: 200,
-                                      margin: EdgeInsets.only(top: 40),
-                                    ),
-                                  ],
+                              Positioned(
+                                bottom: 10,
+                                child: Container(
+                                  color: Color.fromARGB(105, 112, 112, 112),
+                                  height: 2,
+                                  width: SizeConfig.blockSizeHorizontal*35,
                                 ),
-                              )
+                              ),
                             ],
-                          ),
+                          )
                         ],
-                      ),
+                      )
                     ),
                     Container(
                       width: 215,
@@ -283,5 +231,5 @@ class _ComentariosMateriaState extends State<ComentariosMateria> {
 
 void main() {
   runApp(new MaterialApp(
-      home: new ComentariosMateria(), debugShowCheckedModeBanner: false));
+      home: new PrecioLibro(), debugShowCheckedModeBanner: false));
 }
