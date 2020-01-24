@@ -31,9 +31,9 @@ class PrimeraSubirFoto extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            icon: Icon(Icons.arrow_back),
+                            icon: Icon(Icons.arrow_back_ios),
                             iconSize: 30.0,
-                            color: Colors.black,
+                            color: AppColors.accentText,
                             onPressed: () => Navigator.pop(context),
                           ),
                         ],

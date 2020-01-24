@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
-import 'package:flutterui/subi_foto_de_perfil21_widget/subi_foto_de_perfil21_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class SegundaSubirFoto extends StatelessWidget {
@@ -29,9 +28,9 @@ class SegundaSubirFoto extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           IconButton(
-                            icon: Icon(Icons.arrow_back),
+                            icon: Icon(Icons.arrow_back_ios),
                             iconSize: 30.0,
-                            color: Colors.black,
+                            color: AppColors.accentText,
                             onPressed: () => Navigator.pop(context),
                           ),
                         ],
@@ -237,7 +236,15 @@ class SegundaSubirFoto extends StatelessWidget {
                           ),
                         ],
                       ),
-                      onPressed: () {}
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SeleccionCursos(),
+                          ),
+                        );
+                      }
                   ),
 
               ),
