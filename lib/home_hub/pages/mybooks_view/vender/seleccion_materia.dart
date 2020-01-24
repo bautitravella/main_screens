@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_materia.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
-class SeleccionCursos extends StatefulWidget {
+class SeleccionMateria extends StatefulWidget {
   @override
-  _SeleccionCursosState createState() => _SeleccionCursosState();
+  _SeleccionMateriaState createState() => _SeleccionMateriaState();
 }
 
 void onLogoPressed(BuildContext context) {}
 void onProfilePicture(BuildContext context) {}
 void onButtonPressed(BuildContext context) {}
 
-class _SeleccionCursosState extends State<SeleccionCursos> {
+class _SeleccionMateriaState extends State<SeleccionMateria> {
   bool _isChecked = false;
 
   void onChanged(bool value) {
@@ -22,20 +21,22 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
   }
 
   Map<String, bool> values = {
-    '1er grado': false,
-    '2do grado': false,
-    '3er grado': false,
-    '4to grado': false,
-    '5to grado': false,
-    '6to grado': false,
-    '7mo grado': false,
-    '1er año': false,
-    '2do año': false,
-    '3er año': false,
-    '4to año': false,
-    '5to año': false,
-    '6to año': false,
-    '7mo año': false,
+
+    'Matematica': false,
+    'Lengua': false,
+    'Historia': false,
+    'Literatura': false,
+    'Filosofia': false,
+    'CS Sociales': false,
+    'Quimica': false,
+    'Biologia': false,
+    'Ntix': false,
+    'Estado y Sociedad': false,
+    'History': false,
+
+
+
+
   };
 
   @override
@@ -108,30 +109,30 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                       child: ListView(
                         children: values.keys.map((String key) {
                           return Column(
-                              children: <Widget>[
-                                CheckboxListTile(
-                                    title: new Text(
-                                      key,
-                                      style: TextStyle(
-                                          fontFamily: "Gibson",
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 69, 79, 99)),
-                                    ),
-                                    value: values[key],
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        values[key] = value;
-                                      });
-                                    },
-                                  ),
-                                Container(
-                                  width: 180,
-                                  height: 2,
-                                  color: Colors.black12,
-                                )
-                              ],
-                            );
+                            children: <Widget>[
+                              CheckboxListTile(
+                                title: new Text(
+                                  key,
+                                  style: TextStyle(
+                                      fontFamily: "Gibson",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color.fromARGB(255, 69, 79, 99)),
+                                ),
+                                value: values[key],
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    values[key] = value;
+                                  });
+                                },
+                              ),
+                              Container(
+                                width: 180,
+                                height: 2,
+                                color: Colors.black12,
+                              )
+                            ],
+                          );
                         }).toList(),
                       ),
                     ),
@@ -142,7 +143,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Selecciona los \ncursos",
+                "Selecciona la \nmateria",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
@@ -156,7 +157,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 35),
               child: Text(
-                "Selecciona los cursos que pueden estar \ninteresados en comprar este libro.",
+                "No es necesario seleccionar una materia, \npero ayuda a que te encuentren mas fácil. ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -220,5 +221,5 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
 
 void main() {
   runApp(new MaterialApp(
-      home: new SeleccionCursos(), debugShowCheckedModeBanner: false));
+      home: new SeleccionMateria(), debugShowCheckedModeBanner: false));
 }
