@@ -22,12 +22,6 @@ class App extends StatelessWidget {
     ),
     );
 
-      MaterialApp(
-      home: Provider<BaseAuth>(
-        create: (_) => Auth(),
-        child: MyDecider(),
-      ),
-    );
   }
 }
 
