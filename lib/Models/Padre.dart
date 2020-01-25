@@ -7,6 +7,7 @@ class Padre extends User{
   Padre(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol, String username,this._hijos) : super(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
 
 
+
   void agregarHijo(Hijo hijo){
     _hijos.add(hijo);
   }
@@ -19,6 +20,18 @@ class Padre extends User{
 
   set hijos(List<Hijo> value) {
     _hijos = value;
+  }
+
+  List<String> getColegios(){
+    List<String> colegiosList  = [];
+    _hijos.forEach((hijo) => colegiosList.add(hijo._colegio));
+    return colegiosList;
+  }
+
+  List<String> getCursos(){
+    List<String> cursos = [];
+    _hijos.forEach((hijo) => cursos.add(hijo._curso));
+    return cursos;
   }
 
 
