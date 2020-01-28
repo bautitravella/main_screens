@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/comentarios_estado.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
@@ -208,7 +209,7 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ComentariosMateria()),
+                            builder: (context) => DatosLibros()),
                       );
                     }),
               ),

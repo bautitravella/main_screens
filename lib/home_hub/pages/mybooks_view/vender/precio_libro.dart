@@ -12,8 +12,8 @@ void onProfilePicture(BuildContext context) {}
 void onButtonPressed(BuildContext context) {}
 
 class _PrecioLibroState extends State<PrecioLibro> {
-
   bool _isSelected = false;
+  bool _isMarcked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,59 +78,96 @@ class _PrecioLibroState extends State<PrecioLibro> {
                       ),
                     ),
                     Container(
-                      width: 215,
-                      height: 100,
-                      margin: EdgeInsets.only(
-                          left: 4, right: 4, top: 30),
-                      child: Row(
-                        children: <Widget>[
-                            Icon(Icons.attach_money,
-                            size: 60.0,
-                            color: Color.fromARGB(255, 112, 112, 112),
-                          ),
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 80,
-                                width: SizeConfig.blockSizeHorizontal*35,
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                  decoration: InputDecoration(
-                                    hintText: "PRECIO",
-                                    hintStyle: TextStyle(color: Color.fromARGB(20, 0, 0, 0),),
-                                    contentPadding: EdgeInsets.only(top: 20),
-                                    border: InputBorder.none,
-                                  ),
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 112, 112, 112),
+                        width: 215,
+                        height: 100,
+                        margin: EdgeInsets.only(left: 4, right: 4, top: 30),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.attach_money,
+                              size: 60.0,
+                              color: Color.fromARGB(255, 112, 112, 112),
+                            ),
+                            Stack(
+                              children: <Widget>[
+                                Container(
+                                  height: 80,
+                                  width: SizeConfig.blockSizeHorizontal * 35,
+                                  child: TextField(
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                      hintText: "PRECIO",
+                                      hintStyle: TextStyle(
+                                        color: Color.fromARGB(20, 0, 0, 0),
+                                      ),
+                                      contentPadding: EdgeInsets.only(top: 20),
+                                      border: InputBorder.none,
+                                    ),
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 112, 112, 112),
                                       fontFamily: "Montserrat",
                                       fontWeight: FontWeight.w900,
-                                      fontSize: 30,),
-                                  keyboardType: TextInputType.number,
+                                      fontSize: 30,
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 10,
-                                child: Container(
-                                  color: Color.fromARGB(105, 112, 112, 112),
-                                  height: 2,
-                                  width: SizeConfig.blockSizeHorizontal*35,
+                                Positioned(
+                                  bottom: 10,
+                                  child: Container(
+                                    color: Color.fromARGB(105, 112, 112, 112),
+                                    height: 2,
+                                    width: SizeConfig.blockSizeHorizontal * 35,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
+                              ],
+                            ),
+                          ],
+                        )),
+                    Container(
+                      height: 50,
+                      margin: EdgeInsets.only(top: 140),
+                      child: Text(
+                        "ESTE LIBRO SE PUBLICARA...",
+                        style: TextStyle(
+                          color: Color.fromARGB(180, 69, 79, 99),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w900,
+                          fontSize: 17,
+                          letterSpacing: -0.41786,
+                        ),
+                      ),
                     ),
                     Container(
-                      width: 215,
+                      width: 280,
                       margin: EdgeInsets.only(
-                          left: 6,
-                          right: 4,
+                          top: SizeConfig.blockSizeVertical * 25),
+                      padding: EdgeInsets.only(left: 0),
+                      child: CheckboxListTile(
+                        title: const Text(
+                          'Solo se publicara el libro dentro del colegio predeterminado.',
+                          style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: Color.fromARGB(180, 69, 79, 99),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                          ),
+                        ),
+                        value: _isMarcked,
+                        onChanged: (bool newValue) {
+                          setState(() {
+                            _isMarcked = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 280,
+                      margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 35),
                       child: CheckboxListTile(
                         title: const Text(
-                          'Dale "tick" si es que el libro es nuevo',
+                          'Se publicara en  todos los colegios.',
                           style: TextStyle(
                             fontFamily: "Montserrat",
                             color: Color.fromARGB(180, 69, 79, 99),
@@ -153,7 +190,7 @@ class _PrecioLibroState extends State<PrecioLibro> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Comenta \nsobre el estado",
+                "Ponéle un precio \na tu libro",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
@@ -167,7 +204,7 @@ class _PrecioLibroState extends State<PrecioLibro> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 35),
               child: Text(
-                "Escribe una breve descripción \ndel estado del libro que vallas a vender.",
+                "Cuanto mas bajo sea el precio \nmas fácil te va a ser venderlo.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -216,8 +253,7 @@ class _PrecioLibroState extends State<PrecioLibro> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => PrecioLibro()),
+                        MaterialPageRoute(builder: (context) => PrecioLibro()),
                       );
                     }),
               ),
