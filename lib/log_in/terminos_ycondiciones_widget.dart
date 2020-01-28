@@ -1,13 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/values/values.dart';
 
 
 class TerminosYCondicionesWidget extends StatelessWidget {
 
-  void onButtonsLargeGreenPressed(BuildContext context) {
+  void onButtonsLargeGreenPressed(BuildContext context) {}
 
-  }
+  User user;
+  TerminosYCondicionesWidget(this.user);
 
   @override
   Widget build(BuildContext context) {

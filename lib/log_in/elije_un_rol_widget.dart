@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/Alumno.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/log_in/subi_foto_perfil_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {
-
   void onLogoPressed(BuildContext context) {}
   void onButtonPressed(BuildContext context) {}
   void onRectangle648Pressed(BuildContext context) {}
@@ -75,10 +76,18 @@ class ElijeUnRolWidget extends StatelessWidget {
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
-                          onPressed: () => this.onRectangle648Pressed(context),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SubiFotoPerfilWidget(new Padre())),
+                            );
+                          },
                           color: Color.fromARGB(200, 57, 57, 57),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(17.5)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(17.5)),
                           ),
                           textColor: Color.fromARGB(255, 0, 0, 0),
                           padding: EdgeInsets.all(0),
@@ -104,30 +113,32 @@ class ElijeUnRolWidget extends StatelessWidget {
                       child: Opacity(
                         opacity: 1,
                         child: FlatButton(
-                          color: Color.fromARGB(200, 57, 57, 57),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(17.5)),
-                          ),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          padding: EdgeInsets.all(0),
-                          child: Text(
-                            "Alumno",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              letterSpacing: -0.36,
+                            color: Color.fromARGB(200, 57, 57, 57),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(17.5)),
                             ),
-                          ),
+                            textColor: Color.fromARGB(255, 0, 0, 0),
+                            padding: EdgeInsets.all(0),
+                            child: Text(
+                              "Alumno",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                letterSpacing: -0.36,
+                              ),
+                            ),
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => SubiFotoPerfilWidget()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SubiFotoPerfilWidget(new Alumno())),
                               );
-                            }
-                        ),
+                            }),
                       ),
                     ),
                   ],

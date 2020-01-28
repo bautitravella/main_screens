@@ -1,12 +1,18 @@
+import 'dart:ui';
+
 import 'User.dart';
 
 class Padre extends User{
 
   List<Hijo> _hijos;
 
-  Padre(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol, String username,this._hijos) : super(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
+  Padre():super();
 
+  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol, String username,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
 
+  Padre.fromImage(Image image):super(){
+    super.fotoPerfil = image;
+  }
 
   void agregarHijo(Hijo hijo){
     _hijos.add(hijo);

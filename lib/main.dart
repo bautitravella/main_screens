@@ -67,14 +67,16 @@ class MyDecider extends StatelessWidget{
 
 }
 
-class FirestoreDecider  extends StatelessWidget{
+class FirestoreDecider  extends StatefulWidget{
 
   String userEmail;
   FirestoreDecider(String userEmail){
     this.userEmail = userEmail;
   }
+ Future<DocumentSnapshot> firestoreDocumentFuture;
 
-  @override
+
+/*  @override
   Widget build(BuildContext context){
     return FutureBuilder(
         future: isInformationCompleted(userEmail),
@@ -82,7 +84,7 @@ class FirestoreDecider  extends StatelessWidget{
           return answer.data;
         },
     );
-  }
+  }*/
 
   Future<Widget> isInformationCompleted(String email) {
   return Firestore.instance.collection("Users").document(email).get().then((DocumentSnapshot ds) {
@@ -98,6 +100,7 @@ class FirestoreDecider  extends StatelessWidget{
 }
 
   bool firebaseUserInfoCompleted(Map<String,dynamic> data){
+    return false;
     String nombre = data['nombre'];
     String apellido = data['apellido'];
     String fotoPerfil = data['foto de perfil'];
@@ -109,4 +112,58 @@ class FirestoreDecider  extends StatelessWidget{
     }
     return true;
 }
+
+  @override
+  FirestoreDeciderState createState() => FirestoreDeciderState(userEmail);
+}
+
+class FirestoreDeciderState extends State<FirestoreDecider>{
+
+
+  Future<DocumentSnapshot> firestoreDocumentFuture;
+  String email;
+
+  FirestoreDeciderState(this.email);
+
+  @override
+  void initState(){
+    super.initState();
+    firestoreDocumentFuture = Firestore.instance.collection("Users").document(email).get();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: firestoreDocumentFuture,
+      builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
+        if(!snapshot.hasData){
+          return CircularProgressIndicator();
+        }else if(snapshot.data.exists){
+
+          print(snapshot.data.data);
+          if(firebaseUserInfoCompleted(snapshot.data.data)){
+            return HomeHub();
+          }
+        }
+        return ElijeUnRolWidget();
+      } );
+
+      }
+
+
+  bool firebaseUserInfoCompleted(Map<String,dynamic> data){
+    return false;
+    String nombre = data['nombre'];
+    String apellido = data['apellido'];
+    String fotoPerfil = data['foto de perfil'];
+    bool hasAcceptedTerms = data['hasAcceptedTerms'];
+    String rol = data['rol'];
+    String username = data['username'];
+    if(nombre == null || apellido == null || fotoPerfil == null || hasAcceptedTerms == null || rol == null || username == null){
+      return false;
+    }
+    return true;
+  }
+
+
 }

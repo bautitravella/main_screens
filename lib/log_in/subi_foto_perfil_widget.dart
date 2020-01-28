@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/log_in/datos_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 import 'subi_foto_de_perfil21_widget.dart';
@@ -6,6 +8,10 @@ import 'subi_foto_de_perfil21_widget.dart';
 class SubiFotoPerfilWidget extends StatelessWidget {
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
+
+  User user;
+
+  SubiFotoPerfilWidget(User this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +112,7 @@ class SubiFotoPerfilWidget extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => SubiFotoDePerfil21Widget()),
+                                MaterialPageRoute(builder: (context) => DatosWidget(user)),
                               );
                             }
                         ),

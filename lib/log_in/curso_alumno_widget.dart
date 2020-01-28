@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 
@@ -7,6 +8,10 @@ import 'package:flutterui/values/values.dart';
 class CursoAlumnoWidget extends StatelessWidget {
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
+
+  User user;
+
+  CursoAlumnoWidget(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +212,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TerminosYCondicionesWidget()),
+                            builder: (context) => TerminosYCondicionesWidget(user)),
                       );
                     }),
               ),

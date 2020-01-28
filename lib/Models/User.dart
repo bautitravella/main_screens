@@ -1,13 +1,35 @@
+import 'dart:ui';
+
 class User {
   String _nombre;
   String _apellido;
-  String _fotoPerfil;
+  String _fotoPerfilUrl;
+  Image _fotoPerfil;
   bool _hasAcceptedTerms;
   String _rol;
   String _username;
 
-  User(this._nombre, this._apellido, this._fotoPerfil, this._hasAcceptedTerms,
+  User();
+
+
+  User.allParameters(this._nombre, this._apellido, this._fotoPerfilUrl, this._hasAcceptedTerms,
       this._rol, this._username);
+
+  User.fromMap(Map<String, dynamic> data) {
+    String nombre = data['nombre'];
+    String apellido = data['apellido'];
+    String fotoPerfil = data['foto de perfil'];
+    bool hasAcceptedTerms = data['hasAcceptedTerms'];
+    String rol = data['rol'];
+    String username = data['username'];
+
+    _nombre = nombre;
+    _apellido = apellido;
+    _fotoPerfilUrl = fotoPerfil;
+    _hasAcceptedTerms= hasAcceptedTerms;
+    _rol = rol;
+    _username = username;
+  }
 
   static User fromMapToUser(Map<String, dynamic> data) {
     String nombre = data['nombre'];
@@ -18,7 +40,7 @@ class User {
     String username = data['username'];
 
     User newUser =
-        User(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
+        User.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
     if (newUser.isComplete()) {
       return newUser;
     }
@@ -28,7 +50,7 @@ class User {
   bool isComplete() {
     if (_nombre == null ||
         _apellido == null ||
-        _fotoPerfil == null ||
+        _fotoPerfilUrl == null ||
         _hasAcceptedTerms == null ||
         _rol == null ||
         _username == null) {
@@ -44,6 +66,12 @@ class User {
     _username = value;
   }
 
+  String get fotoPerfilUrl => _fotoPerfilUrl;
+
+  set fotoPerfilUrl(String value) {
+    _fotoPerfilUrl = value;
+  }
+
   String get rol => _rol;
 
   set rol(String value) {
@@ -56,9 +84,9 @@ class User {
     _hasAcceptedTerms = value;
   }
 
-  String get fotoPerfil => _fotoPerfil;
+  Image get fotoPerfil => _fotoPerfil;
 
-  set fotoPerfil(String value) {
+  set fotoPerfil(Image value) {
     _fotoPerfil = value;
   }
 

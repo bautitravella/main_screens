@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/values/values.dart';
 
 import 'datos_widget.dart';
@@ -211,7 +212,7 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DatosWidget()),
+                            builder: (context) => DatosWidget(new Padre())),
                       );
                     }),
               ),
