@@ -2,23 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 
-class EditingYourBook extends StatefulWidget {
+class YourBook extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
 
   final Book book;
 
-  EditingYourBook({this.book});
+  YourBook({this.book});
 
   @override
-  _EditingYourBookState createState() => _EditingYourBookState();
+  _YourBookState createState() => _YourBookState();
 }
 
-class _EditingYourBookState extends State<EditingYourBook> {
+class _YourBookState extends State<YourBook> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -87,7 +88,14 @@ class _EditingYourBookState extends State<EditingYourBook> {
                                 icon: Icon(Icons.edit),
                                 iconSize: 30.0,
                                 color: Colors.black,
-                                onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DatosLibros(),
+                                      ),
+                                    );
+                                  }
                               ),
                               Container(
                                 color: Colors.black26,
@@ -841,7 +849,7 @@ class _EditingYourBookState extends State<EditingYourBook> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          EditingYourBook(
+                          YourBook(
                             book: book,
                           ),
                     ),

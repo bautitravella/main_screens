@@ -81,7 +81,6 @@ class _DatosLibrosState extends State<DatosLibros> {
                           children: <Widget>[
                             Container(
                               height: 141,
-                              color: Colors.red,
                               margin: EdgeInsets.only(top: 5),
                               child: Row(
                                 mainAxisAlignment:
@@ -89,12 +88,11 @@ class _DatosLibrosState extends State<DatosLibros> {
                                 children: <Widget>[
                                   Container(
                                     width: 97,
-                                    color: Colors.blue,
                                     child: Stack(
                                       children: <Widget>[
                                         ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(5),
+                                              BorderRadius.circular(10),
                                           child: Image(
                                             height: 141,
                                             width: 97,
@@ -105,24 +103,39 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         ),
                                         Center(
                                           child: Container(
-                                              width: 40,
-                                              height: 40,
-                                              child:OutlineButton(
-                                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                                  color: Colors.white,
-                                                  highlightColor: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.all(Radius.circular(100)),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: AppColors.secondaryBackground,
-                                                    size: 20,
-                                                  ),
-                                                  onPressed: () {}
-                                              ),
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(0.0, 2.0),
+                                                    blurRadius: 6.0,
+                                                  )
+                                                ],
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        100)
+
                                             ),
+                                            child: OutlineButton(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(100)),
+                                                ),
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: AppColors
+                                                      .secondaryBackground,
+                                                  size: 20,
+                                                ),
+                                                onPressed: () {}),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -130,30 +143,111 @@ class _DatosLibrosState extends State<DatosLibros> {
                                   Center(
                                     child: Container(
                                       width: 97,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image(
-                                          height: 141,
-                                          width: 97,
-                                          image: AssetImage(
-                                              "assets/images/bookdescarte.png"),
-                                          fit: BoxFit.cover,
-                                        ),
+                                      child: Stack(
+                                        children: <Widget>[
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(10),
+                                            child: Image(
+                                              height: 141,
+                                              width: 97,
+                                              image: AssetImage(
+                                                  "assets/images/bookdescarte.png"),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              width: 40,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black26,
+                                                      offset: Offset(0.0, 2.0),
+                                                      blurRadius: 6.0,
+                                                    )
+                                                  ],
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                  new BorderRadius.circular(
+                                                      100)
+
+                                              ),
+                                              child: OutlineButton(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(100)),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.edit,
+                                                    color: AppColors
+                                                        .secondaryBackground,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () {}),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                   Container(
                                     width: 97,
-                                    color: Colors.green,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: Image(
-                                        height: 141,
-                                        width: 97,
-                                        image: AssetImage(
-                                            "assets/images/bookdescarte.png"),
-                                        fit: BoxFit.cover,
-                                      ),
+
+                                    child: Stack(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          child: Image(
+                                            height: 141,
+                                            width: 97,
+                                            image: AssetImage(
+                                                "assets/images/bookdescarte.png"),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    offset: Offset(0.0, 2.0),
+                                                    blurRadius: 6.0,
+                                                  )
+                                                ],
+                                                color: Colors.white,
+                                                borderRadius:
+                                                new BorderRadius.circular(
+                                                    100)
+
+                                            ),
+                                            child: OutlineButton(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                      Radius.circular(100)),
+                                                ),
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: AppColors
+                                                      .secondaryBackground,
+                                                  size: 20,
+                                                ),
+                                                onPressed: () {}),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

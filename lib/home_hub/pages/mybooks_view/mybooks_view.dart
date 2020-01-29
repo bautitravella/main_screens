@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/catergory_selector.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/editing_yourbook.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
@@ -175,13 +175,22 @@ class GridViewPublicados extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditingYourBook(
+                            builder: (context) => YourBook(
                               book: book,
                             ),
                           ),
                         );
                       },
                       child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(1.0, 2.0),
+                                blurRadius: 6.0,
+                              )
+                            ]),
                         child: Stack(
                           alignment: Alignment.topRight,
                           children: <Widget>[
@@ -203,6 +212,7 @@ class GridViewPublicados extends StatelessWidget {
                                   padding: EdgeInsets.all(0),
                                   width: 43,
                                   height: 25,
+
                                   child: FlatButton(
                                       color: Colors.white,
                                       padding: EdgeInsets.only(top: 0, right: 0),
