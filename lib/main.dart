@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutterui/firstscreen_widget/firstscreen_widget.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/values/colors.dart';
 
 void main() => runApp(App());
@@ -13,6 +14,10 @@ class App extends StatelessWidget {
   
     return MaterialApp(
       home: FirstscreenWidget(),
+      routes: <String, WidgetBuilder> {
+        '/signUp': (BuildContext context) => HomeHub(),
+        '/home': (BuildContext context) => HomeHub(),
+      },
       theme: ThemeData(
         accentColor: AppColors.secondaryBackground,
         

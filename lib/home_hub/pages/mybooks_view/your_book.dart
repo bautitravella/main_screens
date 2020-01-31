@@ -1,24 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 
-class BookSection extends StatefulWidget {
+class YourBook extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
 
   final Book book;
 
-  BookSection({this.book});
+  YourBook({this.book});
 
   @override
-  _BookSectionState createState() => _BookSectionState();
+  _YourBookState createState() => _YourBookState();
 }
 
-class _BookSectionState extends State<BookSection> {
+class _YourBookState extends State<YourBook> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -84,10 +86,41 @@ class _BookSectionState extends State<BookSection> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.star_border),
+                                icon: Icon(Icons.edit),
                                 iconSize: 30.0,
                                 color: Colors.black,
-                                onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DatosLibros(),
+                                      ),
+                                    );
+                                  }
+                              ),
+                              Container(
+                                color: Colors.black26,
+                                height: 25,
+                                width: 2,
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                iconSize: 30.0,
+                                color: Colors.black,
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => CustomDialog(
+                                      title: "¿Seguro que quiere eliminar este libro?",
+                                      description:
+                                      "Este libro ya no estara disponible dentro de la aplicación",
+                                      primaryButtonText: "Si",
+                                      primaryButtonRoute: "/signUp",
+                                      secondaryButtonText: "Cancelar",
+                                      secondaryButtonRoute: "/home",
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           )
@@ -149,7 +182,7 @@ class _BookSectionState extends State<BookSection> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal * 40,
+                        width: SizeConfig.blockSizeHorizontal * 55,
                         height: 55,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.0),
@@ -161,10 +194,10 @@ class _BookSectionState extends State<BookSection> {
                               )
                             ]),
                         child: FlatButton(
-                            color: AppColors.secondaryElement,
+                            color: Color.fromARGB(255, 0, 191, 131),
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(24)),
+                              BorderRadius.all(Radius.circular(24)),
                             ),
                             textColor: Color.fromARGB(255, 255, 255, 255),
                             padding: EdgeInsets.all(0),
@@ -172,7 +205,7 @@ class _BookSectionState extends State<BookSection> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.shopping_cart,
+                                  Icons.local_atm,
                                   color: Colors.white,
                                   size: 25,
                                 ),
@@ -183,11 +216,11 @@ class _BookSectionState extends State<BookSection> {
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                 ),
                                 Text(
-                                  '\$${widget.book.price}',
+                                  "VENDIDO",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppColors.secondaryText,
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Gibson",
                                     fontWeight: FontWeight.w600,
                                     fontSize: 25,
                                   ),
@@ -221,7 +254,7 @@ class _BookSectionState extends State<BookSection> {
                             color: Colors.black54,
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(24)),
+                              BorderRadius.all(Radius.circular(24)),
                             ),
                             textColor: Color.fromARGB(255, 255, 255, 255),
                             padding: EdgeInsets.all(0),
@@ -229,7 +262,7 @@ class _BookSectionState extends State<BookSection> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.chat_bubble,
+                                  Icons.share,
                                   color: Colors.white,
                                   size: 25,
                                 ),
@@ -272,57 +305,50 @@ class _BookSectionState extends State<BookSection> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(right: 22, left: 22, top: 10),
+                    const EdgeInsets.only(right: 22, left: 22, top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Container(
-                                height: 40,
-                                width: 40,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child:
-                                      Image.asset("assets/images/avatar.png"),
-                                )),
                             Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    '${book.user}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 57, 57, 57),
+                              padding: const EdgeInsets.only(left: 0),
+                              child: Container(
+                                width: 90,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 57, 57, 57),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                padding: EdgeInsets.only(top: 4),
+                                child: Row(
+                                  children: <Widget>[
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Icon(
+                                        Icons.equalizer,
+                                        size: 30,
+                                        color:
+                                        Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${book.rating}',
-                                        textAlign: TextAlign.left,
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        "56",
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w900,
                                           fontFamily: "Montserrat",
-                                          color: Color.fromARGB(
-                                              255, 118, 118, 118),
+                                          color:
+                                          Colors.white,
                                         ),
                                       ),
-                                      Icon(
-                                        Icons.star,
-                                        size: 17,
-                                        color:
-                                            Color.fromARGB(255, 118, 118, 118),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                                    ),
+                                  ],
+                                )
                               ),
                             ),
                           ],
@@ -332,27 +358,28 @@ class _BookSectionState extends State<BookSection> {
                             child: Row(
                               children: <Widget>[
                                 Container(
+                                  height: 40,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 245, 245, 245),
+                                    color: Color.fromARGB(255, 57, 57, 57),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: FlatButton(
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(24)),
+                                      BorderRadius.all(Radius.circular(24)),
                                     ),
                                     textColor:
-                                        Color.fromARGB(255, 255, 255, 255),
+                                    Color.fromARGB(255, 255, 255, 255),
                                     padding: EdgeInsets.all(0),
                                     child: Text(
-                                      '${book.state}'.toUpperCase(),
+                                      '\$${book.price}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
                                         fontFamily: "Montserrat",
                                         color:
-                                            Color.fromARGB(255, 149, 149, 149),
+                                        Colors.white,
                                       ),
                                     ),
                                   ),
@@ -365,7 +392,7 @@ class _BookSectionState extends State<BookSection> {
                   Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 22, top: 8),
+                        padding: const EdgeInsets.only(left: 22, top: 25),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -379,6 +406,7 @@ class _BookSectionState extends State<BookSection> {
                                 color: Color.fromARGB(255, 57, 57, 57),
                               ),
                             ),
+
                             Row(
                               children: <Widget>[
                                 Container(
@@ -420,6 +448,38 @@ class _BookSectionState extends State<BookSection> {
                                 Container(
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Text(
+                                    "Estado:",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding:
+                                  const EdgeInsets.only(top: 5, left: 5),
+                                  width: SizeConfig.blockSizeHorizontal * 70,
+                                  child: Text(
+                                    book.state,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 118, 118, 118),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 0),
+                                  child: Text(
                                     "Autor:",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
@@ -432,11 +492,11 @@ class _BookSectionState extends State<BookSection> {
                                 ),
                                 Container(
                                   padding:
-                                      const EdgeInsets.only(top: 5, left: 5),
+                                  const EdgeInsets.only(top: 0, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
                                     book.author,
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -464,7 +524,7 @@ class _BookSectionState extends State<BookSection> {
                                 ),
                                 Container(
                                   padding:
-                                      const EdgeInsets.only(top: 0, left: 5),
+                                  const EdgeInsets.only(top: 0, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
                                     book.editorial,
@@ -496,7 +556,7 @@ class _BookSectionState extends State<BookSection> {
                                 ),
                                 Container(
                                   padding:
-                                      const EdgeInsets.only(top: 0, left: 5),
+                                  const EdgeInsets.only(top: 0, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
                                     '${book.isbn}',
@@ -517,45 +577,45 @@ class _BookSectionState extends State<BookSection> {
                     ],
                   ),
                   Row(
-                      children: <Widget>[
-                        Container(
-                          height: 55,
-                          width: SizeConfig.blockSizeHorizontal*100,
-                          padding:
-                          const EdgeInsets.only(right: 80, left: 80, top: 30),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
+                    children: <Widget>[
+                      Container(
+                        height: 55,
+                        width: SizeConfig.blockSizeHorizontal*100,
+                        padding:
+                        const EdgeInsets.only(right: 80, left: 80, top: 30),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(24)),
                           ),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(24)),
-                            ),
-                            textColor: Color.fromARGB(255, 255, 255, 255),
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.share,
+                          textColor: Color.fromARGB(255, 255, 255, 255),
+                          padding: EdgeInsets.all(0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.share,
+                                color: Color.fromARGB(180, 118, 118, 118),
+                                size: 25,
+                              ),
+                              Text(
+                                "Compartir".toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Montserrat",
                                   color: Color.fromARGB(180, 118, 118, 118),
-                                  size: 25,
                                 ),
-                                Text(
-                                  "Compartir".toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Montserrat",
-                                    color: Color.fromARGB(180, 118, 118, 118),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
+                    ],
                   ),
                   Container(
                       height: 55,
@@ -702,14 +762,14 @@ class _BookSectionState extends State<BookSection> {
                   child: Row(
                     children: <Widget>[
 
-                       Container(
-                          height: 180,
-                          width: 123,
-                          child: Image(
-                            image: AssetImage(book.imageUrl),
-                            fit: BoxFit.fitHeight,
-                          ),
+                      Container(
+                        height: 180,
+                        width: 123,
+                        child: Image(
+                          image: AssetImage(book.imageUrl),
+                          fit: BoxFit.fitHeight,
                         ),
+                      ),
 
                       Container(
                         height: 180,
@@ -797,7 +857,7 @@ class _BookSectionState extends State<BookSection> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          BookSection(
+                          YourBook(
                             book: book,
                           ),
                     ),
