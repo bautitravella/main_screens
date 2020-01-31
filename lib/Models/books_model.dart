@@ -33,7 +33,7 @@ List<Book> books = [
   Book(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Steler Toma 1',
-    author: 'Gary Blackwood',
+    author: 'Gary Blackwood & Edgar el perro Poe',
     editorial: "Scholastic",
     isbn: 495002848588,
     user: 'Ricardo Monterrey',

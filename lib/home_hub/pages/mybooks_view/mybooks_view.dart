@@ -78,7 +78,36 @@ class MyBooksViewState extends State<MyBooksView> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    Positioned(
+                      right: SizeConfig.blockSizeHorizontal*4,
+                      top: SizeConfig.blockSizeVertical*5,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 55,
+                          width: 55,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2, //
+                              ),
+                              borderRadius:
+                              new BorderRadius.circular(
+                                  100)
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.asset(
+                              "assets/images/avatar.png",
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               )
@@ -148,7 +177,7 @@ class GridViewPublicados extends StatelessWidget {
                               Text(
                                 "${book.name}",
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 11,
                                   fontFamily: "Montserrat",
                                   fontWeight: FontWeight.w600,
                                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
@@ -106,7 +107,20 @@ class _YourBookState extends State<YourBook> {
                                 icon: Icon(Icons.delete),
                                 iconSize: 30.0,
                                 color: Colors.black,
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => CustomDialog(
+                                      title: "¿Seguro que quiere eliminar este libro?",
+                                      description:
+                                      "Este libro ya no estara disponible dentro de la aplicación",
+                                      primaryButtonText: "Si",
+                                      primaryButtonRoute: "/signUp",
+                                      secondaryButtonText: "Cancelar",
+                                      secondaryButtonRoute: "/home",
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           )
@@ -484,7 +498,7 @@ class _YourBookState extends State<YourBook> {
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
                                     book.author,
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,

@@ -3,6 +3,7 @@ import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
@@ -55,7 +56,44 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    Positioned(
+                      right: SizeConfig.blockSizeHorizontal*4,
+                      top: SizeConfig.blockSizeVertical*5,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PerfilAlguien(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 55,
+                          width: 55,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                                width: 2, //
+                            ),
+                              borderRadius:
+                              new BorderRadius.circular(
+                                  100)
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.asset(
+                              "assets/images/avatar.png",
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
               ),
@@ -220,7 +258,7 @@ class _HomeViewState extends State<HomeView> {
                                           style: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 255, 255, 255),
-                                            fontWeight: FontWeight.w400,
+                                            fontWeight: FontWeight.w900,
                                             fontSize: 13,
                                           ),
                                         ),
@@ -279,7 +317,7 @@ class _HomeViewState extends State<HomeView> {
                                           style: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 255, 255, 255),
-                                            fontWeight: FontWeight.w400,
+                                            fontWeight: FontWeight.w900,
                                             fontSize: 13,
                                           ),
                                         ),
@@ -335,7 +373,7 @@ class _HomeViewState extends State<HomeView> {
                         Text(
                           "${book.name}",
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w600,
                           ),
@@ -353,6 +391,31 @@ class _HomeViewState extends State<HomeView> {
                           maxLines: 2,
                         ),
                       ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  height: 25,
+                  width: 50,
+                  padding: const EdgeInsets.all(6.0),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 235, 235, 235),
+                      borderRadius:
+                      new BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Center(
+                    child: Text(
+                      '\$${book.price}',
+                      style: TextStyle(
+                        color: Color.fromARGB(105, 0, 0, 0),
+                        fontSize: 12,
+                        fontFamily: "Gibson",
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
