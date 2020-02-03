@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
+import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/values/colors.dart';
@@ -9,6 +10,7 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 
 class HomeViewDos extends StatefulWidget {
   HomeViewDos({Key key}) : super(key: key);
@@ -148,155 +150,157 @@ class _HomeViewDosState extends State<HomeViewDos> {
             children: <Widget>[
               Container(
                   height: SizeConfig.blockSizeVertical * 73,
-                  child: SingleChildScrollView(
-                    controller: sc,
-                    padding: EdgeInsets.all(0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  height: 50,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 246, 246, 246),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(30),
-                                      )),
-                                  margin: EdgeInsets.only(left: 16, right: 16, bottom: 5),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DestacadosSection()));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(
-                                            "LIBROS DESTACADOS",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 57, 57, 57),
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 50,
-                                          width: 98,
-                                          alignment: Alignment.centerRight,
-                                          child: FlatButton(
-                                            onPressed: null,
-                                            disabledColor:
-                                                AppColors.secondaryBackground,
-                                            color: Color.fromARGB(
-                                                255, 251, 187, 16),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(14)),
-                                            ),
+                  child: FadingEdgeScrollView.fromSingleChildScrollView(
+                    child: SingleChildScrollView(
+                      controller: sc,
+                      padding: EdgeInsets.all(0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromARGB(255, 246, 246, 246),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(30),
+                                        )),
+                                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DestacadosSectionDos()));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
                                             child: Text(
-                                              "VER TODO",
-                                              textAlign: TextAlign.center,
+                                              "LIBROS DESTACADOS",
+                                              textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 color: Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 13,
+                                                    255, 57, 57, 57),
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              horizontalListView,
-                              Container(
-                                  height: 50,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 246, 246, 246),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(30),
-                                      )),
-                                  margin: EdgeInsets.only(left: 16, right: 16, bottom: 5, top: 10),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyBooksView()));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(
-                                            "MIS LIBROS",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
+                                          Container(
+                                            height: 50,
+                                            width: 98,
+                                            alignment: Alignment.centerRight,
+                                            child: FlatButton(
+                                              onPressed: null,
+                                              disabledColor:
+                                                  AppColors.secondaryBackground,
                                               color: Color.fromARGB(
-                                                  255, 57, 57, 57),
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 50,
-                                          width: 98,
-                                          alignment: Alignment.centerRight,
-                                          child: FlatButton(
-                                            onPressed: null,
-                                            disabledColor:
-                                                AppColors.secondaryBackground,
-                                            color: Color.fromARGB(
-                                                255, 251, 187, 16),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(14)),
-                                            ),
-                                            child: Text(
-                                              "VER TODO",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 13,
+                                                  255, 251, 187, 16),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(14)),
+                                              ),
+                                              child: Text(
+                                                "VER TODO",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize: 13,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              horizontalListView,
-                              Container(
-                                height: SizeConfig.blockSizeVertical * 2,
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                                        ],
+                                      ),
+                                    )),
+                                horizontalListView,
+                                Container(
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromARGB(255, 246, 246, 246),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(30),
+                                        )),
+                                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 5, top: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MyBooksView()));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Text(
+                                              "MIS LIBROS",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 57, 57, 57),
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            width: 98,
+                                            alignment: Alignment.centerRight,
+                                            child: FlatButton(
+                                              onPressed: null,
+                                              disabledColor:
+                                                  AppColors.secondaryBackground,
+                                              color: Color.fromARGB(
+                                                  255, 251, 187, 16),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(14)),
+                                              ),
+                                              child: Text(
+                                                "VER TODO",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255),
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                horizontalListView,
+                                Container(
+                                  height: SizeConfig.blockSizeVertical * 2,
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )),
             ],
