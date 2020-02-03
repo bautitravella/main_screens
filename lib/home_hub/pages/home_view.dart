@@ -58,8 +58,8 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     Positioned(
-                      right: SizeConfig.blockSizeHorizontal*4,
-                      top: SizeConfig.blockSizeVertical*5,
+                      right: SizeConfig.blockSizeHorizontal * 4,
+                      top: SizeConfig.blockSizeVertical * 5,
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -73,15 +73,12 @@ class _HomeViewState extends State<HomeView> {
                           height: 55,
                           width: 55,
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
                               color: Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
                                 width: 2, //
-                            ),
-                              borderRadius:
-                              new BorderRadius.circular(
-                                  100)
-                          ),
+                              ),
+                              borderRadius: new BorderRadius.circular(100)),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: Image.asset(
@@ -93,7 +90,6 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -214,7 +210,6 @@ class _HomeViewState extends State<HomeView> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
-
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -224,7 +219,8 @@ class _HomeViewState extends State<HomeView> {
                                             DestacadosSection()));
                               },
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.only(left: 21),
@@ -249,19 +245,19 @@ class _HomeViewState extends State<HomeView> {
                                           AppColors.secondaryBackground,
                                       color: Color.fromARGB(255, 251, 187, 16),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(14)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(14)),
                                       ),
-                                        child: Text(
-                                          "VER TODO",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 13,
-                                          ),
+                                      child: Text(
+                                        "VER TODO",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 13,
                                         ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -273,17 +269,16 @@ class _HomeViewState extends State<HomeView> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
-
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyBooksView()));
+                                        builder: (context) => MyBooksView()));
                               },
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.only(left: 21),
@@ -308,19 +303,19 @@ class _HomeViewState extends State<HomeView> {
                                           AppColors.secondaryBackground,
                                       color: Color.fromARGB(255, 251, 187, 16),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(14)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(14)),
                                       ),
-                                        child: Text(
-                                          "VER TODO",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 13,
-                                          ),
+                                      child: Text(
+                                        "VER TODO",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 13,
                                         ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -404,9 +399,7 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 235, 235, 235),
-                      borderRadius:
-                      new BorderRadius.all(Radius.circular(10))
-                  ),
+                      borderRadius: new BorderRadius.all(Radius.circular(10))),
                   child: Center(
                     child: Text(
                       '\$${book.price}',
