@@ -149,7 +149,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
           Stack(
             children: <Widget>[
               Container(
-                  height: SizeConfig.blockSizeVertical * 73,
+                  height: SizeConfig.blockSizeVertical * 80,
                   child: FadingEdgeScrollView.fromSingleChildScrollView(
                     child: SingleChildScrollView(
                       controller: sc,
@@ -158,7 +158,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(top: 20),
+                            margin: EdgeInsets.only(top: 20, bottom: 0),
                             child: Column(
                               children: <Widget>[
                                 Container(
@@ -175,10 +175,11 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                     child: GestureDetector(
                                       onTap: () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DestacadosSectionDos()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DestacadosSectionDos(),
+                                          ),
+                                        );
                                       },
                                       child: Row(
                                         mainAxisAlignment:
@@ -294,8 +295,17 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                     )),
                                 horizontalListView,
                                 Container(
-                                  height: SizeConfig.blockSizeVertical * 2,
-                                )
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(30),
+                                        )),
+                                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 5, top: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 10),
+                                    ),
                               ],
                             ),
                           )
