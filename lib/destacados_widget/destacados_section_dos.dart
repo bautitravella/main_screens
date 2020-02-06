@@ -117,7 +117,9 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(30), topLeft: Radius.circular(30)),
       ),
-      child: FadingEdgeScrollView.fromScrollView(
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30), topLeft: Radius.circular(30)),
         child: ListView.builder(
           scrollDirection: Axis.vertical,
           controller: sc,

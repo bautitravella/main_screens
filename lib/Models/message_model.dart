@@ -21,19 +21,19 @@ class Message {
 final User currentUser = User(
   id: 0,
   name: 'Current User',
-  imageUrl: 'assets/images/greg.jpg',
+  imageUrl: 'assets/images/avatar.png',
 );
 
 // USERS
 final User greg = User(
   id: 1,
   name: 'Greg',
-  imageUrl: 'assets/images/greg.jpg',
+  imageUrl: 'assets/images/avatar.png',
 );
 final User james = User(
   id: 2,
   name: 'James',
-  imageUrl: 'assets/images/james.jpg',
+  imageUrl: 'assets/images/1005-viernes-fluvial-mari-343-3.png',
 );
 final User john = User(
   id: 3,
