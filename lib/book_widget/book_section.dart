@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 
@@ -278,57 +279,67 @@ class _BookSectionState extends State<BookSection> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Container(
-                                height: 40,
-                                width: 40,
-                                color: Colors.red,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child:
-                                      Image.asset("assets/images/avatar.png"),
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    '${book.user}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${book.rating}',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: "Montserrat",
-                                          color: Color.fromARGB(
-                                              255, 118, 118, 118),
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        size: 17,
-                                        color:
-                                            Color.fromARGB(255, 118, 118, 118),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PerfilAlguien(),
                               ),
-                            ),
-                          ],
+                            );
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                  height: 40,
+                                  width: 40,
+                                  color: Colors.red,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child:
+                                        Image.asset("assets/images/avatar.png"),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '${book.user}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Montserrat",
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${book.rating}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Montserrat",
+                                            color: Color.fromARGB(
+                                                255, 118, 118, 118),
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 17,
+                                          color:
+                                              Color.fromARGB(255, 118, 118, 118),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                             padding: const EdgeInsets.only(right: 5, left: 5),

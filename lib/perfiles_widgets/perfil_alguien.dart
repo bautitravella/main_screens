@@ -295,7 +295,6 @@ Widget verticalListView = Container(
           child: Column(
             children: <Widget>[
               Container(
-                  height: 55,
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(bottom: 15),
                   padding: EdgeInsets.only(left: 30, right: 30),

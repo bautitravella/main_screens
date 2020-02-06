@@ -37,33 +37,47 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 0,
-                  top: 52,
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            size: 30,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 40.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.arrow_back_ios),
+                            iconSize: 30.0,
                             color: Colors.white,
+                            onPressed: () => Navigator.pop(context),
                           ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        Text(
-                          "Destacados",
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
+                          Container(
+                            margin: EdgeInsets.only(left: 8),
+                            child: Text(
+                              "Destacados",
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 23,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.sort),
+                            iconSize: 30.0,
                             color: Colors.white,
+                            onPressed: () => Navigator.pop(context),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      )
+                    ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -178,12 +192,11 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Align(
-                                  alignment: Alignment.centerRight,
-                                  child: IconButton(
-                                    icon: Icon(Icons.star_border),
-                                    enableFeedback: true,
-                                  )
-                                ),
+                                    alignment: Alignment.centerRight,
+                                    child: IconButton(
+                                      icon: Icon(Icons.star_border),
+                                      onPressed: () {},
+                                    )),
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Container(
@@ -210,9 +223,11 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                 ),
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 62.5,
-                                  margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
+                                  margin: EdgeInsets.only(
+                                      left: 0, right: 0, bottom: 0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -228,43 +243,55 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                           Row(
                                             children: <Widget>[
                                               Container(
-                                                margin: EdgeInsets.only(left: 4),
+                                                margin:
+                                                    EdgeInsets.only(left: 4),
                                                 child: Stack(
                                                   children: <Widget>[
                                                     Container(
                                                       height: 21,
                                                       width: 40,
                                                       decoration: BoxDecoration(
-                                                        color:
-                                                            Color.fromARGB(30, 0, 0, 0),
+                                                        color: Color.fromARGB(
+                                                            30, 0, 0, 0),
                                                         borderRadius:
-                                                            BorderRadius.circular(8.0),
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                       ),
-                                                      alignment: Alignment.center,
+                                                      alignment:
+                                                          Alignment.center,
                                                     ),
                                                     Positioned(
                                                       left: 5,
                                                       child: Row(
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment.center,
+                                                            CrossAxisAlignment
+                                                                .center,
                                                         children: <Widget>[
                                                           Text(
                                                             '${book.rating}',
-                                                            textAlign: TextAlign.center,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                             style: TextStyle(
                                                               fontSize: 15,
                                                               fontWeight:
-                                                                  FontWeight.w600,
-                                                              fontFamily: "Montserrat",
-                                                              color: Color.fromARGB(
-                                                                  100, 0, 0, 0),
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontFamily:
+                                                                  "Montserrat",
+                                                              color: Color
+                                                                  .fromARGB(100,
+                                                                      0, 0, 0),
                                                             ),
                                                           ),
                                                           Icon(
                                                             Icons.star,
                                                             size: 17,
-                                                            color: Color.fromARGB(
-                                                                100, 0, 0, 0),
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    100,
+                                                                    0,
+                                                                    0,
+                                                                    0),
                                                           ),
                                                         ],
                                                       ),
@@ -277,7 +304,8 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                         ],
                                       ),
                                       Padding(
-                                          padding: const EdgeInsets.only(right: 5),
+                                          padding:
+                                              const EdgeInsets.only(right: 5),
                                           child: Row(
                                             children: <Widget>[
                                               Text(
@@ -287,7 +315,8 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                   fontSize: 21,
                                                   fontWeight: FontWeight.w900,
                                                   fontFamily: "Montserrat",
-                                                  color: Color.fromARGB(190, 0, 0, 0),
+                                                  color: Color.fromARGB(
+                                                      190, 0, 0, 0),
                                                 ),
                                               )
                                             ],

@@ -4,6 +4,7 @@ import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -105,7 +106,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PerfilAlguien(),
+                            builder: (context) => MiPerfil(),
                           ),
                         );
                       },

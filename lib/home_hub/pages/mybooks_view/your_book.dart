@@ -115,7 +115,7 @@ class _YourBookState extends State<YourBook> {
                                       description:
                                       "Este libro ya no estara disponible dentro de la aplicación",
                                       primaryButtonText: "Si",
-                                      primaryButtonRoute: "/signUp",
+                                      primaryButtonRoute: "/home",
                                       secondaryButtonText: "Cancelar",
                                       secondaryButtonRoute: "/home",
                                     ),

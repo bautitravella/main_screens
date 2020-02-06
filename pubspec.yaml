@@ -28,6 +28,9 @@ dev_dependencies:
   sliding_up_panel: ^1.0.0
   fading_edge_scrollview: ^1.1.0
   page_transition: ^1.1.5
+  carousel_slider: ^1.4.1
+  rounded_loading_button: ^1.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
