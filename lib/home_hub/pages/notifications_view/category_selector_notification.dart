@@ -39,13 +39,7 @@ class _CategorySelectorNotificationState extends State<CategorySelectorNotificat
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20)
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0.0, 6.0),
-              blurRadius: 2.0,
-            ),
-          ],
+
         ),
         child: Stack(
           children: <Widget>[

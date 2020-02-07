@@ -5,7 +5,6 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 
 class DestacadosSectionDos extends StatefulWidget {
   DestacadosSectionDos({Key key}) : super(key: key);

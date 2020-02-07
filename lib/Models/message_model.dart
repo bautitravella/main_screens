@@ -7,6 +7,7 @@ class Message {
   final String text;
   final bool isLiked;
   final bool unread;
+  final bool buy;
 
   Message({
     this.sender,
@@ -14,6 +15,7 @@ class Message {
     this.text,
     this.isLiked,
     this.unread,
+    this.buy,
   });
 }
 
@@ -72,6 +74,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: olivia,
@@ -79,6 +82,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: john,
@@ -86,6 +90,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: false,
+    buy: true,
   ),
   Message(
     sender: sophia,
@@ -93,6 +98,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: true,
+    buy: true,
   ),
   Message(
     sender: steven,
@@ -100,6 +106,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: false,
+    buy: false,
   ),
   Message(
     sender: sam,
@@ -107,6 +114,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: false,
+    buy: true,
   ),
   Message(
     sender: greg,
@@ -114,6 +122,7 @@ List<Message> chats = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: false,
     unread: false,
+    buy: false,
   ),
 ];
 
@@ -125,6 +134,7 @@ List<Message> messages = [
     text: 'Hey, how\'s it going? What did you do today?',
     isLiked: true,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: currentUser,
@@ -132,6 +142,7 @@ List<Message> messages = [
     text: 'Just walked my doge. She was super duper cute. The best pupper!!',
     isLiked: false,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: james,
@@ -139,6 +150,7 @@ List<Message> messages = [
     text: 'How\'s the doggo?',
     isLiked: false,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: james,
@@ -146,6 +158,7 @@ List<Message> messages = [
     text: 'All the food',
     isLiked: true,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: currentUser,
@@ -153,6 +166,7 @@ List<Message> messages = [
     text: 'Nice! What kind of food did you eat?',
     isLiked: false,
     unread: true,
+    buy: false,
   ),
   Message(
     sender: james,
@@ -160,5 +174,6 @@ List<Message> messages = [
     text: 'I ate so much food today.',
     isLiked: false,
     unread: true,
+    buy: true,
   ),
 ];
