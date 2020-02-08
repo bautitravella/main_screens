@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
+import 'package:flutterui/home_hub/pages/notifications_view/chat_screen.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/size_config.dart';
@@ -141,130 +142,155 @@ class ListViewVenta extends StatelessWidget {
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
             final Message chat = chats[index];
-            return Stack(
-              children: <Widget>[
-                Positioned(
-                  top: 0,
-                  left: SizeConfig.blockSizeHorizontal*13,
-                  right: SizeConfig.blockSizeHorizontal*3,
-                  bottom: 10,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: chat.unread ? AppColors.secondaryBackground : Colors.white,
-                        borderRadius: chat.unread ?BorderRadius.all(Radius.circular(30)):null,
-                      // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ChatScreen(user: chat.sender),
+                  )),
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    left: SizeConfig.blockSizeHorizontal * 13,
+                    right: SizeConfig.blockSizeHorizontal * 3,
+                    bottom: 10,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: chat.unread
+                            ? AppColors.secondaryBackground
+                            : Colors.white,
+                        borderRadius: chat.unread
+                            ? BorderRadius.all(Radius.circular(30))
+                            : null,
+                        // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 0, bottom: 0),
-                  padding:
-                  EdgeInsets.only(left: 20, right: 25, top: 15, bottom: 25),
-                  //decoration: BoxDecoration(
+                  Container(
+                    margin: EdgeInsets.only(top: 0, bottom: 0),
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 5,
+                        right: SizeConfig.blockSizeHorizontal * 10,
+                        top: 15,
+                        bottom: 25),
+                    //decoration: BoxDecoration(
                     // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                            radius: 30.0,
-                            backgroundImage: AssetImage(chat.sender.imageUrl),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  chats[index].sender.name,
-                                  style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color.fromARGB(255, 57, 57, 57),
-                                  ),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width * 0.45,
-                                  margin: EdgeInsets.only(top: 5, bottom: 5),
-                                  child: Text(
-                                    chat.text,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage: AssetImage(chat.sender.imageUrl),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    chats[index].sender.name,
                                     style: TextStyle(
                                       fontFamily: "Sf",
-                                      fontSize: 13,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color.fromARGB(255, 57, 57, 57),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.45,
+                                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                                    child: Text(
+                                      chat.text,
+                                      style: TextStyle(
+                                        fontFamily: "Sf",
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  Text(
+                                    chat.time,
+                                    style: TextStyle(
+                                      fontFamily: "Sf",
+                                      fontSize: 9,
                                       fontWeight: FontWeight.w500,
                                       color: Color.fromARGB(255, 57, 57, 57),
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                                Text(chat.time,
-                                  style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 57, 57, 57),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              chat.buy
-                                  ? Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(MaterialIcons.shopping_basket, size: 21, color: Color.fromARGB(255, 57, 57, 57),),
-                                    Container(
-                                      height: 21,
-                                      width: 2,
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                      margin: EdgeInsets.only(left: 10, right: 10),
-                                    )
-                                  ],
-                                ),
-                              )
-                                  : Text(""),
-                              chat.unread
-                                  ? Container(
-                                child: Icon(
-                                  FontAwesome5Solid.comment,
-                                  size: 21,
-                                  color: Color.fromARGB(255, 57, 57, 57),
-                                ),
-                              )
-                                  : Container(
-                                child: Icon(
-                                  FontAwesome5.comment,
-                                  size: 21,
-                                  color: Color.fromARGB(255, 57, 57, 57),
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                chat.buy
+                                    ? Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              MaterialIcons.shopping_basket,
+                                              size: 21,
+                                              color: Color.fromARGB(
+                                                  255, 57, 57, 57),
+                                            ),
+                                            Container(
+                                              height: 21,
+                                              width: 2,
+                                              color: Color.fromARGB(
+                                                  255, 57, 57, 57),
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : Text(""),
+                                chat.unread
+                                    ? Container(
+                                        child: Icon(
+                                          FontAwesome5Solid.comment,
+                                          size: 21,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                        ),
+                                      )
+                                    : Container(
+                                        child: Icon(
+                                          FontAwesome5.comment,
+                                          size: 21,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                        ),
+                                      )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 100,
-                  left: 85,
-                  right: 85,
-                  child: Container(
-                    height: 1,
-                    width: 100,
-                    color: Color.fromARGB(100, 57, 57, 57),
-                  ),
-                )
-              ],
+                  Positioned(
+                    top: 100,
+                    left: 85,
+                    right: 85,
+                    child: Container(
+                      height: 1,
+                      width: 100,
+                      color: Color.fromARGB(20, 57, 57, 57),
+                    ),
+                  )
+                ],
+              ),
             );
           }),
     );
