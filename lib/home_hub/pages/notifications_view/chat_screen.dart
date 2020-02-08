@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/values/colors.dart';
-
+import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../../size_config.dart';
 
@@ -16,6 +16,9 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  bool _keyboardIsVisible() {
+    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
+  }
   _buildMessage(Message message, bool isMe) {
     return Flex(
       direction: Axis.horizontal,
@@ -117,7 +120,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     child: Center(
-                      child: IconButton(icon: Icon(Icons.add),
+                      child: IconButton(
+                        icon: Icon(Icons.add),
                         iconSize: 25,
                         color: Color.fromARGB(255, 245, 244, 244),
                         onPressed: () {},
@@ -128,6 +132,22 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
+          _keyboardIsVisible()
+          ?Container(
+            width: 65,
+            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(180, 0, 191, 131),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            child: Center(
+              child: IconButton(icon: Icon(Ionicons.ios_send),
+                iconSize: 25,
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            ),
+          ):
           Container(
             width: 65,
             margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
@@ -147,7 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -326,5 +346,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
+
   }
 }
