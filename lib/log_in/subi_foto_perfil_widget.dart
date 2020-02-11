@@ -258,10 +258,16 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
                                   fit: BoxFit.none,
                                   alignment: Alignment.center,
                                 ):
-                              Image.file(_image,
-                              fit: BoxFit.none,
-                              alignment: Alignment.center,
+                                Container(
+                                  height: 115,
+                                  width: 115,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.file(_image,
+                              fit: BoxFit.fill,
                               ),
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),
