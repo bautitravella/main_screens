@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -297,8 +298,7 @@ class _HomeViewState extends State<HomeView> {
                             )),
                         horizontalListView,
                         Container(
-                          height: SizeConfig.blockSizeVertical * 10,
-                          color: Colors.white,
+                          height: SizeConfig.blockSizeVertical * 13,
                         )
                       ],
                     ),
@@ -314,7 +314,6 @@ class _HomeViewState extends State<HomeView> {
   static Widget horizontalListView = Container(
     height: 240,
     margin: EdgeInsets.only(left: 27),
-    color: Colors.blue,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
@@ -324,7 +323,6 @@ class _HomeViewState extends State<HomeView> {
         return Container(
           margin: EdgeInsets.all(7.0),
           width: 97,
-          color: Colors.red,
           child: Stack(
             alignment: Alignment.topCenter,
             children: <Widget>[
@@ -333,7 +331,6 @@ class _HomeViewState extends State<HomeView> {
                 child: Container(
                   height: 80,
                   width: 97,
-                  color: Colors.white,
                   child: Padding(
                     padding: EdgeInsets.all(0),
                     child: Column(
@@ -371,7 +368,11 @@ class _HomeViewState extends State<HomeView> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              HomeHub()));
+                              BookSection(
+                                book: book,
+                              ),
+                      ),
+                  );
                 },
                 child: Container(
                   child: Stack(
