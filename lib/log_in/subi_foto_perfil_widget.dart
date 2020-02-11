@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/datos_widget.dart';
 import 'package:flutterui/values/values.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_modern/image_picker_modern.dart';
+//import 'package:image_picker/image_picker.dart';
 
 import 'subi_foto_de_perfil21_widget.dart';
 
