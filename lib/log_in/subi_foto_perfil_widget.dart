@@ -236,8 +236,8 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
                       ),
                     ),
                     Container(
-                      width: 105,
-                      height: 105,
+                      width: 160,
+                      height: 160,
                       margin: EdgeInsets.only(
                           left: 4, right: 4, top: 33, bottom: 33),
                       child: Opacity(
