@@ -5,7 +5,7 @@ class Message {
   final String
   time; // Would usually be type DateTime or Firebase Timestamp in production apps
   final String text;
-  final bool isLiked;
+  final bool sell;
   final bool unread;
   final bool buy;
 
@@ -13,7 +13,7 @@ class Message {
     this.sender,
     this.time,
     this.text,
-    this.isLiked,
+    this.sell,
     this.unread,
     this.buy,
   });
@@ -63,16 +63,13 @@ final User steven = User(
   imageUrl: 'assets/images/steven.jpg',
 );
 
-// FAVORITE CONTACTS
-List<User> favorites = [sam, steven, olivia, john, greg];
-
 // EXAMPLE CHATS ON HOME SCREEN
 List<Message> chats = [
   Message(
     sender: james,
     time: '5:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: false,
   ),
@@ -80,7 +77,7 @@ List<Message> chats = [
     sender: olivia,
     time: '4:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: true,
     unread: true,
     buy: false,
   ),
@@ -88,7 +85,7 @@ List<Message> chats = [
     sender: john,
     time: '3:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: false,
     unread: false,
     buy: true,
   ),
@@ -96,7 +93,7 @@ List<Message> chats = [
     sender: sophia,
     time: '2:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: true,
     unread: true,
     buy: true,
   ),
@@ -104,7 +101,7 @@ List<Message> chats = [
     sender: steven,
     time: '1:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: false,
     unread: false,
     buy: false,
   ),
@@ -112,7 +109,7 @@ List<Message> chats = [
     sender: sam,
     time: '12:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: false,
     unread: false,
     buy: true,
   ),
@@ -120,7 +117,7 @@ List<Message> chats = [
     sender: greg,
     time: '11:30 AM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: false,
+    sell: false,
     unread: false,
     buy: false,
   ),
@@ -132,7 +129,7 @@ List<Message> messages = [
     sender: james,
     time: '5:30 PM',
     text: 'Hey, how\'s it going? What did you do today?',
-    isLiked: true,
+    sell: true,
     unread: true,
     buy: false,
   ),
@@ -140,7 +137,7 @@ List<Message> messages = [
     sender: currentUser,
     time: '4:30 PM',
     text: 'Just walked my doge. She was super duper cute. The best pupper!!',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: false,
   ),
@@ -148,7 +145,7 @@ List<Message> messages = [
     sender: james,
     time: '3:45 PM',
     text: 'How\'s the doggo?',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: false,
   ),
@@ -156,7 +153,7 @@ List<Message> messages = [
     sender: james,
     time: '3:15 PM',
     text: 'All the food',
-    isLiked: true,
+    sell: true,
     unread: true,
     buy: false,
   ),
@@ -164,7 +161,7 @@ List<Message> messages = [
     sender: currentUser,
     time: '2:30 PM',
     text: 'Nice! What kind of food did you eat?',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: false,
   ),
@@ -172,7 +169,7 @@ List<Message> messages = [
     sender: james,
     time: '2:00 PM',
     text: 'I ate so much food today.',
-    isLiked: false,
+    sell: true,
     unread: true,
     buy: true,
   ),
@@ -180,7 +177,7 @@ List<Message> messages = [
     sender: james,
     time: '2:22 PM',
     text: 'Sigamos probando a ver cuanto puede bajar un texto, parecieria que funca.',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: true,
   ),
@@ -188,7 +185,7 @@ List<Message> messages = [
     sender: currentUser,
     time: '2:30 PM',
     text: 'No lo se rick, parece falso.',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: false,
   ),
@@ -196,7 +193,7 @@ List<Message> messages = [
     sender: currentUser,
     time: '2:32 PM',
     text: 'Esperemos que no.',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: false,
   ),
@@ -204,7 +201,7 @@ List<Message> messages = [
     sender: james,
     time: '2:33 PM',
     text: 'A ver con una foto?',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: true,
   ),
@@ -212,7 +209,7 @@ List<Message> messages = [
     sender: james,
     time: '2:34 PM',
     text: 'assets/images/photo-85889-landscape-850x566.png',
-    isLiked: false,
+    sell: false,
     unread: true,
     buy: true,
   ),
