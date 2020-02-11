@@ -100,10 +100,17 @@ class SubiFotoDePerfil21Widget extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  "assets/images/avatar.png",
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.center,
+                                Container(
+                                  height: 115,
+                                  width: 115,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.asset(
+                                      "assets/images/avatar.png",
+                                      fit: BoxFit.fill,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 10,
