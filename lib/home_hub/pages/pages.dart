@@ -28,12 +28,3 @@ class FavoriteView extends StatelessWidget {
     );
   }
 }
-
-class NotificationView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.orange,
-    );
-  }
-}

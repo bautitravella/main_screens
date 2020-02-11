@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutterui/curso_alumno_widget/curso_alumno_widget.dart';
 import 'package:flutterui/values/values.dart';
 
@@ -72,44 +73,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 100, right: 110, top: 81),
-                        child: Opacity(
-                          opacity: 0.57,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "USERNAME",
-                              contentPadding: EdgeInsets.all(0),
-                              border: InputBorder.none,
-                            ),
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19,
-                            ),
-                            maxLines: 1,
-                            autocorrect: false,
-                          ),
-                        ),
-                      ),
-                    ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child:Container(
-                    height: 2,
-                    margin: EdgeInsets.only(left: 100, right: 100, top: 120),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(77, 0, 0, 0),
-                    ),
-                    child: Container(),
-                  ),
-                ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: 150,
-                        height: 60,
-                        margin: EdgeInsets.only(left: 100, right: 110, top: 161),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 80),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -134,7 +98,7 @@ class DatosWidget extends StatelessWidget {
                       alignment: Alignment.topCenter,
                     child:Container(
                       height: 2,
-                      margin: EdgeInsets.only(left: 100, right: 100, top: 200),
+                      margin: EdgeInsets.only(left: 115, right: 115, top: 120),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(77, 0, 0, 0),
                       ),
@@ -146,7 +110,7 @@ class DatosWidget extends StatelessWidget {
                       child: Container(
                         width: 150,
                         height: 60,
-                        margin: EdgeInsets.only(left: 100, right: 110, top: 241),
+                        margin: EdgeInsets.only(left: 100, right: 110, top: 150),
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
@@ -171,7 +135,7 @@ class DatosWidget extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child:Container(
                     height: 2,
-                    margin: EdgeInsets.only(left: 100, right: 100, top: 280),
+                    margin: EdgeInsets.only(left: 115, right: 115, top: 190),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(77, 0, 0, 0),
                     ),

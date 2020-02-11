@@ -15,8 +15,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: FirstscreenWidget(),
       routes: <String, WidgetBuilder> {
-        '/signUp': (BuildContext context) => HomeHub(),
         '/home': (BuildContext context) => HomeHub(),
+        '/logOut': (BuildContext context) => FirstscreenWidget(),
+
       },
       theme: ThemeData(
         accentColor: AppColors.secondaryBackground,

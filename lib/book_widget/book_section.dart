@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 
@@ -99,6 +100,7 @@ class _BookSectionState extends State<BookSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
+                            color: Colors.pink,
                             width: SizeConfig.blockSizeHorizontal * 80,
                             height: SizeConfig.blockSizeVertical * 10,
                             margin: EdgeInsets.only(left: 22, top: 130),
@@ -117,6 +119,7 @@ class _BookSectionState extends State<BookSection> {
                           Container(
                             width: SizeConfig.blockSizeHorizontal * 80,
                             height: SizeConfig.blockSizeVertical * 5,
+                            color: Colors.blue,
                             margin: EdgeInsets.only(left: 22, top: 5),
                             child: Text(
                               widget.book.author,
@@ -276,56 +279,67 @@ class _BookSectionState extends State<BookSection> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Container(
-                                height: 40,
-                                width: 40,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child:
-                                      Image.asset("assets/images/avatar.png"),
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    '${book.user}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '${book.rating}',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: "Montserrat",
-                                          color: Color.fromARGB(
-                                              255, 118, 118, 118),
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        size: 17,
-                                        color:
-                                            Color.fromARGB(255, 118, 118, 118),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PerfilAlguien(),
                               ),
-                            ),
-                          ],
+                            );
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                  height: 40,
+                                  width: 40,
+                                  color: Colors.red,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child:
+                                        Image.asset("assets/images/avatar.png"),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '${book.user}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Montserrat",
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${book.rating}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Montserrat",
+                                            color: Color.fromARGB(
+                                                255, 118, 118, 118),
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 17,
+                                          color:
+                                              Color.fromARGB(255, 118, 118, 118),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                             padding: const EdgeInsets.only(right: 5, left: 5),
@@ -688,6 +702,7 @@ class _BookSectionState extends State<BookSection> {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
+      color: Colors.blue,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 1,
@@ -695,6 +710,7 @@ class _BookSectionState extends State<BookSection> {
           return Container(
             margin: EdgeInsets.all(0),
             width: 429,
+            color: Colors.red,
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
@@ -742,6 +758,7 @@ class _BookSectionState extends State<BookSection> {
   static Widget horizontalListView = Container(
     height: 240,
     margin: EdgeInsets.only(left: 22),
+    color: Colors.blue,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
@@ -751,6 +768,7 @@ class _BookSectionState extends State<BookSection> {
         return Container(
           margin: EdgeInsets.all(7.0),
           width: 97,
+          color: Colors.red,
           child: Stack(
             alignment: Alignment.topCenter,
             children: <Widget>[

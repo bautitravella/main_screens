@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/animations/fade_animation.dart';
 import 'package:flutterui/log_in_widget/log_in_widget.dart';
 import 'package:flutterui/sign_up_widget/sign_up_widget.dart';
 import 'package:flutterui/values/values.dart';
-import 'package:page_transition/page_transition.dart';
 
 
 class FirstscreenWidget extends StatelessWidget {
@@ -53,19 +51,18 @@ class FirstscreenWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FadeAnimation(1.8, Container(
+                 Container(
                       height:81,
                         margin: EdgeInsets.only(left: 35, right: 35, top: 50),
                         child: Image.asset(
                           "assets/images/artboard-7.png",
                           fit: BoxFit.cover,
                         ),
-                      ),
                   ),
                   Spacer(),
                   Container(
                     height: 142,
-                    child: FadeAnimation(3.0 ,FlatButton(
+                    child: FlatButton(
                       color: AppColors.ternaryBackground,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -87,11 +84,13 @@ class FirstscreenWidget extends StatelessWidget {
                         ),
                       ),
                         onPressed: () {
-                          Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: LogInWidget()));
-
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LogInWidget()));
                         }
                     ),
-                  ),
                   ),
                 ],
               ),
@@ -100,7 +99,7 @@ class FirstscreenWidget extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 0,
-              child: FadeAnimation(2.8, FlatButton(
+              child: FlatButton(
                   color: AppColors.secondaryBackground,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -125,7 +124,6 @@ class FirstscreenWidget extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => SignUpWidget()),
                     );
                   }),
-            ),
             ),
           ],
         ),
