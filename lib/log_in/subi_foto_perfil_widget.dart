@@ -150,8 +150,7 @@ class SubiFotoPerfilWidget extends StatefulWidget {
 //  }
 }
 
-class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
-
+class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   File _image;
   User user;
 
@@ -165,10 +164,8 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -246,32 +243,30 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
                             color: Color.fromARGB(0, 0, 0, 0),
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(100)),
+                                  BorderRadius.all(Radius.circular(100)),
                             ),
                             textColor: Color.fromARGB(0, 0, 0, 0),
-                            padding: EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _image == null?
-                                Image.asset(
-                                  "assets/images/logo.png",
-                                  fit: BoxFit.none,
-                                  alignment: Alignment.center,
-                                ):
-                                Container(
-                                  height: 115,
-                                  width: 115,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.file(_image,
-                              fit: BoxFit.fill,
-                              ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
+                                _image == null
+                                    ? Image.asset(
+                                        "assets/images/logo.png",
+                                        fit: BoxFit.none,
+                                        alignment: Alignment.center,
+                                      )
+                                    : Container(
+                                        height: 115,
+                                        width: 115,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: Image.file(
+                                            _image,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
                             onPressed: () {
@@ -283,9 +278,51 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
 //                                MaterialPageRoute(builder: (context) => DatosWidget(user)),
 //                              );
 
-                        ),
+                            ),
                       ),
                     ),
+                    _image == null ?
+                        Text("")
+                    :
+                    Container(
+                      width: 58,
+                      height: 58,
+                      margin: EdgeInsets.only(
+                          left: 90, top: 110, bottom: 33),
+                      child: Opacity(
+                        opacity: 1,
+                        child: FlatButton(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Color.fromARGB(255, 254, 189, 16),
+                                width: 2,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(100)),
+                            ),
+                            textColor: Color.fromARGB(0, 0, 0, 0),
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/icons8-edit-96px-11.png",
+                                  fit: BoxFit.none,
+                                  alignment: Alignment.center,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              getImage();
+                            }
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -307,7 +344,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
             ),
             Align(
               alignment: Alignment.topRight,
-              child: Container(
+              child: _image == null ?Text(""):Container(
                 width: 124,
                 height: 44,
                 margin: EdgeInsets.only(right: 3, bottom: 30),
@@ -339,8 +376,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
                         ),
                       ],
                     ),
-                    onPressed: () => siguienteBtn(context)
-                ),
+                    onPressed: () => siguienteBtn(context)),
 //                    {
 //                      Navigator.push(
 //                        context,
@@ -353,14 +389,12 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget>{
           ],
         ),
       ),
-    );;
+    );
+    ;
   }
 
   siguienteBtn(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(
-          builder: (context) => DatosWidget(user)
-    ));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => DatosWidget(user)));
   }
-
 }
