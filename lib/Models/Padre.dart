@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'User.dart';
@@ -10,7 +11,7 @@ class Padre extends User{
 
   Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol, String username,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
 
-  Padre.fromImage(Image image):super(){
+  Padre.fromImage(File image):super(){
     super.fotoPerfil = image;
   }
 

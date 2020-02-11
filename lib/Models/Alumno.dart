@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:io';
 import 'dart:ui';
 import 'User.dart';
 
@@ -15,7 +16,7 @@ class Alumno extends User{
     _curso = data["curso"];
   }
 
-  Alumno.fromImage(Image image): super(){
+  Alumno.fromImage(File image): super(){
     super.fotoPerfil = image;
   }
 

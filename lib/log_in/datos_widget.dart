@@ -6,11 +6,13 @@ import 'package:flutterui/values/values.dart';
 
 
 class DatosWidget extends StatelessWidget {
+
+
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   User user;
-
+  TextEditingController usernameController = new TextEditingController(),nombreController = new TextEditingController(), apellidoController = new TextEditingController();
   DatosWidget(this.user);
 
   @override
@@ -81,6 +83,7 @@ class DatosWidget extends StatelessWidget {
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
+                            controller: usernameController,
                             decoration: InputDecoration(
                               hintText: "USERNAME",
                               contentPadding: EdgeInsets.all(0),
@@ -118,6 +121,7 @@ class DatosWidget extends StatelessWidget {
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
+                            controller: nombreController,
                             decoration: InputDecoration(
                               hintText: "NOMBRE",
                               contentPadding: EdgeInsets.all(0),
@@ -155,6 +159,7 @@ class DatosWidget extends StatelessWidget {
                         child: Opacity(
                           opacity: 0.57,
                           child: TextField(
+                            controller: apellidoController,
                             decoration: InputDecoration(
                               hintText: "APELLIDO",
                               contentPadding: EdgeInsets.all(0),
@@ -236,18 +241,38 @@ class DatosWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CursoAlumnoWidget(user)),
-                      );
-                    }),
+                    onPressed: () => siguienteBtn(context)
+                ),
+//                    {
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => CursoAlumnoWidget(user)),
+//                      );
+//                    }),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  siguienteBtn(BuildContext context) {
+    if(usernameController.text.isNotEmpty || nombreController.text.isNotEmpty || apellidoController.text.isNotEmpty){
+      //cargamos la informacion al usuario
+
+      //pasamos a la siguiente pantalla
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CursoAlumnoWidget(user)),
+      );
+    }
+
+    //muestro mensaje de error
+
+
   }
 }

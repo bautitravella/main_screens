@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 
 class User {
   String _nombre;
   String _apellido;
   String _fotoPerfilUrl;
-  Image _fotoPerfil;
+  File _fotoPerfil;
   bool _hasAcceptedTerms;
   String _rol;
   String _username;
@@ -84,9 +85,9 @@ class User {
     _hasAcceptedTerms = value;
   }
 
-  Image get fotoPerfil => _fotoPerfil;
+  File get fotoPerfil => _fotoPerfil;
 
-  set fotoPerfil(Image value) {
+  set fotoPerfil(File value) {
     _fotoPerfil = value;
   }
 
