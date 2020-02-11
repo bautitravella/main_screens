@@ -19,6 +19,10 @@ class App extends StatelessWidget {
       create: (_) => Auth(),
       child: MaterialApp(
         home: MyDecider(),
+        routes: <String, WidgetBuilder> {
+        '/home': (BuildContext context) => HomeHub(),
+        '/logOut': (BuildContext context) => FirstscreenWidget(),
+      }
     ),
     );
 

@@ -34,3 +34,13 @@ class PastTripsPage extends StatelessWidget {
     );
   }
 }
+
+
+class FavoriteView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.orange,
+    );
+  }
+}

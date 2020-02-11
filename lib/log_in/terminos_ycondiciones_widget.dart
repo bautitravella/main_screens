@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/values/values.dart';
 
-
 class TerminosYCondicionesWidget extends StatelessWidget {
-
   void onButtonsLargeGreenPressed(BuildContext context) {}
 
   User user;
@@ -13,7 +11,6 @@ class TerminosYCondicionesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -42,7 +39,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.only(left: 28, top: 20, right: 28, bottom: 19),
+                margin:
+                    EdgeInsets.only(left: 28, top: 20, right: 28, bottom: 19),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -81,7 +79,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 0, top: 10, right: 3),
+                              margin:
+                                  EdgeInsets.only(left: 0, top: 10, right: 3),
                               child: Text(
                                 "When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us. ",
                                 textAlign: TextAlign.left,
@@ -95,7 +94,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                             ),
                             Container(
                               height: 206,
-                              margin: EdgeInsets.only(left: 57, top: 18, right: 6),
+                              margin:
+                                  EdgeInsets.only(left: 57, top: 18, right: 6),
                               child: Text(
                                 "• Step 1: You may use the Services only if you agree to form a binding contract with us and are not a person barred from receiving services under the laws of the applicable jurisdiction. \n\n• Step 2: Our Privacy Policy describes how we handle the information you provide to us when you use our Services.",
                                 textAlign: TextAlign.left,
@@ -108,7 +108,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 0, top: 10, right: 160),
+                              margin:
+                                  EdgeInsets.only(left: 0, top: 10, right: 160),
                               child: Text(
                                 "Privacidad",
                                 textAlign: TextAlign.left,
@@ -121,7 +122,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                             ),
                             Container(
                               height: 120,
-                              margin: EdgeInsets.only(left: 0, top: 10, right: 3),
+                              margin:
+                                  EdgeInsets.only(left: 0, top: 10, right: 3),
                               child: Text(
                                 "When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us. ",
                                 textAlign: TextAlign.left,
@@ -142,7 +144,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                       bottom: 0,
                       height: 53,
                       child: FlatButton(
-                        onPressed: () => this.onButtonsLargeGreenPressed(context),
+                        onPressed: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => HomeHub())),
                         color: AppColors.secondaryElement,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
