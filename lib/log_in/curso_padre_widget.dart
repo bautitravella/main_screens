@@ -23,8 +23,41 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   User user;
-  TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
+  TextEditingController nombreController = new TextEditingController();
 
+  List<DropdownMenuItem> items = [];
+  String selectedValue;
+  @override
+  void initState() {
+    for(int i=0; i < 20; i++){
+      items.add(new DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    new Text(
+                      'Colegio ' + i.toString(),
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 53, 38, 65),
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 19,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ]
+        ),
+        value: 'Colegio ' + i.toString(),
+      )
+      );
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +97,11 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
                     alignment: Alignment.center,
                     children: [
                       Positioned(
-                        left: 92,
-                        right: 91,
-                        bottom: 0,
+                        left: 70,
+                        right: 70,
+                        bottom: 15,
                         child: Text(
-                          "Completa los\ndatos del\nfamiliar",
+                          "Completa los datos del familiar",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color.fromARGB(255, 53, 38, 65),
@@ -84,7 +117,7 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
                         top: 0,
                         right: 0,
                         child: Image.asset(
-                          "assets/images/phonochico.png",
+                          "assets/images/phonochico3.png",
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -125,26 +158,32 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
                               ),
                             ),
                             Container(
-                              width: 150,
-                              height: 60,
-                              margin: EdgeInsets.only(left: 100, right: 110, top: 40),
+                              width: 170,
+                              height: 45,
+                              margin: EdgeInsets.only(left: 110, right: 110, top: 30),
                               child: Opacity(
-                                opacity: 0.57,
-                                child: TextField(
-                                  controller: apellidoController,
-                                  decoration: InputDecoration(
-                                    hintText: "APELLIDO",
-                                    contentPadding: EdgeInsets.only(top: 30),
-                                    border: InputBorder.none,
+                                opacity: 0.37,
+                                child: new DropdownButton(
+                                  icon: Icon(Icons.menu),
+                                  underline: Text(""),
+                                  items: items,
+                                  isExpanded: true,
+                                  value: selectedValue,
+                                  hint: new Text(
+                                    'COLEGIO',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 53, 38, 65),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 19,
+                                    ),
                                   ),
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 53, 38, 65),
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 19,
-                                  ),
-                                  maxLines: 1,
-                                  autocorrect: false,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedValue = value;
+                                    }
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -155,7 +194,44 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(77, 0, 0, 0),
                               ),
-                              child: Container(),
+                            ),
+                            Container(
+                              width: 170,
+                              height: 45,
+                              margin: EdgeInsets.only(left: 110, right: 110, top: 30),
+                              child: Opacity(
+                                opacity: 0.37,
+                                child: new DropdownButton(
+                                  icon: Icon(Icons.menu),
+                                  underline: Text(""),
+                                  items: items,
+                                  isExpanded: true,
+                                  value: selectedValue,
+                                  hint: new Text(
+                                    'CURSO',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 53, 38, 65),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 19,
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedValue = value;
+                                    }
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 2,
+                              width: 180,
+                              margin: EdgeInsets.only(left: 100, right: 100),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(77, 0, 0, 0),
+                              ),
                             ),
                           ],
                         ),
@@ -165,9 +241,9 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10, right: 10, bottom: SizeConfig.blockSizeVertical*7),
+                margin: EdgeInsets.only(left: 50, right: 50, bottom: SizeConfig.blockSizeVertical*7),
                 child: Text(
-                  "Los datos ingresados se podrán\ncambiar mas tarde \ndentro de la app\n",
+                  "Debes completar los datos del familiar que deseas ingresar. No se preocupe si tiene mas de uno. Puede agregar otro con el botón de 'agregar otro'",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color.fromARGB(255, 118, 118, 118),
@@ -232,11 +308,10 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
   }
 
   siguienteBtn(BuildContext context) {
-    if(nombreController.text.isNotEmpty || apellidoController.text.isNotEmpty){
+    if(nombreController.text.isNotEmpty ){
       //cargamos la informacion al usuario
 
       user.nombre = nombreController.text;
-      user.apellido = apellidoController.text;
 
       //pasamos a la siguiente pantalla
 

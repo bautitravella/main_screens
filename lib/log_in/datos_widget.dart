@@ -87,7 +87,7 @@ class DatosWidgetState extends State<DatosWidget>{
                         top: 0,
                         right: 0,
                         child: Image.asset(
-                          "assets/images/phonochico.png",
+                          "assets/images/phonochico2.png",
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -247,11 +247,6 @@ class DatosWidgetState extends State<DatosWidget>{
             builder: (context) => user is Padre? CursoPadreWidget(user):CursoAlumnoWidget(user))
       );
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CursoAlumnoWidget(user)),
-      );
     }else{
       //Mostrar mensaje de error
     }
