@@ -318,7 +318,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    getImage();
+                                    selectImage();
                                   }),
                             ),
                           )
@@ -412,7 +412,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   }
 
   void selectImage() {
-    //getImage().then(() => _image.path);
+    getImage().then((anything) => _cropImage());
 
   }
 }
