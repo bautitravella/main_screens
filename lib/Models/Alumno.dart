@@ -9,7 +9,7 @@ class Alumno extends User{
 
   Alumno(): super();
 
-  Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol, String username,this._colegio , this._curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
+  Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol,this._colegio , this._curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol);
 
   Alumno.fromMap(Map<String, dynamic> data) : super.fromMap(data){
     _colegio = data["colegio"];
@@ -29,6 +29,12 @@ class Alumno extends User{
   List<String> getCursos(){
     List<String> aux = [_curso,];
     return aux;
+  }
+
+  @override
+  Map<String,dynamic > toMap() {
+    Map<String,dynamic> userMap = super.toMap();
+    userMap[''];
   }
 
 }

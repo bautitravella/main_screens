@@ -175,14 +175,24 @@ class TerminosYCondicionesWidget extends StatelessWidget {
   }
 
   siguienteBtn(BuildContext context){
-    uploadImage();
+    uploadData().then((smt) => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeHub())));
   }
 
-  void uploadImage() async {
+  Future uploadData(){
+    uploadImage().then((downloadUrl) => uploadUserInformation(downloadUrl));
+  }
+
+  Future<String> uploadImage() async {
     StorageReference ref = FirebaseStorage.instance.ref().child("agustinTormakhFotardas");
     StorageUploadTask uploadTask = ref.putFile(user.fotoPerfil);
 
-
     String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL().toString();
+    return downloadUrl;
   }
+
+  uploadUserInformation(String downloadUrl) {
+    Firestore.instance.collection('Users').document(user.email).setData(user.)
+  }
+
+
 }
