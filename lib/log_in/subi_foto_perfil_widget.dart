@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/datos_widget.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
 //import 'package:image_picker/image_picker.dart';
 
@@ -270,7 +271,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                               ],
                             ),
                             onPressed: () {
-                              getImage();
+                              selectImage();
                             }
 
 //                              Navigator.push(
@@ -281,48 +282,46 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                             ),
                       ),
                     ),
-                    _image == null ?
-                        Text("")
-                    :
-                    Container(
-                      width: 58,
-                      height: 58,
-                      margin: EdgeInsets.only(
-                          left: 90, top: 110, bottom: 33),
-                      child: Opacity(
-                        opacity: 1,
-                        child: FlatButton(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Color.fromARGB(255, 254, 189, 16),
-                                width: 2,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(100)),
+                    _image == null
+                        ? Text("")
+                        : Container(
+                            width: 58,
+                            height: 58,
+                            margin:
+                                EdgeInsets.only(left: 90, top: 110, bottom: 33),
+                            child: Opacity(
+                              opacity: 1,
+                              child: FlatButton(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: Color.fromARGB(255, 254, 189, 16),
+                                      width: 2,
+                                      style: BorderStyle.solid,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(100)),
+                                  ),
+                                  textColor: Color.fromARGB(0, 0, 0, 0),
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/icons8-edit-96px-11.png",
+                                        fit: BoxFit.none,
+                                        alignment: Alignment.center,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    getImage();
+                                  }),
                             ),
-                            textColor: Color.fromARGB(0, 0, 0, 0),
-                            padding: EdgeInsets.only(left: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons8-edit-96px-11.png",
-                                  fit: BoxFit.none,
-                                  alignment: Alignment.center,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                              ],
-                            ),
-                            onPressed: () {
-                              getImage();
-                            }
-                        ),
-                      ),
-                    )
+                          )
                   ],
                 ),
               ),
@@ -344,39 +343,41 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: _image == null ?Text(""):Container(
-                width: 124,
-                height: 44,
-                margin: EdgeInsets.only(right: 3, bottom: 30),
-                child: FlatButton(
-                    color: AppColors.secondaryElement,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    textColor: Color.fromARGB(255, 255, 255, 255),
-                    padding: EdgeInsets.all(0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/icons-back-light-2.png",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Siguiente",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.secondaryText,
-                            fontFamily: "Roboto",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
+              child: _image == null
+                  ? Text("")
+                  : Container(
+                      width: 124,
+                      height: 44,
+                      margin: EdgeInsets.only(right: 3, bottom: 30),
+                      child: FlatButton(
+                          color: AppColors.secondaryElement,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                        ),
-                      ],
-                    ),
-                    onPressed: () => siguienteBtn(context)),
+                          textColor: Color.fromARGB(255, 255, 255, 255),
+                          padding: EdgeInsets.all(0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/icons-back-light-2.png",
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Siguiente",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.secondaryText,
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () => siguienteBtn(context)),
 //                    {
 //                      Navigator.push(
 //                        context,
@@ -384,7 +385,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 //                            builder: (context) => CursoAlumnoWidget(user)),
 //                      );
 //                    }),
-              ),
+                    ),
             ),
           ],
         ),
@@ -396,5 +397,22 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   siguienteBtn(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => DatosWidget(user)));
+  }
+
+  Future<void> _cropImage() async {
+    File cropped = await ImageCropper.cropImage(
+      sourcePath: _image.path,
+      //ratioX: 1.0,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+    );
+
+    setState(() {
+      _image = cropped ?? _image;
+    });
+  }
+
+  void selectImage() {
+    //getImage().then(() => _image.path);
+
   }
 }
