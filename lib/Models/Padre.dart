@@ -15,6 +15,8 @@ class Padre extends User{
     super.fotoPerfil = image;
   }
 
+  Padre.fromEmail(String email): super.fromEmail(email);
+
   void agregarHijo(Hijo hijo){
     _hijos.add(hijo);
   }

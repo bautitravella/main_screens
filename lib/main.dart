@@ -74,48 +74,7 @@ class MyDecider extends StatelessWidget{
 class FirestoreDecider  extends StatefulWidget{
 
   String userEmail;
-  FirestoreDecider(String userEmail){
-    this.userEmail = userEmail;
-  }
- Future<DocumentSnapshot> firestoreDocumentFuture;
-
-
-/*  @override
-  Widget build(BuildContext context){
-    return FutureBuilder(
-        future: isInformationCompleted(userEmail),
-        builder: (context,AsyncSnapshot<Widget> answer){
-          return answer.data;
-        },
-    );
-  }*/
-
-  Future<Widget> isInformationCompleted(String email) {
-  return Firestore.instance.collection("Users").document(email).get().then((DocumentSnapshot ds) {
-    if(ds.exists){
-      print(ds.data);
-      if(firebaseUserInfoCompleted(ds.data)){
-        return HomeHub();
-      }
-    }
-    return ElijeUnRolWidget();
-  } );
-
-}
-
-  bool firebaseUserInfoCompleted(Map<String,dynamic> data){
-    return false;
-    String nombre = data['nombre'];
-    String apellido = data['apellido'];
-    String fotoPerfil = data['foto de perfil'];
-    bool hasAcceptedTerms = data['hasAcceptedTerms'];
-    String rol = data['rol'];
-    String username = data['username'];
-    if(nombre == null || apellido == null || fotoPerfil == null || hasAcceptedTerms == null || rol == null || username == null){
-      return false;
-    }
-    return true;
-}
+  FirestoreDecider(this.userEmail);
 
   @override
   FirestoreDeciderState createState() => FirestoreDeciderState(userEmail);
@@ -149,7 +108,7 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
             return HomeHub();
           }
         }
-        return ElijeUnRolWidget();
+        return ElijeUnRolWidget(email);
       } );
 
       }

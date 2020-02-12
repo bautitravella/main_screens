@@ -5,6 +5,9 @@ import 'package:flutterui/log_in/subi_foto_perfil_widget.dart';
 import 'package:flutterui/values/values.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {
+
+  String email;
+  ElijeUnRolWidget(this.email);
   void onLogoPressed(BuildContext context) {}
   void onButtonPressed(BuildContext context) {}
   void onRectangle648Pressed(BuildContext context) {}
@@ -81,7 +84,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      SubiFotoPerfilWidget(new Padre())),
+                                      SubiFotoPerfilWidget(new Padre.fromEmail(email))),
                             );
                           },
                           color: Color.fromARGB(200, 57, 57, 57),
@@ -137,7 +140,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        SubiFotoPerfilWidget(new Alumno())),
+                                        SubiFotoPerfilWidget(new Alumno.fromEmail(email))),
                               );
                             }),
                       ),

@@ -27,7 +27,7 @@ class VerificacionWidget extends StatelessWidget {
   void checkIfVerified(BuildContext context){
     final auth = Provider.of<BaseAuth>(context,listen: false);
     try{
-      auth.currentUser().then((user) => user.isEmailVerified ? () =>{Navigator.push(context, MaterialPageRoute(builder: (context) => ElijeUnRolWidget())), print('VERIFICACION TRUE')} : print('VERIFICACION FALSE'));
+      auth.currentUser().then((user) => user.isEmailVerified ? () =>{Navigator.push(context, MaterialPageRoute(builder: (context) => ElijeUnRolWidget(user.email))), print('VERIFICACION TRUE')} : print('VERIFICACION FALSE'));
       //auth.currentUser().then((user) => print('VERIFICACION == ${user.isEmailVerified},userUID = ${user.uid}'));
     }catch (e){
       print(e);

@@ -19,7 +19,7 @@ class Alumno extends User{
   Alumno.fromImage(File image): super(){
     super.fotoPerfil = image;
   }
-
+  Alumno.fromEmail(String email): super.fromEmail(email);
 
   List<String> getColegios(){
     List<String> aux  = [_colegio,];
