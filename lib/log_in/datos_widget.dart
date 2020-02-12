@@ -7,15 +7,24 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
 
-class DatosWidget extends StatelessWidget {
+class DatosWidget extends StatefulWidget {
+  User user;
+  DatosWidget(this.user);
 
+
+  DatosWidgetState createState() => DatosWidgetState(user);
+}
+
+class DatosWidgetState extends State<DatosWidget>{
+
+  DatosWidgetState(this.user);
 
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   User user;
-  TextEditingController usernameController = new TextEditingController(),nombreController = new TextEditingController(), apellidoController = new TextEditingController();
-  DatosWidget(this.user);
+  TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -223,8 +232,11 @@ class DatosWidget extends StatelessWidget {
   }
 
   siguienteBtn(BuildContext context) {
-    if(usernameController.text.isNotEmpty || nombreController.text.isNotEmpty || apellidoController.text.isNotEmpty){
+    if(nombreController.text.isNotEmpty || apellidoController.text.isNotEmpty){
       //cargamos la informacion al usuario
+
+      user.nombre = nombreController.text;
+      user.apellido = apellidoController.text;
 
       //pasamos a la siguiente pantalla
 
@@ -233,10 +245,8 @@ class DatosWidget extends StatelessWidget {
         MaterialPageRoute(
             builder: (context) => CursoAlumnoWidget(user)),
       );
+    }else{
+      //Mostrar mensaje de error
     }
-
-    //muestro mensaje de error
-
-
   }
 }
