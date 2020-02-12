@@ -1,22 +1,62 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutterui/Models/User.dart';
-import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
-
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
 
 
-class CursoAlumnoWidget extends StatelessWidget {
-  void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
-
+class CursoAlumnoWidget extends StatefulWidget {
   User user;
   CursoAlumnoWidget(this.user);
 
   @override
+  _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState();
+}
+class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
+
+  void onLogoPressed(BuildContext context) {}
+  void onBtnBlueTwoPressed(BuildContext context) {}
+
+  List<DropdownMenuItem> items = [];
+  String selectedValue;
+  @override
+  void initState() {
+    for(int i=0; i < 20; i++){
+      items.add(new DropdownMenuItem(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              child: new Text(
+                'Colegiiiiiiiiijojojojojojojojojoo ' + i.toString(),
+                style: TextStyle(
+                  color: Color.fromARGB(255, 53, 38, 65),
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                ),
+              ),
+            ),
+            new Container(
+              width: 400,
+              height: 2,
+              color: Colors.black12,
+        )
+          ]
+        ),
+        value: 'Colegiiiiiiiiijojojojojojojojojoo ' + i.toString(),
+      )
+      );
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: ()=> FocusScope.of(context).unfocus(),
@@ -88,25 +128,32 @@ class CursoAlumnoWidget extends StatelessWidget {
                               )
                             ),
                             Container(
-                              width: 150,
-                              height: 60,
-                              margin: EdgeInsets.only(left: 100, right: 110, top: 20),
+                              width: 170,
+                              height: 40,
+                              margin: EdgeInsets.only(left: 110, right: 110, top: 20),
                               child: Opacity(
-                                opacity: 0.57,
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: "APELLIDO",
-                                    contentPadding: EdgeInsets.only(top: 30),
-                                    border: InputBorder.none,
-                                  ),
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 53, 38, 65),
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 19,
-                                  ),
-                                  maxLines: 1,
-                                  autocorrect: false,
+                                opacity: 0.37,
+                                child: new DropdownButton(
+                                  icon: Icon(Icons.menu),
+                                      underline: Text(""),
+                                      items: items,
+                                      isExpanded: true,
+                                      value: selectedValue,
+                                      hint: new Text(
+                                      'COLEGIO',
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 53, 38, 65),
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedValue = value;
+                                      }
+                                      );
+                                    },
                                 ),
                               ),
                             ),
@@ -117,7 +164,6 @@ class CursoAlumnoWidget extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(77, 0, 0, 0),
                               ),
-                              child: Container(),
                             ),
                             Container(
                               width: 150,
@@ -207,7 +253,7 @@ class CursoAlumnoWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      onPressed: () => siguienteBtn(context)
+                      onPressed: () => []
                   ),
 //                    {
 //                      Navigator.push(
@@ -216,27 +262,13 @@ class CursoAlumnoWidget extends StatelessWidget {
 //                            builder: (context) => CursoAlumnoWidget(user)),
 //                      );
 //                    }),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
-  siguienteBtn(BuildContext context) {
-      //cargamos la informacion al usuario
-
-      //pasamos a la siguiente pantalla
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CursoAlumnoWidget(user)),
-      );
-
-    //muestro mensaje de error
-
-
-  }
 }
+
