@@ -27,27 +27,27 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
     for(int i=0; i < 20; i++){
       items.add(new DropdownMenuItem(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(top: 10, bottom: 10),
-              child: new Text(
-                'Colegiiiiiiiiijojojojojojojojojoo ' + i.toString(),
-                style: TextStyle(
-                  color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
-                ),
+              child: Row(
+                children: <Widget>[
+                  new Text(
+                    'Colegio ' + i.toString(),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 53, 38, 65),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 19,
+                    ),
+                  ),
+                ],
               ),
             ),
-            new Container(
-              width: 400,
-              height: 2,
-              color: Colors.black12,
-        )
           ]
         ),
-        value: 'Colegiiiiiiiiijojojojojojojojojoo ' + i.toString(),
+        value: 'Colegio ' + i.toString(),
       )
       );
     }
@@ -73,7 +73,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                 child: Container(
                   margin: EdgeInsets.only(left: 28, top: 85),
                   child: Text(
-                    "Falta poco",
+                    "Casi listos",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Color.fromARGB(255, 57, 57, 57),
@@ -86,16 +86,16 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.only(top: 39, bottom: 12),
+                  margin: EdgeInsets.only(top: 39, bottom: 20),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Positioned(
-                        left: 92,
-                        right: 91,
+                        left: 80,
+                        right: 80,
                         bottom: 0,
                         child: Text(
-                          "Ingresa tus\ndatos",
+                          "Selecciona\ncolegio y curso",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color.fromARGB(255, 53, 38, 65),
@@ -129,7 +129,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                             ),
                             Container(
                               width: 170,
-                              height: 40,
+                              height: 45,
                               margin: EdgeInsets.only(left: 110, right: 110, top: 20),
                               child: Opacity(
                                 opacity: 0.37,
@@ -166,25 +166,32 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                               ),
                             ),
                             Container(
-                              width: 150,
-                              height: 60,
-                              margin: EdgeInsets.only(left: 100, right: 110, top: 20),
+                              width: 170,
+                              height: 45,
+                              margin: EdgeInsets.only(left: 110, right: 110, top: 40),
                               child: Opacity(
-                                opacity: 0.57,
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: "APELLIDO",
-                                    contentPadding: EdgeInsets.only(top: 30),
-                                    border: InputBorder.none,
+                                opacity: 0.37,
+                                child: new DropdownButton(
+                                  icon: Icon(Icons.menu),
+                                  underline: Text(""),
+                                  items: items,
+                                  isExpanded: true,
+                                  value: selectedValue,
+                                  hint: new Text(
+                                    'CURSO',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 53, 38, 65),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 19,
+                                    ),
                                   ),
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 53, 38, 65),
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 19,
-                                  ),
-                                  maxLines: 1,
-                                  autocorrect: false,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedValue = value;
+                                    }
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -195,7 +202,6 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(77, 0, 0, 0),
                               ),
-                              child: Container(),
                             ),
                           ],
                         ),
