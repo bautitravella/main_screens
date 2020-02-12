@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
@@ -171,5 +172,17 @@ class TerminosYCondicionesWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  siguienteBtn(BuildContext context){
+    uploadImage();
+  }
+
+  void uploadImage() async {
+    StorageReference ref = FirebaseStorage.instance.ref().child("agustinTormakhFotardas");
+    StorageUploadTask uploadTask = ref.putFile(user.fotoPerfil);
+
+
+    String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL().toString();
   }
 }

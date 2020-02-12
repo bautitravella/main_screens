@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/curso_alumno_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
+
+import 'curso_padre_widget.dart';
 
 
 class DatosWidget extends StatefulWidget {
@@ -239,6 +242,10 @@ class DatosWidgetState extends State<DatosWidget>{
       user.apellido = apellidoController.text;
 
       //pasamos a la siguiente pantalla
+      Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => user is Padre? CursoPadreWidget(user):CursoAlumnoWidget(user))
+      );
 
       Navigator.push(
         context,

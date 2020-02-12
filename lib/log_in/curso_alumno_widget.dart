@@ -276,5 +276,13 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
         ),
     );
   }
+
+  siguienteBtn(BuildContext context){
+    //chequear si el usuario eligio un colegio y un curso
+
+      //agregar los datos al usuario
+
+      //pasar a la siguiente pantalla
+  }
 }
 
