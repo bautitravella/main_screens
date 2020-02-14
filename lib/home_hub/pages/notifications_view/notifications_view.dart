@@ -146,7 +146,7 @@ class ListViewVenta extends StatelessWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreen(user: chat.sender),
+                    builder: (_) => Chat(user: chat.sender),
                   )),
               child: Stack(
                 children: <Widget>[
@@ -316,7 +316,7 @@ class ListViewCompra extends StatelessWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreen(user: chat.sender),
+                    builder: (_) => Chat(user: chat.sender),
                   )),
               child: Stack(
                 children: <Widget>[
