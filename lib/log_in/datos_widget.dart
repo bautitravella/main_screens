@@ -67,22 +67,6 @@ class DatosWidgetState extends State<DatosWidget>{
                     alignment: Alignment.center,
                     children: [
                       Positioned(
-                        left: 92,
-                        right: 91,
-                        bottom: 0,
-                        child: Text(
-                          "Ingresa tus\ndatos",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 53, 38, 65),
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 26,
-                            letterSpacing: -0.41786,
-                          ),
-                        ),
-                      ),
-                      Positioned(
                         left: 0,
                         top: 0,
                         right: 0,
@@ -92,7 +76,7 @@ class DatosWidgetState extends State<DatosWidget>{
                         ),
                       ),
                       Positioned(
-                        top: 60,
+                        top: SizeConfig.blockSizeVertical*8,
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -130,7 +114,7 @@ class DatosWidgetState extends State<DatosWidget>{
                             Container(
                               width: 150,
                               height: 60,
-                              margin: EdgeInsets.only(left: 100, right: 110, top: 40),
+                              margin: EdgeInsets.only(left: 100, right: 110, top: SizeConfig.blockSizeVertical*3),
                               child: Opacity(
                                 opacity: 0.57,
                                 child: TextField(
@@ -158,7 +142,41 @@ class DatosWidgetState extends State<DatosWidget>{
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(77, 0, 0, 0),
                               ),
-                              child: Container(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        left: 60,
+                        right: 60,
+                        bottom: SizeConfig.blockSizeVertical*3,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Ingresa tus\ndatos",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 26,
+                                letterSpacing: -0.41786,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                              child: Text(
+                                "Los datos ingresados se podrán\ncambiar mas tarde dentro de la app\n",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 118, 118, 118),
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  letterSpacing: -0.1,
+                                  height: 1.4,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -167,27 +185,13 @@ class DatosWidgetState extends State<DatosWidget>{
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10, bottom: SizeConfig.blockSizeVertical*7),
-                child: Text(
-                  "Los datos ingresados se podrán\ncambiar mas tarde \ndentro de la app\n",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 118, 118, 118),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    letterSpacing: -0.1,
-                    height: 1.4,
-                  ),
-                ),
-              ),
+
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
                   width: 124,
                   height: 44,
-                  margin: EdgeInsets.only(right: 3, bottom: 30),
+                  margin: EdgeInsets.only(right: 3, bottom: 10),
                   child: FlatButton(
                       color: AppColors.secondaryElement,
                       shape: RoundedRectangleBorder(

@@ -186,8 +186,9 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                             ),
                           ),
                           Container(
+                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2,),
                             child: Text(
-                              "Es importante subir una foto \nen la que salgas bien.\n",
+                              "Es importante subir una foto \nen la que salgas bien.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 118, 118, 118),
