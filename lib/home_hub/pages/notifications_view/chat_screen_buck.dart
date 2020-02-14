@@ -7,22 +7,22 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../../size_config.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreenBuck extends StatefulWidget {
   final User user;
-  ChatScreen({this.user});
+  ChatScreenBuck({this.user});
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  _ChatScreenBuckState createState() => _ChatScreenBuckState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenBuckState extends State<ChatScreenBuck> {
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
   _buildMessage(Message message, bool isMe) {
     return Flex(
       direction: Axis.horizontal,
-        mainAxisAlignment: isMe ?MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: isMe ?MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
         Container(
             padding: isMe
@@ -47,16 +47,16 @@ class _ChatScreenState extends State<ChatScreen> {
                   message.text,
                   style: isMe
                       ? TextStyle(
-                          fontFamily: "Sf",
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white)
+                      fontFamily: "Sf",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white)
                       : TextStyle(
-                          fontFamily: "Sf",
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Color.fromARGB(255, 96, 102, 115),
-                        ),
+                    fontFamily: "Sf",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(255, 96, 102, 115),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 5, left: 0, right: 0),
@@ -102,12 +102,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration.collapsed(
                             hintText: "Di algo...",
-                          hintStyle:TextStyle(
+                            hintStyle:TextStyle(
                               fontFamily: "Sf",
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                            color: Color.fromARGB(100, 96, 102, 115),
-                             )
+                              color: Color.fromARGB(100, 96, 102, 115),
+                            )
                         ),
                       ),
                     ),
@@ -133,7 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           _keyboardIsVisible()
-          ?Container(
+              ?Container(
             width: 65,
             margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
             decoration: BoxDecoration(
@@ -167,7 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
- 
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -204,7 +204,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "Jefrey",
+                                widget.user.name,
                                 style: TextStyle(
                                   fontFamily: "Sf",
                                   fontSize: 21,
@@ -268,6 +268,12 @@ class _ChatScreenState extends State<ChatScreen> {
                           //                    ),
                           //                  ),
                           Positioned(
+                            child: CircleAvatar(
+                              radius: 23.0,
+                              backgroundImage: AssetImage(widget.user.imageUrl),
+                            ),
+                          ),
+                          Positioned(
                             left: SizeConfig.blockSizeHorizontal * 8,
                             top: SizeConfig.blockSizeVertical * 4,
                             child: Container(
@@ -314,7 +320,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: <Widget>[
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*14),
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*14),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
