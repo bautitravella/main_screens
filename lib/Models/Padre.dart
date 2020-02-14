@@ -9,7 +9,7 @@ class Padre extends User{
 
   Padre():super();
 
-  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol, String username,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol, username);
+  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol);
 
   Padre.fromImage(File image):super(){
     super.fotoPerfil = image;
