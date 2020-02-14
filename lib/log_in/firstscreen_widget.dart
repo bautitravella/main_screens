@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/log_in/log_in_widget.dart';
-import 'package:flutterui/log_in/sign_up_widget.dart';
+import 'package:flutterui/log_in/log_in_widget_buckup.dart';
+import 'package:flutterui/log_in/sign_up.dart';
+import 'package:flutterui/log_in/sign_up_widget_buckup.dart';
 import 'package:flutterui/values/values.dart';
+
+import 'log_in.dart';
 
 class FirstscreenWidget extends StatelessWidget {
   void onSymbol91Pressed(BuildContext context) {}
@@ -85,7 +88,7 @@ class FirstscreenWidget extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LogInWidget()),
+                            MaterialPageRoute(builder: (context) => LogIn()),
                            );
                         }
                     ),
@@ -119,7 +122,7 @@ class FirstscreenWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUpWidget()),
+                      MaterialPageRoute(builder: (context) => SignUp()),
                     );
                   }),
             ),

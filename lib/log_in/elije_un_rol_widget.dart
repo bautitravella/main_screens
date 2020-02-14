@@ -4,6 +4,8 @@ import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/log_in/subi_foto_perfil_widget.dart';
 import 'package:flutterui/values/values.dart';
 
+import '../size_config.dart';
+
 class ElijeUnRolWidget extends StatelessWidget {
 
   String email;
@@ -15,155 +17,148 @@ class ElijeUnRolWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
+        width: SizeConfig.blockSizeHorizontal*100,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 28, top: 85),
-                child: Text(
-                  "Tu Cuenta",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 57, 57, 57),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 38,
-                  ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*10),
+              child: Text(
+                "Tu cuenta",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: AppColors.accentText,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 38,
                 ),
               ),
             ),
             Expanded(
-              flex: 1,
               child: Container(
-                margin: EdgeInsets.only(top: 20, bottom: 12),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Positioned(
-                      left: 60,
-                      top: 0,
-                      right: 60,
-                      child: Image.asset(
-                        "assets/images/parentandchild.png",
-                        fit: BoxFit.fill,
+                width: SizeConfig.blockSizeHorizontal*100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*19),
+                        child: ClipRRect(
+                          child: Image.asset(
+                            "assets/images/parentandchild.png",
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*17,right: SizeConfig.blockSizeHorizontal*17, bottom: SizeConfig.blockSizeVertical*7),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              width: 99,
+                              height: 35,
+                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                              child: FlatButton(
+                                  onPressed: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SubiFotoPerfilWidget(new Padre.fromEmail(email))),
+                                    );
+                                  },
+                                  color: Color.fromARGB(200, 57, 57, 57),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(17.5)),
+                                  ),
+                                  textColor: Color.fromARGB(255, 0, 0, 0),
+                                  padding: EdgeInsets.all(0),
+                                  child: Text(
+                                    "Padre",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      letterSpacing: -0.36,
+                                    ),
+                                  )
+                              )
+                          ),
+                          Container(
+                              width: 99,
+                              height: 35,
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                              child: FlatButton(
+                                  onPressed: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SubiFotoPerfilWidget(new Alumno.fromEmail(email))),
+                                    );
+                                  },
+                                  color: Color.fromARGB(200, 57, 57, 57),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(17.5)),
+                                  ),
+                                  textColor: Color.fromARGB(255, 0, 0, 0),
+                                  padding: EdgeInsets.all(0),
+                                  child: Text(
+                                    "Alumno",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      letterSpacing: -0.36,
+                                    ),
+                                  )
+                              )
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      left: 92,
-                      right: 91,
-                      bottom: 0,
+
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
                       child: Text(
                         "Elije un rol",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color.fromARGB(255, 53, 38, 65),
+                          color: AppColors.primaryText,
                           fontFamily: "Montserrat",
                           fontWeight: FontWeight.w700,
-                          fontSize: 26,
-                          letterSpacing: -0.41786,
+                          fontSize: 25,
+                          letterSpacing: -0.43393,
                         ),
                       ),
                     ),
                     Container(
-                      width: 99,
-                      height: 35,
-                      margin: EdgeInsets.only(
-                          left: 1, right: 180, top: 250, bottom: 12),
-                      child: Opacity(
-                        opacity: 1,
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      SubiFotoPerfilWidget(new Padre.fromEmail(email))),
-                            );
-                          },
-                          color: Color.fromARGB(200, 57, 57, 57),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(17.5)),
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*5, right:SizeConfig.blockSizeHorizontal*5, bottom: SizeConfig.blockSizeVertical*8),
+                        child: Text("Esto determinara cuantos cursos\nestarán disponibles dentro de la app.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 118, 118, 118),
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            letterSpacing: -0.1,
+                            height: 1.4,
                           ),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          padding: EdgeInsets.all(0),
-                          child: Text(
-                            "Padre",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              letterSpacing: -0.36,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 99,
-                      height: 35,
-                      margin: EdgeInsets.only(
-                          left: 180, right: 1, top: 250, bottom: 12),
-                      child: Opacity(
-                        opacity: 1,
-                        child: FlatButton(
-                            color: Color.fromARGB(200, 57, 57, 57),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(17.5)),
-                            ),
-                            textColor: Color.fromARGB(255, 0, 0, 0),
-                            padding: EdgeInsets.all(0),
-                            child: Text(
-                              "Alumno",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                letterSpacing: -0.36,
-                              ),
-                            ),
-                            onPressed: () {
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SubiFotoPerfilWidget(new Alumno.fromEmail(email))),
-                              );
-                            }),
-                      ),
+                        )
                     ),
                   ],
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
-              child: Text(
-                "Esto determinara cuantos cursos \nestarán disponibles dentro de la app.\n",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 118, 118, 118),
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  letterSpacing: -0.1,
-                  height: 1.4,
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),

@@ -117,8 +117,20 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
                         top: 0,
                         right: 0,
                         child: Image.asset(
-                          "assets/images/phonochico3.png",
+                          "assets/images/phonochico4.png",
                           fit: BoxFit.fill,
+                        ),
+                      ),
+                      Positioned(
+                        top: 10,
+                        child: Text(
+                            "1",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w900
+                        ),
                         ),
                       ),
                       Positioned(
@@ -257,40 +269,32 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
               ),
               Align(
                 alignment: Alignment.topRight,
-                child: Container(
-                  width: 124,
-                  height: 44,
-                  margin: EdgeInsets.only(right: 3, bottom: 30),
-                  child: FlatButton(
-                      color: AppColors.secondaryElement,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      textColor: Color.fromARGB(255, 255, 255, 255),
-                      padding: EdgeInsets.all(0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/icons-back-light-2.png",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: 124,
+                      height: 44,
+                      margin: EdgeInsets.only(left: 3, bottom: 30),
+                      child: FlatButton(
+                          color: AppColors.secondaryElement,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Siguiente",
+                          textColor: Color.fromARGB(255, 255, 255, 255),
+                          padding: EdgeInsets.all(0),
+                          child: Text(
+                            "Agregar otro",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.secondaryText,
                               fontFamily: "Roboto",
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w700,
                               fontSize: 15,
                             ),
                           ),
-                        ],
+                          onPressed: () => siguienteBtn(context)
                       ),
-                      onPressed: () => siguienteBtn(context)
-                  ),
 //                    {
 //                      Navigator.push(
 //                        context,
@@ -298,6 +302,50 @@ class CursoPadreWidgetState extends State<CursoPadreWidget>{
 //                            builder: (context) => CursoAlumnoWidget(user)),
 //                      );
 //                    }),
+                    ),
+                    Container(
+                      width: 124,
+                      height: 44,
+                      margin: EdgeInsets.only(right: 3, bottom: 30),
+                      child: FlatButton(
+                          color: AppColors.secondaryElement,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          textColor: Color.fromARGB(255, 255, 255, 255),
+                          padding: EdgeInsets.all(0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/icons-back-light-2.png",
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Finalizar",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.secondaryText,
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onPressed: () => siguienteBtn(context)
+                      ),
+//                    {
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => CursoAlumnoWidget(user)),
+//                      );
+//                    }),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -3,19 +3,20 @@ import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/main.dart';
-
+import 'package:flutterui/size_config.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
-class LogInWidget extends StatefulWidget {
+class LogInWidgetBuckup extends StatefulWidget {
   @override
-  _LogInWidgetState createState() => _LogInWidgetState();
+  _LogInWidgetBuckupState createState() => _LogInWidgetBuckupState();
 }
 
-class _LogInWidgetState extends State<LogInWidget> {
+class _LogInWidgetBuckupState extends State<LogInWidgetBuckup> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String _email;
@@ -92,6 +93,7 @@ class _LogInWidgetState extends State<LogInWidget> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(

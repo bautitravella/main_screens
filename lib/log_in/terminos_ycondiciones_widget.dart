@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
@@ -189,9 +190,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
     String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL().toString();
     return downloadUrl;
   }
-
   uploadUserInformation(String downloadUrl) {
-    Firestore.instance.collection('Users').document(user.email).setData(user.)
+   // Firestore.instance.collection('Users').document(user.email).setData(user.)
   }
 
 

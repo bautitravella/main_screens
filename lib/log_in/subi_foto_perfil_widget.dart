@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/datos_widget.dart';
+import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
@@ -59,22 +60,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Positioned(
-                      left: 92,
-                      right: 91,
-                      bottom: 0,
-                      child: Text(
-                        "Subí una foto",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 53, 38, 65),
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26,
-                          letterSpacing: -0.41786,
-                        ),
-                      ),
-                    ),
+
                     Positioned(
                       left: 0,
                       top: 0,
@@ -85,160 +71,179 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                       ),
                     ),
                     Positioned(
-                      left: 103,
-                      top: 50,
-                      right: 103,
-                      bottom: 50,
-                      child: Image.asset(
-                        "assets/images/uploadimage.png",
-                        fit: BoxFit.none,
-                      ),
-                    ),
-                    Container(
-                      width: 160,
+                      right: SizeConfig.blockSizeHorizontal*30,
+                      top: SizeConfig.blockSizeVertical*10,
+                      left: SizeConfig.blockSizeHorizontal*30,
                       height: 160,
-                      margin: EdgeInsets.only(
-                          left: 4, right: 4, top: 33, bottom: 33),
-                      child: Opacity(
-                        opacity: 1,
-                        child: FlatButton(
-                            color: Color.fromARGB(0, 0, 0, 0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100)),
+                      child: Container(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              "assets/images/uploadimage.png",
+                              fit: BoxFit.fill,
                             ),
-                            textColor: Color.fromARGB(0, 0, 0, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _image == null
-                                    ? Image.asset(
-                                        "assets/images/logo.png",
-                                        fit: BoxFit.none,
-                                        alignment: Alignment.center,
-                                      )
-                                    : Container(
-                                        height: 115,
-                                        width: 115,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          child: Image.file(
-                                            _image,
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
+                            Center(
+                              child: FlatButton(
+                                  color: Color.fromARGB(0, 0, 0, 0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
+                                  ),
+                                  textColor: Color.fromARGB(0, 0, 0, 0),
+                                  child: _image == null
+                                      ? Image.asset(
+                                    "assets/images/logo.png",
+                                    fit: BoxFit.none,
+                                    alignment: Alignment.center,
+                                  )
+                                      : Container(
+                                    height: 115,
+                                    width: 115,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(100),
+                                      child: Image.file(
+                                        _image,
+                                        fit: BoxFit.fill,
                                       ),
-                              ],
-                            ),
-                            onPressed: () {
-                              selectImage();
-                            }
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    selectImage();
+                                  }
 
 //                              Navigator.push(
 //                                context,
 //                                MaterialPageRoute(builder: (context) => DatosWidget(user)),
 //                              );
 
+                              ),
                             ),
+                            Positioned(
+                              right: 0,
+                              bottom: 5,
+                              child:  _image == null
+                                  ? Text("")
+                                  : Container(
+                                width: 58,
+                                height: 58,
+                                child: Opacity(
+                                  opacity: 1,
+                                  child: FlatButton(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                          color: Color.fromARGB(255, 254, 189, 16),
+                                          width: 2,
+                                          style: BorderStyle.solid,
+                                        ),
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(100)),
+                                      ),
+                                      textColor: Color.fromARGB(0, 0, 0, 0),
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/icons8-edit-96px-11.png",
+                                            fit: BoxFit.none,
+                                            alignment: Alignment.center,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        selectImage();
+                                      }),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    _image == null
-                        ? Text("")
-                        : Container(
-                            width: 58,
-                            height: 58,
-                            margin:
-                                EdgeInsets.only(left: 90, top: 110, bottom: 33),
-                            child: Opacity(
-                              opacity: 1,
-                              child: FlatButton(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      color: Color.fromARGB(255, 254, 189, 16),
-                                      width: 2,
-                                      style: BorderStyle.solid,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(100)),
-                                  ),
-                                  textColor: Color.fromARGB(0, 0, 0, 0),
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/icons8-edit-96px-11.png",
-                                        fit: BoxFit.none,
-                                        alignment: Alignment.center,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: () {
-                                    selectImage();
-                                  }),
+
+
+                    Positioned(
+                      left: 92,
+                      right: 91,
+                      bottom: SizeConfig.blockSizeVertical*5,
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "Subí una foto",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 53, 38, 65),
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 26,
+                              letterSpacing: -0.41786,
                             ),
-                          )
+                          ),
+                          Container(
+                            child: Text(
+                              "Es importante subir una foto \nen la que salgas bien.\n",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 118, 118, 118),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                letterSpacing: -0.1,
+                                height: 1.4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
-              child: Text(
-                "Es importante subir una foto \nen la que salgas bien.\n",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 118, 118, 118),
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  letterSpacing: -0.1,
-                  height: 1.4,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: _image == null
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                      _image == null
                   ? Text("")
                   : Container(
-                      width: 124,
-                      height: 44,
-                      margin: EdgeInsets.only(right: 3, bottom: 30),
-                      child: FlatButton(
-                          color: AppColors.secondaryElement,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          textColor: Color.fromARGB(255, 255, 255, 255),
-                          padding: EdgeInsets.all(0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/images/icons-back-light-2.png",
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Siguiente",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppColors.secondaryText,
-                                  fontFamily: "Roboto",
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
+                        width: 124,
+                        height: 44,
+                        margin: EdgeInsets.only(right: 3, bottom: 10),
+                        child: FlatButton(
+                            color: AppColors.secondaryElement,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            ),
+                            textColor: Color.fromARGB(255, 255, 255, 255),
+                            padding: EdgeInsets.all(0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/icons-back-light-2.png",
                                 ),
-                              ),
-                            ],
-                          ),
-                          onPressed: () => siguienteBtn(context)),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Siguiente",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: AppColors.secondaryText,
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => siguienteBtn(context)),
 //                    {
 //                      Navigator.push(
 //                        context,
@@ -246,7 +251,8 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 //                            builder: (context) => CursoAlumnoWidget(user)),
 //                      );
 //                    }),
-                    ),
+                      ),
+                    ],
             ),
           ],
         ),
