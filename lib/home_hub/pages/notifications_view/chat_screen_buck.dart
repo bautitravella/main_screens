@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/message_model.dart';
@@ -9,22 +7,15 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../../size_config.dart';
 
-class Chat extends StatefulWidget {
-  static const String id = "CHAT";
-  final FirebaseUser user;
+class ChatScreenBuck extends StatefulWidget {
+  final User user;
+  ChatScreenBuck({this.user});
 
-  const Chat({Key key, this.user}): super(key:key);
   @override
-  _ChatState createState() => _ChatState();
+  _ChatScreenBuckState createState() => _ChatScreenBuckState();
 }
 
-class _ChatState extends State<Chat> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Firestore _fireStore = Firestore.instance;
-
-  TextEditingController messageController = TextEditingController();
-  ScrollController scrollController = ScrollController();
-
+class _ChatScreenBuckState extends State<ChatScreenBuck> {
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
@@ -108,7 +99,6 @@ class _ChatState extends State<Chat> {
                     child: Container(
                       margin: EdgeInsets.only(left: 0),
                       child: TextField(
-                        controller: messageController,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration.collapsed(
                             hintText: "Di algo...",
@@ -143,8 +133,20 @@ class _ChatState extends State<Chat> {
             ),
           ),
           _keyboardIsVisible()
-              ?SendButton(
-            callback: (){},
+              ?Container(
+            width: 65,
+            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(180, 0, 191, 131),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            child: Center(
+              child: IconButton(icon: Icon(Ionicons.ios_send),
+                iconSize: 25,
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            ),
           ):
           Container(
             width: 65,
@@ -325,27 +327,18 @@ class _ChatState extends State<Chat> {
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30)),
                   ),
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: _fireStore.collection("messages").snapshots(),
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData)
-                          return Center(
-                              child: CircularProgressIndicator()
-                          );
-                        return ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              topLeft: Radius.circular(30)),
-                          child: ListView.builder(
-                              reverse: true,
-                              itemCount: messages.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final Message message = messages[index];
-                                final bool isMe = message.sender.id == currentUser.id;
-                                return _buildMessage(message, isMe);
-                              }),
-                        );
-                      }
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
+                    child: ListView.builder(
+                        reverse: true,
+                        itemCount: messages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final Message message = messages[index];
+                          final bool isMe = message.sender.id == currentUser.id;
+                          return _buildMessage(message, isMe);
+                        }),
                   )),
             ),
             _buildMessageComposer()
@@ -356,29 +349,3 @@ class _ChatState extends State<Chat> {
 
   }
 }
-
-class SendButton extends StatelessWidget {
-  final String text;
-  final VoidCallback callback;
-
-  const SendButton({Key key, this.text, this.callback}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 65,
-      margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(180, 0, 191, 131),
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-      ),
-      child: Center(
-        child: IconButton(icon: Icon(Ionicons.ios_send),
-          iconSize: 25,
-          color: Colors.white,
-          onPressed: callback,
-        ),
-      ),
-    );
-  }
-}
-
