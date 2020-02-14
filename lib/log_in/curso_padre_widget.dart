@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
@@ -16,7 +17,7 @@ class CursoPadreWidget extends StatefulWidget {
   _CursoPadreWidgetState createState() => _CursoPadreWidgetState();
 }
 class _CursoPadreWidgetState extends State<CursoPadreWidget> {
-
+  User user;
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 
@@ -355,13 +356,19 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
       ),
     );
   }
+  siguienteBtn(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(user)));
+    //Mostrar un mensaje de error
+  }
 
-  siguienteBtn(BuildContext context){
+}
+ // siguienteBtn(BuildContext context){
     //chequear si el usuario eligio un colegio y un curso
 
     //agregar los datos al usuario
 
     //pasar a la siguiente pantalla
-  }
-}
+ // }
+//}
 

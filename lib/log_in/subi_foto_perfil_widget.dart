@@ -120,45 +120,46 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
                               ),
                             ),
-                            Positioned(
-                              right: 0,
-                              bottom: 5,
-                              child:  _image == null
-                                  ? Text("")
-                                  : Container(
-                                width: 58,
-                                height: 58,
-                                child: Opacity(
-                                  opacity: 1,
-                                  child: FlatButton(
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          color: Color.fromARGB(255, 254, 189, 16),
-                                          width: 2,
-                                          style: BorderStyle.solid,
+                            Center(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 85, top: 85),
+                                child:  _image == null
+                                    ? Text("")
+                                    : Container(
+                                  width: 58,
+                                  height: 58,
+                                  child: Opacity(
+                                    opacity: 1,
+                                    child: FlatButton(
+                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: Color.fromARGB(255, 254, 189, 16),
+                                            width: 2,
+                                            style: BorderStyle.solid,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(100)),
                                         ),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(100)),
-                                      ),
-                                      textColor: Color.fromARGB(0, 0, 0, 0),
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            "assets/images/icons8-edit-96px-11.png",
-                                            fit: BoxFit.none,
-                                            alignment: Alignment.center,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                        ],
-                                      ),
-                                      onPressed: () {
-                                        selectImage();
-                                      }),
+                                        textColor: Color.fromARGB(0, 0, 0, 0),
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/icons8-edit-96px-11.png",
+                                              fit: BoxFit.none,
+                                              alignment: Alignment.center,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        onPressed: () {
+                                          selectImage();
+                                        }),
+                                  ),
                                 ),
                               ),
                             ),

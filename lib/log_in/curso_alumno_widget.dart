@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/Models/message_model.dart';
+import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
@@ -16,6 +18,7 @@ class CursoAlumnoWidget extends StatefulWidget {
   _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState();
 }
 class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
+  User user;
 
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
@@ -104,7 +107,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              width: 150,
+                              width: SizeConfig.blockSizeHorizontal*50,
                               height: SizeConfig.blockSizeVertical*10,
                               margin: EdgeInsets.only(left: 100, right: 110),
                               child: ClipRRect(
@@ -266,8 +269,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                           ),
                         ],
                       ),
-                      onPressed: () => []
-                  ),
+                      onPressed: () => siguienteBtn(context)),
 //                    {
 //                      Navigator.push(
 //                        context,
@@ -284,12 +286,19 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
     );
   }
 
-  siguienteBtn(BuildContext context){
+  siguienteBtn(BuildContext context) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(user)));
+      //Mostrar un mensaje de error
+    }
+
+  }
+ // siguienteBtn(BuildContext context){
     //chequear si el usuario eligio un colegio y un curso
 
       //agregar los datos al usuario
 
       //pasar a la siguiente pantalla
-  }
-}
+//  }
+//}
 
