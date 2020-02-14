@@ -71,7 +71,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
-                  margin: EdgeInsets.only(left: 28, top: 85),
+                  margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*12),
                   child: Text(
                     "Casi listos",
                     textAlign: TextAlign.left,
@@ -86,26 +86,10 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.only(top: 39, bottom: 20),
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*6, bottom: 20),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Positioned(
-                        left: 80,
-                        right: 80,
-                        bottom: 0,
-                        child: Text(
-                          "Selecciona\ncolegio y curso",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 53, 38, 65),
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 26,
-                            letterSpacing: -0.41786,
-                          ),
-                        ),
-                      ),
                       Positioned(
                         left: 0,
                         top: 0,
@@ -116,21 +100,23 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                         ),
                       ),
                       Positioned(
-                        top: 40,
+                        top: SizeConfig.blockSizeVertical*4,
                         child: Column(
                           children: <Widget>[
                             Container(
                               width: 150,
-                              height: 80,
+                              height: SizeConfig.blockSizeVertical*10,
                               margin: EdgeInsets.only(left: 100, right: 110),
                               child: ClipRRect(
-                                child: Image.asset("assets/images/group-1840.png"),
+                                child: Image.asset("assets/images/group-1840.png",
+                                fit: BoxFit.fitHeight,
+                                ),
                               )
                             ),
                             Container(
                               width: 170,
                               height: 45,
-                              margin: EdgeInsets.only(left: 110, right: 110, top: 20),
+                              margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*3),
                               child: Opacity(
                                 opacity: 0.37,
                                 child: new DropdownButton(
@@ -168,7 +154,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                             Container(
                               width: 170,
                               height: 45,
-                              margin: EdgeInsets.only(left: 110, right: 110, top: 40),
+                              margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*4),
                               child: Opacity(
                                 opacity: 0.37,
                                 child: new DropdownButton(
@@ -206,31 +192,52 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                           ],
                         ),
                       ),
+                      Positioned(
+                        left: 70,
+                        right: 70,
+                        bottom: SizeConfig.blockSizeVertical*4,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Selecciona\ncolegio y curso",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 26,
+                                letterSpacing: -0.41786,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                              child: Text(
+                                "Los datos ingresados se podrán\ncambiar mas tarde dentro de la app",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 118, 118, 118),
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  letterSpacing: -0.1,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10, bottom: SizeConfig.blockSizeVertical*7),
-                child: Text(
-                  "Los datos ingresados se podrán\ncambiar mas tarde \ndentro de la app\n",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 118, 118, 118),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    letterSpacing: -0.1,
-                    height: 1.4,
-                  ),
-                ),
-              ),
+
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
                   width: 124,
                   height: 44,
-                  margin: EdgeInsets.only(right: 3, bottom: 30),
+                  margin: EdgeInsets.only(right: 3, bottom: 10),
                   child: FlatButton(
                       color: AppColors.secondaryElement,
                       shape: RoundedRectangleBorder(

@@ -47,7 +47,7 @@ class DatosWidgetState extends State<DatosWidget>{
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
-                  margin: EdgeInsets.only(left: 28, top: 85),
+                  margin: EdgeInsets.only(left: 28,top: SizeConfig.blockSizeVertical*12),
                   child: Text(
                     "Falta poco",
                     textAlign: TextAlign.left,
@@ -62,7 +62,7 @@ class DatosWidgetState extends State<DatosWidget>{
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.only(top: 39, bottom: 12),
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*6, bottom: 12),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
