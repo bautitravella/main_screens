@@ -227,5 +227,6 @@ class TerminosYCondicionesWidget extends StatelessWidget {
         .setData({"nombre": "Agustint", "apellido": "Tormakhiano"})
         .then((value) => print("se mando bien la info a firebase" ))
         .catchError((err) => print("HUBO UN ERROR 2"));
+
   }
 }

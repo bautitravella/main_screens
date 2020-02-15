@@ -17,16 +17,16 @@ class User {
 
   User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,);
 
-  User.fromMap(Map<String, dynamic> data) {
+  User.fromMap(Map<String, dynamic> data,String email) {
     String nombre = data['nombre'];
     String apellido = data['apellido'];
     String fotoPerfil = data['foto de perfil'];
     bool hasAcceptedTerms = data['hasAcceptedTerms'];
-
-    nombre = nombre;
-    apellido = apellido;
-    fotoPerfilUrl = fotoPerfil;
-    hasAcceptedTerms= hasAcceptedTerms;
+    this.email = email;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fotoPerfilUrl = fotoPerfil;
+    this.hasAcceptedTerms= hasAcceptedTerms;
   }
 
   bool isComplete() {

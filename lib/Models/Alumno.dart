@@ -12,7 +12,7 @@ class Alumno extends User{
 
   Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,this.colegio , this.curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms);
 
-  Alumno.fromMap(Map<String, dynamic> data) : super.fromMap(data){
+  Alumno.fromMap(Map<String, dynamic> data,String email) : super.fromMap(data,email){
     colegio = data["colegio"];
     curso = data["curso"];
   }
