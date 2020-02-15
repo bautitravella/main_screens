@@ -7,7 +7,6 @@ class User {
   String fotoPerfilUrl;
   File fotoPerfil;
   bool hasAcceptedTerms;
-  String rol;
 
   String email;
 
@@ -16,29 +15,25 @@ class User {
   User.fromEmail(this.email);
 
 
-  User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,
-      this.rol);
+  User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,);
 
   User.fromMap(Map<String, dynamic> data) {
     String nombre = data['nombre'];
     String apellido = data['apellido'];
     String fotoPerfil = data['foto de perfil'];
     bool hasAcceptedTerms = data['hasAcceptedTerms'];
-    String rol = data['rol'];
 
     nombre = nombre;
     apellido = apellido;
     fotoPerfilUrl = fotoPerfil;
     hasAcceptedTerms= hasAcceptedTerms;
-    rol = rol;
   }
 
   bool isComplete() {
     if (nombre == null ||
         apellido == null ||
         fotoPerfilUrl == null ||
-        hasAcceptedTerms == null ||
-        rol == null ) {
+        hasAcceptedTerms == null) {
       return false;
     }
     return true;
@@ -50,7 +45,6 @@ class User {
     userMap['apelido'] = apellido;
     userMap['fotoPerfilUrl'] = fotoPerfilUrl;
     userMap['hasAcceptedTerms']= hasAcceptedTerms;
-    userMap['rol']=rol;
     return userMap;
   }
 

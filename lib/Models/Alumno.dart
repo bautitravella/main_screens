@@ -4,16 +4,17 @@ import 'dart:ui';
 import 'User.dart';
 
 class Alumno extends User{
-  String _colegio;
-  String _curso;
+  String colegio;
+  String curso;
+  String rol = "Alumno";
 
   Alumno(): super();
 
-  Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol,this._colegio , this._curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol);
+  Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,this.colegio , this.curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms);
 
   Alumno.fromMap(Map<String, dynamic> data) : super.fromMap(data){
-    _colegio = data["colegio"];
-    _curso = data["curso"];
+    colegio = data["colegio"];
+    curso = data["curso"];
   }
 
   Alumno.fromImage(File image): super(){
@@ -21,21 +22,22 @@ class Alumno extends User{
   }
   Alumno.fromEmail(String email): super.fromEmail(email);
 
-  List<String> getColegios(){
-    List<String> aux  = [_colegio,];
+  List<String> getcolegios(){
+    List<String> aux  = [colegio,];
     return aux;
   }
 
   List<String> getCursos(){
-    List<String> aux = [_curso,];
+    List<String> aux = [curso,];
     return aux;
   }
 
   @override
   Map<String,dynamic > toMap() {
     Map<String,dynamic> userMap = super.toMap();
-    userMap['colegio'] = _colegio;
-    userMap['curso'] = _curso;
+    userMap['colegio'] = colegio;
+    userMap['curso'] = curso;
+    userMap['rol'] = rol;
     return userMap;
   }
 

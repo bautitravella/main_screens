@@ -6,10 +6,11 @@ import 'User.dart';
 class Padre extends User{
 
   List<Hijo> _hijos;
+  String rol = "Padre";
 
   Padre():super();
 
-  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms, String rol,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol);
+  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms);
 
   Padre.fromImage(File image):super(){
     super.fotoPerfil = image;
@@ -33,6 +34,7 @@ class Padre extends User{
 
   Map<String,dynamic> toMap(){
    var userMap = super.toMap();
+   userMap['rol'] = rol;
    List<Map> hijosMap = new List();
    _hijos.forEach((element) {hijosMap.add(element.toMap());});
    userMap['hijos'] = hijosMap;
