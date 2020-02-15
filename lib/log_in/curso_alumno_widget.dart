@@ -15,11 +15,12 @@ class CursoAlumnoWidget extends StatefulWidget {
   CursoAlumnoWidget(this.user);
 
   @override
-  _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState();
+  _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState(user);
 }
 class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
   User user;
 
+  _CursoAlumnoWidgetState(@required this.user);
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 

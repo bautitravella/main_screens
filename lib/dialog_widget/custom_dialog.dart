@@ -28,7 +28,7 @@ class CustomDialog extends StatelessWidget {
 
   CustomDialog.customFunctions(
       {@required this.title, @required this.description,
-        @required this.primaryButtonText, @required this.secondaryButtonText, Function this.primaryFunction, Function this.secondaryFunction
+        @required this.primaryButtonText, @required this.secondaryButtonText,this.primaryFunction,this.secondaryFunction
       });
 
   static const double padding = 20.0;

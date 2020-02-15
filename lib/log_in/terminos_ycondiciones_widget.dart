@@ -146,8 +146,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                       bottom: 0,
                       height: 53,
                       child: FlatButton(
-                        onPressed: () => Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => HomeHub())),
+                        onPressed: () => siguienteBtn(context),
                         color: AppColors.secondaryElement,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -175,24 +174,58 @@ class TerminosYCondicionesWidget extends StatelessWidget {
     );
   }
 
-  siguienteBtn(BuildContext context){
-    uploadData().then((smt) => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeHub())));
+  siguienteBtn(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("hola crack"),
+            content: CircularProgressIndicator(),
+          );
+        });
+    Future.delayed(Duration(seconds: 3));
+    Navigator.pop(context);
+    uploadData().then((smt) => {
+          print("PASANDO A LA PROXIMA PANTALLA"),
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeHub())),
+        });
   }
 
-  Future uploadData(){
-    uploadImage().then((downloadUrl) => uploadUserInformation(downloadUrl));
+  Future uploadData() {
+    int amountOfTryouts = 0;
+    return uploadImage()
+        .then((downloadUrl) => {
+              uploadUserInformation(downloadUrl),
+              print("DOWNLOAD URL  2: " + downloadUrl),
+            })
+        .catchError((err) {
+      print("HUBO UN ERROR 1, " + err);
+    });
   }
 
   Future<String> uploadImage() async {
-    StorageReference ref = FirebaseStorage.instance.ref().child("agustinTormakhFotardas");
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child("agustinTormakhFotardas");
     StorageUploadTask uploadTask = ref.putFile(user.fotoPerfil);
+    print(
+        "---------------------------------------------------------Arranca la transferencia");
 
-    String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL().toString();
+    String downloadUrl =
+        (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    print(
+        "---------------------------------------------------------Termina la Transferencia");
+
+    print("DOWNLOAD URL  1: " + downloadUrl);
     return downloadUrl;
   }
+
   uploadUserInformation(String downloadUrl) {
-   // Firestore.instance.collection('Users').document(user.email).setData(user.)
+    Firestore.instance
+        .collection('Users')
+        .document(user.email)
+        .setData({"nombre": "Agustint", "apellido": "Tormakhiano"})
+        .then((value) => print("se mando bien la info a firebase" ))
+        .catchError((err) => print("HUBO UN ERROR 2"));
   }
-
-
 }

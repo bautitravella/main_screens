@@ -16,6 +16,7 @@ class ExplorePage extends StatelessWidget {
             try {
               final auth = Provider.of<BaseAuth>(context,listen: false);
               await auth.signOut();
+
             }catch(e) {
               print(e.message);
             }
