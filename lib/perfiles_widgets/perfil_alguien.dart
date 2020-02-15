@@ -110,10 +110,13 @@ Widget verticalListView = Container(
                             borderRadius: new BorderRadius.circular(100)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            "assets/images/avatar.png",
-                            fit: BoxFit.fill,
-                            alignment: Alignment.center,
+                          child: Hero(
+                            tag: 'profile',
+                            child: Image.asset(
+                              "assets/images/avatar.png",
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                            ),
                           ),
                         ),
                       ),

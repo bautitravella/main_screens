@@ -100,7 +100,6 @@ class _BookSectionState extends State<BookSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            color: Colors.pink,
                             width: SizeConfig.blockSizeHorizontal * 80,
                             height: SizeConfig.blockSizeVertical * 10,
                             margin: EdgeInsets.only(left: 22, top: 130),
@@ -119,7 +118,6 @@ class _BookSectionState extends State<BookSection> {
                           Container(
                             width: SizeConfig.blockSizeHorizontal * 80,
                             height: SizeConfig.blockSizeVertical * 5,
-                            color: Colors.blue,
                             margin: EdgeInsets.only(left: 22, top: 5),
                             child: Text(
                               widget.book.author,
@@ -293,11 +291,12 @@ class _BookSectionState extends State<BookSection> {
                               Container(
                                   height: 40,
                                   width: 40,
-                                  color: Colors.red,
+
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child:
-                                        Image.asset("assets/images/avatar.png"),
+                                        Hero( tag: 'profile',
+                                            child: Image.asset("assets/images/avatar.png")),
                                   )),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
@@ -702,7 +701,6 @@ class _BookSectionState extends State<BookSection> {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
-      color: Colors.blue,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 1,
@@ -710,7 +708,6 @@ class _BookSectionState extends State<BookSection> {
           return Container(
             margin: EdgeInsets.all(0),
             width: 429,
-            color: Colors.red,
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
@@ -718,21 +715,11 @@ class _BookSectionState extends State<BookSection> {
                   child: Row(
                     children: <Widget>[
 
-                       Container(
-                          height: 180,
-                          width: 123,
-                          child: Image(
-                            image: AssetImage(book.imageUrl),
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-
                       Container(
                         height: 180,
                         width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image(
-                          image: AssetImage(book.imageUrl),
+                        child: Image.asset(book.imageUrl,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -740,8 +727,15 @@ class _BookSectionState extends State<BookSection> {
                         height: 180,
                         width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image(
-                          image: AssetImage(book.imageUrl),
+                        child: Image.asset(book.imageUrl,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      Container(
+                        height: 180,
+                        width: 123,
+                        margin: EdgeInsets.only(left: 20),
+                        child: Image.asset(book.imageUrl,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -758,7 +752,6 @@ class _BookSectionState extends State<BookSection> {
   static Widget horizontalListView = Container(
     height: 240,
     margin: EdgeInsets.only(left: 22),
-    color: Colors.blue,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
@@ -768,7 +761,6 @@ class _BookSectionState extends State<BookSection> {
         return Container(
           margin: EdgeInsets.all(7.0),
           width: 97,
-          color: Colors.red,
           child: Stack(
             alignment: Alignment.topCenter,
             children: <Widget>[

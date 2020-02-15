@@ -25,14 +25,13 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
               children: <Widget>[
                 Positioned(
                   left: 0,
-                  top: SizeConfig.blockSizeVertical * 8,
+                  top: SizeConfig.blockSizeVertical * 10,
                   right: 0,
                   child: Container(
-                    height: SizeConfig.blockSizeVertical * 40,
-                    decoration: BoxDecoration(),
+                    height: SizeConfig.blockSizeVertical * 45,
                     child: Image.asset(
                       "assets/images/destacados-image.png",
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -82,16 +81,12 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
           ),
           Column(
             children: <Widget>[
-              Container(
-                color: Colors.transparent,
-                height: SizeConfig.blockSizeVertical * 14,
-              ),
               Expanded(
                 child: Container(
                   child: SlidingUpPanel(
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 90,
-                    minHeight: SizeConfig.blockSizeVertical * 90,
+                    maxHeight: SizeConfig.blockSizeVertical * 88,
+                    minHeight: SizeConfig.blockSizeVertical * 88,
                     backdropEnabled: false,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
@@ -339,12 +334,9 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                   top: 15,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Image(
-                      height: 120,
-                      image: AssetImage(
+                    child: Image.asset(
                         book.imageUrl,
                       ),
-                    ),
                   ),
                 ),
               ],

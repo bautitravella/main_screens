@@ -50,7 +50,7 @@ class _YourBookState extends State<YourBook> {
                           bottomLeft: Radius.circular(20),
                         ),
                         child: Container(
-                          height: SizeConfig.blockSizeVertical * 22,
+                          height: SizeConfig.blockSizeVertical * 19,
                           color: Colors.white,
                         ),
                       ),
@@ -476,6 +476,7 @@ class _YourBookState extends State<YourBook> {
                               ],
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(top: 0),
@@ -508,6 +509,7 @@ class _YourBookState extends State<YourBook> {
                               ],
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(top: 0),
@@ -540,6 +542,7 @@ class _YourBookState extends State<YourBook> {
                               ],
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(top: 0),
@@ -577,6 +580,7 @@ class _YourBookState extends State<YourBook> {
                     ],
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         height: 55,

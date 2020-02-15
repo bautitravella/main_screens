@@ -122,10 +122,13 @@ class _HomeViewDosState extends State<HomeViewDos> {
                             borderRadius: new BorderRadius.circular(100)),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            "assets/images/avatar.png",
-                            fit: BoxFit.fill,
-                            alignment: Alignment.center,
+                          child: Hero(
+                            tag: 'avatar',
+                            child: Image.asset(
+                              "assets/images/avatar.png",
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                            ),
                           ),
                         ),
                       ),
@@ -410,16 +413,13 @@ class _HomeViewDosState extends State<HomeViewDos> {
                   );
                 },
                 child: Container(
+                  height: 141,
+                  width: 97,
                   child: Stack(
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: Image(
-                          height: 141,
-                          width: 97,
-                          image: AssetImage(book.imageUrl),
-                          fit: BoxFit.cover,
-                        ),
+                      child: Image.asset(book.imageUrl,fit: BoxFit.fill,),
                       )
                     ],
                   ),

@@ -96,138 +96,40 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                         top: 0,
                         right: 0,
                         child: Image.asset(
-                          "assets/images/phonochico4.png",
+                          "assets/images/phonochico2.png",
                           fit: BoxFit.fill,
                         ),
                       ),
                       Positioned(
-                        top: 10,
-                        child: Text(
-                          "1",
-                          style: TextStyle(
+                        top: 13,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.arrow_back,
+                            color: Colors.white,
+                              size: 22,
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                              "1",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w900
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            Icon(Icons.arrow_forward,
                               color: Colors.white,
-                              fontSize: 15,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w900
-                          ),
+                              size: 22,
+                            ),
+                          ],
                         ),
                       ),
                       Positioned(
                         top: SizeConfig.blockSizeVertical*2,
                         bottom: SizeConfig.blockSizeVertical*26,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                width: 150,
-                                height: 60,
-                                margin: EdgeInsets.only(left: 100, right: 110, top: SizeConfig.blockSizeVertical*3),
-                                child: Opacity(
-                                  opacity: 0.57,
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "NOMBRE",
-                                      contentPadding: EdgeInsets.only(top: 30),
-                                      border: InputBorder.none,
-                                    ),
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 53, 38, 65),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 19,
-                                    ),
-                                    maxLines: 1,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 2,
-                                width: 180,
-                                margin: EdgeInsets.only(left: 100, right: 100),
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(77, 0, 0, 0),
-                                ),
-                              ),
-                              Container(
-                                width: 170,
-                                height: 45,
-                                margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*4),
-                                child: Opacity(
-                                  opacity: 0.37,
-                                  child: new DropdownButton(
-                                    icon: Icon(Icons.menu),
-                                    underline: Text(""),
-                                    items: items,
-                                    isExpanded: true,
-                                    value: selectedValue,
-                                    hint: new Text(
-                                      'COLEGIO',
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 53, 38, 65),
-                                        fontFamily: "Montserrat",
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 19,
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedValue = value;
-                                      }
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 2,
-                                width: 180,
-                                margin: EdgeInsets.only(left: 100, right: 100),
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(77, 0, 0, 0),
-                                ),
-                              ),
-                              Container(
-                                width: 170,
-                                height: 45,
-                                margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*4),
-                                child: Opacity(
-                                  opacity: 0.37,
-                                  child: new DropdownButton(
-                                    icon: Icon(Icons.menu),
-                                    underline: Text(""),
-                                    items: items,
-                                    isExpanded: true,
-                                    value: selectedValue,
-                                    hint: new Text(
-                                      'CURSO',
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 53, 38, 65),
-                                        fontFamily: "Montserrat",
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 19,
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedValue = value;
-                                      }
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 2,
-                                width: 180,
-                                margin: EdgeInsets.only(left: 100, right: 100),
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(77, 0, 0, 0),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: childField(context)
                       ),
                       Positioned(
                         left: 60,
@@ -279,7 +181,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                       height: 44,
                       margin: EdgeInsets.only(left: 5, bottom: 10),
                       child: FlatButton(
-                          color: Color.fromARGB(220, 255, 138, 0),
+                          color: AppColors.secondaryBackground,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
@@ -356,6 +258,128 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
       ),
     );
   }
+
+  Widget childField(BuildContext context) {
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: 150,
+              height: 60,
+              margin: EdgeInsets.only(
+                  left: 100, right: 110, top: SizeConfig.blockSizeVertical * 3),
+              child: Opacity(
+                opacity: 0.57,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "NOMBRE",
+                    contentPadding: EdgeInsets.only(top: 30),
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
+                  maxLines: 1,
+                  autocorrect: false,
+                ),
+              ),
+            ),
+            Container(
+              height: 2,
+              width: 180,
+              margin: EdgeInsets.only(left: 100, right: 100),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(77, 0, 0, 0),
+              ),
+            ),
+            Container(
+              width: 170,
+              height: 45,
+              margin: EdgeInsets.only(
+                  left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
+              child: Opacity(
+                opacity: 0.37,
+                child: new DropdownButton(
+                  icon: Icon(Icons.menu),
+                  underline: Text(""),
+                  items: items,
+                  isExpanded: true,
+                  value: selectedValue,
+                  hint: new Text(
+                    'COLEGIO',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 53, 38, 65),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 19,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    }
+                    );
+                  },
+                ),
+              ),
+            ),
+            Container(
+              height: 2,
+              width: 180,
+              margin: EdgeInsets.only(left: 100, right: 100),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(77, 0, 0, 0),
+              ),
+            ),
+            Container(
+              width: 170,
+              height: 45,
+              margin: EdgeInsets.only(
+                  left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
+              child: Opacity(
+                opacity: 0.37,
+                child: new DropdownButton(
+                  icon: Icon(Icons.menu),
+                  underline: Text(""),
+                  items: items,
+                  isExpanded: true,
+                  value: selectedValue,
+                  hint: new Text(
+                    'CURSO',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 53, 38, 65),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 19,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    }
+                    );
+                  },
+                ),
+              ),
+            ),
+            Container(
+              height: 2,
+              width: 180,
+              margin: EdgeInsets.only(left: 100, right: 100),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(77, 0, 0, 0),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   siguienteBtn(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(user)));

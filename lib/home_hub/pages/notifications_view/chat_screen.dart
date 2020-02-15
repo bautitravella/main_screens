@@ -268,6 +268,16 @@ class _ChatScreenState extends State<ChatScreen> {
                           //                    ),
                           //                  ),
                           Positioned(
+                            left: 0,
+                            top: SizeConfig.blockSizeVertical * 1,
+                            child: Container(
+                              child: CircleAvatar(
+                                radius: 23.0,
+                                backgroundImage: AssetImage("assets/images/avatar.png"),
+                              ),
+                            ),
+                          ),
+                          Positioned(
                             left: SizeConfig.blockSizeHorizontal * 8,
                             top: SizeConfig.blockSizeVertical * 4,
                             child: Container(
