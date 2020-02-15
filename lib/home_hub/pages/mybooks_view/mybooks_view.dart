@@ -158,15 +158,14 @@ class GridViewPublicados extends StatelessWidget {
               Book book = books[index];
 
               return Container(
-                height: SizeConfig.blockSizeVertical * 10,
                 margin: EdgeInsets.only(left: 0, right: 0, top: 0),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
                     Positioned(
-                      top: SizeConfig.blockSizeVertical * 20,
+                      top: 150,
                       child: Container(
-                        height: SizeConfig.blockSizeVertical * 8,
+                        height: 65,
                         width: 97,
                         child: Padding(
                           padding: EdgeInsets.all(0),
@@ -178,7 +177,7 @@ class GridViewPublicados extends StatelessWidget {
                                 "${book.name}",
                                 style: TextStyle(
                                   fontSize: 11,
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Sf",
                                   fontWeight: FontWeight.w600,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -188,7 +187,7 @@ class GridViewPublicados extends StatelessWidget {
                                 "(${book.author})",
                                 style: TextStyle(
                                   fontSize: 10,
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Sf",
                                   fontWeight: FontWeight.w400,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -306,6 +305,7 @@ class GridViewVendidos extends StatelessWidget {
               return Container(
                 height: SizeConfig.blockSizeVertical * 10,
                 margin: EdgeInsets.only(left: 0, right: 0, top: 0),
+                color: Colors.red,
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[

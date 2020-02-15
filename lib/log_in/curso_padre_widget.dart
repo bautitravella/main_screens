@@ -121,7 +121,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                               Container(
                                 width: 150,
                                 height: 60,
-                                margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*3),
+                                margin: EdgeInsets.only(left: 100, right: 110, top: SizeConfig.blockSizeVertical*3),
                                 child: Opacity(
                                   opacity: 0.57,
                                   child: TextField(
@@ -236,7 +236,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "Completa los \ndatos del familiar",
+                              "Completa los \ndatos de tu hijo",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 38, 65),
@@ -249,7 +249,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                               child: Text(
-                                "Debes completar los datos del familiar que deseas ingresar. No se preocupe si tiene mas de uno. Puede agregar otro con el botón de 'agregar otro'",
+                                "Podes agregar mas hijos con el botón de 'agregar otro'",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 118, 118, 118),
@@ -277,9 +277,9 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                     Container(
                       width: 124,
                       height: 44,
-                      margin: EdgeInsets.only(left: 3, bottom: 10),
+                      margin: EdgeInsets.only(left: 5, bottom: 10),
                       child: FlatButton(
-                          color: AppColors.secondaryElement,
+                          color: Color.fromARGB(220, 255, 138, 0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),

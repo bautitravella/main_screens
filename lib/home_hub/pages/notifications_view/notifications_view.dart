@@ -37,7 +37,7 @@ class NotificationViewState extends State<NotificationView> {
                   color: Colors.white,
                 ),
                 child: Container(
-                  margin: EdgeInsets.only(top: 0),
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
                   child: listView,
                 )),
           ),

@@ -220,8 +220,9 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                                   color: Color.fromARGB(
                                                       255, 255, 255, 255),
                                                   fontWeight: FontWeight.w900,
-                                                  fontSize: 13,
+                                                  fontSize: 12,
                                                 ),
+                                                maxLines: 1,
                                               ),
                                             ),
                                           ),
@@ -286,8 +287,9 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                                   color: Color.fromARGB(
                                                       255, 255, 255, 255),
                                                   fontWeight: FontWeight.w900,
-                                                  fontSize: 13,
+                                                  fontSize: 12,
                                                 ),
+                                                maxLines: 1,
                                               ),
                                             ),
                                           ),

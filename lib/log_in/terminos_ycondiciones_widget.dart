@@ -155,7 +155,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                         textColor: Color.fromARGB(255, 255, 255, 255),
                         padding: EdgeInsets.all(0),
                         child: Text(
-                          "CONTINUAR Y ACEPTAR",
+                          "ACEPTAR Y CONTINUAR",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppColors.secondaryText,

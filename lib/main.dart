@@ -6,6 +6,7 @@ import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
+import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
@@ -19,6 +20,9 @@ class App extends StatelessWidget {
       create: (_) => Auth(),
       child: MaterialApp(
         home: MyDecider(),
+        theme: ThemeData(
+          accentColor:AppColors.secondaryBackground,
+        ),
         routes: <String, WidgetBuilder> {
         '/home': (BuildContext context) => HomeHub(),
         '/logOut': (BuildContext context) => FirstscreenWidget(),

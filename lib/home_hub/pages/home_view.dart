@@ -313,8 +313,9 @@ class _HomeViewState extends State<HomeView> {
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
                                           fontWeight: FontWeight.w900,
-                                          fontSize: 13,
+                                          fontSize: 10,
                                         ),
+                                        maxLines: 1,
                                       ),
                                     ),
                                   ),

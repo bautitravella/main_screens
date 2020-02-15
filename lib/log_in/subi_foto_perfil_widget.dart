@@ -170,8 +170,8 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
 
                     Positioned(
-                      left: 92,
-                      right: 91,
+                      left:80,
+                      right: 80,
                       bottom: SizeConfig.blockSizeVertical*5,
                       child: Column(
                         children: <Widget>[
