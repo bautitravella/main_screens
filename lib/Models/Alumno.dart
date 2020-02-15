@@ -34,7 +34,9 @@ class Alumno extends User{
   @override
   Map<String,dynamic > toMap() {
     Map<String,dynamic> userMap = super.toMap();
-    userMap[''];
+    userMap['colegio'] = _colegio;
+    userMap['curso'] = _curso;
+    return userMap;
   }
 
 }

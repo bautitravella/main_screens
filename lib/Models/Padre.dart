@@ -31,15 +31,23 @@ class Padre extends User{
     _hijos = value;
   }
 
+  Map<String,dynamic> toMap(){
+   var userMap = super.toMap();
+   List<Map> hijosMap = new List();
+   _hijos.forEach((element) {hijosMap.add(element.toMap());});
+   userMap['hijos'] = hijosMap;
+   return userMap;
+  }
+
   List<String> getColegios(){
     List<String> colegiosList  = [];
-    _hijos.forEach((hijo) => colegiosList.add(hijo._colegio));
+    _hijos.forEach((hijo) => colegiosList.add(hijo.colegio));
     return colegiosList;
   }
 
   List<String> getCursos(){
     List<String> cursos = [];
-    _hijos.forEach((hijo) => cursos.add(hijo._curso));
+    _hijos.forEach((hijo) => cursos.add(hijo.curso));
     return cursos;
   }
 
@@ -47,9 +55,9 @@ class Padre extends User{
 }
 
 class Hijo{
-  String _nombre,_colegio,_curso;
+  String nombre,colegio,curso;
 
-  Hijo(this._nombre, this._colegio, this._curso);
+  Hijo(this.nombre, this.colegio, this.curso);
 
 
   @override
@@ -57,33 +65,17 @@ class Hijo{
       identical(this, other) ||
           other is Hijo &&
               runtimeType == other.runtimeType &&
-              _nombre == other._nombre &&
-              _colegio == other._colegio &&
-              _curso == other._curso;
+              nombre == other.nombre &&
+              colegio == other.colegio &&
+              curso == other.curso;
 
   @override
   int get hashCode =>
-      _nombre.hashCode ^
-      _colegio.hashCode ^
-      _curso.hashCode;
+      nombre.hashCode ^
+      colegio.hashCode ^
+      curso.hashCode;
 
-  get curso => _curso;
-
-  set curso(value) {
-    _curso = value;
+  Map<String,dynamic> toMap(){
+    return {"nombre": nombre, "colegio": colegio , "curso" : curso};
   }
-
-  get colegio => _colegio;
-
-  set colegio(value) {
-    _colegio = value;
-  }
-
-  String get nombre => _nombre;
-
-  set nombre(String value) {
-    _nombre = value;
-  }
-
-
 }

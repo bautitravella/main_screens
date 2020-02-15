@@ -33,22 +33,6 @@ class User {
     rol = rol;
   }
 
-  static User fromMapToUser(Map<String, dynamic> data) {
-    String nombre = data['nombre'];
-    String apellido = data['apellido'];
-    String fotoPerfil = data['foto de perfil'];
-    bool hasAcceptedTerms = data['hasAcceptedTerms'];
-    String rol = data['rol'];
-
-
-    User newUser =
-        User.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms, rol);
-    if (newUser.isComplete()) {
-      return newUser;
-    }
-    return null;
-  }
-
   bool isComplete() {
     if (nombre == null ||
         apellido == null ||
