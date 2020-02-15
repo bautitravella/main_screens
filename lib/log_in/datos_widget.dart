@@ -153,14 +153,13 @@ class DatosWidgetState extends State<DatosWidget>{
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "Ingresa tus\ndatos",
+                              "Ingresa \ntus datos",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 38, 65),
-                                fontFamily: "Montserrat",
+                                fontFamily: "Sf-r",
                                 fontWeight: FontWeight.w700,
                                 fontSize: 26,
-                                letterSpacing: -0.41786,
                               ),
                             ),
                             Container(
@@ -169,12 +168,11 @@ class DatosWidgetState extends State<DatosWidget>{
                                 "Los datos ingresados se podrán\ncambiar mas tarde dentro de la app\n",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 118, 118, 118),
-                                  fontFamily: "Montserrat",
+                                  color: Color.fromARGB(255, 163, 163, 163),
+                                  fontFamily: "Sf-t",
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  letterSpacing: -0.1,
-                                  height: 1.4,
+                                  fontSize: 13,
+
                                 ),
                               ),
                             ),
@@ -213,8 +211,8 @@ class DatosWidgetState extends State<DatosWidget>{
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.secondaryText,
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.w400,
+                              fontFamily: "Sf-r",
+                              fontWeight: FontWeight.w700,
                               fontSize: 15,
                             ),
                           ),

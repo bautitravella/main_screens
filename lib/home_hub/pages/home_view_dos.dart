@@ -357,7 +357,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
                           "${book.name}",
                           style: TextStyle(
                             fontSize: 11,
-                            fontFamily: "Sf",
+                            fontFamily: "Sf-r",
                             fontWeight: FontWeight.w600,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -367,7 +367,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
                           "(${book.author})",
                           style: TextStyle(
                             fontSize: 10,
-                            fontFamily: "Sf",
+                            fontFamily: "Sf-t",
                             fontWeight: FontWeight.w400,
                           ),
                           overflow: TextOverflow.ellipsis,

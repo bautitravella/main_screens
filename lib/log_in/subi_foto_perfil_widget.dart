@@ -180,10 +180,10 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
+                              fontFamily: "Sf-r",
                               fontWeight: FontWeight.w700,
                               fontSize: 26,
-                              letterSpacing: -0.41786,
+
                             ),
                           ),
                           Container(
@@ -192,12 +192,10 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                               "Es importante subir una foto \nen la que salgas bien.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color.fromARGB(255, 118, 118, 118),
-                                fontFamily: "Montserrat",
+                                color: Color.fromARGB(255, 163, 163, 163),
+                                fontFamily: "Sf-t",
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
-                                letterSpacing: -0.1,
-                                height: 1.4,
                               ),
                             ),
                           ),
@@ -238,7 +236,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppColors.secondaryText,
-                                    fontFamily: "Roboto",
+                                    fontFamily: "Sf-r",
                                     fontWeight: FontWeight.w700,
                                     fontSize: 15,
                                   ),
