@@ -5,7 +5,7 @@ import 'User.dart';
 
 class Padre extends User{
 
-  List<Hijo> _hijos;
+  List<Hijo> _hijos = [];
   String rol = "Padre";
 
   Padre():super();

@@ -196,6 +196,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
     int amountOfTryouts = 0;
     return uploadImage()
         .then((downloadUrl) => {
+              user.fotoPerfilUrl = downloadUrl,
+              user.hasAcceptedTerms = true,
               uploadUserInformation(downloadUrl),
               print("DOWNLOAD URL  2: " + downloadUrl),
             })
@@ -224,7 +226,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
     Firestore.instance
         .collection('Users')
         .document(user.email)
-        .setData({"nombre": "Agustint", "apellido": "Tormakhiano"})
+        .setData(user.toMap())
         .then((value) => print("se mando bien la info a firebase" ))
         .catchError((err) => print("HUBO UN ERROR 2"));
 

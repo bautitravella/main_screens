@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
@@ -144,7 +145,6 @@ class _HomeViewDosState extends State<HomeViewDos> {
   }
 
   Widget _scrollingList(ScrollController sc) {
-    //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Container(
       child: Column(
@@ -169,11 +169,13 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                     height: 50,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 246, 246, 246),
+                                        color:
+                                            Color.fromARGB(255, 246, 246, 246),
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(30),
                                         )),
-                                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 5),
+                                    margin: EdgeInsets.only(
+                                        left: 16, right: 16, bottom: 5),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 10),
                                     child: GestureDetector(
@@ -181,7 +183,8 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => DestacadosSectionDos(),
+                                            builder: (context) =>
+                                                DestacadosSectionDos(),
                                           ),
                                         );
                                       },
@@ -233,15 +236,21 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                       ),
                                     )),
                                 horizontalListView,
+                                horizontalListViewFirebase(),
                                 Container(
                                     height: 50,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 246, 246, 246),
+                                        color:
+                                            Color.fromARGB(255, 246, 246, 246),
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(30),
                                         )),
-                                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 5, top: 10),
+                                    margin: EdgeInsets.only(
+                                        left: 16,
+                                        right: 16,
+                                        bottom: 5,
+                                        top: 10),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 10),
                                     child: GestureDetector(
@@ -301,17 +310,18 @@ class _HomeViewDosState extends State<HomeViewDos> {
                                     )),
                                 horizontalListView,
                                 Container(
-                                    height: 50,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(30),
-                                        )),
-                                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 5, top: 10),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
-                                    ),
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(30),
+                                      )),
+                                  margin: EdgeInsets.only(
+                                      left: 16, right: 16, bottom: 5, top: 10),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
+                                ),
                               ],
                             ),
                           )
@@ -323,6 +333,129 @@ class _HomeViewDosState extends State<HomeViewDos> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget horizontalListViewFirebase() {
+    return Container(
+      height: 240,
+      margin: EdgeInsets.only(left: 27),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection('Publicaciones').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError)
+              return new Text("ERRRROR 1: " + snapshot.error);
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return new Text("Loading...");
+              default:
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    DocumentSnapshot book = snapshot.data.documents[index];
+
+                    return Container(
+                      margin: EdgeInsets.all(7.0),
+                      width: 97,
+                      child: Stack(
+                        alignment: Alignment.topCenter,
+                        children: <Widget>[
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              height: 80,
+                              width: 97,
+                              color: Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.all(0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "${book.data['nombre']}",
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                    Text(
+                                      "(${book['autor']})",
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontFamily: "Sf-t",
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              height: 25,
+                              width: 50,
+                              padding: const EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 235, 235, 235),
+                                  borderRadius: new BorderRadius.all(
+                                      Radius.circular(10))),
+                              child: Center(
+                                child: Text(
+                                  '\$${book.data['precio']}',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(105, 0, 0, 0),
+                                    fontSize: 12,
+                                    fontFamily: "Gibson",
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BookSection(
+                                    book: books[0],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 141,
+                              width: 97,
+                              child: Stack(
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.network(
+                                      book['thumbs url'][0],
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+            }
+          }),
     );
   }
 
@@ -419,7 +552,10 @@ class _HomeViewDosState extends State<HomeViewDos> {
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                      child: Image.asset(book.imageUrl,fit: BoxFit.fill,),
+                        child: Image.asset(
+                          book.imageUrl,
+                          fit: BoxFit.fill,
+                        ),
                       )
                     ],
                   ),

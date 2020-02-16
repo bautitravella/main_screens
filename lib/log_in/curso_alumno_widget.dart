@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
@@ -11,21 +12,20 @@ import '../size_config.dart';
 
 
 class CursoAlumnoWidget extends StatefulWidget {
-  User user;
+  Alumno user;
   CursoAlumnoWidget(this.user);
 
   @override
-  _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState(user);
+  _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState();
 }
 class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
-  User user;
 
-  _CursoAlumnoWidgetState(@required this.user);
+
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   List<DropdownMenuItem> items = [];
-  String selectedValue;
+  String colegioSelectedValue,cursoSelectedValue;
   @override
   void initState() {
     for(int i=0; i < 20; i++){
@@ -128,7 +128,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                       underline: Text(""),
                                       items: items,
                                       isExpanded: true,
-                                      value: selectedValue,
+                                      value: colegioSelectedValue,
                                       hint: new Text(
                                       'COLEGIO',
                                         style: TextStyle(
@@ -140,7 +140,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                       ),
                                     onChanged: (value) {
                                       setState(() {
-                                        selectedValue = value;
+                                        colegioSelectedValue = value;
                                       }
                                       );
                                     },
@@ -166,7 +166,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                   underline: Text(""),
                                   items: items,
                                   isExpanded: true,
-                                  value: selectedValue,
+                                  value: cursoSelectedValue,
                                   hint: new Text(
                                     'CURSO',
                                     style: TextStyle(
@@ -178,7 +178,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                   ),
                                   onChanged: (value) {
                                     setState(() {
-                                      selectedValue = value;
+                                      cursoSelectedValue = value;
                                     }
                                     );
                                   },
@@ -286,8 +286,16 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
   }
 
   siguienteBtn(BuildContext context) {
+
+    if(cursoSelectedValue != null && colegioSelectedValue != null){
+      widget.user.colegio = colegioSelectedValue;
+      widget.user.curso = cursoSelectedValue;
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(user)));
+          context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(widget.user)));
+    }else{
+      print("ERROR MESSAGE: ");
+    }
+
       //Mostrar un mensaje de error
     }
 
