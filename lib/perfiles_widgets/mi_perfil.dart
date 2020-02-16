@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/dialog_widget/custom_dialog.dart';
+import 'package:flutterui/dialog_widget/loading_dialog.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -398,92 +399,95 @@ class _MiPerfilState extends State<MiPerfil> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                    width: SizeConfig.blockSizeHorizontal * 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Notificaciones",
-                          style: TextStyle(
-                              fontFamily:"Gibson",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromARGB(255, 57, 57, 57)
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 15),
-                          child: SwitchListTile(
-                            title: Text(
-                              "Mensajes privados",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily:"Roboto",
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 57, 57, 57)
-                              ),
+                  GestureDetector(
+                    onTap: _showDialogWave,
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                      width: SizeConfig.blockSizeHorizontal * 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Notificaciones",
+                            style: TextStyle(
+                                fontFamily:"Gibson",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 57, 57, 57)
                             ),
-                            contentPadding: EdgeInsets.all(0),
-                            value: _isSelected,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                _isSelected = newValue;
-                              });
-                            },
                           ),
-                        ),
-                        Container(
-                          child: SwitchListTile(
-                            title: Text(
-                              "Modificaciones en favoritos",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily:"Roboto",
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 57, 57, 57)
+                          Container(
+                            margin: EdgeInsets.only(top: 15),
+                            child: SwitchListTile(
+                              title: Text(
+                                "Mensajes privados",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily:"Roboto",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 57, 57, 57)
+                                ),
                               ),
+                              contentPadding: EdgeInsets.all(0),
+                              value: _isSelected,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  _isSelected = newValue;
+                                });
+                              },
                             ),
-                            contentPadding: EdgeInsets.all(0),
-                            value: _isMarcked,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                _isMarcked = newValue;
-                              });
-                            },
                           ),
-                        ),
+                          Container(
+                            child: SwitchListTile(
+                              title: Text(
+                                "Modificaciones en favoritos",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily:"Roboto",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 57, 57, 57)
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.all(0),
+                              value: _isMarcked,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  _isMarcked = newValue;
+                                });
+                              },
+                            ),
+                          ),
 
-                        Container(
-                          child: SwitchListTile(
+                          Container(
+                            child: SwitchListTile(
 
-                            title: Text(
-                              "Valoraciones",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily:"Roboto",
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 57, 57, 57)
+                              title: Text(
+                                "Valoraciones",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily:"Roboto",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 57, 57, 57)
+                                ),
                               ),
+                              contentPadding: EdgeInsets.all(0),
+                              value: _isTicked,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  _isTicked = newValue;
+                                });
+                              },
                             ),
-                            contentPadding: EdgeInsets.all(0),
-                            value: _isTicked,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                _isTicked = newValue;
-                              });
-                            },
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -590,6 +594,16 @@ class _MiPerfilState extends State<MiPerfil> {
         primaryButtonText: "Copiar",
         primaryButtonRoute: "/home",
       ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
+
+  void _showDialogWave() {
+    slideDialog.showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
       // barrierColor: Colors.white.withOpacity(0.7),
       // pillColor: Colors.red,
       // backgroundColor: Colors.yellow,
