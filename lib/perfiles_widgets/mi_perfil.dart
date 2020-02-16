@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/dialog_widget/custom_dialog.dart';
+import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
+
+import '../auth.dart';
 
 class MiPerfil extends StatefulWidget {
   MiPerfil({Key key}) : super(key: key);
@@ -541,17 +545,34 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                             );
                           },
-                          child: Container(
-                            margin: EdgeInsets.only(top: 30),
-                            child: Text(
-                              "Cerrar sesión",
-                              style: TextStyle(
-                                  fontFamily:"Gibson",
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 57, 57, 57)
+                          child: GestureDetector(
+                            child: Container(
+                              margin: EdgeInsets.only(top: 30),
+                              child: Text(
+                                "Cerrar sesión",
+                                style: TextStyle(
+                                    fontFamily:"Gibson",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 57, 57, 57)
+                                ),
                               ),
                             ),
+                          onTap: () async {
+                            try {
+                              final auth = Provider.of<BaseAuth>(
+                                  context, listen: false);
+                              await auth.signOut();
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FirstscreenWidget(),
+                                ),
+                              );
+                            } catch (e) {
+                              print(e.message);
+                            }
+                          }
                           ),
                         ),
                       ],

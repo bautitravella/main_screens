@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
 import 'package:flutterui/home_hub/pages/home_view_dos.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/notifications_view.dart';
@@ -18,7 +19,7 @@ class _HomeHubState extends State<HomeHub> {
   final List<Widget> _children = [
 
   MyBooksView(),
-  ExplorePage(),
+  ExploreView(),
   HomeViewDos(),
   FavoriteView(),
   NotificationView(),

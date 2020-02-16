@@ -200,7 +200,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
               print("DOWNLOAD URL  2: " + downloadUrl),
             })
         .catchError((err) {
-      print("HUBO UN ERROR 1, " + err);
+      print("HUBO UN ERROR 1, " + err.toString());
     });
   }
 

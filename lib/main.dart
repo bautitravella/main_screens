@@ -119,7 +119,7 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
 
 
   bool firebaseUserInfoCompleted(Map<String,dynamic> data){
-    return false;
+    return true;
     String nombre = data['nombre'];
     String apellido = data['apellido'];
     String fotoPerfil = data['foto de perfil'];
