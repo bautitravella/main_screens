@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
+import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart' as slideDialog;
 
 import '../auth.dart';
 
@@ -496,18 +497,7 @@ class _MiPerfilState extends State<MiPerfil> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) => CustomDialog(
-                                title: "Comparte la app",
-                                description:
-                                "www.link.poronga",
-                                primaryButtonText: "Copiar",
-                                primaryButtonRoute: "/home",
-                              ),
-                            );
-                          },
+                          onTap: _showDialogInvita,
                           child: Text(
                             "Invita a un amigo",
                             style: TextStyle(
@@ -518,62 +508,49 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 30),
-                          child: Text(
-                            "Ayuda",
-                            style: TextStyle(
-                                fontFamily:"Gibson",
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 57, 57, 57)
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Text(
+                              "Ayuda",
+                              style: TextStyle(
+                                  fontFamily:"Gibson",
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 57, 57, 57)
+                              ),
                             ),
                           ),
+                          onTap: _showDialogAyuda,
                         ),
                         GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) => CustomDialog(
-                                title: "¿Estas seguro?",
-                                description:
-                                "Deberas volver a iniciar sesión",
-                                primaryButtonText: "Si",
-                                primaryButtonRoute: "/logOut",
-                                secondaryButtonText: "Cancelar",
-                                secondaryButtonRoute: "/home",
-                              ),
-                            );
-                          },
-                          child: GestureDetector(
-                            child: Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Text(
-                                "Cerrar sesión",
-                                style: TextStyle(
-                                    fontFamily:"Gibson",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 57, 57, 57)
-                                ),
+                          child: Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Text(
+                              "Cerrar sesión",
+                              style: TextStyle(
+                                  fontFamily:"Gibson",
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 57, 57, 57)
                               ),
                             ),
-                          onTap: () async {
-                            try {
-                              final auth = Provider.of<BaseAuth>(
-                                  context, listen: false);
-                              await auth.signOut();
-                              Navigator.pop(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FirstscreenWidget(),
-                                ),
-                              );
-                            } catch (e) {
-                              print(e.message);
-                            }
-                          }
                           ),
+                        onTap: () async {
+                          try {
+                            final auth = Provider.of<BaseAuth>(
+                                context, listen: false);
+                            await auth.signOut();
+                            Navigator.pop(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FirstscreenWidget(),
+                              ),
+                            );
+                          } catch (e) {
+                            print(e.message);
+                          }
+                        }
                         ),
                       ],
                     ),
@@ -586,4 +563,37 @@ class _MiPerfilState extends State<MiPerfil> {
       ),
     );
   }
+  void _showDialogAyuda() {
+    slideDialog.showSlideDialogGrande(
+      context: context,
+      child: CustomDialog(
+        title: "¿Estas seguro?",
+        description:
+        "Deberas volver a iniciar sesión",
+        primaryButtonText: "Si",
+        primaryButtonRoute: "/logOut",
+        secondaryButtonText: "Cancelar",
+        secondaryButtonRoute: "/home",
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
+  void _showDialogInvita() {
+    slideDialog.showSlideDialogGrande(
+      context: context,
+      child: CustomDialog(
+        title: "Comparte la app",
+        description:
+        "www.link.poronga",
+        primaryButtonText: "Copiar",
+        primaryButtonRoute: "/home",
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
+
 }
