@@ -52,7 +52,9 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
       ));
     }
     super.initState();
-    hijos.add(new ChildField(key: UniqueKey(),));
+    hijos.add(ChildField(
+      key: UniqueKey(),
+    ));
   }
 
   @override
@@ -103,51 +105,6 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                         ),
                       ),
                       Positioned(
-                        top: 13,
-                        child: Row(
-                          children: <Widget>[
-                            GestureDetector(
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
-                                size: 22,
-                              ),
-                              onTap: () => {
-                                setState(() {
-                                  _currentIndex >= 0
-                                      ? _currentIndex--
-                                      : _currentIndex;
-                                })
-                              },
-                            ),
-                            SizedBox(width: 20),
-                            Text(
-                              _currentIndex.toString(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            SizedBox(width: 20),
-                            GestureDetector(
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                                size: 22,
-                              ),
-                              onTap: () => {
-                                setState(() {
-                                  _currentIndex < hijos.length
-                                      ? _currentIndex++
-                                      : _currentIndex;
-                                })
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
                         top: SizeConfig.blockSizeVertical * 2,
                         bottom: SizeConfig.blockSizeVertical * 26,
                         child: hijos[_currentIndex],
@@ -185,6 +142,61 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 13,
+                        child: Row(
+                          children: <Widget>[
+                            GestureDetector(
+                              child: _currentIndex == 0
+                                  ? Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.transparent,
+                                      size: 22,
+                                    )
+                                  : Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.white,
+                                      size: 22,
+                                    ),
+                              onTap: () => goBack(),
+                            ),
+                            SizedBox(width: 20),
+                            Text(
+                                (_currentIndex + 1).toString(),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            SizedBox(width: 20),
+                            _currentIndex == hijos.length - 1?
+                              _currentIndex == 0?
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.transparent,
+                                  size: 22,
+                                )
+                                  :
+                              GestureDetector(
+                                    child: Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.white,
+                                      size: 22,
+                                    ),
+                                    onTap: () => borrarHijo(),
+                                  )
+                                : GestureDetector(
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 22,
+                                    ),
+                                    onTap: () => goForward(),
+                                  )
                           ],
                         ),
                       ),
@@ -279,129 +291,10 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
     );
   }
 
-  /*Widget childField(BuildContext context) {
-    String selectedValue;
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 150,
-              height: 60,
-              margin: EdgeInsets.only(
-                  left: 100, right: 110, top: SizeConfig.blockSizeVertical * 3),
-              child: Opacity(
-                opacity: 0.57,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "NOMBRE",
-                    contentPadding: EdgeInsets.only(top: 30),
-                    border: InputBorder.none,
-                  ),
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 53, 38, 65),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 19,
-                  ),
-                  maxLines: 1,
-                  autocorrect: false,
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              width: 180,
-              margin: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(77, 0, 0, 0),
-              ),
-            ),
-            Container(
-              width: 170,
-              height: 45,
-              margin: EdgeInsets.only(
-                  left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
-              child: Opacity(
-                opacity: 0.37,
-                child: new DropdownButton(
-                  icon: Icon(Icons.menu),
-                  underline: Text(""),
-                  items: items,
-                  isExpanded: true,
-                  value: selectedValue,
-                  hint: new Text(
-                    'COLEGIO',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 53, 38, 65),
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
-                    ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValue = value;
-                    }
-                    );
-                  },
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              width: 180,
-              margin: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(77, 0, 0, 0),
-              ),
-            ),
-            Container(
-              width: 170,
-              height: 45,
-              margin: EdgeInsets.only(
-                  left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
-              child: Opacity(
-                opacity: 0.37,
-                child: new DropdownButton(
-                  icon: Icon(Icons.menu),
-                  underline: Text(""),
-                  items: items,
-                  isExpanded: true,
-                  value: selectedValue,
-                  hint: new Text(
-                    'CURSO',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 53, 38, 65),
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
-                    ),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValue = value;
-                    }
-                    );
-                  },
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              width: 180,
-              margin: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(77, 0, 0, 0),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
-
   siguienteBtn(BuildContext context) {
+
+
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -410,9 +303,30 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
   }
 
   agregarHijo() {
-    hijos.add(new ChildField(key: UniqueKey()));
+    hijos.add(ChildField(key: UniqueKey()));
     setState(() {
       _currentIndex = hijos.length - 1;
+    });
+  }
+
+  borrarHijo(){
+    setState(() {
+      _currentIndex --;
+    });
+
+    hijos.removeLast();
+  }
+
+  goBack() {
+    print("ATRAS BOTON");
+    setState(() {
+      _currentIndex > 0 ? _currentIndex-- : _currentIndex;
+    });
+  }
+
+  goForward() {
+    setState(() {
+      _currentIndex < hijos.length - 1 ? _currentIndex++ : _currentIndex;
     });
   }
 }
@@ -423,13 +337,12 @@ class ChildField extends StatefulWidget {
   @override
   _ChildFieldState createState() => _ChildFieldState();
 
-  updateParentWidget() {}
+  String cursoSelectedValue;
+  String colegioSelectedValue;
+  TextEditingController nombreController = new TextEditingController();
 }
 
 class _ChildFieldState extends State<ChildField> {
-  String selectedValue;
-  State parent;
-
   List<DropdownMenuItem> items = [];
 
   @override
@@ -489,6 +402,7 @@ class _ChildFieldState extends State<ChildField> {
                   ),
                   maxLines: 1,
                   autocorrect: false,
+                  controller: widget.nombreController,
                 ),
               ),
             ),
@@ -512,7 +426,7 @@ class _ChildFieldState extends State<ChildField> {
                   underline: Text(""),
                   items: items,
                   isExpanded: true,
-                  value: selectedValue,
+                  value: widget.colegioSelectedValue,
                   hint: new Text(
                     'COLEGIO',
                     style: TextStyle(
@@ -524,7 +438,7 @@ class _ChildFieldState extends State<ChildField> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      selectedValue = value;
+                      widget.colegioSelectedValue = value;
                     });
                   },
                 ),
@@ -550,7 +464,7 @@ class _ChildFieldState extends State<ChildField> {
                   underline: Text(""),
                   items: items,
                   isExpanded: true,
-                  value: selectedValue,
+                  value: widget.cursoSelectedValue,
                   hint: new Text(
                     'CURSO',
                     style: TextStyle(
@@ -562,7 +476,7 @@ class _ChildFieldState extends State<ChildField> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      selectedValue = value;
+                      widget.cursoSelectedValue = value;
                     });
                   },
                 ),
@@ -580,10 +494,6 @@ class _ChildFieldState extends State<ChildField> {
         ),
       ),
     );
-  }
-
-  void updateParentWidget() {
-    this.parent.setState(() {});
   }
 }
 
