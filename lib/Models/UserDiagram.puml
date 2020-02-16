@@ -1,0 +1,37 @@
+@startuml
+
+abstract class User{
+    nombre
+    apellido
+    rol
+    fotoPerfil
+    thumb
+    username
+    hasAcceptedTerms
+    __
+    fromMapToUser()
+    toMap()
+    abstract getColegios()
+    abstract getCursos()
+}
+
+class Alumno{
+    curso
+    colegio
+}
+
+class Padre{
+    List<Hijo> hijos
+    __
+}
+
+class Hijo{
+    nombre
+    curso
+    colegio
+}
+
+User <-- Alumno
+User <-- Padre
+
+@enduml

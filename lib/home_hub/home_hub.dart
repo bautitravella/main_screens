@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
+import 'package:flutterui/home_hub/pages/home_view_dos.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/home_hub/pages/notifications_view/notifications_view.dart';
 import 'package:flutterui/home_hub/pages/pages.dart';
-import 'package:flutterui/home_hub/pages/home_view.dart';
+
 
 
 class HomeHub extends StatefulWidget {
@@ -11,12 +15,14 @@ class HomeHub extends StatefulWidget {
 }
 
 class _HomeHubState extends State<HomeHub> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
   final List<Widget> _children = [
 
-    HomeView(),
-    ExplorePage(),
-    PastTripsPage(),
+  MyBooksView(),
+  ExploreView(),
+  HomeViewDos(),
+  FavoriteView(),
+  NotificationView(),
   ];
 
   @override
@@ -26,19 +32,39 @@ class _HomeHubState extends State<HomeHub> {
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
+          backgroundColor: Colors.white,
           currentIndex: _currentIndex,
+          unselectedItemColor: Color.fromARGB(255, 112, 112, 112),
+          selectedItemColor: Color.fromARGB(255, 254, 189, 16),
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          iconSize: 24,
           items: [
             BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              title: new Text("Home"),
+              icon: new Icon(Icons.inbox),
+              title: new Text("My Books"),
+              activeIcon: new Icon(Icons.archive),
             ),
+
+
             BottomNavigationBarItem(
               icon: new Icon(Icons.explore),
               title: new Text("Porongo2"),
             ),
+
             BottomNavigationBarItem(
-              icon: new Icon(Icons.history),
-              title: new Text("Porongo1"),
+              icon: new Icon(Icons.home),
+              title: new Text("Home"),
+            ),
+
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.star),
+              title: new Text("Favorite"),
+            ),
+
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.notifications),
+              title: new Text("Notifications"),
             ),
           ]
       ),

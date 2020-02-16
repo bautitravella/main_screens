@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
@@ -9,7 +11,6 @@ import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeView extends StatefulWidget {
-
   HomeView({Key key}) : super(key: key);
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -19,63 +20,88 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
-      padding: EdgeInsets.all(0),
-      height: SizeConfig.blockSizeVertical * 100,
-      width: SizeConfig.blockSizeHorizontal * 100,
-      child: Stack(
-        children: <Widget>[
-
-
-          Container(
-              height: 110,
-              width: SizeConfig.blockSizeHorizontal * 100,
-              color: AppColors.secondaryBackground,
-              padding: EdgeInsets.only(left: 0, right: 0, top: 0)
-          ),
-
-          new ListView.builder(
-              padding: EdgeInsets.all(0),
-              itemCount: 1,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, int index) =>
-                  homeViewItems(context, index)),
-          Container(
-            child: Container(
-              height: 143,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: 138,
-                        height: 143,
-                        child: Image.asset(
-                          "assets/images/round-underpic.png",
-                          fit: BoxFit.none,
+        padding: EdgeInsets.all(0),
+        height: SizeConfig.blockSizeVertical * 100,
+        width: SizeConfig.blockSizeHorizontal * 100,
+        child: Stack(
+          children: <Widget>[
+            Container(
+                height: 110,
+                width: SizeConfig.blockSizeHorizontal * 100,
+                color: AppColors.secondaryBackground,
+                padding: EdgeInsets.only(left: 0, right: 0, top: 0)),
+            new ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount: 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, int index) =>
+                    homeViewItems(context, index)),
+            Container(
+              child: Container(
+                height: 143,
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: <Widget>[
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 138,
+                          height: 143,
+                          child: Image.asset(
+                            "assets/images/round-underpic.png",
+                            fit: BoxFit.none,
+                          ),
                         ),
                       ),
                     ),
-                  )
-                ],
+                    Positioned(
+                      right: SizeConfig.blockSizeHorizontal * 4,
+                      top: SizeConfig.blockSizeVertical * 5,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PerfilAlguien(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 55,
+                          width: 55,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2, //
+                              ),
+                              borderRadius: new BorderRadius.circular(100)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.asset(
+                              "assets/images/avatar.png",
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-
-      )
-
-    );
+          ],
+        ));
   }
 
   Widget homeViewItems(BuildContext context, int index) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Container(
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -97,26 +123,25 @@ class _HomeViewState extends State<HomeView> {
                                 left: 0,
                                 top: 0,
                                 right: 0,
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0.0, 2.0),
-                                          blurRadius: 6.0,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Image.asset(
-                                      "assets/images/photo-85889-landscape-850x566.png",
-                                      fit: BoxFit.fill,
-                                      color: Color.fromARGB(80, 0, 0, 0),
-                                      colorBlendMode: BlendMode.darken,
-                                    ),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0.0, 2.0),
+                                        blurRadius: 6.0,
+                                      ),
+                                    ],
                                   ),
-
+                                  child: Image.asset(
+                                    "assets/images/photo-85889-landscape-850x566.png",
+                                    fit: BoxFit.fill,
+                                    color: Color.fromARGB(80, 0, 0, 0),
+                                    colorBlendMode: BlendMode.darken,
+                                  ),
+                                ),
                               ), //BackgroudHeader
                               Positioned(
                                   left: null,
@@ -124,9 +149,9 @@ class _HomeViewState extends State<HomeView> {
                                   top: 80,
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -185,58 +210,58 @@ class _HomeViewState extends State<HomeView> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(left: 21),
-                                  child: Text(
-                                    "LIBROS DESTACADOS",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color:
-                                      Color.fromARGB(255, 57, 57, 57),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DestacadosSection()));
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: 21),
+                                    child: Text(
+                                      "LIBROS DESTACADOS",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: 98,
-                                  alignment: Alignment.centerRight,
-                                  child: FlatButton(
-                                    onPressed: null,
-                                    disabledColor:
-                                    AppColors.secondaryBackground,
-                                    color: Color.fromARGB(255, 251, 187, 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(14)),
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DestacadosSection()));
-                                      },
+                                  Container(
+                                    height: 50,
+                                    width: 98,
+                                    alignment: Alignment.centerRight,
+                                    child: FlatButton(
+                                      onPressed: null,
+                                      disabledColor:
+                                          AppColors.secondaryBackground,
+                                      color: Color.fromARGB(255, 251, 187, 16),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(14)),
+                                      ),
                                       child: Text(
                                         "VER TODO",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color:
-                                          Color.fromARGB(255, 255, 255, 255),
-                                          fontWeight: FontWeight.w400,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          fontWeight: FontWeight.w900,
                                           fontSize: 13,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             )),
                         horizontalListView,
                         Container(
@@ -244,57 +269,58 @@ class _HomeViewState extends State<HomeView> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(left: 21),
-                                  child: Text(
-                                    "MIS LIBROS",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyBooksView()));
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: 21),
+                                    child: Text(
+                                      "MIS LIBROS",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: 98,
-                                  alignment: Alignment.centerRight,
-                                  child: FlatButton(
-                                    onPressed: null,
-                                    disabledColor:
-                                    AppColors.secondaryBackground,
-                                    color: Color.fromARGB(255, 251, 187, 16),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(14)),
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeHub()));
-                                      },
+                                  Container(
+                                    height: 50,
+                                    width: 98,
+                                    alignment: Alignment.centerRight,
+                                    child: FlatButton(
+                                      onPressed: null,
+                                      disabledColor:
+                                          AppColors.secondaryBackground,
+                                      color: Color.fromARGB(255, 251, 187, 16),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(14)),
+                                      ),
                                       child: Text(
                                         "VER TODO",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 13,
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 10,
                                         ),
+                                        maxLines: 1,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             )),
                         horizontalListView,
                         Container(
@@ -309,7 +335,6 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-
 
   static Widget horizontalListView = Container(
     height: 240,
@@ -340,7 +365,7 @@ class _HomeViewState extends State<HomeView> {
                         Text(
                           "${book.name}",
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.w600,
                           ),
@@ -362,16 +387,38 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  height: 25,
+                  width: 50,
+                  padding: const EdgeInsets.all(6.0),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 235, 235, 235),
+                      borderRadius: new BorderRadius.all(Radius.circular(10))),
+                  child: Center(
+                    child: Text(
+                      '\$${book.price}',
+                      style: TextStyle(
+                        color: Color.fromARGB(105, 0, 0, 0),
+                        fontSize: 12,
+                        fontFamily: "Gibson",
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              BookSection(
-                                book: book,
-                              ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookSection(
+                        book: book,
                       ),
+                    ),
                   );
                 },
                 child: Container(
