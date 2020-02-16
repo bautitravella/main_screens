@@ -17,7 +17,6 @@ class CursoPadreWidget extends StatefulWidget {
 }
 
 class _CursoPadreWidgetState extends State<CursoPadreWidget> {
-  Padre user;
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 
@@ -325,10 +324,11 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
       //------------------------------Mostrar el dialog con el texto que este en genericErrorMessage
 
     }else{
+      hijos.forEach((element) {widget.user.agregarHijo(element.toHijo());});
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TerminosYCondicionesWidget(user)));
+              builder: (context) => TerminosYCondicionesWidget(widget.user)));
     }
   }
 
@@ -537,12 +537,3 @@ class _ChildFieldState extends State<ChildField> {
     );
   }
 }
-
-// siguienteBtn(BuildContext context){
-//chequear si el usuario eligio un colegio y un curso
-
-//agregar los datos al usuario
-
-//pasar a la siguiente pantalla
-// }
-//}
