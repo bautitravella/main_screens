@@ -42,7 +42,7 @@ class User {
   Map<String,dynamic> toMap(){
     Map<String,dynamic> userMap = new Map();
     userMap['nombre'] = nombre;
-    userMap['apelido'] = apellido;
+    userMap['apellido'] = apellido;
     userMap['fotoPerfilUrl'] = fotoPerfilUrl;
     userMap['hasAcceptedTerms']= hasAcceptedTerms;
     return userMap;
