@@ -270,7 +270,7 @@ class _HomeBuckupWidgetState extends State<HomeBuckupWidget> {
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),

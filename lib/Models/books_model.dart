@@ -1,5 +1,5 @@
 
-class Book {
+class Book2 {
   String imageUrl;
   String name;
   String author;
@@ -13,7 +13,7 @@ class Book {
 
 
 
-  Book({
+  Book2({
     this.imageUrl,
     this.name,
     this.author,
@@ -29,8 +29,8 @@ class Book {
 }
 
 
-List<Book> books = [
-  Book(
+List<Book2> books = [
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Steler Toma 1',
     author: 'Gary Blackwood & Edgar el perro Poe',
@@ -43,7 +43,7 @@ List<Book> books = [
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
 
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/bookdescarte.png',
     name: 'El libro nuemro 2',
     author: 'Gary Blackwood',
@@ -55,7 +55,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -67,7 +67,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -79,7 +79,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -91,7 +91,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -103,7 +103,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -115,7 +115,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -127,7 +127,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -139,7 +139,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',

@@ -98,7 +98,7 @@ class _ExploreViewState extends State<ExploreView> {
           controller: sc,
           itemCount: books.length,
           itemBuilder: (BuildContext context, int index) {
-            Book book = books[index];
+            Book2 book = books[index];
 
             return Stack(
               children: <Widget>[

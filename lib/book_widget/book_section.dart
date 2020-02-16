@@ -11,7 +11,7 @@ class BookSection extends StatefulWidget {
 
   void onBtnBluePressed(BuildContext context) {}
 
-  final Book book;
+  final Book2 book;
 
   BookSection({this.book});
 
@@ -254,7 +254,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget verticalListView(Book book) {
+  static Widget verticalListView(Book2 book) {
     return Container(
       height: SizeConfig.blockSizeVertical * 100,
       margin: EdgeInsets.all(0),
@@ -697,7 +697,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget horizontalPhotos(Book book) {
+  static Widget horizontalPhotos(Book2 book) {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
@@ -756,7 +756,7 @@ class _BookSectionState extends State<BookSection> {
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),

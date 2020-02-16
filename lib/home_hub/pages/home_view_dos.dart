@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/Book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
@@ -21,6 +22,14 @@ class HomeViewDos extends StatefulWidget {
 }
 
 class _HomeViewDosState extends State<HomeViewDos> {
+  Stream<QuerySnapshot> firebaseStream;
+
+  @override
+  void initState(){
+    firebaseStream = Firestore.instance.collection('Publicaciones').snapshots();
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
@@ -336,12 +345,112 @@ class _HomeViewDosState extends State<HomeViewDos> {
     );
   }
 
+  Widget horizontalListViewItem(Book book){
+    return Container(
+      margin: EdgeInsets.all(7.0),
+      width: 97,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: <Widget>[
+          Positioned(
+            bottom: 0,
+            child: Container(
+              height: 80,
+              width: 97,
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "${book.nombreLibro}",
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                    Text(
+                      "(${book.autor})",
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: "Sf-t",
+                        fontWeight: FontWeight.w400,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              height: 25,
+              width: 50,
+              padding: const EdgeInsets.all(6.0),
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 235, 235, 235),
+                  borderRadius: new BorderRadius.all(
+                      Radius.circular(10))),
+              child: Center(
+                child: Text(
+                  '\$${book.precio}',
+                  style: TextStyle(
+                    color: Color.fromARGB(105, 0, 0, 0),
+                    fontSize: 12,
+                    fontFamily: "Gibson",
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BookSection(
+                    book: books[0],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              height: 141,
+              width: 97,
+              child: Stack(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.network(
+                      book.thumbImages[0],
+                      fit: BoxFit.fill,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget horizontalListViewFirebase() {
     return Container(
       height: 240,
       margin: EdgeInsets.only(left: 27),
       child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('Publicaciones').snapshots(),
+          stream: firebaseStream,
           builder: (context, snapshot) {
             if (snapshot.hasError)
               return new Text("ERRRROR 1: " + snapshot.error);
@@ -353,105 +462,11 @@ class _HomeViewDosState extends State<HomeViewDos> {
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) {
-                    DocumentSnapshot book = snapshot.data.documents[index];
-
-                    return Container(
-                      margin: EdgeInsets.all(7.0),
-                      width: 97,
-                      child: Stack(
-                        alignment: Alignment.topCenter,
-                        children: <Widget>[
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              height: 80,
-                              width: 97,
-                              color: Colors.white,
-                              child: Padding(
-                                padding: EdgeInsets.all(0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "${book.data['nombre']}",
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontFamily: "Sf-r",
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                    Text(
-                                      "(${book['autor']})",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: "Sf-t",
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            bottom: 0,
-                            child: Container(
-                              height: 25,
-                              width: 50,
-                              padding: const EdgeInsets.all(6.0),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 235, 235, 235),
-                                  borderRadius: new BorderRadius.all(
-                                      Radius.circular(10))),
-                              child: Center(
-                                child: Text(
-                                  '\$${book.data['precio']}',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(105, 0, 0, 0),
-                                    fontSize: 12,
-                                    fontFamily: "Gibson",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BookSection(
-                                    book: books[0],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 141,
-                              width: 97,
-                              child: Stack(
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(
-                                      book['thumbs url'][0],
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                    DocumentSnapshot doc = snapshot.data.documents[index];
+                    Book book = Book.fromDocumentSnapshot(doc);
+                    print("DOC: " + doc.toString());
+                    print("Book: " + book.toString());
+                    return horizontalListViewItem(book);
                   },
                 );
             }
@@ -466,7 +481,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),

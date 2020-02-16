@@ -155,7 +155,7 @@ class GridViewPublicados extends StatelessWidget {
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              Book book = books[index];
+              Book2 book = books[index];
 
               return Container(
                 margin: EdgeInsets.only(left: 0, right: 0, top: 0),
@@ -300,7 +300,7 @@ class GridViewVendidos extends StatelessWidget {
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              Book book = books[index];
+              Book2 book = books[index];
 
               return Container(
                 height: SizeConfig.blockSizeVertical * 10,

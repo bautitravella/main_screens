@@ -131,7 +131,7 @@ class _DestacadosSectionState extends State<DestacadosSection> {
       scrollDirection: Axis.vertical,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books[index];
 
         return Stack(
           children: <Widget>[

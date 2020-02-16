@@ -356,7 +356,7 @@ Widget verticalListView = Container(
                     SliverGrid(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                          Book book = books[index];
+                          Book2 book = books[index];
 
                           return Container(
                             height: SizeConfig.blockSizeVertical * 10,
@@ -571,7 +571,7 @@ Widget profileScroll = Container(
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books[index];
 
         return AspectRatio(
           aspectRatio: 30 / 30,
