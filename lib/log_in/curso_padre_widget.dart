@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
@@ -8,7 +9,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
 
 class CursoPadreWidget extends StatefulWidget {
-  User user;
+  Padre user;
   CursoPadreWidget(this.user);
 
   @override
@@ -16,12 +17,12 @@ class CursoPadreWidget extends StatefulWidget {
 }
 
 class _CursoPadreWidgetState extends State<CursoPadreWidget> {
-  User user;
+  Padre user;
   void onLogoPressed(BuildContext context) {}
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   List<DropdownMenuItem> items = [];
-  List<Widget> hijos = [];
+  List<ChildField> hijos = [];
   int _currentIndex = 0;
 
   @override
@@ -292,14 +293,43 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
   }
 
   siguienteBtn(BuildContext context) {
+    String errorMessagePlural = 'Los perfiles de los hijos : ';
+    String errorMessageIndividual = 'El perfil del hijo : ';
+    String genericErrorMessage = '';
+    int cantErrores = 0;
+    bool error = false;
 
 
+    //fijarse si alguno de los hijos creados tiene algun campo incompleto
+    for(int i = 0; i<=hijos.length-1 ; i++){
+      if(!hijos[i].isComplete()){
+        //aca hay que poner el pop up de que ese usuario esta mal
+        error = true;
+        cantErrores++;
+        if(cantErrores >=2) {
+          genericErrorMessage += ", ${i + 1} ";
+        }else{
+          genericErrorMessage += " ${i + 1}";
+        }
+      }
+    }
+    if(error == true){
+      if(cantErrores> 1 ){
+        errorMessagePlural += genericErrorMessage + " tienen campos que estan incompletos.";
+        genericErrorMessage = errorMessagePlural;
+      }else{
+        errorMessageIndividual +=  genericErrorMessage + " tiene campos que estan incompletos.";
+        genericErrorMessage = errorMessageIndividual;
+      }
+      print("ERROR MESSAGE : " + genericErrorMessage);
+      //------------------------------Mostrar el dialog con el texto que este en genericErrorMessage
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TerminosYCondicionesWidget(user)));
-    //Mostrar un mensaje de error
+    }else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TerminosYCondicionesWidget(user)));
+    }
   }
 
   agregarHijo() {
@@ -340,6 +370,17 @@ class ChildField extends StatefulWidget {
   String cursoSelectedValue;
   String colegioSelectedValue;
   TextEditingController nombreController = new TextEditingController();
+
+  Hijo toHijo(){
+    return Hijo(nombreController.text.trim(),colegioSelectedValue,cursoSelectedValue);
+  }
+
+  bool isComplete(){
+    if(cursoSelectedValue != null && colegioSelectedValue != null && nombreController.text != null && nombreController.text.isNotEmpty){
+      return true;
+    }
+    return false;
+  }
 }
 
 class _ChildFieldState extends State<ChildField> {
