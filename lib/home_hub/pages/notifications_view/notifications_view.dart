@@ -10,6 +10,8 @@ import 'package:flutterui/size_config.dart';
 import '../../../size_config.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
+import 'chat_screen_buck.dart';
+
 class NotificationView extends StatefulWidget {
   @override
   NotificationViewState createState() => NotificationViewState();
@@ -146,7 +148,7 @@ class ListViewVenta extends StatelessWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreen(user: chat.sender),
+                    builder: (_) => ChatScreenBuck(user: chat.sender),
                   )),
               child: Stack(
                 children: <Widget>[
@@ -316,7 +318,7 @@ class ListViewCompra extends StatelessWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreen(user: chat.sender),
+                    builder: (_) => ChatScreenBuck(user: chat.sender),
                   )),
               child: Stack(
                 children: <Widget>[
