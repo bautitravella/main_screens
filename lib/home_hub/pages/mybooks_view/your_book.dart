@@ -6,6 +6,7 @@ import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart' as slideDialog;
 
 class YourBook extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
@@ -107,20 +108,7 @@ class _YourBookState extends State<YourBook> {
                                 icon: Icon(Icons.delete),
                                 iconSize: 30.0,
                                 color: Colors.black,
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) => CustomDialog(
-                                      title: "¿Seguro que quiere eliminar este libro?",
-                                      description:
-                                      "Este libro ya no estara disponible dentro de la aplicación",
-                                      primaryButtonText: "Si",
-                                      primaryButtonRoute: "/home",
-                                      secondaryButtonText: "Cancelar",
-                                      secondaryButtonRoute: "/home",
-                                    ),
-                                  );
-                                },
+                                onPressed: _showDialogEliminar,
                               ),
                             ],
                           )
@@ -889,4 +877,22 @@ class _YourBookState extends State<YourBook> {
       },
     ),
   );
+
+  void _showDialogEliminar() {
+    slideDialog.showSlideDialogGrande(
+      context: context,
+      child: CustomDialog(
+        title: "¿Seguro que quiere eliminar este libro?",
+        description:
+        "Este libro ya no estara disponible dentro de la aplicación",
+        primaryButtonText: "Si",
+        primaryButtonRoute: "/home",
+        secondaryButtonText: "Cancelar",
+        secondaryButtonRoute: "/home",
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
 }

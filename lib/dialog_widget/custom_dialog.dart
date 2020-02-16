@@ -31,90 +31,69 @@ class CustomDialog extends StatelessWidget {
         @required this.primaryButtonText, @required this.secondaryButtonText,this.primaryFunction,this.secondaryFunction
       });
 
-  static const double padding = 20.0;
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-      child: Dialog(
-        backgroundColor: Colors.transparent,
-        child: Stack(
+    return Expanded(
+      child: Container(
+        width: SizeConfig.blockSizeHorizontal*100,
+        padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: "Sf-r",
+                fontSize: 27,
+                fontWeight: FontWeight.w800,
+                color: Color.fromARGB(255, 57, 57, 57),
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Text(
+              description,
+              maxLines: 4,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: "Sf-t",
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(205, 80, 80, 80),
+              ),
+            ),
+            SizedBox(height: 30.0),
             Container(
-              width: SizeConfig.blockSizeHorizontal*100,
-              padding: EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(80), bottomRight: Radius.circular(80)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 10.0,
-                      offset: const Offset(0.0, 10.0),
-                    ),
-                  ]),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SizedBox(height: 24.0),
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
+              width: 350,
+              height: 44,
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: RaisedButton(
+                color: Color.fromARGB(255, 57, 57, 57),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: Text(
+                    primaryButtonText,
+                    maxLines: 1,
                     style: TextStyle(
                       fontFamily: "Montserrat",
-                      fontSize: 26,
-                      fontWeight: FontWeight.w900,
-                      color: Color.fromARGB(255, 57, 57, 57),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 15.0),
-                  Text(
-                    description,
-                    maxLines: 4,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 57, 57, 57),
-                  ),
-                  ),
-                  SizedBox(height: 30.0),
-                  Container(
-                    width: 350,
-                    height: 44,
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: RaisedButton(
-                      color: Color.fromARGB(255, 57, 57, 57),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Text(
-                          primaryButtonText,
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .pushReplacementNamed(primaryButtonRoute);
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  showSecondaryButton(context),
-                ],
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context)
+                      .pushReplacementNamed(primaryButtonRoute);
+                },
               ),
-            )
+            ),
+            SizedBox(height: 10.0),
+            showSecondaryButton(context),
           ],
         ),
       ),
