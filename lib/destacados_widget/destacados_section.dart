@@ -129,9 +129,9 @@ class _DestacadosSectionState extends State<DestacadosSection> {
     margin: EdgeInsets.all(0),
     child: ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: books.length,
+      itemCount: books2.length,
       itemBuilder: (BuildContext context, int index) {
-        Book2 book = books[index];
+        Book2 book = books2[index];
 
         return Stack(
           children: <Widget>[

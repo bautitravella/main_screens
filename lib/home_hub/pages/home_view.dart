@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
+import 'package:flutterui/book_widget/book_section_chota.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
@@ -341,9 +343,9 @@ class _HomeViewState extends State<HomeView> {
     margin: EdgeInsets.only(left: 27),
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: books.length,
+      itemCount: books2.length,
       itemBuilder: (BuildContext context, int index) {
-        Book2 book = books[index];
+        Book2 book = books2[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),
@@ -415,9 +417,7 @@ class _HomeViewState extends State<HomeView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookSection(
-                        book: book,
-                      ),
+                      builder: (context) => BookSectionChota(book),
                     ),
                   );
                 },

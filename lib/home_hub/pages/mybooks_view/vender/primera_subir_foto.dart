@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/segunda_subir_foto.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/subir_foto_libro.dart';
 import 'package:flutterui/size_config.dart';
 
 import 'package:flutterui/values/values.dart';
@@ -157,7 +157,7 @@ class PrimeraSubirFoto extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => SegundaSubirFoto()),
+                                MaterialPageRoute(builder: (context) => SubirFotoLibro()),
                               );
                             }
                         ),

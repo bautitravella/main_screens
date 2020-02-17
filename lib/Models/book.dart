@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class Book {
+
   String nombre,apellido,autor,categoria,editorial,emailVendedor,estado,nombreLibro,imageVendedor,isbn;
   List<dynamic> colegios = [];
   List<dynamic> cursos = [];
@@ -9,6 +11,7 @@ class Book {
   List<dynamic> thumbImages = [];
   bool vendido,infoCompleta,disponibleTodosColegios;
   String precio;
+  num rating;
 
   Book();
 
@@ -40,3 +43,7 @@ class Book {
 
 
 }
+
+List<Book> books = [
+  Book()
+];

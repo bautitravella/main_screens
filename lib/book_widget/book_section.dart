@@ -1,25 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'book_section_chota.dart';
 
 class BookSection extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
 
-  final Book2 book;
+  Book book;
 
-  BookSection({this.book});
+
+  BookSection(this.book);
 
   @override
   _BookSectionState createState() => _BookSectionState();
 }
 
 class _BookSectionState extends State<BookSection> {
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -104,7 +109,7 @@ class _BookSectionState extends State<BookSection> {
                             height: SizeConfig.blockSizeVertical * 10,
                             margin: EdgeInsets.only(left: 22, top: 130),
                             child: Text(
-                              widget.book.name,
+                              widget.book.nombreLibro,//widget.book.name,
                               style: TextStyle(
                                 fontFamily: "Gibson",
                                 color: AppColors.accentText,
@@ -120,7 +125,7 @@ class _BookSectionState extends State<BookSection> {
                             height: SizeConfig.blockSizeVertical * 5,
                             margin: EdgeInsets.only(left: 22, top: 5),
                             child: Text(
-                              widget.book.author,
+                              widget.book.autor,
                               style: TextStyle(
                                 fontFamily: "Montserrat",
                                 color: AppColors.accentText,
@@ -184,7 +189,7 @@ class _BookSectionState extends State<BookSection> {
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                 ),
                                 Text(
-                                  '\$${widget.book.price}',
+                                  '\$${widget.book.precio}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppColors.secondaryText,
@@ -254,7 +259,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget verticalListView(Book2 book) {
+  static Widget verticalListView(Book book) {
     return Container(
       height: SizeConfig.blockSizeVertical * 100,
       margin: EdgeInsets.all(0),
@@ -304,7 +309,7 @@ class _BookSectionState extends State<BookSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '${book.user}',
+                                      '${book.nombre + ' '+ book.apellido}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 16,
@@ -313,7 +318,7 @@ class _BookSectionState extends State<BookSection> {
                                         color: Color.fromARGB(255, 57, 57, 57),
                                       ),
                                     ),
-                                    Row(
+                                    book.rating!= null?Row(
                                       children: <Widget>[
                                         Text(
                                           '${book.rating}',
@@ -333,7 +338,8 @@ class _BookSectionState extends State<BookSection> {
                                               Color.fromARGB(255, 118, 118, 118),
                                         ),
                                       ],
-                                    )
+                                    ):
+                                        Text(' '),
                                   ],
                                 ),
                               ),
@@ -358,7 +364,7 @@ class _BookSectionState extends State<BookSection> {
                                         Color.fromARGB(255, 255, 255, 255),
                                     padding: EdgeInsets.all(0),
                                     child: Text(
-                                      '${book.state}'.toUpperCase(),
+                                      '${book.estado}'.toUpperCase(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18,
@@ -398,7 +404,7 @@ class _BookSectionState extends State<BookSection> {
                                   padding: const EdgeInsets.only(top: 15),
                                   width: SizeConfig.blockSizeHorizontal * 80,
                                   child: Text(
-                                    book.description,
+                                    book.estado,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -448,7 +454,7 @@ class _BookSectionState extends State<BookSection> {
                                       const EdgeInsets.only(top: 5, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
-                                    book.author,
+                                    book.autor,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -697,7 +703,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget horizontalPhotos(Book2 book) {
+  static Widget horizontalPhotos(Book book) {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
@@ -719,7 +725,7 @@ class _BookSectionState extends State<BookSection> {
                         height: 180,
                         width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image.asset(book.imageUrl,
+                        child: Image.network(book.thumbImages[0],
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -727,7 +733,7 @@ class _BookSectionState extends State<BookSection> {
                         height: 180,
                         width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image.asset(book.imageUrl,
+                        child: Image.network(book.thumbImages[1],
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -735,7 +741,7 @@ class _BookSectionState extends State<BookSection> {
                         height: 180,
                         width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image.asset(book.imageUrl,
+                        child: Image.network(book.thumbImages[2],
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -756,7 +762,7 @@ class _BookSectionState extends State<BookSection> {
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book2 book = books[index];
+        Book2 book = books2[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),
@@ -807,9 +813,7 @@ class _BookSectionState extends State<BookSection> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          BookSection(
-                            book: book,
-                          ),
+                          BookSectionChota(book),
                     ),
                   );
                 },

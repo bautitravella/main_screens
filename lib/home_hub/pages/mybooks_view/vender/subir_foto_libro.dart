@@ -1,14 +1,52 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker_modern/image_picker_modern.dart';
 
-class SegundaSubirFoto extends StatelessWidget {
+class SubirFotoLibro extends StatefulWidget {
+
+  @override
+  SubirFotoLibroState createState() => SubirFotoLibroState();
+}
+
+
+class SubirFotoLibroState extends State<SubirFotoLibro>{
+
+  List<File> _image = List(3);
+
   void onBtnBlueTwoPressed(BuildContext context) {
     Navigator.pop(context);
   }
 
-  void onBtnBluePressed(BuildContext context) {}
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image[0] = image;
+    });
+  }
+
+  Future<void> _cropImage() async {
+    File cropped = await ImageCropper.cropImage(
+      sourcePath: _image[0].path,
+      //ratioX: 1.0,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+    );
+
+    setState(() {
+      _image[0] = cropped ?? _image[0];
+    });
+  }
+
+  void selectImage() {
+    getImage().then((anything) => _cropImage());
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,73 +108,58 @@ class SegundaSubirFoto extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: 161,
-                          height: 215,
-                          margin: EdgeInsets.only(top: 15),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 143, 143, 143),
-                              borderRadius: BorderRadius.circular(15.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0.0, 2.0),
-                                  blurRadius: 6.0,
-                                ),
-                              ]
-                          ),
-                            child: Image(
-                              image: AssetImage(
-                                  "assets/images/bookdescarte.png"
-                              ),
-                              fit: BoxFit.fill,
-                            )
+                            width: 161,
+                            height: 215,
+                            margin: EdgeInsets.only(top: 15),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 143, 143, 143),
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0.0, 2.0),
+                                    blurRadius: 6.0,
+                                  ),
+                                ]
+                            ),
+                            child:  _displayImage(),
                         ),
                         Container(
-                          width: 161,
-                          height: 215,
-                          margin: EdgeInsets.only(top: 15),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 143, 143, 143),
-                              borderRadius: BorderRadius.circular(15.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0.0, 2.0),
-                                  blurRadius: 6.0,
-                                ),
-                              ]
-                          ),
-                            child: Image(
-                              image: AssetImage(
-                                  "assets/images/bookdescarte.png"
-                              ),
-                              fit: BoxFit.fill,
-                            )
+                            width: 161,
+                            height: 215,
+                            margin: EdgeInsets.only(top: 15),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 143, 143, 143),
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0.0, 2.0),
+                                    blurRadius: 6.0,
+                                  ),
+                                ]
+                            ),
+                            child: _displayImage()
                         ),
                       ],
                     ),
                     Center(
                       child: Container(
-                        width: 161,
-                        height: 244,
-                        padding: EdgeInsets.only(top: 0),
-                        margin: EdgeInsets.only(top: 0),
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 190, 190, 190),
-                            borderRadius: BorderRadius.circular(15.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0.0, 2.0),
-                                blurRadius: 6.0,
-                              ),
-                            ]),
-                        child: Image(
-                              image: AssetImage(
-                                  "assets/images/bookdescarte.png"
-                              ),
-                              fit: BoxFit.fill,
-                        )
+                          width: 161,
+                          height: 244,
+                          padding: EdgeInsets.only(top: 0),
+                          margin: EdgeInsets.only(top: 0),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 190, 190, 190),
+                              borderRadius: BorderRadius.circular(15.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0.0, 2.0),
+                                  blurRadius: 6.0,
+                                ),
+                              ]),
+                          child: _displayImage()
                       ),
                     ),
                     Positioned(
@@ -156,7 +179,7 @@ class SegundaSubirFoto extends StatelessWidget {
                               color: AppColors.secondaryBackground,
                               size: 60,
                             ),
-                            onPressed: () {}
+                            onPressed: () {selectImage();}
                         ),
                       ),
                     ),
@@ -208,44 +231,44 @@ class SegundaSubirFoto extends StatelessWidget {
                 width: 124,
                 height: 44,
                 margin: EdgeInsets.only(right: 3, bottom: 30),
-                  child: FlatButton(
-                      color: AppColors.secondaryElement,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      textColor: Color.fromARGB(255, 255, 255, 255),
-                      padding: EdgeInsets.all(0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/icons-back-light-2.png",
+                child: FlatButton(
+                    color: AppColors.secondaryElement,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    textColor: Color.fromARGB(255, 255, 255, 255),
+                    padding: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/images/icons-back-light-2.png",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Siguiente",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.secondaryText,
+                            fontFamily: "Roboto",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Siguiente",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppColors.secondaryText,
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SeleccionCursos(),
-                          ),
-                        );
-                      }
-                  ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SeleccionCursos(),
+                        ),
+                      );
+                    }
+                ),
 
               ),
             ),
@@ -253,5 +276,17 @@ class SegundaSubirFoto extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _displayImage() {
+    return _image[0] == null?
+      Image(
+        image: AssetImage(
+            "assets/images/bookdescarte.png"
+        ),
+        fit: BoxFit.fill,
+      )
+        :
+        Image.file(_image[0],fit: BoxFit.fill,);
   }
 }

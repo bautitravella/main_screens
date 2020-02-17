@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
+import 'package:flutterui/book_widget/book_section_chota.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/catergory_selector.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/subir_foto_libro.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
 import 'package:flutterui/size_config.dart';
@@ -36,7 +39,7 @@ class MyBooksViewState extends State<MyBooksView> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PrimeraSubirFoto(),
+                builder: (context) => SubirFotoLibro(),
               ),
             );
           }
@@ -155,7 +158,7 @@ class GridViewPublicados extends StatelessWidget {
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              Book2 book = books[index];
+              Book2 book = books2[index];
 
               return Container(
                 margin: EdgeInsets.only(left: 0, right: 0, top: 0),
@@ -271,7 +274,7 @@ class GridViewPublicados extends StatelessWidget {
                 ),
               );
             },
-            childCount: books.length,
+            childCount: books2.length,
           ),
           // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           //   maxCrossAxisExtent: 200.0,
@@ -300,7 +303,7 @@ class GridViewVendidos extends StatelessWidget {
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              Book2 book = books[index];
+              Book2 book = books2[index];
 
               return Container(
                 height: SizeConfig.blockSizeVertical * 10,
@@ -350,9 +353,8 @@ class GridViewVendidos extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BookSection(
-                              book: book,
-                            ),
+                            builder: (context) => BookSectionChota(
+                              book),
                           ),
                         );
                       },
@@ -376,7 +378,7 @@ class GridViewVendidos extends StatelessWidget {
                 ),
               );
             },
-            childCount: books.length,
+            childCount: books2.length,
           ),
           // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           //   maxCrossAxisExtent: 200.0,

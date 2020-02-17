@@ -29,7 +29,7 @@ class Book2 {
 }
 
 
-List<Book2> books = [
+List<Book2> books2 = [
   Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Steler Toma 1',

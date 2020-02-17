@@ -1,27 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
+import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart' as slideDialog;
 
-class YourBook extends StatefulWidget {
+class BookSectionChota extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
 
   final Book2 book;
 
-  YourBook({this.book});
+  BookSectionChota(this.book);
 
   @override
-  _YourBookState createState() => _YourBookState();
+  _BookSectionChotaState createState() => _BookSectionChotaState();
 }
 
-class _YourBookState extends State<YourBook> {
+class _BookSectionChotaState extends State<BookSectionChota> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -51,7 +49,7 @@ class _YourBookState extends State<YourBook> {
                           bottomLeft: Radius.circular(20),
                         ),
                         child: Container(
-                          height: SizeConfig.blockSizeVertical * 19,
+                          height: SizeConfig.blockSizeVertical * 22,
                           color: Colors.white,
                         ),
                       ),
@@ -87,28 +85,10 @@ class _YourBookState extends State<YourBook> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.edit),
+                                icon: Icon(Icons.star_border),
                                 iconSize: 30.0,
                                 color: Colors.black,
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DatosLibros(),
-                                      ),
-                                    );
-                                  }
-                              ),
-                              Container(
-                                color: Colors.black26,
-                                height: 25,
-                                width: 2,
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                iconSize: 30.0,
-                                color: Colors.black,
-                                onPressed: _showDialogEliminar,
+                                onPressed: () => Navigator.pop(context),
                               ),
                             ],
                           )
@@ -170,7 +150,7 @@ class _YourBookState extends State<YourBook> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal * 55,
+                        width: SizeConfig.blockSizeHorizontal * 40,
                         height: 55,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20.0),
@@ -182,7 +162,7 @@ class _YourBookState extends State<YourBook> {
                               )
                             ]),
                         child: FlatButton(
-                            color: Color.fromARGB(255, 0, 191, 131),
+                            color: AppColors.secondaryElement,
                             shape: RoundedRectangleBorder(
                               borderRadius:
                               BorderRadius.all(Radius.circular(24)),
@@ -193,7 +173,7 @@ class _YourBookState extends State<YourBook> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.local_atm,
+                                  Icons.shopping_cart,
                                   color: Colors.white,
                                   size: 25,
                                 ),
@@ -204,11 +184,11 @@ class _YourBookState extends State<YourBook> {
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                 ),
                                 Text(
-                                  "VENDIDO",
+                                  '\$${widget.book.price}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppColors.secondaryText,
-                                    fontFamily: "Gibson",
+                                    fontFamily: "Montserrat",
                                     fontWeight: FontWeight.w600,
                                     fontSize: 25,
                                   ),
@@ -250,7 +230,7 @@ class _YourBookState extends State<YourBook> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.share,
+                                  Icons.chat_bubble,
                                   color: Colors.white,
                                   size: 25,
                                 ),
@@ -297,58 +277,76 @@ class _YourBookState extends State<YourBook> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: Container(
-                                width: 90,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 57, 57, 57),
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                padding: EdgeInsets.only(top: 4),
-                                child: Row(
-                                  children: <Widget>[
-
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: Icon(
-                                        Icons.equalizer,
-                                        size: 30,
-                                        color:
-                                        Colors.white,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        "56",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w900,
-                                          fontFamily: "Montserrat",
-                                          color:
-                                          Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PerfilAlguien(),
                               ),
-                            ),
-                          ],
+                            );
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                  height: 40,
+                                  width: 40,
+
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child:
+                                    Hero( tag: 'profile',
+                                        child: Image.asset("assets/images/avatar.png")),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '${book.user}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Montserrat",
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${book.rating}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Montserrat",
+                                            color: Color.fromARGB(
+                                                255, 118, 118, 118),
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          size: 17,
+                                          color:
+                                          Color.fromARGB(255, 118, 118, 118),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                             padding: const EdgeInsets.only(right: 5, left: 5),
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  height: 40,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 57, 57, 57),
+                                    color: Color.fromARGB(255, 245, 245, 245),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: FlatButton(
@@ -360,14 +358,14 @@ class _YourBookState extends State<YourBook> {
                                     Color.fromARGB(255, 255, 255, 255),
                                     padding: EdgeInsets.all(0),
                                     child: Text(
-                                      '\$${book.price}',
+                                      '${book.state}'.toUpperCase(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
                                         fontFamily: "Montserrat",
                                         color:
-                                        Colors.white,
+                                        Color.fromARGB(255, 149, 149, 149),
                                       ),
                                     ),
                                   ),
@@ -380,7 +378,7 @@ class _YourBookState extends State<YourBook> {
                   Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 22, top: 25),
+                        padding: const EdgeInsets.only(left: 22, top: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -394,7 +392,6 @@ class _YourBookState extends State<YourBook> {
                                 color: Color.fromARGB(255, 57, 57, 57),
                               ),
                             ),
-
                             Row(
                               children: <Widget>[
                                 Container(
@@ -436,7 +433,7 @@ class _YourBookState extends State<YourBook> {
                                 Container(
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Text(
-                                    "Estado:",
+                                    "Autor:",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -451,41 +448,8 @@ class _YourBookState extends State<YourBook> {
                                   const EdgeInsets.only(top: 5, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
-                                    book.state,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 118, 118, 118),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(top: 0),
-                                  child: Text(
-                                    "Autor:",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 118, 118, 118),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                  const EdgeInsets.only(top: 0, left: 5),
-                                  width: SizeConfig.blockSizeHorizontal * 70,
-                                  child: Text(
                                     book.author,
-                                    textAlign: TextAlign.start,
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -497,7 +461,6 @@ class _YourBookState extends State<YourBook> {
                               ],
                             ),
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(top: 0),
@@ -530,7 +493,6 @@ class _YourBookState extends State<YourBook> {
                               ],
                             ),
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: const EdgeInsets.only(top: 0),
@@ -568,7 +530,6 @@ class _YourBookState extends State<YourBook> {
                     ],
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         height: 55,
@@ -757,18 +718,8 @@ class _YourBookState extends State<YourBook> {
                       Container(
                         height: 180,
                         width: 123,
-                        child: Image(
-                          image: AssetImage(book.imageUrl),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-
-                      Container(
-                        height: 180,
-                        width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image(
-                          image: AssetImage(book.imageUrl),
+                        child: Image.asset(book.imageUrl,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -776,8 +727,15 @@ class _YourBookState extends State<YourBook> {
                         height: 180,
                         width: 123,
                         margin: EdgeInsets.only(left: 20),
-                        child: Image(
-                          image: AssetImage(book.imageUrl),
+                        child: Image.asset(book.imageUrl,
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      Container(
+                        height: 180,
+                        width: 123,
+                        margin: EdgeInsets.only(left: 20),
+                        child: Image.asset(book.imageUrl,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -849,8 +807,8 @@ class _YourBookState extends State<YourBook> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          YourBook(
-                            book: book,
+                          BookSectionChota(
+                            book,
                           ),
                     ),
                   );
@@ -877,22 +835,4 @@ class _YourBookState extends State<YourBook> {
       },
     ),
   );
-
-  void _showDialogEliminar() {
-    slideDialog.showSlideDialogGrande(
-      context: context,
-      child: CustomDialog(
-        title: "¿Seguro que quiere eliminar este libro?",
-        description:
-        "Este libro ya no estara disponible dentro de la aplicación",
-        primaryButtonText: "Si",
-        primaryButtonRoute: "/home",
-        secondaryButtonText: "Cancelar",
-        secondaryButtonRoute: "/home",
-      ),
-      // barrierColor: Colors.white.withOpacity(0.7),
-      // pillColor: Colors.red,
-      // backgroundColor: Colors.yellow,
-    );
-  }
 }
