@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -46,6 +47,33 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
   void selectImage() {
     getImage().then((anything) => _cropImage());
 
+  }
+
+  _siguienteBtn(){
+
+    Book book = Book();
+
+    book.imagesRaw.add(_image[0]);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            SeleccionCursos(book),
+      ),
+    );
+  }
+
+  Widget _displayImage() {
+    return _image[0] == null?
+    Image(
+      image: AssetImage(
+          "assets/images/bookdescarte.png"
+      ),
+      fit: BoxFit.fill,
+    )
+        :
+    Image.file(_image[0],fit: BoxFit.fill,);
   }
 
   @override
@@ -259,15 +287,9 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SeleccionCursos(),
-                        ),
-                      );
-                    }
+                    onPressed: () =>
+                      _siguienteBtn()
+
                 ),
 
               ),
@@ -278,15 +300,5 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
     );
   }
 
-  Widget _displayImage() {
-    return _image[0] == null?
-      Image(
-        image: AssetImage(
-            "assets/images/bookdescarte.png"
-        ),
-        fit: BoxFit.fill,
-      )
-        :
-        Image.file(_image[0],fit: BoxFit.fill,);
-  }
+
 }

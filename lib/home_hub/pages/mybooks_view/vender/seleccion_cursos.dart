@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_materia.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
 class SeleccionCursos extends StatefulWidget {
+
+  Book book;
+  SeleccionCursos(this.book );
+
   @override
   _SeleccionCursosState createState() => _SeleccionCursosState();
 }
@@ -63,7 +68,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
-                  ),
+                  ),//BOTON DE IR PARA  ATRAS
                 ],
               ),
             ),
@@ -82,7 +87,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                   ),
                 ),
               ),
-            ),
+            ), // TEXTO DE "VENDER"
             Expanded(
               flex: 1,
               child: Container(
@@ -202,13 +207,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SeleccionMateria()),
-                      );
-                    }),
+                    onPressed: () => _siguienteBtn()),
               ),
             ),
           ],
@@ -216,9 +215,30 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
       ),
     );
   }
+
+  _siguienteBtn() {
+    bool canContinue = false;
+    values.forEach((key, value) {value ?canContinue= true : value; });
+
+    if(canContinue){
+      for(String key in values.keys){
+        if(values[key]){
+          widget.book.cursos.add(key);
+        }
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SeleccionMateria(widget.book)),
+      );
+    }
+    //TODO agregar un dialog que diaga que es necesario seleccionar un curso
+
+
+  }
 }
 
-void main() {
-  runApp(new MaterialApp(
-      home: new SeleccionCursos(), debugShowCheckedModeBanner: false));
-}
+//void main() {
+//  runApp(new MaterialApp(
+//      home: new SeleccionCursos(), debugShowCheckedModeBanner: false));
+//}

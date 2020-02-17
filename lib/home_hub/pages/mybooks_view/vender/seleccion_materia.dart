@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/comentarios_estado.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 
 class SeleccionMateria extends StatefulWidget {
+
+  Book book;
+
+  SeleccionMateria(this.book);
+
   @override
   _SeleccionMateriaState createState() => _SeleccionMateriaState();
 }
@@ -40,6 +46,25 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
 
 
   };
+
+  _siguienteBtn(){
+    bool canContinue = false;
+    values.forEach((key, value) {value ?canContinue= true : value; });
+
+    if(canContinue){
+      for(String key in values.keys){
+        if(values[key]){
+          widget.book.materias.add(key);
+        }
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DatosLibros(widget.book)),
+      );
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,15 +230,10 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DatosLibros()),
-                      );
-                    }),
+                    onPressed: () => _siguienteBtn(),
               ),
             ),
+            )
           ],
         ),
       ),
@@ -221,7 +241,3 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
   }
 }
 
-void main() {
-  runApp(new MaterialApp(
-      home: new SeleccionMateria(), debugShowCheckedModeBanner: false));
-}

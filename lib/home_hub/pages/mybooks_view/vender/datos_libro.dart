@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/Models/books_model.dart';
 
 class DatosLibros extends StatefulWidget {
+  Book book;
+
+  DatosLibros(this.book);
+
   @override
   _DatosLibrosState createState() => _DatosLibrosState();
 }
@@ -687,7 +692,3 @@ class _DatosLibrosState extends State<DatosLibros> {
   }
 }
 
-void main() {
-  runApp(new MaterialApp(
-      home: new DatosLibros(), debugShowCheckedModeBanner: false));
-}

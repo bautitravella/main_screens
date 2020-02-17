@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
@@ -94,7 +95,8 @@ class _YourBookState extends State<YourBook> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DatosLibros(),
+                                        //TODO cambiar el Book() por una instancia real del libro
+                                        builder: (context) => DatosLibros(Book()),
                                       ),
                                     );
                                   }
