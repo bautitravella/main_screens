@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialog_widget/error_dialog.dart';
+import 'package:flutterui/dialog_widget/loading_dialog.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -603,10 +604,11 @@ class _MiPerfilState extends State<MiPerfil> {
   void _showDialogWave() {
     slideDialog.showSlideDialogChico(
       context: context,
-      child:  ErrorDialog(
+      child: LoadingDialog()
+      /*ErrorDialog(
         title: "Oops...",
         error: "Parece que no has completado todos los datos.",
-      )
+      )*/
       // barrierColor: Colors.white.withOpacity(0.7),
       // pillColor: Colors.red,
       // backgroundColor: Colors.yellow,
