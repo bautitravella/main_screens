@@ -54,6 +54,8 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
     Book book = Book();
 
     book.imagesRaw.add(_image[0]);
+    book.imagesRaw.add(_image[0]);
+    book.imagesRaw.add(_image[0]);
 
     Navigator.push(
       context,

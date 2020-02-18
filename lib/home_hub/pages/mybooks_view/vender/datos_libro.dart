@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
@@ -56,6 +60,8 @@ class _DatosLibrosState extends State<DatosLibros> {
       print("falta completar algun campo");
       return null;
     }
+    widget.book.nombreLibro = nombreLibro;
+    widget.book.estado = estado;
     print("todos los campos estan completos");
     uploadBook().then((smt) => Navigator.push(
           context,
@@ -764,17 +770,36 @@ class _DatosLibrosState extends State<DatosLibros> {
     return Future.delayed(Duration(seconds: 60));
   }
 
-  Future<List<String>> uploadBookImages() {
+  Future<List<String>> uploadBookImages() async {
     List<String> urlList = [];
-
-    return null;
+    for(int i = 0; i< widget.book.imagesRaw.length -1; i++){
+      urlList.add(await uploadBookImage(i));
+    }
+    return urlList;
   }
 
-  Future uploadBookImage() {
-    return null;
+  Future uploadBookImage(int i) async {
+    StorageReference ref =
+    FirebaseStorage.instance.ref().child("publicaciones_images2/foto" + i.toString() + ".jpg");
+    StorageUploadTask uploadTask = ref.putFile(widget.book.imagesRaw[i]);
+    print(
+        "---------------------------------------------------------Arranca la transferencia");
+
+    String downloadUrl =
+    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    print(
+        "---------------------------------------------------------Termina la Transferencia");
+
+    print("DOWNLOAD URL  1: " + downloadUrl);
+    return downloadUrl;
   }
 
-  Future uploadBookInfo() {
-    return null;
+  uploadBookInfo() {
+    Firestore.instance
+        .collection('books')
+        .document()
+        .setData(widget.book.toMap())
+        .then((value) => print("se mando bien la info a firebase" ))
+        .catchError((err) => print("HUBO UN ERROR 2"));
   }
 }

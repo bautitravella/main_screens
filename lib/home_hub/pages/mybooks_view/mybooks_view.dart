@@ -10,7 +10,6 @@ import 'package:flutterui/book_widget/book_section_chota.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/catergory_selector.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/subir_foto_libro.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 

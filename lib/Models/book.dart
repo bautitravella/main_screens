@@ -71,6 +71,14 @@ class Book {
   List<dynamic> getImages() {
     return null;
   }
+
+  Map<String,dynamic > toMap() {
+    Map<String,dynamic> bookMap = Map();
+    bookMap['nombreLibro'] = nombreLibro;
+    bookMap['estado'] = estado;
+    bookMap['images'] = imagesUrl;
+    return bookMap;
+  }
 }
 
 List<Book> books = [Book()];

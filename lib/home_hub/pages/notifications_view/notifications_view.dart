@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/message_model.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen.dart';
 import 'package:flutterui/values/colors.dart';
