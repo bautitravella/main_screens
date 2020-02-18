@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';

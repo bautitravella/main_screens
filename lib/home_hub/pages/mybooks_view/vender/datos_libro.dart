@@ -43,7 +43,7 @@ class _DatosLibrosState extends State<DatosLibros> {
       return null;
     }
     print("todos los campos estan completos");
-    uploadBookData().then((smt) => Navigator.push(
+    uploadBook().then((smt) => Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => MyBooksView()),
@@ -725,8 +725,31 @@ class _DatosLibrosState extends State<DatosLibros> {
     ));
   }
 
-  Future uploadBookData() {
+  Future uploadBook() async {
+    try{
+      uploadBookImages().then((urlList) => {
+        urlList.forEach((url) {widget.book.imagesUrl.add(url);}),
+        uploadBookInfo(),
+
+      });
+
+    }catch(error){
+
+    }
 
     return Future.delayed(Duration(seconds: 2));
+  }
+
+
+  Future<List<String>> uploadBookImages(){
+    return null;
+  }
+
+  Future uploadBookImage(){
+    return null;
+  }
+
+  Future uploadBookInfo(){
+    return null;
   }
 }

@@ -19,15 +19,15 @@ class App extends StatelessWidget {
     return Provider<BaseAuth>(
       create: (_) => Auth(),
       child: MaterialApp(
-        home: MyDecider(),
-        theme: ThemeData(
-          accentColor:AppColors.secondaryBackground,
-        ),
-        routes: <String, WidgetBuilder> {
-        '/home': (BuildContext context) => HomeHub(),
-        '/logOut': (BuildContext context) => FirstscreenWidget(),
-      }
-    ),
+          home: MyDecider(),
+          theme: ThemeData(
+            accentColor:AppColors.secondaryBackground,
+          ),
+          routes: <String, WidgetBuilder> {
+            '/home': (BuildContext context) => HomeHub(),
+            '/logOut': (BuildContext context) => FirstscreenWidget(),
+          }
+      ),
     );
 
   }
@@ -55,7 +55,7 @@ class MyDecider extends StatelessWidget{
       },
     );
   }
-  
+
   bool isVerified(FirebaseUser user){
     final providers = user.providerData;
     bool isVerified = true;
@@ -101,21 +101,21 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: firestoreDocumentFuture,
-      builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
-        if(!snapshot.hasData){
-          return CircularProgressIndicator();
-        }else if(snapshot.data.exists){
+        future: firestoreDocumentFuture,
+        builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
+          if(!snapshot.hasData){
+            return CircularProgressIndicator();
+          }else if(snapshot.data.exists){
 
-          print(snapshot.data.data);
-          if(firebaseUserInfoCompleted(snapshot.data.data)){
-            return HomeHub();
+            print(snapshot.data.data);
+            if(firebaseUserInfoCompleted(snapshot.data.data)){
+              return HomeHub();
+            }
           }
-        }
-        return ElijeUnRolWidget(email);
-      } );
+          return ElijeUnRolWidget(email);
+        } );
 
-      }
+  }
 
 
   bool firebaseUserInfoCompleted(Map<String,dynamic> data){
@@ -133,3 +133,5 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
 
 
 }
+
+
