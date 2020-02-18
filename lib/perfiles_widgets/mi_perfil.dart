@@ -604,11 +604,11 @@ class _MiPerfilState extends State<MiPerfil> {
   void _showDialogWave() {
     slideDialog.showSlideDialogChico(
       context: context,
-      child: LoadingDialog()
-      /*ErrorDialog(
+      child: /*LoadingDialog()*/
+      ErrorDialog(
         title: "Oops...",
         error: "Parece que no has completado todos los datos.",
-      )*/
+      )
       // barrierColor: Colors.white.withOpacity(0.7),
       // pillColor: Colors.red,
       // backgroundColor: Colors.yellow,

@@ -354,7 +354,9 @@ class _HomeViewDosState extends State<HomeViewDos> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) {
                     DocumentSnapshot book = snapshot.data.documents[index];
-
+                    /*if (index>snapshot.data.documents.length)[
+                      return
+                    ]*/
                     return Container(
                       margin: EdgeInsets.all(7.0),
                       width: 97,
@@ -464,10 +466,41 @@ class _HomeViewDosState extends State<HomeViewDos> {
     margin: EdgeInsets.only(left: 27),
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: books.length,
+      itemCount: books.length +1,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
 
+        if (index>books.length-1) {
+          return Container(
+            margin: EdgeInsets.all(7.0),
+            width: 97,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    height: 80,
+                    width: 97,
+                    color: Colors.red,
+                    ),
+                ),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 25,
+                    width: 50,
+                    padding: const EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 235, 235, 235),
+                        borderRadius: new BorderRadius.all(Radius.circular(10))),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        Book book = books[index];
         return Container(
           margin: EdgeInsets.all(7.0),
           width: 97,
@@ -565,6 +598,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
           ),
         );
       },
+
     ),
   );
 }

@@ -25,14 +25,25 @@ class PillGesture extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(height: 10.0),
-            Container(
+           /* pillAnimated
+            ?*/Container(
+              height: 5.0,
+              width: 25.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50.0),
+                child: LinearProgressIndicator(
+                  backgroundColor:  pillColor ?? Colors.blueGrey[200],
+                ),
+              ),
+            ),
+           /* :Container(
               height: 5.0,
               width: 25.0,
               decoration: BoxDecoration(
                 color: pillColor ?? Colors.blueGrey[200],
                 borderRadius: BorderRadius.circular(50.0),
               ),
-            ),
+            ),*/
             SizedBox(height: 20.0),
           ],
         ),

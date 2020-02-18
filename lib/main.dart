@@ -51,7 +51,8 @@ class MyDecider extends StatelessWidget{
             return FirstscreenWidget();
           }
         }
-        return CircularProgressIndicator();
+        return HomeHub();
+       /* return CircularProgressIndicator();*/
       },
     );
   }
@@ -103,9 +104,10 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
     return FutureBuilder(
       future: firestoreDocumentFuture,
       builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
-        if(!snapshot.hasData){
+       /* if(!snapshot.hasData){
           return CircularProgressIndicator();
-        }else if(snapshot.data.exists){
+        }else*/
+       if(snapshot.data.exists){
 
           print(snapshot.data.data);
           if(firebaseUserInfoCompleted(snapshot.data.data)){
@@ -128,7 +130,7 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
     if(nombre == null || apellido == null || fotoPerfil == null || hasAcceptedTerms == null || rol == null){
       return false;
     }
-    return true;
+    return false;
   }
 
 
