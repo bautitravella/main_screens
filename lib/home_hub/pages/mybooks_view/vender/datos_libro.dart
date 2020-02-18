@@ -4,6 +4,10 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/dialog_widget/custom_dialog.dart';
+import 'package:flutterui/dialog_widget/error_dialog.dart';
+import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart'
+    as slideDialog;
 import 'dart:async';
 
 class DatosLibros extends StatefulWidget {
@@ -30,24 +34,33 @@ class _DatosLibrosState extends State<DatosLibros> {
       ISBNTextController = new TextEditingController(),
       estadoTextController = new TextEditingController();
 
-  _siguienteBtn(){
+  _siguienteBtn() {
     String nombreLibro = nombreTextController.text;
     String autor = autorTextController.text;
     String editorial = editorialTextController.text;
     String ISBN = ISBNTextController.text;
     String estado = estadoTextController.text;
 
-    if(nombreLibro == null || nombreLibro.isEmpty || autor == null || autor.isEmpty || editorial == null || editorial.isEmpty || ISBN == null || ISBN.isEmpty || estado == null || estado.isEmpty || (_isMarcked == false && _isTicked == false)){
+    if (nombreLibro == null ||
+        nombreLibro.isEmpty ||
+        autor == null ||
+        autor.isEmpty ||
+        editorial == null ||
+        editorial.isEmpty ||
+        ISBN == null ||
+        ISBN.isEmpty ||
+        estado == null ||
+        estado.isEmpty ||
+        (_isMarcked == false && _isTicked == false)) {
       //TODO agregar dialog con el error
       print("falta completar algun campo");
       return null;
     }
     print("todos los campos estan completos");
     uploadBook().then((smt) => Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => MyBooksView()),
-    ));
+          context,
+          MaterialPageRoute(builder: (context) => MyBooksView()),
+        ));
   }
 
   @override
@@ -726,30 +739,42 @@ class _DatosLibrosState extends State<DatosLibros> {
   }
 
   Future uploadBook() async {
-    try{
+    try {
       uploadBookImages().then((urlList) => {
-        urlList.forEach((url) {widget.book.imagesUrl.add(url);}),
-        uploadBookInfo(),
-
-      });
-
-    }catch(error){
+            urlList.forEach((url) {
+              widget.book.imagesUrl.add(url);
+            }),
+            uploadBookInfo(),
+          });
+    } catch (error) {
+      slideDialog.showSlideDialogChico(
+          context: context,
+          child: /*LoadingDialog()*/
+              ErrorDialog(
+            title: "Oops...",
+            error: "Parece que no has completado todos los datos. " + error.toString(),
+          )
+          // barrierColor: Colors.white.withOpacity(0.7),
+          // pillColor: Colors.red,
+          // backgroundColor: Colors.yellow,
+          );
 
     }
 
-    return Future.delayed(Duration(seconds: 2));
+    return Future.delayed(Duration(seconds: 60));
   }
 
+  Future<List<String>> uploadBookImages() {
+    List<String> urlList = [];
 
-  Future<List<String>> uploadBookImages(){
     return null;
   }
 
-  Future uploadBookImage(){
+  Future uploadBookImage() {
     return null;
   }
 
-  Future uploadBookInfo(){
+  Future uploadBookInfo() {
     return null;
   }
 }
