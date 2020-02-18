@@ -71,11 +71,58 @@ class _ExploreViewState extends State<ExploreView> {
               Expanded(
                 child: Container(
                   child: SlidingUpPanel(
+                    /*body: Container(color: Colors.red,
+                    constraints: BoxConstraints.expand(),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Positioned(
+                          left: 0,
+                          top: SizeConfig.blockSizeVertical * 15,
+                          right: 0,
+                          child: Opacity(
+                            opacity: 0.5,
+                            child: Container(
+                              height: SizeConfig.blockSizeVertical * 45,
+                              child: Image.asset(
+                                "assets/images/destacados-image.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: SizeConfig.blockSizeVertical * 12,
+                          left: 28,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Explorar",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 30,
+                                ),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical * 8,
+                              ),
+                              categoryScroll,
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),),*/
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 47,
+                    maxHeight: SizeConfig.blockSizeVertical * 87,
                     minHeight: SizeConfig.blockSizeVertical * 47,
                     color: Colors.transparent,
-                    backdropEnabled: false,
+                    backdropEnabled: true,
+                    backdropColor: Colors.white,
+                    parallaxEnabled: true,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 20.0,
