@@ -3,7 +3,8 @@ import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'dart:async';
 
 class DatosLibros extends StatefulWidget {
   Book book;
@@ -22,6 +23,32 @@ class _DatosLibrosState extends State<DatosLibros> {
   bool _isSelected = false;
   bool _isMarcked = false;
   bool _isTicked = false;
+
+  TextEditingController nombreTextController = new TextEditingController(),
+      editorialTextController = new TextEditingController(),
+      autorTextController = new TextEditingController(),
+      ISBNTextController = new TextEditingController(),
+      estadoTextController = new TextEditingController();
+
+  _siguienteBtn(){
+    String nombreLibro = nombreTextController.text;
+    String autor = autorTextController.text;
+    String editorial = editorialTextController.text;
+    String ISBN = ISBNTextController.text;
+    String estado = estadoTextController.text;
+
+    if(nombreLibro == null || nombreLibro.isEmpty || autor == null || autor.isEmpty || editorial == null || editorial.isEmpty || ISBN == null || ISBN.isEmpty || estado == null || estado.isEmpty || (_isMarcked == false && _isTicked == false)){
+      //TODO agregar dialog con el error
+      print("falta completar algun campo");
+      return null;
+    }
+    print("todos los campos estan completos");
+    uploadBookData().then((smt) => Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MyBooksView()),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +148,14 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                 color: Colors.white,
                                                 borderRadius:
                                                     new BorderRadius.circular(
-                                                        100)
-
-                                            ),
+                                                        100)),
                                             child: OutlineButton(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 5),
-                                                borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+                                                borderSide: BorderSide(
+                                                    color: AppColors
+                                                        .secondaryBackground,
+                                                    width: 2),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.all(
@@ -151,7 +179,8 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       child: Stack(
                                         children: <Widget>[
                                           ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             child: Image(
                                               height: 141,
                                               width: 97,
@@ -174,18 +203,20 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                   ],
                                                   color: Colors.white,
                                                   borderRadius:
-                                                  new BorderRadius.circular(
-                                                      100)
-
-                                              ),
+                                                      new BorderRadius.circular(
+                                                          100)),
                                               child: OutlineButton(
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 5),
-                                                  borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+                                                  borderSide: BorderSide(
+                                                      color: AppColors
+                                                          .secondaryBackground,
+                                                      width: 2),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(100)),
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                100)),
                                                   ),
                                                   child: Icon(
                                                     Icons.edit,
@@ -202,12 +233,11 @@ class _DatosLibrosState extends State<DatosLibros> {
                                   ),
                                   Container(
                                     width: 97,
-
                                     child: Stack(
                                       children: <Widget>[
                                         ClipRRect(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           child: Image(
                                             height: 141,
                                             width: 97,
@@ -230,18 +260,19 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                 ],
                                                 color: Colors.white,
                                                 borderRadius:
-                                                new BorderRadius.circular(
-                                                    100)
-
-                                            ),
+                                                    new BorderRadius.circular(
+                                                        100)),
                                             child: OutlineButton(
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: 5),
-                                                borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+                                                borderSide: BorderSide(
+                                                    color: AppColors
+                                                        .secondaryBackground,
+                                                    width: 2),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(100)),
+                                                      BorderRadius.all(
+                                                          Radius.circular(100)),
                                                 ),
                                                 child: Icon(
                                                   Icons.edit,
@@ -299,6 +330,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       contentPadding: EdgeInsets.only(top: 30),
                                       border: InputBorder.none,
                                     ),
+                                    controller: nombreTextController,
                                     style: TextStyle(
                                       color: Color.fromARGB(180, 69, 79, 99),
                                       fontFamily: "Montserrat",
@@ -327,6 +359,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       contentPadding: EdgeInsets.only(top: 30),
                                       border: InputBorder.none,
                                     ),
+                                    controller: autorTextController,
                                     style: TextStyle(
                                       color: Color.fromARGB(180, 69, 79, 99),
                                       fontFamily: "Montserrat",
@@ -355,6 +388,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       contentPadding: EdgeInsets.only(top: 30),
                                       border: InputBorder.none,
                                     ),
+                                    controller: editorialTextController,
                                     style: TextStyle(
                                       color: Color.fromARGB(180, 69, 79, 99),
                                       fontFamily: "Montserrat",
@@ -383,6 +417,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       contentPadding: EdgeInsets.only(top: 30),
                                       border: InputBorder.none,
                                     ),
+                                    controller: ISBNTextController,
                                     style: TextStyle(
                                       color: Color.fromARGB(180, 69, 79, 99),
                                       fontFamily: "Montserrat",
@@ -439,6 +474,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       hintText: "ESTADO",
                                       border: InputBorder.none,
                                     ),
+                                    controller: estadoTextController,
                                     style: TextStyle(
                                         color: Color.fromARGB(255, 69, 79, 99),
                                         fontFamily: "Montserrat",
@@ -503,6 +539,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                           ),
                         ),
                         Container(
+                          //CHECKBOX ES NUEVO
                           margin: EdgeInsets.only(left: 6, right: 4, top: 15),
                           child: CheckboxListTile(
                             title: const Text(
@@ -538,6 +575,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                           ),
                         ),
                         Container(
+                          //CHECKBOX SOLO DE PULICARA EL LIBRO DENTRO...
                           margin: EdgeInsets.only(top: 15),
                           padding: EdgeInsets.only(left: 0),
                           child: CheckboxListTile(
@@ -554,6 +592,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                             onChanged: (bool newValue) {
                               setState(() {
                                 _isMarcked = newValue;
+                                _isTicked = false;
                               });
                             },
                           ),
@@ -576,6 +615,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                             onChanged: (bool newValue) {
                               setState(() {
                                 _isTicked = newValue;
+                                _isMarcked = false;
                               });
                             },
                           ),
@@ -674,13 +714,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                             ),
                           ],
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PrecioLibro()),
-                          );
-                        }),
+                        onPressed: () => _siguienteBtn()),
                   ),
                 ],
               ),
@@ -690,5 +724,9 @@ class _DatosLibrosState extends State<DatosLibros> {
       ),
     ));
   }
-}
 
+  Future uploadBookData() {
+
+    return Future.delayed(Duration(seconds: 2));
+  }
+}

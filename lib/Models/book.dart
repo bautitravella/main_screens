@@ -42,13 +42,13 @@ class Book {
     this.colegios = doc['colegios'];
     this.cursos = doc['cursos'];
     this.imagesUrl = doc['images url'];
-    this.thumbImages = doc['thumbs url'];
+    this.thumbImagesUrl = doc['thumbs url'];
     this.vendido = doc['vendido'];
     this.infoCompleta = doc['infoCompleta'];
     this.disponibleTodosColegios = doc['disponibles para todos los colegios'];
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
-    this.estado = doc['isbn'];
+    this.estado = doc['estado'];
     imagesUrl.forEach((element) {
       images.add(CachedNetworkImage(
         imageUrl: element,

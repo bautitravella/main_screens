@@ -517,8 +517,8 @@ class _BookSectionState extends State<BookSection> {
                                   padding:
                                       const EdgeInsets.only(top: 0, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
-                                  child: Text(
-                                    '${book.isbn}',
+                                  child: book.isbn != null?
+                                  Text('${book.isbn}',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -526,7 +526,9 @@ class _BookSectionState extends State<BookSection> {
                                       fontFamily: "Montserrat",
                                       color: Color.fromARGB(255, 118, 118, 118),
                                     ),
-                                  ),
+                                  )
+                                  :
+                                    Text('holaa'),
                                 ),
                               ],
                             ),
@@ -709,11 +711,10 @@ class _BookSectionState extends State<BookSection> {
       margin: EdgeInsets.only(left: 22, top: 60),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 1,
+        itemCount: book.thumbImages.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: EdgeInsets.all(0),
-            width: 429,
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
@@ -724,19 +725,9 @@ class _BookSectionState extends State<BookSection> {
                       Container(
                         height: 180,
                         width: 123,
-                        margin: EdgeInsets.only(left: 20),
-                        child: book.thumbImages[0]),
-                      Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(left: 20),
-                        child:  book.thumbImages[0]),
+                        margin: EdgeInsets.only(right: 35),
+                        child: book.thumbImages[index]),
 
-                      Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(left: 20),
-                          child: book.thumbImages[0]),
                     ],
                   ),
                 ),
