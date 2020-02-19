@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -59,7 +60,7 @@ class _ExploreViewState extends State<ExploreView> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 8,
                       ),
-                      categoryScroll,
+                      categoryScroll(context),
                     ],
                   ),
                 ),
@@ -121,7 +122,7 @@ class _ExploreViewState extends State<ExploreView> {
                     minHeight: SizeConfig.blockSizeVertical * 47,
                     color: Colors.transparent,
                     backdropEnabled: true,
-                    backdropColor: Colors.white,
+                    backdropColor: AppColors.secondaryBackground,
                     parallaxEnabled: true,
                     boxShadow: [
                       BoxShadow(
@@ -152,7 +153,7 @@ class _ExploreViewState extends State<ExploreView> {
           right: 25,
           child: Row(
             children: <Widget>[
-              Icon(Icons.search,color: Colors.white, size: 26),
+              Icon(Icons.search, color: Colors.white, size: 26),
               SizedBox(width: 5,
               ),
               Icon(Icons.more_vert, color: Colors.white, size: 26)
@@ -289,158 +290,170 @@ class _ExploreViewState extends State<ExploreView> {
     );
   }
 
-  Widget categoryScroll = Container(
-    height: 120,
-    width: SizeConfig.blockSizeHorizontal * 92,
-    child: ListView(
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 213, 104),
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Icon(
-                    MaterialIcons.school,
-                    color: Colors.white,
-                    size: 30,
-                  )),
-              Text(
-                "Colegios",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w800,
+  Widget categoryScroll(BuildContext context) {
+    return Container(
+      height: 120,
+      width: SizeConfig.blockSizeHorizontal * 92,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoriesColegios(),
                 ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        MaterialIcons.school,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Colegios",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 213, 104),
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Icon(
-                    Icons.class_,
+          Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 213, 104),
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Icon(
+                      Icons.class_,
+                      color: Colors.white,
+                      size: 30,
+                    )),
+                Text(
+                  "Materias",
+                  style: TextStyle(
                     color: Colors.white,
-                    size: 30,
-                  )),
-              Text(
-                "Materias",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 213, 104),
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Icon(
-                    Icons.group,
+          Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 213, 104),
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Icon(
+                      Icons.group,
+                      color: Colors.white,
+                      size: 30,
+                    )),
+                Text(
+                  "Cursos",
+                  style: TextStyle(
                     color: Colors.white,
-                    size: 30,
-                  )),
-              Text(
-                "Cursos",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 213, 104),
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Icon(
-                    FontAwesome5.address_book,
+          Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 213, 104),
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Icon(
+                      FontAwesome5.address_book,
+                      color: Colors.white,
+                      size: 30,
+                    )),
+                Text(
+                  "Usuarios",
+                  style: TextStyle(
                     color: Colors.white,
-                    size: 30,
-                  )),
-              Text(
-                "Usuarios",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 213, 104),
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Icon(
-                    Icons.add_shopping_cart,
+          Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    width: 62,
+                    height: 62,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 213, 104),
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Icon(
+                      Icons.add_shopping_cart,
+                      color: Colors.white,
+                      size: 30,
+                    )),
+                Text(
+                  "Porongas",
+                  style: TextStyle(
                     color: Colors.white,
-                    size: 30,
-                  )),
-              Text(
-                "Porongas",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
