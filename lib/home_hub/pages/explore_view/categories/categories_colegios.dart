@@ -120,41 +120,13 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
           Container(
             height: 40,
             margin: EdgeInsets.only(left: 22, bottom: 10),
-            child: ListView(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                UnconstrainedBox(
-                  child: Container(
-                    height: 32,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(30)
-                      )
-                    ),
-                    child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 5, right: 5),
-                            height: 22,
-                            width: 22,
-                            child: Image.asset("assets/images/logocolegio-fds.png", fit: BoxFit.fill,),
-                          ),
-                          Text("Florida Day School",
-                            style: TextStyle(
-                              fontFamily: "Sf-r",
-                              color: Color.fromARGB(255, 27, 27, 27),
-                              fontWeight: FontWeight.w800,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 5,right: 5),
-                              child: Icon(Icons.close, size: 22,))
-                        ]
-                    ),
-                  ),
-                ),
-              ],
+              itemCount: schools.length,
+              itemBuilder:(BuildContext context,int index) {
+                School school = schools[index];
+                return buildEtiqueta(school.imageUrl,school.name);
+                },
             ),
           ),
           Expanded(
@@ -482,6 +454,40 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
           ],
         );
       },
+    );
+  }
+
+  Widget buildEtiqueta(String url,String colegioName){
+    return  UnconstrainedBox(
+      child: Container(
+        height: 32,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(30)
+            )
+        ),
+        child: Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 5, right: 5),
+                height: 22,
+                width: 22,
+                child: Image.asset(url, fit: BoxFit.fill,),
+              ),
+              Text(colegioName,
+                style: TextStyle(
+                  fontFamily: "Sf-r",
+                  color: Color.fromARGB(255, 27, 27, 27),
+                  fontWeight: FontWeight.w800,
+                  fontSize: 14,
+                ),
+              ),
+              Container(
+                  margin: EdgeInsets.only(left: 5,right: 5),
+                  child: Icon(Icons.close, size: 22,))
+            ]
+        ),
+      ),
     );
   }
 }
