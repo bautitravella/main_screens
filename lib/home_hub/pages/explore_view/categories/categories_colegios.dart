@@ -9,6 +9,7 @@ import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:async/async.dart';
 
 class CategoriesColegios extends StatefulWidget {
   CategoriesColegios({Key key}) : super(key: key);
@@ -17,6 +18,29 @@ class CategoriesColegios extends StatefulWidget {
 }
 
 class _CategoriesColegiosState extends State<CategoriesColegios> {
+
+  List<PaletteColor> bgColors = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    _updatePalette();
+  }
+
+  void _updatePalette() async{
+    List<String> images = [];
+    schools.forEach((element) {images.add(element.imageUrl);});
+    for(String image in images){
+      PaletteGenerator palette = await PaletteGenerator.fromImageProvider(
+        AssetImage(image),
+        size: Size(200, 100),
+      );
+      palette.darkMutedColor != null ? bgColors.add(palette.darkMutedColor) : bgColors.add(PaletteColor(Colors.red,3));
+    }
+
+    setState(() {});
+  }
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -167,7 +191,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
                         height: 94,
                         width: SizeConfig.blockSizeHorizontal * 100,
                         decoration: BoxDecoration(
-                          color: Colors.grey, //TODO implementar dependencie de color palette
+                          color: bgColors.length > 0 ? bgColors[index].color : Colors.red, //TODO implementar dependencie de color palette
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                         ),
                         child: Row(
