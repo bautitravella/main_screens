@@ -54,7 +54,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                             child: Text(
                               "Destacados",
                               style: TextStyle(
-                                fontFamily: "Montserrat",
+                                fontFamily: "Sf-r",
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 23,
@@ -126,10 +126,10 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                 Container(
                   margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
                   padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
-                  height: 122.0,
+                  height: 127.0,
                   width: SizeConfig.blockSizeHorizontal * 100,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 241, 242, 242),
+                   /* color: Color.fromARGB(255, 241, 242, 242),*/
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: Padding(
@@ -149,8 +149,8 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                     style: TextStyle(
                                       color: Color.fromARGB(200, 0, 0, 0),
                                       fontSize: 16,
-                                      fontFamily: "Gibson",
-                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
@@ -168,7 +168,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                     "${book.author}",
                                     style: TextStyle(
                                       fontSize: 11,
-                                      fontFamily: "Montserrat",
+                                      fontFamily: "Sf-t",
                                       fontWeight: FontWeight.w600,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -208,8 +208,8 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 10,
-                                        fontWeight: FontWeight.w900,
-                                        fontFamily: "Gibson",
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "Sf-r",
                                         color: Color.fromARGB(100, 0, 0, 0),
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -219,11 +219,9 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                 ),
                                 Container(
                                   width: SizeConfig.blockSizeHorizontal * 62.5,
-                                  margin: EdgeInsets.only(
-                                      left: 0, right: 0, bottom: 0),
+                                  margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
@@ -231,71 +229,42 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                               height: 30,
                                               width: 30,
                                               child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                child: Image.asset(
-                                                    "assets/images/avatar.png"),
+                                                borderRadius: BorderRadius.circular(100),
+                                                child: Image.asset("assets/images/avatar.png"),
                                               )),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 4),
-                                                child: Stack(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      height: 21,
-                                                      width: 40,
-                                                      decoration: BoxDecoration(
-                                                        color: Color.fromARGB(
-                                                            30, 0, 0, 0),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      alignment:
-                                                          Alignment.center,
-                                                    ),
-                                                    Positioned(
-                                                      left: 5,
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '${book.rating}',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  "Montserrat",
-                                                              color: Color
-                                                                  .fromARGB(100,
-                                                                      0, 0, 0),
-                                                            ),
-                                                          ),
-                                                          Icon(
-                                                            Icons.star,
-                                                            size: 17,
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    100,
-                                                                    0,
-                                                                    0,
-                                                                    0),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
+                                          Container(
+                                            height: 21,
+                                            width: 40,
+                                            margin: EdgeInsets.only(left: 4),
+                                            padding: EdgeInsets.only(left: 4, right: 4),
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(180, 116, 116, 116),
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                  width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Icon(
+                                                    Icons.star,
+                                                    size: 17,
+                                                    color: Colors.white),
+                                                Text(
+                                                  '${book.rating}',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w800,
+                                                      fontFamily: "Sf-r",
+                                                      color: Colors.white
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -310,7 +279,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                 style: TextStyle(
                                                   fontSize: 21,
                                                   fontWeight: FontWeight.w900,
-                                                  fontFamily: "Montserrat",
+                                                  fontFamily: "Sf-r",
                                                   color: Color.fromARGB(
                                                       190, 0, 0, 0),
                                                 ),
@@ -339,6 +308,15 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                       ),
                   ),
                 ),
+                Positioned(
+                  bottom: 0,
+                    left: 22,
+                    right: 22,
+                    child:Container(
+                      height: 2,
+                      color: Colors.black12,
+                    )
+                )
               ],
             );
           },

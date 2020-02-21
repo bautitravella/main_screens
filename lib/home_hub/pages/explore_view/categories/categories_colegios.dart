@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/Models/school_model.dart';
+import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -16,6 +17,7 @@ class CategoriesColegios extends StatefulWidget {
 }
 
 class _CategoriesColegiosState extends State<CategoriesColegios> {
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
@@ -145,7 +147,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-                child: listalibros(sc)
+                child: listaAlumnos(sc)
               ),
             ),
           ),
@@ -452,6 +454,135 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+  Widget listaAlumnos(ScrollController sc){
+    return  ListView.builder(
+      scrollDirection: Axis.vertical,
+      controller: sc,
+      itemCount: users.length,
+      itemBuilder: (BuildContext context, int index) {
+        User user = users[index];
+
+        return Container(
+          margin: EdgeInsets.fromLTRB(25, 0, 25, 15),
+          height: 84,
+          width: SizeConfig.blockSizeHorizontal * 100,
+         /* decoration: BoxDecoration(
+            color: Color.fromARGB(255, 236, 236, 236),
+            borderRadius: BorderRadius.all(Radius.circular(50)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0.0, 2.0),
+                  blurRadius: 1.0,
+                ),
+              ]
+          ),*/
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: SizeConfig.blockSizeHorizontal*5,
+                  ),
+                  CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: AssetImage(user.imageUrl),
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(user.name,
+                        style: TextStyle(
+                          fontFamily: "Sf-r",
+                          color: Color.fromARGB(255, 116, 116, 116),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            height: 21,
+                            width: 40,
+                            decoration: BoxDecoration(
+                             color: Color.fromARGB(255, 116, 116, 116),
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
+                            ),
+                            alignment: Alignment.center,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                    Icons.star,
+                                    size: 17,
+                                    color: Colors.white),
+                                Text(
+                                  '${user.rating}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: "Sf-r",
+                                    color: Colors.white
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 21,
+                            margin: EdgeInsets.only(left: 10),
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                  width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
+                            ),
+                            alignment: Alignment.center,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                 user.curso,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: "Sf-r",
+                                    color: Color.fromARGB(130, 116, 116, 116),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(85, 15, 85, 0),
+                height: 2,
+                color: Colors.black12,
+              )
+            ],
+          ),
         );
       },
     );
