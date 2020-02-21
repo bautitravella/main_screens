@@ -28,7 +28,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
     _updatePalette();
   }
 
-  void _updatePalette() async{
+  void _updatePalette()async{
     List<String> images = [];
     schools.forEach((element) {images.add(element.imageUrl);});
     for(String image in images){
@@ -36,7 +36,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
         AssetImage(image),
         size: Size(200, 100),
       );
-      palette.darkMutedColor != null ? bgColors.add(palette.darkMutedColor) : bgColors.add(PaletteColor(Colors.red,3));
+      palette.lightMutedColor != null ? bgColors.add(palette.lightMutedColor) : bgColors.add(PaletteColor(Colors.red,3));
     }
 
     setState(() {});
@@ -171,7 +171,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-                child: listaAlumnos(sc)
+                child: seleccionColegios(sc)
               ),
             ),
           ),
@@ -191,7 +191,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
                         height: 94,
                         width: SizeConfig.blockSizeHorizontal * 100,
                         decoration: BoxDecoration(
-                          color: bgColors.length > 0 ? bgColors[index].color : Colors.red, //TODO implementar dependencie de color palette
+                          color: bgColors.length > index ? bgColors[index].color : Colors.red, //TODO implementar dependencie de color palette
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                         ),
                         child: Row(
