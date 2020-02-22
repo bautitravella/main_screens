@@ -191,7 +191,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
                         height: 94,
                         width: SizeConfig.blockSizeHorizontal * 100,
                         decoration: BoxDecoration(
-                          color: bgColors.length > index ? bgColors[index].color : Colors.red, //TODO implementar dependencie de color palette
+                          color: bgColors.length > index ? bgColors[index].color : Colors.black12, //TODO implementar dependencie de color palette
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                         ),
                         child: Row(
