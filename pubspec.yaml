@@ -25,6 +25,8 @@ dependencies:
   image_picker_modern: ^0.4.12+3
   image_cropper: ^1.2.1
   cached_network_image: ^2.0.0
+  flutter_bloc: ^3.2.0
+  equatable: ^1.1.0
 
 
 
