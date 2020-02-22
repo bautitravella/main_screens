@@ -29,11 +29,11 @@ class MyBooksViewState extends State<MyBooksView> {
     return Scaffold(
       backgroundColor: AppColors.secondaryBackground,
       floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
 
-        ),
+          ),
           onPressed: () {
             Navigator.push(
               context,
@@ -48,16 +48,17 @@ class MyBooksViewState extends State<MyBooksView> {
         children: <Widget>[
           Stack(
             children: <Widget>[
-              Container(
-                color: AppColors.secondaryBackground,
-                margin: EdgeInsets.only(left: 22, top: 120),
+              Positioned(
+                top: SizeConfig.blockSizeVertical * 12,
+                left: 28,
                 child: Text(
                   "Mis libros",
+                  textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontFamily: "Gibson",
+                    fontFamily: "Montserrat",
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 36,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 30,
                   ),
                 ),
               ),
@@ -156,7 +157,7 @@ class GridViewPublicados extends StatelessWidget {
       slivers: <Widget>[
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+                (BuildContext context, int index) {
               Book2 book = books2[index];
 
               return Container(
@@ -247,10 +248,10 @@ class GridViewPublicados extends StatelessWidget {
                                       color: Colors.white,
                                       padding: EdgeInsets.only(top: 0, right: 0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
+                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
                                       ),
                                       textColor:
-                                          Color.fromARGB(255, 255, 255, 255),
+                                      Color.fromARGB(255, 255, 255, 255),
                                       child: Text(
                                         '\$${book.price}',
                                         textAlign: TextAlign.center,
@@ -301,7 +302,7 @@ class GridViewVendidos extends StatelessWidget {
       slivers: <Widget>[
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+                (BuildContext context, int index) {
               Book2 book = books2[index];
 
               return Container(
@@ -353,7 +354,7 @@ class GridViewVendidos extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => BookSectionChota(
-                              book),
+                                book),
                           ),
                         );
                       },
