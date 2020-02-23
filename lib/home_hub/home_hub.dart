@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
+import 'package:flutterui/home_hub/pages/favoritos_view/favoritos_view.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_tres.dart';
 import 'file:///C:/Users/trave/AndroidStudioProjects/main_screens/lib/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
@@ -23,7 +24,7 @@ class _HomeHubState extends State<HomeHub> {
 
     HomeViewTres(),
     MyBooksView(),
-    FavoriteView(),
+    FavoritosView(),
     /*ExploreView(),*/
     NotificationView(),
   ];
@@ -65,7 +66,7 @@ class _HomeHubState extends State<HomeHub> {
             inactiveColor: Color.fromARGB(255, 128, 128, 128),
           ),
           BottomNavyBarItem(
-              title: Text('My Books', textAlign: TextAlign.center,
+              title: Text('Mis libros', textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Sf-r",
                   fontWeight: FontWeight.w800,
@@ -89,7 +90,7 @@ class _HomeHubState extends State<HomeHub> {
             inactiveColor: Color.fromARGB(255, 128, 128, 128),
           ),
           BottomNavyBarItem(
-              title: Text('Notifications', textAlign: TextAlign.center,
+              title: Text('Actividad', textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Sf-r",
                   fontWeight: FontWeight.w800,

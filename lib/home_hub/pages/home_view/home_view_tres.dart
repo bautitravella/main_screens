@@ -4,6 +4,7 @@ import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
+import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -866,7 +867,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
         ],
       ),
     );
-  }
+  } //TODO activar el fadeIn
 
   Widget categoryScroll(BuildContext context) {
     return Container(
@@ -1040,8 +1041,47 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Example9(),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.developer_mode,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Search",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
-  }
+  } //TODO especificarle cual de todas las categories
 }

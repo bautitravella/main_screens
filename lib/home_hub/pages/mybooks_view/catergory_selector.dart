@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/values/colors.dart';
+
+import '../../../size_config.dart';
 
 class CategorySelector extends StatefulWidget {
 
@@ -20,7 +23,6 @@ class _CategorySelectorState extends State<CategorySelector> {
   int selectedIndex = 0;
   final List<String> categories = ['Publicados', 'Vendidos'];
   static MyBooksViewState aux;
-
 
   _CategorySelectorState(MyBooksViewState state){
    aux = state;

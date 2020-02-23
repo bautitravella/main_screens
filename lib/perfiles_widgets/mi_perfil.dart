@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart' as slideDialog;
+import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
 
 import '../auth.dart';
 
@@ -50,7 +51,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     ),
                   ),
                 ),
-                Positioned(
+               /* Positioned(
                   left: 22,
                   top: 45,
                   child: Container(
@@ -116,7 +117,30 @@ class _MiPerfilState extends State<MiPerfil> {
                       ],
                     ),
                   ),
-                )
+                )*/
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 10,
+                  left: 28,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Ajustes",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 30,
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 8,
+                      ),
+
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -130,8 +154,8 @@ class _MiPerfilState extends State<MiPerfil> {
                 child: Container(
                   child: SlidingUpPanel(
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 90,
-                    minHeight: SizeConfig.blockSizeVertical * 90,
+                    maxHeight: SizeConfig.blockSizeVertical * 80,
+                    minHeight: SizeConfig.blockSizeVertical * 80,
                     backdropEnabled: false,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
@@ -141,87 +165,142 @@ class _MiPerfilState extends State<MiPerfil> {
               ),
             ],
           ),
-          Container(
-            child: Container(
-              height: 143,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  //Positioned(
-                  //                    right: 0,
-                  //                    top: 0,
-                  //                    child: Align(
-                  //                      alignment: Alignment.topRight,
-                  //                      child: Container(
-                  //                        width: 138,
-                  //                        height: 143,
-                  //                        child: Image.asset(
-                  //                          "assets/images/round-underpic-shade.png",
-                  //                          fit: BoxFit.fill,
-                  //                        ),
-                  //                      ),
-                  //                    ),
-                  //                  ),
-                  Positioned(
-                    right: SizeConfig.blockSizeHorizontal * 4,
-                    top: SizeConfig.blockSizeVertical * 5,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MiPerfil(),
+          Positioned(
+            top: SizeConfig.blockSizeVertical*19,
+            child: ConfigurableExpansionTile(
+              headerExpanded: Container(
+                padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
+                width: SizeConfig.blockSizeHorizontal * 100,
+                height: 75,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30.0),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 20.0,
+                      color: Color.fromRGBO(0, 0, 0, 0.15),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Perfil",
+                          style: TextStyle(
+                              fontFamily:"Sf-r",
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color.fromARGB(255, 57, 57, 57)
                           ),
-                        );
-                      },
-                      child: Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 2, //
+                        ),
+                        Text(
+                          "Nombre, Apellido, Colegio, Curso, Rol",
+                          style: TextStyle(
+                              fontFamily:"Sf",
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 184, 184, 184)
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 50,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: <Widget>[
+                          Positioned(
+                            top:8,
+                            child: CircleAvatar(
+                              radius: 23.0,
+                              backgroundImage: AssetImage("assets/images/avatar.png"),
                             ),
-                            borderRadius: new BorderRadius.circular(100)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            "assets/images/avatar.png",
-                            fit: BoxFit.fill,
-                            alignment: Alignment.center,
                           ),
-                        ),
+                          Positioned(
+                            right: 25,
+                            bottom: 5,
+                            child: CircleAvatar(
+                              radius: 12.0,
+                              backgroundImage: AssetImage( "assets/images/logocolegio-fds.png"),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: SizeConfig.blockSizeHorizontal * 12,
-                    top: SizeConfig.blockSizeVertical * 10,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MiPerfil(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 25,
-                        width: 25,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            "assets/images/logocolegio-fds.png",
-                            fit: BoxFit.fill,
-                            alignment: Alignment.center,
+                  ],
+                ),
+              ),
+              header: Container(
+                padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
+                width: SizeConfig.blockSizeHorizontal * 100,
+                height: 75,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30.0),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 20.0,
+                      color: Color.fromRGBO(0, 0, 0, 0.15),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Perfil",
+                          style: TextStyle(
+                              fontFamily:"Sf-r",
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color.fromARGB(255, 57, 57, 57)
                           ),
                         ),
+                        Text(
+                          "Nombre, Apellido, Colegio, Curso, Rol",
+                          style: TextStyle(
+                              fontFamily:"Sf",
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 184, 184, 184)
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 50,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: <Widget>[
+                          Positioned(
+                            top:8,
+                             child: CircleAvatar(
+                                radius: 23.0,
+                                backgroundImage: AssetImage("assets/images/avatar.png"),
+                              ),
+                          ),
+                          Positioned(
+                            right: 25,
+                              bottom: 5,
+                              child: CircleAvatar(
+                                radius: 12.0,
+                                backgroundImage: AssetImage( "assets/images/logocolegio-fds.png"),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -245,35 +324,10 @@ class _MiPerfilState extends State<MiPerfil> {
           controller: sc,
           children: <Widget>[
             Container(
-
               margin: EdgeInsets.only(left: 22, right: 22),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            size: 30,
-                            color: Color.fromARGB(200, 57, 57, 57),
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        Text(
-                          "Ajustes",
-                          style: TextStyle(
-                            fontFamily:"Gibson",
-                            fontSize: 36,
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromARGB(255, 57, 57, 57)
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 40, 0, 7),
                     padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
@@ -398,6 +452,171 @@ class _MiPerfilState extends State<MiPerfil> {
                           ],
                         )
                       ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                    padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+                    width: SizeConfig.blockSizeHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 246, 246, 246),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Privacidad",
+                          style: TextStyle(
+                              fontFamily:"Gibson",
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 57, 57, 57)
+                          ),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(top: 25),
+                              child: Text(
+                                "Contactos bloqueados",
+                                style: TextStyle(
+                                    fontFamily:"Roboto",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 57, 57, 57)
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => CustomDialog(
+                                    title: "¿Seguro que quiere eliminar su perfil?",
+                                    description:
+                                    "Todos sus datos seran eliminados y debera volver a crear una cuenta",
+                                    primaryButtonText: "Si",
+                                    primaryButtonRoute: "/logOut",
+                                    secondaryButtonText: "Cancelar",
+                                    secondaryButtonRoute: "/home",
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 15),
+                                child: Text(
+                                  "Eliminar cuenta",
+                                  style: TextStyle(
+                                    fontFamily:"Roboto",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 57, 57, 57),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  ConfigurableExpansionTile(
+                    headerExpanded: Container(
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+                      width: SizeConfig.blockSizeHorizontal * 88,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Privacidad",
+                            style: TextStyle(
+                                fontFamily:"Gibson",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 57, 57, 57)
+                            ),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: 25),
+                                child: Text(
+                                  "Contactos bloqueados",
+                                  style: TextStyle(
+                                      fontFamily:"Roboto",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 57, 57, 57)
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => CustomDialog(
+                                      title: "¿Seguro que quiere eliminar su perfil?",
+                                      description:
+                                      "Todos sus datos seran eliminados y debera volver a crear una cuenta",
+                                      primaryButtonText: "Si",
+                                      primaryButtonRoute: "/logOut",
+                                      secondaryButtonText: "Cancelar",
+                                      secondaryButtonRoute: "/home",
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 15),
+                                  child: Text(
+                                    "Eliminar cuenta",
+                                    style: TextStyle(
+                                      fontFamily:"Roboto",
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 57, 57, 57),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    header: Container(
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+                      width: SizeConfig.blockSizeHorizontal * 88,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Privacidad",
+                            style: TextStyle(
+                                fontFamily:"Gibson",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 57, 57, 57)
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   GestureDetector(

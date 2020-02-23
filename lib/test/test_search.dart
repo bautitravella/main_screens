@@ -7,15 +7,18 @@ class Example9 extends StatelessWidget {
       appBar: AppBar(
         title: Text("Search Test"),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.search),onPressed: () {} )
+          IconButton(icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+          } )
         ],
-      )
-
+      ),
+      drawer: Drawer(),
     );
   }
 }
 
-class DataSearch extends SearchDelegate<String>{
+class DataSearch extends SearchDelegate<String> {
 
   final cities = [
     "Apple",
@@ -57,7 +60,13 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   List<Widget> buildActions(BuildContext context) {
-    return [IconButton(icon: Icon(Icons.clear), onPressed: () {} )];
+    return [
+      IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            query = "";
+          })
+    ];
   }
 
   @override
@@ -67,22 +76,35 @@ class DataSearch extends SearchDelegate<String>{
        icon: AnimatedIcons.menu_arrow,
        progress: transitionAnimation,
      ),
-     onPressed: () {},
+     onPressed: () {
+       close(context, null);
+     },
    );
   }
 
   @override
   Widget buildResults(BuildContext context) {
     // show some result bases on the selection
-    throw UnimplementedError();
+    return Card(
+      color: Colors.red,
+      shape: StadiumBorder(),
+      child: Center(
+        child: Text(query),
+      ),
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty?recentCities:cities;
+    final suggestionList = query.isEmpty
+        ?recentCities
+        :cities.where((p) =>p.startsWith(query)).toList();
 
     return ListView.builder(
         itemBuilder: (context, index) => ListTile(
+         onTap: () {
+           showResults(context);
+         },
           leading: Icon(Icons.location_city),
           title: Text(suggestionList[index]),
     ),
