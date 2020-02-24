@@ -179,7 +179,8 @@ class _FavoritosViewState extends State<FavoritosView> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 20.0,
@@ -189,7 +190,8 @@ class _FavoritosViewState extends State<FavoritosView> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
                 child: Container(
                   margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                   child: CustomScrollView(
@@ -202,7 +204,8 @@ class _FavoritosViewState extends State<FavoritosView> {
                             Book2 book = books2[index];
 
                             return Container(
-                              margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 17),
+                              margin: EdgeInsets.only(
+                                  left: 0, right: 0, top: 0, bottom: 17),
                               child: Stack(
                                 alignment: Alignment.topCenter,
                                 children: <Widget>[
@@ -214,8 +217,10 @@ class _FavoritosViewState extends State<FavoritosView> {
                                       child: Padding(
                                         padding: EdgeInsets.all(0),
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .start,
+                                          crossAxisAlignment: CrossAxisAlignment
+                                              .start,
                                           children: <Widget>[
                                             Text(
                                               "${book.name}",
@@ -245,15 +250,17 @@ class _FavoritosViewState extends State<FavoritosView> {
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => BookSection(null),
-                                            ),
-                                          );
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BookSection(null),
+                                        ),
+                                      );
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20.0),
+                                          borderRadius: BorderRadius.circular(
+                                              20.0),
                                           boxShadow: [
                                             BoxShadow(
                                               color: Colors.black38,
@@ -265,7 +272,8 @@ class _FavoritosViewState extends State<FavoritosView> {
                                         alignment: Alignment.topRight,
                                         children: <Widget>[
                                           ClipRRect(
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius: BorderRadius.circular(
+                                                5),
                                             child: Image(
                                               height: 141,
                                               width: 97,
@@ -312,15 +320,17 @@ class _FavoritosViewState extends State<FavoritosView> {
                                   Positioned(
                                     bottom: 0,
                                     left: 7,
-                                    child:  Container(
+                                    child: Container(
                                       height: 20,
                                       width: 60,
                                       margin: EdgeInsets.only(top: 5),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0),
                                         border: Border.all(
                                             width: 1,
-                                            color: Color.fromARGB(205, 112, 112, 112)
+                                            color: Color.fromARGB(
+                                                205, 112, 112, 112)
                                         ),
                                       ),
                                       child: Center(
@@ -329,7 +339,8 @@ class _FavoritosViewState extends State<FavoritosView> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: "Sf-r",
-                                            color: Color.fromARGB(205, 112, 112, 112),
+                                            color: Color.fromARGB(
+                                                205, 112, 112, 112),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12.0,
                                           ),
@@ -360,173 +371,6 @@ class _FavoritosViewState extends State<FavoritosView> {
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget categoryScroll(BuildContext context) {
-    return Container(
-      height: 120,
-      width: SizeConfig.blockSizeHorizontal * 92,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CategoriesColegios(),
-                ),
-              );
-            },
-            child: Container(
-              margin: EdgeInsets.only(right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      width: 62,
-                      height: 62,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 213, 104),
-                          borderRadius: BorderRadius.circular(100)),
-                      child: Icon(
-                        MaterialIcons.school,
-                        color: Colors.white,
-                        size: 30,
-                      )),
-                  Text(
-                    "Colegios",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontFamily: "Sf-r",
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.class_,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Materias",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.group,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Cursos",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      FontAwesome5.address_book,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Usuarios",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.add_shopping_cart,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Porongas",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
             ),
           ),
         ],

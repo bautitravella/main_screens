@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialog_widget/error_dialog.dart';
 import 'package:flutterui/dialog_widget/loading_dialog.dart';
@@ -154,8 +155,8 @@ class _MiPerfilState extends State<MiPerfil> {
                 child: Container(
                   child: SlidingUpPanel(
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 80,
-                    minHeight: SizeConfig.blockSizeVertical * 80,
+                    maxHeight: SizeConfig.blockSizeVertical * 77,
+                    minHeight: SizeConfig.blockSizeVertical * 77,
                     backdropEnabled: false,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
@@ -171,10 +172,10 @@ class _MiPerfilState extends State<MiPerfil> {
               headerExpanded: Container(
                 padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
                 width: SizeConfig.blockSizeHorizontal * 100,
-                height: 75,
+                height: SizeConfig.blockSizeVertical*81,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(25.0),
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 20.0,
@@ -236,12 +237,12 @@ class _MiPerfilState extends State<MiPerfil> {
                 ),
               ),
               header: Container(
-                padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
+                padding: EdgeInsets.fromLTRB(38, 5, 20, 5),
                 width: SizeConfig.blockSizeHorizontal * 100,
                 height: 75,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(25.0),
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 20.0,
@@ -277,11 +278,12 @@ class _MiPerfilState extends State<MiPerfil> {
                       ],
                     ),
                     Container(
-                      width: 50,
+                      width: 60,
                       child: Stack(
                         alignment: Alignment.topRight,
                         children: <Widget>[
                           Positioned(
+                            right: 10,
                             top:8,
                              child: CircleAvatar(
                                 radius: 23.0,
@@ -289,7 +291,7 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                           ),
                           Positioned(
-                            right: 25,
+                            right: 35,
                               bottom: 5,
                               child: CircleAvatar(
                                 radius: 12.0,
@@ -324,10 +326,264 @@ class _MiPerfilState extends State<MiPerfil> {
           controller: sc,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 22, right: 22),
+              margin: EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(height: 50),
+                  ConfigurableExpansionTile(
+                    headerExpanded: Container(
+                      height: 300,
+                      margin: EdgeInsets.only(left: 0, right: 0),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 15),
+                      width: SizeConfig.blockSizeHorizontal * 92,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Cuenta",
+                                          style: TextStyle(
+                                              fontFamily:"Sf-r",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromARGB(255, 57, 57, 57)
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Icon(Icons.lock, size: 18)
+                                      ],
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      "Cambiar mail y contraseña, eliminar cuenta",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(255, 184, 184, 184)
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Icon(Icons.alternate_email, size: 40, color: Color.fromARGB(20, 0, 0, 0))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            margin: EdgeInsets.only(left: 12, right: 12, top: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              border: Border.all(
+                                  width: 1,
+                                  color: Color.fromARGB(100, 112, 112, 112)
+                              ),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  height: 24,
+                                  margin: EdgeInsets.only(left: 10, top: 10),
+                                  width: SizeConfig.blockSizeHorizontal*60,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "Confirmar contraseña actual",
+                                      alignLabelWithHint: true,
+                                      border: InputBorder.none,
+                                    ),
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 120, 120, 120),
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines: 1,//TODO resolver tema del overflow
+                                    keyboardType: TextInputType.emailAddress,
+                                    autocorrect: false,
+                                  ),
+                                ),
+                                Container(
+                                  width: SizeConfig.blockSizeVertical*10,
+                                  height: 34,
+                                  margin: EdgeInsets.only(right: 5),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 104, 104),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Center(
+                                    child: Text('Desbloquear',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          Container(
+                            height: 100,
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                           /* color: Colors.red,*/
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Cambiar mail",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(255, 110, 110, 110)
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 24,
+                                      margin: EdgeInsets.only(left: 10),
+                                      width: SizeConfig.blockSizeHorizontal*50,
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          hintText: "jbttravellita@gmail.com",
+                                          alignLabelWithHint: true,
+                                          border: InputBorder.none,
+                                        ),
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 120, 120, 120),
+                                          fontFamily: "Sf-r",
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 14,
+                                        ),
+                                        maxLines: 1,//TODO resolver tema del overflow
+                                        keyboardType: TextInputType.emailAddress,
+                                        autocorrect: false,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 30),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Nueva contraseña",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(255, 110, 110, 110)
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 24,
+                                      margin: EdgeInsets.only(left: 10),
+                                      width: SizeConfig.blockSizeHorizontal*40,
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          hintText: "***********",
+                                          alignLabelWithHint: true,
+                                          border: InputBorder.none,
+                                        ),
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 120, 120, 120),
+                                          fontFamily: "Sf-r",
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 14,
+                                        ),
+                                        maxLines: 1,//TODO resolver tema del overflow
+                                        keyboardType: TextInputType.emailAddress,
+                                        autocorrect: false,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    header: Container(
+                      height: 80,
+                      margin: EdgeInsets.only(left: 0, right: 0),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 15),
+                      width: SizeConfig.blockSizeHorizontal * 92,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Cuenta",
+                                          style: TextStyle(
+                                              fontFamily:"Sf-r",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromARGB(255, 57, 57, 57)
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Icon(Icons.lock, size: 18)
+                                      ],
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      "Cambiar mail y contraseña, eliminar cuenta",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(255, 184, 184, 184)
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Icon(Icons.alternate_email, size: 40, color: Color.fromARGB(20, 0, 0, 0))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 40, 0, 7),
                     padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
