@@ -53,4 +53,10 @@ class User extends Equatable{
   @override
   List<Object> get props => [nombre,apellido,fotoPerfilUrl,hasAcceptedTerms];
 
+  @override
+  String toString() {
+    return 'User{nombre: $nombre, apellido: $apellido, fotoPerfilUrl: $fotoPerfilUrl, fotoPerfil: $fotoPerfil, hasAcceptedTerms: $hasAcceptedTerms, email: $email}';
+  }
+
+
 }

@@ -14,7 +14,10 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 
-void main() => runApp(App());
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
@@ -118,20 +121,31 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    BlocProvider.of<UserBloc>(context).add(LoadUser("Santi"));
+    return BlocBuilder<UserBloc,UserBlocState>(
+      builder: (context, state) {
+        if(state is UserLoadedState){
+          print("LOADED USER = ${state.user}" );
+        }else if(state is UserNotLoaded){
+          print("USER  NOT LOADEEED");
+        }
+        return FutureBuilder(
         future: firestoreDocumentFuture,
         builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
-          if(!snapshot.hasData){
-            return CircularProgressIndicator();
-          }else if(snapshot.data.exists){
+        if(!snapshot.hasData){
+        return CircularProgressIndicator();
+        }else if(snapshot.data.exists){
 
-            print(snapshot.data.data);
-            if(firebaseUserInfoCompleted(snapshot.data.data)){
-              return HomeHub();
-            }
-          }
-          return ElijeUnRolWidget(email);
+        print(snapshot.data.data);
+        if(firebaseUserInfoCompleted(snapshot.data.data)){
+        return HomeHub();
+        }
+        }
+        return ElijeUnRolWidget(email);
         } );
+      },
+
+    );
 
   }
 

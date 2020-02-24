@@ -30,7 +30,6 @@ class _HomeHubState extends State<HomeHub> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
     return Scaffold(
 
       body: _children[_currentIndex],

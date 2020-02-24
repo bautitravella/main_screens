@@ -26,7 +26,9 @@ abstract class DatabaseRepository {
 
   Future<void> updateBook(Book todo);
 
-  Future<void> reFilterBooks(User user) {}
+  Future<void> reFilterBooks(User user) ;
+
+  Stream<List<Book>> getUserBooks(User user);
 }
 
 class FirebaseRepository extends DatabaseRepository{
@@ -67,6 +69,16 @@ class FirebaseRepository extends DatabaseRepository{
   }
 
   @override
+  Stream<List<Book>> getUserBooks(User user) {
+    print("GET USER BOOKS = $user");
+    return booksReference.snapshots().map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      return snapshot.documents
+          .map((doc) => Book.fromDocumentSnapshot(doc)).toList();});
+  }
+
+
+  @override
   Stream<User> getUserInfo(String email)   {
 //    try{
 //      DocumentSnapshot documentSnapshot =  await usersReference.document(email).get();
@@ -76,8 +88,12 @@ class FirebaseRepository extends DatabaseRepository{
 //    }catch(e){
 //      return null;
 //    }
+    try{
+      return usersReference.document(email).snapshots().map((doc) => User.fromMap(doc.data, email));
+    }catch(e){
+      rethrow;
+    }
 
-    return usersReference.document(email).snapshots().map((doc) => User.fromMap(doc.data, email));
 
 
   }
@@ -91,6 +107,12 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Future<void> updateUserInfo(User user) {
     return usersReference.document(user.email).updateData(user.toMap());
+  }
+
+  @override
+  Future<void> reFilterBooks(User user) {
+    // TODO: implement reFilterBooks
+    throw UnimplementedError();
   }
 
 }

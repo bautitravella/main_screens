@@ -34,6 +34,13 @@ class _HomeViewDosState extends State<HomeViewDos> {
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+//    BlocBuilder<UserBloc,UserBlocState>(
+//      builder: (context,state) {
+//        if(state is LoadUser){
+//
+//        }
+//      },
+//    );
     return Container(
       child: Stack(
         children: <Widget>[

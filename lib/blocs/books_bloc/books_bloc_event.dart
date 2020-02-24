@@ -7,8 +7,14 @@ abstract class BooksBlocEvent extends Equatable {
 }
 
 class LoadUserBooks extends BooksBlocEvent{
+  final User user;
+
+  LoadUserBooks(this.user);
+
   @override
   List<Object> get props => [];
+
+
 }
 
 class BooksLoaded extends BooksBlocEvent{

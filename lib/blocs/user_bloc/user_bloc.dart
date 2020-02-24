@@ -28,9 +28,14 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
 
    Stream<UserBlocState> _mapLoadUserToState(String email) {
       userStreamSubscription?.cancel();
-      userStreamSubscription = databaseRepository.getUserInfo(email).listen((user) {
-        add(LoadedUser(user));
-      });
+      try {
+        userStreamSubscription =
+            databaseRepository.getUserInfo(email).listen((user) {
+              add(LoadedUser(user));
+            });
+      }catch (e){
+        print("ERROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRR = $e");
+      }
    }
 
   Stream<UserBlocState> _mapUploadUserToState(User user) {
@@ -41,4 +46,10 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
   Stream<UserBlocState> _mapLoadedUserToState(User user) async* {
       yield UserLoadedState(user);
   }
+
+
 }
+
+ void doSmt(){
+  print('PROBLEMAS EN EL PARAISO');
+ }
