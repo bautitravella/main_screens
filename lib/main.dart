@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/auth.dart';
+import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/blocs/database_repository.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
@@ -18,15 +21,30 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<BaseAuth>(
       create: (_) => Auth(),
-      child: MaterialApp(
-          home: MyDecider(),
-          theme: ThemeData(
-            accentColor:AppColors.secondaryBackground,
+      child: RepositoryProvider(
+        create: (context) => FirebaseRepository(),
+        child: BlocProvider(
+          create: (BuildContext context) => UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<BooksBloc>(
+                create: (context) {
+                  return BooksBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+                },
+              ),
+            ],
+            child: MaterialApp(
+                home: MyDecider(),
+                theme: ThemeData(
+                  accentColor:AppColors.secondaryBackground,
+                ),
+                routes: <String, WidgetBuilder> {
+                  '/home': (BuildContext context) => HomeHub(),
+                  '/logOut': (BuildContext context) => FirstscreenWidget(),
+                }
+            ),
           ),
-          routes: <String, WidgetBuilder> {
-            '/home': (BuildContext context) => HomeHub(),
-            '/logOut': (BuildContext context) => FirstscreenWidget(),
-          }
+        ),
       ),
     );
 

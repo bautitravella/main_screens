@@ -15,7 +15,7 @@ abstract class DatabaseRepository {
 
   Future<void> updateUserInfo(User user);
 
-  Future<User> getUserInfo(String email);
+  Stream<User> getUserInfo(String email);
 
   //BOOKS
   Future<void> addNewBook(Book book);
@@ -25,12 +25,14 @@ abstract class DatabaseRepository {
   Stream<List<Book>> getAllBooks();
 
   Future<void> updateBook(Book todo);
+
+  Future<void> reFilterBooks(User user) {}
 }
 
 class FirebaseRepository extends DatabaseRepository{
 
   final usersReference = Firestore.instance.collection("Users");
-  final booksReference = Firestore.instance.collection("books");
+  final booksReference = Firestore.instance.collection("Publicaciones");
 
   @override
   Future<void> addNewBook(Book book) {
@@ -59,20 +61,23 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Stream<List<Book>> getAllBooks() {
     return booksReference.snapshots().map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
       return snapshot.documents
           .map((doc) => Book.fromDocumentSnapshot(doc)).toList();});
   }
 
   @override
-  Future<User> getUserInfo(String email) async {
-    try{
-      DocumentSnapshot documentSnapshot =  await usersReference.document(email).get();
+  Stream<User> getUserInfo(String email)   {
+//    try{
+//      DocumentSnapshot documentSnapshot =  await usersReference.document(email).get();
+//
+//      User user = User.fromMap(documentSnapshot.data, email);
+//      return user;
+//    }catch(e){
+//      return null;
+//    }
 
-      User user = User.fromMap(documentSnapshot.data, email);
-      return user;
-    }catch(e){
-      return null;
-    }
+    return usersReference.document(email).snapshots().map((doc) => User.fromMap(doc.data, email));
 
 
   }

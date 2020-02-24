@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
@@ -440,32 +442,32 @@ class _HomeViewDosState extends State<HomeViewDos> {
   }
 
   Widget horizontalListViewFirebase() {
-    return Container(
-      height: 240,
-      margin: EdgeInsets.only(left: 27),
-      child: StreamBuilder<QuerySnapshot>(
-          stream: firebaseStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError)
-              return new Text("ERRRROR 1: " + snapshot.error);
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return new Text("Loading...");
-              default:
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    DocumentSnapshot doc = snapshot.data.documents[index];
-                    Book book = Book.fromDocumentSnapshot(doc);
-                    print("DOC: " + doc.toString());
-                    print("Book: " + book.toString());
-                    return horizontalListViewItem(book);
-                  },
-                );
-            }
-          }),
+    return BlocBuilder<BooksBloc,BooksBlocState>(
+      builder: (context, state) {
+        if(state is BooksLoadedState){
+          print('--------------------------------------------------------------------------------------------- cantidad de Books = ${state.books.length}');
+          return Container(
+              height: 240,
+              margin: EdgeInsets.only(left: 27),
+            child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: state.books.length,
+            itemBuilder: (BuildContext context, int index) {
+//              DocumentSnapshot doc = snapshot.data.documents[index];
+//              Book book = Book.fromDocumentSnapshot(doc);
+//              print("DOC: " + doc.toString());
+//              print("Book: " + book.toString());
+              return horizontalListViewItem(state.books[index]);
+
+            },
+          )
+          );
+        }
+            return CircularProgressIndicator();
+
+      },
     );
+
   }
 
   static Widget horizontalListView = Container(

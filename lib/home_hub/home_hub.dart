@@ -4,6 +4,9 @@ import 'package:flutterui/home_hub/pages/home_view_dos.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/notifications_view.dart';
 import 'package:flutterui/home_hub/pages/pages.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/blocs/bloc.dart';
+
 
 
 
@@ -27,6 +30,7 @@ class _HomeHubState extends State<HomeHub> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
     return Scaffold(
 
       body: _children[_currentIndex],

@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:equatable/equatable.dart';
 
-class User {
+
+class User extends Equatable{
   String nombre;
   String apellido;
   String fotoPerfilUrl;
@@ -47,5 +49,8 @@ class User {
     userMap['hasAcceptedTerms']= hasAcceptedTerms;
     return userMap;
   }
+
+  @override
+  List<Object> get props => [nombre,apellido,fotoPerfilUrl,hasAcceptedTerms];
 
 }
