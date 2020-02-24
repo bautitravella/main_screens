@@ -433,7 +433,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image.asset(
                               "assets/images/explora-economicos.png",
-                              fit: BoxFit.fill,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),

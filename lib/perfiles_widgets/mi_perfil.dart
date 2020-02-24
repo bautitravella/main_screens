@@ -333,9 +333,9 @@ class _MiPerfilState extends State<MiPerfil> {
                   SizedBox(height: 50),
                   ConfigurableExpansionTile(
                     headerExpanded: Container(
-                      height: 300,
+                      height: 310,
                       margin: EdgeInsets.only(left: 0, right: 0),
-                      padding: EdgeInsets.fromLTRB(0, 20, 0, 15),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                       width: SizeConfig.blockSizeHorizontal * 92,
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 246, 246, 246),
@@ -443,7 +443,7 @@ class _MiPerfilState extends State<MiPerfil> {
                           ),
                           SizedBox(height: 30),
                           Container(
-                            height: 100,
+                            height: 150,
                             margin: EdgeInsets.only(left: 22, right: 22),
                            /* color: Colors.red,*/
                             child: Column(
@@ -523,9 +523,45 @@ class _MiPerfilState extends State<MiPerfil> {
                                     ),
                                   ],
                                 ),
+                                SizedBox(height: 30),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Eliminar cuenta",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(100, 110, 110, 110)
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      margin: EdgeInsets.only(left: 10),
+                                      width: SizeConfig.blockSizeHorizontal*25,
+                                      decoration: BoxDecoration(
+                                        color: Color.fromARGB(200, 0, 191, 131),
+                                        borderRadius: BorderRadius.circular(30.0),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Guardar",
+                                          style: TextStyle(
+                                              fontFamily:"Sf-r",
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -584,59 +620,237 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 7),
-                    padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
-                    width: SizeConfig.blockSizeHorizontal * 100,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 246, 246, 246),
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Cuenta",
-                          style: TextStyle(
-                              fontFamily:"Gibson",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromARGB(255, 57, 57, 57)
+                  SizedBox(height: 15),
+                  ConfigurableExpansionTile(
+                    headerExpanded: Container(
+                      height: 310,
+                      margin: EdgeInsets.only(left: 0, right: 0),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
+                      width: SizeConfig.blockSizeHorizontal * 92,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Privacidad",
+                                      style: TextStyle(
+                                          fontFamily:"Sf-r",
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color.fromARGB(255, 57, 57, 57)
+                                      ),
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      "Contactos bloqueados, Visibilidad en otros colegios",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(255, 184, 184, 184)
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  height: 28,
+                                  child: Opacity(
+                                    opacity: 0.2,
+                                    child: Image.asset('assets/images/avatars.png',
+                                    fit: BoxFit.fitHeight,),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(top: 25),
-                              child: Text(
-                                "Cambiar mail",
-                                style: TextStyle(
-                                    fontFamily:"Roboto",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 57, 57, 57)
+                          SizedBox(height: 30),
+                          Container(
+                            height: 150,
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            /* color: Colors.red,*/
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Cambiar mail",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(255, 110, 110, 110)
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 24,
+                                      margin: EdgeInsets.only(left: 10),
+                                      width: SizeConfig.blockSizeHorizontal*50,
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          hintText: "jbttravellita@gmail.com",
+                                          alignLabelWithHint: true,
+                                          border: InputBorder.none,
+                                        ),
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 120, 120, 120),
+                                          fontFamily: "Sf-r",
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 14,
+                                        ),
+                                        maxLines: 1,//TODO resolver tema del overflow
+                                        keyboardType: TextInputType.emailAddress,
+                                        autocorrect: false,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(top: 15),
-                              child: Text(
-                                "Cambiar contraseña",
-                                style: TextStyle(
-                                    fontFamily:"Roboto",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 57, 57, 57)
+                                SizedBox(height: 30),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Nueva contraseña",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(255, 110, 110, 110)
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 24,
+                                      margin: EdgeInsets.only(left: 10),
+                                      width: SizeConfig.blockSizeHorizontal*40,
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          hintText: "***********",
+                                          alignLabelWithHint: true,
+                                          border: InputBorder.none,
+                                        ),
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 120, 120, 120),
+                                          fontFamily: "Sf-r",
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 14,
+                                        ),
+                                        maxLines: 1,//TODO resolver tema del overflow
+                                        keyboardType: TextInputType.emailAddress,
+                                        autocorrect: false,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
+                                SizedBox(height: 30),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Eliminar cuenta",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color.fromARGB(100, 110, 110, 110)
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      margin: EdgeInsets.only(left: 10),
+                                      width: SizeConfig.blockSizeHorizontal*25,
+                                      decoration: BoxDecoration(
+                                        color: Color.fromARGB(200, 0, 191, 131),
+                                        borderRadius: BorderRadius.circular(30.0),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Guardar",
+                                          style: TextStyle(
+                                              fontFamily:"Sf-r",
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    header: Container(
+                      height: 80,
+                      margin: EdgeInsets.only(left: 0, right: 0),
+                      padding: EdgeInsets.fromLTRB(0, 20, 0, 15),
+                      width: SizeConfig.blockSizeHorizontal * 92,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 22, right: 22),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Cuenta",
+                                          style: TextStyle(
+                                              fontFamily:"Sf-r",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromARGB(255, 57, 57, 57)
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Icon(Icons.lock, size: 18)
+                                      ],
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      "Cambiar mail y contraseña, eliminar cuenta",
+                                      style: TextStyle(
+                                          fontFamily:"Sf",
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(255, 184, 184, 184)
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Icon(Icons.alternate_email, size: 40, color: Color.fromARGB(20, 0, 0, 0))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(

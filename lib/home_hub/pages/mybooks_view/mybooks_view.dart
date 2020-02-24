@@ -136,8 +136,8 @@ class MyBooksViewState extends State<MyBooksView> {
     );
   }
 
-  void changeFunction(int index) {
-    if (index == 0) {
+  void changeFunction(bool isPublicado) {
+    if (isPublicado) {
       setState(() {
         gridView = gridViewPublicados;
       });
