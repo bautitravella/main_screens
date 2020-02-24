@@ -167,146 +167,6 @@ class _MiPerfilState extends State<MiPerfil> {
               ),
             ],
           ),
-          /*Positioned(
-            top: SizeConfig.blockSizeVertical*19,
-            child: ConfigurableExpansionTile(
-              headerExpanded: Container(
-                padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
-                width: SizeConfig.blockSizeHorizontal * 100,
-                height: SizeConfig.blockSizeVertical*81,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 20.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.15),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Perfil",
-                          style: TextStyle(
-                              fontFamily:"Sf-r",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromARGB(255, 57, 57, 57)
-                          ),
-                        ),
-                        Text(
-                          "Nombre, Apellido, Colegio, Curso, Rol",
-                          style: TextStyle(
-                              fontFamily:"Sf",
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 184, 184, 184)
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 50,
-                      child: Stack(
-                        alignment: Alignment.topRight,
-                        children: <Widget>[
-                          Positioned(
-                            top:8,
-                            child: CircleAvatar(
-                              radius: 23.0,
-                              backgroundImage: AssetImage("assets/images/avatar.png"),
-                            ),
-                          ),
-                          Positioned(
-                            right: 25,
-                            bottom: 5,
-                            child: CircleAvatar(
-                              radius: 12.0,
-                              backgroundImage: AssetImage( "assets/images/logocolegio-fds.png"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              header: Container(
-                padding: EdgeInsets.fromLTRB(38, 5, 20, 5),
-                width: SizeConfig.blockSizeHorizontal * 100,
-                height: 75,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 20.0,
-                      color: Color.fromRGBO(0, 0, 0, 0.15),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Perfil",
-                          style: TextStyle(
-                              fontFamily:"Sf-r",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromARGB(255, 57, 57, 57)
-                          ),
-                        ),
-                        Text(
-                          "Nombre, Apellido, Colegio, Curso, Rol",
-                          style: TextStyle(
-                              fontFamily:"Sf",
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 184, 184, 184)
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 60,
-                      child: Stack(
-                        alignment: Alignment.topRight,
-                        children: <Widget>[
-                          Positioned(
-                            right: 10,
-                            top:8,
-                             child: CircleAvatar(
-                                radius: 23.0,
-                                backgroundImage: AssetImage("assets/images/avatar.png"),
-                              ),
-                          ),
-                          Positioned(
-                            right: 35,
-                              bottom: 5,
-                              child: CircleAvatar(
-                                radius: 12.0,
-                                backgroundImage: AssetImage( "assets/images/logocolegio-fds.png"),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),*/
         ],
       ),
     );
@@ -331,11 +191,11 @@ class _MiPerfilState extends State<MiPerfil> {
               controller: sc,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 15, right: 15, top: 5),
+                  margin: EdgeInsets.only(left: 15, right: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 80),
+                      SizedBox(height: 70),
                       ConfigurableExpansionTile(
                         headerExpanded: Container(
                           height: 310,
@@ -999,7 +859,7 @@ class _MiPerfilState extends State<MiPerfil> {
             ),
           ),
           Positioned(
-            top: 0,
+            top: -0.8,
             child: ConfigurableExpansionTile(
               headerExpanded: Container(
                 padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
