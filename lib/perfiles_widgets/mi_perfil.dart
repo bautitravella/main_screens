@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterui/Models/school_model.dart';
 import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialog_widget/error_dialog.dart';
 import 'package:flutterui/dialog_widget/loading_dialog.dart';
@@ -680,81 +681,33 @@ class _MiPerfilState extends State<MiPerfil> {
                             margin: EdgeInsets.only(left: 22, right: 22),
                             /* color: Colors.red,*/
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Cambiar mail",
-                                      style: TextStyle(
-                                          fontFamily:"Sf",
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 110, 110, 110)
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 24,
-                                      margin: EdgeInsets.only(left: 10),
-                                      width: SizeConfig.blockSizeHorizontal*50,
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          hintText: "jbttravellita@gmail.com",
-                                          alignLabelWithHint: true,
-                                          border: InputBorder.none,
-                                        ),
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 120, 120, 120),
-                                          fontFamily: "Sf-r",
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 14,
-                                        ),
-                                        maxLines: 1,//TODO resolver tema del overflow
-                                        keyboardType: TextInputType.emailAddress,
-                                        autocorrect: false,
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  "Contactos bloqueados",
+                                  style: TextStyle(
+                                      fontFamily:"Sf",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color.fromARGB(255, 110, 110, 110)
+                                  ),
                                 ),
-                                SizedBox(height: 30),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Nueva contraseña",
-                                      style: TextStyle(
-                                          fontFamily:"Sf",
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 110, 110, 110)
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 24,
-                                      margin: EdgeInsets.only(left: 10),
-                                      width: SizeConfig.blockSizeHorizontal*40,
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          hintText: "***********",
-                                          alignLabelWithHint: true,
-                                          border: InputBorder.none,
-                                        ),
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 120, 120, 120),
-                                          fontFamily: "Sf-r",
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 14,
-                                        ),
-                                        maxLines: 1,//TODO resolver tema del overflow
-                                        keyboardType: TextInputType.emailAddress,
-                                        autocorrect: false,
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ),
-                                  ],
+                                SizedBox(height: 15),
+                                Container(
+                                  height: 35,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: 3,
+                                    itemBuilder:(BuildContext context,int index) {
+                                      School school = schools[index];
+                                      return Row(
+                                        children: <Widget>[
+                                          buildEtiquetaBloqueado(school.imageUrl,school.name),
+                                          buildEtiquetaBloqueado(school.imageUrl,school.name),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ),
                                 SizedBox(height: 30),
                                 Row(
@@ -1304,4 +1257,47 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
+  Widget buildEtiquetaBloqueado(String url, String colegioName) {
+    return UnconstrainedBox(
+      child: Container(
+        height: 38,
+        margin: EdgeInsets.only( bottom: 10, right: 5),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: Row(children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 5, right: 5),
+            height: 25,
+            width: 25,
+            child: Image.asset(
+              url,
+              fit: BoxFit.fill,
+            ),
+          ),
+          SizedBox(width: 3),
+          Container(
+            width: 80,
+            child: Text(
+              colegioName,
+              style: TextStyle(
+                fontFamily: "Sf-r",
+                color: Color.fromARGB(255, 27, 27, 27),
+                fontWeight: FontWeight.w800,
+                fontSize: 12,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+              margin: EdgeInsets.only(left: 1, right: 3),
+              child: Icon(
+                Icons.close,
+                size: 22,
+              )),
+        ]),
+      ),
+    );
+  }
 }
