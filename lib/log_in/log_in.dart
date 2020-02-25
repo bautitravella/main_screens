@@ -447,5 +447,5 @@ void showLoadingDialog(BuildContext context) {
 }
 void showErrorDialog(BuildContext context,String errorMessage){
   showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
-  animatedPill: false);
+      animatedPill: false);
 }

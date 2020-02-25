@@ -309,7 +309,7 @@ class _BookSectionState extends State<BookSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '${book.nombre + ' '+ book.apellido}',
+                                      '${book.nombreVendedor + ' '+ book.apellidoVendedor}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 16,
@@ -364,7 +364,7 @@ class _BookSectionState extends State<BookSection> {
                                         Color.fromARGB(255, 255, 255, 255),
                                     padding: EdgeInsets.all(0),
                                     child: Text(
-                                      '${book.estado}'.toUpperCase(),
+                                      '${book.descripcion}'.toUpperCase(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18,
@@ -404,7 +404,7 @@ class _BookSectionState extends State<BookSection> {
                                   padding: const EdgeInsets.only(top: 15),
                                   width: SizeConfig.blockSizeHorizontal * 80,
                                   child: Text(
-                                    book.estado,
+                                    book.descripcion,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,

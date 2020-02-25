@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
@@ -20,51 +19,10 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
 
   List<File> _image = List(3);
 
-  void onBtnBlueTwoPressed(BuildContext context) {
-    Navigator.pop(context);
-  }
+//  void onBtnBlueTwoPressed(BuildContext context) {
+//    Navigator.pop(context);
+//  }
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image[0] = image;
-    });
-  }
-
-  Future<void> _cropImage() async {
-    File cropped = await ImageCropper.cropImage(
-      sourcePath: _image[0].path,
-      //ratioX: 1.0,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-    );
-
-    setState(() {
-      _image[0] = cropped ?? _image[0];
-    });
-  }
-
-  void selectImage() {
-    getImage().then((anything) => _cropImage());
-
-  }
-
-  _siguienteBtn(){
-
-    Book book = Book();
-
-    book.imagesRaw.add(_image[0]);
-    book.imagesRaw.add(_image[0]);
-    book.imagesRaw.add(_image[0]);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            SeleccionCursos(book),
-      ),
-    );
-  }
 
   Widget _displayImage() {
     return _image[0] == null?
@@ -302,5 +260,62 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
     );
   }
 
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    setState(() {
+      _image[0] = image;
+    });
+  }
+
+  Future<void> _cropImage() async {
+    File cropped = await ImageCropper.cropImage(
+      sourcePath: _image[0].path,
+      //ratioX: 1.0,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+    );
+
+    setState(() {
+      _image[0] = cropped ?? _image[0];
+    });
+  }
+
+  void selectImage() {
+    getImage().then((anything) => _cropImage());
+
+  }
+
+  _siguienteBtn(){
+    //todo que se puedan seleccionar multiples imagenes
+    //todo mostrar un error dilog si no hay como minimo 3 fotos subidas
+    if(_image[0] == null){
+      showErrorDialog(context, "Debes seleccionar como minimo 3 imagenes para poder continuar");
+    }else{
+      Book book = Book();
+
+      book.imagesRaw.add(_image[0]);
+      book.imagesRaw.add(_image[0]);
+      book.imagesRaw.add(_image[0]);
+
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              SeleccionCursos(book),
+        ),
+      );
+    }
+
+
+  }
+
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

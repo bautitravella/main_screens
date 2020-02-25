@@ -4,6 +4,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/comentarios_estado.
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 class SeleccionMateria extends StatefulWidget {
 
@@ -15,18 +16,9 @@ class SeleccionMateria extends StatefulWidget {
   _SeleccionMateriaState createState() => _SeleccionMateriaState();
 }
 
-void onLogoPressed(BuildContext context) {}
-void onProfilePicture(BuildContext context) {}
-void onButtonPressed(BuildContext context) {}
 
 class _SeleccionMateriaState extends State<SeleccionMateria> {
   bool _isChecked = false;
-
-  void onChanged(bool value) {
-    setState(() {
-      _isChecked = value;
-    });
-  }
 
   Map<String, bool> values = {
 
@@ -46,25 +38,6 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
 
 
   };
-
-  _siguienteBtn(){
-    bool canContinue = false;
-    values.forEach((key, value) {value ?canContinue= true : value; });
-
-    if(canContinue){
-      for(String key in values.keys){
-        if(values[key]){
-          widget.book.materias.add(key);
-        }
-      }
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DatosLibros(widget.book)),
-      );
-    }
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -239,5 +212,46 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
       ),
     );
   }
+
+
+  void onChanged(bool value) {
+    setState(() {
+      _isChecked = value;
+    });
+  }
+
+
+
+  _siguienteBtn(){
+    bool canContinue = false;
+    values.forEach((key, value) {value ?canContinue= true : value; });
+
+    if(canContinue){
+      for(String key in values.keys){
+        if(values[key]){
+          widget.book.materias.add(key);
+        }
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DatosLibros(widget.book)),
+      );
+    }else{
+      showErrorDialog(context, "Debes seleccionar al menos una materia para poder continuar");
+    }
+
+  }
+
+
+
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }
 

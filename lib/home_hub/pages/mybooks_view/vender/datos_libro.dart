@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
@@ -33,164 +35,95 @@ class _DatosLibrosState extends State<DatosLibros> {
       editorialTextController = new TextEditingController(),
       autorTextController = new TextEditingController(),
       ISBNTextController = new TextEditingController(),
-      estadoTextController = new TextEditingController();
+      descripcionTextController = new TextEditingController(),
+      precioTextController = new TextEditingController();
 
-  _siguienteBtn() {
-    String nombreLibro = nombreTextController.text;
-    String autor = autorTextController.text;
-    String editorial = editorialTextController.text;
-    String ISBN = ISBNTextController.text;
-    String estado = estadoTextController.text;
 
-    if (nombreLibro == null ||
-        nombreLibro.isEmpty ||
-        autor == null ||
-        autor.isEmpty ||
-        editorial == null ||
-        editorial.isEmpty ||
-        ISBN == null ||
-        ISBN.isEmpty ||
-        estado == null ||
-        estado.isEmpty ||
-        (_isMarcked == false && _isTicked == false)) {
-      //TODO agregar dialog con el error
-      print("falta completar algun campo");
-      return null;
-    }
-    widget.book.nombreLibro = nombreLibro;
-    widget.book.estado = estado;
-    print("todos los campos estan completos");
-    uploadBook().then((smt) => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyBooksView()),
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body: BlocListener<BooksBloc,BooksBlocState>(
+           listener: (BuildContext context,state) {
+             print("STATE HAS CHANGED. STATE = ${state.toString()}");
+             if(state is UploadingBook){
+               showLoadingDialog(context);
+             }else if(state is ErrorUploadingBook){
+               Navigator.of(context).pop();
+               showErrorDialog(context, "Ha habido un error cargando el libro a nuestra base de datos. ${state.errorMessage}");
+             }else if(state is UploadedBook){
+               Navigator.popUntil(context, ModalRoute.withName('/home'),);
+             }
+
+             },
+
+
+          child: Container(
       constraints: BoxConstraints.expand(),
       decoration: BoxDecoration(
-        color: Colors.white,
+          color: Colors.white,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 35),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
-                      iconSize: 30.0,
-                      color: AppColors.accentText,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-              ],
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 35),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
+                        iconSize: 30.0,
+                        color: AppColors.accentText,
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              margin: EdgeInsets.only(left: 28, top: 24),
-              child: Text(
-                "Vender",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: "Gibson",
-                  color: AppColors.accentText,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 38,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                margin: EdgeInsets.only(left: 28, top: 24),
+                child: Text(
+                  "Vender",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: "Gibson",
+                    color: AppColors.accentText,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 38,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    width: 50,
-                    margin: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 8,
-                        right: SizeConfig.blockSizeHorizontal * 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            Container(
-                              height: 141,
-                              margin: EdgeInsets.only(top: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(
-                                    width: 97,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image(
-                                            height: 141,
-                                            width: 97,
-                                            image: AssetImage(
-                                                "assets/images/bookdescarte.png"),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Center(
-                                          child: Container(
-                                            width: 40,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black26,
-                                                    offset: Offset(0.0, 2.0),
-                                                    blurRadius: 6.0,
-                                                  )
-                                                ],
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        100)),
-                                            child: OutlineButton(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                                borderSide: BorderSide(
-                                                    color: AppColors
-                                                        .secondaryBackground,
-                                                    width: 2),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(100)),
-                                                ),
-                                                child: Icon(
-                                                  Icons.edit,
-                                                  color: AppColors
-                                                      .secondaryBackground,
-                                                  size: 20,
-                                                ),
-                                                onPressed: () {}),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Container(
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      width: 50,
+                      margin: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 8,
+                          right: SizeConfig.blockSizeHorizontal * 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 141,
+                                margin: EdgeInsets.only(top: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
                                       width: 97,
                                       child: Stack(
                                         children: <Widget>[
@@ -231,8 +164,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                            Radius.circular(
-                                                                100)),
+                                                            Radius.circular(100)),
                                                   ),
                                                   child: Icon(
                                                     Icons.edit,
@@ -246,499 +178,595 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: 97,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image(
-                                            height: 141,
-                                            width: 97,
-                                            image: AssetImage(
-                                                "assets/images/bookdescarte.png"),
-                                            fit: BoxFit.cover,
-                                          ),
+                                    Center(
+                                      child: Container(
+                                        width: 97,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image(
+                                                height: 141,
+                                                width: 97,
+                                                image: AssetImage(
+                                                    "assets/images/bookdescarte.png"),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black26,
+                                                        offset: Offset(0.0, 2.0),
+                                                        blurRadius: 6.0,
+                                                      )
+                                                    ],
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        new BorderRadius.circular(
+                                                            100)),
+                                                child: OutlineButton(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                    borderSide: BorderSide(
+                                                        color: AppColors
+                                                            .secondaryBackground,
+                                                        width: 2),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  100)),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.edit,
+                                                      color: AppColors
+                                                          .secondaryBackground,
+                                                      size: 20,
+                                                    ),
+                                                    onPressed: () {}),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Center(
-                                          child: Container(
-                                            width: 40,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black26,
-                                                    offset: Offset(0.0, 2.0),
-                                                    blurRadius: 6.0,
-                                                  )
-                                                ],
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        100)),
-                                            child: OutlineButton(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                                borderSide: BorderSide(
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 97,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image(
+                                              height: 141,
+                                              width: 97,
+                                              image: AssetImage(
+                                                  "assets/images/bookdescarte.png"),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              width: 40,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black26,
+                                                      offset: Offset(0.0, 2.0),
+                                                      blurRadius: 6.0,
+                                                    )
+                                                  ],
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          100)),
+                                              child: OutlineButton(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  borderSide: BorderSide(
+                                                      color: AppColors
+                                                          .secondaryBackground,
+                                                      width: 2),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(100)),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.edit,
                                                     color: AppColors
                                                         .secondaryBackground,
-                                                    width: 2),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(100)),
-                                                ),
-                                                child: Icon(
-                                                  Icons.edit,
-                                                  color: AppColors
-                                                      .secondaryBackground,
-                                                  size: 20,
-                                                ),
-                                                onPressed: () {}),
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () {}),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 30),
-                          child: Text(
-                            "Completa los datos \ndel libro",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w900,
-                              fontSize: 26,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "Asegúrate de escribir correctamente \nlos datos del libro que vallas a vender.",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 45,
-                                margin: EdgeInsets.only(top: 40),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: "NOMBRE",
-                                      contentPadding: EdgeInsets.only(top: 30),
-                                      border: InputBorder.none,
-                                    ),
-                                    controller: nombreTextController,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(180, 69, 79, 99),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 17,
-                                    ),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 1,
-                                    autocorrect: false,
-                                  ),
+                                  ],
                                 ),
-                              ),
-                              Container(
-                                color: Color.fromARGB(255, 69, 79, 99),
-                                height: 2,
-                              ),
-                              Container(
-                                height: 50,
-                                margin: EdgeInsets.only(top: 0),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: "AUTOR",
-                                      contentPadding: EdgeInsets.only(top: 30),
-                                      border: InputBorder.none,
-                                    ),
-                                    controller: autorTextController,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(180, 69, 79, 99),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 17,
-                                    ),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 1,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                color: Color.fromARGB(255, 69, 79, 99),
-                                height: 2,
-                              ),
-                              Container(
-                                height: 50,
-                                margin: EdgeInsets.only(top: 0),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: "EDITORIAL",
-                                      contentPadding: EdgeInsets.only(top: 30),
-                                      border: InputBorder.none,
-                                    ),
-                                    controller: editorialTextController,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(180, 69, 79, 99),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 17,
-                                    ),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 1,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                color: Color.fromARGB(255, 69, 79, 99),
-                                height: 2,
-                              ),
-                              Container(
-                                height: 50,
-                                margin: EdgeInsets.only(top: 0),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: "ISBN",
-                                      contentPadding: EdgeInsets.only(top: 30),
-                                      border: InputBorder.none,
-                                    ),
-                                    controller: ISBNTextController,
-                                    style: TextStyle(
-                                      color: Color.fromARGB(180, 69, 79, 99),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 17,
-                                    ),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 1,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                color: Color.fromARGB(255, 69, 79, 99),
-                                height: 2,
                               ),
                             ],
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 40),
-                          child: Text(
-                            "Comenta sobre el \nlibro",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w900,
-                              fontSize: 26,
+                          Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Text(
+                              "Completa los datos \ndel libro",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w900,
+                                fontSize: 26,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "Escribe una breve descripción \ndel estado en el que se encuentra el libro a vender.",
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w400,
-                              fontSize: 11,
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Asegúrate de escribir correctamente \nlos datos del libro que vallas a vender.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          height: 205,
-                          margin: EdgeInsets.only(top: 20),
-                          child: ListView(
-                            children: <Widget>[
-                              Stack(
-                                children: <Widget>[
-                                  TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: "ESTADO",
-                                      border: InputBorder.none,
-                                    ),
-                                    controller: estadoTextController,
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 69, 79, 99),
+                          Container(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 45,
+                                  margin: EdgeInsets.only(top: 40),
+                                  child: Opacity(
+                                    opacity: 0.63,
+                                    child: TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: "NOMBRE",
+                                        contentPadding: EdgeInsets.only(top: 30),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: nombreTextController,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(180, 69, 79, 99),
                                         fontFamily: "Montserrat",
                                         fontWeight: FontWeight.w900,
-                                        fontSize: 20,
-                                        height: 2.1),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                    autocorrect: true,
+                                        fontSize: 17,
+                                      ),
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 1,
+                                      autocorrect: false,
+                                    ),
                                   ),
-                                  Center(
-                                    child: Column(
+                                ),
+                                Container(
+                                  color: Color.fromARGB(255, 69, 79, 99),
+                                  height: 2,
+                                ),
+                                Container(
+                                  height: 50,
+                                  margin: EdgeInsets.only(top: 0),
+                                  child: Opacity(
+                                    opacity: 0.63,
+                                    child: TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: "AUTOR",
+                                        contentPadding: EdgeInsets.only(top: 30),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: autorTextController,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(180, 69, 79, 99),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 17,
+                                      ),
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 1,
+                                      autocorrect: false,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  color: Color.fromARGB(255, 69, 79, 99),
+                                  height: 2,
+                                ),
+                                Container(
+                                  height: 50,
+                                  margin: EdgeInsets.only(top: 0),
+                                  child: Opacity(
+                                    opacity: 0.63,
+                                    child: TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: "EDITORIAL",
+                                        contentPadding: EdgeInsets.only(top: 30),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: editorialTextController,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(180, 69, 79, 99),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 17,
+                                      ),
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 1,
+                                      autocorrect: false,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  color: Color.fromARGB(255, 69, 79, 99),
+                                  height: 2,
+                                ),
+                                Container(
+                                  height: 50,
+                                  margin: EdgeInsets.only(top: 0),
+                                  child: Opacity(
+                                    opacity: 0.63,
+                                    child: TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: "ISBN",
+                                        contentPadding: EdgeInsets.only(top: 30),
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: ISBNTextController,
+                                      style: TextStyle(
+                                        color: Color.fromARGB(180, 69, 79, 99),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 17,
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      maxLines: 1,
+                                      autocorrect: false,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  color: Color.fromARGB(255, 69, 79, 99),
+                                  height: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 40),
+                            child: Text(
+                              "Comenta sobre el \nlibro",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w900,
+                                fontSize: 26,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Escribe una breve descripción \ndel descripcion en el que se encuentra el libro a vender.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 205,
+                            margin: EdgeInsets.only(top: 20),
+                            child: ListView(
+                              children: <Widget>[
+                                Stack(
+                                  children: <Widget>[
+                                    TextField(
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: "descripcion",
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: descripcionTextController,
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 69, 79, 99),
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20,
+                                          height: 2.1),
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: null,
+                                      autocorrect: true,
+                                    ),
+                                    Center(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 50),
+                                          ),
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 40),
+                                          ),
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 40),
+                                          ),
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 40),
+                                          ),
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 40),
+                                          ),
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 40),
+                                          ),
+                                          Container(
+                                            color:
+                                                Color.fromARGB(255, 69, 79, 99),
+                                            height: 2,
+                                            margin: EdgeInsets.only(top: 40),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            //CHECKBOX ES NUEVO
+                            margin: EdgeInsets.only(left: 6, right: 4, top: 15),
+                            child: CheckboxListTile(
+                              title: const Text(
+                                'Dale "tick" si es que el libro es nuevo',
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  color: Color.fromARGB(180, 69, 79, 99),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              value: _isSelected,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  _isSelected = newValue;
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            margin: EdgeInsets.only(top: 30),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "ESTE LIBRO SE PUBLICARA...",
+                              style: TextStyle(
+                                color: Color.fromARGB(180, 69, 79, 99),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w900,
+                                fontSize: 17,
+                                letterSpacing: -0.41786,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            //CHECKBOX SOLO DE PULICARA EL LIBRO DENTRO...
+                            margin: EdgeInsets.only(top: 15),
+                            padding: EdgeInsets.only(left: 0),
+                            child: CheckboxListTile(
+                              title: const Text(
+                                'Solo se publicara el libro dentro del colegio predeterminado.',
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  color: Color.fromARGB(180, 69, 79, 99),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              value: _isMarcked,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  _isMarcked = newValue;
+                                  _isTicked = false;
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 10,
+                            ),
+                            child: CheckboxListTile(
+                              title: const Text(
+                                'Se publicara en  todos los colegios.',
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  color: Color.fromARGB(180, 69, 79, 99),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              value: _isTicked,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  _isTicked = newValue;
+                                  _isMarcked = false;
+                                });
+                              },
+                            ),
+                          ),
+                          Center(
+                            child: Container(
+                                width: 215,
+                                height: 100,
+                                margin:
+                                    EdgeInsets.only(left: 4, right: 4, top: 20),
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.attach_money,
+                                      size: 60.0,
+                                      color: Color.fromARGB(255, 112, 112, 112),
+                                    ),
+                                    Stack(
                                       children: <Widget>[
                                         Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 50),
+                                          height: 80,
+                                          width:
+                                              SizeConfig.blockSizeHorizontal * 35,
+                                          child: TextField(
+                                            controller: precioTextController,
+                                            textAlign: TextAlign.center,
+                                            decoration: InputDecoration(
+                                              hintText: "PRECIO",
+                                              hintStyle: TextStyle(
+                                                color:
+                                                    Color.fromARGB(20, 0, 0, 0),
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.only(top: 20),
+                                              border: InputBorder.none,
+                                            ),
+                                            style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 112, 112, 112),
+                                              fontFamily: "Montserrat",
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 30,
+                                            ),
+                                            keyboardType: TextInputType.number,
+                                          ),
                                         ),
-                                        Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 40),
-                                        ),
-                                        Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 40),
-                                        ),
-                                        Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 40),
-                                        ),
-                                        Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 40),
-                                        ),
-                                        Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 40),
-                                        ),
-                                        Container(
-                                          color:
-                                              Color.fromARGB(255, 69, 79, 99),
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: 40),
+                                        Positioned(
+                                          bottom: 10,
+                                          child: Container(
+                                            color: Color.fromARGB(
+                                                105, 112, 112, 112),
+                                            height: 2,
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    35,
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  )
-                                ],
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 44,
+                      margin: EdgeInsets.only(
+                          bottom: 20,
+                          top: 30,
+                          left: SizeConfig.blockSizeHorizontal * 65),
+                      child: FlatButton(
+                          color: AppColors.secondaryElement,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          textColor: Color.fromARGB(255, 255, 255, 255),
+                          padding: EdgeInsets.all(0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/icons-back-light-2.png",
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Siguiente",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.secondaryText,
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        Container(
-                          //CHECKBOX ES NUEVO
-                          margin: EdgeInsets.only(left: 6, right: 4, top: 15),
-                          child: CheckboxListTile(
-                            title: const Text(
-                              'Dale "tick" si es que el libro es nuevo',
-                              style: TextStyle(
-                                fontFamily: "Montserrat",
-                                color: Color.fromARGB(180, 69, 79, 99),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                            value: _isSelected,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                _isSelected = newValue;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          height: 50,
-                          margin: EdgeInsets.only(top: 30),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "ESTE LIBRO SE PUBLICARA...",
-                            style: TextStyle(
-                              color: Color.fromARGB(180, 69, 79, 99),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w900,
-                              fontSize: 17,
-                              letterSpacing: -0.41786,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          //CHECKBOX SOLO DE PULICARA EL LIBRO DENTRO...
-                          margin: EdgeInsets.only(top: 15),
-                          padding: EdgeInsets.only(left: 0),
-                          child: CheckboxListTile(
-                            title: const Text(
-                              'Solo se publicara el libro dentro del colegio predeterminado.',
-                              style: TextStyle(
-                                fontFamily: "Montserrat",
-                                color: Color.fromARGB(180, 69, 79, 99),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                            value: _isMarcked,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                _isMarcked = newValue;
-                                _isTicked = false;
-                              });
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: CheckboxListTile(
-                            title: const Text(
-                              'Se publicara en  todos los colegios.',
-                              style: TextStyle(
-                                fontFamily: "Montserrat",
-                                color: Color.fromARGB(180, 69, 79, 99),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                            value: _isTicked,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                _isTicked = newValue;
-                                _isMarcked = false;
-                              });
-                            },
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                              width: 215,
-                              height: 100,
-                              margin:
-                                  EdgeInsets.only(left: 4, right: 4, top: 20),
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.attach_money,
-                                    size: 60.0,
-                                    color: Color.fromARGB(255, 112, 112, 112),
-                                  ),
-                                  Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 80,
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 35,
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            hintText: "PRECIO",
-                                            hintStyle: TextStyle(
-                                              color:
-                                                  Color.fromARGB(20, 0, 0, 0),
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.only(top: 20),
-                                            border: InputBorder.none,
-                                          ),
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 112, 112, 112),
-                                            fontFamily: "Montserrat",
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 30,
-                                          ),
-                                          keyboardType: TextInputType.number,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 10,
-                                        child: Container(
-                                          color: Color.fromARGB(
-                                              105, 112, 112, 112),
-                                          height: 2,
-                                          width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  35,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ],
+                          onPressed: () => _siguienteBtn()),
                     ),
-                  ),
-                  Container(
-                    height: 44,
-                    margin: EdgeInsets.only(
-                        bottom: 20,
-                        top: 30,
-                        left: SizeConfig.blockSizeHorizontal * 65),
-                    child: FlatButton(
-                        color: AppColors.secondaryElement,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        textColor: Color.fromARGB(255, 255, 255, 255),
-                        padding: EdgeInsets.all(0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/images/icons-back-light-2.png",
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Siguiente",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.secondaryText,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () => _siguienteBtn()),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
       ),
-    ));
+    ),
+        ));
+  }
+
+  _siguienteBtn() {
+    String nombreLibro = nombreTextController.text;
+    String autor = autorTextController.text;
+    String editorial = editorialTextController.text;
+    String ISBN = ISBNTextController.text;
+    String descripcion = descripcionTextController.text;
+    String precio = precioTextController.text;
+
+    if (nombreLibro == null ||
+        nombreLibro.isEmpty ||
+        autor == null ||
+        autor.isEmpty ||
+        descripcion == null ||
+        descripcion.isEmpty ||
+        precio == null ||
+        precio.isEmpty ||
+        (_isMarcked == false && _isTicked == false)) {
+      //TODO agregar dialog con el error
+      showErrorDialog(context, "Para continuar debes completar todos los campos");
+      print("falta completar algun campo");
+      return null;
+    }
+    widget.book.nombreLibro = nombreLibro;
+    widget.book.autor = autor;
+    widget.book.descripcion = descripcion;
+    widget.book.precio = num.parse(precio);
+    widget.book.publico = _isTicked;
+    if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
+    if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
+    print("todos los campos estan completos");
+    BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
+//    uploadBook().then((smt) => Navigator.push(
+//      context,
+//      MaterialPageRoute(builder: (context) => MyBooksView()),
+//    ));
   }
 
   Future uploadBook() async {
@@ -799,4 +827,12 @@ class _DatosLibrosState extends State<DatosLibros> {
         .then((value) => print("se mando bien la info a firebase" ))
         .catchError((err) => print("HUBO UN ERROR 2"));
   }
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

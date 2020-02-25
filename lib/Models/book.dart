@@ -3,17 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:flutterui/Models/User.dart';
+
 class Book {
-  String nombre,
-      apellido,
+  String nombreVendedor,
+      apellidoVendedor,
       autor,
-      categoria,
+      categoria = "Libros",
       editorial,
       emailVendedor,
-      estado,
+      descripcion,
       nombreLibro,
-      imageVendedor,
-      isbn;
+      imageVendedor;
   List<dynamic> colegios = [];
   List<dynamic> cursos = [];
   List<File> imagesRaw = [];
@@ -22,16 +23,17 @@ class Book {
   List<dynamic> thumbImagesUrl = [];
   List<CachedNetworkImage> thumbImages = [];
   List<String> materias = [];
-  bool vendido, infoCompleta, disponibleTodosColegios;
-  String precio;
+  List<String> indexes = [];
+  bool vendido, publico;
+  int precio,isbn;
   num rating;
 
   Book();
 
   Book.fromDocumentSnapshot(DocumentSnapshot doc) {
-    this.nombre = doc[
+    this.nombreVendedor = doc[
         'nombre']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
-    this.apellido = doc['apellido'];
+    this.apellidoVendedor = doc['apellido'];
     this.autor = doc['autor'];
     this.categoria = doc['categoria'];
     this.editorial = doc['editorial'];
@@ -41,14 +43,13 @@ class Book {
     this.imageVendedor = doc['user image'];
     this.colegios = doc['colegios'];
     this.cursos = doc['cursos'];
-    this.imagesUrl = doc['images url'];
-    this.thumbImagesUrl = doc['thumbs url'];
+    this.imagesUrl = doc['imagesUrl'];
+    this.thumbImagesUrl = doc['thumbsUrl'];
     this.vendido = doc['vendido'];
-    this.infoCompleta = doc['infoCompleta'];
-    this.disponibleTodosColegios = doc['disponibles para todos los colegios'];
+    this.publico = doc['publico'];
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
-    this.estado = doc['estado'];
+    this.descripcion = doc['estado'];
     imagesUrl.forEach((element) {
       images.add(CachedNetworkImage(
         imageUrl: element,
@@ -65,19 +66,51 @@ class Book {
 
   @override
   String toString() {
-    return 'Book{nombre: $nombre, apellido: $apellido, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, estado: $estado, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $images, thumbImages: $thumbImages, vendido: $vendido, infoCompleta: $infoCompleta, disponibleTodosColegios: $disponibleTodosColegios, precio: $precio, isbn: $isbn}';
+    return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $images, thumbImages: $thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';
   }
 
   List<dynamic> getImages() {
     return null;
   }
 
-  Map<String,dynamic > toMap() {
-    Map<String,dynamic> bookMap = Map();
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> bookMap = Map();
+    bookMap['nombreVendedor'] = nombreVendedor;
+    bookMap['apellidoVendedor'] = apellidoVendedor;
+    bookMap['emailVendedor'] = emailVendedor;
+    bookMap['imageVendedor'] = imageVendedor;
+    bookMap['vendido'] = vendido;
+    bookMap['publico'] = publico;
+    bookMap['precio'] = precio;
     bookMap['nombreLibro'] = nombreLibro;
-    bookMap['estado'] = estado;
-    bookMap['images'] = imagesUrl;
+    bookMap['autor'] = autor;
+    if(editorial != null) bookMap['editorial'] = editorial;
+    bookMap['descripcion'] = descripcion;
+    bookMap['categoria'] = categoria;
+    bookMap['materias'] = materias;
+    bookMap['colegios'] = colegios;
+    bookMap['cursos'] = cursos;
+    //bookMap['indexes'] = indexes;
+    bookMap['imagesUrl'] = imagesUrl;
+    if( thumbImagesUrl != null && thumbImagesUrl.length != 0){
+     // bookMap['thumbsUrl'] = thumbImagesUrl;
+    }
+    if (isbn != null) {
+      bookMap['isbn'] = isbn;
+    }
+    if(rating != null){
+      bookMap['rating'] = rating;
+    }
+
     return bookMap;
+  }
+
+  addUserInformation(User user){
+    this.nombreVendedor = user.nombre;
+    this.apellidoVendedor = user.apellido;
+    this.emailVendedor = user.email;
+    this.imageVendedor = user.fotoPerfilUrl;
+    this.colegios = user.getColegios();
   }
 }
 

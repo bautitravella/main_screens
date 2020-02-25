@@ -38,13 +38,14 @@ class App extends StatelessWidget {
               ),
             ],
             child: MaterialApp(
-                home: MyDecider(),
+                //home: MyDecider(),
                 theme: ThemeData(
                   accentColor:AppColors.secondaryBackground,
                 ),
                 routes: <String, WidgetBuilder> {
                   '/home': (BuildContext context) => HomeHub(),
                   '/logOut': (BuildContext context) => FirstscreenWidget(),
+                  '/': (BuildContext context) => MyDecider(),
                 }
             ),
           ),

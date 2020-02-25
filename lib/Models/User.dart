@@ -22,7 +22,7 @@ class User extends Equatable{
   User.fromMap(Map<String, dynamic> data,String email) {
     String nombre = data['nombre'];
     String apellido = data['apellido'];
-    String fotoPerfil = data['foto de perfil'];
+    String fotoPerfil = data['fotoPerfilUrl'];
     bool hasAcceptedTerms = data['hasAcceptedTerms'];
     this.email = email;
     this.nombre = nombre;
@@ -49,6 +49,16 @@ class User extends Equatable{
     userMap['hasAcceptedTerms']= hasAcceptedTerms;
     return userMap;
   }
+
+  List<String> getColegios(){
+    return null;
+  }
+
+  List<String> getCursos(){
+    return null;
+  }
+
+
 
   @override
   List<Object> get props => [nombre,apellido,fotoPerfilUrl,hasAcceptedTerms];

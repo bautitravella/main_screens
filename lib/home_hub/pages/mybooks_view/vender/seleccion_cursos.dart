@@ -3,6 +3,7 @@ import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_materia.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 class SeleccionCursos extends StatefulWidget {
 
@@ -231,14 +232,17 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
         MaterialPageRoute(
             builder: (context) => SeleccionMateria(widget.book)),
       );
+    }else {
+      showErrorDialog(
+          context, "Debes seleccionar al menos un curso para poder continuar");
     }
-    //TODO agregar un dialog que diaga que es necesario seleccionar un curso
-
-
   }
 }
 
-//void main() {
-//  runApp(new MaterialApp(
-//      home: new SeleccionCursos(), debugShowCheckedModeBanner: false));
-//}
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
+}

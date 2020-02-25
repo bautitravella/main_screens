@@ -7,6 +7,8 @@ import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
+
 
 class CursoPadreWidget extends StatefulWidget {
   Padre user;
@@ -17,8 +19,7 @@ class CursoPadreWidget extends StatefulWidget {
 }
 
 class _CursoPadreWidgetState extends State<CursoPadreWidget> {
-  void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
+
 
   List<DropdownMenuItem> items = [];
   List<ChildField> hijos = [];
@@ -320,8 +321,8 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
         errorMessageIndividual +=  genericErrorMessage + " tiene campos que estan incompletos.";
         genericErrorMessage = errorMessageIndividual;
       }
-      print("ERROR MESSAGE : " + genericErrorMessage);
-      //------------------------------Mostrar el dialog con el texto que este en genericErrorMessage
+      //print("ERROR MESSAGE : " + genericErrorMessage);
+      showErrorDialog(context, genericErrorMessage);
 
     }else{
       hijos.forEach((element) {widget.user.agregarHijo(element.toHijo());});
@@ -536,4 +537,12 @@ class _ChildFieldState extends State<ChildField> {
       ),
     );
   }
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

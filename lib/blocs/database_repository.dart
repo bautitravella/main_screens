@@ -2,6 +2,7 @@ import 'dart:async';
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 
@@ -18,7 +19,7 @@ abstract class DatabaseRepository {
   Stream<User> getUserInfo(String email);
 
   //BOOKS
-  Future<void> addNewBook(Book book);
+  Future<void> addNewBook(Book book, User user);
 
   Future<void> deleteBook(Book book);
 
@@ -37,8 +38,42 @@ class FirebaseRepository extends DatabaseRepository{
   final booksReference = Firestore.instance.collection("Publicaciones");
 
   @override
-  Future<void> addNewBook(Book book) {
-    return booksReference.document().setData(book.toMap());
+  Future<void> addNewBook(Book book, User user) async {
+    Future<void> returnFuture;
+
+    book.addUserInformation(user);
+    uploadBookImages(book).then((urlList)  {
+      urlList.forEach((url) {
+        book.imagesUrl.add(url);
+      });
+         return returnFuture =  booksReference.document("pruebetaaa").setData(book.toMap());
+
+    });
+
+  }
+
+  Future<List<String>> uploadBookImages(Book book) async {
+    List<String> urlList = [];
+    for(int i = 0; i< book.imagesRaw.length -1; i++){
+      urlList.add(await uploadBookImage(i,book));
+    }
+    return urlList;
+  }
+
+  Future uploadBookImage(int i, Book book) async {
+    StorageReference ref =
+    FirebaseStorage.instance.ref().child("publicaciones_images2/foto" + i.toString() + ".jpg");
+    StorageUploadTask uploadTask = ref.putFile(book.imagesRaw[i]);
+    print(
+        "---------------------------------------------------------Arranca la transferencia");
+
+    String downloadUrl =
+    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    print(
+        "---------------------------------------------------------Termina la Transferencia");
+
+    print("DOWNLOAD URL  1: " + downloadUrl);
+    return downloadUrl;
   }
 
   @override

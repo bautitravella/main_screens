@@ -11,6 +11,7 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
   StreamSubscription _booksStreamSubscription;
   StreamSubscription _userStreamSubscription;
   bool isUserDownloaded = false;
+  bool timeouted = false;
 
   BooksBloc(this.databaseRepository, this.userBloc){
     _userStreamSubscription = userBloc.listen((state) { 
@@ -59,9 +60,26 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
   Stream<BooksBlocState> _mapAddBookToState(AddBook event) async* {
     try {
       yield UploadingBook();
-      final nothing = await databaseRepository.addNewBook(event.book);
-      yield UploadedBook(nothing);
+      UserBlocState userBlocState = userBloc.state;
+      if(userBlocState is UserLoadedState){
+        User user = userBlocState.user;
+        final nothing = await databaseRepository.addNewBook(event.book,user).timeout(Duration(seconds: 10),onTimeout: smt);
+        if(!timeouted){
+          yield UploadedBook(nothing);
+        }else{
+          print('ES ACA1');
+          yield ErrorUploadingBook("Hubo algun problema subiendo el libro");
+          timeouted = false;
+        }
+
+
+      }else{
+        print('ES ACA2');
+        yield ErrorUploadingBook("NO user information");
+      }
+
     }catch(e){
+      print('ES ACA3.Error = ${e.toString()}');
       yield ErrorUploadingBook(e.toString());
     }
   }
@@ -74,6 +92,14 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
 
   Stream<BooksBlocState> _mapUserUpdatedToState(User user) {
     databaseRepository.reFilterBooks(user);
+  }
+
+   smt() {
+    timeouted = true;
+  }
+
+  Stream<BooksBlocState> smt2() async*{
+    yield UploadedBook("hola");
   }
 
 

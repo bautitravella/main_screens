@@ -10,10 +10,7 @@ class ElijeUnRolWidget extends StatelessWidget {
 
   String email;
   ElijeUnRolWidget(this.email);
-  void onLogoPressed(BuildContext context) {}
-  void onButtonPressed(BuildContext context) {}
-  void onRectangle648Pressed(BuildContext context) {}
-  void onRectangle649Pressed(BuildContext context) {}
+
 
   @override
   Widget build(BuildContext context) {

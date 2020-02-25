@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/datos_widget.dart';
@@ -10,10 +10,8 @@ import 'package:image_picker_modern/image_picker_modern.dart';
 
 
 class SubiFotoPerfilWidget extends StatefulWidget {
-  void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
 
-  _SubiFotoPerfilWidgetState createState() => _SubiFotoPerfilWidgetState(user);
+  _SubiFotoPerfilWidgetState createState() => _SubiFotoPerfilWidgetState();
 
   User user;
 
@@ -23,9 +21,6 @@ class SubiFotoPerfilWidget extends StatefulWidget {
 
 class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   File _image;
-  User user;
-
-  _SubiFotoPerfilWidgetState(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -262,11 +257,11 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
   siguienteBtn(BuildContext context) {
     if(_image != null){
-      user.fotoPerfil = _image;
+      widget.user.fotoPerfil = _image;
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DatosWidget(user)));
+          context, MaterialPageRoute(builder: (context) => DatosWidget(widget.user)));
     }else{
-      //Mostrar un mensaje de error
+      showErrorDialog(context, "Debe seleccionar una imagen para poder continuar");
     }
 
   }
@@ -295,4 +290,10 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
     getImage().then((anything) => _cropImage());
 
   }
+}
+
+
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

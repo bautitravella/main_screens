@@ -9,6 +9,7 @@ import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 
 class CursoAlumnoWidget extends StatefulWidget {
@@ -20,9 +21,6 @@ class CursoAlumnoWidget extends StatefulWidget {
 }
 class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
 
-
-  void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
 
   List<DropdownMenuItem> items = [];
   String colegioSelectedValue,cursoSelectedValue;
@@ -293,7 +291,9 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(widget.user)));
     }else{
-      print("ERROR MESSAGE: ");
+      //print("ERROR MESSAGE: ");
+      showErrorDialog(context, "Debes seleccionar el colegio y curso al que perteneces para poder continuar.");
+
     }
 
       //Mostrar un mensaje de error
@@ -308,4 +308,12 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
       //pasar a la siguiente pantalla
 //  }
 //}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
+}
 
