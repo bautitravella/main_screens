@@ -42,27 +42,33 @@ class FirebaseRepository extends DatabaseRepository{
     Future<void> returnFuture;
 
     book.addUserInformation(user);
-    uploadBookImages(book).then((urlList)  {
-      urlList.forEach((url) {
-        book.imagesUrl.add(url);
-      });
-         return returnFuture =  booksReference.document("pruebetaaa").setData(book.toMap());
+    book.vendido = false;
+    DocumentReference documentReference = booksReference.document();
 
+    documentReference.setData(book.toMap()).then((doc) => {
+      uploadBookImages(book,documentReference.documentID).then((urlList)  {
+    urlList.forEach((url) {
+    book.imagesUrl.add(url);
     });
+    return returnFuture =  booksReference.document(documentReference.documentID).setData(book.toMap());
+
+    }),
+    });
+
 
   }
 
-  Future<List<String>> uploadBookImages(Book book) async {
+  Future<List<String>> uploadBookImages(Book book,String uid) async {
     List<String> urlList = [];
     for(int i = 0; i< book.imagesRaw.length -1; i++){
-      urlList.add(await uploadBookImage(i,book));
+      urlList.add(await uploadBookImage(i,book,uid));
     }
     return urlList;
   }
 
-  Future uploadBookImage(int i, Book book) async {
+  Future uploadBookImage(int i, Book book,String uid) async {
     StorageReference ref =
-    FirebaseStorage.instance.ref().child("publicaciones_images2/foto" + i.toString() + ".jpg");
+    FirebaseStorage.instance.ref().child("publicaciones_images2/" + uid + i.toString() + ".jpg");
     StorageUploadTask uploadTask = ref.putFile(book.imagesRaw[i]);
     print(
         "---------------------------------------------------------Arranca la transferencia");

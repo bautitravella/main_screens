@@ -39,7 +39,7 @@ class Book {
     this.editorial = doc['editorial'];
     this.emailVendedor = doc['emailVendedor'];
     this.nombreLibro = doc[
-        'nombre del libro']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreLibro
+        'nombreLibro']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreLibro
     this.imageVendedor = doc['user image'];
     this.colegios = doc['colegios'];
     this.cursos = doc['cursos'];

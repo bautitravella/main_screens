@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
@@ -44,7 +45,7 @@ class _DatosLibrosState extends State<DatosLibros> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocListener<BooksBloc,BooksBlocState>(
-           listener: (BuildContext context,state) {
+           listener: (BuildContext context,state) async {
              print("STATE HAS CHANGED. STATE = ${state.toString()}");
              if(state is UploadingBook){
                showLoadingDialog(context);
@@ -52,7 +53,13 @@ class _DatosLibrosState extends State<DatosLibros> {
                Navigator.of(context).pop();
                showErrorDialog(context, "Ha habido un error cargando el libro a nuestra base de datos. ${state.errorMessage}");
              }else if(state is UploadedBook){
-               Navigator.popUntil(context, ModalRoute.withName('/home'),);
+//               await Future.delayed(const Duration(milliseconds: 100));
+//               Navigator.of(context).popUntil( ModalRoute.withName('/home'),);
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(
+                     builder: (context) => HomeHub()),
+               );
              }
 
              },
