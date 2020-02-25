@@ -271,20 +271,16 @@ class _MiPerfilState extends State<MiPerfil> {
                                   children: <Widget>[
                                     Container(
                                       height: 24,
-                                      margin:
-                                          EdgeInsets.only(left: 10, top: 10),
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 60,
+                                      margin: EdgeInsets.only(left: 10, top: 10),
+                                      width: SizeConfig.blockSizeHorizontal * 60,
                                       child: TextField(
                                         decoration: InputDecoration(
-                                          hintText:
-                                              "Confirmar contraseña actual",
+                                          hintText: "Confirmar contraseña actual",
                                           alignLabelWithHint: true,
                                           border: InputBorder.none,
                                         ),
                                         style: TextStyle(
-                                          color: Color.fromARGB(
-                                              255, 120, 120, 120),
+                                          color: Color.fromARGB(255, 120, 120, 120),
                                           fontFamily: "Sf-r",
                                           fontWeight: FontWeight.w800,
                                           fontSize: 14,

@@ -3,7 +3,6 @@ import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
-import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/values/colors.dart';
@@ -14,13 +13,13 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 
-class HomeViewTres extends StatefulWidget {
-  HomeViewTres({Key key}) : super(key: key);
+class SearchWidget extends StatefulWidget {
+  SearchWidget({Key key}) : super(key: key);
   @override
-  _HomeViewTresState createState() => _HomeViewTresState();
+  _SearchWidgetState createState() => _SearchWidgetState();
 }
 
-class _HomeViewTresState extends State<HomeViewTres> {
+class _SearchWidgetState extends State<SearchWidget> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
@@ -142,65 +141,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ],
           ),
-          Container(
-            height: 143,
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: <Widget>[
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      width: 138,
-                      height: 143,
-                      child: Image.asset(
-                        "assets/images/round-underpic-shade.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: SizeConfig.blockSizeHorizontal * 4,
-                  top: SizeConfig.blockSizeVertical * 5,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MiPerfil(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 55,
-                      width: 55,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2, //
-                          ),
-                          borderRadius: new BorderRadius.circular(100)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Hero(
-                          tag: 'avatar',
-                          child: Image.asset(
-                            "assets/images/avatar.png",
-                            fit: BoxFit.fill,
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -230,17 +170,63 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
             Positioned(
-              top: SizeConfig.blockSizeVertical * 12,
-              left: 28,
+              top: SizeConfig.blockSizeVertical*6,
+              width: SizeConfig.blockSizeHorizontal*100,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      height: 31,
-                      child: Image.asset(
-                        "assets/images/buymy-whitelogo-dos.png",
-                        fit: BoxFit.fitHeight,
-                      )),
+                    height: 50,
+                    margin: EdgeInsets.only(right: 18, left: 18),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 211, 96),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 18, color: Colors.white, onPressed: () => Navigator.pop(context)),
+                            Center(
+                              child: Container(
+                                height: 24,
+                                margin: EdgeInsets.only(left: 10, top: 20),
+                                width: SizeConfig.blockSizeHorizontal * 60,
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: "Buscar",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white54,
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 20,
+                                    ),
+                                    alignLabelWithHint: true,
+                                    border: InputBorder.none,
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "Sf-r",
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 20,
+                                  ),
+                                  maxLines: 1, //TODO resolver tema del overflow
+                                  keyboardType: TextInputType.emailAddress,
+                                  autocorrect: false,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(icon: Icon(Icons.search), iconSize: 25, color: Colors.white, onPressed: () => Navigator.pop(context)),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 8,
                   ),
@@ -324,28 +310,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
     return Stack(
       children: <Widget>[
         Positioned(
-          top: 0,
-          right: 25,
-          child: Row(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SearchWidget(),
-                  ),
-                );
-              },),
-              SizedBox(
-                width: 5,
-              ),
-              Icon(Icons.more_vert, color: Colors.white, size: 26)
-            ],
-          ),
-        ),
-        Positioned(
-          top: 45,
+          top: 15,
           left: 0,
           right: 0,
           bottom: 0,
