@@ -11,6 +11,7 @@ import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'dart:async';
 
 
@@ -72,7 +73,8 @@ class MyDecider extends StatelessWidget{
             return FirstscreenWidget();
           }
         }
-        return CircularProgressIndicator();
+        //errorDialog(context);
+       return CircularProgressIndicator();
       },
     );
   }
@@ -121,7 +123,7 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<UserBloc>(context).add(LoadUser("Santi"));
+    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
     return BlocBuilder<UserBloc,UserBlocState>(
       builder: (context, state) {
         if(state is UserLoadedState){
@@ -133,7 +135,7 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
         future: firestoreDocumentFuture,
         builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
         if(!snapshot.hasData){
-        return CircularProgressIndicator();
+          return CircularProgressIndicator();
         }else if(snapshot.data.exists){
 
         print(snapshot.data.data);
@@ -164,6 +166,10 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
   }
 
 
+}
+
+void errorDialog(BuildContext context){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: "me rompiste mucho las pelotas",));
 }
 
 

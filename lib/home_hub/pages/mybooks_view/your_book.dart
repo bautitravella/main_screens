@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart' as slideDialog;
+import 'package:flutterui/dialogs/dialogs.dart';
+
 
 class YourBook extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
@@ -881,7 +881,7 @@ class _YourBookState extends State<YourBook> {
   );
 
   void _showDialogEliminar() {
-    slideDialog.showSlideDialogGrande(
+    showSlideDialogGrande(
       context: context,
       child: CustomDialog(
         title: "¿Seguro que quiere eliminar este libro?",

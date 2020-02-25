@@ -709,31 +709,21 @@ class _BookSectionState extends State<BookSection> {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
+
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: book.thumbImages.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            margin: EdgeInsets.all(0),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                Positioned(
-                  child: Row(
-                    children: <Widget>[
-
-                      Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(right: 35),
-                        child: book.thumbImages[index]),
-
-                    ],
-                  ),
+            height: 180,
+            width: 123,
+            margin: EdgeInsets.only(right: 35),
+            padding: EdgeInsets.all(5),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                child:(book.thumbImages[index]),
                 ),
-              ],
-            ),
-          );
+            );
         },
       ),
     );

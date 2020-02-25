@@ -10,6 +10,7 @@ class Book2 {
   int rating;
   int price;
   int isbn;
+  bool favorite;
 
 
 
@@ -24,6 +25,7 @@ class Book2 {
     this.rating,
     this.price,
     this.isbn,
+    this.favorite
 
   });
 }
@@ -41,6 +43,7 @@ List<Book2> books2 = [
     price: 506,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
 
   ),
   Book2(
@@ -66,6 +69,7 @@ List<Book2> books2 = [
     price: 296,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
   Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
@@ -78,6 +82,7 @@ List<Book2> books2 = [
     price: 951,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
   Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
@@ -114,6 +119,7 @@ List<Book2> books2 = [
     price: 506,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
   Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
@@ -138,6 +144,7 @@ List<Book2> books2 = [
     price: 506,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
   Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',

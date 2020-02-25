@@ -8,11 +8,8 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
-import 'package:flutterui/dialog_widget/custom_dialog.dart';
-import 'package:flutterui/dialog_widget/error_dialog.dart';
-import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart'
-    as slideDialog;
 import 'dart:async';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 class DatosLibros extends StatefulWidget {
   Book book;
@@ -753,7 +750,7 @@ class _DatosLibrosState extends State<DatosLibros> {
             uploadBookInfo(),
           });
     } catch (error) {
-      slideDialog.showSlideDialogChico(
+      showSlideDialogChico(
           context: context,
           child: /*LoadingDialog()*/
               ErrorDialog(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterui/log_in/log_in_widget_buckup.dart';
 import 'package:flutterui/log_in/sign_up.dart';
-import 'package:flutterui/log_in/sign_up_widget_buckup.dart';
 import 'package:flutterui/values/values.dart';
 
 import 'log_in.dart';

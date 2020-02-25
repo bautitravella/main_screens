@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 import '../auth.dart';
 import '../main.dart';
@@ -28,8 +30,8 @@ class _LogInState extends State<LogIn> {
 
 
   void logInWithGoogleBtn(BuildContext context) async {
-    try{
-      final auth = Provider.of<BaseAuth>(context,listen: false);
+    try {
+      final auth = Provider.of<BaseAuth>(context, listen: false);
       String userUID = await auth.signInWithGoogle();
 
       print("Te logueaste con $userUID");
@@ -37,10 +39,17 @@ class _LogInState extends State<LogIn> {
         context,
         MaterialPageRoute(builder: (context) => MyDecider()),
       );
-    }catch(e){
+    } on PlatformException catch (e) {
       setState(() {
-        _errorText = "$e";
+        _errorText = "${e.message}";
       });
+      showErrorDialog(context, _errorText);
+    }catch (e){
+      setState(() {
+        _errorText = e.toString();
+      });
+
+      showErrorDialog(context, _errorText);
     }
 
 
@@ -49,14 +58,16 @@ class _LogInState extends State<LogIn> {
   void logInWithFacebookBtn(BuildContext context) {}
 
   bool validateEmailAndPassword() {
-    _email = emailController.text;
-    _password = passwordController.text;
+    _email = emailController.text.trim();
+    _password = passwordController.text.trim();
 
     if (_email.isEmpty) {
       setState(() {
         _errorText =
         'Por favor completar el campo de email antes de continuar. ';
       });
+      Navigator.pop(context);
+      showErrorDialog(context, _errorText);
       return false;
     }
     if (_password.isEmpty) {
@@ -64,12 +75,15 @@ class _LogInState extends State<LogIn> {
         _errorText +=
         'Por favor completar el campo de password antes de continuar. ';
       });
+      Navigator.pop(context);
+      showErrorDialog(context, _errorText);
       return false;
     }
     return true;
   }
 
   void _siguienteBtn(BuildContext context) async {
+    showLoadingDialog(context);
     _email = emailController.text;
     _password = passwordController.text;
 
@@ -90,6 +104,8 @@ class _LogInState extends State<LogIn> {
         setState(() {
           _errorText = '$error';
         });
+        Navigator.pop(context);
+        showErrorDialog(context, _errorText);
       }
     }
   }
@@ -403,6 +419,8 @@ class _LogInState extends State<LogIn> {
       ),
     );
   }
+
+
 }
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -419,5 +437,15 @@ Future<void> _handleSignIn() async {
     print(_googleSignIn.currentUser.email);
   } catch (error) {
     print(error);
+
   }
+}
+
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+  animatedPill: false);
 }

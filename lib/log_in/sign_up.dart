@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutterui/dialogs/dialogs.dart';
 import '../auth.dart';
 import '../main.dart';
 import '../size_config.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutterui/size_config.dart';
+import 'package:flutterui/values/colors.dart';
+
 
 class SignUp extends StatefulWidget {
   @override
@@ -27,8 +33,8 @@ class SignUpState extends State<SignUp>{
 
 
   void logInWithGoogleBtn(BuildContext context) async {
-    try{
-      final auth = Provider.of<BaseAuth>(context,listen: false);
+    try {
+      final auth = Provider.of<BaseAuth>(context, listen: false);
       String userUID = await auth.signInWithGoogle();
 
       print("Te logueaste con $userUID");
@@ -36,10 +42,17 @@ class SignUpState extends State<SignUp>{
         context,
         MaterialPageRoute(builder: (context) => MyDecider()),
       );
-    }catch(e){
+    } on PlatformException catch (e) {
       setState(() {
-        _errorText = "$e";
+        _errorText = "${e.message}";
       });
+      showErrorDialog(context, _errorText);
+    }catch (e){
+      setState(() {
+        _errorText = e.toString();
+      });
+
+      showErrorDialog(context, _errorText);
     }
 
 
@@ -57,6 +70,8 @@ class SignUpState extends State<SignUp>{
         _errorText =
         'Por favor completar el campo de email antes de continuar. ';
       });
+      Navigator.pop(context);
+      showErrorDialog(context, _errorText);
       return false;
     }
     if (_password.isEmpty) {
@@ -64,6 +79,8 @@ class SignUpState extends State<SignUp>{
         _errorText +=
         'Por favor completar el campo de password antes de continuar. ';
       });
+      Navigator.pop(context);
+      showErrorDialog(context, _errorText);
       return false;
     }
     if(_password != _passwordVerification){
@@ -71,13 +88,15 @@ class SignUpState extends State<SignUp>{
         _errorText += 'La password y la pasword de verificacion no coinciden';
       });
     }
+    Navigator.pop(context);
+    showErrorDialog(context, _errorText);
     return true;
   }
 
   void _siguienteBtn(BuildContext context) async {
-    _email = emailController.text;
-    _password = passwordController.text;
-
+    _email = emailController.text.trim();
+    _password = passwordController.text.trim();
+    showLoadingDialog(context);
     if (validateEmailAndPassword() == true) {
       try {
         final auth = Provider.of<BaseAuth>(context,listen: false);
@@ -87,19 +106,28 @@ class SignUpState extends State<SignUp>{
         setState(() {
           _errorText = 'signed in with : ${userUID})';
         });
-        auth.currentUser().then((msg) => print('MENSAJE: $msg'));
+        auth.currentUser();//.then((msg) => print('MENSAJE: $msg'));
         //Navigator.push(context,MaterialPageRoute(builder: (context) => VerificacionWidget()),);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyDecider()),
         );
-      } catch (error) {
+      }on PlatformException catch (e) {
         setState(() {
-          _errorText = '$error';
+          _errorText = "${e.message}";
         });
+        showErrorDialog(context, _errorText);
+      }catch (e){
+        setState(() {
+          _errorText = e.toString();
+        });
+
+        showErrorDialog(context, _errorText);
       }
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -436,4 +464,15 @@ class SignUpState extends State<SignUp>{
       ),
     );
   }
+
+
+}
+
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

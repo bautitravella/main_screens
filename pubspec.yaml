@@ -47,7 +47,9 @@ dev_dependencies:
   flutter_icons: ^1.0.0+1
   searchable_dropdown: ^1.1.0
   palette_generator: ^0.2.0
-
+  flutter_fadein: ^1.1.1
+  bottom_navy_bar: ^5.3.2
+  configurable_expansion_tile:
 
 
 

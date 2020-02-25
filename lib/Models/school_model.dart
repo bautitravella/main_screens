@@ -34,4 +34,34 @@ List<School> schools = [
     name: 'San Gregorio',
 
   ),
+  School(
+    id: 2,
+    imageUrl: 'assets/images/logocolegio-ntl.png',
+    name: 'Northlands',
+  ),
+  School(
+    id: 2,
+    imageUrl: 'assets/images/logocolegio-ntl.png',
+    name: 'Northlands',
+  ),
+  School(
+    id: 2,
+    imageUrl: 'assets/images/logocolegio-ntl.png',
+    name: 'Northlands',
+  ),
+  School(
+    id: 2,
+    imageUrl: 'assets/images/logocolegio-ntl.png',
+    name: 'Northlands',
+  ),
+  School(
+    id: 2,
+    imageUrl: 'assets/images/logocolegio-ntl.png',
+    name: 'Northlands',
+  ),
+  School(
+    id: 2,
+    imageUrl: 'assets/images/logocolegio-ntl.png',
+    name: 'Northlands',
+  ),
 ];
