@@ -36,6 +36,11 @@ class App extends StatelessWidget {
                   return BooksBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
                 },
               ),
+              BlocProvider<UserBooksBloc>(
+                create: (context) {
+                  return UserBooksBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+                },
+              ),
             ],
             child: MaterialApp(
                 //home: MyDecider(),

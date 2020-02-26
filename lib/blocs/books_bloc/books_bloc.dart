@@ -49,7 +49,7 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
 
   Stream<BooksBlocState> _mapLoadUserBooksToState(User user) {
     _booksStreamSubscription?.cancel();
-    _booksStreamSubscription = databaseRepository.getUserBooks(user).listen((books) {add(BooksLoaded(books)); });
+    _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(user).listen((books) {add(BooksLoaded(books)); });
   }
 
   Stream<BooksBlocState> _mapBooksLoadedToState(BooksLoaded booksLoaded) async*{
@@ -84,11 +84,7 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
     }
   }
 
-  @override
-  Future<void> close(){
-    _booksStreamSubscription?.cancel();
-    return super.close();
-  }
+
 
   Stream<BooksBlocState> _mapUserUpdatedToState(User user) {
     databaseRepository.reFilterBooks(user);
@@ -102,5 +98,9 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
     yield UploadedBook("hola");
   }
 
-
+  @override
+  Future<void> close(){
+    _booksStreamSubscription?.cancel();
+    return super.close();
+  }
 }

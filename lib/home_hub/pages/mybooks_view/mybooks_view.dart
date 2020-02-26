@@ -150,6 +150,9 @@ class MyBooksViewState extends State<MyBooksView> {
 }
 
 class GridViewPublicados extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

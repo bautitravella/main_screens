@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
@@ -7,6 +8,7 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SubirFotoLibro extends StatefulWidget {
 
@@ -272,12 +274,25 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
     File cropped = await ImageCropper.cropImage(
       sourcePath: _image[0].path,
       //ratioX: 1.0,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: CropAspectRatio(ratioX: 2, ratioY: 3),
     );
 
     setState(() {
       _image[0] = cropped ?? _image[0];
     });
+//    final directory = await getApplicationDocumentsDirectory();
+//    File croppedImage = await File(directory.path);
+//    var result = await FlutterImageCompress.compressAndGetFile(
+//      _image[0].path, croppedImage.path,
+//      quality: 1,
+//
+//    );
+//
+//
+//    setState(() {
+//      _image[0] = result;
+//    });
+
   }
 
   void selectImage() {

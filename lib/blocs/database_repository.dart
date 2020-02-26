@@ -29,7 +29,11 @@ abstract class DatabaseRepository {
 
   Future<void> reFilterBooks(User user) ;
 
+  Stream<List<Book>> getUserRecomendationBooks(User user);
+  
   Stream<List<Book>> getUserBooks(User user);
+
+  Future<void> reFilterUserBooks(User user);
 }
 
 class FirebaseRepository extends DatabaseRepository{
@@ -40,6 +44,23 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Future<void> addNewBook(Book book, User user) async {
     Future<void> returnFuture;
+
+    List<String> bookSplitList = book.nombreLibro.split(" ");
+
+    for (var value in book.autor.split(" ")) {
+      bookSplitList.add(value);
+    }
+
+    List<String> indexList = [];
+
+    for(int i = 0; i < bookSplitList.length ; i++){
+      for(int j = 1; j < bookSplitList[i].length + 1; j++){
+        indexList.add(bookSplitList[i].substring(0,j).toLowerCase());
+      }
+    }
+
+    book.indexes = indexList;
+
 
     book.addUserInformation(user);
     book.vendido = false;
@@ -110,12 +131,20 @@ class FirebaseRepository extends DatabaseRepository{
   }
 
   @override
-  Stream<List<Book>> getUserBooks(User user) {
+  Stream<List<Book>> getUserRecomendationBooks(User user) {
     print("GET USER BOOKS = $user");
     return booksReference.snapshots().map((snapshot) {
       print('DOCUMENTOS ================= ${snapshot.documents}');
       return snapshot.documents
-          .map((doc) => Book.fromDocumentSnapshot(doc)).toList();});
+          .map((doc) {
+            try {
+              return Book.fromDocumentSnapshot(doc);
+            }catch(e){
+              print(e);
+            }
+          })
+          .toList();
+    });
   }
 
 
@@ -153,6 +182,28 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Future<void> reFilterBooks(User user) {
     // TODO: implement reFilterBooks
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<Book>> getUserBooks(User user) {
+    return booksReference.where("emailVendedor",isEqualTo: user.email).snapshots().map((snapshot) {
+      print('USER BOOKS ================= ${snapshot.documents}');
+      return snapshot.documents
+          .map((doc) {
+        try {
+          return Book.fromDocumentSnapshot(doc);
+        }catch(e){
+          print(e);
+        }
+      })
+          .toList();
+    });
+  }
+
+  @override
+  Future<void> reFilterUserBooks(User user) {
+    // TODO: implement reFilterUserBooks
     throw UnimplementedError();
   }
 

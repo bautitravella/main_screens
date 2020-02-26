@@ -309,7 +309,7 @@ class _BookSectionState extends State<BookSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '${book.nombreVendedor + ' '+ book.apellidoVendedor}',
+                                      '${book.nombreVendedor + " " + book.apellidoVendedor}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 16,
@@ -481,7 +481,7 @@ class _BookSectionState extends State<BookSection> {
                                     ),
                                   ),
                                 ),
-                                Container(
+                                book.editorial !=null?Container(
                                   padding:
                                       const EdgeInsets.only(top: 0, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
@@ -495,7 +495,8 @@ class _BookSectionState extends State<BookSection> {
                                       color: Color.fromARGB(255, 118, 118, 118),
                                     ),
                                   ),
-                                ),
+                                ):
+                                Container(),
                               ],
                             ),
                             Row(
@@ -712,7 +713,7 @@ class _BookSectionState extends State<BookSection> {
 
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: book.thumbImages.length,
+        itemCount: book.images.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 180,
@@ -721,7 +722,7 @@ class _BookSectionState extends State<BookSection> {
             padding: EdgeInsets.all(5),
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                child:(book.thumbImages[index]),
+                child:(book.images[index]),
                 ),
             );
         },

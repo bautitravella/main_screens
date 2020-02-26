@@ -32,8 +32,8 @@ class Book {
 
   Book.fromDocumentSnapshot(DocumentSnapshot doc) {
     this.nombreVendedor = doc[
-        'nombre']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
-    this.apellidoVendedor = doc['apellido'];
+        'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
+    this.apellidoVendedor = doc['apellidoVendedor'];
     this.autor = doc['autor'];
     this.categoria = doc['categoria'];
     this.editorial = doc['editorial'];
@@ -44,12 +44,13 @@ class Book {
     this.colegios = doc['colegios'];
     this.cursos = doc['cursos'];
     this.imagesUrl = doc['imagesUrl'];
-    this.thumbImagesUrl = doc['thumbsUrl'];
+    //todo volver a habilitar los thumbs
+    if(doc['thumbsUrl'] != null ) this.thumbImagesUrl = doc['thumbsUrl'];
     this.vendido = doc['vendido'];
     this.publico = doc['publico'];
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
-    this.descripcion = doc['estado'];
+    this.descripcion = doc['descripcion'];
     imagesUrl.forEach((element) {
       images.add(CachedNetworkImage(
         imageUrl: element,
@@ -90,7 +91,7 @@ class Book {
     bookMap['materias'] = materias;
     bookMap['colegios'] = colegios;
     bookMap['cursos'] = cursos;
-    //bookMap['indexes'] = indexes;
+    if(indexes != null && indexes.length > 0) bookMap['indexes'] = indexes;
     bookMap['imagesUrl'] = imagesUrl;
     if( thumbImagesUrl != null && thumbImagesUrl.length != 0){
      // bookMap['thumbsUrl'] = thumbImagesUrl;
