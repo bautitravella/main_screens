@@ -21,6 +21,8 @@ class HomeViewTres extends StatefulWidget {
 }
 
 class _HomeViewTresState extends State<HomeViewTres> {
+  PanelController _pc = new PanelController();
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
@@ -29,45 +31,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
           Container(
             color: AppColors.secondaryBackground,
             height: SizeConfig.blockSizeVertical * 100,
-            /*child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                  left: 0,
-                  top: SizeConfig.blockSizeVertical * 15,
-                  right: 0,
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Container(
-                      height: SizeConfig.blockSizeVertical * 45,
-                      child: Image.asset(
-                        "assets/images/destacados-image.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 12,
-                  left: 28,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          height: 31,
-                          child: Image.asset(
-                            "assets/images/buymy-whitelogo-dos.png",
-                            fit: BoxFit.fitHeight,
-                          )),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 8,
-                      ),
-                      categoryScroll(context),
-                    ],
-                  ),
-                ),
-              ],
-            ),*/
           ),
           Column(
             children: <Widget>[
@@ -119,15 +82,16 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         ),
                       ],
                     ),),*/
+                    controller: _pc,
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 85,
+                    maxHeight: SizeConfig.blockSizeVertical * 86,
                     minHeight: SizeConfig.blockSizeVertical * 53,
                     color: Colors.transparent,
                     backdropEnabled: true,
                     backdropColor: AppColors.secondaryBackground,
                     body: _upperBody(),
                     parallaxEnabled: true,
-                    parallaxOffset: 0.9,
+                    parallaxOffset: 1.2,
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 20.0,
@@ -372,7 +336,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 controller: sc,
                 children: <Widget>[
                   GestureDetector(
-                    onTap: () {
+                    onTap: ()  {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
