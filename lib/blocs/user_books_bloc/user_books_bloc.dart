@@ -58,15 +58,11 @@ class UserBooksBloc extends Bloc<UserBooksBlocEvent, UserBooksBlocState> {
     if(isUserDownloaded == false){
       if(downloadedUser != null){
         _booksStreamSubscription?.cancel();
-        print("1ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        print("1ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         _booksStreamSubscription = databaseRepository.getUserBooks(user).listen((books) {add(UserBooksLoadedEvent(books)); });
       }
 
     }else{
       _booksStreamSubscription?.cancel();
-      print("1ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-      print("1ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       _booksStreamSubscription = databaseRepository.getUserBooks(user).listen((books) {add(UserBooksLoadedEvent(books)); });
     }
   }

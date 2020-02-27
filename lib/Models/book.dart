@@ -14,7 +14,8 @@ class Book {
       emailVendedor,
       descripcion,
       nombreLibro,
-      imageVendedor;
+      imageVendedorUrl;
+  CachedNetworkImageProvider imageVendedor;
   List<dynamic> colegios = [];
   List<dynamic> cursos = [];
   List<File> imagesRaw = [];
@@ -40,7 +41,8 @@ class Book {
     this.emailVendedor = doc['emailVendedor'];
     this.nombreLibro = doc[
         'nombreLibro']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreLibro
-    this.imageVendedor = doc['user image'];
+    this.imageVendedorUrl = doc['imageVendedor'];
+    imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
     this.colegios = doc['colegios'];
     this.cursos = doc['cursos'];
     this.imagesUrl = doc['imagesUrl'];
@@ -81,7 +83,7 @@ class Book {
     bookMap['nombreVendedor'] = nombreVendedor;
     bookMap['apellidoVendedor'] = apellidoVendedor;
     bookMap['emailVendedor'] = emailVendedor;
-    bookMap['imageVendedor'] = imageVendedor;
+    bookMap['imageVendedor'] = imageVendedorUrl;
     bookMap['vendido'] = vendido;
     bookMap['publico'] = publico;
     bookMap['precio'] = precio;
@@ -112,7 +114,7 @@ class Book {
     this.nombreVendedor = user.nombre;
     this.apellidoVendedor = user.apellido;
     this.emailVendedor = user.email;
-    this.imageVendedor = user.fotoPerfilUrl;
+    this.imageVendedorUrl = user.fotoPerfilUrl;
     this.colegios = user.getColegios();
   }
 }
