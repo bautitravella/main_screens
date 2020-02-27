@@ -12,12 +12,15 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
   StreamSubscription _userStreamSubscription;
   bool isUserDownloaded = false;
   bool timeouted = false;
+  User dowloadedUser;
 
   BooksBloc(this.databaseRepository, this.userBloc){
-    _userStreamSubscription = userBloc.listen((state) { 
+    _userStreamSubscription = userBloc.listen((state) {
       if(state is UserLoadedState){
         if(isUserDownloaded == false){
+          isUserDownloaded = true;
           add(LoadUserBooks(state.user));
+          dowloadedUser = state.user;
         }else{
           add(UserUpdated(state.user));
         }
@@ -48,8 +51,20 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
 
 
   Stream<BooksBlocState> _mapLoadUserBooksToState(User user) {
-    _booksStreamSubscription?.cancel();
-    _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(user).listen((books) {add(BooksLoaded(books)); });
+
+    if(isUserDownloaded == false){
+      if(dowloadedUser != null){
+        _booksStreamSubscription?.cancel();
+
+        _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(user).listen((books) {add(BooksLoaded(books)); });
+      }
+
+    }else{
+      _booksStreamSubscription?.cancel();
+
+      _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(user).listen((books) {add(BooksLoaded(books)); });
+    }
+
   }
 
   Stream<BooksBlocState> _mapBooksLoadedToState(BooksLoaded booksLoaded) async*{

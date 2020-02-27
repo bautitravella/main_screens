@@ -19,7 +19,7 @@ class Book {
   List<dynamic> cursos = [];
   List<File> imagesRaw = [];
   List<dynamic> imagesUrl = [];
-  List<CachedNetworkImage> images = [];
+  List<CachedNetworkImageProvider> images = [];
   List<dynamic> thumbImagesUrl = [];
   List<CachedNetworkImage> thumbImages = [];
   List<String> materias = [];
@@ -52,15 +52,17 @@ class Book {
     this.isbn = doc['isbn'];
     this.descripcion = doc['descripcion'];
     imagesUrl.forEach((element) {
-      images.add(CachedNetworkImage(
-        imageUrl: element,
-        placeholder: (context, url) => CircularProgressIndicator(),
-      ));
+      images.add(CachedNetworkImageProvider(
+//        imageUrl: element,
+//        placeholder: (context, url) => CircularProgressIndicator(),
+//        fit: BoxFit.fill,
+      element));
     });
     thumbImagesUrl.forEach((element) {
       thumbImages.add(CachedNetworkImage(
         imageUrl: element,
         placeholder: (context, url) => CircularProgressIndicator(),
+        fit: BoxFit.fill,
       ));
     });
   }

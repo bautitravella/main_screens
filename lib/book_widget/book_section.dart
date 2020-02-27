@@ -722,7 +722,7 @@ class _BookSectionState extends State<BookSection> {
             padding: EdgeInsets.all(5),
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                child:(book.images[index]),
+                child: Image(image: book.images[0],) //(book.images[index]),
                 ),
             );
         },
