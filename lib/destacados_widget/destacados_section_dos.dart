@@ -358,13 +358,10 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                   Container(
                                                       height: 25,
                                                       width: 25 ,
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(100),
-                                                        child: Image(image: book.imageVendedor),
-                                                      )),
+                                                      child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                      ),
                                                   Container(
                                                     height: 21,
-                                                    width: 40,
                                                     margin: EdgeInsets.only(left: 4),
                                                     padding: EdgeInsets.only(left: 4, right: 4),
                                                     decoration: BoxDecoration(
