@@ -8,7 +8,6 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:async/async.dart';
 
 class CategoriesColegios extends StatefulWidget {
@@ -18,7 +17,8 @@ class CategoriesColegios extends StatefulWidget {
 }
 
 class _CategoriesColegiosState extends State<CategoriesColegios> {
-  List<PaletteColor> bgColors = [];
+/*  List<PaletteColor> bgColors = [];*/
+/*
 
   @override
   void initState() {
@@ -43,6 +43,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
 
     setState(() {});
   }
+*/
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -199,9 +200,9 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
             height: 94,
             width: SizeConfig.blockSizeHorizontal * 100,
             decoration: BoxDecoration(
-              color: bgColors.length > index
+              color:/* bgColors.length > index
                   ? bgColors[index].color
-                  : Colors
+                  :*/ Colors
                       .black12, //TODO implementar dependencie de color palette
               borderRadius: BorderRadius.all(Radius.circular(30)),
             ),
