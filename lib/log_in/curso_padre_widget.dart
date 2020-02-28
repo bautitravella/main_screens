@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -24,6 +26,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
   List<DropdownMenuItem> items = [];
   List<ChildField> hijos = [];
   int _currentIndex = 0;
+  bool loadingDialogShown = false;
 
   @override
   void initState() {
@@ -387,6 +390,8 @@ class ChildField extends StatefulWidget {
 class _ChildFieldState extends State<ChildField> {
   List<DropdownMenuItem> items = [];
 
+  bool loadingDialogShown = false;
+
   @override
   void initState() {
     for (int i = 0; i < 20; i++) {
@@ -421,122 +426,167 @@ class _ChildFieldState extends State<ChildField> {
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 150,
-              height: 60,
-              margin: EdgeInsets.only(
-                  left: 100, right: 110, top: SizeConfig.blockSizeVertical * 3),
-              child: Opacity(
-                opacity: 0.57,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "NOMBRE",
-                    contentPadding: EdgeInsets.only(top: 30),
-                    border: InputBorder.none,
-                  ),
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 53, 38, 65),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 19,
-                  ),
-                  maxLines: 1,
-                  autocorrect: false,
-                  controller: widget.nombreController,
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              width: 180,
-              margin: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(77, 0, 0, 0),
-              ),
-            ),
-            Container(
-              width: 170,
-              height: 45,
-              margin: EdgeInsets.only(
-                  left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
-              child: Opacity(
-                opacity: 0.37,
-                child: new DropdownButton(
-                  icon: Icon(Icons.menu),
-                  underline: Text(""),
-                  items: items,
-                  isExpanded: true,
-                  value: widget.colegioSelectedValue,
-                  hint: new Text(
-                    'COLEGIO',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 53, 38, 65),
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
+        child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+          builder: (context, state) {
+            if (state is ColegiosLoading) {
+              showLoadingDialog(context);
+              loadingDialogShown = true;
+              return CircularProgressIndicator();
+            } else if (state is ColegiosLoaded) {
+              if (loadingDialogShown) {
+                Navigator.of(context).pop();
+                loadingDialogShown = false;
+              }
+              return Column(
+                children: <Widget>[
+                  Container(
+                    width: 150,
+                    height: 60,
+                    margin: EdgeInsets.only(
+                        left: 100, right: 110, top: SizeConfig.blockSizeVertical * 3),
+                    child: Opacity(
+                      opacity: 0.57,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "NOMBRE",
+                          contentPadding: EdgeInsets.only(top: 30),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 53, 38, 65),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 19,
+                        ),
+                        maxLines: 1,
+                        autocorrect: false,
+                        controller: widget.nombreController,
+                      ),
                     ),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      widget.colegioSelectedValue = value;
-                    });
-                  },
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              width: 180,
-              margin: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(77, 0, 0, 0),
-              ),
-            ),
-            Container(
-              width: 170,
-              height: 45,
-              margin: EdgeInsets.only(
-                  left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
-              child: Opacity(
-                opacity: 0.37,
-                child: new DropdownButton(
-                  icon: Icon(Icons.menu),
-                  underline: Text(""),
-                  items: items,
-                  isExpanded: true,
-                  value: widget.cursoSelectedValue,
-                  hint: new Text(
-                    'CURSO',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 53, 38, 65),
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
+                  Container(
+                    height: 2,
+                    width: 180,
+                    margin: EdgeInsets.only(left: 100, right: 100),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(77, 0, 0, 0),
                     ),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      widget.cursoSelectedValue = value;
-                    });
-                  },
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              width: 180,
-              margin: EdgeInsets.only(left: 100, right: 100),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(77, 0, 0, 0),
-              ),
-            ),
-          ],
+                  Container(
+                    width: 170,
+                    height: 45,
+                    margin: EdgeInsets.only(
+                        left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
+                    child: Opacity(
+                      opacity: 0.37,
+                      child: new DropdownButton(
+                        icon: Icon(Icons.menu),
+                        underline: Text(""),
+                        items: createDropDownMenuList(state.colegiosData.colegios),
+                        isExpanded: true,
+                        value: widget.colegioSelectedValue,
+                        hint: new Text(
+                          'COLEGIO',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 53, 38, 65),
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 19,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            widget.colegioSelectedValue = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 2,
+                    width: 180,
+                    margin: EdgeInsets.only(left: 100, right: 100),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(77, 0, 0, 0),
+                    ),
+                  ),
+                  Container(
+                    width: 170,
+                    height: 45,
+                    margin: EdgeInsets.only(
+                        left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
+                    child: Opacity(
+                      opacity: 0.37,
+                      child: new DropdownButton(
+                        icon: Icon(Icons.menu),
+                        underline: Text(""),
+                        items: createDropDownMenuList(state.colegiosData.cursos),
+                        isExpanded: true,
+                        value: widget.cursoSelectedValue,
+                        hint: new Text(
+                          'CURSO',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 53, 38, 65),
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 19,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            widget.cursoSelectedValue = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 2,
+                    width: 180,
+                    margin: EdgeInsets.only(left: 100, right: 100),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(77, 0, 0, 0),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return CircularProgressIndicator();
+          }
         ),
       ),
     );
   }
+}
+
+List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
+  List<DropdownMenuItem> dropdownMenuItemList = [];
+  for (String item in lista) {
+    dropdownMenuItemList.add(DropdownMenuItem(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                children: <Widget>[
+                  new Text(
+                    item,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 53, 38, 65),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 19,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]),
+      value: item,
+    ));
+  }
+  return dropdownMenuItemList;
 }
 
 void showLoadingDialog(BuildContext context) {

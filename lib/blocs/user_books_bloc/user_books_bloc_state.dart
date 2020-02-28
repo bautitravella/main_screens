@@ -18,7 +18,6 @@ class UserBooksLoadedState extends UserBooksBlocState{
 
 class UserBooksLoadingState extends UserBooksBlocState{
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 

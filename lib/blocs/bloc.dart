@@ -21,3 +21,6 @@ export 'favorites_bloc/bloc.dart';
 
 //USER BOOKS BLOC
 export 'user_books_bloc/bloc.dart';
+
+//COLEGIOS BLOC
+export 'colegios_bloc/bloc.dart';

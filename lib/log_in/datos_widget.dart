@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/curso_alumno_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -26,6 +28,7 @@ class DatosWidgetState extends State<DatosWidget>{
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,

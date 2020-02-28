@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/blocs/bloc.dart';
@@ -23,6 +24,10 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Provider<BaseAuth>(
       create: (_) => Auth(),
       child: RepositoryProvider(
@@ -43,7 +48,10 @@ class App extends StatelessWidget {
               ),
               BlocProvider<FavoritesBloc>(create: (BuildContext context) {
                 return FavoritesBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
-              },)
+              },),
+              BlocProvider<ColegiosBloc>(create: (BuildContext context){
+                return ColegiosBloc(RepositoryProvider.of<FirebaseRepository>(context));
+              },),
             ],
             child: MaterialApp(
                 //home: MyDecider(),

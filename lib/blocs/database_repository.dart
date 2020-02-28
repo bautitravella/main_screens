@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
-
+import 'package:flutterui/Models/Colegio.dart';
 import 'package:flutter/services.dart';
 
 
@@ -44,12 +44,15 @@ abstract class DatabaseRepository {
   Future<void> removeFromFavorites(String uid, User user);
   
   Future<void> addBookToFavorites(String uid,User user);
+
+  Stream<ColegiosData> getColegios();
 }
 
 class FirebaseRepository extends DatabaseRepository{
 
   final usersReference = Firestore.instance.collection("Users");
   final booksReference = Firestore.instance.collection("Publicaciones");
+  final colegiosReference = Firestore.instance.collection("Colegios");
 
   @override
   Future<void> addNewBook(Book book, User user) async {
@@ -255,6 +258,11 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Future<void> removeFromFavorites(String uid, User user) {
     usersReference.document(user.email).collection("Favoritos").document("favoritos").updateData({"favoritosList": FieldValue.arrayRemove([uid])});
+  }
+
+  @override
+  Stream<ColegiosData> getColegios() {
+    return colegiosReference.document('colegios').snapshots().map((doc) { return ColegiosData.fromDocumentSnapshot(doc);});
   }
 
 }
