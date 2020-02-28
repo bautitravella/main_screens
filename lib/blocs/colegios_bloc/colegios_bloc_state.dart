@@ -5,10 +5,7 @@ abstract class ColegiosBlocState extends Equatable {
   const ColegiosBlocState();
 }
 
-class InitialColegiosBlocState extends ColegiosBlocState {
-  @override
-  List<Object> get props => [];
-}
+
 
 class ColegiosLoading extends ColegiosBlocState{
 

@@ -4,21 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/comentarios_estado.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_colegio.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
-class SeleccionMateria extends StatefulWidget {
+class SeleccionColegio extends StatefulWidget {
   Book book;
 
-  SeleccionMateria(this.book);
+  SeleccionColegio(this.book);
 
   @override
-  _SeleccionMateriaState createState() => _SeleccionMateriaState();
+  _SeleccionColegioState createState() => _SeleccionColegioState();
 }
 
-class _SeleccionMateriaState extends State<SeleccionMateria> {
+class _SeleccionColegioState extends State<SeleccionColegio> {
   bool _isChecked = false;
 
   Map<String, bool> values;
@@ -111,55 +110,56 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
                       height: 305,
                       margin: EdgeInsets.only(
                           left: 4, right: 4, top: 25, bottom: 15),
+                      //TODO cambiar este BlocBuilder por uno con el UserBloc y que ofrezca los colegios de la persona/los de sus hijos
                       child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                           builder: (context, state) {
-                        if (state is ColegiosLoading) {
-                          showLoadingDialog(context);
-                          loadingDialogShown = true;
-                          return CircularProgressIndicator();
-                        } else if (state is ColegiosLoaded) {
-                          if (loadingDialogShown) {
-                            Navigator.of(context).pop();
-                            loadingDialogShown = false;
-                          }
-                          if (valuesHasBeenCreated == false) {
-                            values = createMapfromStringsList(
-                                state.colegiosData.materias);
-                            valuesHasBeenCreated = true;
-                          }
-                          return ListView(
-                            children: values.keys.map((String key) {
-                              return Column(
-                                children: <Widget>[
-                                  CheckboxListTile(
-                                    title: new Text(
-                                      key,
-                                      style: TextStyle(
-                                          fontFamily: "Gibson",
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          color:
+                            if (state is ColegiosLoading) {
+                              showLoadingDialog(context);
+                              loadingDialogShown = true;
+                              return CircularProgressIndicator();
+                            } else if (state is ColegiosLoaded) {
+                              if (loadingDialogShown) {
+                                Navigator.of(context).pop();
+                                loadingDialogShown = false;
+                              }
+                              if (valuesHasBeenCreated == false) {
+                                values = createMapfromStringsList(
+                                    state.colegiosData.colegios);
+                                valuesHasBeenCreated = true;
+                              }
+                              return ListView(
+                                children: values.keys.map((String key) {
+                                  return Column(
+                                    children: <Widget>[
+                                      CheckboxListTile(
+                                        title: new Text(
+                                          key,
+                                          style: TextStyle(
+                                              fontFamily: "Gibson",
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              color:
                                               Color.fromARGB(255, 69, 79, 99)),
-                                    ),
-                                    value: values[key],
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        values[key] = value;
-                                      });
-                                    },
-                                  ),
-                                  Container(
-                                    width: 180,
-                                    height: 2,
-                                    color: Colors.black12,
-                                  )
-                                ],
+                                        ),
+                                        value: values[key],
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            values[key] = value;
+                                          });
+                                        },
+                                      ),
+                                      Container(
+                                        width: 180,
+                                        height: 2,
+                                        color: Colors.black12,
+                                      )
+                                    ],
+                                  );
+                                }).toList(),
                               );
-                            }).toList(),
-                          );
-                        }
-                        return CircularProgressIndicator();
-                      }),
+                            }
+                            return CircularProgressIndicator();
+                          }),
                       //widget(
 //                        child: ListView(
 //                          children: values.keys.map((String key) {
@@ -199,7 +199,7 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Selecciona la \nmateria",
+                "Selecciona el \ncolegio",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
@@ -213,7 +213,7 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 35),
               child: Text(
-                "Es posible que no encuentres la misma materia \n que estas buscando te recomendamos que selecciones la mas similar ",
+                "Selecciona el colegio en el que \n quieras publicar este libro",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -284,12 +284,12 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
     if (canContinue) {
       for (String key in values.keys) {
         if (values[key]) {
-          widget.book.materias.add(key);
+          widget.book.colegios.add(key);
         }
       }
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SeleccionColegio(widget.book)),
+        MaterialPageRoute(builder: (context) => DatosLibros(widget.book)),
       );
     } else {
       showErrorDialog(context,

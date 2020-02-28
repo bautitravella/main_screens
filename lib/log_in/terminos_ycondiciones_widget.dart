@@ -179,6 +179,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
 
   siguienteBtn(BuildContext context) {
     showLoadingDialog(context);
+    //todo cambiar toda esta poronga por un buen Future.wait
     uploadData(context).then((smt) => {
           print("PASANDO A LA PROXIMA PANTALLA"),
           Navigator.popUntil(

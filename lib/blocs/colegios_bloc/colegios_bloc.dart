@@ -12,7 +12,7 @@ class ColegiosBloc extends Bloc<ColegiosBlocEvent, ColegiosBlocState> {
   ColegiosBloc(this.databaseRepository);
 
   @override
-  ColegiosBlocState get initialState => InitialColegiosBlocState();
+  ColegiosBlocState get initialState => ColegiosLoading();
 
   @override
   Stream<ColegiosBlocState> mapEventToState(

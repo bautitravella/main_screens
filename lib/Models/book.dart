@@ -116,7 +116,6 @@ class Book {
     this.apellidoVendedor = user.apellido;
     this.emailVendedor = user.email;
     this.imageVendedorUrl = user.fotoPerfilUrl;
-    this.colegios = user.getColegios();
   }
 }
 

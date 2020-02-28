@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
@@ -39,6 +41,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(

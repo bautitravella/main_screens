@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
@@ -24,6 +26,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),

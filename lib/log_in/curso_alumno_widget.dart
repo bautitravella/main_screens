@@ -21,37 +21,11 @@ class CursoAlumnoWidget extends StatefulWidget {
 }
 
 class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
-  List<DropdownMenuItem> items = [];
   String colegioSelectedValue, cursoSelectedValue;
 
   bool loadingDialogShown = false;
   @override
   void initState() {
-    for (int i = 0; i < 20; i++) {
-      items.add(new DropdownMenuItem(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 10, bottom: 10),
-                child: Row(
-                  children: <Widget>[
-                    new Text(
-                      'Colegio ' + i.toString(),
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 53, 38, 65),
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
-        value: 'Colegio ' + i.toString(),
-      ));
-    }
     super.initState();
   }
 
