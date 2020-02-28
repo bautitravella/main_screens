@@ -6,6 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 
+import 'package:flutter/services.dart';
+
 
 
 abstract class DatabaseRepository {
@@ -33,7 +35,15 @@ abstract class DatabaseRepository {
   
   Stream<List<Book>> getUserBooks(User user);
 
+  Stream<List<dynamic>> getUserFavoriteBooksList(User user);
+
+  Future<List<Book>> getUserFavoriteBooks(List<dynamic> favoritesList,User user);
+
   Future<void> reFilterUserBooks(User user);
+
+  Future<void> removeFromFavorites(String uid, User user);
+  
+  Future<void> addBookToFavorites(String uid,User user);
 }
 
 class FirebaseRepository extends DatabaseRepository{
@@ -43,6 +53,7 @@ class FirebaseRepository extends DatabaseRepository{
 
   @override
   Future<void> addNewBook(Book book, User user) async {
+    
     Future<void> returnFuture;
 
     List<String> bookSplitList = book.nombreLibro.split(" ");
@@ -201,12 +212,49 @@ class FirebaseRepository extends DatabaseRepository{
     });
   }
 
+  Stream<List<dynamic>> getUserFavoriteBooksList(User user){
+    return usersReference.document(user.email).collection("Favoritos").document("favoritos").snapshots().map((doc) => doc.data['favoritosList'] );
+  }
+
+  Future<List<DocumentSnapshot>> _getUserFavoriteBooksFuture(List<dynamic> favoritesList){
+    List<Future<DocumentSnapshot>> futureList = [];
+
+    for(int i = 0; i < favoritesList.length; i++){
+      String uid = favoritesList[i];
+      futureList.add(booksReference.document(uid).get());
+    }
+
+    return Future.wait(futureList);
+  }
+
+  Future<List<Book>> getUserFavoriteBooks(List<dynamic> favoritesList,User user) async {
+
+
+    List<DocumentSnapshot> documentsList = await _getUserFavoriteBooksFuture(favoritesList);
+
+    return documentsList.map((doc) =>  Book.fromDocumentSnapshot(doc)).toList();
+  }
+
 
 
   @override
   Future<void> reFilterUserBooks(User user) {
     // TODO: implement reFilterUserBooks
     throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> addBookToFavorites(String uid,User user) {
+    try{
+    usersReference.document(user.email).collection("Favoritos").document("favoritos").updateData({"favoritosList": FieldValue.arrayUnion([uid])});
+    }catch (e){
+      print(e.toString());
+    }
+  }
+
+  @override
+  Future<void> removeFromFavorites(String uid, User user) {
+    usersReference.document(user.email).collection("Favoritos").document("favoritos").updateData({"favoritosList": FieldValue.arrayRemove([uid])});
   }
 
 }

@@ -195,6 +195,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
               user.fotoPerfilUrl = downloadUrl,
               user.hasAcceptedTerms = true,
               uploadUserInformation(downloadUrl, context),
+              createFavoritesDocument(),
               print("DOWNLOAD URL  2: " + downloadUrl),
             })
         .catchError((err) {
@@ -233,6 +234,12 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                   "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}")
             });
   }
+
+  createFavoritesDocument() {
+    Firestore.instance.collection('Users').document(user.email).collection('Favoritos').document('favoritos').setData({'favoritosList':[]});
+  }
+
+
 }
 
 void showLoadingDialog(BuildContext context) {

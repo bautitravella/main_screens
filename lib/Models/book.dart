@@ -14,7 +14,7 @@ class Book {
       emailVendedor,
       descripcion,
       nombreLibro,
-      imageVendedorUrl;
+      imageVendedorUrl,uid;
   CachedNetworkImageProvider imageVendedor;
   List<dynamic> colegios = [];
   List<dynamic> cursos = [];
@@ -67,6 +67,7 @@ class Book {
         fit: BoxFit.fill,
       ));
     });
+    this.uid = doc.documentID;
   }
 
   @override

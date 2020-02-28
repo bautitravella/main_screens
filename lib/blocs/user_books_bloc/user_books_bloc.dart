@@ -16,7 +16,6 @@ class UserBooksBloc extends Bloc<UserBooksBlocEvent, UserBooksBlocState> {
   StreamSubscription _userStreamSubscription;
   bool isUserDownloaded = false;
   User downloadedUser;
-  bool timeouted = false;
 
   UserBooksBloc(this.databaseRepository, this.userBloc){
     _userStreamSubscription = userBloc.listen((state) {
