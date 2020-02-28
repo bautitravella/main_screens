@@ -3,6 +3,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/Colegio.dart';
@@ -46,6 +48,17 @@ abstract class DatabaseRepository {
   Future<void> addBookToFavorites(String uid,User user);
 
   Stream<ColegiosData> getColegios();
+
+  //CHAT
+  Stream<List<Chat>> getVentaChats(User user);
+  Stream<List<Chat>> getCompraChats(User user);
+  Future<void> addChat(User user,Chat chat);
+  Future<void> buyBook();
+  Future<void> sellBook();
+  Stream<List<Message>> getMessages(Chat chat,User user);
+  Future<void> sendMessage(Chat chat,User user,Message message);
+  
+  
 }
 
 class FirebaseRepository extends DatabaseRepository{
@@ -53,6 +66,7 @@ class FirebaseRepository extends DatabaseRepository{
   final usersReference = Firestore.instance.collection("Users");
   final booksReference = Firestore.instance.collection("Publicaciones");
   final colegiosReference = Firestore.instance.collection("Colegios");
+  final chatsReference = Firestore.instance.collection('Chats');
 
   @override
   Future<void> addNewBook(Book book, User user) async {
@@ -160,8 +174,7 @@ class FirebaseRepository extends DatabaseRepository{
           .toList();
     });
   }
-
-
+  
   @override
   Stream<User> getUserInfo(String email)   {
 //    try{
@@ -237,9 +250,7 @@ class FirebaseRepository extends DatabaseRepository{
 
     return documentsList.map((doc) =>  Book.fromDocumentSnapshot(doc)).toList();
   }
-
-
-
+  
   @override
   Future<void> reFilterUserBooks(User user) {
     // TODO: implement reFilterUserBooks
@@ -264,5 +275,45 @@ class FirebaseRepository extends DatabaseRepository{
   Stream<ColegiosData> getColegios() {
     return colegiosReference.document('colegios').snapshots().map((doc) { return ColegiosData.fromDocumentSnapshot(doc);});
   }
+
+  @override
+  Future<void> addChat(User user,Chat chat) {
+    chat.addCompradorInformation(user);
+    return chatsReference.document().setData(chat.toMap());
+  }
+
+  @override
+  Future<void> buyBook() {
+    // TODO: implement buyBook
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<Chat>> getVentaChats(User user) {
+    return chatsReference.where('vendedorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)));
+  }
+
+  @override
+  Stream<List<Chat>> getCompraChats(User user) {
+    return chatsReference.where('compradorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)));
+  }
+
+  @override
+  Stream<List<Message>> getMessages(Chat chat, User user) {
+    return chatsReference.document(chat.uid).collection("Messages").snapshots().map((docs) => docs.documents.map((doc) => Message.fromDocumentSnapshot(doc)));
+  }
+
+  @override
+  Future<void> sellBook() {
+    // TODO: implement sellBook
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> sendMessage(Chat chat,User user,Message message) {
+    chatsReference.document(chat.uid).collection("Message").document().setData(message.toMap());
+  }
+
+
 
 }
