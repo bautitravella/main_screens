@@ -52,6 +52,12 @@ class App extends StatelessWidget {
               BlocProvider<ColegiosBloc>(create: (BuildContext context){
                 return ColegiosBloc(RepositoryProvider.of<FirebaseRepository>(context));
               },),
+              BlocProvider<ChatsBloc>(create : (BuildContext context){
+                return ChatsBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+              }),
+              BlocProvider<MessagesBloc>(create: (BuildContext context){
+                return MessagesBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context),BlocProvider.of<ChatsBloc>(context));
+              })
             ],
             child: MaterialApp(
                 //home: MyDecider(),

@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterui/Models/message_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/user_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../../size_config.dart';
 
 class ChatScreenBuck extends StatefulWidget {
-  final User user;
-  ChatScreenBuck({this.user});
+  final Chat chat;
+  ChatScreenBuck({this.chat});
 
   @override
   _ChatScreenBuckState createState() => _ChatScreenBuckState();
@@ -44,7 +47,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  message.text,
+                  message.messageText,
                   style: isMe
                       ? TextStyle(
                       fontFamily: "Sf",
@@ -61,7 +64,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 Container(
                   margin: EdgeInsets.only(top: 5, left: 0, right: 0),
                   child: Text(
-                    message.time,
+                    message.sentTimestamp.toString(),
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: "Sf",
@@ -144,7 +147,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               child: IconButton(icon: Icon(Ionicons.ios_send),
                 iconSize: 25,
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  Message message = Message();
+                  BlocProvider.of<MessagesBloc>(context).add(AddMessage(message));
+                },
               ),
             ),
           ):
@@ -204,7 +210,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                widget.user.name,
+                                widget.chat.vendedorNombre,
                                 style: TextStyle(
                                   fontFamily: "Sf",
                                   fontSize: 21,
@@ -270,7 +276,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           Positioned(
                             child: CircleAvatar(
                               radius: 23.0,
-                              backgroundImage: AssetImage(widget.user.imageUrl),
+                              backgroundImage: widget.chat.vendedorImage,
                             ),
                           ),
                           Positioned(
@@ -336,7 +342,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                         itemCount: messages.length,
                         itemBuilder: (BuildContext context, int index) {
                           final Message message = messages[index];
-                          final bool isMe = message.sender.id == currentUser.id;
+                          final bool isMe  = true;//= message.sender.id == currentUser.id;
                           return _buildMessage(message, isMe);
                         }),
                   )),

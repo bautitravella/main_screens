@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/Models/book.dart';
 
 class Chat {
   String nombreLibro,
@@ -53,6 +54,15 @@ class Chat {
     timestamp = doc['timestamp'];
     estadoTransaccion = doc['estadoTransaccion'];
     uid = doc.documentID;
+  }
+
+  Chat.fromBook(Book book){
+    this.vendedorImage = book.imageVendedor;
+    this.vendedorNombre = book.nombreVendedor;
+    this.vendedorEmail = book.emailVendedor;
+    this.leidoPorElVendedor = false;
+    this.publicacionId = book.uid;
+    this.nombreLibro = book.nombreLibro;
   }
 
   Map<String, dynamic> toMap() {

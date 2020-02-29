@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
@@ -239,10 +241,12 @@ class _BookSectionState extends State<BookSection> {
                               ],
                             ),
                             onPressed: () {
+                              Chat chat = Chat.fromBook(widget.book);
+                              chat.estadoTransaccion = "Pregunta";
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeHub()));
+                                      builder: (context) => ChatScreenBuck(chat : chat)));
                             }),
                       ),
                     ),
@@ -297,8 +301,7 @@ class _BookSectionState extends State<BookSection> {
                                     borderRadius: BorderRadius.circular(100),
                                     child: Hero(
                                         tag: 'profile',
-                                        child: Image.asset(
-                                            "assets/images/avatar.png")),
+                                        child: Image(image:book.imageVendedor)),
                                   )),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),

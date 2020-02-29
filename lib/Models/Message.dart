@@ -7,6 +7,10 @@ class Message{
   String email,messageText , typeOfMessage;
   Timestamp sentTimestamp;
 
+  Message();
+
+  Message.fromAllFields(this.email,this.messageText,this.typeOfMessage,this.sentTimestamp);
+
   Message.fromDocumentSnapshot(DocumentSnapshot doc){
     email = doc['email'];
     messageText = doc['messageText'];
@@ -23,3 +27,9 @@ class Message{
 
   }
 }
+
+List<Message> messages = [
+  Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now()),
+  Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now()),
+  Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now()),
+];

@@ -16,6 +16,9 @@ export 'bloc_delegate.dart';
 //CHATS
 export 'chats_bloc/bloc.dart';
 
+//MESSAGES
+export 'messages_bloc/bloc.dart';
+
 //FAVORITES
 export 'favorites_bloc/bloc.dart';
 
