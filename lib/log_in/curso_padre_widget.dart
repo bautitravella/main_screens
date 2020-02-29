@@ -440,7 +440,7 @@ class _ChildFieldState extends State<ChildField> {
               return Column(
                 children: <Widget>[
                   Container(
-                    width: 150,
+                    width: SizeConfig.blockSizeHorizontal*52,
                     height: 60,
                     margin: EdgeInsets.only(
                         left: 100, right: 110, top: SizeConfig.blockSizeVertical * 3),
@@ -452,6 +452,7 @@ class _ChildFieldState extends State<ChildField> {
                           contentPadding: EdgeInsets.only(top: 30),
                           border: InputBorder.none,
                         ),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color.fromARGB(255, 53, 38, 65),
                           fontFamily: "Montserrat",
@@ -466,17 +467,16 @@ class _ChildFieldState extends State<ChildField> {
                   ),
                   Container(
                     height: 2,
-                    width: 180,
+                    width: SizeConfig.blockSizeHorizontal*60,
                     margin: EdgeInsets.only(left: 100, right: 100),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(77, 0, 0, 0),
                     ),
                   ),
                   Container(
-                    width: 170,
+                    width: SizeConfig.blockSizeHorizontal*55,
                     height: 45,
-                    margin: EdgeInsets.only(
-                        left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
+                    margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 4),
                     child: Opacity(
                       opacity: 0.37,
                       child: new DropdownButton(
@@ -504,14 +504,14 @@ class _ChildFieldState extends State<ChildField> {
                   ),
                   Container(
                     height: 2,
-                    width: 180,
+                    width: SizeConfig.blockSizeHorizontal*60,
                     margin: EdgeInsets.only(left: 100, right: 100),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(77, 0, 0, 0),
                     ),
                   ),
                   Container(
-                    width: 170,
+                    width: SizeConfig.blockSizeHorizontal*55,
                     height: 45,
                     margin: EdgeInsets.only(
                         left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
@@ -531,6 +531,7 @@ class _ChildFieldState extends State<ChildField> {
                             fontWeight: FontWeight.w700,
                             fontSize: 19,
                           ),
+
                         ),
                         onChanged: (value) {
                           setState(() {
@@ -542,7 +543,7 @@ class _ChildFieldState extends State<ChildField> {
                   ),
                   Container(
                     height: 2,
-                    width: 180,
+                    width: SizeConfig.blockSizeHorizontal*60,
                     margin: EdgeInsets.only(left: 100, right: 100),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(77, 0, 0, 0),
@@ -567,19 +568,17 @@ List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
-              child: Row(
-                children: <Widget>[
-                  new Text(
-                    item,
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 53, 38, 65),
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
-                    ),
-                  ),
-                ],
+              margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+              child: new Text(
+                item,
+                style: TextStyle(
+                  color: Color.fromARGB(255, 53, 38, 65),
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ]),

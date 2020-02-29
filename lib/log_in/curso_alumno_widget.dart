@@ -104,7 +104,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                         ),
                                       )),
                                   Container(
-                                    width: 170,
+                                    width: SizeConfig.blockSizeHorizontal*55,
                                     height: 45,
                                     margin: EdgeInsets.only(
                                         left: 110,
@@ -138,7 +138,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                   ),
                                   Container(
                                     height: 2,
-                                    width: 180,
+                                    width: SizeConfig.blockSizeHorizontal*60,
                                     margin:
                                         EdgeInsets.only(left: 100, right: 100),
                                     decoration: BoxDecoration(
@@ -146,7 +146,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                     ),
                                   ),
                                   Container(
-                                    width: 170,
+                                    width: SizeConfig.blockSizeHorizontal*55,//TODO encontrar alternativa para el container overflow
                                     height: 45,
                                     margin: EdgeInsets.only(
                                         left: 110,
@@ -180,7 +180,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                   ),
                                   Container(
                                     height: 2,
-                                    width: 180,
+                                    width: SizeConfig.blockSizeHorizontal*60,
                                     margin:
                                         EdgeInsets.only(left: 100, right: 100),
                                     decoration: BoxDecoration(
@@ -292,18 +292,16 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 10, bottom: 10),
-                child: Row(
-                  children: <Widget>[
-                    new Text(
-                      item,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 53, 38, 65),
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 19,
-                      ),
-                    ),
-                  ],
+                child: new Text(
+                  item,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ]),
