@@ -9,6 +9,7 @@ import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/Colegio.dart';
 import 'package:flutter/services.dart';
+import 'dart:core';
 
 
 
@@ -55,7 +56,8 @@ abstract class DatabaseRepository {
   Future<void> addChat(User user,Chat chat);
   Future<void> buyBook();
   Future<void> sellBook();
-  Stream<List<Message>> getMessages(Chat chat,User user);
+  Stream<List<Message>> getMessagesWithUid(Chat chat,User user);
+  Future<Chat> getChatUid(Chat chat,User user);
   Future<void> sendMessage(Chat chat,User user,Message message);
   
   
@@ -299,9 +301,40 @@ class FirebaseRepository extends DatabaseRepository{
   }
 
   @override
-  Stream<List<Message>> getMessages(Chat chat, User user) {
+  Stream<List<Message>> getMessagesWithUid(Chat chat, User user) {
     return chatsReference.document(chat.uid).collection("Messages").snapshots().map((docs) => docs.documents.map((doc) => Message.fromDocumentSnapshot(doc)));
   }
+
+  Future<Chat> getChatUid(Chat chat,User user) async{
+    QuerySnapshot snapshot = await getChatUidDocuments(chat, user);
+    print("GetChatUid printing snapshot ${snapshot.toString()}");
+    if(snapshot.documents != null && snapshot.documents.isNotEmpty){
+      if(snapshot.documents.length == 1){
+        DocumentSnapshot doc = snapshot.documents.single;
+        return Chat.fromDocumentSnapshotAsComprador(doc);
+      }
+
+    }
+    print("GetChatUid printing nullll");
+    return null;
+
+
+//    try {
+//
+//    } on IterableElementError  catch (e){
+//      print("ErrorGetChatUid = " + e.toString());
+//      return null;
+//    }catch(e){
+//      print("ErrorGetChatUid = " + e.toString());
+//      rethrow;
+//    }
+
+  }
+
+  Future<QuerySnapshot> getChatUidDocuments(Chat chat,User user){
+    return chatsReference.where('compradorEmail', isEqualTo: user.email).where('publicacionId',isEqualTo: chat.publicacionId).getDocuments();
+  }
+
 
   @override
   Future<void> sellBook() {
@@ -313,6 +346,8 @@ class FirebaseRepository extends DatabaseRepository{
   Future<void> sendMessage(Chat chat,User user,Message message) {
     chatsReference.document(chat.uid).collection("Message").document().setData(message.toMap());
   }
+
+
 
 
 

@@ -26,4 +26,13 @@ class ChatsLoaded extends ChatsBlocState{
   List<Object> get props => [chatsCompraList,chatsVentaList];
 }
 
+class ChatsErrorLoading extends ChatsBlocState{
+
+  final String errorMessage;
+
+  ChatsErrorLoading(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}
 
