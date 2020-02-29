@@ -33,4 +33,9 @@ class MessagesErrorLoading extends MessagesBlocState{
   List<Object> get props => [errorMessage];
 }
 
+class PotentialNewMessage extends MessagesBlocState{
+  @override
+  List<Object> get props => [];
+}
+
 

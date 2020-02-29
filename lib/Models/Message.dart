@@ -24,8 +24,15 @@ class Message{
     messageMap['messageText'] = messageText;
     messageMap['typeOfMessage'] = typeOfMessage;
     messageMap['sentTimestamp'] = Timestamp.now();
-
+    return messageMap;
   }
+
+  @override
+  String toString() {
+    return 'Message{email: $email, messageText: $messageText, typeOfMessage: $typeOfMessage, sentTimestamp: $sentTimestamp}';
+  }
+
+
 }
 
 List<Message> messages = [

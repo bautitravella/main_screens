@@ -344,6 +344,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         border: InputBorder.none,
                                       ),
                                       controller: nombreTextController,
+                                      textCapitalization: TextCapitalization.words,
                                       style: TextStyle(
                                         color: Color.fromARGB(180, 69, 79, 99),
                                         fontFamily: "Montserrat",
@@ -366,6 +367,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                   child: Opacity(
                                     opacity: 0.63,
                                     child: TextField(
+                                      textCapitalization: TextCapitalization.words,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: "AUTOR",
@@ -395,6 +397,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                   child: Opacity(
                                     opacity: 0.63,
                                     child: TextField(
+                                      textCapitalization: TextCapitalization.words,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: "EDITORIAL",
@@ -424,6 +427,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                   child: Opacity(
                                     opacity: 0.63,
                                     child: TextField(
+                                      textCapitalization: TextCapitalization.words,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: "ISBN",
@@ -482,6 +486,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                 Stack(
                                   children: <Widget>[
                                     TextField(
+                                      textCapitalization: TextCapitalization.words,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         hintText: "descripcion",

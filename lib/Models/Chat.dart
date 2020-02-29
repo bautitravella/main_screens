@@ -58,6 +58,7 @@ class Chat {
 
   Chat.fromBook(Book book){
     this.vendedorImage = book.imageVendedor;
+    this.vendedorImageUrl = book.imageVendedorUrl;
     this.vendedorNombre = book.nombreVendedor;
     this.vendedorEmail = book.emailVendedor;
     this.leidoPorElVendedor = false;
@@ -95,4 +96,11 @@ class Chat {
     compradorImageUrl = user.fotoPerfilUrl;
     leidoPorElComprador = false;
   }
+
+  @override
+  String toString() {
+    return 'Chat{nombreLibro: $nombreLibro, publicacionId: $publicacionId, compradorEmail: $compradorEmail, compradorImageUrl: $compradorImageUrl, compradorNombre: $compradorNombre, vendedorEmail: $vendedorEmail, vendedorImageUrl: $vendedorImageUrl, vendedorNombre: $vendedorNombre, estadoTransaccion: $estadoTransaccion, uid: $uid, vendedorImage: $vendedorImage, leidoPorElVendedor: $leidoPorElVendedor, timestamp: $timestamp}';
+  }
+
+
 }

@@ -18,6 +18,8 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   bool isChatCreated = false;
   Chat currentChat;
 
+  bool isChatBeenCreated = false;
+
   MessagesBloc( this.databaseRepository,this.userBloc, this.chatBloc){
     _userStreamSubscription = userBloc.listen((state) {
 
@@ -49,20 +51,26 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
     }
   }
 
-  _mapLoadMessagesToState(Chat chat) async {
+  Stream<MessagesBlocState> _mapLoadMessagesToState(Chat chat) async* {
     if(downloadedUser != null) {
       currentChat = chat;
       if (chat.uid != null) {
+
         isChatCreated = true;
         messagesSubscription =
             databaseRepository.getMessagesWithUid(chat, downloadedUser).listen((
                 messages) {
+              print("MESSAGES ================= $messages");
               add(LoadedMessages(messages));
             });
       } else {
+        yield MessagesLoading();
+        chat.addCompradorInformation(downloadedUser);
         Chat chatWithUid = await databaseRepository.getChatUid(
             chat, downloadedUser);
         if (chatWithUid != null) {
+          currentChat = chatWithUid;
+          print("MessagesBloc LoadMessages chatWithUid != null. Chat = " + chatWithUid.toString());
           isChatCreated = true;
           messagesSubscription =
               databaseRepository.getMessagesWithUid(chatWithUid, downloadedUser)
@@ -70,11 +78,13 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
                 add(LoadedMessages(messages));
               });
         } else {
+          print("MessagesBloc LoadMessages chatWithUid == NULL. isChatCreated setting to false");
+          yield PotentialNewMessage();
             isChatCreated = false;
         }
       }
     }
-    print("MessagesBloc NO SE CARGO EL USUARIO");
+    print("MessagesBloc LoadMessages NO SE CARGO EL USUARIO");
   }
 
   Stream<MessagesBlocState> _mapLoadedMessagesToState(List<Message> messages) async* {
@@ -83,11 +93,15 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
 
   _mapAddMessageToState(Message message) {
     if(isChatCreated){
-      databaseRepository.addChat(downloadedUser, currentChat);
+      isChatBeenCreated = false;
+      databaseRepository.sendMessage( currentChat , downloadedUser , message );
     }else{
-      chatBloc.add(AddChat(currentChat));
-      add(LoadMessages(currentChat));
-      add(AddMessage(message));
+      if(isChatBeenCreated == false){
+        isChatBeenCreated = true;
+        chatBloc.add(AddChat(currentChat));
+        add(LoadMessages(currentChat));
+        add(AddMessage(message));
+      }
     }
   }
 

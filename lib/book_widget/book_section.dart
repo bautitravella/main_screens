@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
@@ -243,6 +245,7 @@ class _BookSectionState extends State<BookSection> {
                             onPressed: () {
                               Chat chat = Chat.fromBook(widget.book);
                               chat.estadoTransaccion = "Pregunta";
+                              BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat));
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -292,17 +292,17 @@ class FirebaseRepository extends DatabaseRepository{
 
   @override
   Stream<List<Chat>> getVentaChats(User user) {
-    return chatsReference.where('vendedorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)));
+    return chatsReference.where('vendedorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)).toList());
   }
 
   @override
   Stream<List<Chat>> getCompraChats(User user) {
-    return chatsReference.where('compradorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)));
+    return chatsReference.where('compradorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)).toList());
   }
 
   @override
   Stream<List<Message>> getMessagesWithUid(Chat chat, User user) {
-    return chatsReference.document(chat.uid).collection("Messages").snapshots().map((docs) => docs.documents.map((doc) => Message.fromDocumentSnapshot(doc)));
+    return chatsReference.document(chat.uid).collection("Messages").snapshots().map((docs) => docs.documents.map((doc) => Message.fromDocumentSnapshot(doc)).toList());
   }
 
   Future<Chat> getChatUid(Chat chat,User user) async{
@@ -344,7 +344,7 @@ class FirebaseRepository extends DatabaseRepository{
 
   @override
   Future<void> sendMessage(Chat chat,User user,Message message) {
-    chatsReference.document(chat.uid).collection("Message").document().setData(message.toMap());
+    chatsReference.document(chat.uid).collection("Messages").document().setData(message.toMap());
   }
 
 

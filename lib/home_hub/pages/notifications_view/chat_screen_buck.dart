@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -21,157 +23,6 @@ class ChatScreenBuck extends StatefulWidget {
 class _ChatScreenBuckState extends State<ChatScreenBuck> {
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
-  }
-  _buildMessage(Message message, bool isMe) {
-    return Flex(
-      direction: Axis.horizontal,
-      mainAxisAlignment: isMe ?MainAxisAlignment.end : MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
-            padding: isMe
-                ? EdgeInsets.only(top: 15, bottom: 8, right: 10, left: 20)
-                : EdgeInsets.only(top: 15, bottom: 8, left: 20, right: 20),
-            margin: isMe
-                ? EdgeInsets.only(top: 10, bottom: 10, right: 20)
-                : EdgeInsets.only(top: 10, bottom: 10, left: 20),
-            constraints: BoxConstraints(
-              maxWidth: SizeConfig.blockSizeHorizontal* 70,
-            ),
-            decoration: BoxDecoration(
-              color: isMe
-                  ? Color.fromARGB(255, 255, 205, 77)
-                  : Color.fromARGB(255, 246, 248, 254),
-              borderRadius: new BorderRadius.all(Radius.circular(20)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  message.messageText,
-                  style: isMe
-                      ? TextStyle(
-                      fontFamily: "Sf",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white)
-                      : TextStyle(
-                    fontFamily: "Sf",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromARGB(255, 96, 102, 115),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5, left: 0, right: 0),
-                  child: Text(
-                    message.sentTimestamp.toString(),
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontFamily: "Sf",
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: isMe
-                          ? Colors.white
-                          : Color.fromARGB(255, 96, 102, 115),
-                    ),
-                  ),
-                )
-              ],
-            )),
-      ],
-    );
-  }
-  _buildMessageComposer(){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
-      height: 78,
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 15),
-              padding: EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 245, 244, 244),
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 0),
-                      child: TextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration.collapsed(
-                            hintText: "Di algo...",
-                            hintStyle:TextStyle(
-                              fontFamily: "Sf",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromARGB(100, 96, 102, 115),
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 50,
-                    margin: EdgeInsets.only(right: 10, top: 7, bottom: 7),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 203, 203, 203),
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        icon: Icon(Icons.add),
-                        iconSize: 25,
-                        color: Color.fromARGB(255, 245, 244, 244),
-                        onPressed: () {},
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          _keyboardIsVisible()
-              ?Container(
-            width: 65,
-            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(180, 0, 191, 131),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-            child: Center(
-              child: IconButton(icon: Icon(Ionicons.ios_send),
-                iconSize: 25,
-                color: Colors.white,
-                onPressed: () {
-                  Message message = Message();
-                  BlocProvider.of<MessagesBloc>(context).add(AddMessage(message));
-                },
-              ),
-            ),
-          ):
-          Container(
-            width: 65,
-            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
-            decoration: BoxDecoration(
-              color: AppColors.secondaryBackground,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-            child: Center(
-              child: IconButton(icon: Icon(Icons.add_shopping_cart),
-                iconSize: 25,
-                color: Colors.white,
-                onPressed: () {},
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -337,14 +188,37 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30)),
-                    child: ListView.builder(
-                        reverse: true,
-                        itemCount: messages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final Message message = messages[index];
-                          final bool isMe  = true;//= message.sender.id == currentUser.id;
-                          return _buildMessage(message, isMe);
-                        }),
+                    child: BlocBuilder<MessagesBloc,MessagesBlocState>(
+                      builder: (context,state){
+                        if(state is MessagesLoaded){
+                          print(state.messages);
+                          return ListView.builder(
+                              reverse: true,
+                              itemCount: state.messages.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final Message message = state.messages[index];
+                                final bool isMe  = true;//= message.sender.id == currentUser.id;
+                                return _buildMessage(message, isMe);
+                              });
+                        }else if(state is MessagesLoading){
+                          return Center(child: CircularProgressIndicator());
+                        }else if(state is PotentialNewMessage){
+                          return Center(child: Text('Parece que estas por escribir un mensaje'),);
+                        }else if(state is MessagesErrorLoading){
+                          showErrorDialog(context, state.errorMessage);
+                          return Container();
+                        }
+                        return Center(child: CircularProgressIndicator());
+//                          ListView.builder(
+//                            reverse: true,
+//                            itemCount: messages.length,
+//                            itemBuilder: (BuildContext context, int index) {
+//                              final Message message = messages[index];
+//                              final bool isMe  = true;//= message.sender.id == currentUser.id;
+//                              return _buildMessage(message, isMe);
+//                            });
+                      },
+                    ),
                   )),
             ),
             _buildMessageComposer()
@@ -354,4 +228,165 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
     );
 
   }
+
+  _buildMessage(Message message, bool isMe) {
+    return Flex(
+      direction: Axis.horizontal,
+      mainAxisAlignment: isMe ?MainAxisAlignment.end : MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+            padding: isMe
+                ? EdgeInsets.only(top: 15, bottom: 8, right: 10, left: 20)
+                : EdgeInsets.only(top: 15, bottom: 8, left: 20, right: 20),
+            margin: isMe
+                ? EdgeInsets.only(top: 10, bottom: 10, right: 20)
+                : EdgeInsets.only(top: 10, bottom: 10, left: 20),
+            constraints: BoxConstraints(
+              maxWidth: SizeConfig.blockSizeHorizontal* 70,
+            ),
+            decoration: BoxDecoration(
+              color: isMe
+                  ? Color.fromARGB(255, 255, 205, 77)
+                  : Color.fromARGB(255, 246, 248, 254),
+              borderRadius: new BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  message.messageText,
+                  style: isMe
+                      ? TextStyle(
+                      fontFamily: "Sf",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white)
+                      : TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(255, 96, 102, 115),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 5, left: 0, right: 0),
+                  child: Text(
+                    message.sentTimestamp.toString(),
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontFamily: "Sf",
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: isMe
+                          ? Colors.white
+                          : Color.fromARGB(255, 96, 102, 115),
+                    ),
+                  ),
+                )
+              ],
+            )),
+      ],
+    );
+  }
+
+  _buildMessageComposer(){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      height: 78,
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(10, 10, 10, 15),
+              padding: EdgeInsets.only(left: 15),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 245, 244, 244),
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 0),
+                      child: TextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: InputDecoration.collapsed(
+                            hintText: "Di algo...",
+                            hintStyle:TextStyle(
+                              fontFamily: "Sf",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Color.fromARGB(100, 96, 102, 115),
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.only(right: 10, top: 7, bottom: 7),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 203, 203, 203),
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        icon: Icon(Icons.add),
+                        iconSize: 25,
+                        color: Color.fromARGB(255, 245, 244, 244),
+                        onPressed: () {},
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          _keyboardIsVisible()
+              ?Container(
+            width: 65,
+            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(180, 0, 191, 131),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            child: Center(
+              child: IconButton(icon: Icon(Ionicons.ios_send),
+                iconSize: 25,
+                color: Colors.white,
+                onPressed: () {
+                  Message message = Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now());
+                  BlocProvider.of<MessagesBloc>(context).add(AddMessage(message));
+                },
+              ),
+            ),
+          ):
+          Container(
+            width: 65,
+            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
+            decoration: BoxDecoration(
+              color: AppColors.secondaryBackground,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            child: Center(
+              child: IconButton(icon: Icon(Icons.add_shopping_cart),
+                iconSize: 25,
+                color: Colors.white,
+                onPressed: () {},
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

@@ -20,7 +20,7 @@ class ChatsBloc extends Bloc<ChatsBlocEvent, ChatsBlocState> {
       if(state is UserLoadedState){
           isUserDownloaded = true;
 
-          add(LoadChats(state.user));
+          add(LoadChats());
 
           downloadedUser = state.user;
 
@@ -38,7 +38,7 @@ class ChatsBloc extends Bloc<ChatsBlocEvent, ChatsBlocState> {
     ChatsBlocEvent event,
   ) async* {
     if(event is LoadChats){
-      yield* _mapLoadChatsToState(event.user);
+      yield* _mapLoadChatsToState();
     }else if(event is LoadedChats){
       yield* _mapLoadedChatsToState(event.compraChats, event.ventaChats);
     }else if(event is AddChat){
@@ -46,13 +46,13 @@ class ChatsBloc extends Bloc<ChatsBlocEvent, ChatsBlocState> {
     }
   }
 
-  _mapLoadChatsToState(User user) {
-    compraChatsStreamSubscription = databaseRepository.getCompraChats(user)
+  _mapLoadChatsToState() {
+    compraChatsStreamSubscription = databaseRepository.getCompraChats(downloadedUser)
         .listen((list) {
           compraChats  = list;
             add(LoadedChats(compraChats,ventaChats));
         });
-    ventaChatsStreamSubscription = databaseRepository.getVentaChats(user)
+    ventaChatsStreamSubscription = databaseRepository.getVentaChats(downloadedUser)
         .listen((list) {
       ventaChats  = list;
       add(LoadedChats(compraChats,ventaChats));

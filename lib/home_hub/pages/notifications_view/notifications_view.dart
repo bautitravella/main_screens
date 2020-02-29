@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/message_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen.dart';
 import 'package:flutterui/values/colors.dart';
@@ -25,6 +27,7 @@ class NotificationViewState extends State<NotificationView> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ChatsBloc>(context).add(LoadChats());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -38,10 +41,21 @@ class NotificationViewState extends State<NotificationView> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
-                child: Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
-                  child: listView,
-                )),
+                child: BlocBuilder<ChatsBloc,ChatsBlocState>(
+                  builder: (context, state){
+
+                    if(state is ChatsLoaded){
+                      listViewVenta = ListViewVenta( chats : state.chatsVentaList);
+                      listViewCompra = ListViewCompra(chats: state.chatsCompraList);
+                      return Container(
+                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
+                      child: listView,
+                    ) ;
+                    }
+                    return Center(child: CircularProgressIndicator(),);
+                  },
+                )
+            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,6 +147,11 @@ class NotificationViewState extends State<NotificationView> {
 }
 
 class ListViewVenta extends StatelessWidget {
+
+  final List<Chat> chats;
+
+  const ListViewVenta({Key key, this.chats}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -143,12 +162,14 @@ class ListViewVenta extends StatelessWidget {
       child: ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
-            final Message chat = chats[index];
+            final Chat chat = chats[index];
             return GestureDetector(
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreenBuck(chat : Chat()),
+                    builder: (_) {
+                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat));
+                      return ChatScreenBuck(chat : chat);}
                   )),
               child: Stack(
                 children: <Widget>[
@@ -159,10 +180,10 @@ class ListViewVenta extends StatelessWidget {
                     bottom: 10,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: chat.unread
+                        color: chat.leidoPorElVendedor
                             ? AppColors.secondaryBackground
                             : Colors.white,
-                        borderRadius: chat.unread
+                        borderRadius: chat.leidoPorElVendedor
                             ? BorderRadius.all(Radius.circular(30))
                             : null,
                         // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
@@ -185,7 +206,7 @@ class ListViewVenta extends StatelessWidget {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage(chat.sender.imageUrl),
+                              backgroundImage: AssetImage("assets/images/destacados-image.png"),
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
@@ -193,7 +214,7 @@ class ListViewVenta extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    chats[index].sender.name,
+                                    chats[index].vendedorNombre,
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 16,
@@ -206,7 +227,8 @@ class ListViewVenta extends StatelessWidget {
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
                                     child: Text(
-                                      chat.text,
+
+                                      "Hola capo de la vida",
                                       style: TextStyle(
                                         fontFamily: "Sf",
                                         fontSize: 13,
@@ -218,7 +240,7 @@ class ListViewVenta extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    chat.time,
+                                    chat.timestamp.toString(),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -233,7 +255,8 @@ class ListViewVenta extends StatelessWidget {
                         ),
                         Column(
                           children: <Widget>[
-                            chat.sell ?
+                            //TODO cambiar esto por un handler del estadoTransaccion
+                            true ?
                             Row(
                               children: <Widget>[
                                 Container(
@@ -260,7 +283,7 @@ class ListViewVenta extends StatelessWidget {
                             Row(
                               children: <Widget>[
                                 Text(""),
-                                chat.unread
+                                chat.leidoPorElVendedor
                                     ? Container(
                                   child: Icon(
                                     FontAwesome5Solid.comment,
@@ -303,6 +326,11 @@ class ListViewVenta extends StatelessWidget {
 }
 
 class ListViewCompra extends StatelessWidget {
+
+  final List<Chat> chats;
+
+  const ListViewCompra({Key key, this.chats}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -313,13 +341,18 @@ class ListViewCompra extends StatelessWidget {
       child: ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
-            final Message chat = chats[index];
+            final Chat chat = chats[index];
             return GestureDetector(
-              onTap: () => Navigator.push(
+              onTap: () {
+
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreenBuck(chat : Chat()),
-                  )),
+                    //TODO aca hay que pasarle un chat real, no este que es de mentira
+                    builder: (_) {
+                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat));
+                      return ChatScreenBuck(chat : chat);},
+                  ));},
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -329,10 +362,10 @@ class ListViewCompra extends StatelessWidget {
                     bottom: 10,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: chat.unread
+                        color: chat.leidoPorElComprador
                             ? AppColors.secondaryBackground
                             : Colors.white,
-                        borderRadius: chat.unread
+                        borderRadius: chat.leidoPorElComprador
                             ? BorderRadius.all(Radius.circular(30))
                             : null,
                         // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
@@ -355,7 +388,7 @@ class ListViewCompra extends StatelessWidget {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage(chat.sender.imageUrl),
+                              backgroundImage: AssetImage("assets/images/destacados-image.png"),
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
@@ -363,7 +396,7 @@ class ListViewCompra extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    chats[index].sender.name,
+                                    chats[index].compradorNombre,
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 16,
@@ -376,7 +409,8 @@ class ListViewCompra extends StatelessWidget {
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
                                     child: Text(
-                                      chat.text,
+                                      //TODO cambiar esto por el ultimo mensaje de la conversacion
+                                      "HOLAAAA",
                                       style: TextStyle(
                                         fontFamily: "Sf",
                                         fontSize: 13,
@@ -388,7 +422,7 @@ class ListViewCompra extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    chat.time,
+                                    chat.timestamp.toString(),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -405,7 +439,7 @@ class ListViewCompra extends StatelessWidget {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                chat.buy
+                                true
                                     ? Container(
                                   child: Row(
                                     children: <Widget>[
@@ -427,7 +461,7 @@ class ListViewCompra extends StatelessWidget {
                                   ),
                                 )
                                     : Text(""),
-                                chat.unread
+                                chat.leidoPorElComprador
                                     ? Container(
                                   child: Icon(
                                     FontAwesome5Solid.comment,

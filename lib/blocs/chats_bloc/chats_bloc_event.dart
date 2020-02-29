@@ -7,12 +7,9 @@ abstract class ChatsBlocEvent extends Equatable {
 }
 
 class LoadChats extends ChatsBlocEvent{
-  final User user;
-
-  LoadChats(this.user);
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [];
 }
 
 class LoadedChats extends ChatsBlocEvent{
