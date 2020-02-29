@@ -27,16 +27,19 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
 //  }
 
 
-  Widget _displayImage() {
+  Widget _displayMainImage() {
     return _image[0] == null?
-    Image(
-      image: AssetImage(
-          "assets/images/bookdescarte.png"
-      ),
-      fit: BoxFit.fill,
-    )
+    Text("")
         :
-    Image.file(_image[0],fit: BoxFit.fill,);
+    ClipRRect( borderRadius: BorderRadius.all(Radius.circular(10)),
+        child: Image.file(_image[0],fit: BoxFit.fill,));
+  }
+  Widget _displaySecondImage() {
+    return _image[0] == null?
+    Text("")
+        :
+    ClipRRect( borderRadius: BorderRadius.all(Radius.circular(10)),
+        child: Image.file(_image[0],fit: BoxFit.fill,));
   }
 
   @override
@@ -114,7 +117,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                                   ),
                                 ]
                             ),
-                            child:  _displayImage(),
+                            child:  _displaySecondImage(),
                         ),
                         Container(
                             width: 161,
@@ -131,7 +134,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                                   ),
                                 ]
                             ),
-                            child: _displayImage()
+                            child: _displaySecondImage()
                         ),
                       ],
                     ),
@@ -151,7 +154,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                                   blurRadius: 6.0,
                                 ),
                               ]),
-                          child: _displayImage()
+                          child: _displayMainImage()
                       ),
                     ),
                     Positioned(
@@ -166,11 +169,18 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                               borderRadius:
                               BorderRadius.all(Radius.circular(100)),
                             ),
-                            child: Icon(
-                              Icons.check,
+                            child: _image[0] == null?
+                            Icon(
+                              Icons.cloud_upload,
                               color: AppColors.secondaryBackground,
                               size: 60,
-                            ),
+                            )
+                            :
+                            Icon(
+                            Icons.check,
+                            color: AppColors.secondaryBackground,
+                            size: 60,
+                          ),
                             onPressed: () {selectImage();}
                         ),
                       ),
