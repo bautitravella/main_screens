@@ -24,8 +24,9 @@ class LoadedChats extends ChatsBlocEvent{
 
 class AddChat extends ChatsBlocEvent{
   final Chat chat;
+  Function function;
 
-  AddChat(this.chat);
+  AddChat(this.chat,{this.function});
 
   @override
   List<Object> get props => [chat];

@@ -55,13 +55,17 @@ abstract class DatabaseRepository {
   //CHAT
   Stream<List<Chat>> getVentaChats(User user);
   Stream<List<Chat>> getCompraChats(User user);
-  Future<void> addChat(User user,Chat chat);
+  Future<String> addChat(User user,Chat chat);
   Future<void> buyBook();
   Future<void> sellBook();
   Stream<List<Message>> getMessagesWithUid(Chat chat,User user);
   Future<Chat> getChatUid(Chat chat,User user);
   Future<void> sendMessage(Chat chat,User user,Message message);
   Future<void> updateLastMessage(Chat currentChat, Message message,ChatRole chatRole) ;
+  Future<void> updateLeidoByField(Chat chat,ChatRole chatRole);
+  Future<void> solicitarCompra(Chat chat);
+  Future<void> aceptarSolicitudDeCompra(Chat chat);
+  Future<void> rechazarSolicitudDeCompra(Chat chat);
   
   
 }
@@ -282,9 +286,17 @@ class FirebaseRepository extends DatabaseRepository{
   }
 
   @override
-  Future<void> addChat(User user,Chat chat) {
+  Future<String> addChat(User user,Chat chat) async{
+
     chat.addCompradorInformation(user);
-    return chatsReference.document().setData(chat.toMap());
+    Chat potentialChat = await getChatUid(chat, user);
+    if(potentialChat == null) {
+      DocumentReference documentReference = await chatsReference.add(
+          chat.toMap());
+      return documentReference.documentID;
+    }else{
+      return potentialChat.uid;
+    }
   }
 
   @override
@@ -351,6 +363,15 @@ class FirebaseRepository extends DatabaseRepository{
   }
 
   //Todo crear funcion para que se cambie el estado de leidoPorCOmpradory asi cuando uno lee un mensaje
+  Future<void> updateLeidoByField(Chat chat,ChatRole chatRole){
+    if(chatRole == ChatRole.COMPRADOR){
+      chatsReference.document(chat.uid)
+          .updateData({"leidoPorElComprador": true});
+    }else{
+      chatsReference.document(chat.uid)
+          .updateData({"leidoPorElVendedor": true});
+    }
+  }
 
   @override
   Future<void> updateLastMessage(Chat currentChat, Message message,ChatRole chatRole) {
@@ -360,6 +381,26 @@ class FirebaseRepository extends DatabaseRepository{
                     "lastMessageTimestamp": Timestamp.now(),
    "leidoPorElComprador": chatRole == ChatRole.COMPRADOR?  true:false,
    "leidoPorElVendedor": chatRole == ChatRole.VENDEDOR?true:false});
+  }
+
+  Future<void> solicitarCompra(Chat chat){
+    chatsReference.document(chat.uid).updateData({"estadoTransaccion": "Oferta"});
+  }
+
+  @override
+  Future<void> aceptarSolicitudDeCompra(Chat chat) async{
+    chatsReference.document(chat.uid).updateData({"estadoTransaccion": "Vendido"});
+    QuerySnapshot otherDocuments = await chatsReference.where("publicacionId",isEqualTo:  chat.publicacionId).getDocuments();
+    otherDocuments.documents.forEach((document) {
+      if(document.documentID != chat.uid){
+        chatsReference.document(chat.uid).updateData({"estadoTransaccion": "Rechazada"});
+      }
+    });
+  }
+
+  @override
+  Future<void> rechazarSolicitudDeCompra(Chat chat) {
+    chatsReference.document(chat.uid).updateData({"estadoTransaccion": "Rechazada"});
   }
 
 

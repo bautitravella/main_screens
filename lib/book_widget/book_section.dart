@@ -6,6 +6,7 @@ import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
@@ -203,10 +204,22 @@ class _BookSectionState extends State<BookSection> {
                               ],
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeHub()));
+                              showSlideDialogGrande(context: context,
+                                  child:CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
+                                    primaryFunction:() {
+                                      Navigator.of(context).pop();
+                                    },
+                                    secondaryFunction:() {
+                                      Chat chat = Chat.fromBook(widget.book);
+                                      chat.estadoTransaccion = "Oferta";
+                                      BlocProvider.of<ChatsBloc>(context).add(AddChat(chat,function :(newChat) {BlocProvider.of<MessagesBloc>(context).add(LoadMessages(newChat,ChatRole.COMPRADOR));}));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ChatScreenBuck(chat : chat,chatRole: ChatRole.COMPRADOR,)));
+                                    },) );
+
+
                             }),
                       ),
                     ),
@@ -246,7 +259,7 @@ class _BookSectionState extends State<BookSection> {
                             onPressed: () {
                               Chat chat = Chat.fromBook(widget.book);
                               chat.estadoTransaccion = "Pregunta";
-                              BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat));
+                              BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -818,3 +831,42 @@ class _BookSectionState extends State<BookSection> {
     ),
   );
 }
+
+showCustomDialog(BuildContext context) {
+  showSlideDialogGrande(context: context,
+      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",
+        primaryFunction:() {
+          print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+          showLoadingDialog(context);
+        },
+        secondaryFunction:() {
+          print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+          showErrorDialog(context, "TODO MAL");
+          },) );
+//  Center(child: Column(children: [
+//    RaisedButton(
+//      child: Text("showLoadingDialog"),
+//      onPressed: () => showLoadingDialog(context),
+//    )
+//  ]))
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
+}
+
+

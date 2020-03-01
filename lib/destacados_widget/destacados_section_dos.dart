@@ -328,7 +328,9 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                               alignment: Alignment.topRight,
                                               child: IconButton(
                                                 icon: Icon(Icons.favorite_border),
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  //BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites())
+                                                },
                                               )),
                                           SizedBox(height: 15),
                                           Align(

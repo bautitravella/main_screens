@@ -79,7 +79,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           ),
                         ),
                         Text(
-                          "Senior 2, Sociales",
+                          widget.chat.nombreLibro,
                           style: TextStyle(
                             fontFamily: "Roboto",
                             fontSize: 16,

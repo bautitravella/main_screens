@@ -44,25 +44,32 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
     MessagesBlocEvent event,
   ) async* {
     if(event is LoadMessages){
-      yield* _mapLoadMessagesToState(event.chat);
+      yield* _mapLoadMessagesToState(event.chat,event.chatRole);
     }else if(event is LoadedMessages){
       yield* _mapLoadedMessagesToState(event.messages);
     }else if(event is AddMessage){
       yield* _mapAddMessageToState(event.message,event.chatRole);
+    }else if(event is SolicitarCompra){
+      yield* _mapSolicitarCompraToState(event.chat);
+    }else if(event is AceptarSolicitudDeCompra){
+      yield* _mapAceptarSolicitudToState(event.chat);
+    }else if(event is RechazarSolicitudDeCompra){
+      yield* _mapRechazarSolicitudToState(event.chat);
     }
   }
 
-  Stream<MessagesBlocState> _mapLoadMessagesToState(Chat chat) async* {
+  Stream<MessagesBlocState> _mapLoadMessagesToState(Chat chat,ChatRole chatRole) async* {
     //agregar que cuando te bajas los mensajes ya se tildeee como ya leiste el mensaje
-    if(downloadedUser != null) {
+    yield MessagesLoading();
+    if (downloadedUser != null) {
       currentChat = chat;
       if (chat.uid != null) {
-
         isChatCreated = true;
         messagesSubscription =
             databaseRepository.getMessagesWithUid(chat, downloadedUser).listen((
                 messages) {
               print("MESSAGES ================= $messages");
+              databaseRepository.updateLeidoByField(chat, chatRole);
               add(LoadedMessages(messages));
             });
       } else {
@@ -72,21 +79,25 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
             chat, downloadedUser);
         if (chatWithUid != null) {
           currentChat = chatWithUid;
-          print("MessagesBloc LoadMessages chatWithUid != null. Chat = " + chatWithUid.toString());
+          print("MessagesBloc LoadMessages chatWithUid != null. Chat = " +
+              chatWithUid.toString());
           isChatCreated = true;
           messagesSubscription =
               databaseRepository.getMessagesWithUid(chatWithUid, downloadedUser)
                   .listen((messages) {
+                databaseRepository.updateLeidoByField(currentChat, chatRole);
                 add(LoadedMessages(messages));
               });
         } else {
-          print("MessagesBloc LoadMessages chatWithUid == NULL. isChatCreated setting to false");
+          print(
+              "MessagesBloc LoadMessages chatWithUid == NULL. isChatCreated setting to false");
           yield PotentialNewMessage();
-            isChatCreated = false;
+          isChatCreated = false;
         }
       }
+    } else {
+      print("MessagesBloc LoadMessages NO SE CARGO EL USUARIO");
     }
-    print("MessagesBloc LoadMessages NO SE CARGO EL USUARIO");
   }
 
   Stream<MessagesBlocState> _mapLoadedMessagesToState(List<Message> messages) async* {
@@ -99,14 +110,44 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
       isChatBeenCreated = false;
       databaseRepository.sendMessage( currentChat , downloadedUser , message );
       databaseRepository.updateLastMessage(currentChat,message,chatRole);
-    }else{
+    }else{ // esta parte del if es para cuando todavia no hubo ningun chat
       if(isChatBeenCreated == false){
         isChatBeenCreated = true;
-        chatBloc.add(AddChat(currentChat));
-        add(LoadMessages(currentChat));
+        chatBloc.add(AddChat(currentChat));// aca utilizamos el currentChat porq ya asumimos que alguien hizo un LoadChats
+        add(LoadMessages(currentChat,chatRole));
         add(AddMessage(message,chatRole));
       }
     }
   }
+
+  _mapSolicitarCompraToState(Chat chat) {//Por definicion si alguien esta solicitando una compra el ChatRole es COMPRADOR
+    if(isChatCreated){
+      isChatBeenCreated = false;
+      databaseRepository.solicitarCompra(currentChat);
+    }else{
+      if(isChatBeenCreated == false){
+       isChatBeenCreated = true;
+       chatBloc.add(AddChat(currentChat));
+       add(LoadMessages(currentChat,ChatRole.COMPRADOR));
+       add(SolicitarCompra(chat));
+      }
+    }
+  }
+
+  _mapAceptarSolicitudToState(Chat chat) {
+    databaseRepository.aceptarSolicitudDeCompra(chat);
+  }
+
+  _mapRechazarSolicitudToState(Chat chat) {
+    databaseRepository.rechazarSolicitudDeCompra(chat);
+  }
+
+  @override
+  Future<void> close() {
+    _userStreamSubscription.cancel();
+    messagesSubscription.cancel();
+    return super.close();
+  }
+
 
 }
