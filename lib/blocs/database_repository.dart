@@ -66,6 +66,8 @@ abstract class DatabaseRepository {
   Future<void> solicitarCompra(Chat chat);
   Future<void> aceptarSolicitudDeCompra(Chat chat);
   Future<void> rechazarSolicitudDeCompra(Chat chat);
+
+  Stream<List<Book>> searchBooks(User downloadedUser, List<String> list);
   
   
 }
@@ -401,6 +403,11 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Future<void> rechazarSolicitudDeCompra(Chat chat) {
     chatsReference.document(chat.uid).updateData({"estadoTransaccion": "Rechazada"});
+  }
+
+  @override
+  Stream<List<Book>> searchBooks(User downloadedUser, List<String> list) {
+   return  booksReference.where("indexes",arrayContainsAny: list).snapshots().map((snapshot) => snapshot.documents.map((document) => Book.fromDocumentSnapshot(document)).toList());
   }
 
 

@@ -57,6 +57,9 @@ class App extends StatelessWidget {
               }),
               BlocProvider<MessagesBloc>(create: (BuildContext context){
                 return MessagesBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context),BlocProvider.of<ChatsBloc>(context));
+              }),
+              BlocProvider<SearchBloc>(create:(BuildContext context){
+                return SearchBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
               })
             ],
             child: MaterialApp(
