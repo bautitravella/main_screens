@@ -13,32 +13,16 @@ class Chat {
       vendedorImageUrl,
       vendedorNombre,
       estadoTransaccion,
-  uid;
+  uid,
+  lastMessage;
   CachedNetworkImageProvider compradorImage, vendedorImage;
   bool leidoPorElComprador, leidoPorElVendedor;
-  Timestamp timestamp;
+  Timestamp timestamp,lastMessageTimestamp;
 
   Chat();
 
-  Chat.fromDocumentSnapshotAsComprador(DocumentSnapshot doc) {
-    nombreLibro = doc['nombreLibro'];
-    publicacionId = doc['publicacionId'];
-    compradorEmail = doc['compradorEmail'];
-    compradorNombre = doc['compradorNombre'];
-    compradorImageUrl = doc['compradorImage'];
-    //compradorImage = CachedNetworkImageProvider(compradorImageUrl);
-    vendedorEmail = doc['vendedorEmail'];
-    vendedorNombre = doc['vendedorNombre'];
-    vendedorImageUrl = doc['vendedorImage'];
-    vendedorImage = CachedNetworkImageProvider(vendedorImageUrl);
-    leidoPorElComprador = doc['leidoPorElComprador'];
-    leidoPorElVendedor = doc['leidoPorElVendedor'];
-    timestamp = doc['timestamp'];
-    estadoTransaccion = doc['estadoTransaccion'];
-    uid = doc.documentID;
-  }
 
-  Chat.fromDocumentSnapshotAsVendedor(DocumentSnapshot doc) {
+  Chat.fromDocumentSnapshot(DocumentSnapshot doc) {
     nombreLibro = doc['nombreLibro'];
     publicacionId = doc['publicacionId'];
     compradorEmail = doc['compradorEmail'];
@@ -48,18 +32,20 @@ class Chat {
     vendedorEmail = doc['vendedorEmail'];
     vendedorNombre = doc['vendedorNombre'];
     vendedorImageUrl = doc['vendedorImage'];
-    //vendedorImage = CachedNetworkImageProvider(vendedorImageUrl);
+    vendedorImage = CachedNetworkImageProvider(vendedorImageUrl);
     leidoPorElComprador = doc['leidoPorElComprador'];
     leidoPorElVendedor = doc['leidoPorElVendedor'];
     timestamp = doc['timestamp'];
     estadoTransaccion = doc['estadoTransaccion'];
     uid = doc.documentID;
+    if(doc['lastMessage'] != null) lastMessage = doc['lastMessage'];
+    if(doc['lastMessageTimestamp'] != null) lastMessageTimestamp = doc['lastMessageTimestamp'];
   }
 
   Chat.fromBook(Book book){
     this.vendedorImage = book.imageVendedor;
     this.vendedorImageUrl = book.imageVendedorUrl;
-    this.vendedorNombre = book.nombreVendedor;
+    this.vendedorNombre = book.nombreVendedor + " " + book.apellidoVendedor;
     this.vendedorEmail = book.emailVendedor;
     this.leidoPorElVendedor = false;
     this.publicacionId = book.uid;
@@ -84,16 +70,18 @@ class Chat {
   }
 
   addVendedorInformation(User user){
-    vendedorNombre = user.nombre;
+    vendedorNombre = user.nombre + " " + user.apellido;
     vendedorEmail = user.email;
     vendedorImageUrl = user.fotoPerfilUrl;
+    vendedorImage = user.fotoPerfil;
     leidoPorElVendedor = false;
   }
 
   addCompradorInformation(User user){
-    compradorNombre = user.nombre;
+    compradorNombre = user.nombre + " " + user.apellido;
     compradorEmail = user.email;
     compradorImageUrl = user.fotoPerfilUrl;
+    compradorImage = user.fotoPerfil;
     leidoPorElComprador = false;
   }
 

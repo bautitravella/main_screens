@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
@@ -45,11 +46,12 @@ class NotificationViewState extends State<NotificationView> {
                   builder: (context, state){
 
                     if(state is ChatsLoaded){
-                      listViewVenta = ListViewVenta( chats : state.chatsVentaList);
-                      listViewCompra = ListViewCompra(chats: state.chatsCompraList);
+
+                        listViewVenta = ListViewVenta( chats : state.chatsVentaList);
+                        listViewCompra = ListViewCompra(chats: state.chatsCompraList);
                       return Container(
-                      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
-                      child: listView,
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
+                        child: listView,
                     ) ;
                     }
                     return Center(child: CircularProgressIndicator(),);
@@ -159,7 +161,7 @@ class ListViewVenta extends StatelessWidget {
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
       color: Colors.white,
-      child: ListView.builder(
+      child: chats.length == 0 ? Text('Parece que no todavia no hay ningun chat'):ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
             final Chat chat = chats[index];
@@ -169,7 +171,7 @@ class ListViewVenta extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (_) {
                       BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat));
-                      return ChatScreenBuck(chat : chat);}
+                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.VENDEDOR);}
                   )),
               child: Stack(
                 children: <Widget>[
@@ -206,7 +208,7 @@ class ListViewVenta extends StatelessWidget {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage("assets/images/destacados-image.png"),
+                              backgroundImage: chat.compradorImage,
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
@@ -214,7 +216,7 @@ class ListViewVenta extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    chats[index].vendedorNombre,
+                                    chats[index].compradorNombre,
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 16,
@@ -226,9 +228,9 @@ class ListViewVenta extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width *
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: Text(
+                                    child: chat.lastMessage != null?Text(
 
-                                      "Hola capo de la vida",
+                                      chat.lastMessage,
                                       style: TextStyle(
                                         fontFamily: "Sf",
                                         fontSize: 13,
@@ -237,10 +239,10 @@ class ListViewVenta extends StatelessWidget {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                    ),
+                                    ):Container(),
                                   ),
                                   Text(
-                                    chat.timestamp.toString(),
+                                    chat.timestamp.toDate().hour.toString() + ":" + chat.timestamp.toDate().minute.toString(),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -351,7 +353,7 @@ class ListViewCompra extends StatelessWidget {
                     //TODO aca hay que pasarle un chat real, no este que es de mentira
                     builder: (_) {
                       BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat));
-                      return ChatScreenBuck(chat : chat);},
+                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR);},
                   ));},
               child: Stack(
                 children: <Widget>[
@@ -388,7 +390,7 @@ class ListViewCompra extends StatelessWidget {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage("assets/images/destacados-image.png"),
+                              backgroundImage: chats[index].vendedorImage,
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
@@ -396,7 +398,7 @@ class ListViewCompra extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    chats[index].compradorNombre,
+                                    chats[index].vendedorNombre,
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 16,
@@ -408,9 +410,9 @@ class ListViewCompra extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width *
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: Text(
-                                      //TODO cambiar esto por el ultimo mensaje de la conversacion
-                                      "HOLAAAA",
+                                    child: chat.lastMessage != null?Text(
+
+                                      chat.lastMessage,
                                       style: TextStyle(
                                         fontFamily: "Sf",
                                         fontSize: 13,
@@ -419,10 +421,10 @@ class ListViewCompra extends StatelessWidget {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                    ),
+                                    ):Container(),
                                   ),
                                   Text(
-                                    chat.timestamp.toString(),
+                                    chat.timestamp.toDate().hour.toString() + ":" + chat.timestamp.toDate().minute.toString(),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,

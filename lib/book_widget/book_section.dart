@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dart';
@@ -249,7 +250,7 @@ class _BookSectionState extends State<BookSection> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ChatScreenBuck(chat : chat)));
+                                      builder: (context) => ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR)));
                             }),
                       ),
                     ),

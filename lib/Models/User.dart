@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 
 
@@ -7,7 +8,8 @@ class User extends Equatable{
   String nombre;
   String apellido;
   String fotoPerfilUrl;
-  File fotoPerfil;
+  CachedNetworkImageProvider fotoPerfil;
+  File fotoPerfilRaw;
   bool hasAcceptedTerms;
 
   String email;
@@ -28,6 +30,7 @@ class User extends Equatable{
     this.nombre = nombre;
     this.apellido = apellido;
     this.fotoPerfilUrl = fotoPerfil;
+    this.fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
     this.hasAcceptedTerms= hasAcceptedTerms;
   }
 

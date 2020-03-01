@@ -11,6 +11,8 @@ import 'package:flutterui/Models/Colegio.dart';
 import 'package:flutter/services.dart';
 import 'dart:core';
 
+import 'package:flutterui/Models/chat_roles.dart';
+
 
 
 abstract class DatabaseRepository {
@@ -59,6 +61,7 @@ abstract class DatabaseRepository {
   Stream<List<Message>> getMessagesWithUid(Chat chat,User user);
   Future<Chat> getChatUid(Chat chat,User user);
   Future<void> sendMessage(Chat chat,User user,Message message);
+  Future<void> updateLastMessage(Chat currentChat, Message message,ChatRole chatRole) ;
   
   
 }
@@ -292,17 +295,17 @@ class FirebaseRepository extends DatabaseRepository{
 
   @override
   Stream<List<Chat>> getVentaChats(User user) {
-    return chatsReference.where('vendedorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)).toList());
+    return chatsReference.where('vendedorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshot(doc)).toList());
   }
 
   @override
   Stream<List<Chat>> getCompraChats(User user) {
-    return chatsReference.where('compradorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshotAsVendedor(doc)).toList());
+    return chatsReference.where('compradorEmail',isEqualTo: user.email).snapshots().map((docs) => docs.documents.map((doc) => Chat.fromDocumentSnapshot(doc)).toList());
   }
 
   @override
   Stream<List<Message>> getMessagesWithUid(Chat chat, User user) {
-    return chatsReference.document(chat.uid).collection("Messages").snapshots().map((docs) => docs.documents.map((doc) => Message.fromDocumentSnapshot(doc)).toList());
+    return chatsReference.document(chat.uid).collection("Messages").orderBy("sentTimestamp",descending: true).snapshots().map((docs) => docs.documents.map((doc) => Message.fromDocumentSnapshot(doc)).toList());
   }
 
   Future<Chat> getChatUid(Chat chat,User user) async{
@@ -311,7 +314,7 @@ class FirebaseRepository extends DatabaseRepository{
     if(snapshot.documents != null && snapshot.documents.isNotEmpty){
       if(snapshot.documents.length == 1){
         DocumentSnapshot doc = snapshot.documents.single;
-        return Chat.fromDocumentSnapshotAsComprador(doc);
+        return Chat.fromDocumentSnapshot(doc);
       }
 
     }
@@ -345,6 +348,18 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Future<void> sendMessage(Chat chat,User user,Message message) {
     chatsReference.document(chat.uid).collection("Messages").document().setData(message.toMap());
+  }
+
+  //Todo crear funcion para que se cambie el estado de leidoPorCOmpradory asi cuando uno lee un mensaje
+
+  @override
+  Future<void> updateLastMessage(Chat currentChat, Message message,ChatRole chatRole) {
+    // todo que tambien se cambie lo de leidoPorCOmprador/Vendedor
+   chatsReference.document(currentChat.uid)
+       .updateData({"lastMessage" : message.messageText,
+                    "lastMessageTimestamp": Timestamp.now(),
+   "leidoPorElComprador": chatRole == ChatRole.COMPRADOR?  true:false,
+   "leidoPorElVendedor": chatRole == ChatRole.VENDEDOR?true:false});
   }
 
 

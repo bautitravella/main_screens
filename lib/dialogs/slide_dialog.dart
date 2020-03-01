@@ -157,7 +157,7 @@ class _SlideDialogGrandeState extends State<SlideDialogGrande> {
                     onVerticalDragStart: _onVerticalDragStart,
                     onVerticalDragEnd: _onVerticalDragEnd,
                     onVerticalDragUpdate: _onVerticalDragUpdate,
-                    animatedPill: widget.animatedPill,
+                    animatedPill: widget.animatedPill != null?widget.animatedPill:true,
                   ),
                   widget.child,
                 ],

@@ -86,9 +86,10 @@ class CustomDialog extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context)
-                      .pushReplacementNamed(primaryButtonRoute);
+                  primaryFunction.call();
+//                  Navigator.of(context).pop();
+//                  Navigator.of(context)
+//                      .pushReplacementNamed(primaryButtonRoute);
                 },
               ),
             ),
@@ -100,8 +101,8 @@ class CustomDialog extends StatelessWidget {
     );
   }
 
-  showSecondaryButton(BuildContext context) {
-    if (secondaryButtonRoute != null && secondaryButtonText != null ){
+  showSecondaryButton(BuildContext context) {//secondaryButtonRoute != null
+    if (  secondaryButtonText != null ){
       return Container(
         width: 350,
         height: 44,
@@ -122,8 +123,9 @@ class CustomDialog extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed(secondaryButtonRoute);
+            secondaryFunction.call();
+//            Navigator.of(context).pop();
+//            Navigator.of(context).pushReplacementNamed(secondaryButtonRoute);
           },
         ),
       );

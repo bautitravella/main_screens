@@ -210,7 +210,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
   Future<String> uploadImage() async {
     StorageReference ref =
         FirebaseStorage.instance.ref().child("profile_images2/" + user.email + ".jpg");
-    StorageUploadTask uploadTask = ref.putFile(user.fotoPerfil);
+    StorageUploadTask uploadTask = ref.putFile(user.fotoPerfilRaw);
     print(
         "---------------------------------------------------------Arranca la transferencia");
 

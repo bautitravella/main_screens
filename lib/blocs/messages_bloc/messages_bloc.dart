@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import './bloc.dart';
 
@@ -47,11 +48,12 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
     }else if(event is LoadedMessages){
       yield* _mapLoadedMessagesToState(event.messages);
     }else if(event is AddMessage){
-      yield* _mapAddMessageToState(event.message);
+      yield* _mapAddMessageToState(event.message,event.chatRole);
     }
   }
 
   Stream<MessagesBlocState> _mapLoadMessagesToState(Chat chat) async* {
+    //agregar que cuando te bajas los mensajes ya se tildeee como ya leiste el mensaje
     if(downloadedUser != null) {
       currentChat = chat;
       if (chat.uid != null) {
@@ -91,16 +93,18 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
     yield MessagesLoaded(messages);
   }
 
-  _mapAddMessageToState(Message message) {
+  _mapAddMessageToState(Message message,ChatRole chatRole) {
+    message.email = downloadedUser.email;
     if(isChatCreated){
       isChatBeenCreated = false;
       databaseRepository.sendMessage( currentChat , downloadedUser , message );
+      databaseRepository.updateLastMessage(currentChat,message,chatRole);
     }else{
       if(isChatBeenCreated == false){
         isChatBeenCreated = true;
         chatBloc.add(AddChat(currentChat));
         add(LoadMessages(currentChat));
-        add(AddMessage(message));
+        add(AddMessage(message,chatRole));
       }
     }
   }

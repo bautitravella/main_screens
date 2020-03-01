@@ -1,13 +1,17 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterui/Models/chat_roles.dart';
 
 class Message{
 
   String email,messageText , typeOfMessage;
   Timestamp sentTimestamp;
+  ChatRole role;
 
   Message();
+
+  Message.fromChatWidget(this.messageText,this.typeOfMessage,this.sentTimestamp);
 
   Message.fromAllFields(this.email,this.messageText,this.typeOfMessage,this.sentTimestamp);
 

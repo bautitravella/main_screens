@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/Message.dart';
+import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -14,13 +16,16 @@ import '../../../size_config.dart';
 
 class ChatScreenBuck extends StatefulWidget {
   final Chat chat;
-  ChatScreenBuck({this.chat});
+  final ChatRole chatRole;
+  ChatScreenBuck({@required this.chat, @required this.chatRole});
 
   @override
   _ChatScreenBuckState createState() => _ChatScreenBuckState();
 }
 
 class _ChatScreenBuckState extends State<ChatScreenBuck> {
+  TextEditingController messageTextController = TextEditingController();
+
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
@@ -61,7 +66,8 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           child: Row(
                             children: <Widget>[
                               Text(
-                                widget.chat.vendedorNombre,
+                                widget.chatRole == ChatRole.COMPRADOR?
+                                widget.chat.vendedorNombre:widget.chat.compradorNombre,
                                 style: TextStyle(
                                   fontFamily: "Sf",
                                   fontSize: 21,
@@ -102,7 +108,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                         size: 30,
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
                     Container(
                       height: 60,
@@ -127,7 +133,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           Positioned(
                             child: CircleAvatar(
                               radius: 23.0,
-                              backgroundImage: widget.chat.vendedorImage,
+                              backgroundImage: widget.chatRole == ChatRole.COMPRADOR? widget.chat.vendedorImage:widget.chat.compradorImage,
                             ),
                           ),
                           Positioned(
@@ -136,7 +142,8 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                             child: Container(
                               child: CircleAvatar(
                                 radius: 10.0,
-                                backgroundImage: AssetImage("assets/images/logocolegio-fds.png"),
+                                backgroundImage: AssetImage(
+                                    "assets/images/logocolegio-fds.png"),
                               ),
                             ),
                           ),
@@ -172,12 +179,13 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.transparent,
       body: GestureDetector(
-        onTap: ()=> FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
           children: <Widget>[
             Expanded(
               child: Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*14),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 14),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -188,23 +196,42 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30)),
-                    child: BlocBuilder<MessagesBloc,MessagesBlocState>(
-                      builder: (context,state){
-                        if(state is MessagesLoaded){
+                    child: BlocBuilder<MessagesBloc, MessagesBlocState>(
+                      builder: (context, state) {
+                        if (state is MessagesLoaded) {
                           print(state.messages);
                           return ListView.builder(
                               reverse: true,
                               itemCount: state.messages.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final Message message = state.messages[index];
-                                final bool isMe  = true;//= message.sender.id == currentUser.id;
+                                bool isMe = true;
+                                if (widget.chatRole == ChatRole.COMPRADOR) {
+                                  if (message.email ==
+                                      widget.chat.compradorEmail) {
+                                    isMe = true;
+                                  } else {
+                                    isMe = false;
+                                  }
+                                } else {
+                                  if (message.email ==
+                                      widget.chat.vendedorEmail) {
+                                    isMe = true;
+                                  } else {
+                                    isMe = false;
+                                  }
+                                }
+                                //= message.sender.id == currentUser.id;
                                 return _buildMessage(message, isMe);
                               });
-                        }else if(state is MessagesLoading){
+                        } else if (state is MessagesLoading) {
                           return Center(child: CircularProgressIndicator());
-                        }else if(state is PotentialNewMessage){
-                          return Center(child: Text('Parece que estas por escribir un mensaje'),);
-                        }else if(state is MessagesErrorLoading){
+                        } else if (state is PotentialNewMessage) {
+                          return Center(
+                            child: Text(
+                                'Parece que estas por escribir un mensaje'),
+                          );
+                        } else if (state is MessagesErrorLoading) {
                           showErrorDialog(context, state.errorMessage);
                           return Container();
                         }
@@ -226,13 +253,12 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
         ),
       ),
     );
-
   }
 
   _buildMessage(Message message, bool isMe) {
     return Flex(
       direction: Axis.horizontal,
-      mainAxisAlignment: isMe ?MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
         Container(
             padding: isMe
@@ -242,7 +268,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 ? EdgeInsets.only(top: 10, bottom: 10, right: 20)
                 : EdgeInsets.only(top: 10, bottom: 10, left: 20),
             constraints: BoxConstraints(
-              maxWidth: SizeConfig.blockSizeHorizontal* 70,
+              maxWidth: SizeConfig.blockSizeHorizontal * 70,
             ),
             decoration: BoxDecoration(
               color: isMe
@@ -257,21 +283,23 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   message.messageText,
                   style: isMe
                       ? TextStyle(
-                      fontFamily: "Sf",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white)
+                          fontFamily: "Sf",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white)
                       : TextStyle(
-                    fontFamily: "Sf",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromARGB(255, 96, 102, 115),
-                  ),
+                          fontFamily: "Sf",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 96, 102, 115),
+                        ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 5, left: 0, right: 0),
                   child: Text(
-                    message.sentTimestamp.toString(),
+                    message.sentTimestamp.toDate().hour.toString() +
+                        ":" +
+                        message.sentTimestamp.toDate().minute.toString(),
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: "Sf",
@@ -289,7 +317,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
     );
   }
 
-  _buildMessageComposer(){
+  _buildMessageComposer() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       height: 78,
@@ -311,15 +339,15 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       margin: EdgeInsets.only(left: 0),
                       child: TextField(
                         textCapitalization: TextCapitalization.sentences,
+                        controller: messageTextController,
                         decoration: InputDecoration.collapsed(
                             hintText: "Di algo...",
-                            hintStyle:TextStyle(
+                            hintStyle: TextStyle(
                               fontFamily: "Sf",
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: Color.fromARGB(100, 96, 102, 115),
-                            )
-                        ),
+                            )),
                       ),
                     ),
                   ),
@@ -344,39 +372,46 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
             ),
           ),
           _keyboardIsVisible()
-              ?Container(
-            width: 65,
-            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(180, 0, 191, 131),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-            child: Center(
-              child: IconButton(icon: Icon(Ionicons.ios_send),
-                iconSize: 25,
-                color: Colors.white,
-                onPressed: () {
-                  Message message = Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now());
-                  BlocProvider.of<MessagesBloc>(context).add(AddMessage(message));
-                },
-              ),
-            ),
-          ):
-          Container(
-            width: 65,
-            margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
-            decoration: BoxDecoration(
-              color: AppColors.secondaryBackground,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-            child: Center(
-              child: IconButton(icon: Icon(Icons.add_shopping_cart),
-                iconSize: 25,
-                color: Colors.white,
-                onPressed: () {},
-              ),
-            ),
-          ),
+              ? Container(
+                  width: 65,
+                  margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(180, 0, 191, 131),
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Ionicons.ios_send),
+                      iconSize: 25,
+                      color: Colors.white,
+                      onPressed: () {
+                        Message message = Message.fromChatWidget(
+                            messageTextController.text,
+                            'text',
+                            Timestamp.now());
+                        messageTextController.clear();
+                        BlocProvider.of<MessagesBloc>(context)
+                            .add(AddMessage(message,widget.chatRole));
+                      },
+                    ),
+                  ),
+                )
+              : Container(
+                  width: 65,
+                  margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryBackground,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.add_shopping_cart),
+                      iconSize: 25,
+                      color: Colors.white,
+                      onPressed: () {showCustomDialog(context);},
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -384,9 +419,34 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
 }
 
 void showLoadingDialog(BuildContext context) {
-  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
 }
-void showErrorDialog(BuildContext context,String errorMessage){
-  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
       animatedPill: false);
+}
+
+showCustomDialog(BuildContext context) {
+  showSlideDialogGrande(context: context,
+      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",primaryFunction:() {
+        print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+        showLoadingDialog(context);}, secondaryFunction:() {
+        print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+        showErrorDialog(context, "TODO MAL");},) );
+//  Center(child: Column(children: [
+//    RaisedButton(
+//      child: Text("showLoadingDialog"),
+//      onPressed: () => showLoadingDialog(context),
+//    )
+//  ]))
 }

@@ -260,7 +260,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
   siguienteBtn(BuildContext context) {
     if(_image != null){
-      widget.user.fotoPerfil = _image;
+      widget.user.fotoPerfilRaw = _image;
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DatosWidget(widget.user)));
     }else{
