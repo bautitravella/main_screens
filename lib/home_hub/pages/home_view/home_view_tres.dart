@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
@@ -293,6 +295,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           child: Row(
             children: <Widget>[
               IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
+                BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
                 Navigator.push(
                   context,
                   MaterialPageRoute(

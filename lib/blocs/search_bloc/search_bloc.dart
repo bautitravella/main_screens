@@ -41,14 +41,18 @@ class SearchBloc extends Bloc<SearchBlocEvent, SearchBlocState> {
     }
   }
 
-  _mapSearchBooksToState(List<String> list) {
-
-    if(downloadedUser != null){
-      booksSubscription = databaseRepository.searchBooks(downloadedUser,list).listen((booksList){
-        add(LoadedSearchBooks(booksList));
-      });
+  Stream<SearchBlocState> _mapSearchBooksToState(List<String> list) async* {
+    if(list.isNotEmpty) {
+      if (downloadedUser != null) {
+        booksSubscription =
+            databaseRepository.searchBooks(downloadedUser, list).listen((
+                booksList) {
+              add(LoadedSearchBooks(booksList));
+            });
+      }
+    }else{
+      yield InitialSearchBlocState();
     }
-
   }
 
   Stream<SearchBlocState>_mapSearchBooksLoadedToState(List<Book> booksList) async*{

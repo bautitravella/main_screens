@@ -12,15 +12,15 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
   StreamSubscription _userStreamSubscription;
   bool isUserDownloaded = false;
   bool timeouted = false;
-  User dowloadedUser;
+  User downloadedUser;
 
   BooksBloc(this.databaseRepository, this.userBloc){
     _userStreamSubscription = userBloc.listen((state) {
       if(state is UserLoadedState){
         if(isUserDownloaded == false){
           isUserDownloaded = true;
-          add(LoadUserBooks(state.user));
-          dowloadedUser = state.user;
+          add(LoadUserBooks());
+          downloadedUser = state.user;
         }else{
           add(UserUpdated(state.user));
         }
@@ -38,7 +38,7 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
     BooksBlocEvent event,
   ) async* {
     if(event is LoadUserBooks){
-      yield*  _mapLoadUserBooksToState(event.user);
+      yield*  _mapLoadUserBooksToState();
     }else if(event is BooksLoaded){
       yield*  _mapBooksLoadedToState(event);
     }else if(event is AddBook){
@@ -50,19 +50,19 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
 
 
 
-  Stream<BooksBlocState> _mapLoadUserBooksToState(User user) {
+  Stream<BooksBlocState> _mapLoadUserBooksToState() {
 
     if(isUserDownloaded == false){
-      if(dowloadedUser != null){
+      if(downloadedUser != null){
         _booksStreamSubscription?.cancel();
 
-        _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(user).listen((books) {add(BooksLoaded(books)); });
+        _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(downloadedUser).listen((books) {add(BooksLoaded(books)); });
       }
 
     }else{
       _booksStreamSubscription?.cancel();
 
-      _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(user).listen((books) {add(BooksLoaded(books)); });
+      _booksStreamSubscription = databaseRepository.getUserRecomendationBooks(downloadedUser).listen((books) {add(BooksLoaded(books)); });
     }
 
   }

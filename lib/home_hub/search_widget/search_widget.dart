@@ -30,7 +30,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-  /*  if (_keyboardIsVisible()){_pc.open();} else { _pc.close();}*/
+    /*  if (_keyboardIsVisible()){_pc.open();} else { _pc.close();}*/
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
@@ -131,18 +131,20 @@ class _SearchWidgetState extends State<SearchWidget> {
                     ),),*/
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
                     maxHeight: SizeConfig.blockSizeVertical * 85,
-                    minHeight: _keyboardIsVisible()?SizeConfig.blockSizeVertical * 85:SizeConfig.blockSizeVertical * 65,
+                    minHeight: _keyboardIsVisible()
+                        ? SizeConfig.blockSizeVertical * 85
+                        : SizeConfig.blockSizeVertical * 65,
                     color: Colors.white,
                     backdropEnabled: false,
                     backdropColor: AppColors.secondaryBackground,
                     body: _upperBody(),
                     parallaxEnabled: false,
                     parallaxOffset: 0.9,
-                              boxShadow: [
-                              BoxShadow(
-                              blurRadius: 20.0,
-                              color: Color.fromRGBO(0, 0, 0, 0.15),
-                            ),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20.0,
+                        color: Color.fromRGBO(0, 0, 0, 0.15),
+                      ),
                     ],
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
@@ -181,8 +183,8 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
             ),
             Positioned(
-              top: SizeConfig.blockSizeVertical*7,
-              width: SizeConfig.blockSizeHorizontal*100,
+              top: SizeConfig.blockSizeVertical * 7,
+              width: SizeConfig.blockSizeHorizontal * 100,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -202,15 +204,20 @@ class _SearchWidgetState extends State<SearchWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 18, color: Colors.white, onPressed: () => Navigator.pop(context)),
+                            IconButton(
+                                icon: Icon(Icons.arrow_back_ios),
+                                iconSize: 18,
+                                color: Colors.white,
+                                onPressed: () => Navigator.pop(context)),
                             Center(
                               child: Container(
                                 height: 24,
                                 margin: EdgeInsets.only(left: 10, top: 23),
                                 width: SizeConfig.blockSizeHorizontal * 60,
                                 child: TextField(
-                                  onChanged: (value){
-                                    BlocProvider.of<SearchBloc>(context).add(SearchBooks([value]));
+                                  onChanged: (value) {
+                                    BlocProvider.of<SearchBloc>(context)
+                                        .add(SearchBooks(value.split(' ')));
                                   },
                                   decoration: InputDecoration(
                                     hintText: "Buscar",
@@ -237,7 +244,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                             ),
                           ],
                         ),
-                        IconButton(icon: Icon(Icons.search), iconSize: 25, color: Colors.white, onPressed: () => Navigator.pop(context)),
+                        IconButton(
+                            icon: Icon(Icons.search),
+                            iconSize: 25,
+                            color: Colors.white,
+                            onPressed: () => Navigator.pop(context)),
                       ],
                     ),
                   ),
@@ -331,14 +342,15 @@ class _SearchWidgetState extends State<SearchWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-               child: Text('Recomendados',
-               style: TextStyle(
-                 fontFamily: 'Sf-r',
-                 fontSize: 17,
-                 color: Color.fromARGB(255, 57, 57, 57),
-                 fontWeight: FontWeight.w900,
-               ),
-               ),
+                child: Text(
+                  'Recomendados',
+                  style: TextStyle(
+                    fontFamily: 'Sf-r',
+                    fontSize: 17,
+                    color: Color.fromARGB(255, 57, 57, 57),
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
               ),
               Container(
                 height: 25,
@@ -347,18 +359,15 @@ class _SearchWidgetState extends State<SearchWidget> {
                 child: FlatButton(
                   onPressed: null,
                   disabledColor: Color.fromARGB(255, 255, 211, 96),
-                  color: Color.fromARGB(
-                      255, 251, 187, 16),
+                  color: Color.fromARGB(255, 251, 187, 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(14)),
+                    borderRadius: BorderRadius.all(Radius.circular(14)),
                   ),
                   child: Text(
                     "VER TODO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color.fromARGB(
-                          255, 255, 255, 255),
+                      color: Color.fromARGB(255, 255, 255, 255),
                       fontWeight: FontWeight.w900,
                       fontSize: 12,
                     ),
@@ -379,442 +388,576 @@ class _SearchWidgetState extends State<SearchWidget> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30)),
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30)),
-              child: BlocBuilder<SearchBloc,SearchBlocState>(
-                builder: (context,state) {
-                  if(state is InitialSearchBlocState){
-                    return ListView.builder(
-                    scrollDirection: Axis.vertical,
-    controller: sc,
-    itemCount: books2.length,
-    itemBuilder: (BuildContext context, int index) {
-    Book2 book = books2[index];
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+              child: BlocBuilder<SearchBloc, SearchBlocState>(
+                  builder: (context, state) {
+                if (state is InitialSearchBlocState) {
+                  BlocBuilder<BooksBloc,BooksBlocState>(
+                    builder: (context, state) {
+                      if(state is BooksLoadedState) {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          controller: sc,
+                          itemCount: state.books.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            Book book = state.books[index];
 
-    return Stack(
-    children: <Widget>[
-    Container(
-    margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-    padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
-    height: 127.0,
-    width: SizeConfig.blockSizeHorizontal * 100,
-    decoration: BoxDecoration(
-    /* color: Color.fromARGB(255, 241, 242, 242),*/
-    borderRadius: BorderRadius.circular(20.0),
-    ),
-    child: Padding(
-    padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
-    child: Stack(
-    children: <Widget>[
-    Column(
-    children: <Widget>[
-    Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-    Container(
-    width: SizeConfig.blockSizeHorizontal * 45,
-    child: Text(
-    "${book.name}",
-    style: TextStyle(
-    color: Color.fromARGB(200, 0, 0, 0),
-    fontSize: 15,
-    fontFamily: "Sf-r",
-    fontWeight: FontWeight.w700,
-    ),
-    overflow: TextOverflow.ellipsis,
-    maxLines: 2,
-    ),
-    ),
-    ],
-    ),
-    Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: <Widget>[
-    Container(
-    width: SizeConfig.blockSizeHorizontal * 40,
-    margin: EdgeInsets.only(top: 5),
-    child: Text(
-    "${book.author}",
-    style: TextStyle(
-    fontSize: 11,
-    fontFamily: "Sf",
-    fontWeight: FontWeight.w500,
-    ),
-    overflow: TextOverflow.ellipsis,
-    maxLines: 2,
-    ),
-    ),
-    ],
-    ),
-    ],
-    ),
-    Positioned(
-    left: 0,
-    bottom: 0,
-    right: 0,
-    child: Container(
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: <Widget>[
-    Align(
-    alignment: Alignment.topRight,
-    child: IconButton(
-    icon: Icon(Icons.favorite_border),
-    onPressed: () {},
-    )),
-    SizedBox(height: 15),
-    Align(
-    alignment: Alignment.centerRight,
-    child: Container(
-    width: SizeConfig.blockSizeHorizontal * 14,
-    height: 20,
-    decoration: BoxDecoration(
-    color: Color.fromARGB(20, 0, 0, 0),
-    borderRadius: BorderRadius.circular(10.0),
-    ),
-    alignment: Alignment.center,
-    child: Text(
-    book.state.toUpperCase(),
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    fontSize: 10,
-    fontWeight: FontWeight.w700,
-    fontFamily: "Sf-r",
-    color: Color.fromARGB(100, 0, 0, 0),
-    ),
-    overflow: TextOverflow.ellipsis,
-    maxLines: 2,
-    ),
-    ),
-    ),
-    SizedBox(height: 5,),
-    Container(
-    width: SizeConfig.blockSizeHorizontal * 62.5,
-    margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
-    child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: <Widget>[
-    Row(
-    children: <Widget>[
-    Container(
-    height: 25,
-    width: 25 ,
-    child: ClipRRect(
-    borderRadius: BorderRadius.circular(100),
-    child: Image.asset("assets/images/avatar.png"),
-    )),
-    Container(
-    height: 21,
-    width: 40,
-    margin: EdgeInsets.only(left: 4),
-    padding: EdgeInsets.only(left: 4, right: 4),
-    decoration: BoxDecoration(
-    color: Color.fromARGB(100, 116, 116, 116),
-    borderRadius: BorderRadius.circular(8.0),
-    border: Border.all(
-    width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
-    ),
-    alignment: Alignment.center,
-    child: Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-    Icon(
-    Icons.star,
-    size: 17,
-    color: Colors.white),
-    Text(
-    '${book.rating}',
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    fontSize: 15,
-    fontWeight: FontWeight.w800,
-    fontFamily: "Sf-r",
-    color: Colors.white
-    ),
-    ),
-
-    ],
-    ),
-    ),
-    ],
-    ),
-    Padding(
-    padding:
-    const EdgeInsets.only(right: 5),
-    child: Row(
-    children: <Widget>[
-    Text(
-    '\$${book.price}',
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    fontSize: 21,
-    fontWeight: FontWeight.w700,
-    fontFamily: "Sf-r",
-    color: Color.fromARGB(
-    190, 0, 0, 0),
-    ),
-    )
-    ],
-    )),
-    ],
-    ),
-    ),
-    ],
-    ),
-    ),
-    ),
-    ],
-    ),
-    ),
-    ),
-    Positioned(
-    left: SizeConfig.blockSizeHorizontal*6,
-    bottom: 15,
-    top: 15,
-    child: ClipRRect(
-    borderRadius: BorderRadius.circular(10.0),
-    child: Image.asset(
-    book.imageUrl,
-    ),
-    ),
-    ),
-    Positioned(
-    bottom: 0,
-    left: SizeConfig.blockSizeHorizontal*30,
-    right: 22,
-    child:Container(
-    height: 2,
-    color: Colors.black12,
-    )
-    )
-    ],
-    );
-    },
-    );
-                  }else if(state is SearchBooksLoaded){
-                    return ListView.builder(
-
-                      scrollDirection: Axis.vertical,
-                      controller: sc,
-                      itemCount: state.booksList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Book book = state.booksList[index];
-
-                        return Stack(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                              padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
-                              height: 127.0,
-                              width: SizeConfig.blockSizeHorizontal * 100,
-                              decoration: BoxDecoration(
-                                /* color: Color.fromARGB(255, 241, 242, 242),*/
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Column(
+                            return Stack(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
+                                  padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
+                                  height: 127.0,
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  decoration: BoxDecoration(
+                                    /* color: Color.fromARGB(255, 241, 242, 242),*/
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
+                                    child: Stack(
                                       children: <Widget>[
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        Column(
                                           children: <Widget>[
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 45,
-                                              child: Text(
-                                                "${book.nombreLibro}",
-                                                style: TextStyle(
-                                                  color: Color.fromARGB(200, 0, 0, 0),
-                                                  fontSize: 15,
-                                                  fontFamily: "Sf-r",
-                                                  fontWeight: FontWeight.w700,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      45,
+                                                  child: Text(
+                                                    "${book.nombreLibro}",
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          200, 0, 0, 0),
+                                                      fontSize: 15,
+                                                      fontFamily: "Sf-r",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
                                                 ),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      40,
+                                                  margin:
+                                                      EdgeInsets.only(top: 5),
+                                                  child: Text(
+                                                    "${book.autor}",
+                                                    style: TextStyle(
+                                                      fontSize: 11,
+                                                      fontFamily: "Sf",
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 40,
-                                              margin: EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                "${book.autor}",
-                                                style: TextStyle(
-                                                  fontSize: 11,
-                                                  fontFamily: "Sf",
-                                                  fontWeight: FontWeight.w500,
+                                        Positioned(
+                                          left: 0,
+                                          bottom: 0,
+                                          right: 0,
+                                          child: Container(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: <Widget>[
+                                                Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: IconButton(
+                                                      icon: Icon(Icons
+                                                          .favorite_border),
+                                                      onPressed: () {},
+                                                    )),
+                                                SizedBox(height: 15),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        14,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromARGB(
+                                                          20, 0, 0, 0),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "USADO",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontFamily: "Sf-r",
+                                                        color: Color.fromARGB(
+                                                            100, 0, 0, 0),
+                                                      ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                  ),
                                                 ),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Container(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      62.5,
+                                                  margin: EdgeInsets.only(
+                                                      left: 0,
+                                                      right: 0,
+                                                      bottom: 0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Container(
+                                                              height: 25,
+                                                              width: 25,
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            100),
+                                                                child: Image(image: book.imageVendedor),
+                                                              )),
+                                                          Container(
+                                                            height: 21,
+                                                            width: 40,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 4),
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 4,
+                                                                    right: 4),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      100,
+                                                                      116,
+                                                                      116,
+                                                                      116),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              border: Border.all(
+                                                                  width: 1.0,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          235,
+                                                                          235,
+                                                                          235)),
+                                                            ),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                Icon(Icons.star,
+                                                                    size: 17,
+                                                                    color: Colors
+                                                                        .white),
+                                                                Text(
+                                                                  '4.5',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w800,
+                                                                      fontFamily:
+                                                                          "Sf-r",
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 5),
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Text(
+                                                                '\$${book.precio}',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 21,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  fontFamily:
+                                                                      "Sf-r",
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          190,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          )),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    Positioned(
-                                      left: 0,
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Container(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                                          children: <Widget>[
-                                            Align(
-                                                alignment: Alignment.topRight,
-                                                child: IconButton(
-                                                  icon: Icon(Icons.favorite_border),
-                                                  onPressed: () {},
-                                                )),
-                                            SizedBox(height: 15),
-                                            Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Container(
-                                                width: SizeConfig.blockSizeHorizontal * 14,
-                                                height: 20,
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromARGB(20, 0, 0, 0),
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  "USADO",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Sf-r",
-                                                    color: Color.fromARGB(100, 0, 0, 0),
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 62.5,
-                                              margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: <Widget>[
-                                                  Row(
-                                                    children: <Widget>[
-                                                      Container(
-                                                          height: 25,
-                                                          width: 25 ,
-                                                          child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(100),
-                                                            child: Image.asset("assets/images/avatar.png"),
-                                                          )),
-                                                      Container(
-                                                        height: 21,
-                                                        width: 40,
-                                                        margin: EdgeInsets.only(left: 4),
-                                                        padding: EdgeInsets.only(left: 4, right: 4),
-                                                        decoration: BoxDecoration(
-                                                          color: Color.fromARGB(100, 116, 116, 116),
-                                                          borderRadius: BorderRadius.circular(8.0),
-                                                          border: Border.all(
-                                                              width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
-                                                        ),
-                                                        alignment: Alignment.center,
-                                                        child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: <Widget>[
-                                                            Icon(
-                                                                Icons.star,
-                                                                size: 17,
-                                                                color: Colors.white),
-                                                            Text(
-                                                              '${book.rating}',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight: FontWeight.w800,
-                                                                  fontFamily: "Sf-r",
-                                                                  color: Colors.white
-                                                              ),
-                                                            ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: SizeConfig.blockSizeHorizontal * 6,
+                                  bottom: 15,
+                                  top: 15,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child: Image(image:
+                                      book.images[0],
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    bottom: 0,
+                                    left: SizeConfig.blockSizeHorizontal * 30,
+                                    right: 22,
+                                    child: Container(
+                                      height: 2,
+                                      color: Colors.black12,
+                                    ))
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  );
+                } else if (state is SearchBooksLoaded) {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    controller: sc,
+                    itemCount: state.booksList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Book book = state.booksList[index];
 
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(right: 5),
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '\$${book.precio}',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                              fontSize: 21,
-                                                              fontWeight: FontWeight.w700,
-                                                              fontFamily: "Sf-r",
-                                                              color: Color.fromARGB(
-                                                                  190, 0, 0, 0),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                ],
+                      return Stack(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
+                            padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
+                            height: 127.0,
+                            width: SizeConfig.blockSizeHorizontal * 100,
+                            decoration: BoxDecoration(
+                              /* color: Color.fromARGB(255, 241, 242, 242),*/
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
+                              child: Stack(
+                                children: <Widget>[
+                                  Column(
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    45,
+                                            child: Text(
+                                              "${book.nombreLibro}",
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    200, 0, 0, 0),
+                                                fontSize: 15,
+                                                fontFamily: "Sf-r",
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    40,
+                                            margin: EdgeInsets.only(top: 5),
+                                            child: Text(
+                                              "${book.autor}",
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontFamily: "Sf",
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: <Widget>[
+                                          Align(
+                                              alignment: Alignment.topRight,
+                                              child: IconButton(
+                                                icon:
+                                                    Icon(Icons.favorite_border),
+                                                onPressed: () {},
+                                              )),
+                                          SizedBox(height: 15),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Container(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  14,
+                                              height: 20,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    Color.fromARGB(20, 0, 0, 0),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "USADO",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: "Sf-r",
+                                                  color: Color.fromARGB(
+                                                      100, 0, 0, 0),
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    62.5,
+                                            margin: EdgeInsets.only(
+                                                left: 0, right: 0, bottom: 0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                        height: 25,
+                                                        width: 25,
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          child: Image.asset(
+                                                              "assets/images/avatar.png"),
+                                                        )),
+                                                    Container(
+                                                      height: 21,
+                                                      width: 40,
+                                                      margin: EdgeInsets.only(
+                                                          left: 4),
+                                                      padding: EdgeInsets.only(
+                                                          left: 4, right: 4),
+                                                      decoration: BoxDecoration(
+                                                        color: Color.fromARGB(
+                                                            100, 116, 116, 116),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        border: Border.all(
+                                                            width: 1.0,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    235,
+                                                                    235,
+                                                                    235)),
+                                                      ),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          Icon(Icons.star,
+                                                              size: 17,
+                                                              color:
+                                                                  Colors.white),
+                                                          Text(
+                                                            '${book.rating}',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                fontFamily:
+                                                                    "Sf-r",
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 5),
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          '\$${book.precio}',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            fontSize: 21,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontFamily: "Sf-r",
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    190,
+                                                                    0,
+                                                                    0,
+                                                                    0),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Positioned(
-                              left: SizeConfig.blockSizeHorizontal*6,
-                              bottom: 15,
-                              top: 15,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Image(image:
-                                  book.images[0],
-                                ),
+                          ),
+                          Positioned(
+                            left: SizeConfig.blockSizeHorizontal * 6,
+                            bottom: 15,
+                            top: 15,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image(
+                                image: book.images[0],
                               ),
                             ),
-                            Positioned(
-                                bottom: 0,
-                                left: SizeConfig.blockSizeHorizontal*30,
-                                right: 22,
-                                child:Container(
-                                  height: 2,
-                                  color: Colors.black12,
-                                )
-                            )
-                          ],
-                        );
-                      },
-                    );
-                  }
-    return Center(child:CircularProgressIndicator());
+                          ),
+                          Positioned(
+                              bottom: 0,
+                              left: SizeConfig.blockSizeHorizontal * 30,
+                              right: 22,
+                              child: Container(
+                                height: 2,
+                                color: Colors.black12,
+                              ))
+                        ],
+                      );
+                    },
+                  );
                 }
-
-
-              ),
+                return CircularProgressIndicator();
+              }),
             ),
           ),
         ),
