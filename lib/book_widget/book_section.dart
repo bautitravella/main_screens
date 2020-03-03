@@ -93,7 +93,7 @@ class _BookSectionState extends State<BookSection> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.star_border),
+                                icon: Icon(Icons.favorite_border),
                                 iconSize: 30.0,
                                 color: Colors.black,
                                 onPressed: () => Navigator.pop(context),

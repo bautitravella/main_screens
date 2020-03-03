@@ -141,8 +141,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                             child: Image(
                                               height: 141,
                                               width: 97,
-                                              image: AssetImage(
-                                                  "assets/images/bookdescarte.png"),
+                                              image: AssetImage("assets/images/bookdescarte.png"),
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -159,25 +158,16 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                     )
                                                   ],
                                                   color: Colors.white,
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          100)),
+                                                  borderRadius: new BorderRadius.circular(100)),
                                               child: OutlineButton(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                                  borderSide: BorderSide(
-                                                      color: AppColors
-                                                          .secondaryBackground,
-                                                      width: 2),
+                                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                                  borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(100)),
+                                                    borderRadius: BorderRadius.all(Radius.circular(100)),
                                                   ),
                                                   child: Icon(
                                                     Icons.edit,
-                                                    color: AppColors
-                                                        .secondaryBackground,
+                                                    color: AppColors.secondaryBackground,
                                                     size: 20,
                                                   ),
                                                   onPressed: () {}),
@@ -192,13 +182,11 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         child: Stack(
                                           children: <Widget>[
                                             ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                               child: Image(
                                                 height: 141,
                                                 width: 97,
-                                                image: AssetImage(
-                                                    "assets/images/bookdescarte.png"),
+                                                image: AssetImage("assets/images/bookdescarte.png"),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -215,26 +203,17 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                       )
                                                     ],
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        new BorderRadius.circular(
-                                                            100)),
+                                                    borderRadius: new BorderRadius.circular(100)),
                                                 child: OutlineButton(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 5),
+                                                    padding: EdgeInsets.symmetric(horizontal: 5),
                                                     borderSide: BorderSide(
-                                                        color: AppColors
-                                                            .secondaryBackground,
-                                                        width: 2),
+                                                        color: AppColors.secondaryBackground, width: 2),
                                                     shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  100)),
+                                                      borderRadius: BorderRadius.all(Radius.circular(100)),
                                                     ),
                                                     child: Icon(
                                                       Icons.edit,
-                                                      color: AppColors
-                                                          .secondaryBackground,
+                                                      color: AppColors.secondaryBackground,
                                                       size: 20,
                                                     ),
                                                     onPressed: () {}),
@@ -279,18 +258,14 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 5),
                                                   borderSide: BorderSide(
-                                                      color: AppColors
-                                                          .secondaryBackground,
+                                                      color: AppColors.secondaryBackground,
                                                       width: 2),
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(100)),
+                                                    borderRadius: BorderRadius.all(Radius.circular(100)),
                                                   ),
                                                   child: Icon(
                                                     Icons.edit,
-                                                    color: AppColors
-                                                        .secondaryBackground,
+                                                    color: AppColors.secondaryBackground,
                                                     size: 20,
                                                   ),
                                                   onPressed: () {}),
@@ -344,7 +319,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         border: InputBorder.none,
                                       ),
                                       controller: nombreTextController,
-                                      textCapitalization: TextCapitalization.words,
+                                      textCapitalization: TextCapitalization.sentences,
                                       style: TextStyle(
                                         color: Color.fromARGB(180, 69, 79, 99),
                                         fontFamily: "Montserrat",
@@ -469,7 +444,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                           Container(
                             margin: EdgeInsets.only(top: 10),
                             child: Text(
-                              "Escribe una breve descripción \ndel descripcion en el que se encuentra el libro a vender.",
+                              "Escribe una breve descripción \ndel estado en el que se encuentra el libro a vender.",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 38, 65),
                                 fontFamily: "Montserrat",
@@ -486,10 +461,10 @@ class _DatosLibrosState extends State<DatosLibros> {
                                 Stack(
                                   children: <Widget>[
                                     TextField(
-                                      textCapitalization: TextCapitalization.words,
+                                      textCapitalization: TextCapitalization.sentences,
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        hintText: "descripcion",
+                                        hintText: "Descripcion",
                                         border: InputBorder.none,
                                       ),
                                       controller: descripcionTextController,
