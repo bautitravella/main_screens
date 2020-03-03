@@ -12,8 +12,10 @@ import 'package:flutterui/book_widget/book_section_chota.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/catergory_selector.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/subir_foto_libro.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
+import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MyBooksView extends StatefulWidget {
   @override
@@ -37,128 +39,197 @@ class MyBooksViewState extends State<MyBooksView> {
 //      },
 //      child:
       Scaffold(
-        backgroundColor: AppColors.secondaryBackground,
-        floatingActionButton: FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SubirFotoLibro(),
-                ),
-              );
-            }
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: Stack(
           children: <Widget>[
-            Stack(
+            Container(
+              color: AppColors.secondaryBackground,
+              height: SizeConfig.blockSizeVertical * 100,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Positioned(
+                    left: 0,
+                    top: SizeConfig.blockSizeVertical * 15,
+                    right: 0,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: Container(
+                        height: SizeConfig.blockSizeVertical * 45,
+                        child: Image.asset(
+                          "assets/images/destacados-image.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: SizeConfig.blockSizeVertical * 12,
+                    left: 28,
+                    child: Text(
+                      "Mis libros",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontFamily: "Montserrat",
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Column(
               children: <Widget>[
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 12,
-                  left: 28,
-                  child: Text(
-                    "Mis libros",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: "Montserrat",
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 30,
+                Expanded(
+                  child: Container(
+                    child: SlidingUpPanel(
+                      panelBuilder: (ScrollController sc) => _scrollingList(sc,context),
+                      maxHeight: SizeConfig.blockSizeVertical * 73,
+                      minHeight: SizeConfig.blockSizeVertical * 67,
+                      color: Colors.transparent,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20.0,
+                          color: Colors.transparent,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
                     ),
                   ),
                 ),
-                Container(
-                  height: 143,
-                  child: Stack(
-                    alignment: Alignment.topRight,
-                    children: <Widget>[
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            width: 138,
-                            height: 143,
-                            child: Image.asset(
-                              "assets/images/round-underpic.png",
-                              fit: BoxFit.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: SizeConfig.blockSizeHorizontal*4,
-                        top: SizeConfig.blockSizeVertical*5,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 55,
-                            width: 55,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2, //
-                                ),
-                                borderRadius:
-                                new BorderRadius.circular(
-                                    100)
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.asset(
-                                "assets/images/avatar.png",
-                                fit: BoxFit.fill,
-                                alignment: Alignment.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
-            ), //Cartelito "Mis Libros"
-            CategorySelector(this),
-            Expanded(
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
+            ),
+            Container(
+              height: 143,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: <Widget>[
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        width: 138,
+                        height: 143,
+                        child: Image.asset(
+                          "assets/images/round-underpic-shade.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 22, right: 22, top: 22),
-                    child: BlocBuilder<UserBooksBloc,UserBooksBlocState>(
-                      builder: (context,state) {
-                        if(state is UserBooksLoadedState){
-                            publicados = state.publicados;
-                            vendidos = state.vendidos;
-
-                          return gridView == null? GridViewPublicados(publicados): gridView;
-
-                        }else if(state is UserBooksLoadingState){
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        return LinearProgressIndicator();
+                  Positioned(
+                    right: SizeConfig.blockSizeHorizontal * 4,
+                    top: SizeConfig.blockSizeVertical * 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MiPerfil(),
+                          ),
+                        );
                       },
+                      child: Container(
+                        height: 55,
+                        width: 55,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2, //
+                            ),
+                            borderRadius: new BorderRadius.circular(100)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Hero(
+                            tag: 'avatar',
+                            child: Image.asset(
+                              "assets/images/avatar.png",
+                              fit: BoxFit.fill,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  )),
-            )
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );
     //   )
     ;
+  }
+
+  Widget _scrollingList(ScrollController sc, BuildContext context) {
+    //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
+    SizeConfig().init(context);
+    return Hero(
+      tag: "Targeta sube",
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            top: 0,
+            right: 25,
+            left: 25,
+            child: CategorySelector(this)
+          ),
+          Positioned(
+                  top: 80,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 220,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20.0,
+                          color: Color.fromRGBO(0, 0, 0, 0.15),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
+                          child: Container(
+                            margin: EdgeInsets.only(left: 22, right: 22, top: 22),
+                            child: BlocBuilder<UserBooksBloc,UserBooksBlocState>(
+                              builder: (context,state) {
+                                if(state is UserBooksLoadedState){
+                                  publicados = state.publicados;
+                                  vendidos = state.vendidos;
+
+                              return gridView == null? GridViewPublicados(publicados): gridView;
+
+                            }else if(state is UserBooksLoadingState){
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            return LinearProgressIndicator();
+                          },
+                        ),
+                      )
+                    ),
+                  ),
+                ),
+
+
+
+        ],
+      ),
+    );
   }
 
   void changeFunction(bool isPublicado) {

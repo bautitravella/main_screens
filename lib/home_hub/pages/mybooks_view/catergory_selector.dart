@@ -32,34 +32,35 @@ class _CategorySelectorState extends State<CategorySelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 10),
-        height: 60,
-        color: AppColors.secondaryBackground,
-
+        decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 213, 104),
+          borderRadius: BorderRadius.all(Radius.circular(30))
+        ),
         child: Stack(
-
+          alignment: Alignment.center,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 13,
+                    horizontal: 5,
+                    vertical: 2,
                   ),
                   child:  FlatButton(
                       color:  isPublicado == true ? Colors.white : Colors.transparent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       textColor: Color.fromARGB(255, 255, 255, 255),
-                      padding: EdgeInsets.only(left: 15, right: 15),
+                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 20, left: 20),
                       child: Text(
                        'Publicado',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontFamily: "Gibson",
+                          fontFamily: "Sf-r",
                           color: isPublicado ? AppColors.secondaryBackground : Colors.white60,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontSize: 17.0,
                         ),
                       ),
@@ -74,23 +75,23 @@ class _CategorySelectorState extends State<CategorySelector> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 13,
+                    horizontal: 5,
+                    vertical: 2,
                   ),
                   child:  FlatButton(
                       color:  isPublicado == false ? Colors.white : Colors.transparent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       textColor: Color.fromARGB(255, 255, 255, 255),
-                      padding: EdgeInsets.only(left: 15, right: 15),
+                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 20, left: 20),
                       child: Text(
                         'Vendidos',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontFamily: "Gibson",
+                          fontFamily: "Sf-r",
                           color: isPublicado == false ? AppColors.secondaryBackground : Colors.white60,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontSize: 17.0,
                         ),
                       ),
@@ -177,11 +178,10 @@ class _CategorySelectorState extends State<CategorySelector> {
 //                  );
 //                }),
             Positioned(
-              left: 150,
               top: 22,
               child: Container(
-                margin: EdgeInsets.only(left: 5),
-                color: Colors.white,
+                margin: EdgeInsets.only(left: 5, right: 5),
+                color: Colors.white70,
                 height: 15,
                 width: 2,
               ),
