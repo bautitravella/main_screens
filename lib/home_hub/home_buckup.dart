@@ -268,9 +268,9 @@ class _HomeBuckupWidgetState extends State<HomeBuckupWidget> {
     color: Colors.blue,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: books.length,
+      itemCount: books2.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books2[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),

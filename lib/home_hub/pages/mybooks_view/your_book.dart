@@ -1,19 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:flutterui/copy_slide_dialog/slide_popup_dialog.dart' as slideDialog;
+import 'package:flutterui/dialogs/dialogs.dart';
+
 
 class YourBook extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
 
-  final Book book;
+  final Book2 book;
 
   YourBook({this.book});
 
@@ -94,7 +95,8 @@ class _YourBookState extends State<YourBook> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DatosLibros(),
+                                        //TODO cambiar el Book() por una instancia real del libro
+                                        builder: (context) => DatosLibros(Book()),
                                       ),
                                     );
                                   }
@@ -274,7 +276,7 @@ class _YourBookState extends State<YourBook> {
     );
   }
 
-  static Widget verticalListView(Book book) {
+  static Widget verticalListView(Book2 book) {
     return Container(
       height: SizeConfig.blockSizeVertical * 100,
       margin: EdgeInsets.all(0),
@@ -736,7 +738,7 @@ class _YourBookState extends State<YourBook> {
     );
   }
 
-  static Widget horizontalPhotos(Book book) {
+  static Widget horizontalPhotos(Book2 book) {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
@@ -796,9 +798,9 @@ class _YourBookState extends State<YourBook> {
     margin: EdgeInsets.only(left: 22),
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: books.length,
+      itemCount: books2.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books2[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),
@@ -879,7 +881,7 @@ class _YourBookState extends State<YourBook> {
   );
 
   void _showDialogEliminar() {
-    slideDialog.showSlideDialogGrande(
+    showSlideDialogGrande(
       context: context,
       child: CustomDialog(
         title: "¿Seguro que quiere eliminar este libro?",

@@ -1,5 +1,5 @@
 
-class Book {
+class Book2 {
   String imageUrl;
   String name;
   String author;
@@ -10,10 +10,11 @@ class Book {
   int rating;
   int price;
   int isbn;
+  bool favorite;
 
 
 
-  Book({
+  Book2({
     this.imageUrl,
     this.name,
     this.author,
@@ -24,13 +25,14 @@ class Book {
     this.rating,
     this.price,
     this.isbn,
+    this.favorite
 
   });
 }
 
 
-List<Book> books = [
-  Book(
+List<Book2> books2 = [
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Steler Toma 1',
     author: 'Gary Blackwood & Edgar el perro Poe',
@@ -41,9 +43,10 @@ List<Book> books = [
     price: 506,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
 
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/bookdescarte.png',
     name: 'El libro nuemro 2',
     author: 'Gary Blackwood',
@@ -55,7 +58,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -66,8 +69,9 @@ List<Book> books = [
     price: 296,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -78,8 +82,9 @@ List<Book> books = [
     price: 951,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -91,7 +96,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -103,7 +108,20 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
+    imageUrl: 'assets/images/9780439113106-mres-4.png',
+    name: 'The Shakespeare Stealer',
+    author: 'Gary Blackwood',
+    editorial: "Scholastic",
+    isbn: 495002848588,
+    user: 'Ricky Ford',
+    rating: 3,
+    price: 506,
+    state: "Usado",
+    description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
+  ),
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -115,7 +133,7 @@ List<Book> books = [
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
   ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',
@@ -126,20 +144,9 @@ List<Book> books = [
     price: 506,
     state: "Usado",
     description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
+    favorite: true,
   ),
-  Book(
-    imageUrl: 'assets/images/9780439113106-mres-4.png',
-    name: 'The Shakespeare Stealer',
-    author: 'Gary Blackwood',
-    editorial: "Scholastic",
-    isbn: 495002848588,
-    user: 'Ricky Ford',
-    rating: 3,
-    price: 506,
-    state: "Usado",
-    description: "Tiene la tapa media doblada pero el libro se encuentra en perfección.Tiene la tapa media doblada pero el libro se encuentra en perfección.",
-  ),
-  Book(
+  Book2(
     imageUrl: 'assets/images/9780439113106-mres-4.png',
     name: 'The Shakespeare Stealer',
     author: 'Gary Blackwood',

@@ -1,19 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/Models/chat_roles.dart';
+import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'book_section_chota.dart';
 
 class BookSection extends StatefulWidget {
   void onBtnBlueTwoPressed(BuildContext context) {}
 
   void onBtnBluePressed(BuildContext context) {}
 
-  final Book book;
+  Book book;
 
-  BookSection({this.book});
+  BookSection(this.book);
 
   @override
   _BookSectionState createState() => _BookSectionState();
@@ -85,7 +93,7 @@ class _BookSectionState extends State<BookSection> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.star_border),
+                                icon: Icon(Icons.favorite_border),
                                 iconSize: 30.0,
                                 color: Colors.black,
                                 onPressed: () => Navigator.pop(context),
@@ -104,7 +112,7 @@ class _BookSectionState extends State<BookSection> {
                             height: SizeConfig.blockSizeVertical * 10,
                             margin: EdgeInsets.only(left: 22, top: 130),
                             child: Text(
-                              widget.book.name,
+                              widget.book.nombreLibro, //widget.book.name,
                               style: TextStyle(
                                 fontFamily: "Gibson",
                                 color: AppColors.accentText,
@@ -120,7 +128,7 @@ class _BookSectionState extends State<BookSection> {
                             height: SizeConfig.blockSizeVertical * 5,
                             margin: EdgeInsets.only(left: 22, top: 5),
                             child: Text(
-                              widget.book.author,
+                              widget.book.autor,
                               style: TextStyle(
                                 fontFamily: "Montserrat",
                                 color: AppColors.accentText,
@@ -184,7 +192,7 @@ class _BookSectionState extends State<BookSection> {
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                 ),
                                 Text(
-                                  '\$${widget.book.price}',
+                                  '\$${widget.book.precio}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppColors.secondaryText,
@@ -196,10 +204,22 @@ class _BookSectionState extends State<BookSection> {
                               ],
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeHub()));
+                              showSlideDialogGrande(context: context,
+                                  child:CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
+                                    primaryFunction:() {
+                                      Navigator.of(context).pop();
+                                    },
+                                    secondaryFunction:() {
+                                      Chat chat = Chat.fromBook(widget.book);
+                                      chat.estadoTransaccion = "Oferta";
+                                      BlocProvider.of<ChatsBloc>(context).add(AddChat(chat,function :(newChat) {BlocProvider.of<MessagesBloc>(context).add(LoadMessages(newChat,ChatRole.COMPRADOR));}));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ChatScreenBuck(chat : chat,chatRole: ChatRole.COMPRADOR,)));
+                                    },) );
+
+
                             }),
                       ),
                     ),
@@ -237,10 +257,13 @@ class _BookSectionState extends State<BookSection> {
                               ],
                             ),
                             onPressed: () {
+                              Chat chat = Chat.fromBook(widget.book);
+                              chat.estadoTransaccion = "Pregunta";
+                              BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeHub()));
+                                      builder: (context) => ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR)));
                             }),
                       ),
                     ),
@@ -288,23 +311,20 @@ class _BookSectionState extends State<BookSection> {
                           },
                           child: Row(
                             children: <Widget>[
-                              Container(
-                                  height: 40,
-                                  width: 40,
-
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child:
-                                        Hero( tag: 'profile',
-                                            child: Image.asset("assets/images/avatar.png")),
-                                  )),
+                              Hero(
+                                  tag: 'profile',
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                      backgroundImage: book.imageVendedor
+                                  )
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      '${book.user}',
+                                      '${book.nombreVendedor + " " + book.apellidoVendedor}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 16,
@@ -313,27 +333,29 @@ class _BookSectionState extends State<BookSection> {
                                         color: Color.fromARGB(255, 57, 57, 57),
                                       ),
                                     ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          '${book.rating}',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: "Montserrat",
-                                            color: Color.fromARGB(
-                                                255, 118, 118, 118),
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          size: 17,
-                                          color:
-                                              Color.fromARGB(255, 118, 118, 118),
-                                        ),
-                                      ],
-                                    )
+                                    book.rating != null
+                                        ? Row(
+                                            children: <Widget>[
+                                              Text(
+                                                '${book.rating}',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat",
+                                                  color: Color.fromARGB(
+                                                      255, 118, 118, 118),
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.star,
+                                                size: 17,
+                                                color: Color.fromARGB(
+                                                    255, 118, 118, 118),
+                                              ),
+                                            ],
+                                          )
+                                        : Text(' '),
                                   ],
                                 ),
                               ),
@@ -358,7 +380,7 @@ class _BookSectionState extends State<BookSection> {
                                         Color.fromARGB(255, 255, 255, 255),
                                     padding: EdgeInsets.all(0),
                                     child: Text(
-                                      '${book.state}'.toUpperCase(),
+                                      '${book.descripcion}'.toUpperCase(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18,
@@ -398,7 +420,7 @@ class _BookSectionState extends State<BookSection> {
                                   padding: const EdgeInsets.only(top: 15),
                                   width: SizeConfig.blockSizeHorizontal * 80,
                                   child: Text(
-                                    book.description,
+                                    book.descripcion,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -448,7 +470,7 @@ class _BookSectionState extends State<BookSection> {
                                       const EdgeInsets.only(top: 5, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
-                                    book.author,
+                                    book.autor,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -460,38 +482,44 @@ class _BookSectionState extends State<BookSection> {
                                 ),
                               ],
                             ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(top: 0),
-                                  child: Text(
-                                    "Editorial:",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 118, 118, 118),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.only(top: 0, left: 5),
-                                  width: SizeConfig.blockSizeHorizontal * 70,
-                                  child: Text(
-                                    book.editorial,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 118, 118, 118),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            book.editorial != null
+                                ? Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Text(
+                                          "Editorial:",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Montserrat",
+                                            color: Color.fromARGB(
+                                                255, 118, 118, 118),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            top: 0, left: 5),
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 70,
+                                        child: Text(
+                                          book.editorial,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Montserrat",
+                                            color: Color.fromARGB(
+                                                255, 118, 118, 118),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : Container(),
+                            book.isbn != null?
                             Row(
                               children: <Widget>[
                                 Container(
@@ -512,70 +540,72 @@ class _BookSectionState extends State<BookSection> {
                                       const EdgeInsets.only(top: 0, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
-                                    '${book.isbn}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 118, 118, 118),
-                                    ),
-                                  ),
+                                          '${book.isbn}',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Montserrat",
+                                            color: Color.fromARGB(
+                                                255, 118, 118, 118),
+                                          ),
+                                        )
                                 ),
                               ],
-                            ),
+                            ):
+                            Container(),
                           ],
                         ),
                       ),
                     ],
                   ),
+
                   Row(
-                      children: <Widget>[
-                        Container(
-                          height: 55,
-                          width: SizeConfig.blockSizeHorizontal*100,
-                          padding:
-                          const EdgeInsets.only(right: 80, left: 80, top: 30),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
+                    children: <Widget>[
+                      Container(
+                        height: 55,
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                        padding:
+                            const EdgeInsets.only(right: 80, left: 80, top: 30),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(24)),
                           ),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(24)),
-                            ),
-                            textColor: Color.fromARGB(255, 255, 255, 255),
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.share,
+                          textColor: Color.fromARGB(255, 255, 255, 255),
+                          padding: EdgeInsets.all(0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.share,
+                                color: Color.fromARGB(180, 118, 118, 118),
+                                size: 25,
+                              ),
+                              Text(
+                                "Compartir".toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Montserrat",
                                   color: Color.fromARGB(180, 118, 118, 118),
-                                  size: 25,
                                 ),
-                                Text(
-                                  "Compartir".toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Montserrat",
-                                    color: Color.fromARGB(180, 118, 118, 118),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
+                    ],
                   ),
                   Container(
                       height: 55,
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(top: 15),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -598,27 +628,24 @@ class _BookSectionState extends State<BookSection> {
                             alignment: Alignment.centerRight,
                             child: FlatButton(
                               onPressed: null,
-                              disabledColor:
-                              AppColors.secondaryBackground,
+                              disabledColor: AppColors.secondaryBackground,
                               color: Color.fromARGB(255, 251, 187, 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(14)),
+                                    BorderRadius.all(Radius.circular(14)),
                               ),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomeHub()));
+                                          builder: (context) => HomeHub()));
                                 },
                                 child: Text(
                                   "VER TODO",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Color.fromARGB(
-                                        255, 255, 255, 255),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.w400,
                                     fontSize: 13,
                                   ),
@@ -632,8 +659,8 @@ class _BookSectionState extends State<BookSection> {
                   Container(
                       height: 55,
                       alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -656,27 +683,24 @@ class _BookSectionState extends State<BookSection> {
                             alignment: Alignment.centerRight,
                             child: FlatButton(
                               onPressed: null,
-                              disabledColor:
-                              AppColors.secondaryBackground,
+                              disabledColor: AppColors.secondaryBackground,
                               color: Color.fromARGB(255, 251, 187, 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(14)),
+                                    BorderRadius.all(Radius.circular(14)),
                               ),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomeHub()));
+                                          builder: (context) => HomeHub()));
                                 },
                                 child: Text(
                                   "VER TODO",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Color.fromARGB(
-                                        255, 255, 255, 255),
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     fontWeight: FontWeight.w400,
                                     fontSize: 13,
                                   ),
@@ -687,7 +711,6 @@ class _BookSectionState extends State<BookSection> {
                         ],
                       )),
                   horizontalListView,
-
                 ],
               ),
             ],
@@ -703,52 +726,25 @@ class _BookSectionState extends State<BookSection> {
       margin: EdgeInsets.only(left: 22, top: 60),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 1,
+        itemCount: book.images.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            margin: EdgeInsets.all(0),
-            width: 429,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                Positioned(
-                  child: Row(
-                    children: <Widget>[
-
-                      Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(left: 20),
-                        child: Image.asset(book.imageUrl,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(left: 20),
-                        child: Image.asset(book.imageUrl,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(left: 20),
-                        child: Image.asset(book.imageUrl,
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    ],
-                  ),
+            height: 180,
+            width: 123,
+            margin: EdgeInsets.only(right: 35),
+            padding: EdgeInsets.all(5),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                child: Image(
+                  image: book.images[0],
+                ) //(book.images[index]),
                 ),
-              ],
-            ),
           );
         },
       ),
     );
   }
+
   static Widget horizontalListView = Container(
     height: 240,
     margin: EdgeInsets.only(left: 22),
@@ -756,7 +752,7 @@ class _BookSectionState extends State<BookSection> {
       scrollDirection: Axis.horizontal,
       itemCount: books.length,
       itemBuilder: (BuildContext context, int index) {
-        Book book = books[index];
+        Book2 book = books2[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),
@@ -806,10 +802,7 @@ class _BookSectionState extends State<BookSection> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          BookSection(
-                            book: book,
-                          ),
+                      builder: (context) => BookSectionChota(book),
                     ),
                   );
                 },
@@ -836,3 +829,42 @@ class _BookSectionState extends State<BookSection> {
     ),
   );
 }
+
+showCustomDialog(BuildContext context) {
+  showSlideDialogGrande(context: context,
+      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",
+        primaryFunction:() {
+          print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+          showLoadingDialog(context);
+        },
+        secondaryFunction:() {
+          print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+          showErrorDialog(context, "TODO MAL");
+          },) );
+//  Center(child: Column(children: [
+//    RaisedButton(
+//      child: Text("showLoadingDialog"),
+//      onPressed: () => showLoadingDialog(context),
+//    )
+//  ]))
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
+}
+
+

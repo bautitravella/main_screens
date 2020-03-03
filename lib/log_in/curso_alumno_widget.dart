@@ -1,15 +1,16 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/message_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../size_config.dart';
-
+import 'package:flutterui/dialogs/dialogs.dart';
 
 class CursoAlumnoWidget extends StatefulWidget {
   Alumno user;
@@ -18,52 +19,22 @@ class CursoAlumnoWidget extends StatefulWidget {
   @override
   _CursoAlumnoWidgetState createState() => _CursoAlumnoWidgetState();
 }
+
 class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
+  String colegioSelectedValue, cursoSelectedValue;
 
-
-  void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
-
-  List<DropdownMenuItem> items = [];
-  String colegioSelectedValue,cursoSelectedValue;
+  bool loadingDialogShown = false;
   @override
   void initState() {
-    for(int i=0; i < 20; i++){
-      items.add(new DropdownMenuItem(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
-              child: Row(
-                children: <Widget>[
-                  new Text(
-                    'Colegio ' + i.toString(),
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 53, 38, 65),
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ]
-        ),
-        value: 'Colegio ' + i.toString(),
-      )
-      );
-    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
-        onTap: ()=> FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
@@ -75,7 +46,8 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
-                  margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*12),
+                  margin: EdgeInsets.only(
+                      left: 28, top: SizeConfig.blockSizeVertical * 12),
                   child: Text(
                     "Casi listos",
                     textAlign: TextAlign.left,
@@ -90,7 +62,8 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
               Expanded(
                 flex: 1,
                 child: Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*6, bottom: 20),
+                  margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 6, bottom: 20),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -104,102 +77,127 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                         ),
                       ),
                       Positioned(
-                        top: SizeConfig.blockSizeVertical*4,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal*50,
-                              height: SizeConfig.blockSizeVertical*10,
-                              margin: EdgeInsets.only(left: 100, right: 110),
-                              child: ClipRRect(
-                                child: Image.asset("assets/images/group-1840.png",
-                                fit: BoxFit.fitHeight,
-                                ),
-                              )
-                            ),
-                            Container(
-                              width: 170,
-                              height: 45,
-                              margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*3),
-                              child: Opacity(
-                                opacity: 0.37,
-                                child: new DropdownButton(
-                                  icon: Icon(Icons.menu),
-                                      underline: Text(""),
-                                      items: items,
-                                      isExpanded: true,
-                                      value: colegioSelectedValue,
-                                      hint: new Text(
-                                      'COLEGIO',
-                                        style: TextStyle(
-                                          color: Color.fromARGB(255, 53, 38, 65),
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 19,
+                        top: SizeConfig.blockSizeVertical * 4,
+                        child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                          builder: (context, state) {
+                            if (state is ColegiosLoading) {
+                              showLoadingDialog(context);
+                              loadingDialogShown = true;
+                              return CircularProgressIndicator();
+                            } else if (state is ColegiosLoaded) {
+                              if (loadingDialogShown) {
+                                Navigator.of(context).pop();
+                                loadingDialogShown = false;
+                              }
+                              return Column(
+                                children: <Widget>[
+                                  Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 50,
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      margin: EdgeInsets.only(
+                                          left: 100, right: 110),
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          "assets/images/group-1840.png",
+                                          fit: BoxFit.fitHeight,
                                         ),
+                                      )),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*55,
+                                    height: 45,
+                                    margin: EdgeInsets.only(
+                                        left: 110,
+                                        right: 110,
+                                        top: SizeConfig.blockSizeVertical * 3),
+                                    child: Opacity(
+                                      opacity: 0.37,
+                                      child: new DropdownButton(
+                                        icon: Icon(Icons.menu),
+                                        underline: Text(""),
+                                        items: createDropDownMenuList(state.colegiosData.colegios),
+                                        isExpanded: true,
+                                        value: colegioSelectedValue,
+                                        hint: new Text(
+                                          'COLEGIO',
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 53, 38, 65),
+                                            fontFamily: "Montserrat",
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 19,
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            colegioSelectedValue = value;
+                                          });
+                                        },
                                       ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        colegioSelectedValue = value;
-                                      }
-                                      );
-                                    },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 2,
-                              width: 180,
-                              margin: EdgeInsets.only(left: 100, right: 100),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(77, 0, 0, 0),
-                              ),
-                            ),
-                            Container(
-                              width: 170,
-                              height: 45,
-                              margin: EdgeInsets.only(left: 110, right: 110, top: SizeConfig.blockSizeVertical*4),
-                              child: Opacity(
-                                opacity: 0.37,
-                                child: new DropdownButton(
-                                  icon: Icon(Icons.menu),
-                                  underline: Text(""),
-                                  items: items,
-                                  isExpanded: true,
-                                  value: cursoSelectedValue,
-                                  hint: new Text(
-                                    'CURSO',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 53, 38, 65),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 19,
                                     ),
                                   ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      cursoSelectedValue = value;
-                                    }
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 2,
-                              width: 180,
-                              margin: EdgeInsets.only(left: 100, right: 100),
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(77, 0, 0, 0),
-                              ),
-                            ),
-                          ],
+                                  Container(
+                                    height: 2,
+                                    width: SizeConfig.blockSizeHorizontal*60,
+                                    margin:
+                                        EdgeInsets.only(left: 100, right: 100),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(77, 0, 0, 0),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*55,//TODO encontrar alternativa para el container overflow
+                                    height: 45,
+                                    margin: EdgeInsets.only(
+                                        left: 110,
+                                        right: 110,
+                                        top: SizeConfig.blockSizeVertical * 4),
+                                    child: Opacity(
+                                      opacity: 0.37,
+                                      child: new DropdownButton(
+                                        icon: Icon(Icons.menu),
+                                        underline: Text(""),
+                                        items: createDropDownMenuList(state.colegiosData.cursos),
+                                        isExpanded: true,
+                                        value: cursoSelectedValue,
+                                        hint: new Text(
+                                          'CURSO',
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 53, 38, 65),
+                                            fontFamily: "Montserrat",
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 19,
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            cursoSelectedValue = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 2,
+                                    width: SizeConfig.blockSizeHorizontal*60,
+                                    margin:
+                                        EdgeInsets.only(left: 100, right: 100),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(77, 0, 0, 0),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return CircularProgressIndicator();
+                          },
                         ),
                       ),
                       Positioned(
                         left: 70,
                         right: 70,
-                        bottom: SizeConfig.blockSizeVertical*4,
+                        bottom: SizeConfig.blockSizeVertical * 4,
                         child: Column(
                           children: <Widget>[
                             Text(
@@ -214,7 +212,8 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2),
                               child: Text(
                                 "Los datos ingresados se podrán\ncambiar mas tarde dentro de la app",
                                 textAlign: TextAlign.center,
@@ -233,7 +232,6 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                   ),
                 ),
               ),
-
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
@@ -276,36 +274,83 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
 //                            builder: (context) => CursoAlumnoWidget(user)),
 //                      );
 //                    }),
-                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
+      ),
     );
   }
 
-  siguienteBtn(BuildContext context) {
+  List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                child: new Text(
+                  item,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    }
+    return dropdownMenuItemList;
+  }
 
-    if(cursoSelectedValue != null && colegioSelectedValue != null){
+  siguienteBtn(BuildContext context) {
+    if (cursoSelectedValue != null && colegioSelectedValue != null) {
       widget.user.colegio = colegioSelectedValue;
       widget.user.curso = cursoSelectedValue;
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TerminosYCondicionesWidget(widget.user)));
-    }else{
-      print("ERROR MESSAGE: ");
+          context,
+          MaterialPageRoute(
+              builder: (context) => TerminosYCondicionesWidget(widget.user)));
+    } else {
+      //print("ERROR MESSAGE: ");
+      showErrorDialog(context,
+          "Debes seleccionar el colegio y curso al que perteneces para poder continuar.");
     }
 
-      //Mostrar un mensaje de error
-    }
-
+    //Mostrar un mensaje de error
   }
- // siguienteBtn(BuildContext context){
-    //chequear si el usuario eligio un colegio y un curso
+}
+// siguienteBtn(BuildContext context){
+//chequear si el usuario eligio un colegio y un curso
 
-      //agregar los datos al usuario
+//agregar los datos al usuario
 
-      //pasar a la siguiente pantalla
+//pasar a la siguiente pantalla
 //  }
 //}
 
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
+}

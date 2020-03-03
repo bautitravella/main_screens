@@ -1,34 +1,64 @@
 @startuml
 
 abstract class User{
-    nombre
-    apellido
-    rol
-    fotoPerfil
-    thumb
-    username
-    hasAcceptedTerms
+    String nombre
+    String apellido
+    String fotoPerfilUrl
+    File fotoPerfil
+    String email
+    bool hasAcceptedTerms
     __
-    fromMapToUser()
+    User()
+    User.fromMap(Map map)
+    User.fromAllParameters()
+    User.fromEmail(String email)
+    isComplete()
     toMap()
-    abstract getColegios()
-    abstract getCursos()
 }
 
 class Alumno{
     curso
     colegio
+    rol
 }
 
 class Padre{
     List<Hijo> hijos
+    rol
     __
+    agregarHijo(Hijo hijo)
+    sacarHijo(Hijo hijo)
 }
 
 class Hijo{
     nombre
     curso
     colegio
+}
+
+class Book{
+  String nombre,
+  String apellido,
+  String autor
+  String categoria
+  String editorial
+  String emailVendedor
+  String estado
+  String nombreLibro
+  String imageVendedor
+  String isbn;
+  List<dynamic> colegios = [];
+  List<dynamic> cursos = [];
+  List<dynamic> images = [];
+  List<dynamic> thumbImages = [];
+  bool vendido
+  bool infoCompleta
+  bool disponibleTodosColegios;
+  String precio;
+  num rating;
+  __
+  Book()
+  Book.fromDocumentSnapshot(DocumentSnapshot doc)
 }
 
 User <-- Alumno

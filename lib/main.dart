@@ -1,33 +1,81 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/auth.dart';
+import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/blocs/database_repository.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'dart:async';
 
 
-void main() => runApp(App());
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Provider<BaseAuth>(
       create: (_) => Auth(),
-      child: MaterialApp(
-        home: MyDecider(),
-        theme: ThemeData(
-          accentColor:AppColors.secondaryBackground,
+      child: RepositoryProvider(
+        create: (context) => FirebaseRepository(),
+        child: BlocProvider(
+          create: (BuildContext context) => UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<BooksBloc>(
+                create: (context) {
+                  return BooksBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+                },
+              ),
+              BlocProvider<UserBooksBloc>(
+                create: (context) {
+                  return UserBooksBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+                },
+              ),
+              BlocProvider<FavoritesBloc>(create: (BuildContext context) {
+                return FavoritesBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+              },),
+              BlocProvider<ColegiosBloc>(create: (BuildContext context){
+                return ColegiosBloc(RepositoryProvider.of<FirebaseRepository>(context));
+              },),
+              BlocProvider<ChatsBloc>(create : (BuildContext context){
+                return ChatsBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+              }),
+              BlocProvider<MessagesBloc>(create: (BuildContext context){
+                return MessagesBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context),BlocProvider.of<ChatsBloc>(context));
+              }),
+              BlocProvider<SearchBloc>(create:(BuildContext context){
+                return SearchBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+              })
+            ],
+            child: MaterialApp(
+                //home: MyDecider(),
+                theme: ThemeData(
+                  accentColor:AppColors.secondaryBackground,
+                ),
+                routes: <String, WidgetBuilder> {
+                  '/home': (BuildContext context) => HomeHub(),
+                  '/logOut': (BuildContext context) => FirstscreenWidget(),
+                  '/': (BuildContext context) => MyDecider(),
+                }
+            ),
+          ),
         ),
-        routes: <String, WidgetBuilder> {
-        '/home': (BuildContext context) => HomeHub(),
-        '/logOut': (BuildContext context) => FirstscreenWidget(),
-      }
-    ),
+      ),
     );
 
   }
@@ -51,12 +99,12 @@ class MyDecider extends StatelessWidget{
             return FirstscreenWidget();
           }
         }
-        return HomeHub();
-       /* return CircularProgressIndicator();*/
+        //errorDialog(context);
+       return CircularProgressIndicator();
       },
     );
   }
-  
+
   bool isVerified(FirebaseUser user){
     final providers = user.providerData;
     bool isVerified = true;
@@ -101,23 +149,33 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: firestoreDocumentFuture,
-      builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
-       /* if(!snapshot.hasData){
+    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
+    return BlocBuilder<UserBloc,UserBlocState>(
+      builder: (context, state) {
+        if(state is UserLoadedState){
+          print("LOADED USER = ${state.user}" );
+        }else if(state is UserNotLoaded){
+          print("USER  NOT LOADEEED");
+        }
+        return FutureBuilder(
+        future: firestoreDocumentFuture,
+        builder: (context,AsyncSnapshot<DocumentSnapshot> snapshot){
+        if(!snapshot.hasData){
           return CircularProgressIndicator();
-        }else*/
-       if(snapshot.data.exists){
+        }else if(snapshot.data.exists){
 
-          print(snapshot.data.data);
-          if(firebaseUserInfoCompleted(snapshot.data.data)){
-            return HomeHub();
-          }
+        print(snapshot.data.data);
+        if(firebaseUserInfoCompleted(snapshot.data.data)){
+        return HomeHub();
+        }
         }
         return ElijeUnRolWidget(email);
-      } );
+        } );
+      },
 
-      }
+    );
+
+  }
 
 
   bool firebaseUserInfoCompleted(Map<String,dynamic> data){
@@ -130,8 +188,14 @@ class FirestoreDeciderState extends State<FirestoreDecider>{
     if(nombre == null || apellido == null || fotoPerfil == null || hasAcceptedTerms == null || rol == null){
       return false;
     }
-    return false;
+    return true;
   }
 
 
 }
+
+void errorDialog(BuildContext context){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: "me rompiste mucho las pelotas",));
+}
+
+

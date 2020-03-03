@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_materia.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 class SeleccionCursos extends StatefulWidget {
+  Book book;
+  SeleccionCursos(this.book);
+
   @override
   _SeleccionCursosState createState() => _SeleccionCursosState();
 }
@@ -15,28 +22,33 @@ void onButtonPressed(BuildContext context) {}
 class _SeleccionCursosState extends State<SeleccionCursos> {
   bool _isChecked = false;
 
+  bool loadingDialogShown = false;
+
+  bool valuesHasBeenCreated = false;
+
   void onChanged(bool value) {
     setState(() {
       _isChecked = value;
     });
   }
 
-  Map<String, bool> values = {
-    '1er grado': false,
-    '2do grado': false,
-    '3er grado': false,
-    '4to grado': false,
-    '5to grado': false,
-    '6to grado': false,
-    '7mo grado': false,
-    '1er año': false,
-    '2do año': false,
-    '3er año': false,
-    '4to año': false,
-    '5to año': false,
-    '6to año': false,
-    '7mo año': false,
-  };
+  Map<String, bool> values = {"holis":true};
+//  = {
+//    '1er grado': false,
+//    '2do grado': false,
+//    '3er grado': false,
+//    '4to grado': false,
+//    '5to grado': false,
+//    '6to grado': false,
+//    '7mo grado': false,
+//    '1er año': false,
+//    '2do año': false,
+//    '3er año': false,
+//    '4to año': false,
+//    '5to año': false,
+//    '6to año': false,
+//    '7mo año': false,
+//  };
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +75,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
-                  ),
+                  ), //BOTON DE IR PARA  ATRAS
                 ],
               ),
             ),
@@ -82,15 +94,14 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                   ),
                 ),
               ),
-            ),
+            ), // TEXTO DE "VENDER"
             Expanded(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-
                     Positioned(
                       left: 0,
                       top: 0,
@@ -105,35 +116,56 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                       height: 305,
                       margin: EdgeInsets.only(
                           left: 4, right: 4, top: 25, bottom: 15),
-                      child: ListView(
-                        children: values.keys.map((String key) {
-                          return Column(
-                              children: <Widget>[
-                                CheckboxListTile(
+                      child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                          builder: (context, state) {
+                        if (state is ColegiosLoading) {
+                          showLoadingDialog(context);
+                          loadingDialogShown = true;
+                          return CircularProgressIndicator();
+                        } else if (state is ColegiosLoaded) {
+                          if (loadingDialogShown) {
+                            Navigator.of(context).pop();
+                            loadingDialogShown = false;
+                          }
+                          if(valuesHasBeenCreated == false) {
+                            values = createMapfromStringsList(
+                                state.colegiosData.cursos);
+                            valuesHasBeenCreated = true;
+                          }
+                          return ListView(
+                            children: values.keys.map((String key) {
+                              return Column(
+                                children: <Widget>[
+                                  CheckboxListTile(
                                     title: new Text(
                                       key,
                                       style: TextStyle(
                                           fontFamily: "Gibson",
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 69, 79, 99)),
+                                          color:
+                                              Color.fromARGB(255, 69, 79, 99)),
                                     ),
                                     value: values[key],
                                     onChanged: (bool value) {
-                                      setState(() {
-                                        values[key] = value;
-                                      });
+                                      _changeValuesValue(value,key);
+//                                      setState(() {
+//                                        values[key] = value;
+//                                      });
                                     },
                                   ),
-                                Container(
-                                  width: 180,
-                                  height: 2,
-                                  color: Colors.black12,
-                                )
-                              ],
-                            );
-                        }).toList(),
-                      ),
+                                  Container(
+                                    width: 180,
+                                    height: 2,
+                                    color: Colors.black12,
+                                  )
+                                ],
+                              );
+                            }).toList(),
+                          );
+                        }
+                        return CircularProgressIndicator();
+                      }),
                     ),
                   ],
                 ),
@@ -202,13 +234,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
                         ),
                       ],
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SeleccionMateria()),
-                      );
-                    }),
+                    onPressed: () => _siguienteBtn()),
               ),
             ),
           ],
@@ -216,9 +242,60 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
       ),
     );
   }
+
+  _siguienteBtn() {
+    bool canContinue = false;
+    values.forEach((key, value) {
+      value ? canContinue = true : value;
+    });
+
+    if (canContinue) {
+      for (String key in values.keys) {
+        if (values[key]) {
+          widget.book.cursos.add(key);
+        }
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SeleccionMateria(widget.book)),
+      );
+    } else {
+      showErrorDialog(
+          context, "Debes seleccionar al menos un curso para poder continuar");
+    }
+  }
+
+  void _changeValuesValue(bool value, String key) {
+    setState(() {
+      values[key] = value;
+    });
+  }
 }
 
-void main() {
-  runApp(new MaterialApp(
-      home: new SeleccionCursos(), debugShowCheckedModeBanner: false));
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
 }
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
+}
+
+Map<String, bool> createMapfromStringsList(List<String> stringsList) {
+  Map<String, bool> map = Map();
+  for (String item in stringsList) {
+    map[item] = false;
+  }
+  return map;
+}
+
+

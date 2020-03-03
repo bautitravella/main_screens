@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/curso_alumno_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
-
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'curso_padre_widget.dart';
 
 
@@ -15,22 +17,18 @@ class DatosWidget extends StatefulWidget {
   DatosWidget(this.user);
 
 
-  DatosWidgetState createState() => DatosWidgetState(user);
+  DatosWidgetState createState() => DatosWidgetState();
 }
 
 class DatosWidgetState extends State<DatosWidget>{
 
-  DatosWidgetState(this.user);
 
-  void onLogoPressed(BuildContext context) {}
-  void onBtnBlueTwoPressed(BuildContext context) {}
-
-  User user;
   TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -240,17 +238,23 @@ class DatosWidgetState extends State<DatosWidget>{
     if(nombreController.text.isNotEmpty || apellidoController.text.isNotEmpty){
       //cargamos la informacion al usuario
 
-      user.nombre = nombreController.text;
-      user.apellido = apellidoController.text;
+      widget.user.nombre = nombreController.text;
+      widget.user.apellido = apellidoController.text;
 
       //pasamos a la siguiente pantalla
       Navigator.push(context,
         MaterialPageRoute(
-            builder: (context) => user is Padre? CursoPadreWidget(user):CursoAlumnoWidget(user))
+            builder: (context) => widget.user is Padre? CursoPadreWidget(widget.user):CursoAlumnoWidget(widget.user))
       );
 
     }else{
-      //Mostrar mensaje de error
+      showErrorDialog(context, "Debes completar tu nombre y apellido para poder continuar.");
     }
   }
+}
+
+
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }

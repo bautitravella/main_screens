@@ -3,11 +3,15 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
+import 'package:flutterui/book_widget/book_section_chota.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/catergory_selector.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/subir_foto_libro.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 
@@ -17,144 +21,176 @@ class MyBooksView extends StatefulWidget {
 }
 
 class MyBooksViewState extends State<MyBooksView> {
-  static Widget gridViewPublicados = GridViewPublicados();
-  static Widget gridViewVendidos = GridViewVendidos();
 
-  Widget gridView = gridViewPublicados;
+
+  List<Book>  publicados ;
+  List<Book>  vendidos ;
+
+  Widget gridView ;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.secondaryBackground,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
+    return // BlocBuilder<UserBooksBloc,UserBooksBlocState>(
+//      builder: (context,state) {
+//
+//        if(state is User)
+//      },
+//      child:
+      Scaffold(
+        backgroundColor: AppColors.secondaryBackground,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
 
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubirFotoLibro(),
+                ),
+              );
+            }
         ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PrimeraSubirFoto(),
-              ),
-            );
-          }
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Container(
-                color: AppColors.secondaryBackground,
-                margin: EdgeInsets.only(left: 22, top: 120),
-                child: Text(
-                  "Mis libros",
-                  style: TextStyle(
-                    fontFamily: "Gibson",
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 36,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 12,
+                  left: 28,
+                  child: Text(
+                    "Mis libros",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: "Montserrat",
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                height: 143,
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: <Widget>[
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          width: 138,
-                          height: 143,
-                          child: Image.asset(
-                            "assets/images/round-underpic.png",
-                            fit: BoxFit.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: SizeConfig.blockSizeHorizontal*4,
-                      top: SizeConfig.blockSizeVertical*5,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          height: 55,
-                          width: 55,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 2, //
-                              ),
-                              borderRadius:
-                              new BorderRadius.circular(
-                                  100)
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
+                Container(
+                  height: 143,
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: <Widget>[
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            width: 138,
+                            height: 143,
                             child: Image.asset(
-                              "assets/images/avatar.png",
-                              fit: BoxFit.fill,
-                              alignment: Alignment.center,
+                              "assets/images/round-underpic.png",
+                              fit: BoxFit.none,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ), //Cartelito "Mis Libros"
-          CategorySelector(this),
-          Expanded(
-            child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                      Positioned(
+                        right: SizeConfig.blockSizeHorizontal*4,
+                        top: SizeConfig.blockSizeVertical*5,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2, //
+                                ),
+                                borderRadius:
+                                new BorderRadius.circular(
+                                    100)
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.asset(
+                                "assets/images/avatar.png",
+                                fit: BoxFit.fill,
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                child: Container(
-                  margin: EdgeInsets.only(left: 22, right: 22, top: 22),
-                  child: gridView,
-                )),
-          )
-        ],
-      ),
-    );
+                )
+              ],
+            ), //Cartelito "Mis Libros"
+            CategorySelector(this),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 22, right: 22, top: 22),
+                    child: BlocBuilder<UserBooksBloc,UserBooksBlocState>(
+                      builder: (context,state) {
+                        if(state is UserBooksLoadedState){
+                            publicados = state.publicados;
+                            vendidos = state.vendidos;
+
+                          return gridView == null? GridViewPublicados(publicados): gridView;
+
+                        }else if(state is UserBooksLoadingState){
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return LinearProgressIndicator();
+                      },
+                    ),
+                  )),
+            )
+          ],
+        ),
+      );
+    //   )
+    ;
   }
 
-  void changeFunction(int index) {
-    if (index == 0) {
+  void changeFunction(bool isPublicado) {
+
+
+
+    if (isPublicado) {
       setState(() {
-        gridView = gridViewPublicados;
+        if(publicados!= null) gridView = GridViewPublicados(publicados);
       });
     } else {
       setState(() {
-        gridView = gridViewVendidos;
+        if(vendidos != null)  gridView = GridViewVendidos(vendidos);
       });
     }
   }
 }
 
 class GridViewPublicados extends StatelessWidget {
+
+  List<Book> books;
+
+  GridViewPublicados(this.books);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return CustomScrollView(
+    return  books == null || books.length == 0 ? Center(child: Text("parece que no hay ningun libro cargado en esta categoria"),):  CustomScrollView(
       slivers: <Widget>[
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+                (BuildContext context, int index) {
               Book book = books[index];
 
               return Container(
@@ -174,7 +210,7 @@ class GridViewPublicados extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "${book.name}",
+                                "${book.nombreLibro}",
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontFamily: "Sf",
@@ -184,7 +220,7 @@ class GridViewPublicados extends StatelessWidget {
                                 maxLines: 2,
                               ),
                               Text(
-                                "(${book.author})",
+                                "(${book.autor})",
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontFamily: "Sf",
@@ -204,7 +240,8 @@ class GridViewPublicados extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => YourBook(
-                              book: book,
+                              //todo cambiar esta refencia por una de su propio libro
+                              book: books2[0],
                             ),
                           ),
                         );
@@ -224,10 +261,11 @@ class GridViewPublicados extends StatelessWidget {
                           children: <Widget>[
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5),
-                              child: Image(
+                              child://book.images[0],
+                              Image(
                                 height: 141,
                                 width: 97,
-                                image: AssetImage(book.imageUrl),
+                                image: book.images[0],
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -245,12 +283,12 @@ class GridViewPublicados extends StatelessWidget {
                                       color: Colors.white,
                                       padding: EdgeInsets.only(top: 0, right: 0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
+                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
                                       ),
                                       textColor:
-                                          Color.fromARGB(255, 255, 255, 255),
+                                      Color.fromARGB(255, 255, 255, 255),
                                       child: Text(
-                                        '\$${book.price}',
+                                        '\$${book.precio}',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: "Gibson",
@@ -292,14 +330,21 @@ class GridViewPublicados extends StatelessWidget {
 }
 
 class GridViewVendidos extends StatelessWidget {
+
+  List<Book> books;
+
+  GridViewVendidos(this.books);
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return CustomScrollView(
+    // TODO crear alguna ilustracion para cuando no haya ningun libro publicado
+    return  books == null || books.length == 0 ? Center(child: Text("parece que no hay ningun libro cargado en esta categoria"),): CustomScrollView(
       slivers: <Widget>[
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+                (BuildContext context, int index) {
               Book book = books[index];
 
               return Container(
@@ -321,7 +366,7 @@ class GridViewVendidos extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "${book.name}",
+                                "${book.nombreLibro}",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontFamily: "Montserrat",
@@ -331,7 +376,7 @@ class GridViewVendidos extends StatelessWidget {
                                 maxLines: 2,
                               ),
                               Text(
-                                "(${book.author})",
+                                "(${book.autor})",
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontFamily: "Montserrat",
@@ -350,9 +395,8 @@ class GridViewVendidos extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BookSection(
-                              book: book,
-                            ),
+                            builder: (context) => BookSectionChota(
+                                books2[0]),
                           ),
                         );
                       },
@@ -364,9 +408,10 @@ class GridViewVendidos extends StatelessWidget {
                               child: Image(
                                 height: 141,
                                 width: 97,
-                                image: AssetImage(book.imageUrl),
+                                image: book.images[0],
                                 fit: BoxFit.cover,
-                              ),
+                              ),    //book.images[0],
+
                             )
                           ],
                         ),

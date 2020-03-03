@@ -3,7 +3,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/log_in/datos_widget.dart';
+import 'package:flutterui/main.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 
 class TerminosYCondicionesWidget extends StatelessWidget {
   void onButtonsLargeGreenPressed(BuildContext context) {}
@@ -175,41 +178,39 @@ class TerminosYCondicionesWidget extends StatelessWidget {
   }
 
   siguienteBtn(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("hola crack"),
-            content: CircularProgressIndicator(),
-          );
-        });
-    Future.delayed(Duration(seconds: 3));
-    Navigator.pop(context);
-    uploadData().then((smt) => {
+    showLoadingDialog(context);
+    //todo cambiar toda esta poronga por un buen Future.wait
+    uploadData(context).then((smt) => {
           print("PASANDO A LA PROXIMA PANTALLA"),
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeHub())),
+          Navigator.popUntil(
+            context,
+            ModalRoute.withName('/'),
+          ),
         });
   }
 
-  Future uploadData() {
+  Future uploadData(BuildContext context) {
     int amountOfTryouts = 0;
     return uploadImage()
         .then((downloadUrl) => {
               user.fotoPerfilUrl = downloadUrl,
               user.hasAcceptedTerms = true,
-              uploadUserInformation(downloadUrl),
+              uploadUserInformation(downloadUrl, context),
+              createFavoritesDocument(),
               print("DOWNLOAD URL  2: " + downloadUrl),
             })
         .catchError((err) {
       print("HUBO UN ERROR 1, " + err.toString());
+      Navigator.pop(context);
+      showErrorDialog(context,
+          "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}");
     });
   }
 
   Future<String> uploadImage() async {
     StorageReference ref =
-        FirebaseStorage.instance.ref().child("agustinTormakhFotardas");
-    StorageUploadTask uploadTask = ref.putFile(user.fotoPerfil);
+        FirebaseStorage.instance.ref().child("profile_images2/" + user.email + ".jpg");
+    StorageUploadTask uploadTask = ref.putFile(user.fotoPerfilRaw);
     print(
         "---------------------------------------------------------Arranca la transferencia");
 
@@ -222,13 +223,40 @@ class TerminosYCondicionesWidget extends StatelessWidget {
     return downloadUrl;
   }
 
-  uploadUserInformation(String downloadUrl) {
+  uploadUserInformation(String downloadUrl, BuildContext context) {
     Firestore.instance
         .collection('Users')
         .document(user.email)
         .setData(user.toMap())
-        .then((value) => print("se mando bien la info a firebase" ))
-        .catchError((err) => print("HUBO UN ERROR 2"));
-
+        .then((value) => print("se mando bien la info a firebase"))
+        .catchError((err) => {
+              Navigator.pop(context),
+              showErrorDialog(context,
+                  "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}")
+            });
   }
+
+  createFavoritesDocument() {
+    Firestore.instance.collection('Users').document(user.email).collection('Favoritos').document('favoritos').setData({'favoritosList':[]});
+  }
+
+
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
 }

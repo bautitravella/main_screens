@@ -18,7 +18,7 @@ class Alumno extends User{
   }
 
   Alumno.fromImage(File image): super(){
-    super.fotoPerfil = image;
+    super.fotoPerfilRaw = image;
   }
   Alumno.fromEmail(String email): super.fromEmail(email);
 

@@ -1,11 +1,15 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
+
+class User extends Equatable{
   String nombre;
   String apellido;
   String fotoPerfilUrl;
-  File fotoPerfil;
+  CachedNetworkImageProvider fotoPerfil;
+  File fotoPerfilRaw;
   bool hasAcceptedTerms;
 
   String email;
@@ -20,12 +24,13 @@ class User {
   User.fromMap(Map<String, dynamic> data,String email) {
     String nombre = data['nombre'];
     String apellido = data['apellido'];
-    String fotoPerfil = data['foto de perfil'];
+    String fotoPerfil = data['fotoPerfilUrl'];
     bool hasAcceptedTerms = data['hasAcceptedTerms'];
     this.email = email;
     this.nombre = nombre;
     this.apellido = apellido;
     this.fotoPerfilUrl = fotoPerfil;
+    this.fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
     this.hasAcceptedTerms= hasAcceptedTerms;
   }
 
@@ -47,5 +52,24 @@ class User {
     userMap['hasAcceptedTerms']= hasAcceptedTerms;
     return userMap;
   }
+
+  List<String> getColegios(){
+    return null;
+  }
+
+  List<String> getCursos(){
+    return null;
+  }
+
+
+
+  @override
+  List<Object> get props => [nombre,apellido,fotoPerfilUrl,hasAcceptedTerms];
+
+  @override
+  String toString() {
+    return 'User{nombre: $nombre, apellido: $apellido, fotoPerfilUrl: $fotoPerfilUrl, fotoPerfil: $fotoPerfil, hasAcceptedTerms: $hasAcceptedTerms, email: $email}';
+  }
+
 
 }

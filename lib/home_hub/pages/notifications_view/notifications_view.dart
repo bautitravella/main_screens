@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/Models/message_model.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/primera_subir_foto.dart';
+import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen.dart';
 import 'package:flutterui/values/colors.dart';
@@ -20,11 +24,13 @@ class NotificationView extends StatefulWidget {
 class NotificationViewState extends State<NotificationView> {
   static Widget listViewVenta = ListViewVenta();
   static Widget listViewCompra = ListViewCompra();
+  bool isVentaSelected = true;
 
   Widget listView = listViewVenta;
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ChatsBloc>(context).add(LoadChats());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -38,10 +44,27 @@ class NotificationViewState extends State<NotificationView> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
-                child: Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
-                  child: listView,
-                )),
+                child: BlocBuilder<ChatsBloc,ChatsBlocState>(
+                  builder: (context, state){
+
+                    if(state is ChatsLoaded){
+
+                        listViewVenta = ListViewVenta( chats : state.chatsVentaList);
+                        listViewCompra = ListViewCompra(chats: state.chatsCompraList);
+                        if(isVentaSelected){
+                          listView = listViewVenta;
+                        }else{
+                          listView = listViewCompra;
+                        }
+                      return Container(
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
+                        child: listView,
+                    ) ;
+                    }
+                    return Center(child: CircularProgressIndicator(),);
+                  },
+                )
+            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,16 +146,23 @@ class NotificationViewState extends State<NotificationView> {
     if (index == 0) {
       setState(() {
         listView = listViewVenta;
+        isVentaSelected = true;
       });
     } else {
       setState(() {
         listView = listViewCompra;
+        isVentaSelected = false;
       });
     }
   }
 }
 
 class ListViewVenta extends StatelessWidget {
+
+  final List<Chat> chats;
+
+  const ListViewVenta({Key key, this.chats}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -140,15 +170,17 @@ class ListViewVenta extends StatelessWidget {
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
       color: Colors.white,
-      child: ListView.builder(
+      child: chats.length == 0 ? Text('Parece que no todavia no hay ningun chat'):ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
-            final Message chat = chats[index];
+            final Chat chat = chats[index];
             return GestureDetector(
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreenBuck(user: chat.sender),
+                    builder: (_) {
+                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.VENDEDOR));
+                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.VENDEDOR);}
                   )),
               child: Stack(
                 children: <Widget>[
@@ -159,10 +191,10 @@ class ListViewVenta extends StatelessWidget {
                     bottom: 10,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: chat.unread
+                        color: !chat.leidoPorElVendedor
                             ? AppColors.secondaryBackground
                             : Colors.white,
-                        borderRadius: chat.unread
+                        borderRadius: !chat.leidoPorElVendedor
                             ? BorderRadius.all(Radius.circular(30))
                             : null,
                         // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
@@ -185,7 +217,7 @@ class ListViewVenta extends StatelessWidget {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage(chat.sender.imageUrl),
+                              backgroundImage: chat.compradorImage,
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
@@ -193,7 +225,7 @@ class ListViewVenta extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    chats[index].sender.name,
+                                    chats[index].compradorNombre,
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 16,
@@ -205,8 +237,9 @@ class ListViewVenta extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width *
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: Text(
-                                      chat.text,
+                                    child: chat.lastMessage != null?Text(
+
+                                      chat.lastMessage,
                                       style: TextStyle(
                                         fontFamily: "Sf",
                                         fontSize: 13,
@@ -215,10 +248,10 @@ class ListViewVenta extends StatelessWidget {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                    ),
+                                    ):Container(),
                                   ),
                                   Text(
-                                    chat.time,
+                                    chat.timestamp.toDate().hour.toString() + ":" + chat.timestamp.toDate().minute.toString(),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -233,13 +266,30 @@ class ListViewVenta extends StatelessWidget {
                         ),
                         Column(
                           children: <Widget>[
-                            chat.sell ?
+                            //TODO cambiar esto por un handler del estadoTransaccion
+                            //si es true te permite aceptar o rechazar una compra
+                            //si es false solo te permite hablarle al usuario
+                            chat.estadoTransaccion == "Oferta"?
                             Row(
                               children: <Widget>[
-                                Container(
-                                  height: 21,
-                                  width: 21,
-                                  child: Image.asset('assets/images/sell-icon2.png')
+                                GestureDetector(
+                                  onTap: () {
+                                    print("RECHAAAAAZAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                    showSlideDialogGrande(context: context,
+                                        child:CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                                          primaryFunction:() {
+                                            Navigator.of(context).pop();
+                                          },
+                                          secondaryFunction:() {
+                                            BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(chat));
+                                            Navigator.of(context).pop();
+                                          },) );
+                                  },
+                                  child: Container(
+                                    height: 21,
+                                    width: 21,
+                                    child: Image.asset('assets/images/sell-icon2.png')
+                                  ),
                                 ),
                                 Container(
                                   height: 21,
@@ -249,10 +299,30 @@ class ListViewVenta extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       left: 10, right: 10),
                                 ),
-                                Container(
-                                    height: 21,
-                                    width: 21,
-                                    child: Image.asset('assets/images/sell-icon1.png')
+                                GestureDetector(
+                                  onTap: () {
+                                    print("AAAAAACEEEEEEEEPTAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                    showSlideDialogGrande(context: context,
+                                        child:CustomDialog.customFunctions(title: "Aceptar Solicitud De Compra", description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro", primaryButtonText: "CANCELAR", secondaryButtonText: "Aceptar Compra",
+                                          primaryFunction:() {
+                                            Navigator.of(context).pop();
+                                          },
+                                          secondaryFunction:() {
+                                            BlocProvider.of<MessagesBloc>(context).add(AceptarSolicitudDeCompra(chat));
+                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) {
+                                                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.VENDEDOR);}
+                                                ));
+                                          },) );
+                                  },
+                                  child: Container(
+                                      height: 21,
+                                      width: 21,
+                                      child: Image.asset('assets/images/sell-icon1.png')
+                                  ),
                                 ),
                               ],
                             )
@@ -260,7 +330,7 @@ class ListViewVenta extends StatelessWidget {
                             Row(
                               children: <Widget>[
                                 Text(""),
-                                chat.unread
+                                chat.leidoPorElVendedor
                                     ? Container(
                                   child: Icon(
                                     FontAwesome5Solid.comment,
@@ -303,6 +373,11 @@ class ListViewVenta extends StatelessWidget {
 }
 
 class ListViewCompra extends StatelessWidget {
+
+  final List<Chat> chats;
+
+  const ListViewCompra({Key key, this.chats}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -313,13 +388,17 @@ class ListViewCompra extends StatelessWidget {
       child: ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
-            final Message chat = chats[index];
+            final Chat chat = chats[index];
             return GestureDetector(
-              onTap: () => Navigator.push(
+              onTap: () {
+
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ChatScreenBuck(user: chat.sender),
-                  )),
+                    builder: (_) {
+                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
+                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR);},
+                  ));},
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -329,10 +408,10 @@ class ListViewCompra extends StatelessWidget {
                     bottom: 10,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: chat.unread
+                        color: !chat.leidoPorElComprador
                             ? AppColors.secondaryBackground
                             : Colors.white,
-                        borderRadius: chat.unread
+                        borderRadius: !chat.leidoPorElComprador
                             ? BorderRadius.all(Radius.circular(30))
                             : null,
                         // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
@@ -355,7 +434,7 @@ class ListViewCompra extends StatelessWidget {
                           children: <Widget>[
                             CircleAvatar(
                               radius: 30.0,
-                              backgroundImage: AssetImage(chat.sender.imageUrl),
+                              backgroundImage: chats[index].vendedorImage,
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
@@ -363,7 +442,7 @@ class ListViewCompra extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    chats[index].sender.name,
+                                    chats[index].vendedorNombre,
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 16,
@@ -375,8 +454,9 @@ class ListViewCompra extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width *
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: Text(
-                                      chat.text,
+                                    child: chat.lastMessage != null?Text(
+
+                                      chat.lastMessage,
                                       style: TextStyle(
                                         fontFamily: "Sf",
                                         fontSize: 13,
@@ -385,10 +465,10 @@ class ListViewCompra extends StatelessWidget {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                    ),
+                                    ):Container(),
                                   ),
                                   Text(
-                                    chat.time,
+                                    chat.timestamp.toDate().hour.toString() + ":" + chat.timestamp.toDate().minute.toString(),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -405,15 +485,33 @@ class ListViewCompra extends StatelessWidget {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                chat.buy
+                                chat.estadoTransaccion == "Pregunta"
                                     ? Container(
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
-                                        MaterialIcons.shopping_basket,
-                                        size: 21,
-                                        color: Color.fromARGB(
-                                            255, 57, 57, 57),
+                                      IconButton(
+                                        icon: Icon(
+                                          MaterialIcons.shopping_basket,
+                                          size: 21,
+                                          color: Color.fromARGB(
+                                              255, 57, 57, 57),
+                                        ),
+
+                                        onPressed: () {  showSlideDialogGrande(context: context,
+                                        child:CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
+                                          primaryFunction:() {
+                                            Navigator.of(context).pop();
+                                          },
+                                        secondaryFunction:() {
+                                          BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
+                                          BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(chat));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) {
+                                                    return ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR);}
+                                              ));
+                                        },) );},
                                       ),
                                       Container(
                                         height: 21,
@@ -427,7 +525,7 @@ class ListViewCompra extends StatelessWidget {
                                   ),
                                 )
                                     : Text(""),
-                                chat.unread
+                                !chat.leidoPorElComprador
                                     ? Container(
                                   child: Icon(
                                     FontAwesome5Solid.comment,
@@ -467,4 +565,42 @@ class ListViewCompra extends StatelessWidget {
           }),
     );
   }
+}
+
+
+showCustomDialog(BuildContext context) {
+  showSlideDialogGrande(context: context,
+      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",
+        primaryFunction:() {
+          print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+          showLoadingDialog(context);
+        },
+        secondaryFunction:() {
+          print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+          showErrorDialog(context, "TODO MAL");
+        },) );
+//  Center(child: Column(children: [
+//    RaisedButton(
+//      child: Text("showLoadingDialog"),
+//      onPressed: () => showLoadingDialog(context),
+//    )
+//  ]))
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
 }

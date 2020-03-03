@@ -13,10 +13,15 @@ class Padre extends User{
   Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms);
 
   Padre.fromImage(File image):super(){
-    super.fotoPerfil = image;
+    super.fotoPerfilRaw = image;
   }
 
   Padre.fromEmail(String email): super.fromEmail(email);
+
+  Padre.fromMap(Map<String, dynamic> data,String email): super.fromMap(data,email){
+    List<Map<String,dynamic>> hijosMapList = data['nombre'];
+    hijosMapList.forEach((hijoMap) {_hijos.add(Hijo.fromMap(hijoMap)); });
+  }
 
   void agregarHijo(Hijo hijo){
     _hijos.add(hijo);
@@ -61,6 +66,16 @@ class Hijo{
 
   Hijo(this.nombre, this.colegio, this.curso);
 
+  Hijo.fromMap(Map<String,dynamic> hijoMap){
+    String colegio = hijoMap['colegio'];
+    String curso = hijoMap['curso'];
+    String nombre = hijoMap['nombre'];
+    if(colegio != null && curso != null && nombre != null){
+      this.colegio =colegio;
+      this.curso = curso;
+      this.nombre = nombre;
+    }
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -80,4 +95,6 @@ class Hijo{
   Map<String,dynamic> toMap(){
     return {"nombre": nombre, "colegio": colegio , "curso" : curso};
   }
+
+
 }
