@@ -311,15 +311,13 @@ class _BookSectionState extends State<BookSection> {
                           },
                           child: Row(
                             children: <Widget>[
-                              Container(
-                                  height: 40,
-                                  width: 40,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Hero(
-                                        tag: 'profile',
-                                        child: Image(image:book.imageVendedor)),
-                                  )),
+                              Hero(
+                                  tag: 'profile',
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                      backgroundImage: book.imageVendedor
+                                  )
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: Column(

@@ -58,6 +58,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 Positioned(
                   top: 45,
                   child: Container(
+                    width:  SizeConfig.blockSizeHorizontal*43,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -65,26 +66,38 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           margin: EdgeInsets.only(bottom: 2),
                           child: Row(
                             children: <Widget>[
-                              Text(
-                                widget.chatRole == ChatRole.COMPRADOR?
-                                widget.chat.vendedorNombre:widget.chat.compradorNombre,
-                                style: TextStyle(
-                                  fontFamily: "Sf",
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                              Container(
+                                width:  SizeConfig.blockSizeHorizontal*43,
+                                child: Text(
+                                  widget.chatRole == ChatRole.COMPRADOR?
+                                  widget.chat.vendedorNombre:widget.chat.compradorNombre,
+                                  style: TextStyle(
+                                    fontFamily: "Sf-r",
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Text(
-                          widget.chat.nombreLibro,
-                          style: TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(150, 255, 255, 255),
+                        Container(
+                          width:  SizeConfig.blockSizeHorizontal*43,
+                          child: Text(
+                            widget.chat.nombreLibro,
+                            style: TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(150, 255, 255, 255),
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                       ],
@@ -228,8 +241,19 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           return Center(child: CircularProgressIndicator());
                         } else if (state is PotentialNewMessage) {
                           return Center(
-                            child: Text(
-                                'Parece que estas por escribir un mensaje'),
+                            child: Container(
+                              width: SizeConfig.blockSizeHorizontal*80,
+                              child: Text(
+                                  'Estas por consultar sobre el libro \n"${widget.chat.nombreLibro}"'.toUpperCase(),
+                                style: TextStyle(
+                                  fontFamily: "Sf-r",
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black12,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           );
                         } else if (state is MessagesErrorLoading) {
                           showErrorDialog(context, state.errorMessage);
