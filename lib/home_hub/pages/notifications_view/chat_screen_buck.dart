@@ -11,6 +11,7 @@ import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:marquee/marquee.dart';
 
 import '../../../size_config.dart';
 
@@ -68,7 +69,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                             children: <Widget>[
                               Container(
                                 width:  SizeConfig.blockSizeHorizontal*43,
-                                child: Text(
+                                child: Text( //TODO Rolling text
                                   widget.chatRole == ChatRole.COMPRADOR?
                                   widget.chat.vendedorNombre:widget.chat.compradorNombre,
                                   style: TextStyle(
@@ -286,7 +287,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
       children: <Widget>[
         Container(
             padding: isMe
-                ? EdgeInsets.only(top: 15, bottom: 8, right: 10, left: 20)
+                ? EdgeInsets.only(top: 15, bottom: 8, right: 14, left: 18)
                 : EdgeInsets.only(top: 15, bottom: 8, left: 20, right: 20),
             margin: isMe
                 ? EdgeInsets.only(top: 10, bottom: 10, right: 20)
@@ -375,7 +376,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       ),
                     ),
                   ),
-                  Container(
+                  /*Container(
                     width: 50,
                     margin: EdgeInsets.only(right: 10, top: 7, bottom: 7),
                     decoration: BoxDecoration(
@@ -390,7 +391,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                         onPressed: () {},
                       ),
                     ),
-                  )
+                  )*/ //TODO mandar fotos para proximo update
                 ],
               ),
             ),
@@ -425,6 +426,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
                   decoration: BoxDecoration(
                     color: AppColors.secondaryBackground,
+                    /*color: Color.fromARGB(255, 255, 104, 104),*/ //TODO implementar un state para compra solicitada o no
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
                   child: Center(
@@ -434,6 +436,12 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       color: Colors.white,
                       onPressed: () {showCustomDialog(context);},
                     ),
+                   /* Container(
+                      height: 25,
+                      width: 25,
+                      child: Image.asset("assets/images/cancel-order.png",
+                      fit: BoxFit.fitHeight,),
+                    )*/
                   ),
                 ),
         ],
