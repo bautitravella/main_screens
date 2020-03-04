@@ -333,7 +333,7 @@ class ListViewVenta extends StatelessWidget {
                                 chat.leidoPorElVendedor
                                     ? Container(
                                   child: Icon(
-                                    FontAwesome5Solid.comment,
+                                    FontAwesome5.comment,
                                     size: 21,
                                     color:
                                     Color.fromARGB(255, 57, 57, 57),
@@ -341,7 +341,7 @@ class ListViewVenta extends StatelessWidget {
                                 )
                                     : Container(
                                   child: Icon(
-                                    FontAwesome5.comment,
+                                    FontAwesome5Solid.comment,
                                     size: 21,
                                     color:
                                     Color.fromARGB(255, 57, 57, 57),
