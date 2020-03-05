@@ -40,7 +40,7 @@ class FavoritesBloc extends Bloc<FavoritesBlocEvent, FavoritesBlocState> {
     } else if (event is AddBookToFavorites) {
       yield* _mapAddBookToFavoritesToState(event.uid);
     } else if (event is RemoveBookFromFavorites) {
-      yield* _mapRemoveBookToFavoritesToState(event.book);
+      yield* _mapRemoveBookToFavoritesToState(event.uid);
     }
   }
 
@@ -63,8 +63,8 @@ class FavoritesBloc extends Bloc<FavoritesBlocEvent, FavoritesBlocState> {
     yield FavoriteBooksLoaded(books);
   }
 
-  _mapRemoveBookToFavoritesToState(Book book) {
-    databaseRepository.removeFromFavorites(book.uid, downloadedUser);
+  _mapRemoveBookToFavoritesToState(String uid) {
+    databaseRepository.removeFromFavorites(uid, downloadedUser);
   }
 
   _mapAddBookToFavoritesToState(String uid) {

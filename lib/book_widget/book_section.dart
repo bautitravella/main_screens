@@ -92,12 +92,58 @@ class _BookSectionState extends State<BookSection> {
                           ),
                           Row(
                             children: <Widget>[
-                              IconButton(
+                              BlocBuilder<FavoritesBloc,FavoritesBlocState>(
+                              builder: (context,state){
+                                if(state is FavoriteBooksLoaded){
+                                  if(state.books.contains(widget.book)){
+                                    return IconButton(
+                                        icon: Icon(Icons.favorite),
+                                        iconSize: 30.0,
+                                        color: Colors.black,
+                                        onPressed: () {
+
+                                            BlocProvider.of<FavoritesBloc>(context)
+                                                .add(RemoveBookFromFavorites(
+                                                widget.book.uid));
+
+                                        });
+                                  }else{
+                                    return IconButton(
+                                        icon: Icon(Icons.favorite_border),
+                                        iconSize: 30.0,
+                                        color: Colors.black,
+                                        onPressed: () {
+
+                                          BlocProvider.of<FavoritesBloc>(context)
+                                              .add(AddBookToFavorites(
+                                              widget.book.uid));
+
+                                        });
+                                  }
+                                }
+                                return IconButton(
                                 icon: Icon(Icons.favorite_border),
-                                iconSize: 30.0,
-                                color: Colors.black,
-                                onPressed: () => Navigator.pop(context),
+                          iconSize: 30.0,
+                          color: Colors.black,
+                          onPressed: () {
+                          if (BlocProvider.of<FavoritesBloc>(context)
+                              .favoriteBooks !=
+                          null &&
+                          BlocProvider.of<FavoritesBloc>(context)
+                              .favoriteBooks
+                              .contains(widget.book)) {
+                          BlocProvider.of<FavoritesBloc>(context)
+                              .add(RemoveBookFromFavorites(
+                          widget.book.uid));
+                          } else {
+                          BlocProvider.of<FavoritesBloc>(context)
+                              .add(AddBookToFavorites(
+                          widget.book.uid));
+                          }
+                          });
+                              },
                               ),
+
                             ],
                           )
                         ],
@@ -204,22 +250,37 @@ class _BookSectionState extends State<BookSection> {
                               ],
                             ),
                             onPressed: () {
-                              showSlideDialogGrande(context: context,
-                                  child:CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
-                                    primaryFunction:() {
+                              showSlideDialogGrande(
+                                  context: context,
+                                  child: CustomDialog.customFunctions(
+                                    title: "Enviar Solicitud De Compra",
+                                    description:
+                                        "Una vez enviada la solicitud de compra esta no se podra cancelar",
+                                    primaryButtonText: "CANCELAR",
+                                    secondaryButtonText: "Solicitar Compra",
+                                    primaryFunction: () {
                                       Navigator.of(context).pop();
                                     },
-                                    secondaryFunction:() {
+                                    secondaryFunction: () {
                                       Chat chat = Chat.fromBook(widget.book);
                                       chat.estadoTransaccion = "Oferta";
-                                      BlocProvider.of<ChatsBloc>(context).add(AddChat(chat,function :(newChat) {BlocProvider.of<MessagesBloc>(context).add(LoadMessages(newChat,ChatRole.COMPRADOR));}));
+                                      BlocProvider.of<ChatsBloc>(context).add(
+                                          AddChat(chat, function: (newChat) {
+                                        BlocProvider.of<MessagesBloc>(context)
+                                            .add(LoadMessages(
+                                                newChat, ChatRole.COMPRADOR));
+                                      }));
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => ChatScreenBuck(chat : chat,chatRole: ChatRole.COMPRADOR,)));
-                                    },) );
-
-
+                                              builder: (context) =>
+                                                  ChatScreenBuck(
+                                                    chat: chat,
+                                                    chatRole:
+                                                        ChatRole.COMPRADOR,
+                                                  )));
+                                    },
+                                  ));
                             }),
                       ),
                     ),
@@ -259,11 +320,14 @@ class _BookSectionState extends State<BookSection> {
                             onPressed: () {
                               Chat chat = Chat.fromBook(widget.book);
                               chat.estadoTransaccion = "Pregunta";
-                              BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
+                              BlocProvider.of<MessagesBloc>(context)
+                                  .add(LoadMessages(chat, ChatRole.COMPRADOR));
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR)));
+                                      builder: (context) => ChatScreenBuck(
+                                          chat: chat,
+                                          chatRole: ChatRole.COMPRADOR)));
                             }),
                       ),
                     ),
@@ -314,10 +378,8 @@ class _BookSectionState extends State<BookSection> {
                               Hero(
                                   tag: 'profile',
                                   child: CircleAvatar(
-                                    radius: 20,
-                                      backgroundImage: book.imageVendedor
-                                  )
-                              ),
+                                      radius: 20,
+                                      backgroundImage: book.imageVendedor)),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: Column(
@@ -380,7 +442,7 @@ class _BookSectionState extends State<BookSection> {
                                         Color.fromARGB(255, 255, 255, 255),
                                     padding: EdgeInsets.all(0),
                                     child: Text(
-                                      '${book.descripcion}'.toUpperCase(),
+                                      'USADO',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18,
@@ -519,28 +581,13 @@ class _BookSectionState extends State<BookSection> {
                                     ],
                                   )
                                 : Container(),
-                            book.isbn != null?
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  padding: const EdgeInsets.only(top: 0),
-                                  child: Text(
-                                    "ISBN:",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      color: Color.fromARGB(255, 118, 118, 118),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.only(top: 0, left: 5),
-                                  width: SizeConfig.blockSizeHorizontal * 70,
-                                  child: Text(
-                                          '${book.isbn}',
+                            book.isbn != null
+                                ? Row(
+                                    children: <Widget>[
+                                      Container(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Text(
+                                          "ISBN:",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontSize: 15,
@@ -549,17 +596,33 @@ class _BookSectionState extends State<BookSection> {
                                             color: Color.fromARGB(
                                                 255, 118, 118, 118),
                                           ),
-                                        )
-                                ),
-                              ],
-                            ):
-                            Container(),
+                                        ),
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.only(
+                                              top: 0, left: 5),
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  70,
+                                          child: Text(
+                                            '${book.isbn}',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Montserrat",
+                                              color: Color.fromARGB(
+                                                  255, 118, 118, 118),
+                                            ),
+                                          )),
+                                    ],
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
                     ],
                   ),
-
                   Row(
                     children: <Widget>[
                       Container(
@@ -831,16 +894,24 @@ class _BookSectionState extends State<BookSection> {
 }
 
 showCustomDialog(BuildContext context) {
-  showSlideDialogGrande(context: context,
-      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",
-        primaryFunction:() {
-          print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+  showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "Que elegis?",
+        description: "Que deseas elegir",
+        primaryButtonText: "LoadingDialog",
+        secondaryButtonText: "ErrorDialog",
+        primaryFunction: () {
+          print(
+              "SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
           showLoadingDialog(context);
         },
-        secondaryFunction:() {
-          print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+        secondaryFunction: () {
+          print(
+              "SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
           showErrorDialog(context, "TODO MAL");
-          },) );
+        },
+      ));
 //  Center(child: Column(children: [
 //    RaisedButton(
 //      child: Text("showLoadingDialog"),
@@ -866,5 +937,3 @@ void showErrorDialog(BuildContext context, String errorMessage) {
       ),
       animatedPill: false);
 }
-
-

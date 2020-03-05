@@ -326,12 +326,58 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                         children: <Widget>[
                                           Align(
                                               alignment: Alignment.topRight,
-                                              child: IconButton(
-                                                icon: Icon(Icons.favorite_border),
-                                                onPressed: () {
-                                                  //BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites())
+                                              child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
+                                                builder: (context,state){
+                                                  if(state is FavoriteBooksLoaded){
+                                                    if(state.books.contains(book)){
+                                                      return IconButton(
+                                                          icon: Icon(Icons.favorite),
+                                                          iconSize: 30.0,
+                                                          color: Colors.black,
+                                                          onPressed: () {
+
+                                                            BlocProvider.of<FavoritesBloc>(context)
+                                                                .add(RemoveBookFromFavorites(
+                                                                book.uid));
+
+                                                          });
+                                                    }else{
+                                                      return IconButton(
+                                                          icon: Icon(Icons.favorite_border),
+                                                          iconSize: 30.0,
+                                                          color: Colors.black,
+                                                          onPressed: () {
+
+                                                            BlocProvider.of<FavoritesBloc>(context)
+                                                                .add(AddBookToFavorites(
+                                                                book.uid));
+
+                                                          });
+                                                    }
+                                                  }
+                                                  return IconButton(
+                                                      icon: Icon(Icons.favorite_border),
+                                                      iconSize: 30.0,
+                                                      color: Colors.black,
+                                                      onPressed: () {
+                                                        if (BlocProvider.of<FavoritesBloc>(context)
+                                                            .favoriteBooks !=
+                                                            null &&
+                                                            BlocProvider.of<FavoritesBloc>(context)
+                                                                .favoriteBooks
+                                                                .contains(book)) {
+                                                          BlocProvider.of<FavoritesBloc>(context)
+                                                              .add(RemoveBookFromFavorites(
+                                                              book.uid));
+                                                        } else {
+                                                          BlocProvider.of<FavoritesBloc>(context)
+                                                              .add(AddBookToFavorites(
+                                                              book.uid));
+                                                        }
+                                                      });
                                                 },
-                                              )),
+                                              ),
+                                          ),
                                           SizedBox(height: 15),
                                           Align(
                                             alignment: Alignment.centerRight,

@@ -260,7 +260,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    BookSection(null),
+                                                    BookSection(book),
                                               ),
                                             );
                                           },

@@ -35,11 +35,10 @@ class FavoriteBooksLoadedEvent extends FavoritesBlocEvent{
 }
 
 class RemoveBookFromFavorites extends FavoritesBlocEvent{
-  final Book book;
+  final String uid;
 
-  RemoveBookFromFavorites(this.book);
+  RemoveBookFromFavorites(this.uid);
 
   @override
-  // TODO: implement props
-  List<Object> get props => [book];
+  List<Object> get props => [uid];
 }

@@ -123,51 +123,15 @@ class Book {
       identical(this, other) ||
           other is Book &&
               runtimeType == other.runtimeType &&
-              nombreVendedor == other.nombreVendedor &&
-              apellidoVendedor == other.apellidoVendedor &&
-              autor == other.autor &&
-              categoria == other.categoria &&
-              editorial == other.editorial &&
-              emailVendedor == other.emailVendedor &&
-              descripcion == other.descripcion &&
-              nombreLibro == other.nombreLibro &&
-              imageVendedorUrl == other.imageVendedorUrl &&
-              uid == other.uid &&
-              colegios == other.colegios &&
-              cursos == other.cursos &&
-              imagesUrl == other.imagesUrl &&
-              thumbImagesUrl == other.thumbImagesUrl &&
-              materias == other.materias &&
-              indexes == other.indexes &&
-              vendido == other.vendido &&
-              publico == other.publico &&
-              precio == other.precio &&
-              isbn == other.isbn &&
-              rating == other.rating;
+              uid == other.uid;
 
   @override
-  int get hashCode =>
-      nombreVendedor.hashCode ^
-      apellidoVendedor.hashCode ^
-      autor.hashCode ^
-      categoria.hashCode ^
-      editorial.hashCode ^
-      emailVendedor.hashCode ^
-      descripcion.hashCode ^
-      nombreLibro.hashCode ^
-      imageVendedorUrl.hashCode ^
-      uid.hashCode ^
-      colegios.hashCode ^
-      cursos.hashCode ^
-      imagesUrl.hashCode ^
-      thumbImagesUrl.hashCode ^
-      materias.hashCode ^
-      indexes.hashCode ^
-      vendido.hashCode ^
-      publico.hashCode ^
-      precio.hashCode ^
-      isbn.hashCode ^
-      rating.hashCode;
+  int get hashCode => uid.hashCode;
+
+
+
+
+
 
 
 
