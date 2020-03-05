@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/log_in/datos_widget.dart';
+import 'file:///C:/Users/PC-AGUS/main_screens/lib/log_in/registrar_info_usuario/datos_widget.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -180,14 +180,30 @@ class TerminosYCondicionesWidget extends StatelessWidget {
   siguienteBtn(BuildContext context) {
     showLoadingDialog(context);
     //todo cambiar toda esta poronga por un buen Future.wait
-    uploadData(context).then((smt) => {
-          print("PASANDO A LA PROXIMA PANTALLA"),
-          Navigator.popUntil(
-            context,
-            ModalRoute.withName('/'),
-          ),
-        });
+    uploadData2(context).then((smt) => {
+      Future.delayed(Duration(seconds: 2)).then((value) => {
+        print("PASANDO A LA PROXIMA PANTALLA"),
+        Navigator.popUntil(
+          context,
+          ModalRoute.withName('/'),
+        ),
+      }),
+        }).catchError((err) {
+      print("HUBO UN ERROR 1, " + err.toString());
+      Navigator.pop(context);
+      showErrorDialog(context,
+          "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}");
+    }
+    );
   }
+
+  Future<void> uploadData2(BuildContext context)async{
+    String downloadUrl = await uploadImage();
+    user.fotoPerfilUrl = downloadUrl;
+    user.hasAcceptedTerms = true;
+    return Future.wait([uploadUserInformation(downloadUrl, context),createFavoritesDocument(),createTokensDocument()]);
+  }
+
 
   Future uploadData(BuildContext context) {
     int amountOfTryouts = 0;
@@ -197,6 +213,7 @@ class TerminosYCondicionesWidget extends StatelessWidget {
               user.hasAcceptedTerms = true,
               uploadUserInformation(downloadUrl, context),
               createFavoritesDocument(),
+              createTokensDocument(),
               print("DOWNLOAD URL  2: " + downloadUrl),
             })
         .catchError((err) {
@@ -223,8 +240,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
     return downloadUrl;
   }
 
-  uploadUserInformation(String downloadUrl, BuildContext context) {
-    Firestore.instance
+  Future uploadUserInformation(String downloadUrl, BuildContext context) {
+    return Firestore.instance
         .collection('Users')
         .document(user.email)
         .setData(user.toMap())
@@ -236,8 +253,12 @@ class TerminosYCondicionesWidget extends StatelessWidget {
             });
   }
 
-  createFavoritesDocument() {
-    Firestore.instance.collection('Users').document(user.email).collection('Favoritos').document('favoritos').setData({'favoritosList':[]});
+  Future createFavoritesDocument() {
+    return  Firestore.instance.collection('Users').document(user.email).collection('Favoritos').document('favoritos').setData({'favoritosList':[]});
+  }
+
+  Future createTokensDocument(){
+    return Firestore.instance.collection('Users').document(user.email).collection('Tokens').document('tokens').setData({'tokensList':[]});
   }
 
 

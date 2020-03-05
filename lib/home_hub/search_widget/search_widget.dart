@@ -217,7 +217,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                 child: TextField(
                                   onChanged: (value) {
                                     BlocProvider.of<SearchBloc>(context)
-                                        .add(SearchBooks(value.split(' ')));
+                                        .add(SearchBooks(value.toLowerCase().split(' ')));
                                   },
                                   decoration: InputDecoration(
                                     hintText: "Buscar",
@@ -399,6 +399,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                   BlocBuilder<BooksBloc,BooksBlocState>(
                     builder: (context, state) {
                       if(state is BooksLoadedState) {
+                        if(state.books.length == 0){
+                          return Text('No encontramos ningun resultado con esa descripcion');
+                        }
                         return ListView.builder(
                           scrollDirection: Axis.vertical,
                           controller: sc,

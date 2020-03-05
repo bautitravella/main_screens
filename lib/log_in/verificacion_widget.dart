@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutterui/log_in/elije_un_rol_widget.dart';
+import 'file:///C:/Users/PC-AGUS/main_screens/lib/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';

@@ -7,7 +7,7 @@ import 'package:flutterui/auth.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/database_repository.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/log_in/elije_un_rol_widget.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:flutterui/values/colors.dart';
@@ -60,7 +60,12 @@ class App extends StatelessWidget {
               }),
               BlocProvider<SearchBloc>(create:(BuildContext context){
                 return SearchBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
-              })
+              }),
+              BlocProvider<TokensBloc>(
+                create: (BuildContext context) {
+                  return TokensBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+                }
+              ),
             ],
             child: MaterialApp(
                 //home: MyDecider(),

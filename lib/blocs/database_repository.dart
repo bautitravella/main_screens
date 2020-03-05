@@ -10,6 +10,7 @@ import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/Colegio.dart';
 import 'package:flutter/services.dart';
 import 'dart:core';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutterui/Models/chat_roles.dart';
 
@@ -66,6 +67,8 @@ abstract class DatabaseRepository {
   Future<void> solicitarCompra(Chat chat);
   Future<void> aceptarSolicitudDeCompra(Chat chat);
   Future<void> rechazarSolicitudDeCompra(Chat chat);
+  Future<void> addToken(User user);
+  Future<void> removeToken(User user);
 
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list);
   
@@ -78,6 +81,7 @@ class FirebaseRepository extends DatabaseRepository{
   final booksReference = Firestore.instance.collection("Publicaciones");
   final colegiosReference = Firestore.instance.collection("Colegios");
   final chatsReference = Firestore.instance.collection('Chats');
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   Future<void> addNewBook(Book book, User user) async {
@@ -408,6 +412,18 @@ class FirebaseRepository extends DatabaseRepository{
   @override
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list) {
    return  booksReference.where("indexes",arrayContainsAny: list).snapshots().map((snapshot) => snapshot.documents.map((document) => Book.fromDocumentSnapshot(document)).toList());
+  }
+
+  @override
+  Future<void> addToken(User user) async{
+      String token = await _firebaseMessaging.getToken();
+      usersReference.document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayUnion([token])});
+  }
+
+  @override
+  Future<void> removeToken(User user) async{
+    String token = await _firebaseMessaging.getToken();
+    usersReference.document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])});
   }
 
 
