@@ -251,7 +251,10 @@ class ListViewVenta extends StatelessWidget {
                                     ):Container(),
                                   ),
                                   Text(
-                                    chat.timestamp.toDate().hour.toString() + ":" + chat.timestamp.toDate().minute.toString(),
+                                      chat.timestamp.toDate().hour.toString() +
+                                          ":" + (chat.timestamp.toDate().minute < 10 ?
+                                      '0${chat.timestamp.toDate().minute.toString()}':
+                                      chat.timestamp.toDate().minute.toString()),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -468,7 +471,10 @@ class ListViewCompra extends StatelessWidget {
                                     ):Container(),
                                   ),
                                   Text(
-                                    chat.timestamp.toDate().hour.toString() + ":" + chat.timestamp.toDate().minute.toString(),
+                                    chat.timestamp.toDate().hour.toString() +
+                                        ":" + (chat.timestamp.toDate().minute < 10 ?
+                                    '0${chat.timestamp.toDate().minute.toString()}':
+                                    chat.timestamp.toDate().minute.toString()),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,

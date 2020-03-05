@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuth {
@@ -18,6 +20,7 @@ class Auth extends BaseAuth{
   
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged
@@ -61,12 +64,15 @@ class Auth extends BaseAuth{
   }
 
   @override
-  Future<void> signOut() {
+  Future<void> signOut() async{
     try {
       _googleSignIn.signOut();
     }catch (e){
       print("ERROR SIGNOUT TRY " + e.toString());
     }
+    String token = await _firebaseMessaging.getToken();
+    FirebaseUser user = await currentUser();
+    Firestore.instance.document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])});
     return FirebaseAuth.instance.signOut();
   }
 

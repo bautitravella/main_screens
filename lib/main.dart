@@ -176,6 +176,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
           print("LOADED USER = ${state.user}");
 
           if (firebaseUserInfoCompleted2(state.user)) {
+            BlocProvider.of<TokensBloc>(context).add(AddToken());
             return HomeHub();
           }
 

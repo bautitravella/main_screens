@@ -323,8 +323,9 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   margin: EdgeInsets.only(top: 5, left: 0, right: 0),
                   child: Text(
                     message.sentTimestamp.toDate().hour.toString() +
-                        ":" +
-                        message.sentTimestamp.toDate().minute.toString(),
+                        ":" + (message.sentTimestamp.toDate().minute < 10 ?
+                        '0${message.sentTimestamp.toDate().minute.toString()}':
+                        message.sentTimestamp.toDate().minute.toString()),
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: "Sf",
