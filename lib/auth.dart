@@ -72,7 +72,7 @@ class Auth extends BaseAuth{
     }
     String token = await _firebaseMessaging.getToken();
     FirebaseUser user = await currentUser();
-    Firestore.instance.document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])});
+    Firestore.instance.collection("Users").document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])});
     return FirebaseAuth.instance.signOut();
   }
 
