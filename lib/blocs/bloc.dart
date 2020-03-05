@@ -30,3 +30,6 @@ export 'colegios_bloc/bloc.dart';
 
 //SEARCH BLOC
 export 'search_bloc/bloc.dart';
+
+//TOKENS BLOC
+export 'tokens_bloc/bloc.dart';

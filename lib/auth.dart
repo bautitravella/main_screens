@@ -62,6 +62,11 @@ class Auth extends BaseAuth{
 
   @override
   Future<void> signOut() {
+    try {
+      _googleSignIn.signOut();
+    }catch (e){
+      print("ERROR SIGNOUT TRY " + e.toString());
+    }
     return FirebaseAuth.instance.signOut();
   }
 

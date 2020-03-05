@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/blocs/bloc.dart';
-import 'package:flutterui/log_in/terminos_ycondiciones_widget.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
-import '../size_config.dart';
+import '../../size_config.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
 

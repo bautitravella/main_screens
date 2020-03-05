@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
-import 'package:flutterui/log_in/subi_foto_perfil_widget.dart';
-import 'package:flutterui/values/values.dart';
 
-import '../size_config.dart';
+import 'package:flutterui/values/values.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/subi_foto_perfil_widget.dart';
+import '../../size_config.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {
 
