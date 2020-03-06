@@ -59,7 +59,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 Positioned(
                   top: 45,
                   child: Container(
-                    width:  SizeConfig.blockSizeHorizontal*43,
+                    width: SizeConfig.blockSizeHorizontal * 43,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -68,10 +68,12 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           child: Row(
                             children: <Widget>[
                               Container(
-                                width:  SizeConfig.blockSizeHorizontal*43,
-                                child: Text( //TODO Rolling text
-                                  widget.chatRole == ChatRole.COMPRADOR?
-                                  widget.chat.vendedorNombre:widget.chat.compradorNombre,
+                                width: SizeConfig.blockSizeHorizontal * 43,
+                                child: Text(
+                                  //TODO Rolling text
+                                  widget.chatRole == ChatRole.COMPRADOR
+                                      ? widget.chat.vendedorNombre
+                                      : widget.chat.compradorNombre,
                                   style: TextStyle(
                                     fontFamily: "Sf-r",
                                     fontSize: 21,
@@ -87,7 +89,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           ),
                         ),
                         Container(
-                          width:  SizeConfig.blockSizeHorizontal*43,
+                          width: SizeConfig.blockSizeHorizontal * 43,
                           child: Text(
                             widget.chat.nombreLibro,
                             style: TextStyle(
@@ -147,7 +149,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           Positioned(
                             child: CircleAvatar(
                               radius: 23.0,
-                              backgroundImage: widget.chatRole == ChatRole.COMPRADOR? widget.chat.vendedorImage:widget.chat.compradorImage,
+                              backgroundImage:
+                                  widget.chatRole == ChatRole.COMPRADOR
+                                      ? widget.chat.vendedorImage
+                                      : widget.chat.compradorImage,
                             ),
                           ),
                           Positioned(
@@ -243,9 +248,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                         } else if (state is PotentialNewMessage) {
                           return Center(
                             child: Container(
-                              width: SizeConfig.blockSizeHorizontal*80,
+                              width: SizeConfig.blockSizeHorizontal * 80,
                               child: Text(
-                                  'Estas por consultar sobre el libro \n"${widget.chat.nombreLibro}"'.toUpperCase(),
+                                'Estas por consultar sobre el libro \n"${widget.chat.nombreLibro}"'
+                                    .toUpperCase(),
                                 style: TextStyle(
                                   fontFamily: "Sf-r",
                                   fontSize: 21,
@@ -273,6 +279,58 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     ),
                   )),
             ),
+            widget.chat.estadoTransaccion == "Oferta" &&
+                    widget.chatRole == ChatRole.VENDEDOR
+                ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    height: 78,
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text("ACEPTAR"),
+                          onPressed: () => showSlideDialogGrande(
+                              context: context,
+                              child: CustomDialog.customFunctions(
+                                title: "Aceptar Solicitud De Compra",
+                                description:
+                                    "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                                primaryButtonText: "CANCELAR",
+                                secondaryButtonText: "Aceptar Compra",
+                                primaryFunction: () {
+                                  Navigator.of(context).pop();
+                                },
+                                secondaryFunction: () {
+                                  BlocProvider.of<MessagesBloc>(context).add(
+                                      AceptarSolicitudDeCompra(widget.chat));
+                                  setState(() {
+                                    widget.chat.estadoTransaccion = "Vendido";
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                              )),
+                        ),
+                        RaisedButton(
+                          child: Text("RECHAZAR"),
+                          onPressed: () => showSlideDialogGrande(
+                              context: context,
+                              child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                                primaryFunction:() {
+                                  Navigator.of(context).pop();
+                                },
+                                secondaryFunction:() {
+                                  BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
+                                  setState(() {
+                                    widget.chat.estadoTransaccion = "Rechazada";
+                                  });
+                                  Navigator.of(context).pop();
+                                },)),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
             _buildMessageComposer()
           ],
         ),
@@ -323,9 +381,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   margin: EdgeInsets.only(top: 5, left: 0, right: 0),
                   child: Text(
                     message.sentTimestamp.toDate().hour.toString() +
-                        ":" + (message.sentTimestamp.toDate().minute < 10 ?
-                        '0${message.sentTimestamp.toDate().minute.toString()}':
-                        message.sentTimestamp.toDate().minute.toString()),
+                        ":" +
+                        (message.sentTimestamp.toDate().minute < 10
+                            ? '0${message.sentTimestamp.toDate().minute.toString()}'
+                            : message.sentTimestamp.toDate().minute.toString()),
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontFamily: "Sf",
@@ -417,7 +476,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                             Timestamp.now());
                         messageTextController.clear();
                         BlocProvider.of<MessagesBloc>(context)
-                            .add(AddMessage(message,widget.chatRole));
+                            .add(AddMessage(message, widget.chatRole));
                       },
                     ),
                   ),
@@ -435,9 +494,11 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       icon: Icon(Icons.add_shopping_cart),
                       iconSize: 25,
                       color: Colors.white,
-                      onPressed: () {showCustomDialog(context);},
+                      onPressed: () {
+                        showCustomDialog(context);
+                      },
                     ),
-                   /* Container(
+                    /* Container(
                       height: 25,
                       width: 25,
                       child: Image.asset("assets/images/cancel-order.png",
@@ -470,12 +531,24 @@ void showErrorDialog(BuildContext context, String errorMessage) {
 }
 
 showCustomDialog(BuildContext context) {
-  showSlideDialogGrande(context: context,
-      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",primaryFunction:() {
-        print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
-        showLoadingDialog(context);}, secondaryFunction:() {
-        print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
-        showErrorDialog(context, "TODO MAL");},) );
+  showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "Que elegis?",
+        description: "Que deseas elegir",
+        primaryButtonText: "LoadingDialog",
+        secondaryButtonText: "ErrorDialog",
+        primaryFunction: () {
+          print(
+              "SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+          showLoadingDialog(context);
+        },
+        secondaryFunction: () {
+          print(
+              "SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+          showErrorDialog(context, "TODO MAL");
+        },
+      ));
 //  Center(child: Column(children: [
 //    RaisedButton(
 //      child: Text("showLoadingDialog"),
