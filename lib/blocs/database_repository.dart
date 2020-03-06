@@ -201,7 +201,8 @@ class FirebaseRepository extends DatabaseRepository{
 //      return null;
 //    }
     try{
-      return usersReference.document(email).snapshots().map((doc) => User.fromMap(doc.data, email));
+      return usersReference.document(email).snapshots().map((doc) => createUserFromDocumentSnapshot(doc));
+          //User.fromMap(doc.data, email));
     }catch(e){
       rethrow;
     }

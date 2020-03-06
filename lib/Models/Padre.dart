@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
-
 import 'User.dart';
 
 class Padre extends User{
@@ -45,10 +43,15 @@ class Padre extends User{
    userMap['hijos'] = hijosMap;
    return userMap;
   }
-
+  @override
   List<String> getColegios(){
     List<String> colegiosList  = [];
-    _hijos.forEach((hijo) => colegiosList.add(hijo.colegio));
+    _hijos.forEach((hijo)  {
+      String colegio = hijo.colegio;
+      if(!colegiosList.contains(colegio)){
+      colegiosList.add(colegio);
+      }
+    });
     return colegiosList;
   }
 

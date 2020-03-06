@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutterui/Models/Alumno.dart';
+import 'package:flutterui/Models/Padre.dart';
+
 
 
 class User extends Equatable{
@@ -71,5 +75,14 @@ class User extends Equatable{
     return 'User{nombre: $nombre, apellido: $apellido, fotoPerfilUrl: $fotoPerfilUrl, fotoPerfil: $fotoPerfil, hasAcceptedTerms: $hasAcceptedTerms, email: $email}';
   }
 
+}
 
+User createUserFromDocumentSnapshot(DocumentSnapshot documentSnapshot){
+  assert(documentSnapshot!= null);
+  assert(documentSnapshot.data['rol'] != null);
+  if(documentSnapshot.data['rol'] == 'Padre'){
+    return new Padre.fromMap(documentSnapshot.data,documentSnapshot.documentID);
+  }else{
+    return Alumno.fromMap(documentSnapshot.data,documentSnapshot.documentID);
+  }
 }

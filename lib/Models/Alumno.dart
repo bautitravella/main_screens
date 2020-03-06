@@ -22,11 +22,13 @@ class Alumno extends User{
   }
   Alumno.fromEmail(String email): super.fromEmail(email);
 
-  List<String> getcolegios(){
+  @override
+  List<String> getColegios(){
     List<String> aux  = [colegio,];
     return aux;
   }
 
+  @override
   List<String> getCursos(){
     List<String> aux = [curso,];
     return aux;

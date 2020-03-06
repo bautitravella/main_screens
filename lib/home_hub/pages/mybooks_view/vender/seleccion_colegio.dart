@@ -111,20 +111,20 @@ class _SeleccionColegioState extends State<SeleccionColegio> {
                       margin: EdgeInsets.only(
                           left: 4, right: 4, top: 25, bottom: 15),
                       //TODO cambiar este BlocBuilder por uno con el UserBloc y que ofrezca los colegios de la persona/los de sus hijos
-                      child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                      child: BlocBuilder<UserBloc, UserBlocState>(
                           builder: (context, state) {
-                            if (state is ColegiosLoading) {
+                            if (state is UserNotLoaded) {
                               showLoadingDialog(context);
                               loadingDialogShown = true;
                               return CircularProgressIndicator();
-                            } else if (state is ColegiosLoaded) {
+                            } else if (state is UserLoadedState) {
                               if (loadingDialogShown) {
                                 Navigator.of(context).pop();
                                 loadingDialogShown = false;
                               }
                               if (valuesHasBeenCreated == false) {
                                 values = createMapfromStringsList(
-                                    state.colegiosData.colegios);
+                                    state.user.getColegios());
                                 valuesHasBeenCreated = true;
                               }
                               return ListView(
