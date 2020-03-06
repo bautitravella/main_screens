@@ -39,6 +39,21 @@ class MyBooksViewState extends State<MyBooksView> {
 //      },
 //      child:
       Scaffold(
+        floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubirFotoLibro(),
+                ),
+              );
+            }
+        ),
         body: Stack(
           children: <Widget>[
             Container(

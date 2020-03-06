@@ -9,37 +9,47 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SubirFotoLibro extends StatefulWidget {
-
   @override
   SubirFotoLibroState createState() => SubirFotoLibroState();
 }
 
-
-class SubirFotoLibroState extends State<SubirFotoLibro>{
-
+class SubirFotoLibroState extends State<SubirFotoLibro> {
   List<File> _image = List(3);
-
+  List<Asset> images = [];
+  String _error;
 //  void onBtnBlueTwoPressed(BuildContext context) {
 //    Navigator.pop(context);
 //  }
 
+  Future<void> loadAssets() async {
+    setState(() {
+      images = List<Asset>();
+    });
 
-  Widget _displayMainImage() {
-    return _image[0] == null?
-    Text("")
-        :
-    ClipRRect( borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: Image.file(_image[0],fit: BoxFit.fill,));
-  }
-  Widget _displaySecondImage() {
-    return _image[0] == null?
-    Text("")
-        :
-    ClipRRect( borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: Image.file(_image[0],fit: BoxFit.fill,));
+    List<Asset> resultList = [];
+    String error;
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 3,
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      if (error == null) _error = 'No Error Dectected';
+    });
   }
 
   @override
@@ -96,97 +106,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                     ],
                   ),
                 ),
-                Stack(
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            width: 161,
-                            height: 215,
-                            margin: EdgeInsets.only(top: 15),
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 143, 143, 143),
-                                borderRadius: BorderRadius.circular(15.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    offset: Offset(0.0, 2.0),
-                                    blurRadius: 6.0,
-                                  ),
-                                ]
-                            ),
-                            child:  _displaySecondImage(),
-                        ),
-                        Container(
-                            width: 161,
-                            height: 215,
-                            margin: EdgeInsets.only(top: 15),
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 143, 143, 143),
-                                borderRadius: BorderRadius.circular(15.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    offset: Offset(0.0, 2.0),
-                                    blurRadius: 6.0,
-                                  ),
-                                ]
-                            ),
-                            child: _displaySecondImage()
-                        ),
-                      ],
-                    ),
-                    Center(
-                      child: Container(
-                          width: 161,
-                          height: 244,
-                          padding: EdgeInsets.only(top: 0),
-                          margin: EdgeInsets.only(top: 0),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 190, 190, 190),
-                              borderRadius: BorderRadius.circular(15.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0.0, 2.0),
-                                  blurRadius: 6.0,
-                                ),
-                              ]),
-                          child: _displayMainImage()
-                      ),
-                    ),
-                    Positioned(
-                      left: SizeConfig.blockSizeHorizontal*38.5,
-                      top: SizeConfig.blockSizeVertical*10,
-                      child: Container(
-                        width: 90,
-                        height: 90,
-                        child:FlatButton(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(100)),
-                            ),
-                            child: _image[0] == null?
-                            Icon(
-                              Icons.cloud_upload,
-                              color: AppColors.secondaryBackground,
-                              size: 60,
-                            )
-                            :
-                            Icon(
-                            Icons.check,
-                            color: AppColors.secondaryBackground,
-                            size: 60,
-                          ),
-                            onPressed: () {selectImage();}
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                _imagesListBuilder(),
                 Center(
                   child: Container(
                     margin: EdgeInsets.only(top: 40),
@@ -220,7 +140,6 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -261,11 +180,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
                         ),
                       ],
                     ),
-                    onPressed: () =>
-                      _siguienteBtn()
-
-                ),
-
+                    onPressed: () => _siguienteBtn()),
               ),
             ),
           ),
@@ -304,45 +219,204 @@ class SubirFotoLibroState extends State<SubirFotoLibro>{
 //    setState(() {
 //      _image[0] = result;
 //    });
-
   }
 
   void selectImage() {
     getImage().then((anything) => _cropImage());
-
   }
 
-  _siguienteBtn(){
+  _siguienteBtn() {
     //todo que se puedan seleccionar multiples imagenes
     //todo mostrar un error dilog si no hay como minimo 3 fotos subidas
-    if(_image[0] == null){
-      showErrorDialog(context, "Debes seleccionar como minimo 3 imagenes para poder continuar");
-    }else{
+    if (_image[0] == null) {
+      showErrorDialog(context,
+          "Debes seleccionar como minimo 3 imagenes para poder continuar");
+    } else {
       Book book = Book();
 
       book.imagesRaw.add(_image[0]);
       book.imagesRaw.add(_image[0]);
       book.imagesRaw.add(_image[0]);
 
-
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              SeleccionCursos(book),
+          builder: (context) => SeleccionCursos(book),
         ),
       );
     }
-
-
   }
 
+  _imagesListBuilder() {
+    return images.length == 0
+        ? Stack(
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 161,
+                    height: 215,
+                    margin: EdgeInsets.only(top: 15),
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 143, 143, 143),
+                        borderRadius: BorderRadius.circular(15.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 6.0,
+                          ),
+                        ]),
+                    child: Text(''),
+                  ),
+                  Container(
+                    width: 161,
+                    height: 215,
+                    margin: EdgeInsets.only(top: 15),
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 143, 143, 143),
+                        borderRadius: BorderRadius.circular(15.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 6.0,
+                          ),
+                        ]),
+                    child: Text(''),
+                  ),
+                ],
+              ),
+              Center(
+                child: Container(
+                  width: 161,
+                  height: 244,
+                  padding: EdgeInsets.only(top: 0),
+                  margin: EdgeInsets.only(top: 0),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 190, 190, 190),
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 6.0,
+                        ),
+                      ]),
+                  child: Text(''),
+                ),
+              ),
+              Positioned(
+                left: SizeConfig.blockSizeHorizontal * 38.5,
+                top: SizeConfig.blockSizeVertical * 10,
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  child: FlatButton(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      ),
+                      child: _image[0] == null
+                          ? Icon(
+                              Icons.cloud_upload,
+                              color: AppColors.secondaryBackground,
+                              size: 60,
+                            )
+                          : Icon(
+                              Icons.check,
+                              color: AppColors.secondaryBackground,
+                              size: 60,
+                            ),
+                      onPressed: () {
+                        loadAssets();
+                      }),
+                ),
+              ),
+            ],
+          )
+        : Container(
+            margin: EdgeInsets.only(left: 22, top: 0),
+            //height: 295,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 22, top: 60),
+                  height: 225,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: images.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 180,
+                        width: 123,
+                        margin: EdgeInsets.only(right: 30),
+                        padding: EdgeInsets.all(5),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            child: AssetThumb(
+                              asset: images[index],
+                              height: 300,
+                              width: 300,
+                            ) //(book.images[index]),
+                            ),
+                      );
+                    },
+                  ),
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center,
+                children:<Widget>[
+                    RaisedButton(child: Text('Editar fotos elegidas'),onPressed: () => loadAssets()),
+                ],
+                )
+              ],
+            ));
+  }
+
+  Widget _displayMainImage() {
+    if (images.length == 0) {
+      return Text("");
+    } else {
+      return images[0] == null
+          ? Text("")
+          : ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: AssetThumb(
+                asset: images[0],
+                height: 1300,
+                width: 1300,
+              ));
+    }
+  }
+
+  Widget _displaySecondImage() {
+    return _image[0] == null
+        ? Text("")
+        : ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: Image.file(
+              _image[0],
+              fit: BoxFit.fill,
+            ));
+  }
 }
 
 void showLoadingDialog(BuildContext context) {
-  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
 }
-void showErrorDialog(BuildContext context,String errorMessage){
-  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
       animatedPill: false);
 }
