@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -25,32 +26,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
 //    Navigator.pop(context);
 //  }
 
-  Future<void> loadAssets() async {
-    setState(() {
-      images = List<Asset>();
-    });
 
-    List<Asset> resultList = [];
-    String error;
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 3,
-      );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      images = resultList;
-      if (error == null) _error = 'No Error Dectected';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,22 +204,34 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
   _siguienteBtn() {
     //todo que se puedan seleccionar multiples imagenes
     //todo mostrar un error dilog si no hay como minimo 3 fotos subidas
-    if (_image[0] == null) {
+    if (images.length <  4) {
       showErrorDialog(context,
           "Debes seleccionar como minimo 3 imagenes para poder continuar");
     } else {
       Book book = Book();
+      List<Future<ByteData>> futuresList = [];
+      List<Future<ByteData>> futuresThumbsList = [];
+      images.forEach((image) async{
 
-      book.imagesRaw.add(_image[0]);
-      book.imagesRaw.add(_image[0]);
-      book.imagesRaw.add(_image[0]);
+        futuresList.add(image.getByteData());
+        //List<int> imageData = byteData.buffer.asUint8List();
 
-      Navigator.push(
+        futuresThumbsList.add(image.getThumbByteData(500, 500,quality: 50));
+
+      });
+
+      Future.wait([
+        Future.wait(futuresList).then((value) => value.forEach((element) { book.imagesRaw.add(element.buffer.asUint8List());})),
+        Future.wait(futuresThumbsList).then((value) => value.forEach((element) { book.imagesRawThumb.add(element.buffer.asUint8List());})),
+      ]).then((value) => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => SeleccionCursos(book),
         ),
-      );
+      ));
+
+
+
     }
   }
 
@@ -358,8 +346,8 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             child: AssetThumb(
                               asset: images[index],
-                              height: 300,
-                              width: 300,
+                              height: 1300,
+                              width: 1300,
                             ) //(book.images[index]),
                             ),
                       );
@@ -373,6 +361,33 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                 )
               ],
             ));
+  }
+
+  Future<void> loadAssets() async {
+    setState(() {
+      images = List<Asset>();
+    });
+
+    List<Asset> resultList = [];
+    String error;
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 9,
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      if (error == null) _error = 'No Error Dectected';
+    });
   }
 
   Widget _displayMainImage() {

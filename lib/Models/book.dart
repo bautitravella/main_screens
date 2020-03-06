@@ -18,7 +18,8 @@ class Book {
   CachedNetworkImageProvider imageVendedor;
   List<dynamic> colegios = [];
   List<dynamic> cursos = [];
-  List<File> imagesRaw = [];
+  List<List<int>> imagesRaw = [];
+  List<List<int>> imagesRawThumb = [];
   List<dynamic> imagesUrl = [];
   List<CachedNetworkImageProvider> images = [];
   List<dynamic> thumbImagesUrl = [];

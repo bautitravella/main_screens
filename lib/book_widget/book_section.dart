@@ -799,7 +799,7 @@ class _BookSectionState extends State<BookSection> {
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 child: Image(
-                  image: book.images[0],
+                  image: book.images[index],
                 ) //(book.images[index]),
                 ),
           );

@@ -794,7 +794,7 @@ class _DatosLibrosState extends State<DatosLibros> {
   Future uploadBookImage(int i) async {
     StorageReference ref =
     FirebaseStorage.instance.ref().child("publicaciones_images2/foto" + i.toString() + ".jpg");
-    StorageUploadTask uploadTask = ref.putFile(widget.book.imagesRaw[i]);
+    StorageUploadTask uploadTask = ref.putData(widget.book.imagesRaw[i]);
     print(
         "---------------------------------------------------------Arranca la transferencia");
 

@@ -133,7 +133,7 @@ class FirebaseRepository extends DatabaseRepository{
   Future uploadBookImage(int i, Book book,String uid) async {
     StorageReference ref =
     FirebaseStorage.instance.ref().child("publicaciones_images2/" + uid + i.toString() + ".jpg");
-    StorageUploadTask uploadTask = ref.putFile(book.imagesRaw[i]);
+    StorageUploadTask uploadTask = ref.putData(book.imagesRaw[i]);
     print(
         "---------------------------------------------------------Arranca la transferencia");
 
