@@ -78,7 +78,8 @@ class User extends Equatable{
 }
 
 User createUserFromDocumentSnapshot(DocumentSnapshot documentSnapshot){
-  assert(documentSnapshot!= null);
+  assert(documentSnapshot!= null );
+  assert(documentSnapshot.data != null);
   assert(documentSnapshot.data['rol'] != null);
   if(documentSnapshot.data['rol'] == 'Padre'){
     return new Padre.fromMap(documentSnapshot.data,documentSnapshot.documentID);

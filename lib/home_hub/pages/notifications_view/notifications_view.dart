@@ -555,6 +555,7 @@ class ListViewCompra extends StatelessWidget {
                       ],
                     ),
                   ),
+                  //todo acaaaaaaaaaaaaaaaaaaa esto es lo que hay que cambiar
                   Positioned(
                     top: 100,
                     left: 85,

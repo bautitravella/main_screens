@@ -37,3 +37,8 @@ class LoadedUser extends UserBlocEvent{
   List<Object> get props => [user];
 
 }
+
+class UnloadUser extends UserBlocEvent{
+  @override
+  List<Object> get props => [];
+}

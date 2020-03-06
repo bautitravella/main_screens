@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 
 class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
@@ -23,6 +24,8 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
       yield* _mapUploadUserToState(event.user);
     }else if(event is LoadedUser){
       yield* _mapLoadedUserToState(event.user);
+    }else if(event is UnloadUser){
+      yield* _mapUnloadUserToState();
     }
   }
 
@@ -45,6 +48,11 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
 
   Stream<UserBlocState> _mapLoadedUserToState(User user) async* {
       yield UserLoadedState(user);
+  }
+
+  Stream<UserBlocState> _mapUnloadUserToState()  async*{
+    userStreamSubscription.cancel();
+    yield UserNotLoaded();
   }
 
 

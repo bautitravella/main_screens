@@ -6,10 +6,11 @@ import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/curso_alumno_widget.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/curso_padre_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
-import 'curso_padre_widget.dart';
+
 
 
 class DatosWidget extends StatefulWidget {

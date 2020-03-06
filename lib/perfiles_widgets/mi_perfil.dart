@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/school_model.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/colors.dart';
@@ -833,6 +835,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                     final auth = Provider.of<BaseAuth>(context,
                                         listen: false);
                                     await auth.signOut();
+                                    BlocProvider.of<UserBloc>(context).add(UnloadUser());
                                     Navigator.pop(
                                       context,
                                       MaterialPageRoute(
