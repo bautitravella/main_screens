@@ -100,7 +100,7 @@ class Book {
     if(indexes != null && indexes.length > 0) bookMap['indexes'] = indexes;
     bookMap['imagesUrl'] = imagesUrl;
     if( thumbImagesUrl != null && thumbImagesUrl.length != 0){
-     // bookMap['thumbsUrl'] = thumbImagesUrl;
+      bookMap['thumbsUrl'] = thumbImagesUrl;
     }
     if (isbn != null) {
       bookMap['isbn'] = isbn;

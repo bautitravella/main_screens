@@ -489,10 +489,12 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                             width: 75,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.0),
-                              child: Image(
+                              child:book.images != null && book.images.length > 0? Image(
                                 image : book.images[0],
                                 fit: BoxFit.fill,
                               ),
+                              :
+                              CircularProgressIndicator(),
                             ),
                           ),
                           Positioned(

@@ -110,10 +110,10 @@ class FirebaseRepository extends DatabaseRepository{
     DocumentReference documentReference = booksReference.document();
 
     documentReference.setData(book.toMap()).then((doc) => {
-      uploadBookImages(book,documentReference.documentID).then((urlList)  {
-    urlList.forEach((url) {
-    book.imagesUrl.add(url);
-    });
+      uploadBookImages(book,documentReference.documentID).then((urlLists)  {
+    urlLists[0].forEach((url) {book.imagesUrl.add(url); });
+    urlLists[1].forEach((thumbUrl) {book.thumbImagesUrl.add(thumbUrl); });
+
     return returnFuture =  booksReference.document(documentReference.documentID).setData(book.toMap());
 
     }),
@@ -122,18 +122,39 @@ class FirebaseRepository extends DatabaseRepository{
 
   }
 
-  Future<List<String>> uploadBookImages(Book book,String uid) async {
-    List<String> urlList = [];
-    for(int i = 0; i< book.imagesRaw.length -1; i++){
-      urlList.add(await uploadBookImage(i,book,uid));
+  Future<List<List<String>>> uploadBookImages(Book book,String uid) async {
+    List<List<String>> urlLists = List(2);
+    urlLists[0] = [];
+    urlLists[1] = [];
+    for(int i = 0; i< book.imagesRaw.length ; i++){
+      urlLists[0].add(await uploadBookImage(i,book,uid));
     }
-    return urlList;
+    for(int i = 0; i< book.imagesRawThumb.length  ; i++){
+      urlLists[1].add(await uploadBookThumbImage(i, book, uid));
+    }
+    return urlLists;
   }
 
   Future uploadBookImage(int i, Book book,String uid) async {
     StorageReference ref =
     FirebaseStorage.instance.ref().child("publicaciones_images2/" + uid + i.toString() + ".jpg");
     StorageUploadTask uploadTask = ref.putData(book.imagesRaw[i]);
+    print(
+        "---------------------------------------------------------Arranca la transferencia");
+
+    String downloadUrl =
+    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    print(
+        "---------------------------------------------------------Termina la Transferencia");
+
+    print("DOWNLOAD URL  1: " + downloadUrl);
+    return downloadUrl;
+  }
+
+  Future uploadBookThumbImage(int i, Book book,String uid) async {
+    StorageReference ref =
+    FirebaseStorage.instance.ref().child("publicaciones_thumbs2/" + uid + i.toString() + ".jpg");
+    StorageUploadTask uploadTask = ref.putData(book.imagesRawThumb[i]);
     print(
         "---------------------------------------------------------Arranca la transferencia");
 
@@ -178,15 +199,29 @@ class FirebaseRepository extends DatabaseRepository{
     print("GET USER BOOKS = $user");
     return booksReference.snapshots().map((snapshot) {
       print('DOCUMENTOS ================= ${snapshot.documents}');
-      return snapshot.documents
-          .map((doc) {
-            try {
-              return Book.fromDocumentSnapshot(doc);
-            }catch(e){
-              print(e);
-            }
-          })
-          .toList();
+      List<Book> books = [];
+      Book book;
+      snapshot.documents.forEach((doc) {
+      try {
+        book = Book.fromDocumentSnapshot(doc);
+        if(book!= null) {
+          books.add(book);
+        }
+      }catch (e){
+        print("NO SE PUDO AGREGAR ESTE LIBRO");
+      }
+
+      });
+      return books;
+//      return snapshot.documents
+//          .map((doc) {
+//            try {
+//              return Book.fromDocumentSnapshot(doc);
+//            }catch(e){
+//              print(e);
+//            }
+//          })
+//          .toList();
     });
   }
   
