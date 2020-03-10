@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'file:///C:/Users/PC-AGUS/main_screens/lib/log_in/registrar_info_usuario/datos_widget.dart';
+
 import 'package:flutterui/main.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
