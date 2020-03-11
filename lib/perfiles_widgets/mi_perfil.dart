@@ -860,9 +860,9 @@ class _MiPerfilState extends State<MiPerfil> {
             top: -0.8,
             child: ConfigurableExpansionTile(
               headerExpanded: Container(
-                padding: EdgeInsets.fromLTRB(28, 5, 20, 5),
+                padding: EdgeInsets.fromLTRB(38, 5, 20, 5),
                 width: SizeConfig.blockSizeHorizontal * 100,
-                height: SizeConfig.blockSizeVertical * 81,
+                height: 505,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25.0),
@@ -873,56 +873,333 @@ class _MiPerfilState extends State<MiPerfil> {
                     ),
                   ],
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Perfil",
-                          style: TextStyle(
-                              fontFamily: "Sf-r",
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color.fromARGB(255, 57, 57, 57)),
-                        ),
-                        Text(
-                          "Nombre, Apellido, Colegio, Curso, Rol",
-                          style: TextStyle(
-                              fontFamily: "Sf",
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 184, 184, 184)),
-                        ),
-                      ],
-                    ),
                     Container(
-                      width: 50,
-                      child: Stack(
-                        alignment: Alignment.topRight,
+                      height: 75,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Positioned(
-                            top: 8,
-                            child: CircleAvatar(
-                              radius: 23.0,
-                              backgroundImage:
-                                  AssetImage("assets/images/avatar.png"),
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: 19),
+                              Text(
+                                "Perfil",
+                                style: TextStyle(
+                                    fontFamily: "Sf-r",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color.fromARGB(255, 57, 57, 57)),
+                              ),
+                              Text(
+                                "Nombre, Apellido, Colegio, Curso, Rol",
+                                style: TextStyle(
+                                    fontFamily: "Sf",
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 184, 184, 184)),
+                              ),
+                            ],
                           ),
-                          Positioned(
-                            right: 25,
-                            bottom: 5,
-                            child: CircleAvatar(
-                              radius: 12.0,
-                              backgroundImage: AssetImage(
-                                  "assets/images/logocolegio-fds.png"),
+                          Container(
+                            width: 60,
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: <Widget>[
+                                Positioned(
+                                  right: 10,
+                                  top: 8,
+                                  child: CircleAvatar(
+                                    radius: 23.0,
+                                    backgroundImage:
+                                    AssetImage("assets/images/avatar.png"),
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 35,
+                                  top: 30,
+                                  child: CircleAvatar(
+                                    radius: 12.0,
+                                    backgroundImage: AssetImage(
+                                        "assets/images/logocolegio-fds.png"),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
+                    SizedBox(height: 20),
+                    Container(
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Cambiar nombre y apellido",
+                            style: TextStyle(
+                                fontFamily: "Sf",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(
+                                    255, 110, 110, 110)),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                height: 44,
+                                width: SizeConfig.blockSizeHorizontal*40,
+                                padding: EdgeInsets.only(left: 18),
+                                decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                    width: 1,
+                                    color:
+                                    Color.fromARGB(100, 112, 112, 112)),
+                              ),
+                                child:Center(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText:
+                                      "Bautista", // TODO aca va el nombre del usuario registrado
+                                      alignLabelWithHint: true,
+                                      border: InputBorder.none,
+                                    ),
+                                    style: TextStyle(
+                                      color: Color.fromARGB(
+                                          255, 120, 120, 120),
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines:
+                                    1, //TODO resolver tema del overflow
+                                    keyboardType:
+                                    TextInputType.emailAddress,
+                                    autocorrect: false,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 44,
+                                width: SizeConfig.blockSizeHorizontal*40,
+                                padding: EdgeInsets.only(left: 18),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  border: Border.all(
+                                      width: 1,
+                                      color:
+                                      Color.fromARGB(100, 112, 112, 112)),
+                                ),
+                                child:Center(
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText:
+                                      "Travella", // TODO aca va el nombre del usuario registrado
+                                      alignLabelWithHint: true,
+                                      border: InputBorder.none,
+                                    ),
+                                    style: TextStyle(
+                                      color: Color.fromARGB(
+                                          255, 120, 120, 120),
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines:
+                                    1, //TODO resolver tema del overflow
+                                    keyboardType:
+                                    TextInputType.emailAddress,
+                                    autocorrect: false,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      constraints: BoxConstraints.expand(height: 300),
+                      width: SizeConfig.blockSizeHorizontal*70,
+                      margin: EdgeInsets.only(left: 0, right: 0),
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 246, 246, 246),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+
+                          Text(
+                            "Hijos",
+                            style: TextStyle(
+                                fontFamily: "Sf",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(
+                                    255, 110, 110, 110)),
+                          ),
+                          SizedBox(height: 60),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Cambiar nombre",
+                                style: TextStyle(
+                                    fontFamily: "Sf",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(
+                                        255, 110, 110, 110)),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    height: 24,
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: "Milagros",
+                                        alignLabelWithHint: true,
+                                        border: InputBorder.none,
+                                      ),
+                                      style: TextStyle(
+                                        color: Color.fromARGB(
+                                            255, 120, 120, 120),
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines:
+                                      1, //TODO resolver tema del overflow
+                                      keyboardType:
+                                      TextInputType.emailAddress,
+                                      autocorrect: false,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(Icons.person, size: 18, color:Colors.black38)
+                                ],
+                              ),
+
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Colegio",
+                                style: TextStyle(
+                                    fontFamily: "Sf",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(
+                                        255, 110, 110, 110)),
+                              ),
+                              Container(
+                                height: 38,
+                                margin: EdgeInsets.only(left: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(left: 5, right: 5),
+                                        height: 25,
+                                        width: 25,
+                                        child: Image.asset(
+                                          "assets/images/logocolegio-fds.png",
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      SizedBox(width: 3),
+                                      Container(
+                                        width: SizeConfig.blockSizeHorizontal*30,
+                                        margin: EdgeInsets.only(left: 2, right: 15),
+                                        child: Text(
+                                          "Florida Day School",
+                                          style: TextStyle(
+                                            fontFamily: "Sf-r",
+                                            color: Color.fromARGB(255, 27, 27, 27),
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 12,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                ]),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Curso",
+                                style: TextStyle(
+                                    fontFamily: "Sf",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(
+                                        255, 110, 110, 110)),
+                              ),
+                              Container(
+                                height: 38,
+                                margin: EdgeInsets.only(left: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      SizedBox(width: 3),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 15, right: 15),
+                                        child: Text(
+                                          "6to grado",
+                                          style: TextStyle(
+                                            fontFamily: "Sf-r",
+                                            color: Color.fromARGB(255, 27, 27, 27),
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 12,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+
+                            ],
+                          ),
+
+
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
