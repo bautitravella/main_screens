@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -104,7 +105,52 @@ class App extends StatelessWidget {
   }
 }
 
-class MyDecider extends StatelessWidget {
+
+class MyDecider extends StatefulWidget {
+
+  @override
+  MyDeciderState createState() {
+    return MyDeciderState();
+  }}
+class MyDeciderState extends State<MyDecider> {
+
+  @override
+  void initState() {
+
+    final FirebaseMessaging _fcm = FirebaseMessaging();
+
+
+
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        // TODO optional
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // TODO optional
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<BaseAuth>(context);
@@ -145,6 +191,8 @@ class MyDecider extends StatelessWidget {
     return isVerified;
   }
 }
+
+
 
 class FirestoreDecider extends StatefulWidget {
   String userEmail;

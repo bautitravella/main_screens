@@ -325,10 +325,7 @@ class GridViewPublicados extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => YourBook(
-                              //todo cambiar esta refencia por una de su propio libro
-                              book: books2[0],
-                            ),
+                            builder: (context) => BookSection(book),
                           ),
                         );
                       },
@@ -347,13 +344,14 @@ class GridViewPublicados extends StatelessWidget {
                           children: <Widget>[
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5),
-                              child://book.images[0],
+                              child:book.getImages() != null && book.getImages().length > 0? //book.images[0],
                               Image(
                                 height: 141,
                                 width: 97,
-                                image: book.images[0],
+                                image: book.getImages()[0],
                                 fit: BoxFit.cover,
-                              ),
+                              ):
+                              CircularProgressIndicator(),
                             ),
                             Positioned(
                               right: 0,

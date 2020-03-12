@@ -88,9 +88,9 @@ class _YourBookState extends State<YourBook> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.edit),
-                                iconSize: 30.0,
-                                color: Colors.black,
+                                  icon: Icon(Icons.edit),
+                                  iconSize: 30.0,
+                                  color: Colors.black,
                                   onPressed: () {
                                     Navigator.push(
                                       context,

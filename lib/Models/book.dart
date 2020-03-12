@@ -23,7 +23,7 @@ class Book {
   List<dynamic> imagesUrl = [];
   List<CachedNetworkImageProvider> images = [];
   List<dynamic> thumbImagesUrl = [];
-  List<CachedNetworkImage> thumbImages = [];
+  List<CachedNetworkImageProvider> thumbImages = [];
   List<String> materias = [];
   List<String> indexes = [];
   bool vendido, publico;
@@ -48,7 +48,7 @@ class Book {
     this.cursos = doc['cursos'];
     this.imagesUrl = doc['imagesUrl'];
     //todo volver a habilitar los thumbs
-    if(doc['thumbsUrl'] != null ) this.thumbImagesUrl = doc['thumbsUrl'];
+
     this.vendido = doc['vendido'];
     this.publico = doc['publico'];
     this.precio = doc['precio'];
@@ -61,13 +61,14 @@ class Book {
 //        fit: BoxFit.fill,
       element));
     });
-    thumbImagesUrl.forEach((element) {
-      thumbImages.add(CachedNetworkImage(
-        imageUrl: element,
-        placeholder: (context, url) => CircularProgressIndicator(),
-        fit: BoxFit.fill,
-      ));
-    });
+    if(doc['thumbsUrl'] != null ) {
+      this.thumbImagesUrl = doc['thumbsUrl'];
+      thumbImagesUrl.forEach((element) {
+        thumbImages.add(CachedNetworkImageProvider(
+            element));
+      });
+    }
+
     this.uid = doc.documentID;
   }
 
@@ -76,7 +77,12 @@ class Book {
     return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $images, thumbImages: $thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';
   }
 
-  List<dynamic> getImages() {
+  List<CachedNetworkImageProvider> getImages() {
+    if(thumbImages != null && thumbImages.length > 0){
+      return thumbImages;
+    }else if(images != null && images.length > 0 ){
+      return images;
+    }
     return null;
   }
 

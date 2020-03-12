@@ -120,7 +120,7 @@ class FirebaseRepository extends DatabaseRepository {
         book.thumbImagesUrl.add(thumbUrl);
       });
     });
-    Future.wait([uploadImages]).then((urlLists) {
+    return  Future.wait([uploadImages]).then((urlLists) {
 
       booksReference
           .document(documentReference.documentID)
