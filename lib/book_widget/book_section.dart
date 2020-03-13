@@ -6,9 +6,10 @@ import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/book_widget/edit_book.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/edit_book.dart';
+
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dart';
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
