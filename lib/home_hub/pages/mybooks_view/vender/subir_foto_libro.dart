@@ -204,7 +204,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
   _siguienteBtn() {
     //todo que se puedan seleccionar multiples imagenes
     //todo mostrar un error dilog si no hay como minimo 3 fotos subidas
-    if (images.length <  4) {
+    if (images.length <  3) {
       showErrorDialog(context,
           "Debes seleccionar como minimo 3 imagenes para poder continuar");
     } else {

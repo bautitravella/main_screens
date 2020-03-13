@@ -50,3 +50,8 @@ class ErrorEditing extends UploadsBlocEvent{
   List<Object> get props => [errorMessage];
 
 }
+
+class ResetEvent extends UploadsBlocEvent{
+  @override
+  List<Object> get props => [];
+}

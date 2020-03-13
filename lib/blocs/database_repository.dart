@@ -335,14 +335,20 @@ class FirebaseRepository extends DatabaseRepository {
         .where("emailVendedor", isEqualTo: user.email)
         .snapshots()
         .map((snapshot) {
-      print('USER BOOKS ================= ${snapshot.documents}');
-      return snapshot.documents.map((doc) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      snapshot.documents.forEach((doc) {
         try {
-          return Book.fromDocumentSnapshot(doc);
+          book = Book.fromDocumentSnapshot(doc);
+          if (book != null) {
+            books.add(book);
+          }
         } catch (e) {
-          print(e);
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
         }
-      }).toList();
+      });
+      return books;
     });
   }
 

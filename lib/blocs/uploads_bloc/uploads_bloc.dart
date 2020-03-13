@@ -26,6 +26,8 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
       yield* _mapEditedBookToState();
     }else if(event is ErrorEditing){
       yield* _mapErrorEditingToState(event.errorMessage);
+    }else if(event is ResetEvent){
+      yield* _mapResetToState();
     }
   }
 
@@ -34,7 +36,8 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
     databaseRepository
         .editBook(book)
         .then((value) => add(EditedBookReady()))
-        .catchError((e) => add(ErrorEditing(e.toString())));
+        .catchError((e) => add(ErrorEditing(e.toString())))
+        .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
   }
 
   Stream<UploadsBlocState> _mapEditedBookToState() async* {
@@ -50,7 +53,8 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
     databaseRepository
         .editBookImages(book)
         .then((value) => add(EditedBookReady()))
-        .catchError((e) => add(ErrorEditing(e.toString())));
+        .catchError((e) => add(ErrorEditing(e.toString())))
+        .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
   }
 
   Stream<UploadsBlocState> _mapEditBookInfoToState(Book book) async* {
@@ -58,6 +62,10 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
     databaseRepository
         .editBookInfo(book)
         .then((value) => add(EditedBookReady()))
-        .catchError((e) => add(ErrorEditing(e.toString())));
+        .catchError((e) => add(ErrorEditing(e.toString()))).whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+  }
+
+  Stream<UploadsBlocState> _mapResetToState() async*{
+    yield InitialUploadsBlocState();
   }
 }

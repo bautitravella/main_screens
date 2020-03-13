@@ -41,7 +41,7 @@ class Book {
     this.emailVendedor = book.emailVendedor;
     this.descripcion = book.descripcion;
     this.nombreLibro = book.nombreLibro;
-    this.imageVendedorUrl = imageVendedorUrl;
+    this.imageVendedorUrl = book.imageVendedorUrl;
     this.uid = book.uid;
     this.imageVendedor = book.imageVendedor;
     this.colegios = book.colegios;
@@ -55,8 +55,8 @@ class Book {
     this.materias = book.materias;
     this.indexes = book.indexes;
     this.vendido = book.vendido;
-    this.precio = precio;
-    this.isbn = isbn;
+    this.precio = book.precio;
+    this.isbn = book.isbn;
     this.rating = book.rating;
   }
 
@@ -157,12 +157,34 @@ class Book {
     return Book.fromCloning(this);
   }
 
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is Book &&
               runtimeType == other.runtimeType &&
-              uid == other.uid;
+              nombreVendedor == other.nombreVendedor &&
+              apellidoVendedor == other.apellidoVendedor &&
+              autor == other.autor &&
+              categoria == other.categoria &&
+              editorial == other.editorial &&
+              emailVendedor == other.emailVendedor &&
+              descripcion == other.descripcion &&
+              nombreLibro == other.nombreLibro &&
+              imageVendedorUrl == other.imageVendedorUrl &&
+              uid == other.uid &&
+              colegios == other.colegios &&
+              cursos == other.cursos &&
+              imagesUrl == other.imagesUrl &&
+              thumbImagesUrl == other.thumbImagesUrl &&
+              materias == other.materias &&
+              indexes == other.indexes &&
+              vendido == other.vendido &&
+              publico == other.publico &&
+              precio == other.precio &&
+              isbn == other.isbn &&
+              rating == other.rating;
+
 
   @override
   int get hashCode => uid.hashCode;

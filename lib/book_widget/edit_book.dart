@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
@@ -14,6 +15,7 @@ import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 class EditBookWidget extends StatefulWidget {
   Book book;
@@ -29,6 +31,9 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   bool _isMarcked = false;
   bool _isTicked = false;
 
+  List<Asset> images = [];
+  String _error;
+
   TextEditingController nombreTextController = new TextEditingController(),
       editorialTextController = new TextEditingController(),
       autorTextController = new TextEditingController(),
@@ -37,6 +42,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       precioTextController = new TextEditingController();
 
   bool imagesChanged = false;
+  Book clonedBook;
 
   @override
   void initState() {
@@ -45,7 +51,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
     descripcionTextController.text = widget.book.descripcion;
     precioTextController.text = widget.book.precio.toString();
     if(widget.book.editorial != null)editorialTextController.text = widget.book.editorial;
-    if(widget.book.isbn.toString() != null) ISBNTextController.text = widget.book.isbn.toString();
+    if(widget.book.isbn != null) ISBNTextController.text = widget.book.isbn.toString();
+    clonedBook = widget.book.clone();
     super.initState();
   }
 
@@ -54,23 +61,24 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocListener<BooksBloc,BooksBlocState>(
+        body: BlocListener<UploadsBloc,UploadsBlocState>(
           listener: (BuildContext context,state) async {
-            print("STATE HAS CHANGED. STATE = ${state.toString()}");
-            if(state is UploadingBook){
-              showLoadingDialog(context);
-            }else if(state is ErrorUploadingBook){
-              Navigator.of(context).pop();
+            print("STATE CHANGE EDIT BOOK. STATE = ${state.toString()}");
+            if(state is InitialUploadsBlocState){
+//              showLoadingDialog(context);
+            }else if(state is BookEdited){
+//              Navigator.popUntil(
+//                context,
+//                ModalRoute.withName('/home'),
+//              );
+            Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.pop(context);
+
+            }else if(state is FailedToEdit){
               showErrorDialog(context, "Ha habido un error cargando el libro a nuestra base de datos. ${state.errorMessage}");
-            }else if(state is UploadedBook){
-//               await Future.delayed(const Duration(milliseconds: 100));
-//               Navigator.of(context).popUntil( ModalRoute.withName('/home'),);
-              //todo cambiar este push por un popUntil como habia hecho en terminos y condiciones
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeHub()),
-              );
+            }else if(state is EditingState){
+              showLoadingDialog(context);
             }
 
           },
@@ -137,155 +145,156 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                   Container(
                                     height: 141,
                                     margin: EdgeInsets.only(top: 5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 97,
-                                          child: Stack(
-                                            children: <Widget>[
-                                              ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                                child: Image(
-                                                  height: 141,
-                                                  width: 97,
-                                                  image: AssetImage("assets/images/bookdescarte.png"),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              Center(
-                                                child: Container(
-                                                  width: 40,
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.black26,
-                                                          offset: Offset(0.0, 2.0),
-                                                          blurRadius: 6.0,
-                                                        )
-                                                      ],
-                                                      color: Colors.white,
-                                                      borderRadius: new BorderRadius.circular(100)),
-                                                  child: OutlineButton(
-                                                      padding: EdgeInsets.symmetric(horizontal: 5),
-                                                      borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.edit,
-                                                        color: AppColors.secondaryBackground,
-                                                        size: 20,
-                                                      ),
-                                                      onPressed: () {}),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Center(
-                                          child: Container(
-                                            width: 97,
-                                            child: Stack(
-                                              children: <Widget>[
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  child: Image(
-                                                    height: 141,
-                                                    width: 97,
-                                                    image: AssetImage("assets/images/bookdescarte.png"),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: Container(
-                                                    width: 40,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: Colors.black26,
-                                                            offset: Offset(0.0, 2.0),
-                                                            blurRadius: 6.0,
-                                                          )
-                                                        ],
-                                                        color: Colors.white,
-                                                        borderRadius: new BorderRadius.circular(100)),
-                                                    child: OutlineButton(
-                                                        padding: EdgeInsets.symmetric(horizontal: 5),
-                                                        borderSide: BorderSide(
-                                                            color: AppColors.secondaryBackground, width: 2),
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                        ),
-                                                        child: Icon(
-                                                          Icons.edit,
-                                                          color: AppColors.secondaryBackground,
-                                                          size: 20,
-                                                        ),
-                                                        onPressed: () {}),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 97,
-                                          child: Stack(
-                                            children: <Widget>[
-                                              ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                                child: Image(
-                                                  height: 141,
-                                                  width: 97,
-                                                  image: AssetImage(
-                                                      "assets/images/bookdescarte.png"),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              Center(
-                                                child: Container(
-                                                  width: 40,
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.black26,
-                                                          offset: Offset(0.0, 2.0),
-                                                          blurRadius: 6.0,
-                                                        )
-                                                      ],
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                      new BorderRadius.circular(
-                                                          100)),
-                                                  child: OutlineButton(
-                                                      padding: EdgeInsets.symmetric(
-                                                          horizontal: 5),
-                                                      borderSide: BorderSide(
-                                                          color: AppColors.secondaryBackground,
-                                                          width: 2),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.edit,
-                                                        color: AppColors.secondaryBackground,
-                                                        size: 20,
-                                                      ),
-                                                      onPressed: () {}),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    child: _imagesListBuilder()
+//                                    Row(
+//                                      mainAxisAlignment:
+//                                      MainAxisAlignment.spaceBetween,
+//                                      children: <Widget>[
+//                                        Container(
+//                                          width: 97,
+//                                          child: Stack(
+//                                            children: <Widget>[
+//                                              ClipRRect(
+//                                                borderRadius:
+//                                                BorderRadius.circular(10),
+//                                                child: Image(
+//                                                  height: 141,
+//                                                  width: 97,
+//                                                  image: AssetImage("assets/images/bookdescarte.png"),
+//                                                  fit: BoxFit.cover,
+//                                                ),
+//                                              ),
+//                                              Center(
+//                                                child: Container(
+//                                                  width: 40,
+//                                                  height: 40,
+//                                                  decoration: BoxDecoration(
+//                                                      boxShadow: [
+//                                                        BoxShadow(
+//                                                          color: Colors.black26,
+//                                                          offset: Offset(0.0, 2.0),
+//                                                          blurRadius: 6.0,
+//                                                        )
+//                                                      ],
+//                                                      color: Colors.white,
+//                                                      borderRadius: new BorderRadius.circular(100)),
+//                                                  child: OutlineButton(
+//                                                      padding: EdgeInsets.symmetric(horizontal: 5),
+//                                                      borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
+//                                                      shape: RoundedRectangleBorder(
+//                                                        borderRadius: BorderRadius.all(Radius.circular(100)),
+//                                                      ),
+//                                                      child: Icon(
+//                                                        Icons.edit,
+//                                                        color: AppColors.secondaryBackground,
+//                                                        size: 20,
+//                                                      ),
+//                                                      onPressed: () {}),
+//                                                ),
+//                                              ),
+//                                            ],
+//                                          ),
+//                                        ),
+//                                        Center(
+//                                          child: Container(
+//                                            width: 97,
+//                                            child: Stack(
+//                                              children: <Widget>[
+//                                                ClipRRect(
+//                                                  borderRadius: BorderRadius.circular(10),
+//                                                  child: Image(
+//                                                    height: 141,
+//                                                    width: 97,
+//                                                    image: AssetImage("assets/images/bookdescarte.png"),
+//                                                    fit: BoxFit.cover,
+//                                                  ),
+//                                                ),
+//                                                Center(
+//                                                  child: Container(
+//                                                    width: 40,
+//                                                    height: 40,
+//                                                    decoration: BoxDecoration(
+//                                                        boxShadow: [
+//                                                          BoxShadow(
+//                                                            color: Colors.black26,
+//                                                            offset: Offset(0.0, 2.0),
+//                                                            blurRadius: 6.0,
+//                                                          )
+//                                                        ],
+//                                                        color: Colors.white,
+//                                                        borderRadius: new BorderRadius.circular(100)),
+//                                                    child: OutlineButton(
+//                                                        padding: EdgeInsets.symmetric(horizontal: 5),
+//                                                        borderSide: BorderSide(
+//                                                            color: AppColors.secondaryBackground, width: 2),
+//                                                        shape: RoundedRectangleBorder(
+//                                                          borderRadius: BorderRadius.all(Radius.circular(100)),
+//                                                        ),
+//                                                        child: Icon(
+//                                                          Icons.edit,
+//                                                          color: AppColors.secondaryBackground,
+//                                                          size: 20,
+//                                                        ),
+//                                                        onPressed: () {}),
+//                                                  ),
+//                                                ),
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ),
+//                                        Container(
+//                                          width: 97,
+//                                          child: Stack(
+//                                            children: <Widget>[
+//                                              ClipRRect(
+//                                                borderRadius:
+//                                                BorderRadius.circular(10),
+//                                                child: Image(
+//                                                  height: 141,
+//                                                  width: 97,
+//                                                  image: AssetImage(
+//                                                      "assets/images/bookdescarte.png"),
+//                                                  fit: BoxFit.cover,
+//                                                ),
+//                                              ),
+//                                              Center(
+//                                                child: Container(
+//                                                  width: 40,
+//                                                  height: 40,
+//                                                  decoration: BoxDecoration(
+//                                                      boxShadow: [
+//                                                        BoxShadow(
+//                                                          color: Colors.black26,
+//                                                          offset: Offset(0.0, 2.0),
+//                                                          blurRadius: 6.0,
+//                                                        )
+//                                                      ],
+//                                                      color: Colors.white,
+//                                                      borderRadius:
+//                                                      new BorderRadius.circular(
+//                                                          100)),
+//                                                  child: OutlineButton(
+//                                                      padding: EdgeInsets.symmetric(
+//                                                          horizontal: 5),
+//                                                      borderSide: BorderSide(
+//                                                          color: AppColors.secondaryBackground,
+//                                                          width: 2),
+//                                                      shape: RoundedRectangleBorder(
+//                                                        borderRadius: BorderRadius.all(Radius.circular(100)),
+//                                                      ),
+//                                                      child: Icon(
+//                                                        Icons.edit,
+//                                                        color: AppColors.secondaryBackground,
+//                                                        size: 20,
+//                                                      ),
+//                                                      onPressed: () {}),
+//                                                ),
+//                                              ),
+//                                            ],
+//                                          ),
+//                                        ),
+//                                      ],
+//                                    ),
                                   ),
                                 ],
                               ),
@@ -295,7 +304,10 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                   child: RaisedButton(
                                     child: Text('Cambiar Imagenes'),
                                     //Todo cuando se clickee que tambien se aabra lo de seleccionar imagenes
-                                    onPressed: () => imagesChanged = true,
+                                    onPressed: () {
+                                      loadAssets();
+                                      imagesChanged = true;
+                                      },
                                   ),
                                 ),
                               ),
@@ -762,83 +774,128 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       showErrorDialog(context, "Para continuar debes completar todos los campos");
       print("falta completar algun campo");
       return null;
-    }
-    widget.book.nombreLibro = nombreLibro;
-    widget.book.autor = autor;
-    widget.book.descripcion = descripcion;
-    widget.book.precio = num.parse(precio);
-    widget.book.publico = _isTicked;
-    if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
-    if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
-    print("todos los campos estan completos");
-    if(imagesChanged){
-      BlocProvider.of<UploadsBloc>(context).add(EditBookImages(widget.book));
-    }
-    //TODO cambiar este BlocProvider por otro que llame a update book
-    //BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
+    }else if (images.length <  3) {
+      showErrorDialog(context,
+          "Debes seleccionar como minimo 3 imagenes para poder continuar");
+    } else {
+      showLoadingDialog(context);
+      List<Future<ByteData>> futuresList = [];
+      List<Future<ByteData>> futuresThumbsList = [];
+      images.forEach((image) async{
+
+        futuresList.add(image.getByteData());
+        //List<int> imageData = byteData.buffer.asUint8List();
+
+        futuresThumbsList.add(image.getThumbByteData(500, 500,quality: 50));
+
+      });
+
+      Future.wait([
+        Future.wait(futuresList).then((value) => value.forEach((element) { clonedBook.imagesRaw.add(element.buffer.asUint8List());})),
+        Future.wait(futuresThumbsList).then((value) => value.forEach((element) { clonedBook.imagesRawThumb.add(element.buffer.asUint8List());})),
+      ]).then((smt) {
+        Navigator.pop(context);
+        clonedBook.nombreLibro = nombreLibro;
+        clonedBook.autor = autor;
+        clonedBook.descripcion = descripcion;
+        clonedBook.precio = num.parse(precio);
+        clonedBook.publico = _isTicked;
+        if (editorial != null && editorial.isNotEmpty)
+          clonedBook.editorial = editorial;
+        if (ISBN != null && ISBN.isNotEmpty) clonedBook.isbn = int.parse(ISBN);
+        print("todos los campos estan completos");
+        if (clonedBook != widget.book &&
+            imagesChanged) { //en este caso se modificaron datos del libro e imagenes
+          print("11111111111111111111111111111111111111111111111111");
+          BlocProvider.of<UploadsBloc>(context).add(EditBook(clonedBook));
+        } else
+        if (imagesChanged) { //en este caso solo se modificaron las imagenes del libro
+          print('2222222222222222222222222222222222222222222222222222');
+          BlocProvider.of<UploadsBloc>(context).add(EditBookImages(clonedBook));
+        } else if (clonedBook != widget
+            .book) { //en este caso se modificaron solo los datos del libro
+          print('333333333333333333333333333333333333333333333333333333');
+          BlocProvider.of<UploadsBloc>(context).add(EditBookInfo(clonedBook));
+        } else { //en este caso
+          print('444444444444444444444444444444444444444444444444444444444444');
+          Navigator.of(context).pop();
+        }
+        //TODO cambiar este BlocProvider por otro que llame a update book
+        //BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(
 //      context,
 //      MaterialPageRoute(builder: (context) => MyBooksView()),
 //    ));
-  }
-
-  Future uploadBook() async {
-    try {
-      uploadBookImages().then((urlList) => {
-        urlList.forEach((url) {
-          widget.book.imagesUrl.add(url);
-        }),
-        uploadBookInfo(),
       });
-    } catch (error) {
-      showSlideDialogChico(
-          context: context,
-          child: /*LoadingDialog()*/
-          ErrorDialog(
-            title: "Oops...",
-            error: "Parece que no has completado todos los datos. " + error.toString(),
-          )
-        // barrierColor: Colors.white.withOpacity(0.7),
-        // pillColor: Colors.red,
-        // backgroundColor: Colors.yellow,
+    }
+    }
+
+  Future<void> loadAssets() async {
+    setState(() {
+      images = List<Asset>();
+    });
+
+    List<Asset> resultList = [];
+    String error;
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 9,
       );
-
+    } on Exception catch (e) {
+      error = e.toString();
     }
 
-    return Future.delayed(Duration(seconds: 60));
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      if (error == null) _error = 'No Error Dectected';
+    });
   }
 
-  Future<List<String>> uploadBookImages() async {
-    List<String> urlList = [];
-    for(int i = 0; i< widget.book.imagesRaw.length -1; i++){
-      urlList.add(await uploadBookImage(i));
-    }
-    return urlList;
-  }
-
-  Future uploadBookImage(int i) async {
-    StorageReference ref =
-    FirebaseStorage.instance.ref().child("publicaciones_images2/foto" + i.toString() + ".jpg");
-    StorageUploadTask uploadTask = ref.putData(widget.book.imagesRaw[i]);
-    print(
-        "---------------------------------------------------------Arranca la transferencia");
-
-    String downloadUrl =
-    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
-    print(
-        "---------------------------------------------------------Termina la Transferencia");
-
-    print("DOWNLOAD URL  1: " + downloadUrl);
-    return downloadUrl;
-  }
-
-  uploadBookInfo() {
-    Firestore.instance
-        .collection('books')
-        .document()
-        .setData(widget.book.toMap())
-        .then((value) => print("se mando bien la info a firebase" ))
-        .catchError((err) => print("HUBO UN ERROR 2"));
+  _imagesListBuilder() {
+    return images.length == 0
+        ? Container(margin: EdgeInsets.all(10),child: Center(child : Text('Que miras wacho')),)
+        : Container(
+        margin: EdgeInsets.only(left: 22, top: 0),
+        //height: 295,
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 22, top: 60),
+              height: 225,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: images.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 180,
+                    width: 123,
+                    margin: EdgeInsets.only(right: 30),
+                    padding: EdgeInsets.all(5),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child: AssetThumb(
+                          asset: images[index],
+                          height: 1300,
+                          width: 1300,
+                        ) //(book.images[index]),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children:<Widget>[
+                RaisedButton(child: Text('Editar fotos elegidas'),onPressed: () => loadAssets()),
+              ],
+            )
+          ],
+        ));
   }
 }
 
