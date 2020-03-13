@@ -32,6 +32,34 @@ class Book {
 
   Book();
 
+  Book.fromCloning(Book book){
+    this.nombreVendedor = book.nombreVendedor;
+    this.apellidoVendedor = book.apellidoVendedor;
+    this.autor = book.autor;
+    this.categoria = book.categoria;
+    this.editorial = book.editorial;
+    this.emailVendedor = book.emailVendedor;
+    this.descripcion = book.descripcion;
+    this.nombreLibro = book.nombreLibro;
+    this.imageVendedorUrl = imageVendedorUrl;
+    this.uid = book.uid;
+    this.imageVendedor = book.imageVendedor;
+    this.colegios = book.colegios;
+    this.cursos = book.cursos;
+    this.imagesRaw = book.imagesRaw;
+    this.imagesRawThumb = book.imagesRawThumb;
+    this.imagesUrl = book.imagesUrl;
+    this.images = book.images;
+    this.thumbImagesUrl = book.thumbImagesUrl;
+    this.thumbImages = book.thumbImages;
+    this.materias = book.materias;
+    this.indexes = book.indexes;
+    this.vendido = book.vendido;
+    this.precio = precio;
+    this.isbn = isbn;
+    this.rating = book.rating;
+  }
+
   Book.fromDocumentSnapshot(DocumentSnapshot doc) {
     this.nombreVendedor = doc[
         'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
@@ -125,6 +153,10 @@ class Book {
     this.imageVendedorUrl = user.fotoPerfilUrl;
   }
 
+  Book clone(){
+    return Book.fromCloning(this);
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -134,8 +166,6 @@ class Book {
 
   @override
   int get hashCode => uid.hashCode;
-
-
 
 
 

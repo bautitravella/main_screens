@@ -116,7 +116,7 @@ class _BookSectionState extends State<BookSection> {
                                             context,
                                             MaterialPageRoute(
                                               //TODO cambiar el DatosLibro por una pagina que sea posta para editar un libro
-                                              builder: (context) => EditBook(widget.book),
+                                              builder: (context) => EditBookWidget(widget.book),
                                             ),
                                           );
                                         }

@@ -33,3 +33,6 @@ export 'search_bloc/bloc.dart';
 
 //TOKENS BLOC
 export 'tokens_bloc/bloc.dart';
+
+//UPLOADS BLOC
+export 'uploads_bloc/bloc.dart';

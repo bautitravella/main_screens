@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/blocs/uploads_bloc/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
@@ -14,16 +15,16 @@ import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
 
-class EditBook extends StatefulWidget {
+class EditBookWidget extends StatefulWidget {
   Book book;
 
-  EditBook(this.book);
+  EditBookWidget(this.book);
 
   @override
-  _EditBookState createState() => _EditBookState();
+  _EditBookWidgetState createState() => _EditBookWidgetState();
 }
 
-class _EditBookState extends State<EditBook> {
+class _EditBookWidgetState extends State<EditBookWidget> {
   bool _isSelected = false;
   bool _isMarcked = false;
   bool _isTicked = false;
@@ -34,6 +35,8 @@ class _EditBookState extends State<EditBook> {
       ISBNTextController = new TextEditingController(),
       descripcionTextController = new TextEditingController(),
       precioTextController = new TextEditingController();
+
+  bool imagesChanged = false;
 
   @override
   void initState() {
@@ -285,6 +288,16 @@ class _EditBookState extends State<EditBook> {
                                     ),
                                   ),
                                 ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20,right: 20),
+                                child: Center(
+                                  child: RaisedButton(
+                                    child: Text('Cambiar Imagenes'),
+                                    //Todo cuando se clickee que tambien se aabra lo de seleccionar imagenes
+                                    onPressed: () => imagesChanged = true,
+                                  ),
+                                ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: 30),
@@ -728,6 +741,7 @@ class _EditBookState extends State<EditBook> {
   }
 
   _siguienteBtn() {
+
     String nombreLibro = nombreTextController.text;
     String autor = autorTextController.text;
     String editorial = editorialTextController.text;
@@ -757,6 +771,9 @@ class _EditBookState extends State<EditBook> {
     if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
     if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
     print("todos los campos estan completos");
+    if(imagesChanged){
+      BlocProvider.of<UploadsBloc>(context).add(EditBookImages(widget.book));
+    }
     //TODO cambiar este BlocProvider por otro que llame a update book
     //BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(

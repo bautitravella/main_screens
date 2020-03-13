@@ -22,6 +22,9 @@ abstract class DatabaseRepository {
 
   Stream<User> getUserInfo(String email);
 
+
+
+
   //BOOKS
   Future<void> addNewBook(Book book, User user);
 
@@ -33,7 +36,7 @@ abstract class DatabaseRepository {
 
   Future editBookInfo(Book book);
 
-  Future editBookPhotos(Book book);
+  Future editBookImages(Book book);
 
   Future<void> reFilterBooks(User user);
 
@@ -84,7 +87,7 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Future editBook(Book book){
-    return Future.wait([editBookInfo(book),editBookPhotos(book)]);
+    return Future.wait([editBookInfo(book),editBookImages(book)]);
   }
 
   @override
@@ -107,12 +110,15 @@ class FirebaseRepository extends DatabaseRepository {
     book.indexes = indexList;
     return booksReference
         .document(book.uid)
-        .setData(book.toMap());
+        .updateData(book.toMap());
+    //Todo faltaria hacer que se modifique el nombre del libro en todos los chats que sean de este libro
 
   }
 
   @override
-  Future editBookPhotos(Book book){
+  Future editBookImages(Book book){
+    book.imagesUrl.clear();
+    book.thumbImagesUrl.clear();
     Future uploadImages =
     uploadBookImages(book, book.uid).then((urlLists) {
       urlLists[0].forEach((url) {
