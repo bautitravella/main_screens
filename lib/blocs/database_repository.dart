@@ -29,7 +29,11 @@ abstract class DatabaseRepository {
 
   Stream<List<Book>> getAllBooks();
 
-  Future<void> updateBook(Book todo);
+  Future editBook(Book book);
+
+  Future editBookInfo(Book book);
+
+  Future editBookPhotos(Book book);
 
   Future<void> reFilterBooks(User user);
 
@@ -77,6 +81,54 @@ class FirebaseRepository extends DatabaseRepository {
   final colegiosReference = Firestore.instance.collection("Colegios");
   final chatsReference = Firestore.instance.collection('Chats');
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  @override
+  Future editBook(Book book){
+    return Future.wait([editBookInfo(book),editBookPhotos(book)]);
+  }
+
+  @override
+  Future editBookInfo(Book book){
+
+    List<String> bookSplitList = book.nombreLibro.split(" ");
+
+    for (var value in book.autor.split(" ")) {
+      bookSplitList.add(value);
+    }
+
+    List<String> indexList = [];
+
+    for (int i = 0; i < bookSplitList.length; i++) {
+      for (int j = 1; j < bookSplitList[i].length + 1; j++) {
+        indexList.add(bookSplitList[i].substring(0, j).toLowerCase());
+      }
+    }
+
+    book.indexes = indexList;
+    return booksReference
+        .document(book.uid)
+        .setData(book.toMap());
+
+  }
+
+  @override
+  Future editBookPhotos(Book book){
+    Future uploadImages =
+    uploadBookImages(book, book.uid).then((urlLists) {
+      urlLists[0].forEach((url) {
+        book.imagesUrl.add(url);
+      });
+      urlLists[1].forEach((thumbUrl) {
+        book.thumbImagesUrl.add(thumbUrl);
+      });
+    });
+    return  Future.wait([uploadImages]).then((urlLists) {
+
+      booksReference
+          .document(book.uid)
+          .updateData(book.toMap());
+    });
+  }
 
   @override
   Future<void> addNewBook(Book book, User user) async {

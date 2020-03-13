@@ -757,7 +757,8 @@ class _EditBookState extends State<EditBook> {
     if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
     if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
     print("todos los campos estan completos");
-    BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
+    //TODO cambiar este BlocProvider por otro que llame a update book
+    //BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(
 //      context,
 //      MaterialPageRoute(builder: (context) => MyBooksView()),
