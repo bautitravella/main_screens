@@ -235,6 +235,35 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
     }
   }
 
+  static Widget horizontalPhotos(Book book) {
+    return Container(
+      height: 185,
+      margin: EdgeInsets.only(left: 22, top: 60),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: book.images.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 180,
+            width: 123,
+            margin: EdgeInsets.only(right: 35),
+            padding: EdgeInsets.all(5),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
+              Image(
+                image: book.getImages()[index],
+              )
+                  :
+              CircularProgressIndicator(),
+
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   _imagesListBuilder() {
     return images.length == 0
         ? Stack(
