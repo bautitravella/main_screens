@@ -1,4 +1,4 @@
-package com.company_name.flutterui;
+package com.buymy.flutterui;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:137454963693:android:3a8c2b728caa6e9a9af5e4",
         "android_client_info": {
-          "package_name": "com.company_name.flutterui"
+          "package_name": "com.buymy.flutterui"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "137454963693-i0c6ih4uqvecb9ln93ir15f1dkt33sp1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.companyname.flutterui"
+                "bundle_id": "com.buymy.flutterui"
               }
             }
           ]
@@ -79,7 +79,7 @@
               "client_id": "137454963693-i0c6ih4uqvecb9ln93ir15f1dkt33sp1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.companyname.flutterui"
+                "bundle_id": "com.buymy.flutterui"
               }
             }
           ]
