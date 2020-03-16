@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.buymy.flutterui"
+        applicationId "com.tormakhindustries.buymy"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

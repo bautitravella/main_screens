@@ -1,4 +1,4 @@
-package com.buymy.flutterui;
+package com.tormakhindustries.buymy;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
