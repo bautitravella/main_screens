@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -119,12 +121,20 @@ class MyDecider extends StatefulWidget {
     return MyDeciderState();
   }}
 class MyDeciderState extends State<MyDecider> {
+  StreamSubscription iosSubscription;
+
 
   @override
   void initState() {
 
     final FirebaseMessaging _fcm = FirebaseMessaging();
+    if (Platform.isIOS) {
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
+        // save the token  OR subscribe to a topic here
+      });
 
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    }
 
 
     _fcm.configure(
