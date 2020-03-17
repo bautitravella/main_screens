@@ -64,10 +64,10 @@
               "client_type": 3
             },
             {
-              "client_id": "137454963693-i0c6ih4uqvecb9ln93ir15f1dkt33sp1.apps.googleusercontent.com",
+              "client_id": "137454963693-q7f40e7pbq1e488errrmudq30873vf64.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.companyname.flutterui"
+                "bundle_id": "com.tormakhindustries.buymypro"
               }
             }
           ]
@@ -108,10 +108,10 @@
               "client_type": 3
             },
             {
-              "client_id": "137454963693-i0c6ih4uqvecb9ln93ir15f1dkt33sp1.apps.googleusercontent.com",
+              "client_id": "137454963693-q7f40e7pbq1e488errrmudq30873vf64.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.companyname.flutterui"
+                "bundle_id": "com.tormakhindustries.buymypro"
               }
             }
           ]
@@ -152,10 +152,10 @@
               "client_type": 3
             },
             {
-              "client_id": "137454963693-i0c6ih4uqvecb9ln93ir15f1dkt33sp1.apps.googleusercontent.com",
+              "client_id": "137454963693-q7f40e7pbq1e488errrmudq30873vf64.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.companyname.flutterui"
+                "bundle_id": "com.tormakhindustries.buymypro"
               }
             }
           ]
