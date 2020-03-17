@@ -143,7 +143,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                               Stack(
                                 children: <Widget>[
                                   Container(
-                                    height: 141,
+                                    height: 150,
                                     margin: EdgeInsets.only(top: 5),
                                     child: _imagesListBuilder()
 //                                    Row(
@@ -859,22 +859,21 @@ class _EditBookWidgetState extends State<EditBookWidget> {
 
   static Widget horizontalPhotos(Book book) {
     return Container(
-      height: 185,
-      margin: EdgeInsets.only(left: 22, top: 60),
+      height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: book.images.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            height: 180,
-            width: 123,
+            height: 150,
+            width: 95,
             margin: EdgeInsets.only(right: 35),
-            padding: EdgeInsets.all(5),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
               Image(
                 image: book.getImages()[index],
+                fit: BoxFit.cover,
               )
                   :
               CircularProgressIndicator(),
