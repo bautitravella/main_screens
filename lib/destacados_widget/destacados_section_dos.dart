@@ -335,11 +335,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                           iconSize: 30.0,
                                                           color: Colors.black,
                                                           onPressed: () {
-
-                                                            BlocProvider.of<FavoritesBloc>(context)
-                                                                .add(RemoveBookFromFavorites(
-                                                                book.uid));
-
+                                                            BlocProvider.of<FavoritesBloc>(context).add(RemoveBookFromFavorites(book.uid));
                                                           });
                                                     }else{
                                                       return IconButton(
@@ -347,10 +343,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                           iconSize: 30.0,
                                                           color: Colors.black,
                                                           onPressed: () {
-
-                                                            BlocProvider.of<FavoritesBloc>(context)
-                                                                .add(AddBookToFavorites(
-                                                                book.uid));
+                                                            BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites(book.uid));
 
                                                           });
                                                     }
@@ -491,7 +484,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                               borderRadius: BorderRadius.circular(10.0),
                               child:book.getImages() != null && book.getImages().length > 0? Image(
                                 image : book.getImages()[0],
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               )
                               :
                               CircularProgressIndicator(),

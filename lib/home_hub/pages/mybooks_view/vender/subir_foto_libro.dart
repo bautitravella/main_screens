@@ -367,27 +367,51 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                     itemCount: images.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(right: 30),
-                        padding: EdgeInsets.all(5),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            child: AssetThumb(
-                              asset: images[index],
-                              height: 1300,
-                              width: 1300,
-                            ) //(book.images[index]),
+                        margin: EdgeInsets.only(right: 20),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: 140,
+                              height: 220,
+                              padding: EdgeInsets.all(5),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  child: AssetThumb(
+                                    asset: images[index],
+                                    height: 141,
+                                    width: 140,
+                                  ) //(book.images[index]),
+                                  ),
                             ),
+                            Container(
+                               width: 55,
+                               height: 55,
+                               child: FlatButton(
+                                   color: Colors.white54,
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.all(Radius.circular(100)),
+                                   ),
+                                   child: Icon(
+                                     Icons.edit,
+                                     color: Colors.white,
+                                     size: 25,
+                                   ),
+                                   onPressed: () {
+                                     loadAssets();
+                                   }),
+                             )
+                          ],
+                        ),
                       );
                     },
                   ),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.center,
+               /* Row(mainAxisAlignment: MainAxisAlignment.center,
                 children:<Widget>[
                     RaisedButton(child: Text('Editar fotos elegidas'),onPressed: () => loadAssets()),
                 ],
-                )
+                )*/
               ],
             ));
   }
