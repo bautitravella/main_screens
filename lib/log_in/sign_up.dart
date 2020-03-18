@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +59,46 @@ class SignUpState extends State<SignUp>{
 
   }
 
-  void logInWithFacebookBtn(BuildContext context) {}
+  void logInWithFacebookBtn(BuildContext context) async {
+    var facebookLogin = FacebookLogin();
+    var result= await facebookLogin.logIn(['email']);
+
+    switch(result.status){
+      case FacebookLoginStatus.error:
+        print("Surgio un error con el fucking facebook");
+        setState(() {
+          _errorText = "${result.errorMessage}";
+        });
+        showErrorDialog(context, _errorText);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        try{
+          final auth = Provider.of<BaseAuth>(context, listen: false);
+          String userUID = await auth.signInWithFacebook(result.accessToken);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyDecider()),
+          );
+        }on PlatformException catch (e) {
+          setState(() {
+            _errorText = "${e.message}";
+          });
+          showErrorDialog(context, _errorText);
+        }catch (e){
+          setState(() {
+            _errorText = e.toString();
+          });
+
+          showErrorDialog(context, _errorText);
+        }
+
+        break;
+
+    }
+  }
 
   bool validateEmailAndPassword() {
     _email = emailController.text;
@@ -386,7 +426,7 @@ class SignUpState extends State<SignUp>{
                           height: 45,
                           margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical*13),
                           child: FlatButton(
-                            onPressed: () => [],
+                            onPressed: () => this.logInWithFacebookBtn(context),
                             color: Color.fromARGB(255, 59, 89, 152),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(22.5)),

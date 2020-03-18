@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuth {
@@ -14,6 +15,7 @@ abstract class BaseAuth {
   Future<void> signOut();
 
   Future<String> signInWithGoogle();
+  Future<String> signInWithFacebook(FacebookAccessToken token);
 }
 
 class Auth extends BaseAuth{
@@ -21,6 +23,8 @@ class Auth extends BaseAuth{
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  var _facebookLogin = FacebookLogin();
+
 
   @override
   Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged
@@ -67,6 +71,7 @@ class Auth extends BaseAuth{
   Future<void> signOut() async{
     try {
       _googleSignIn.signOut();
+      _facebookLogin.logOut();
     }catch (e){
       print("ERROR SIGNOUT TRY " + e.toString());
     }
@@ -74,6 +79,14 @@ class Auth extends BaseAuth{
     FirebaseUser user = await currentUser();
     Firestore.instance.collection("Users").document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])});
     return FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<String> signInWithFacebook(FacebookAccessToken token) async {
+    AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: token.token);
+    AuthResult firebaseUser = await _firebaseAuth.signInWithCredential(credential);
+    return firebaseUser.user.uid;
+
   }
 
 }
