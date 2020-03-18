@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
@@ -55,7 +56,26 @@ class _LogInState extends State<LogIn> {
 
   }
 
-  void logInWithFacebookBtn(BuildContext context) {}
+  void logInWithFacebookBtn(BuildContext context) async {
+    var facebookLogin = FacebookLogin();
+    var result= await facebookLogin.logIn(['email']);
+    switch(result.status){
+      case FacebookLoginStatus.error:
+        print("Surgio un error con el fucking facebook");
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyDecider()),
+        );
+        break;
+
+    }
+  }
+
 
   bool validateEmailAndPassword() {
     _email = emailController.text.trim();
@@ -341,7 +361,7 @@ class _LogInState extends State<LogIn> {
                           height: 45,
                           margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical*13),
                           child: FlatButton(
-                            onPressed: () => [],
+                            onPressed: () => this.logInWithFacebookBtn(context),
                             color: Color.fromARGB(255, 59, 89, 152),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(22.5)),

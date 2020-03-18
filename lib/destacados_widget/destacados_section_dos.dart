@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
-import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
@@ -10,7 +9,6 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 
 class DestacadosSectionDos extends StatefulWidget {
   DestacadosSectionDos({Key key}) : super(key: key);
