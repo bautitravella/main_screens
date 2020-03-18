@@ -144,8 +144,8 @@ class MyDeciderState extends State<MyDecider> {
           context: context,
           builder: (context) => AlertDialog(
             content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
+              title: Text(Platform.isIOS?message['aps']['alert']['title']:message['notification']['title']),
+              subtitle: Text(Platform.isIOS?message['aps']['alert']['body']:message['notification']['body']),
             ),
             actions: <Widget>[
               FlatButton(
