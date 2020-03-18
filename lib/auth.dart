@@ -23,6 +23,8 @@ class Auth extends BaseAuth{
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  var _facebookLogin = FacebookLogin();
+
 
   @override
   Stream<String> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged
@@ -69,6 +71,7 @@ class Auth extends BaseAuth{
   Future<void> signOut() async{
     try {
       _googleSignIn.signOut();
+      _facebookLogin.logOut();
     }catch (e){
       print("ERROR SIGNOUT TRY " + e.toString());
     }
