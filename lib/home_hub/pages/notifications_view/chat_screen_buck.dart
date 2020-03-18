@@ -226,7 +226,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                                 final Message message = state.messages[index];
                                 bool isMe = true;
                                 if (widget.chatRole == ChatRole.COMPRADOR) {
-                                  if (message.email ==
+                                  if (message.email !=
                                       widget.chat.compradorEmail) {
                                     isMe = true;
                                   } else {

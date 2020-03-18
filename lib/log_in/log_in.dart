@@ -84,12 +84,14 @@ class _LogInState extends State<LogIn> {
             _errorText = "${e.message}";
           });
           showErrorDialog(context, _errorText);
+          facebookLogin.logOut();
         }catch (e){
           setState(() {
             _errorText = e.toString();
           });
 
           showErrorDialog(context, _errorText);
+          facebookLogin.logOut();
         }
 
         break;

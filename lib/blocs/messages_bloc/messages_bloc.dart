@@ -105,9 +105,16 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   }
 
   _mapAddMessageToState(Message message,ChatRole chatRole) {
-    message.email = downloadedUser.email;
+    //message.email = downloadedUser.email;
     if(isChatCreated){
       isChatBeenCreated = false;
+      if(chatRole == ChatRole.COMPRADOR){
+        message.email = currentChat.vendedorEmail;
+        message.title = currentChat.vendedorNombre +' - '+currentChat.nombreLibro;
+      }else{
+        message.email = currentChat.compradorEmail;
+        message.title = currentChat.compradorNombre + ' - '+currentChat.nombreLibro;
+      }
       databaseRepository.sendMessage( currentChat , downloadedUser , message );
       databaseRepository.updateLastMessage(currentChat,message,chatRole);
     }else{ // esta parte del if es para cuando todavia no hubo ningun chat

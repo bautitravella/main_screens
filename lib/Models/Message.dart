@@ -5,7 +5,7 @@ import 'package:flutterui/Models/chat_roles.dart';
 
 class Message{
 
-  String email,messageText , typeOfMessage;
+  String email,messageText , typeOfMessage,title;
   Timestamp sentTimestamp;
   ChatRole role;
 
@@ -20,6 +20,7 @@ class Message{
     messageText = doc['messageText'];
     sentTimestamp = doc['sentTimestamp'];
     typeOfMessage = doc['typeOfMessage'];
+    if(doc['title'] != null) title = doc['title'];
   }
 
   Map<String,dynamic> toMap(){
@@ -28,6 +29,7 @@ class Message{
     messageMap['messageText'] = messageText;
     messageMap['typeOfMessage'] = typeOfMessage;
     messageMap['sentTimestamp'] = Timestamp.now();
+    messageMap['title'] = title;
     return messageMap;
   }
 
