@@ -28,6 +28,9 @@ bool _isMarcked = false;
 bool _isTicked = false;
 
 class _MiPerfilState extends State<MiPerfil> {
+  String colegioSelectedValue;
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -179,6 +182,7 @@ class _MiPerfilState extends State<MiPerfil> {
   }
 
   Widget _scrollingList(ScrollController sc,User user) {
+
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Container(
@@ -1069,7 +1073,9 @@ class _MiPerfilState extends State<MiPerfil> {
                                 child: new DropdownButton(
                                   icon: Icon(Icons.menu),
                                   underline: Text(""),
+                                  items: createDropDownMenuList(['Milagros','Fran','Bauti']),
                                   isExpanded: true,
+                                  value: colegioSelectedValue,
                                   hint: new Text(
                                     'Milagros',
                                     style: TextStyle(
@@ -1079,6 +1085,11 @@ class _MiPerfilState extends State<MiPerfil> {
                                       fontSize: 12,
                                     ),
                                   ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      colegioSelectedValue = value;
+                                    });
+                                  },
                                 ),
                               ),
                             ],
@@ -1326,6 +1337,34 @@ class _MiPerfilState extends State<MiPerfil> {
         ],
       ),
     );
+  }
+
+  List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10, bottom: 10),
+                child: new Text(
+                  item,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    }
+    return dropdownMenuItemList;
   }
 
   void _showDialogAyuda() {
