@@ -63,17 +63,35 @@ class _LogInState extends State<LogIn> {
     switch(result.status){
       case FacebookLoginStatus.error:
         print("Surgio un error con el fucking facebook");
+        setState(() {
+          _errorText = "${result.errorMessage}";
+        });
+        showErrorDialog(context, _errorText);
         break;
       case FacebookLoginStatus.cancelledByUser:
         print("Cancelado por el usuario");
         break;
       case FacebookLoginStatus.loggedIn:
-        final auth = Provider.of<BaseAuth>(context, listen: false);
-        String userUID = await auth.signInWithFacebook(result.accessToken);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyDecider()),
-        );
+        try{
+          final auth = Provider.of<BaseAuth>(context, listen: false);
+          String userUID = await auth.signInWithFacebook(result.accessToken);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyDecider()),
+          );
+        }on PlatformException catch (e) {
+          setState(() {
+            _errorText = "${e.message}";
+          });
+          showErrorDialog(context, _errorText);
+        }catch (e){
+          setState(() {
+            _errorText = e.toString();
+          });
+
+          showErrorDialog(context, _errorText);
+        }
+
         break;
 
     }
