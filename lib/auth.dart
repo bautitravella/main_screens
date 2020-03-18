@@ -79,9 +79,11 @@ class Auth extends BaseAuth{
   }
 
   @override
-  Future<String> signInWithFacebook(FacebookAccessToken token) {
+  Future<String> signInWithFacebook(FacebookAccessToken token) async {
+    AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: token.token);
+    AuthResult firebaseUser = await _firebaseAuth.signInWithCredential(credential);
+    return firebaseUser.user.uid;
 
-    return null;
   }
 
 }
