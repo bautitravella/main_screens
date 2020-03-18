@@ -59,6 +59,7 @@ class _LogInState extends State<LogIn> {
   void logInWithFacebookBtn(BuildContext context) async {
     var facebookLogin = FacebookLogin();
     var result= await facebookLogin.logIn(['email']);
+
     switch(result.status){
       case FacebookLoginStatus.error:
         print("Surgio un error con el fucking facebook");
@@ -67,6 +68,8 @@ class _LogInState extends State<LogIn> {
         print("Cancelado por el usuario");
         break;
       case FacebookLoginStatus.loggedIn:
+        final auth = Provider.of<BaseAuth>(context, listen: false);
+        String userUID = await auth.signInWithFacebook(result.accessToken);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyDecider()),
