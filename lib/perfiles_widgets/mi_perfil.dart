@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -32,145 +33,153 @@ class _MiPerfilState extends State<MiPerfil> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: AppColors.secondaryBackground,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                  left: 0,
-                  top: SizeConfig.blockSizeVertical * 8,
-                  right: 0,
-                  child: Container(
-                    height: SizeConfig.blockSizeVertical * 40,
-                    decoration: BoxDecoration(),
-                    child: Image.asset(
-                      "assets/images/destacados-image.png",
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                ),
-                /* Positioned(
-                  left: 22,
-                  top: 45,
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 2),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                "Bautista Travella",
-                                style: TextStyle(
-                                  fontFamily: "Gibson",
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: 20,
-                                    width: 30,
-                                    margin: EdgeInsets.only(left: 10),
-                                    decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 243, 243, 243),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )),
-                                    child: Icon(
-                                      Icons.star_border,
-                                      size: 15,
-                                      color: AppColors.secondaryBackground,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      "4.8",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "Gibson",
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          "Senior 2, Sociales",
-                          style: TextStyle(
-                            fontFamily: "Roboto",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(150, 255, 255, 255),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )*/
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 10,
-                  left: 28,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Ajustes",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: "Montserrat",
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 30,
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 8,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Column(
+      body: BlocBuilder<UserBloc,UserBlocState>(
+        builder: (context,state){
+          if(state is UserLoadedState){
+            User user = state.user;
+          return Stack(
             children: <Widget>[
               Container(
-                color: Colors.transparent,
-                height: SizeConfig.blockSizeVertical * 14,
-              ),
-              Expanded(
-                child: Container(
-                  child: SlidingUpPanel(
-                    panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 77,
-                    minHeight: SizeConfig.blockSizeVertical * 77,
-                    backdropEnabled: false,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30)),
-                  ),
+                color: AppColors.secondaryBackground,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Positioned(
+                      left: 0,
+                      top: SizeConfig.blockSizeVertical * 8,
+                      right: 0,
+                      child: Container(
+                        height: SizeConfig.blockSizeVertical * 40,
+                        decoration: BoxDecoration(),
+                        child: Image.asset(
+                          "assets/images/destacados-image.png",
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    ),
+                    /* Positioned(
+                    left: 22,
+                    top: 45,
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 2),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "Bautista Travella",
+                                  style: TextStyle(
+                                    fontFamily: "Gibson",
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 20,
+                                      width: 30,
+                                      margin: EdgeInsets.only(left: 10),
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 243, 243, 243),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          )),
+                                      child: Icon(
+                                        Icons.star_border,
+                                        size: 15,
+                                        color: AppColors.secondaryBackground,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        "4.8",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: "Gibson",
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            "Senior 2, Sociales",
+                            style: TextStyle(
+                              fontFamily: "Roboto",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(150, 255, 255, 255),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )*/
+                    Positioned(
+                      top: SizeConfig.blockSizeVertical * 10,
+                      left: 28,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Ajustes",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 30,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 8,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    color: Colors.transparent,
+                    height: SizeConfig.blockSizeVertical * 14,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: SlidingUpPanel(
+                        panelBuilder: (ScrollController sc) => _scrollingList(sc,user),
+                        maxHeight: SizeConfig.blockSizeVertical * 77,
+                        minHeight: SizeConfig.blockSizeVertical * 77,
+                        backdropEnabled: false,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            topLeft: Radius.circular(30)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
-          ),
-        ],
+          );
+        }
+          return Container();
+          },
       ),
     );
   }
 
-  Widget _scrollingList(ScrollController sc) {
+  Widget _scrollingList(ScrollController sc,User user) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Container(
@@ -916,7 +925,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   child: CircleAvatar(
                                     radius: 23.0,
                                     backgroundImage:
-                                    AssetImage("assets/images/avatar.png"),
+                                    user.fotoPerfil,
                                   ),
                                 ),
                                 Positioned(
@@ -969,7 +978,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   child: TextField(
                                     decoration: InputDecoration(
                                       hintText:
-                                      "Bautista", // TODO aca va el nombre del usuario registrado
+                                      user.nombre, // TODO aca va el nombre del usuario registrado
                                       alignLabelWithHint: true,
                                       border: InputBorder.none,
                                     ),
@@ -1004,7 +1013,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   child: TextField(
                                     decoration: InputDecoration(
                                       hintText:
-                                      "Travella", // TODO aca va el nombre del usuario registrado
+                                      user.apellido, // TODO aca va el nombre del usuario registrado
                                       alignLabelWithHint: true,
                                       border: InputBorder.none,
                                     ),
