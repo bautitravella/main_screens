@@ -233,7 +233,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                                     isMe = false;
                                   }
                                 } else {
-                                  if (message.email ==
+                                  if (message.email !=
                                       widget.chat.vendedorEmail) {
                                     isMe = true;
                                   } else {

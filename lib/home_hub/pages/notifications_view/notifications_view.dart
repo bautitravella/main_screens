@@ -22,8 +22,8 @@ class NotificationView extends StatefulWidget {
 }
 
 class NotificationViewState extends State<NotificationView> {
-  static Widget listViewVenta = ListViewVenta();
-  static Widget listViewCompra = ListViewCompra();
+  static Widget listViewVenta ;//= ListViewVenta();
+  static Widget listViewCompra ;//= ListViewCompra();
   bool isVentaSelected = true;
 
   Widget listView = listViewVenta;
