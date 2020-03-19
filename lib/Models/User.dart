@@ -15,7 +15,6 @@ class User extends Equatable{
   CachedNetworkImageProvider fotoPerfil;
   File fotoPerfilRaw;
   bool hasAcceptedTerms;
-
   String email;
 
   User();
@@ -23,7 +22,9 @@ class User extends Equatable{
   User.fromEmail(this.email);
 
 
-  User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,);
+  User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,){
+    this.fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
+  }
 
   User.fromMap(Map<String, dynamic> data,String email) {
     String nombre = data['nombre'];
@@ -65,7 +66,17 @@ class User extends Equatable{
     return null;
   }
 
+  String getRole(){
+    return null;
+  }
 
+  User clone(){
+    return User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms);
+  }
+
+  User changeRole(){
+    return null;
+  }
 
   @override
   List<Object> get props => [nombre,apellido,fotoPerfilUrl,hasAcceptedTerms];

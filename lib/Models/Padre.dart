@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:flutterui/Models/Alumno.dart';
+
 import 'User.dart';
 
 class Padre extends User{
 
   List<Hijo> _hijos = [];
-  String rol = "Padre";
+  String role = "Padre";
 
   Padre():super();
 
@@ -37,7 +39,7 @@ class Padre extends User{
 
   Map<String,dynamic> toMap(){
    var userMap = super.toMap();
-   userMap['rol'] = rol;
+   userMap['rol'] = role;
    List<Map> hijosMap = new List();
    _hijos.forEach((element) {hijosMap.add(element.toMap());});
    userMap['hijos'] = hijosMap;
@@ -61,6 +63,26 @@ class Padre extends User{
     return cursos;
   }
 
+  List<String> getHijosNames(){
+    List<String> nombres = [];
+    _hijos.forEach((hijo) => nombres.add(hijo.nombre));
+    return nombres;
+  }
+
+  @override
+  String getRole(){
+    return role;
+  }
+
+  @override
+  Padre clone(){
+    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this._hijos);
+  }
+
+  @override
+  Alumno changeRole(){
+    return Alumno.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this._hijos.first.colegio, this._hijos.first.curso);
+  }
 
 }
 
@@ -98,6 +120,8 @@ class Hijo{
   Map<String,dynamic> toMap(){
     return {"nombre": nombre, "colegio": colegio , "curso" : curso};
   }
+
+
 
 
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 
 abstract class UploadsBlocEvent extends Equatable {
@@ -39,6 +40,40 @@ class EditedBookReady extends UploadsBlocEvent{
 
   @override
   List<Object> get props => [];
+}
+
+class EditUserProfile extends UploadsBlocEvent{
+  final User user;
+
+  EditUserProfile(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class EditUserInfo extends UploadsBlocEvent{
+  final User user;
+
+  EditUserInfo(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class EditUserImage extends UploadsBlocEvent{
+  final User user;
+
+  EditUserImage(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class EditedUserProfile extends UploadsBlocEvent{
+
+  @override
+  List<Object> get props => [];
+
 }
 
 class ErrorEditing extends UploadsBlocEvent{

@@ -18,7 +18,11 @@ abstract class DatabaseRepository {
 
   Future<void> addUserInfo(User user);
 
-  Future<void> updateUserInfo(User user);
+  Future<void> editUserInfo(User user);
+
+  Future<void> editUserImage(User user);
+
+  Future<void> editUser(User user);
 
   Stream<User> getUserInfo(String email);
 
@@ -313,13 +317,18 @@ class FirebaseRepository extends DatabaseRepository {
   }
 
   @override
-  Future<void> updateBook(Book book) {
-    throw UnimplementedError();
-    //return booksReference.document(book.uid).updateData(book.toMap());
+  Future<void> editUser(User user) {
+    return Future.wait([editUserImage(user),editUserInfo(user)]);
   }
 
   @override
-  Future<void> updateUserInfo(User user) {
+  Future<void> editUserImage(User user) {
+    // TODO: implement editUserImage
+    return null;
+  }
+
+  @override
+  Future<void> editUserInfo(User user) {
     return usersReference.document(user.email).updateData(user.toMap());
   }
 
@@ -604,4 +613,6 @@ class FirebaseRepository extends DatabaseRepository {
       'tokensList': FieldValue.arrayRemove([token])
     });
   }
+
+
 }

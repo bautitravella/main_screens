@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
@@ -28,8 +29,11 @@ bool _isMarcked = false;
 bool _isTicked = false;
 
 class _MiPerfilState extends State<MiPerfil> {
-  String colegioSelectedValue;
-
+  String colegioSelectedValue,cursoSelectedValue,hijosSelectedValue;
+  List<Hijo> hijos;
+  int indexHijo = 0;
+  TextEditingController hijoNameController = new TextEditingController();
+  User auxUser,originalUser;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,9 @@ class _MiPerfilState extends State<MiPerfil> {
         builder: (context,state){
           if(state is UserLoadedState){
             User user = state.user;
+            originalUser = user;
+            auxUser = user.clone();
+
           return Stack(
             children: <Widget>[
               Container(
@@ -160,7 +167,7 @@ class _MiPerfilState extends State<MiPerfil> {
                   Expanded(
                     child: Container(
                       child: SlidingUpPanel(
-                        panelBuilder: (ScrollController sc) => _scrollingList(sc,user),
+                        panelBuilder: (ScrollController sc) => _scrollingList(sc,auxUser),
                         maxHeight: SizeConfig.blockSizeVertical * 77,
                         minHeight: SizeConfig.blockSizeVertical * 77,
                         backdropEnabled: false,
@@ -1041,217 +1048,10 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Container(
-                      constraints: BoxConstraints.expand(height: 300),
-                      width: SizeConfig.blockSizeHorizontal*70,
-                      margin: EdgeInsets.only(left: 0, right: 0),
-                      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 246, 246, 246),
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Hijos",
-                                style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(
-                                        255, 110, 110, 110)),
-                              ),
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal*25,
-                                height: 45,
-                                margin: EdgeInsets.only(right: 5),
-                                child: new DropdownButton(
-                                  icon: Icon(Icons.menu),
-                                  underline: Text(""),
-                                  items: createDropDownMenuList(['Milagros','Fran','Bauti']),
-                                  isExpanded: true,
-                                  value: colegioSelectedValue,
-                                  hint: new Text(
-                                    'Milagros',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 53, 38, 65),
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      colegioSelectedValue = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 15),
-                          Container(
-                            height: 2,
-                            width: SizeConfig.blockSizeHorizontal*90,
-                            color:Colors.black12,
-                          ),
-                          SizedBox(height: 45),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Cambiar nombre",
-                                style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(
-                                        255, 110, 110, 110)),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    height: 24,
-                                    width: SizeConfig.blockSizeHorizontal * 40,
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: "Milagros",
-                                        alignLabelWithHint: true,
-                                        border: InputBorder.none,
-                                      ),
-                                      style: TextStyle(
-                                        color: Color.fromARGB(
-                                            255, 120, 120, 120),
-                                        fontFamily: "Sf-r",
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 14,
-                                      ),
-                                      maxLines:
-                                      1, //TODO resolver tema del overflow
-                                      keyboardType:
-                                      TextInputType.emailAddress,
-                                      autocorrect: false,
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Icon(Icons.person, size: 18, color:Colors.black38)
-                                ],
-                              ),
-
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Colegio",
-                                style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(
-                                        255, 110, 110, 110)),
-                              ),
-                              Container(
-                                height: 38,
-                                margin: EdgeInsets.only(left: 10),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(left: 5, right: 5),
-                                        height: 25,
-                                        width: 25,
-                                        child: Image.asset(
-                                          "assets/images/logocolegio-fds.png",
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                      SizedBox(width: 3),
-                                      Container(
-                                        width: SizeConfig.blockSizeHorizontal*30,
-                                        margin: EdgeInsets.only(left: 2, right: 15),
-                                        child: Text(
-                                          "Florida Day School",
-                                          style: TextStyle(
-                                            fontFamily: "Sf-r",
-                                            color: Color.fromARGB(255, 27, 27, 27),
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 12,
-                                          ),
-                                          textAlign: TextAlign.right,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                ]),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Curso",
-                                style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(
-                                        255, 110, 110, 110)),
-                              ),
-                              Container(
-                                height: 38,
-                                margin: EdgeInsets.only(left: 10),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      SizedBox(width: 3),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 15, right: 15),
-                                        child: Text(
-                                          "6to grado",
-                                          style: TextStyle(
-                                            fontFamily: "Sf-r",
-                                            color: Color.fromARGB(255, 27, 27, 27),
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 12,
-                                          ),
-                                          textAlign: TextAlign.right,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-
-                            ],
-                          ),
-
-
-                        ],
-                      ),
-                    )
+                    user.getRole() == "Padre"?
+                    createParentLayout(user)
+                        :
+                    Container(child: Text("Hola Alumne"),),
                   ],
                 ),
               ),
@@ -1311,7 +1111,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   child: CircleAvatar(
                                     radius: 23.0,
                                     backgroundImage:
-                                    AssetImage("assets/images/avatar.png"),
+                                    user.fotoPerfil,
                                   ),
                                 ),
                                 Positioned(
@@ -1339,10 +1139,11 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
-  List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
+  List<DropdownMenuItem> createDropDownMenuListWithIndexValues(List<String> lista) {
     List<DropdownMenuItem> dropdownMenuItemList = [];
-    for (String item in lista) {
-      dropdownMenuItemList.add(DropdownMenuItem(
+    for(int i=0;i<lista.length;i++) {
+      String item = lista[i];
+      dropdownMenuItemList.add(DropdownMenuItem<int>(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -1361,10 +1162,323 @@ class _MiPerfilState extends State<MiPerfil> {
                 ),
               ),
             ]),
+        value: i,
+      ));
+    }
+    return dropdownMenuItemList;
+  }
+
+  List<DropdownMenuItem> createDropDownMenuListSmall(List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 2, bottom: 2),
+                child: new Text(
+                  item,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
         value: item,
       ));
     }
     return dropdownMenuItemList;
+  }
+
+  Widget createParentLayout(Padre user){
+    hijos = user.hijos;
+    hijoNameController.text = hijos[indexHijo].nombre;
+    return Container(
+      constraints: BoxConstraints.expand(height: 300),
+      width: SizeConfig.blockSizeHorizontal*70,
+      margin: EdgeInsets.only(left: 0, right: 0),
+      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 246, 246, 246),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                "Hijos",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        255, 110, 110, 110)),
+              ),
+
+              Container(
+                width: SizeConfig.blockSizeHorizontal*25,
+                height: 45,
+                margin: EdgeInsets.only(right: 5),
+                child: new DropdownButton(
+                  icon: Icon(Icons.menu),
+                  underline: Text(""),
+                  items:user is Padre? createDropDownMenuListWithIndexValues( user.getHijosNames() ):createDropDownMenuListWithIndexValues(['No pudimos cargar bien tu informacion']),
+                  isExpanded: true,
+                  value: indexHijo,
+                  hint: new Text(
+                    '${hijos[0].nombre}',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 53, 38, 65),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      indexHijo = value;
+                      hijoNameController.text = hijos[indexHijo].nombre;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          Container(
+            height: 2,
+            width: SizeConfig.blockSizeHorizontal*90,
+            color:Colors.black12,
+          ),
+          SizedBox(height: 45),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Cambiar nombre",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        255, 110, 110, 110)),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 24,
+                    width: SizeConfig.blockSizeHorizontal * 40,
+                    child: TextField(
+                      controller: hijoNameController,
+                      decoration: InputDecoration(
+
+                        alignLabelWithHint: true,
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(
+                        color: Color.fromARGB(
+                            255, 120, 120, 120),
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w800,
+                        fontSize: 14,
+                      ),
+                      maxLines:
+                      1, //TODO resolver tema del overflow
+                      autocorrect: false,
+                      textAlign: TextAlign.right,
+                      onChanged: (text){
+                        hijos[indexHijo].nombre = text;
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Icon(Icons.person, size: 18, color:Colors.black38)
+                ],
+              ),
+
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Colegio",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        255, 110, 110, 110)),
+              ),
+              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
+                builder: (context,state){
+                  if(state is ColegiosLoaded){
+                    return Container(
+                      height: 38,
+                      margin: EdgeInsets.only(left: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      child:                   Container(
+                        width: SizeConfig.blockSizeHorizontal*55,
+                        height: 15,
+                        margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 1),
+                        child: Opacity(
+                          opacity: 0.37,
+                          child: new DropdownButton(
+                            icon: Icon(Icons.menu),
+                            underline: Text(""),
+                            items: createDropDownMenuListSmall(state.colegiosData.colegios),
+                            isExpanded: true,
+                            value: hijos[indexHijo].colegio,
+                            hint: new Text(
+                              'COLEGIO',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                hijos[indexHijo].colegio = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  }else{//Colegios loading
+                    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                    return Container(child: Text("LOADING"));
+                  }
+                },
+
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Curso",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        255, 110, 110, 110)),
+              ),
+              Container(
+                height: 38,
+                margin: EdgeInsets.only(left: 10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(width: 3),
+                      BlocBuilder<ColegiosBloc,ColegiosBlocState>(
+                        builder: (context,state){
+                          if(state is ColegiosLoaded){
+                            return Container(
+                              height: 38,
+                              margin: EdgeInsets.only(left: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(30))),
+                              child:                   Container(
+                                width: SizeConfig.blockSizeHorizontal*55,
+                                height: 15,
+                                margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 1),
+                                child: Opacity(
+                                  opacity: 0.37,
+                                  child: new DropdownButton(
+                                    icon: Icon(Icons.menu),
+                                    underline: Text(""),
+                                    items: createDropDownMenuListSmall(state.colegiosData.cursos),
+                                    isExpanded: true,
+                                    value: hijos[indexHijo].curso,
+                                    hint: new Text(
+                                      'Curso',
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 53, 38, 65),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 19,
+                                      ),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        hijos[indexHijo].curso = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          }else{//Colegios loading
+                            BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                            return Container(child: Text("LOADING"));
+                          }
+                        },
+
+                      ),
+                    ]),
+              ),
+
+            ],
+          ),
+
+
+        ],
+      ),
+    );
+  }
+
+  void aceptarCambios(){
+      if(auxUser != null && originalUser != null){
+        if(auxUser != originalUser){
+
+          BlocProvider.of<UploadsBloc>(context).add(EditUserProfile(auxUser));
+        }
+      }
+  }
+
+  void cancelarCambios(){
+    if(auxUser != null && originalUser!= null){
+      setState(() {
+        auxUser = originalUser;
+      });
+    }
+  }
+
+  void changeRoles(){
+    setState(() {
+      if(auxUser!= null){
+        auxUser = auxUser.changeRole();
+      }
+    });
   }
 
   void _showDialogAyuda() {

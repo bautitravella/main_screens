@@ -14,6 +14,11 @@ class BookEdited extends UploadsBlocState{
   List<Object> get props => [];
 }
 
+class UserEdited extends UploadsBlocState{
+  @override
+  List<Object> get props => [];
+}
+
 class FailedToEdit extends UploadsBlocState{
   final String errorMessage;
 

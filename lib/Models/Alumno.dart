@@ -1,12 +1,14 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutterui/Models/Padre.dart';
+
 import 'User.dart';
 
 class Alumno extends User{
   String colegio;
   String curso;
-  String rol = "Alumno";
+  String role = "Alumno";
 
   Alumno(): super();
 
@@ -35,12 +37,27 @@ class Alumno extends User{
   }
 
   @override
+  String getRole(){
+    return role;
+  }
+
+  @override
   Map<String,dynamic > toMap() {
     Map<String,dynamic> userMap = super.toMap();
     userMap['colegio'] = colegio;
     userMap['curso'] = curso;
-    userMap['rol'] = rol;
+    userMap['rol'] = role;
     return userMap;
+  }
+
+  @override
+  Alumno clone(){
+    return Alumno.allParameters(this.nombre, this.apellido,this.fotoPerfilUrl, this.hasAcceptedTerms, this.colegio, this.curso);
+  }
+
+  @override
+  Padre changeRole(){
+    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, [Hijo(this.nombre,this.colegio,this.curso)]);
   }
 
 }
