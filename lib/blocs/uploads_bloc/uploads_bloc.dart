@@ -90,7 +90,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
   Stream<UploadsBlocState> _mapEditUserProfileInfoToState(User user) async*{
     yield EditingState();
     databaseRepository
-        .editUserImage(user)
+        .editUserInfo(user)
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString())))
         .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));

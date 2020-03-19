@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,8 @@ import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
@@ -34,6 +38,9 @@ class _MiPerfilState extends State<MiPerfil> {
   int indexHijo = 0;
   TextEditingController hijoNameController = new TextEditingController();
   User auxUser,originalUser;
+  bool editedImage = false;
+  File _image;
+
 
   @override
   Widget build(BuildContext context) {
@@ -926,28 +933,31 @@ class _MiPerfilState extends State<MiPerfil> {
                           ),
                           Container(
                             width: 60,
-                            child: Stack(
-                              alignment: Alignment.topRight,
-                              children: <Widget>[
-                                Positioned(
-                                  right: 10,
-                                  top: 8,
-                                  child: CircleAvatar(
-                                    radius: 23.0,
-                                    backgroundImage:
-                                    user.fotoPerfil,
+                            child: GestureDetector(
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: <Widget>[
+                                  Positioned(
+                                    right: 10,
+                                    top: 8,
+                                    child: CircleAvatar(
+                                      radius: 23.0,
+                                      backgroundImage:
+                                      editedImage && _image!= null?FileImage(_image):user.fotoPerfil,
+                                    ),
                                   ),
-                                ),
-                                Positioned(
-                                  right: 35,
-                                  top: 30,
-                                  child: CircleAvatar(
-                                    radius: 12.0,
-                                    backgroundImage: AssetImage(
-                                        "assets/images/logocolegio-fds.png"),
+                                  Positioned(
+                                    right: 35,
+                                    top: 30,
+                                    child: CircleAvatar(
+                                      radius: 12.0,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/logocolegio-fds.png"),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                                onTap: () => selectImage(),
                             ),
                           ),
                         ],
@@ -1102,29 +1112,29 @@ class _MiPerfilState extends State<MiPerfil> {
                           ),
                           Container(
                             width: 60,
-                            child: Stack(
-                              alignment: Alignment.topRight,
-                              children: <Widget>[
-                                Positioned(
-                                  right: 10,
-                                  top: 8,
-                                  child: CircleAvatar(
-                                    radius: 23.0,
-                                    backgroundImage:
-                                    user.fotoPerfil,
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: <Widget>[
+                                  Positioned(
+                                    right: 10,
+                                    top: 8,
+                                    child: CircleAvatar(
+                                      radius: 23.0,
+                                      backgroundImage:
+                                      user.fotoPerfil,
+                                    ),
                                   ),
-                                ),
-                                Positioned(
-                                  right: 35,
-                                  top: 30,
-                                  child: CircleAvatar(
-                                    radius: 12.0,
-                                    backgroundImage: AssetImage(
-                                        "assets/images/logocolegio-fds.png"),
+                                  Positioned(
+                                    right: 35,
+                                    top: 30,
+                                    child: CircleAvatar(
+                                      radius: 12.0,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/logocolegio-fds.png"),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
                           ),
                         ],
                       ),
@@ -1458,9 +1468,14 @@ class _MiPerfilState extends State<MiPerfil> {
 
   void aceptarCambios(){
       if(auxUser != null && originalUser != null){
-        if(auxUser != originalUser){
-
+        if(auxUser != originalUser && editedImage == true){
+          auxUser.fotoPerfilRaw = _image;
           BlocProvider.of<UploadsBloc>(context).add(EditUserProfile(auxUser));
+          if(auxUser != originalUser){
+            BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
+          }else if(editedImage){
+            BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
+          }
         }
       }
   }
@@ -1479,6 +1494,42 @@ class _MiPerfilState extends State<MiPerfil> {
         auxUser = auxUser.changeRole();
       }
     });
+  }
+
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if(auxUser != null){
+      setState(() {
+        _image = image;
+        editedImage = true;
+      });
+    }
+
+  }
+
+  Future<void> _cropImage() async {
+    if(auxUser!= null){
+      File cropped = await ImageCropper.cropImage(
+        sourcePath: _image.path,
+        //ratioX: 1.0,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      );
+
+      setState(() {
+        _image = cropped ?? _image;
+        editedImage = true;
+      });
+    }
+
+  }
+
+  void selectImage() {
+    try {
+      getImage().then((anything) => _cropImage());
+    }catch(e){
+      editedImage = false;
+    }
   }
 
   void _showDialogAyuda() {
@@ -1570,4 +1621,6 @@ class _MiPerfilState extends State<MiPerfil> {
       ),
     );
   }
+
+
 }
