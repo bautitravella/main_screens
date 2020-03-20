@@ -21,9 +21,9 @@ class Book {
   List<List<int>> imagesRaw = [];
   List<List<int>> imagesRawThumb = [];
   List<dynamic> imagesUrl = [];
-  List<CachedNetworkImageProvider> images = [];
+  List<CachedNetworkImageProvider> _images = [];
   List<dynamic> thumbImagesUrl = [];
-  List<CachedNetworkImageProvider> thumbImages = [];
+  List<CachedNetworkImageProvider> _thumbImages = [];
   List<String> materias = [];
   List<String> indexes = [];
   bool vendido, publico;
@@ -49,9 +49,9 @@ class Book {
     this.imagesRaw = book.imagesRaw;
     this.imagesRawThumb = book.imagesRawThumb;
     this.imagesUrl = book.imagesUrl;
-    this.images = book.images;
+    this._images = book._images;
     this.thumbImagesUrl = book.thumbImagesUrl;
-    this.thumbImages = book.thumbImages;
+    this._thumbImages = book._thumbImages;
     this.materias = book.materias;
     this.indexes = book.indexes;
     this.vendido = book.vendido;
@@ -69,32 +69,30 @@ class Book {
     this.editorial = doc['editorial'];
     this.emailVendedor = doc['emailVendedor'];
     this.nombreLibro = doc[
-        'nombreLibro']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreLibro
+        'nombreLibro'];
     this.imageVendedorUrl = doc['imageVendedor'];
     imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
     this.colegios = doc['colegios'];
     this.cursos = doc['cursos'];
     this.imagesUrl = doc['imagesUrl'];
-    //todo volver a habilitar los thumbs
-
     this.vendido = doc['vendido'];
     this.publico = doc['publico'];
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
     this.descripcion = doc['descripcion'];
-    imagesUrl.forEach((element) {
-      images.add(CachedNetworkImageProvider(
-//        imageUrl: element,
-//        placeholder: (context, url) => CircularProgressIndicator(),
-//        fit: BoxFit.fill,
-      element));
-    });
+//    imagesUrl.forEach((element) {
+//      images.add(CachedNetworkImageProvider(
+////        imageUrl: element,
+////        placeholder: (context, url) => CircularProgressIndicator(),
+////        fit: BoxFit.fill,
+//      element));
+//    });
     if(doc['thumbsUrl'] != null ) {
       this.thumbImagesUrl = doc['thumbsUrl'];
-      thumbImagesUrl.forEach((element) {
-        thumbImages.add(CachedNetworkImageProvider(
-            element));
-      });
+//      thumbImagesUrl.forEach((element) {
+//        _thumbImages.add(CachedNetworkImageProvider(
+//            element));
+//      });
     }
 
     this.uid = doc.documentID;
@@ -102,16 +100,67 @@ class Book {
 
   @override
   String toString() {
-    return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $images, thumbImages: $thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';
+    return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $_images, thumbImages: $_thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';
   }
 
-  List<CachedNetworkImageProvider> getImages() {
-    if(thumbImages != null && thumbImages.length > 0){
-      return thumbImages;
-    }else if(images != null && images.length > 0 ){
-      return images;
+  List<ImageProvider> getImages() {
+    if(thumbImagesUrl != null && thumbImagesUrl.length != 0){
+      if(_thumbImages.length  != thumbImagesUrl.length){
+        for(int i= 0; i< thumbImagesUrl.length;i++){
+          if(_thumbImages.length < i+1){
+            _thumbImages.add(CachedNetworkImageProvider(thumbImagesUrl[i]));
+          }
+        }
+      }
+      return _thumbImages;
+    }else if(imagesUrl != null && imagesUrl.length!= 0){
+
+      if(_images.length  != imagesUrl.length){
+        for(int i= 0; i< imagesUrl.length;i++){
+          if(_images.length < i+1){
+            _images.add(CachedNetworkImageProvider(imagesUrl[i]));
+          }
+        }
+      }
+      return _images;
     }
-    return null;
+    return [AssetImage(
+      "assets/images/icons-back-light-2.png",
+    )];
+  }
+
+  ImageProvider getFirstImageThumb(){
+    if(thumbImagesUrl != null && thumbImagesUrl.length != 0){
+      if(_thumbImages.length == 0){
+        _thumbImages.add(CachedNetworkImageProvider(thumbImagesUrl.first));
+      }
+      return _thumbImages.first;
+
+    }else if(imagesUrl!= null && imagesUrl.length != 0){
+      if(_images.length == 0){
+        _images.add(CachedNetworkImageProvider(imagesUrl.first));
+      }
+      return _images.first;
+    }
+    return AssetImage(
+      "assets/images/icons-back-light-2.png",
+    );
+  }
+
+  List<ImageProvider> getHighResImages(){
+    if(_images != null && _images.length > 0 ){
+      if(_images.length  != imagesUrl.length){
+        for(int i= 0; i< imagesUrl.length;i++){
+          if(_images.length < i+1){
+            _images.add(CachedNetworkImageProvider(imagesUrl[i]));
+          }
+        }
+      }
+      return _images;
+    }
+    return [AssetImage(
+      "assets/images/icons-back-light-2.png",
+    )];
   }
 
   Map<String, dynamic> toMap() {

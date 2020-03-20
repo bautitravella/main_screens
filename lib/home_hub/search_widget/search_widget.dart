@@ -650,7 +650,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Image(
-                                        image : book.images[0],
+                                        image : book.getFirstImageThumb(),
                                       ),
                                     ),
                                   ),
@@ -920,7 +920,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: Image(
-                                  image : book.images[0],
+                                  image : book.getFirstImageThumb(),
                                 ),
                               ),
                             ),

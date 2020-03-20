@@ -862,7 +862,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: book.images.length,
+        itemCount: book.imagesUrl.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 150,

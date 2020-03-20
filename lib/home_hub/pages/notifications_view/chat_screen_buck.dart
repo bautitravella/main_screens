@@ -116,60 +116,63 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        size: 30,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          size: 30,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Container(
-                      height: 60,
-                      width: 60,
-                      child: Stack(
-                        children: <Widget>[
-                          //Positioned(
-                          //                    right: 0,
-                          //                    top: 0,
-                          //                    child: Align(
-                          //                      alignment: Alignment.topRight,
-                          //                      child: Container(
-                          //                        width: 138,
-                          //                        height: 143,
-                          //                        child: Image.asset(
-                          //                          "assets/images/round-underpic-shade.png",
-                          //                          fit: BoxFit.fill,
-                          //                        ),
-                          //                      ),
-                          //                    ),
-                          //                  ),
-                          Positioned(
-                            child: CircleAvatar(
-                              radius: 23.0,
-                              backgroundImage:
-                                  widget.chatRole == ChatRole.COMPRADOR
-                                      ? widget.chat.vendedorImage
-                                      : widget.chat.compradorImage,
-                            ),
-                          ),
-                          Positioned(
-                            left: SizeConfig.blockSizeHorizontal * 8,
-                            top: SizeConfig.blockSizeVertical * 4,
-                            child: Container(
+                      Container(
+                        height: 60,
+                        width: 60,
+                        child: Stack(
+                          children: <Widget>[
+                            //Positioned(
+                            //                    right: 0,
+                            //                    top: 0,
+                            //                    child: Align(
+                            //                      alignment: Alignment.topRight,
+                            //                      child: Container(
+                            //                        width: 138,
+                            //                        height: 143,
+                            //                        child: Image.asset(
+                            //                          "assets/images/round-underpic-shade.png",
+                            //                          fit: BoxFit.fill,
+                            //                        ),
+                            //                      ),
+                            //                    ),
+                            //                  ),
+                            Positioned(
                               child: CircleAvatar(
-                                radius: 10.0,
-                                backgroundImage: AssetImage(
-                                    "assets/images/logocolegio-fds.png"),
+                                radius: 23.0,
+                                backgroundImage:
+                                    widget.chatRole == ChatRole.COMPRADOR
+                                        ? widget.chat.vendedorImage
+                                        : widget.chat.compradorImage,
                               ),
                             ),
-                          ),
-                        ],
+                            Positioned(
+                              left: SizeConfig.blockSizeHorizontal * 8,
+                              top: SizeConfig.blockSizeVertical * 4,
+                              child: Container(
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundImage: AssetImage(
+                                      "assets/images/logocolegio-fds.png"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(right: 20),

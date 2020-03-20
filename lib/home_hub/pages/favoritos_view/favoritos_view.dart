@@ -292,7 +292,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                                   child: Image(
                                                     height: 141,
                                                     width: 97,
-                                                    image: book.images[0],
+                                                    image: book.getFirstImageThumb(),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),

@@ -181,7 +181,7 @@ class ListViewVenta extends StatelessWidget {
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
       color: Colors.white,
-      child: chats.length == 0 ? Text('Parece que no todavia no hay ningun chat'):ListView.builder(
+      child: chats== null || chats.length == 0 ? Text('Parece que no todavia no hay ningun chat'):ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
             final Chat chat = chats[index];

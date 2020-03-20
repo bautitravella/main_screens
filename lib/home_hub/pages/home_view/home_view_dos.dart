@@ -437,7 +437,7 @@ class _HomeViewDosState extends State<HomeViewDos> {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: Image(image: book.images[0], fit: BoxFit.fill,),
+                    child: Image(image: book.getFirstImageThumb(), fit: BoxFit.fill,),
                     // book.images[0]//
                   )
                 ],

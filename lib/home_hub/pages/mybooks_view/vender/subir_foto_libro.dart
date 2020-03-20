@@ -241,7 +241,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
       margin: EdgeInsets.only(left: 22, top: 60),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: book.images.length,
+        itemCount: book.imagesUrl.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 180,

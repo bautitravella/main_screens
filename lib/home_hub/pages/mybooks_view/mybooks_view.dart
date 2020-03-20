@@ -500,7 +500,7 @@ class GridViewVendidos extends StatelessWidget {
                               child: Image(
                                 height: 141,
                                 width: 97,
-                                image: book.images[0],
+                                image: book.getFirstImageThumb(),
                                 fit: BoxFit.cover,
                               ),    //book.images[0],
 

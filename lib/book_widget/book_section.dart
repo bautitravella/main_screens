@@ -856,7 +856,7 @@ class _BookSectionState extends State<BookSection> {
       margin: EdgeInsets.only(left: 22, top: 60),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: book.images.length,
+        itemCount: book.getImages().length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 180,
