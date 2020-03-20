@@ -121,9 +121,10 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
       if(isChatBeenCreated == false){
         isChatBeenCreated = true;
         chatBloc.add(AddChat(currentChat));// aca utilizamos el currentChat porq ya asumimos que alguien hizo un LoadChats
-        add(LoadMessages(currentChat,chatRole));
-        add(AddMessage(message,chatRole));
+
       }
+      add(LoadMessages(currentChat,chatRole));
+      add(AddMessage(message,chatRole));
     }
   }
 
