@@ -943,7 +943,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                     child: CircleAvatar(
                                       radius: 23.0,
                                       backgroundImage:
-                                      editedImage && _image!= null?FileImage(_image):user.fotoPerfil,
+                                      editedImage && _image!= null?FileImage(_image):user.getProfileImage(),
                                     ),
                                   ),
                                   Positioned(
@@ -1121,7 +1121,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                     child: CircleAvatar(
                                       radius: 23.0,
                                       backgroundImage:
-                                      user.fotoPerfil,
+                                      user.getProfileImage(),
                                     ),
                                   ),
                                   Positioned(

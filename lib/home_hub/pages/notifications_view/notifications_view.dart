@@ -126,7 +126,7 @@ class NotificationViewState extends State<NotificationView> {
                                         child: Hero(
                                           tag: 'avatar',
                                           child: Image(
-                                            image: state.user.fotoPerfil,
+                                            image: state.user.getProfileImage(),
                                             fit: BoxFit.fill,
                                             alignment: Alignment.center,
                                           ),

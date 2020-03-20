@@ -73,7 +73,7 @@ class Chat {
     vendedorNombre = user.nombre + " " + user.apellido;
     vendedorEmail = user.email;
     vendedorImageUrl = user.fotoPerfilUrl;
-    vendedorImage = user.fotoPerfil;
+    vendedorImage = user.getProfileImage();
     leidoPorElVendedor = false;
   }
 
@@ -81,7 +81,7 @@ class Chat {
     compradorNombre = user.nombre + " " + user.apellido;
     compradorEmail = user.email;
     compradorImageUrl = user.fotoPerfilUrl;
-    compradorImage = user.fotoPerfil;
+    compradorImage = user.getProfileImage();
     leidoPorElComprador = false;
   }
 

@@ -139,7 +139,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                 child: Hero(
                                   tag: 'avatar',
                                   child: Image(
-                                    image: state.user.fotoPerfil,
+                                    image: state.user.getProfileImage(),
                                     fit: BoxFit.fill,
                                     alignment: Alignment.center,
                                   ),

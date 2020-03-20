@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
 
@@ -11,8 +12,8 @@ import 'package:flutterui/Models/Padre.dart';
 class User extends Equatable{
   String nombre;
   String apellido;
-  String fotoPerfilUrl;
-  CachedNetworkImageProvider fotoPerfil;
+  String fotoPerfilUrl,thumbFotoUrl;
+  CachedNetworkImageProvider _fotoPerfil,_thumbFotoPerfil;
   File fotoPerfilRaw;
   bool hasAcceptedTerms;
   String email;
@@ -23,19 +24,21 @@ class User extends Equatable{
 
 
   User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,){
-    this.fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
+    this._fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
   }
 
   User.fromMap(Map<String, dynamic> data,String email) {
     String nombre = data['nombre'];
     String apellido = data['apellido'];
-    String fotoPerfil = data['fotoPerfilUrl'];
+    String fotoPerfilUrl = data['fotoPerfilUrl'];
+    String thumbFotoPerfilUrl = data['thumbFotoPerfilUrl'];
     bool hasAcceptedTerms = data['hasAcceptedTerms'];
     this.email = email;
     this.nombre = nombre;
     this.apellido = apellido;
-    this.fotoPerfilUrl = fotoPerfil;
-    this.fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
+    this.fotoPerfilUrl = fotoPerfilUrl;
+    if(thumbFotoPerfilUrl != null)this.thumbFotoUrl = thumbFotoPerfilUrl;
+    //this._fotoPerfil = CachedNetworkImageProvider(this.fotoPerfilUrl);
     this.hasAcceptedTerms= hasAcceptedTerms;
   }
 
@@ -83,7 +86,22 @@ class User extends Equatable{
 
   @override
   String toString() {
-    return 'User{nombre: $nombre, apellido: $apellido, fotoPerfilUrl: $fotoPerfilUrl, fotoPerfil: $fotoPerfil, hasAcceptedTerms: $hasAcceptedTerms, email: $email}';
+    return 'User{nombre: $nombre, apellido: $apellido, fotoPerfilUrl: $fotoPerfilUrl, fotoPerfil: $_fotoPerfil, hasAcceptedTerms: $hasAcceptedTerms, email: $email}';
+  }
+
+  ImageProvider getProfileImage(){
+    if(thumbFotoUrl != null){
+      if(thumbFotoUrl == null){
+        _thumbFotoPerfil = CachedNetworkImageProvider(thumbFotoUrl);
+      }
+      return _thumbFotoPerfil;
+    }else if(fotoPerfilUrl != null){
+      if(_fotoPerfil == null){
+        _fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
+      }
+      return _fotoPerfil;
+    }
+    return AssetImage("assets/images/icons-back-light-2.png",);
   }
 
 }
