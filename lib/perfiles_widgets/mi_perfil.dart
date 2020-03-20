@@ -889,7 +889,7 @@ class _MiPerfilState extends State<MiPerfil> {
               headerExpanded: Container(
                 padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
                 width: SizeConfig.blockSizeHorizontal * 100,
-                height: 505,
+                height: SizeConfig.blockSizeVertical*80,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25.0),
@@ -1163,10 +1163,11 @@ class _MiPerfilState extends State<MiPerfil> {
                   item,
                   style: TextStyle(
                     color: Color.fromARGB(255, 53, 38, 65),
-                    fontFamily: "Montserrat",
+                    fontFamily: "Sf-r",
                     fontWeight: FontWeight.w700,
-                    fontSize: 19,
+                    fontSize: 15,
                   ),
+                  textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1210,7 +1211,7 @@ class _MiPerfilState extends State<MiPerfil> {
     hijos = user.hijos;
     hijoNameController.text = hijos[indexHijo].nombre;
     return Container(
-      constraints: BoxConstraints.expand(height: 300),
+      constraints: BoxConstraints.expand(height: 380),
       width: SizeConfig.blockSizeHorizontal*70,
       margin: EdgeInsets.only(left: 0, right: 0),
       padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
@@ -1225,14 +1226,33 @@ class _MiPerfilState extends State<MiPerfil> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                "Hijos",
-                style: TextStyle(
-                    fontFamily: "Sf",
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        255, 110, 110, 110)),
+              Row(
+                children: <Widget>[
+                  Opacity(
+                    opacity: 0.7,
+                    child: Container(
+                      height: 19,
+                      width: 19,
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(100)
+                      ),
+                      child: Center(
+                        child: Icon(Icons.add, color: Colors.white, size: 16,),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "Hijos",
+                    style: TextStyle(
+                        fontFamily: "Sf",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Color.fromARGB(
+                            255, 110, 110, 110)),
+                  ),
+                ],
               ),
 
               Container(
@@ -1344,7 +1364,7 @@ class _MiPerfilState extends State<MiPerfil> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child:                   Container(
-                        width: SizeConfig.blockSizeHorizontal*55,
+                        width: SizeConfig.blockSizeHorizontal*45,
                         height: 15,
                         margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 1),
                         child: Opacity(
@@ -1457,6 +1477,47 @@ class _MiPerfilState extends State<MiPerfil> {
                     ]),
               ),
 
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Eliminar perfil \n de hijo",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        100, 110, 110, 110)),
+              ),
+              Container(
+                height: 30,
+                margin: EdgeInsets.only(left: 10),
+                width:
+                SizeConfig.blockSizeHorizontal *
+                    25,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(
+                      200, 0, 191, 131),
+                  borderRadius:
+                  BorderRadius.circular(30.0),
+                ),
+                child: Center(
+                  child: Text(
+                    "Guardar",
+                    style: TextStyle(
+                        fontFamily: "Sf-r",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
             ],
           ),
 
