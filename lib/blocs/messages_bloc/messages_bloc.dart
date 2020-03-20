@@ -110,10 +110,10 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
       isChatBeenCreated = false;
       if(chatRole == ChatRole.COMPRADOR){
         message.email = currentChat.vendedorEmail;
-        message.title = currentChat.vendedorNombre +' - '+currentChat.nombreLibro;
+        message.title = currentChat.compradorNombre +' - '+currentChat.nombreLibro;
       }else{
         message.email = currentChat.compradorEmail;
-        message.title = currentChat.compradorNombre + ' - '+currentChat.nombreLibro;
+        message.title = currentChat.vendedorNombre + ' - '+currentChat.nombreLibro;
       }
       databaseRepository.sendMessage( currentChat , downloadedUser , message );
       databaseRepository.updateLastMessage(currentChat,message,chatRole);
