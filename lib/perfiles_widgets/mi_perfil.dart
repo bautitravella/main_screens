@@ -381,7 +381,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           child: TextField(
                                             decoration: InputDecoration(
                                               hintText:
-                                                  "jbttravellita@gmail.com",
+                                                  user.email,
                                               alignLabelWithHint: true,
                                               border: InputBorder.none,
                                             ),

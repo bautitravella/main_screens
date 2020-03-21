@@ -28,6 +28,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
+  bool searchTextEmpty = true;
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -217,6 +218,13 @@ class _SearchWidgetState extends State<SearchWidget> {
                                 width: SizeConfig.blockSizeHorizontal * 60,
                                 child: TextField(
                                   onChanged: (value) {
+                                    print(value);
+                                    if(value == null || value.length == 0){
+                                      searchTextEmpty = true;
+                                    }else{
+                                      searchTextEmpty = false;
+                                    }
+
                                     BlocProvider.of<SearchBloc>(context)
                                         .add(SearchBooks(value.toLowerCase().split(' ')));
                                   },
@@ -396,8 +404,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                   topRight: Radius.circular(30), topLeft: Radius.circular(30)),
               child: BlocBuilder<SearchBloc, SearchBlocState>(
                   builder: (context, state) {
-                if (state is InitialSearchBlocState) {
-                  BlocBuilder<BooksBloc,BooksBlocState>(
+                if (state is InitialSearchBlocState || searchTextEmpty) {
+                  return BlocBuilder<BooksBloc,BooksBlocState>(
                     builder: (context, state) {
                       if(state is BooksLoadedState) {
                         if(state.books.length == 0){
@@ -673,6 +681,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                     },
                   );
                 } else if (state is SearchBooksLoaded) {
+                  if(state.booksList.length == 0){
+                    return Container(child: Center(child: Text('No Pudimos encontrar ningun resultado para lo que nos estas pidiendo'),),);
+                  }
                   return ListView.builder(
                     scrollDirection: Axis.vertical,
                     controller: sc,
