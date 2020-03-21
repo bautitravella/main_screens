@@ -103,21 +103,7 @@ class FirebaseRepository extends DatabaseRepository {
   @override
   Future editBookInfo(Book book){
 
-    List<String> bookSplitList = book.nombreLibro.split(" ");
-
-    for (var value in book.autor.split(" ")) {
-      bookSplitList.add(value);
-    }
-
-    List<String> indexList = [];
-
-    for (int i = 0; i < bookSplitList.length; i++) {
-      for (int j = 1; j < bookSplitList[i].length + 1; j++) {
-        indexList.add(bookSplitList[i].substring(0, j).toLowerCase());
-      }
-    }
-
-    book.indexes = indexList;
+    book.createIndexes();
     return booksReference
         .document(book.uid)
         .updateData(book.toMap());
@@ -150,22 +136,7 @@ class FirebaseRepository extends DatabaseRepository {
   Future<void> addNewBook(Book book, User user) async {
     Future<void> returnFuture;
 
-    List<String> bookSplitList = book.nombreLibro.split(" ");
-
-    for (var value in book.autor.split(" ")) {
-      bookSplitList.add(value);
-    }
-
-    List<String> indexList = [];
-
-    for (int i = 0; i < bookSplitList.length; i++) {
-      for (int j = 1; j < bookSplitList[i].length + 1; j++) {
-        indexList.add(bookSplitList[i].substring(0, j).toLowerCase());
-      }
-    }
-
-    book.indexes = indexList;
-
+    book.createIndexes();
     book.addUserInformation(user);
     book.vendido = false;
     DocumentReference documentReference = booksReference.document();

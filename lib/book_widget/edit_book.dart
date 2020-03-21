@@ -774,7 +774,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       showErrorDialog(context, "Para continuar debes completar todos los campos");
       print("falta completar algun campo");
       return null;
-    }else if (images.length <  3) {
+    }else if (images.length <  3 && imagesChanged) {
       showErrorDialog(context,
           "Debes seleccionar como minimo 3 imagenes para poder continuar");
     } else {

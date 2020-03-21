@@ -25,7 +25,8 @@ class Book {
   List<dynamic> thumbImagesUrl = [];
   List<CachedNetworkImageProvider> _thumbImages = [];
   List<String> materias = [];
-  List<String> indexes = [];
+  List<String> indexes;
+  List<String> palabrasImportantes;
   bool vendido, publico;
   int precio,isbn;
   num rating;
@@ -191,6 +192,7 @@ class Book {
     if(rating != null){
       bookMap['rating'] = rating;
     }
+    if(palabrasImportantes!= null && palabrasImportantes.length != 0)bookMap['palabrasImportantes']=palabrasImportantes;
 
     return bookMap;
   }
@@ -200,6 +202,25 @@ class Book {
     this.apellidoVendedor = user.apellido;
     this.emailVendedor = user.email;
     this.imageVendedorUrl = user.fotoPerfilUrl;
+  }
+
+  void createIndexes(){
+    indexes = [];
+    palabrasImportantes = [];
+    List<String> bookSplitList = this.nombreLibro.split(" ");
+    for (var value in this.autor.split(" ")) {
+      bookSplitList.add(value);
+    }
+
+
+    for (int i = 0; i < bookSplitList.length; i++) {
+      for (int j = 2; j < bookSplitList[i].length + 1; j++) {
+        indexes.add(bookSplitList[i].substring(0, j).toLowerCase());
+      }
+      if(bookSplitList[i].length >2 && bookSplitList[i] != "El" && bookSplitList[i] != "La" && bookSplitList[i] != "The" && bookSplitList[i] != "Las"){
+        palabrasImportantes.add(bookSplitList[i]);
+      }
+    }
   }
 
   Book clone(){
