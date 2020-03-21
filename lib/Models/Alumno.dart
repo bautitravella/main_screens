@@ -12,7 +12,7 @@ class Alumno extends User{
 
   Alumno(): super();
 
-  Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,this.colegio , this.curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms);
+  Alumno.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,String email,this.colegio , this.curso) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms,email);
 
   Alumno.fromMap(Map<String, dynamic> data,String email) : super.fromMap(data,email){
     colegio = data["colegio"];
@@ -52,12 +52,12 @@ class Alumno extends User{
 
   @override
   Alumno clone(){
-    return Alumno.allParameters(this.nombre, this.apellido,this.fotoPerfilUrl, this.hasAcceptedTerms, this.colegio, this.curso);
+    return Alumno.allParameters(this.nombre, this.apellido,this.fotoPerfilUrl, this.hasAcceptedTerms, this.email,this.colegio, this.curso);
   }
 
   @override
   Padre changeRole(){
-    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, [Hijo(this.nombre,this.colegio,this.curso)]);
+    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email ,[Hijo(this.nombre,this.colegio,this.curso)]);
   }
 
 }
