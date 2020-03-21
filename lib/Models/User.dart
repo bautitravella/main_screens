@@ -23,7 +23,7 @@ class User extends Equatable{
   User.fromEmail(this.email);
 
 
-  User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,){
+  User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email){
     this._fotoPerfil = CachedNetworkImageProvider(fotoPerfilUrl);
   }
 
@@ -74,7 +74,7 @@ class User extends Equatable{
   }
 
   User clone(){
-    return User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms);
+    return User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email);
   }
 
   User changeRole(){
@@ -103,6 +103,32 @@ class User extends Equatable{
     }
     return AssetImage("assets/images/icons-back-light-2.png",);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          super == other &&
+              other is User &&
+              runtimeType == other.runtimeType &&
+              nombre == other.nombre &&
+              apellido == other.apellido &&
+              fotoPerfilUrl == other.fotoPerfilUrl &&
+              thumbFotoUrl == other.thumbFotoUrl &&
+              hasAcceptedTerms == other.hasAcceptedTerms &&
+              email == other.email;
+
+  @override
+  int get hashCode =>
+      super.hashCode ^
+      nombre.hashCode ^
+      apellido.hashCode ^
+      fotoPerfilUrl.hashCode ^
+      thumbFotoUrl.hashCode ^
+      hasAcceptedTerms.hashCode ^
+      email.hashCode;
+
+
+
 
 }
 

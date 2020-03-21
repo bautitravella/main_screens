@@ -36,10 +36,13 @@ class _MiPerfilState extends State<MiPerfil> {
   String colegioSelectedValue,cursoSelectedValue,hijosSelectedValue;
   List<Hijo> hijos;
   int indexHijo = 0;
-  TextEditingController hijoNameController = new TextEditingController();
+  TextEditingController hijoNameController = new TextEditingController(),
+                        nombreTextController = new TextEditingController(),
+                        apellidoTextController = new TextEditingController();
   User auxUser,originalUser;
-  bool editedImage = false;
+  bool editedImage = false,variablesHaveBeenSet = false;
   File _image;
+
 
 
   @override
@@ -51,7 +54,13 @@ class _MiPerfilState extends State<MiPerfil> {
           if(state is UserLoadedState){
             User user = state.user;
             originalUser = user;
-            auxUser = user.clone();
+            if(variablesHaveBeenSet == false){
+              auxUser = user.clone();
+              nombreTextController.text = auxUser.nombre;
+              apellidoTextController.text = auxUser.apellido;
+              variablesHaveBeenSet = true;
+            }
+
 
           return Stack(
             children: <Widget>[
@@ -1004,9 +1013,8 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                                 child:Center(
                                   child: TextField(
+                                    controller: nombreTextController,
                                     decoration: InputDecoration(
-                                      hintText:
-                                      user.nombre, // TODO aca va el nombre del usuario registrado
                                       alignLabelWithHint: true,
                                       border: InputBorder.none,
                                     ),
@@ -1039,9 +1047,8 @@ class _MiPerfilState extends State<MiPerfil> {
                                 ),
                                 child:Center(
                                   child: TextField(
+                                    controller: apellidoTextController,
                                     decoration: InputDecoration(
-                                      hintText:
-                                      user.apellido, // TODO aca va el nombre del usuario registrado
                                       alignLabelWithHint: true,
                                       border: InputBorder.none,
                                     ),
@@ -1544,6 +1551,35 @@ class _MiPerfilState extends State<MiPerfil> {
     print("BOTON DE ACEPTAR CAMBIOS ACEPTADO");
       if(auxUser != null && originalUser != null){
         print("BOTON DE ACEPTAR CAMBIOS ACEPTADO--------1");
+        auxUser.nombre = nombreTextController.text;
+        auxUser.apellido = apellidoTextController.text;
+        if(auxUser.nombre == null || auxUser.nombre.length == 0 || auxUser.apellido == null || auxUser.apellido.length == 0){
+          print('0');
+          showErrorDialog(context, "Debes completar tu nombre y apellido para poder guardar los cambios.");
+          return null;
+        }
+
+        if(auxUser is Padre){
+          Padre auxauxUser = auxUser;
+          auxauxUser.hijos.forEach((hijo) {
+            if(hijo.nombre == null || hijo.nombre == "Nombre"|| hijo.nombre.isEmpty ){
+              print('1');
+              showErrorDialog(context, "Debes ingresar un nombre valido para todos tus hijos.");
+              return null;
+            }
+            if(hijo.colegio == null || hijo.colegio.isEmpty){
+              print('2');
+              showErrorDialog(context, "Debes ingresar un colegio de la lista para cada uno de tus hijos.");
+              return null;
+            }
+            if(hijo.curso == null || hijo.curso.isEmpty){
+              print('3');
+              showErrorDialog(context, "Debes ingresar un curso de la lista para cada uno de tus hijos.");
+              return null;
+            }
+          });
+        }
+
         if(auxUser != originalUser && editedImage == true){
           print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-------2");
           auxUser.fotoPerfilRaw = _image;
@@ -1567,9 +1603,15 @@ class _MiPerfilState extends State<MiPerfil> {
   }
 
   eliminarHijo(int indexHijo,Padre user) {
+    print("ELIMINEEE HIJOOOOO -------------------------------------");
     if(user is Padre){
       setState(() {
-        user.removeHijo(indexHijo);
+        int aux = indexHijo;
+        if(indexHijo == user.getHijosNames().length -1){
+          indexHijo-=1;
+        }
+        user.removeHijo(aux);
+
       });
     }
   }
@@ -1590,6 +1632,13 @@ class _MiPerfilState extends State<MiPerfil> {
     });
   }
 
+  void showLoadingDialog(BuildContext context) {
+    showSlideDialogChico(
+        context: context,
+        child: LoadingDialog(),
+        animatedPill: true,
+        barrierDismissible: false);
+  }
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -1716,6 +1765,15 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
+  void showErrorDialog(BuildContext context, String errorMessage) {
+    showSlideDialogChico(
+        context: context,
+        child: ErrorDialog(
+          title: "Oops...",
+          error: errorMessage,
+        ),
+        animatedPill: false);
+  }
 
 
 

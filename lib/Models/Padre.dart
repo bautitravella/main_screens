@@ -10,7 +10,7 @@ class Padre extends User{
 
   Padre():super();
 
-  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms);
+  Padre.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,String email,this._hijos) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms,email);
 
   Padre.fromImage(File image):super(){
     super.fotoPerfilRaw = image;
@@ -70,7 +70,7 @@ class Padre extends User{
   }
 
   removeHijo(int index){
-    if(index > _hijos.length || index < 0){
+    if(index < _hijos.length || index >= 0){
       _hijos.removeAt(index);
     }
   }
@@ -82,13 +82,30 @@ class Padre extends User{
 
   @override
   Padre clone(){
-    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this._hijos);
+    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this.email,this._hijos);
   }
 
   @override
   Alumno changeRole(){
-    return Alumno.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this._hijos.first.colegio, this._hijos.first.curso);
+    return Alumno.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email ,this._hijos.first.colegio, this._hijos.first.curso);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          super == other &&
+              other is Padre &&
+              runtimeType == other.runtimeType &&
+              _hijos == other._hijos &&
+              role == other.role;
+
+  @override
+  int get hashCode =>
+      super.hashCode ^
+      _hijos.hashCode ^
+      role.hashCode;
+
+
 
 }
 
