@@ -69,6 +69,12 @@ class Padre extends User{
     return nombres;
   }
 
+  removeHijo(int index){
+    if(index > _hijos.length || index < 0){
+      _hijos.removeAt(index);
+    }
+  }
+
   @override
   String getRole(){
     return role;

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -268,15 +269,27 @@ class FirebaseRepository extends DatabaseRepository {
   @override
   Stream<List<Book>> getUserRecomendationBooks(User user) {
     print("GET USER BOOKS = $user");
-    return booksReference.snapshots().map((snapshot) {
+    return booksReference
+        .where("colegios",arrayContainsAny: user.getColegios())
+        .snapshots().map((snapshot) {
       print('DOCUMENTOS ================= ${snapshot.documents}');
       List<Book> books = [];
       Book book;
+      List<dynamic> cursos;
+      bool addBook=false;
       snapshot.documents.forEach((doc) {
         try {
-          book = Book.fromDocumentSnapshot(doc);
-          if (book != null) {
-            books.add(book);
+          if(doc['cursos'] != null) {
+            cursos = doc['cursos'];
+            user.getCursos().forEach((curso) {
+              if(cursos.contains(curso))addBook = true;
+            });
+            if(addBook){
+              book = Book.fromDocumentSnapshot(doc);
+              if (book != null) {
+                books.add(book);
+              }
+            }
           }
         } catch (e) {
           print("NO SE PUDO AGREGAR ESTE LIBRO");

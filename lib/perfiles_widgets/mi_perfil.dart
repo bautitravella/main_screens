@@ -1479,35 +1479,43 @@ class _MiPerfilState extends State<MiPerfil> {
             crossAxisAlignment:
             CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "Eliminar perfil \n de hijo",
-                style: TextStyle(
-                    fontFamily: "Sf",
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        100, 110, 110, 110)),
-              ),
-              Container(
-                height: 30,
-                margin: EdgeInsets.only(left: 10),
-                width:
-                SizeConfig.blockSizeHorizontal *
-                    25,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(
-                      200, 0, 191, 131),
-                  borderRadius:
-                  BorderRadius.circular(30.0),
+              user.getHijosNames().length > 1?
+              GestureDetector(
+                onTap: () => eliminarHijo(indexHijo,user),
+                child: Text(
+                  "Eliminar perfil \n de hijo",
+                  style: TextStyle(
+                      fontFamily: "Sf",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromARGB(
+                          100, 110, 110, 110)),
                 ),
-                child: Center(
-                  child: Text(
-                    "Guardar",
-                    style: TextStyle(
-                        fontFamily: "Sf-r",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),
+              ):
+              Container(),
+              GestureDetector(
+                onTap: () => aceptarCambios(),
+                child: Container(
+                  height: 30,
+                  margin: EdgeInsets.only(left: 10),
+                  width:
+                  SizeConfig.blockSizeHorizontal *
+                      25,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(
+                        200, 0, 191, 131),
+                    borderRadius:
+                    BorderRadius.circular(30.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Guardar",
+                      style: TextStyle(
+                          fontFamily: "Sf-r",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
               ),
@@ -1541,6 +1549,15 @@ class _MiPerfilState extends State<MiPerfil> {
       });
     }
   }
+
+  eliminarHijo(int indexHijo,Padre user) {
+    if(user is Padre){
+      setState(() {
+        user.removeHijo(indexHijo);
+      });
+    }
+  }
+
 
   void changeRoles(){
     setState(() {
@@ -1675,6 +1692,7 @@ class _MiPerfilState extends State<MiPerfil> {
       ),
     );
   }
+
 
 
 }
