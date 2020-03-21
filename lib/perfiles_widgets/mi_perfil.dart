@@ -1360,35 +1360,40 @@ class _MiPerfilState extends State<MiPerfil> {
                     return Container(
                       height: 38,
                       margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Colors.white,
+                          border: Border.all(color: Colors.black12, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
-                      child:                   Container(
+                      child: Container(
                         width: SizeConfig.blockSizeHorizontal*45,
                         height: 15,
-                        margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 1),
+                        margin: EdgeInsets.only( top: 6),
                         child: Opacity(
                           opacity: 0.37,
-                          child: new DropdownButton(
-                            icon: Icon(Icons.menu),
-                            underline: Text(""),
-                            items: createDropDownMenuListSmall(state.colegiosData.colegios),
-                            isExpanded: true,
-                            value: hijos[indexHijo].colegio,
-                            hint: new Text(
-                              'COLEGIO',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 53, 38, 65),
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 19,
+                          child: Center(
+                            child: new DropdownButton(
+                              icon: Icon(Icons.edit, size: 15,),
+                              underline: Text(""),
+                              items: createDropDownMenuListSmall(state.colegiosData.colegios),
+                              isExpanded: true,
+                              value: hijos[indexHijo].colegio,
+                              hint: new Text(
+                                'COLEGIO',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 53, 38, 65),
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 19,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
+                              onChanged: (value) {
+                                setState(() {
+                                  hijos[indexHijo].colegio = value;
+                                });
+                              },
                             ),
-                            onChanged: (value) {
-                              setState(() {
-                                hijos[indexHijo].colegio = value;
-                              });
-                            },
                           ),
                         ),
                       ),
@@ -1404,10 +1409,8 @@ class _MiPerfilState extends State<MiPerfil> {
           ),
           SizedBox(height: 30),
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 "Curso",
@@ -1418,63 +1421,53 @@ class _MiPerfilState extends State<MiPerfil> {
                     color: Color.fromARGB(
                         255, 110, 110, 110)),
               ),
-              Container(
-                height: 38,
-                margin: EdgeInsets.only(left: 10),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SizedBox(width: 3),
-                      BlocBuilder<ColegiosBloc,ColegiosBlocState>(
-                        builder: (context,state){
-                          if(state is ColegiosLoaded){
-                            return Container(
-                              height: 38,
-                              margin: EdgeInsets.only(left: 10),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(30))),
-                              child:                   Container(
-                                width: SizeConfig.blockSizeHorizontal*55,
-                                height: 15,
-                                margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 1),
-                                child: Opacity(
-                                  opacity: 0.37,
-                                  child: new DropdownButton(
-                                    icon: Icon(Icons.menu),
-                                    underline: Text(""),
-                                    items: createDropDownMenuListSmall(state.colegiosData.cursos),
-                                    isExpanded: true,
-                                    value: hijos[indexHijo].curso,
-                                    hint: new Text(
-                                      'Curso',
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 53, 38, 65),
-                                        fontFamily: "Montserrat",
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 19,
-                                      ),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        hijos[indexHijo].curso = value;
-                                      });
-                                    },
-                                  ),
-                                ),
+              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
+                builder: (context,state){
+                  if(state is ColegiosLoaded){
+                    return Container(
+                      height: 38,
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black12, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal*24,
+                        height: 15,
+                        margin: EdgeInsets.only( top: 6),
+                        child: Opacity(
+                          opacity: 0.37,
+                          child: new DropdownButton(
+                            icon: Icon(Icons.edit, size: 15,),
+                            underline: Text(""),
+                            items: createDropDownMenuListSmall(state.colegiosData.cursos),
+                            isExpanded: true,
+                            value: hijos[indexHijo].curso,
+                            hint: new Text(
+                              'Curso',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19,
                               ),
-                            );
-                          }else{//Colegios loading
-                            BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
-                            return Container(child: Text("LOADING"));
-                          }
-                        },
-
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                hijos[indexHijo].curso = value;
+                              });
+                            },
+                          ),
+                        ),
                       ),
-                    ]),
+                    );
+                  }else{//Colegios loading
+                    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                    return Container(child: Text("LOADING"));
+                  }
+                },
+
               ),
 
             ],
