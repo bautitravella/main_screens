@@ -110,6 +110,8 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               ],
             ),
           ),
+
+          _scrollingList(context),
           Container(
             height: 143,
             margin: EdgeInsets.only(left: 0),
@@ -152,9 +154,9 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                               child: CircleAvatar(
                                 radius: 23.0,
                                 backgroundImage:
-                                    widget.chatRole == ChatRole.COMPRADOR
-                                        ? widget.chat.vendedorImage
-                                        : widget.chat.compradorImage,
+                                widget.chatRole == ChatRole.COMPRADOR
+                                    ? widget.chat.vendedorImage
+                                    : widget.chat.compradorImage,
                               ),
                             ),
                             Positioned(
@@ -188,7 +190,6 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               ],
             ),
           ),
-          _scrollingList(context)
         ],
       ),
     );
