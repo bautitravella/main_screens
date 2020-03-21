@@ -284,20 +284,29 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     widget.chatRole == ChatRole.VENDEDOR
                 ? Container(
                     height: 140,
-                    color: Colors.white,
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20.0,
+                          color: Colors.black12,
+                        ),
+                      ],
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Opacity(
                           opacity: 0.5,
                           child: Container(
-                            height: 140,
-                            width: 70,
+                            height: 120,
+                            width: 64,
                             padding: EdgeInsets.only(top: 28, bottom: 28, right: 28),
                             decoration: BoxDecoration(
                                 color: Color.fromARGB(
                                     200, 0, 191, 131),
-                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(70), topRight: Radius.circular(70))
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(64), topRight: Radius.circular(64))
                             ),
                             child: Image.asset("assets/images/accept-icon.png",fit: BoxFit.fill,),
                           ),

@@ -75,7 +75,7 @@ class NotificationViewState extends State<NotificationView> {
                   Container(
                     margin: EdgeInsets.only(left: 22, top: 120),
                     child: Text(
-                      "Notificaciones",
+                      "Mensajes",
                       style: TextStyle(
                         fontFamily: "Gibson",
                         color: Color.fromARGB(255, 57, 57, 57),

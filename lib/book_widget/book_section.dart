@@ -431,65 +431,55 @@ class _BookSectionState extends State<BookSection> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PerfilAlguien(),
-                              ),
-                            );
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Hero(
-                                  tag: 'profile',
-                                  child: CircleAvatar(
-                                      radius: 20,
-                                      backgroundImage: book.imageVendedor)),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      '${book.nombreVendedor + " " + book.apellidoVendedor}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Montserrat",
-                                        color: Color.fromARGB(255, 57, 57, 57),
-                                      ),
+                        Row(
+                          children: <Widget>[
+                            Hero(
+                                tag: 'profile',
+                                child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: book.imageVendedor)),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    '${book.nombreVendedor + " " + book.apellidoVendedor}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      color: Color.fromARGB(255, 57, 57, 57),
                                     ),
-                                    book.rating != null
-                                        ? Row(
-                                            children: <Widget>[
-                                              Text(
-                                                '${book.rating}',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Montserrat",
-                                                  color: Color.fromARGB(
-                                                      255, 118, 118, 118),
-                                                ),
-                                              ),
-                                              Icon(
-                                                Icons.star,
-                                                size: 17,
+                                  ),
+                                  book.rating != null
+                                      ? Row(
+                                          children: <Widget>[
+                                            Text(
+                                              '${book.rating}',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: "Montserrat",
                                                 color: Color.fromARGB(
                                                     255, 118, 118, 118),
                                               ),
-                                            ],
-                                          )
-                                        : Text(' '),
-                                  ],
-                                ),
+                                            ),
+                                            Icon(
+                                              Icons.star,
+                                              size: 17,
+                                              color: Color.fromARGB(
+                                                  255, 118, 118, 118),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(' '),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         Padding(
                             padding: const EdgeInsets.only(right: 5, left: 5),
@@ -690,7 +680,7 @@ class _BookSectionState extends State<BookSection> {
                       ),
                     ],
                   ),
-                  Row(
+                 /* Row(
                     children: <Widget>[
                       Container(
                         height: 55,
@@ -840,7 +830,7 @@ class _BookSectionState extends State<BookSection> {
                           ),
                         ],
                       )),
-                  horizontalListView,
+                  horizontalListView,*/ //TODO Para agregar en un futuro
                 ],
               ),
             ],
@@ -868,6 +858,7 @@ class _BookSectionState extends State<BookSection> {
                 child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
                 Image(
                   image: book.getImages()[index],
+                  fit: BoxFit.cover,
                 )
                     :
                 CircularProgressIndicator(),

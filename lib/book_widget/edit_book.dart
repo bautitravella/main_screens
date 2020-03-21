@@ -317,7 +317,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                   "Completa los datos \ndel libro",
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 53, 38, 65),
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Sf-r",
                                     fontWeight: FontWeight.w900,
                                     fontSize: 26,
                                   ),
@@ -467,7 +467,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                   "Comenta sobre el \nlibro",
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 53, 38, 65),
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Sf-r",
                                     fontWeight: FontWeight.w900,
                                     fontSize: 26,
                                   ),

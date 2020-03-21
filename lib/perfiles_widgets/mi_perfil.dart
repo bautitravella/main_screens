@@ -231,7 +231,7 @@ class _MiPerfilState extends State<MiPerfil> {
                       SizedBox(height: 70),
                       ConfigurableExpansionTile(
                         headerExpanded: Container(
-                          height: 310,
+                          height: 155,
                           margin: EdgeInsets.only(left: 0, right: 0),
                           padding: EdgeInsets.fromLTRB(0, 20, 0, 5),
                           width: SizeConfig.blockSizeHorizontal * 92,
@@ -285,7 +285,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   ],
                                 ),
                               ),
-                              Container(
+                             /* Container(
                                 height: 50,
                                 margin: EdgeInsets.only(
                                     left: 12, right: 12, top: 12),
@@ -304,10 +304,8 @@ class _MiPerfilState extends State<MiPerfil> {
                                   children: <Widget>[
                                     Container(
                                       height: 24,
-                                      margin:
-                                          EdgeInsets.only(left: 10, top: 10),
-                                      width:
-                                          SizeConfig.blockSizeHorizontal * 60,
+                                      margin: EdgeInsets.only(left: 10, top: 10),
+                                      width: SizeConfig.blockSizeHorizontal * 60,
                                       child: TextField(
                                         decoration: InputDecoration(
                                           hintText:
@@ -353,10 +351,9 @@ class _MiPerfilState extends State<MiPerfil> {
                                     )
                                   ],
                                 ),
-                              ),
+                              ),*///TODO para future update confirmar contraseña
                               SizedBox(height: 30),
                               Container(
-                                height: 150,
                                 margin: EdgeInsets.only(left: 22, right: 22),
                                 /* color: Colors.red,*/
                                 child: Column(
@@ -368,7 +365,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          "Cambiar mail",
+                                          "Mail",
                                           style: TextStyle(
                                               fontFamily: "Sf",
                                               fontSize: 15,
@@ -380,8 +377,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           height: 24,
                                           margin: EdgeInsets.only(left: 10),
                                           width:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  50,
+                                              SizeConfig.blockSizeHorizontal * 50,
                                           child: TextField(
                                             decoration: InputDecoration(
                                               hintText:
@@ -406,8 +402,8 @@ class _MiPerfilState extends State<MiPerfil> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 30),
-                                    Row(
+                                    /*SizedBox(height: 30),*/
+                                    /*Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
@@ -450,13 +446,11 @@ class _MiPerfilState extends State<MiPerfil> {
                                           ),
                                         ),
                                       ],
-                                    ),
-                                    SizedBox(height: 30),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    ),*/ //TODO para future update
+                                  /*  SizedBox(height: 30),*/
+                                    /*Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           "Eliminar cuenta",
@@ -491,7 +485,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           ),
                                         ),
                                       ],
-                                    ),
+                                    ),*/// TODO para future update eliminar cuenta
                                   ],
                                 ),
                               ),
@@ -558,7 +552,7 @@ class _MiPerfilState extends State<MiPerfil> {
                         ),
                       ),
                       SizedBox(height: 15),
-                      ConfigurableExpansionTile(
+                    /*  ConfigurableExpansionTile(
                         headerExpanded: Container(
                           height: 310,
                           margin: EdgeInsets.only(left: 0, right: 0),
@@ -575,11 +569,11 @@ class _MiPerfilState extends State<MiPerfil> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           "Privacidad",
@@ -619,7 +613,7 @@ class _MiPerfilState extends State<MiPerfil> {
                               Container(
                                 height: 200,
                                 margin: EdgeInsets.only(left: 22, right: 22),
-                                /* color: Colors.red,*/
+                                color: Colors.red,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -705,7 +699,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700,
                                           color:
-                                              Color.fromARGB(255, 57, 57, 57)),
+                                          Color.fromARGB(255, 57, 57, 57)),
                                     ),
                                     SizedBox(height: 3),
                                     Text(
@@ -733,7 +727,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                           ),
                         ),
-                      ),
+                      ),*/  //TODO Para agregar en un futuro
                       GestureDetector(
                         onTap: _showDialogWave,
                         child: Container(

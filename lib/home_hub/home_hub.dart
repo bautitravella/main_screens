@@ -7,6 +7,7 @@ import 'package:flutterui/home_hub/pages/notifications_view/notifications_view.d
 import 'package:flutterui/home_hub/pages/pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
@@ -92,13 +93,13 @@ class _HomeHubState extends State<HomeHub> {
             inactiveColor: Color.fromARGB(255, 128, 128, 128),
           ),
           BottomNavyBarItem(
-            title: Text('Actividad', textAlign: TextAlign.center,
+            title: Text('Mensajes', textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: "Sf-r",
                 fontWeight: FontWeight.w800,
                 fontSize: 15,
               ),),
-            icon: Icon(Icons.notifications),
+            icon: Icon(FontAwesome5.comment_alt,),
             activeColor: Color.fromARGB(255, 254, 189, 16),
             inactiveColor: Color.fromARGB(255, 128, 128, 128),
           ),
