@@ -315,7 +315,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Julieta a solicitado la compra de \nEl Merchant of Venice,\n¡No la hagas esperar!",
+                              "${widget.chat.compradorNombre} a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
                               style: TextStyle(
                                   fontFamily: "Sf-r",
                                   fontSize: 14,

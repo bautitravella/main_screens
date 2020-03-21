@@ -1583,7 +1583,10 @@ class _MiPerfilState extends State<MiPerfil> {
           BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
         }else if(editedImage){
           print("BOTON DE ACEPTAR CAMBIOS ACEPTADO------4");
-          BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
+          if(_image!= null){
+            auxUser.fotoPerfilRaw = _image;
+            BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
+          }
         }
       }
   }

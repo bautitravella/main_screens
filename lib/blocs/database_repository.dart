@@ -362,9 +362,26 @@ class FirebaseRepository extends DatabaseRepository {
   }
 
   @override
-  Future<void> editUserImage(User user) {
-    // TODO: implement editUserImage
+  Future<void> editUserImage(User user) async {
+    String downloadUrl = await uploadProfileImage(user);
+    usersReference.document(user.email).updateData({"fotoPerfilUrl":downloadUrl});
     return null;
+  }
+
+  Future<String> uploadProfileImage(User user) async {
+    StorageReference ref =
+    FirebaseStorage.instance.ref().child("profile_images2/" + user.email + ".jpg");
+    StorageUploadTask uploadTask = ref.putFile(user.fotoPerfilRaw);
+    print(
+        "---------------------------------------------------------Arranca la transferencia");
+
+    String downloadUrl =
+    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    print(
+        "---------------------------------------------------------Termina la Transferencia");
+
+    print("DOWNLOAD URL  1: " + downloadUrl);
+    return downloadUrl;
   }
 
   @override

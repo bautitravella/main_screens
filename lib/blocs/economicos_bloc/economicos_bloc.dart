@@ -22,11 +22,12 @@ class EconomicosBloc extends Bloc<EconomicosBlocEvent, EconomicosBlocState> {
       if(state is UserLoadedState){
         if(isUserDownloaded == false){
           isUserDownloaded = true;
-          add(LoadUserEconomicosBooks());
           downloadedUser = state.user;
+          add(LoadUserEconomicosBooks());
+
         }else{
-          add(LoadUserEconomicosBooks());
           downloadedUser = state.user;
+          add(LoadUserEconomicosBooks());
         }
 
       }
