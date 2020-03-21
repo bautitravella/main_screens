@@ -17,6 +17,12 @@ class DestacadosSectionDos extends StatefulWidget {
 }
 
 class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
+
+  @override
+  void initState() {
+    BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
+  }
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
@@ -519,4 +525,6 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
     return Center(child: CircularProgressIndicator(),);
     });
   }
+
+
 }

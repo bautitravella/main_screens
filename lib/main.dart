@@ -249,9 +249,19 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
             return HomeHub();
           }
 
-        } else if (state is UserNotLoaded) {
+        } else if (state is UserNotLoadedState) {
           print("USER  NOT LOADEEED");
           return ElijeUnRolWidget(email);
+        }else if(state is InitialUserBlocState){
+          BlocProvider.of<UserBloc>(context).add(LoadUser(email));
+          return Scaffold(
+            body: Container(
+              margin: EdgeInsets.all(1),
+              child: Center(child: Text("BUYMY PERRI"))
+            ),
+          );
+        }else if(state is UserLoadingState){
+          return CircularProgressIndicator();
         }
         return CircularProgressIndicator();
 //          FutureBuilder(

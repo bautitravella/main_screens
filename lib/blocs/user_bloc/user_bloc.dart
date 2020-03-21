@@ -12,7 +12,7 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
   UserBloc(this.databaseRepository);
 
   @override
-  UserBlocState get initialState => UserNotLoaded();
+  UserBlocState get initialState => InitialUserBlocState();
 
   @override
   Stream<UserBlocState> mapEventToState(
@@ -26,15 +26,23 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
       yield* _mapLoadedUserToState(event.user);
     }else if(event is UnloadUser){
       yield* _mapUnloadUserToState();
+    }else if(event is UserNotLoaded){
+      yield*  _mapUserNotLoadedToState();
     }
   }
 
-   Stream<UserBlocState> _mapLoadUserToState(String email) {
+   Stream<UserBlocState> _mapLoadUserToState(String email) async* {
       userStreamSubscription?.cancel();
+      yield UserLoadingState();
       try {
         userStreamSubscription =
             databaseRepository.getUserInfo(email).listen((user) {
-              add(LoadedUser(user));
+              if(user == null){
+                add(UserNotLoaded());
+              }else{
+                add(LoadedUser(user));
+              }
+
             });
       }catch (e){
         print("ERROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRR = $e");
@@ -52,9 +60,18 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
 
   Stream<UserBlocState> _mapUnloadUserToState()  async*{
     userStreamSubscription.cancel();
-    yield UserNotLoaded();
+    yield InitialUserBlocState();
   }
 
+  @override
+  Future<void> close() {
+    userStreamSubscription.cancel();
+    return super.close();
+  }
+
+  Stream<UserBlocState>  _mapUserNotLoadedToState() async*{
+    yield UserNotLoadedState();
+  }
 
 }
 

@@ -5,6 +5,10 @@ abstract class UserBlocState extends Equatable {
   const UserBlocState();
 }
 
+class InitialUserBlocState extends UserBlocState{
+  @override
+  List<Object> get props => [];
+}
 
 class UserLoadedState extends UserBlocState{
 
@@ -17,7 +21,12 @@ class UserLoadedState extends UserBlocState{
 
 }
 
-class UserNotLoaded extends UserBlocState{
+class UserNotLoadedState extends UserBlocState{
+  @override
+  List<Object> get props => [];
+}
+
+class UserLoadingState extends UserBlocState{
   @override
   List<Object> get props => [];
 }

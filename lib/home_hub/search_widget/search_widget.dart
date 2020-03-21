@@ -223,10 +223,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                                       searchTextEmpty = true;
                                     }else{
                                       searchTextEmpty = false;
+                                      BlocProvider.of<SearchBloc>(context)
+                                          .add(SearchBooks(value.toLowerCase().split(' ')));
                                     }
 
-                                    BlocProvider.of<SearchBloc>(context)
-                                        .add(SearchBooks(value.toLowerCase().split(' ')));
+
                                   },
                                   decoration: InputDecoration(
                                     hintText: "Buscar",
