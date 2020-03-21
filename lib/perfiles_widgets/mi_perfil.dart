@@ -1504,30 +1504,31 @@ class _MiPerfilState extends State<MiPerfil> {
                 ),
               ):
               Container(),
-              GestureDetector(
-                onTap: () => aceptarCambios(),
-                child: Container(
-                  height: 30,
-                  margin: EdgeInsets.only(left: 10),
-                  width:
-                  SizeConfig.blockSizeHorizontal *
-                      25,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(
-                        200, 0, 191, 131),
-                    borderRadius:
-                    BorderRadius.circular(30.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Guardar",
-                      style: TextStyle(
-                          fontFamily: "Sf-r",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                  ),
+              FlatButton(
+                /*height: 30,
+                margin: EdgeInsets.only(left: 10),
+                width:
+                SizeConfig.blockSizeHorizontal *
+                    25,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(
+                      200, 0, 191, 131),
+                  borderRadius:
+                  BorderRadius.circular(30.0),
+                ),*/
+                color: Color.fromARGB(
+                    200, 0, 191, 131),
+                shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(18.0),
+                ),
+                onPressed:  () => aceptarCambios(),
+                child: Text(
+                  "Guardar",
+                  style: TextStyle(
+                      fontFamily: "Sf-r",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
                 ),
               ),
             ],
