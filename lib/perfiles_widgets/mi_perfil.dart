@@ -947,13 +947,21 @@ class _MiPerfilState extends State<MiPerfil> {
                                     ),
                                   ),
                                   Positioned(
-                                    right: 35,
+                                    right: 32,
                                     top: 30,
-                                    child: CircleAvatar(
+                                    child: Container(
+                                      padding: EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(100),
+                                        color: Colors.white,
+                                        border:  Border.all(color: AppColors.secondaryBackground, width: 1.5),
+                                      ),
+                                      child: Icon(Icons.edit, color: AppColors.secondaryBackground, size: 18),
+                                    )/*CircleAvatar(
                                       radius: 12.0,
                                       backgroundImage: AssetImage(
                                           "assets/images/logocolegio-fds.png"),
-                                    ),
+                                    ),*/
                                   ),
                                 ],
                               ),
