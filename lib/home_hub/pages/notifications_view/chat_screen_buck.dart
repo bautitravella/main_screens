@@ -577,6 +577,59 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       iconSize: 25,
                       color: Colors.white,
                       onPressed: () {
+                        if(widget.chatRole == ChatRole.COMPRADOR){
+                          if(widget.chat.estadoTransaccion == "Pregunta"){
+                            CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
+                              primaryFunction:() {
+                                Navigator.of(context).pop();
+                              },
+                              secondaryFunction:() {
+                                BlocProvider.of<MessagesBloc>(context).add(LoadMessages(widget.chat,ChatRole.COMPRADOR));
+                                BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(widget.chat));
+
+                              },);
+                          }else if(widget.chat.estadoTransaccion == "Oferta"){
+                            CustomDialog.customFunctions(title: "Cancelar Pedido De Compra", description: "Al cancelar la solicitud de compra el usuario no podra venderte el producto", primaryButtonText: "CANCELAR", secondaryButtonText: "Cancelar Solicitud De Compra",
+                              primaryFunction:() {
+                                Navigator.of(context).pop();
+                              },
+                              secondaryFunction:() {
+                                BlocProvider.of<MessagesBloc>(context).add(LoadMessages(widget.chat,ChatRole.COMPRADOR));
+                                BlocProvider.of<MessagesBloc>(context).add(CancelarSolicitudDeCompra(widget.chat));
+
+                              },);
+                          }
+                        }else{
+                          if(widget.chat.estadoTransaccion == "Oferta"){
+                            CustomDialog.customFunctions(title: "Solicitud de Compra", description: "Aceptar o Rechazar la solicitud de compra que te envio ${widget.chat.compradorNombre}", primaryButtonText: "RECHAZAR", secondaryButtonText: "VENDER",
+                              primaryFunction:() {
+                                CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                                  primaryFunction:() {
+                                    Navigator.of(context).pop();
+                                  },
+                                  secondaryFunction:() {
+                                    BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
+                                    Navigator.of(context).pop();
+                                  },) ;
+                              },
+                              secondaryFunction:() {
+                                CustomDialog.customFunctions(title: "Aceptar Solicitud De Compra", description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro", primaryButtonText: "CANCELAR", secondaryButtonText: "Aceptar Compra",
+                                  primaryFunction:() {
+                                    Navigator.of(context).pop();
+                                  },
+                                  secondaryFunction:() {
+                                    BlocProvider.of<MessagesBloc>(context).add(AceptarSolicitudDeCompra(widget.chat));
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) {
+                                              return ChatScreenBuck(chat : widget.chat,chatRole : ChatRole.VENDEDOR);}
+                                        ));
+                                  },);
+                              },);
+                          }
+                        }
                         showCustomDialog(context);
                       },
                     ),

@@ -55,6 +55,8 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
       yield* _mapAceptarSolicitudToState(event.chat);
     }else if(event is RechazarSolicitudDeCompra){
       yield* _mapRechazarSolicitudToState(event.chat);
+    }else if(event is CancelarSolicitudDeCompra){
+      yield* _mapCancelarSolicitudToState(event.chat);
     }
   }
 
@@ -136,9 +138,10 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
       if(isChatBeenCreated == false){
        isChatBeenCreated = true;
        chatBloc.add(AddChat(currentChat));
-       add(LoadMessages(currentChat,ChatRole.COMPRADOR));
-       add(SolicitarCompra(chat));
+
       }
+      add(LoadMessages(currentChat,ChatRole.COMPRADOR));
+      add(SolicitarCompra(chat));
     }
   }
 
@@ -148,6 +151,10 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
 
   _mapRechazarSolicitudToState(Chat chat) {
     databaseRepository.rechazarSolicitudDeCompra(chat);
+  }
+
+  _mapCancelarSolicitudToState(Chat chat){
+    databaseRepository.cancelarSolicitudDeCompra(chat);
   }
 
   @override

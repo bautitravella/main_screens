@@ -69,4 +69,13 @@ class RechazarSolicitudDeCompra extends MessagesBlocEvent{
   List<Object> get props => [chat];
 }
 
+class CancelarSolicitudDeCompra extends MessagesBlocEvent{
+  final Chat chat;
+
+  CancelarSolicitudDeCompra(this.chat);
+
+  @override
+  List<Object> get props => [chat];
+}
+
 

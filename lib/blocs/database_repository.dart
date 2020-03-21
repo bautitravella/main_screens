@@ -77,12 +77,15 @@ abstract class DatabaseRepository {
       Chat currentChat, Message message, ChatRole chatRole);
   Future<void> updateLeidoByField(Chat chat, ChatRole chatRole);
   Future<void> solicitarCompra(Chat chat);
+  Future<void> cancelarSolicitudDeCompra(Chat chat);
   Future<void> aceptarSolicitudDeCompra(Chat chat);
   Future<void> rechazarSolicitudDeCompra(Chat chat);
   Future<void> addToken(User user);
   Future<void> removeToken(User user);
 
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list);
+
+
 }
 
 class FirebaseRepository extends DatabaseRepository {
@@ -611,6 +614,13 @@ class FirebaseRepository extends DatabaseRepository {
     chatsReference
         .document(chat.uid)
         .updateData({"estadoTransaccion": "Oferta"});
+  }
+
+  @override
+  Future<void> cancelarSolicitudDeCompra(Chat chat){
+    chatsReference
+        .document(chat.uid)
+        .updateData({"estadoTransaccion": "Pregunta"});
   }
 
   @override

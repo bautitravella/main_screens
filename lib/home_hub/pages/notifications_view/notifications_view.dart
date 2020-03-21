@@ -530,6 +530,7 @@ class ListViewCompra extends StatelessWidget {
                                         secondaryFunction:() {
                                           BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
                                           BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(chat));
+                                          Navigator.pop(context);
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
