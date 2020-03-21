@@ -145,27 +145,35 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                         ),
                       );
                     },
-                    child: Container(
-                      height: 55,
-                      width: 55,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2, //
-                          ),
-                          borderRadius: new BorderRadius.circular(100)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Hero(
-                          tag: 'avatar',
-                          child: Image.asset(
-                            "assets/images/avatar.png",
-                            fit: BoxFit.fill,
-                            alignment: Alignment.center,
-                          ),
-                        ),
-                      ),
+                    child: BlocBuilder<UserBloc,UserBlocState>(
+                      builder: (context,state){
+                        if(state is UserLoadedState){
+                          return Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2, //
+                                ),
+                                borderRadius: new BorderRadius.circular(100)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Hero(
+                                tag: 'avatar',
+                                child: Image(
+                                  image: state.user.getProfileImage(),
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment.center,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        return Container();
+
+                      },
                     ),
                   ),
                 ),

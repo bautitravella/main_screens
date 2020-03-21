@@ -8,6 +8,7 @@ import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/chat_screen.dart';
+import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/size_config.dart';
@@ -107,7 +108,14 @@ class NotificationViewState extends State<NotificationView> {
                           right: SizeConfig.blockSizeHorizontal * 4,
                           top: SizeConfig.blockSizeVertical * 5,
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MiPerfil(),
+                                ),
+                              );
+                            },
                             child: BlocBuilder<UserBloc,UserBlocState>(
                                 builder: (context,state) {
                                   if(state is UserLoadedState){
