@@ -280,9 +280,71 @@ class GridViewPublicados extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return  books == null || books.length == 0 ? Center(child: Text("parece que no hay ningun libro cargado en esta categoria"),):  CustomScrollView(
-      slivers: <Widget>[
-        SliverGrid(
+    return  books == null || books.length == 0 ? 
+    GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SubirFotoLibro(),
+            ),
+          );
+        },
+      child: Center(
+        child:Column(
+          children: <Widget>[
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.only(left: 18),
+             /* color: Color.fromARGB(255, 255, 213, 104),*/
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Agrega libros \npara vender",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 17,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Parece que no tienes ningun\nlibro publicado para vender.\n¡Apurate! La gente espera. ",
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 11,
+                          fontFamily: "Sf-t",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 100,
+                      child: Image.asset("assets/images/add-sell.png", fit: BoxFit.fitWidth))
+                ],
+              ),
+            ),
+            SizedBox(height: 45),
+            Container(
+              constraints: BoxConstraints.expand(height: SizeConfig.blockSizeVertical*28),
+                child: Image.asset("assets/images/no-books.png", fit: BoxFit.fitHeight,))
+          ],
+        ),),
+    )
+
+
+
+        :CustomScrollView(
+         slivers: <Widget>[
+          SliverGrid(
           delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
               Book book = books[index];
@@ -432,10 +494,59 @@ class GridViewVendidos extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     // TODO crear alguna ilustracion para cuando no haya ningun libro publicado
-    return  books == null || books.length == 0 ? Center(child: Text("parece que no hay ningun libro cargado en esta categoria"),): CustomScrollView(
-      slivers: <Widget>[
-        SliverGrid(
-          delegate: SliverChildBuilderDelegate(
+    return  books == null || books.length == 0 ?
+       Center(
+      child:Column(
+        children: <Widget>[
+          SizedBox(height: 10),
+          Container(
+            margin: EdgeInsets.only(left: 18),
+            /* color: Color.fromARGB(255, 255, 213, 104),*/
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Agrega libros \npara vender",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 17,
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Parece que no tienes ningun\nlibro publicado para vender.\n¡Apurate! La gente espera. ",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 11,
+                        fontFamily: "Sf-t",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                    height: 100,
+                    child: Image.asset("assets/images/add-sell.png", fit: BoxFit.fitWidth))
+              ],
+            ),
+          ),
+          SizedBox(height: 45),
+          Container(
+              constraints: BoxConstraints.expand(height: SizeConfig.blockSizeVertical*28),
+              child: Image.asset("assets/images/no-books.png", fit: BoxFit.fitHeight,))
+        ],
+      ),)
+        : CustomScrollView(
+          slivers: <Widget>[
+          SliverGrid(
+              delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
               Book book = books[index];
 
