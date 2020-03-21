@@ -283,50 +283,122 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
             widget.chat.estadoTransaccion == "Oferta" &&
                     widget.chatRole == ChatRole.VENDEDOR
                 ? Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    height: 78,
+                    height: 140,
                     color: Colors.white,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        RaisedButton(
-                          child: Text("ACEPTAR"),
-                          onPressed: () => showSlideDialogGrande(
-                              context: context,
-                              child: CustomDialog.customFunctions(
-                                title: "Aceptar Solicitud De Compra",
-                                description:
-                                    "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
-                                primaryButtonText: "CANCELAR",
-                                secondaryButtonText: "Aceptar Compra",
-                                primaryFunction: () {
-                                  Navigator.of(context).pop();
-                                },
-                                secondaryFunction: () {
-                                  BlocProvider.of<MessagesBloc>(context).add(
-                                      AceptarSolicitudDeCompra(widget.chat));
-                                  setState(() {
-                                    widget.chat.estadoTransaccion = "Vendido";
-                                  });
-                                  Navigator.of(context).pop();
-                                },
-                              )),
+                        Opacity(
+                          opacity: 0.5,
+                          child: Container(
+                            height: 140,
+                            width: 70,
+                            padding: EdgeInsets.only(top: 28, bottom: 28, right: 28),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(
+                                    200, 0, 191, 131),
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(70), topRight: Radius.circular(70))
+                            ),
+                            child: Image.asset("assets/images/accept-icon.png",fit: BoxFit.fill,),
+                          ),
                         ),
-                        RaisedButton(
-                          child: Text("RECHAZAR"),
-                          onPressed: () => showSlideDialogGrande(
-                              context: context,
-                              child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
-                                primaryFunction:() {
-                                  Navigator.of(context).pop();
-                                },
-                                secondaryFunction:() {
-                                  BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
-                                  setState(() {
-                                    widget.chat.estadoTransaccion = "Rechazada";
-                                  });
-                                  Navigator.of(context).pop();
-                                },)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Julieta a solicitado la compra de \nEl Merchant of Venice,\n¡No la hagas esperar!",
+                              style: TextStyle(
+                                  fontFamily: "Sf-r",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color.fromARGB(255, 118, 118, 118)),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                FlatButton(
+                                  color: Color.fromARGB(
+                                      200, 0, 191, 131),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(18.0),
+                                  ),
+                                  child: Text(
+                                      "Vender",
+                                    style: TextStyle(
+                                        fontFamily: "Sf-r",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white),
+                                  ),
+                                  onPressed: () => showSlideDialogGrande(
+                                      context: context,
+                                      child: CustomDialog.customFunctions(
+                                        title: "Aceptar Solicitud De Compra",
+                                        description:
+                                            "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                                        primaryButtonText: "CANCELAR",
+                                        secondaryButtonText: "Aceptar Compra",
+                                        primaryFunction: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        secondaryFunction: () {
+                                          BlocProvider.of<MessagesBloc>(context).add(
+                                              AceptarSolicitudDeCompra(widget.chat));
+                                          setState(() {
+                                            widget.chat.estadoTransaccion = "Vendido";
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                      )),
+                                ),
+                                SizedBox(width: 15,),
+                                FlatButton(
+                                  color: Color.fromARGB(
+                                      255, 255, 104, 104),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(18.0),
+                                  ),
+                                  child: Text(
+                                    "Rechazar",
+                                    style: TextStyle(
+                                        fontFamily: "Sf-r",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white),
+                                  ),
+                                  onPressed: () => showSlideDialogGrande(
+                                      context: context,
+                                      child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                                        primaryFunction:() {
+                                          Navigator.of(context).pop();
+                                        },
+                                        secondaryFunction:() {
+                                          BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
+                                          setState(() {
+                                            widget.chat.estadoTransaccion = "Rechazada";
+                                          });
+                                          Navigator.of(context).pop();
+                                        },)),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Opacity(
+                          opacity: 0.5,
+                          child: Container(
+                            height: 140,
+                            width: 70,
+                            padding: EdgeInsets.only(top: 28, bottom: 28, left: 28),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(
+                                    255, 255, 104, 104),
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70), topLeft: Radius.circular(70))
+                            ),
+                            child: Image.asset("assets/images/decline-icon.png",fit: BoxFit.fill,),
+                          ),
                         ),
                       ],
                     ),
