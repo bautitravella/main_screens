@@ -1234,33 +1234,36 @@ class _MiPerfilState extends State<MiPerfil> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Opacity(
-                    opacity: 0.7,
-                    child: Container(
-                      height: 19,
-                      width: 19,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(100)
-                      ),
-                      child: Center(
-                        child: Icon(Icons.add, color: Colors.white, size: 16,),
+              GestureDetector(
+                onTap: () => addHijo(user),
+                child: Row(
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.7,
+                      child: Container(
+                        height: 19,
+                        width: 19,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(100)
+                        ),
+                        child: Center(
+                          child: Icon(Icons.add, color: Colors.white, size: 16,),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    "Hijos",
-                    style: TextStyle(
-                        fontFamily: "Sf",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(
-                            255, 110, 110, 110)),
-                  ),
-                ],
+                    SizedBox(width: 10),
+                    Text(
+                      "Hijos",
+                      style: TextStyle(
+                          fontFamily: "Sf",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(
+                              255, 110, 110, 110)),
+                    ),
+                  ],
+                ),
               ),
 
               Container(
@@ -1537,15 +1540,19 @@ class _MiPerfilState extends State<MiPerfil> {
   }
 
   void aceptarCambios(){
+    print("BOTON DE ACEPTAR CAMBIOS ACEPTADO");
       if(auxUser != null && originalUser != null){
+        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO--------1");
         if(auxUser != originalUser && editedImage == true){
+          print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-------2");
           auxUser.fotoPerfilRaw = _image;
           BlocProvider.of<UploadsBloc>(context).add(EditUserProfile(auxUser));
-          if(auxUser != originalUser){
-            BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
-          }else if(editedImage){
-            BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
-          }
+        }else if(auxUser != originalUser){
+          print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-----3");
+          BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
+        }else if(editedImage){
+          print("BOTON DE ACEPTAR CAMBIOS ACEPTADO------4");
+          BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
         }
       }
   }
@@ -1566,6 +1573,13 @@ class _MiPerfilState extends State<MiPerfil> {
     }
   }
 
+  addHijo(Padre user) {
+    if(user is Padre){
+      setState(() {
+        user.agregarHijo(Hijo("Nombre","Florida Day School","1er grado"));
+      });
+    }
+  }
 
   void changeRoles(){
     setState(() {
@@ -1700,6 +1714,8 @@ class _MiPerfilState extends State<MiPerfil> {
       ),
     );
   }
+
+
 
 
 
