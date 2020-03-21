@@ -95,6 +95,11 @@ class App extends StatelessWidget {
                   return UploadsBloc(RepositoryProvider.of<FirebaseRepository>(context));
                 },
               ),
+              BlocProvider<EconomicosBloc>(
+                create: (BuildContext context){
+                  return EconomicosBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+                },
+              ),
             ],
             child: MaterialApp(
                 //home: MyDecider(),

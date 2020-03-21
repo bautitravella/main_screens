@@ -23,6 +23,8 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
           downloadedUser = state.user;
         }else{
           add(UserUpdated(state.user));
+          add(LoadUserBooks());
+          downloadedUser = state.user;
         }
 
       }

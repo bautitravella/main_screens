@@ -53,6 +53,8 @@ abstract class DatabaseRepository {
 
   Future<List<Book>> getUserFavoriteBooks(
       List<dynamic> favoritesList, User user);
+  
+  Stream<List<Book>> getUserCheapBooks(User user);
 
   Future<void> reFilterUserBooks(User user);
 
@@ -305,6 +307,31 @@ class FirebaseRepository extends DatabaseRepository {
 //            }
 //          })
 //          .toList();
+    });
+  }
+  @override
+  Stream<List<Book>> getUserCheapBooks(User user) {
+    print("GET USER BOOKS = $user");
+    return booksReference
+        .where("colegios", arrayContainsAny: user.getColegios())
+        .orderBy("precio", descending: false)
+        .limit(50)
+        .snapshots().map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      bool addBook = false;
+      snapshot.documents.forEach((doc) {
+        try {
+          book = Book.fromDocumentSnapshot(doc);
+          if (book != null) {
+            books.add(book);
+          }
+        } catch (e) {
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
+        }
+      });
+      return books;
     });
   }
 

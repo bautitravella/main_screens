@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
+import 'package:flutterui/destacados_widget/economicos_section.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
@@ -405,53 +406,62 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       ],
                     ),
                   ),
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                        height: 151.0,
-                        width: SizeConfig.blockSizeHorizontal * 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Image.asset(
-                            "assets/images/explora-economicos.png",
-                            fit: BoxFit.fitWidth,
+                  GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            EconomicosSection(),
+                      ));
+                    },
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
+                          height: 151.0,
+                          width: SizeConfig.blockSizeHorizontal * 100,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              "assets/images/explora-economicos.png",
+                              fit: BoxFit.fitWidth,
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        right: 10,
-                        top: 50,
-                        bottom: 50,
-                        width: SizeConfig.blockSizeHorizontal * 40,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Economicos",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontFamily: "Sf-r",
-                                fontWeight: FontWeight.w800,
+                        Positioned(
+                          right: 10,
+                          top: 50,
+                          bottom: 50,
+                          width: SizeConfig.blockSizeHorizontal * 40,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Economicos",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Seleccion de libros con \nlos mejores precios",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 11,
-                                fontFamily: "Sf-t",
-                                fontWeight: FontWeight.w500,
+                              SizedBox(
+                                height: 5,
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                              Text(
+                                "Seleccion de libros con \nlos mejores precios",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontFamily: "Sf-t",
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

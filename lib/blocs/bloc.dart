@@ -36,3 +36,6 @@ export 'tokens_bloc/bloc.dart';
 
 //UPLOADS BLOC
 export 'uploads_bloc/bloc.dart';
+
+//ECONOMICOS BLOC
+export 'economicos_bloc/bloc.dart';
