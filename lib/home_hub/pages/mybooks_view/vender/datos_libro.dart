@@ -13,6 +13,7 @@ import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 class DatosLibros extends StatefulWidget {
   Book book;
@@ -125,157 +126,68 @@ class _DatosLibrosState extends State<DatosLibros> {
                           Stack(
                             children: <Widget>[
                               Container(
-                                height: 141,
+                                height: 200,
                                 margin: EdgeInsets.only(top: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 97,
-                                      child: Stack(
-                                        children: <Widget>[
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image(
-                                              height: 141,
-                                              width: 97,
-                                              image: AssetImage("assets/images/bookdescarte.png"),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Center(
-                                            child: Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black26,
-                                                      offset: Offset(0.0, 2.0),
-                                                      blurRadius: 6.0,
-                                                    )
+                                child: Container(
+                                    margin: EdgeInsets.only(left: 10, top: 0),
+                                    //height: 295,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10, top: 5),
+                                          height: 160,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: widget.book.imagesRaw.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return Container(
+                                                margin: EdgeInsets.only(right: 20),
+                                                child: Stack(
+                                                  alignment: Alignment.center,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      width: 140,
+                                                      height: 140,
+                                                      padding: EdgeInsets.all(5),
+                                                      child: ClipRRect(
+                                                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                                                          child: Image.memory(
+                                                             widget.book.imagesRaw[index],
+                                                            height: 140,
+                                                            width: 140,
+                                                          ) //(book.images[index]),
+                                                      ),
+                                                    ),
+//                                                    Container(
+//                                                      width: 55,
+//                                                      height: 55,
+//                                                      child: FlatButton(
+//                                                          color: Colors.white54,
+//                                                          shape: RoundedRectangleBorder(
+//                                                            borderRadius: BorderRadius.all(Radius.circular(100)),
+//                                                          ),
+//                                                          child: Icon(
+//                                                            Icons.edit,
+//                                                            color: Colors.white,
+//                                                            size: 25,
+//                                                          ),
+//                                                          onPressed: () {
+//                                                            loadAssets();
+//                                                          }),
+//                                                    )
                                                   ],
-                                                  color: Colors.white,
-                                                  borderRadius: new BorderRadius.circular(100)),
-                                              child: OutlineButton(
-                                                  padding: EdgeInsets.symmetric(horizontal: 5),
-                                                  borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: AppColors.secondaryBackground,
-                                                    size: 20,
-                                                  ),
-                                                  onPressed: () {}),
-                                            ),
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                        width: 97,
-                                        child: Stack(
-                                          children: <Widget>[
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(10),
-                                              child: Image(
-                                                height: 141,
-                                                width: 97,
-                                                image: AssetImage("assets/images/bookdescarte.png"),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            Center(
-                                              child: Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.black26,
-                                                        offset: Offset(0.0, 2.0),
-                                                        blurRadius: 6.0,
-                                                      )
-                                                    ],
-                                                    color: Colors.white,
-                                                    borderRadius: new BorderRadius.circular(100)),
-                                                child: OutlineButton(
-                                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                                    borderSide: BorderSide(
-                                                        color: AppColors.secondaryBackground, width: 2),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                    ),
-                                                    child: Icon(
-                                                      Icons.edit,
-                                                      color: AppColors.secondaryBackground,
-                                                      size: 20,
-                                                    ),
-                                                    onPressed: () {}),
-                                              ),
-                                            ),
-                                          ],
                                         ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 97,
-                                      child: Stack(
-                                        children: <Widget>[
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image(
-                                              height: 141,
-                                              width: 97,
-                                              image: AssetImage(
-                                                  "assets/images/bookdescarte.png"),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Center(
-                                            child: Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black26,
-                                                      offset: Offset(0.0, 2.0),
-                                                      blurRadius: 6.0,
-                                                    )
-                                                  ],
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          100)),
-                                              child: OutlineButton(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                                  borderSide: BorderSide(
-                                                      color: AppColors.secondaryBackground,
-                                                      width: 2),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: AppColors.secondaryBackground,
-                                                    size: 20,
-                                                  ),
-                                                  onPressed: () {}),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                        /* Row(mainAxisAlignment: MainAxisAlignment.center,
+                children:<Widget>[
+                    RaisedButton(child: Text('Editar fotos elegidas'),onPressed: () => loadAssets()),
+                ],
+                )*/
+                                      ],
+                                    ))
                               ),
                             ],
                           ),

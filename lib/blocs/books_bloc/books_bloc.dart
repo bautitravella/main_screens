@@ -81,7 +81,7 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
       UserBlocState userBlocState = userBloc.state;
       if(userBlocState is UserLoadedState){
         User user = userBlocState.user;
-        final nothing = await databaseRepository.addNewBook(event.book,user).timeout(Duration(seconds: 30),onTimeout: smt);
+        final nothing = await databaseRepository.addNewBook(event.book,user).timeout(Duration(seconds: 200),onTimeout: smt);
         if(!timeouted){
           yield UploadedBook(nothing);
         }else{

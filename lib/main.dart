@@ -258,7 +258,12 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
           BlocProvider.of<UserBloc>(context).add(LoadUser(email));
           return Example9();
         }else if(state is UserLoadingState){
-          return CircularProgressIndicator();
+          return Scaffold(
+            body: Container(
+                margin: EdgeInsets.all(1),
+                child: Center(child: Text("BUYMY PERRI"))
+            ),
+          );
         }
         return CircularProgressIndicator();
 //          FutureBuilder(

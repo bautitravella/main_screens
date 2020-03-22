@@ -1,6 +1,7 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterui/Models/EstadoMessage.dart';
 import 'package:flutterui/Models/chat_roles.dart';
 
 class Message{
@@ -39,6 +40,22 @@ class Message{
   }
 
 
+}
+
+Message createMessageFromDocumentSnapshot(DocumentSnapshot doc){
+  try{
+    String typeOfMessage = doc['typeOfMessage'];
+    if(typeOfMessage != null){
+      if(typeOfMessage == "text"){
+        return Message.fromDocumentSnapshot(doc);
+      }else if(typeOfMessage == "estado"){
+        return EstadoMessage.fromDocumentSnapshot(doc);
+      }
+    }
+  }catch (e){
+    return null;
+  }
+  return null;
 }
 
 List<Message> messages = [

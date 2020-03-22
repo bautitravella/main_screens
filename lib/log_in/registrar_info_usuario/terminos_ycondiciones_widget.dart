@@ -11,6 +11,7 @@ import 'package:flutterui/dialogs/dialogs.dart';
 class TerminosYCondicionesWidget extends StatelessWidget {
   void onButtonsLargeGreenPressed(BuildContext context) {}
 
+  String termsAndConditions = "Tormakh Industries built the BuyMy app as a Free app. This SERVICE is provided by Tormakh Industries at no cost and is intended for use as is.";
   User user;
   TerminosYCondicionesWidget(this.user);
 
@@ -130,8 +131,8 @@ class TerminosYCondicionesWidget extends StatelessWidget {
                               margin:
                                   EdgeInsets.only(left: 0, top: 10, right: 3),
                               child: Text(
-                                "When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us. ",
-                                textAlign: TextAlign.left,
+                                termsAndConditions,
+                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 120, 132, 158),
                                   fontWeight: FontWeight.w400,

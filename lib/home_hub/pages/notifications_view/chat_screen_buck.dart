@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/EstadoMessage.dart';
 import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/Models/user_model.dart';
@@ -431,6 +432,64 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
   }
 
   _buildMessage(Message message, bool isMe) {
+    if(message is EstadoMessage){
+      return Flex(
+        direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+              padding:  EdgeInsets.only(top: 15, bottom: 8, left: 10, right: 10),
+              margin:EdgeInsets.only(top: 10, bottom: 10, right: 5,left: 5),
+
+              constraints: BoxConstraints(
+                maxWidth: SizeConfig.blockSizeHorizontal * 70,
+              ),
+              decoration: BoxDecoration(
+                color:  Colors.grey,
+                borderRadius: new BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    message.estado,
+                    style: isMe
+                        ? TextStyle(
+                        fontFamily: "Sf",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white)
+                        : TextStyle(
+                      fontFamily: "Sf",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 96, 102, 115),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5, left: 0, right: 0),
+                    child: Text(
+                      message.sentTimestamp.toDate().hour.toString() +
+                          ":" +
+                          (message.sentTimestamp.toDate().minute < 10
+                              ? '0${message.sentTimestamp.toDate().minute.toString()}'
+                              : message.sentTimestamp.toDate().minute.toString()),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontFamily: "Sf",
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: isMe
+                            ? Colors.greenAccent
+                            : Color.fromARGB(255, 96, 102, 115),
+                      ),
+                    ),
+                  )
+                ],
+              )),
+        ],
+      );
+    }
     return Flex(
       direction: Axis.horizontal,
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,

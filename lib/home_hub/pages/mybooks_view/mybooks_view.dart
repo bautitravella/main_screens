@@ -657,7 +657,7 @@ class GridViewVendidos extends StatelessWidget {
                             ),
                             SizedBox(width: 8),
                             Text(
-                              "Intenta ser transparente en tus publicaciones,\npara que no halla mal entendidos en las compras.",
+                              "Intenta ser transparente en tus publicaciones,\npara que no haya mal entendidos en las compras.",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 57, 57, 57),
                                 fontSize: 11,

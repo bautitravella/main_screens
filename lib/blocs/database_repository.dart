@@ -246,6 +246,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Book>> getUserRecomendationBooks(User user) {
     print("GET USER BOOKS = $user");
     return booksReference
+        .where("vendido",isEqualTo: false)
         .where("colegios",arrayContainsAny: user.getColegios())
         .snapshots().map((snapshot) {
       print('DOCUMENTOS ================= ${snapshot.documents}');
@@ -287,6 +288,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Book>> getUserCheapBooks(User user) {
     print("GET USER BOOKS = $user");
     return booksReference
+        .where("vendido",isEqualTo: false)
         .where("colegios", arrayContainsAny: user.getColegios())
         .orderBy("precio", descending: false)
         .limit(50)
@@ -468,11 +470,19 @@ class FirebaseRepository extends DatabaseRepository {
   Future<String> addChat(User user, Chat chat) async {
     chat.addCompradorInformation(user);
     Chat potentialChat = await getChatUid(chat, user);
+    Map<String,dynamic> estadoMap = {
+      "timestamp":FieldValue.serverTimestamp(),
+      "estadoTransaccion":chat.estadoTransaccion,
+      "emailRecipient":chat.vendedorEmail,
+    };
+
     if (potentialChat == null) {
       DocumentReference documentReference =
           await chatsReference.add(chat.toMap());
+      chatsReference.document(documentReference.documentID).collection("estadoTransaccion").add(estadoMap);
       return documentReference.documentID;
     } else {
+      chatsReference.document(potentialChat.uid).collection("estadoTransaccion").add(estadoMap);
       return potentialChat.uid;
     }
   }
@@ -511,7 +521,7 @@ class FirebaseRepository extends DatabaseRepository {
         .orderBy("sentTimestamp", descending: true)
         .snapshots()
         .map((docs) => docs.documents
-            .map((doc) => Message.fromDocumentSnapshot(doc))
+            .map((doc) => createMessageFromDocumentSnapshot(doc))
             .toList());
   }
 
@@ -586,46 +596,71 @@ class FirebaseRepository extends DatabaseRepository {
   }
 
   Future<void> solicitarCompra(Chat chat) {
-    chatsReference
-        .document(chat.uid)
-        .updateData({"estadoTransaccion": "Oferta"});
+    Map<String,dynamic> estadoMap = {
+      "timestamp":FieldValue.serverTimestamp(),
+      "estadoTransaccion":"Oferta",
+      "emailRecipient":chat.vendedorEmail,
+    };
+    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+//    chatsReference
+//        .document(chat.uid)
+//        .updateData({"estadoTransaccion": "Oferta"});
   }
 
   @override
   Future<void> cancelarSolicitudDeCompra(Chat chat){
-    chatsReference
-        .document(chat.uid)
-        .updateData({"estadoTransaccion": "Pregunta"});
+    Map<String,dynamic> estadoMap = {
+      "timestamp":FieldValue.serverTimestamp(),
+      "estadoTransaccion":"Cancelada",
+      "emailRecipient":chat.vendedorEmail,
+    };
+    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+//    chatsReference
+//        .document(chat.uid)
+//        .updateData({"estadoTransaccion": "Pregunta"});
   }
 
   @override
   Future<void> aceptarSolicitudDeCompra(Chat chat) async {
-    chatsReference
-        .document(chat.uid)
-        .updateData({"estadoTransaccion": "Vendido"});
-    QuerySnapshot otherDocuments = await chatsReference
-        .where("publicacionId", isEqualTo: chat.publicacionId)
-        .getDocuments();
-    otherDocuments.documents.forEach((document) {
-      if (document.documentID != chat.uid) {
-        chatsReference
-            .document(chat.uid)
-            .updateData({"estadoTransaccion": "Rechazada"});
-      }
-    });
+    Map<String,dynamic> estadoMap = {
+      "timestamp":FieldValue.serverTimestamp(),
+      "estadoTransaccion":"Vendido",
+      "emailRecipient":chat.compradorEmail,
+    };
+    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+//    chatsReference
+//        .document(chat.uid)
+//        .updateData({"estadoTransaccion": "Vendido"});
+//    QuerySnapshot otherDocuments = await chatsReference
+//        .where("publicacionId", isEqualTo: chat.publicacionId)
+//        .getDocuments();
+//    otherDocuments.documents.forEach((document) {
+//      if (document.documentID != chat.uid) {
+//        chatsReference
+//            .document(chat.uid)
+//            .updateData({"estadoTransaccion": "Rechazada"});
+//      }
+//    });
   }
 
   @override
   Future<void> rechazarSolicitudDeCompra(Chat chat) {
-    chatsReference
-        .document(chat.uid)
-        .updateData({"estadoTransaccion": "Rechazada"});
+    Map<String,dynamic> estadoMap = {
+      "timestamp":FieldValue.serverTimestamp(),
+      "estadoTransaccion":"Rechazada",
+      "emailRecipient":chat.compradorEmail,
+    };
+    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+//    chatsReference
+//        .document(chat.uid)
+//        .updateData({"estadoTransaccion": "Rechazada"});
   }
 
   @override
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list) {
     return booksReference
         .where("indexes", arrayContainsAny: list)
+        .where("vendido",isEqualTo: false)
         .snapshots()
         .map((snapshot) => snapshot.documents
             .map((document) => Book.fromDocumentSnapshot(document))
