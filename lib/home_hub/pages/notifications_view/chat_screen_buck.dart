@@ -283,7 +283,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
             widget.chat.estadoTransaccion == "Oferta" &&
                     widget.chatRole == ChatRole.VENDEDOR
                 ? Container(
-                    height: 140,
+                    height: 155,
 
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -314,8 +314,18 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
+                            Text( "${widget.chat.compradorNombre}",
+                              style: TextStyle(
+                                  fontFamily: "Sf-r",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color.fromARGB(255, 118, 118, 118)),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                             Text(
-                              "${widget.chat.compradorNombre} a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
+                              "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
                               style: TextStyle(
                                   fontFamily: "Sf-r",
                                   fontSize: 14,
@@ -398,13 +408,13 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                         Opacity(
                           opacity: 0.5,
                           child: Container(
-                            height: 140,
-                            width: 70,
+                            height: 120,
+                            width: 64,
                             padding: EdgeInsets.only(top: 28, bottom: 28, left: 28),
                             decoration: BoxDecoration(
                                 color: Color.fromARGB(
                                     255, 255, 104, 104),
-                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70), topLeft: Radius.circular(70))
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(64), topLeft: Radius.circular(64))
                             ),
                             child: Image.asset("assets/images/decline-icon.png",fit: BoxFit.fill,),
                           ),
