@@ -58,6 +58,8 @@ Message createMessageFromDocumentSnapshot(DocumentSnapshot doc){
   return null;
 }
 
+
+
 List<Message> messages = [
   Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now()),
   Message.fromAllFields("agust", "holaaaa", 'text', Timestamp.now()),
