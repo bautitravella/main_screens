@@ -14,8 +14,6 @@ import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
-import 'package:flutterui/size_config.dart';
-import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -254,23 +252,20 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
         } else if (state is UserNotLoadedState) {
           print("USER  NOT LOADEEED");
           return ElijeUnRolWidget(email);
-        }else if(state is InitialUserBlocState){
+        }//if(state is InitialUserBlocState)
+
           BlocProvider.of<UserBloc>(context).add(LoadUser(email));
           return Scaffold(
             body: Container(
-                margin: EdgeInsets.all(1),
-                child: Center(child: Text("BUYMY PERRI"))
+              margin: EdgeInsets.all(1),
+              child: Center(child: Text("BUYMY PERRI"))
             ),
           );
-        }else if(state is UserLoadingState){
-          return Scaffold(
-            body: Container(
-                margin: EdgeInsets.all(1),
-                child: Center(child: Text("BUYMY PERRI"))
-            ),
-          );
-        }
-        return CircularProgressIndicator();
+
+//        else if(state is UserLoadingState){
+//          return CircularProgressIndicator();
+//        }
+//        return CircularProgressIndicator();
 //          FutureBuilder(
 //            future: firestoreDocumentFuture,
 //            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
