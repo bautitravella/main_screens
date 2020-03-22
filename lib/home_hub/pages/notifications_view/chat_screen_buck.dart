@@ -435,9 +435,51 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
     if(message is EstadoMessage){
       return Flex(
         direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
+              padding: EdgeInsets.only(top: 15, bottom: 8, right: 14, left: 18),
+              margin:  EdgeInsets.only(top: 10, bottom: 10, right: 20),
+              constraints: BoxConstraints(
+                maxWidth: SizeConfig.blockSizeHorizontal * 70,
+              ),
+              decoration: BoxDecoration(
+                color:  Color.fromARGB(120, 255, 205, 77),
+                borderRadius: new BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    message.estado,
+                    style:  TextStyle(
+                        fontFamily: "Sf",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black54),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 5, left: 0, right: 0),
+                    child: Text(
+                      message.sentTimestamp.toDate().hour.toString() +
+                          ":" +
+                          (message.sentTimestamp.toDate().minute < 10
+                              ? '0${message.sentTimestamp.toDate().minute.toString()}'
+                              : message.sentTimestamp.toDate().minute.toString()),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontFamily: "Sf",
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: isMe
+                            ? Colors.white
+                            : Color.fromARGB(255, 96, 102, 115),
+                      ),
+                    ),
+                  )
+                ],
+              )),
+          /*Container(
               padding:  EdgeInsets.only(top: 15, bottom: 8, left: 10, right: 10),
               margin:EdgeInsets.only(top: 10, bottom: 10, right: 5,left: 5),
 
@@ -486,7 +528,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     ),
                   )
                 ],
-              )),
+              )),*/
         ],
       );
     }
