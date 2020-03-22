@@ -522,7 +522,61 @@ class _EconmicosSectionState extends State<EconomicosSection> {
               ],
             );
           }
-          return Center(child: Text("FAIL"),);
+          return Stack(
+            children: <Widget>[
+              Positioned(
+                top: 0,
+                left: 5,
+                child: Row(
+                  children: <Widget>[
+                    IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 26, color: Colors.white, onPressed:() {
+                      Navigator.pop(context);
+                    },),
+                    Text(
+                      'Economicos',
+                      style: TextStyle(
+                          fontSize: 23,
+                          fontFamily: 'Sf-r',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 55,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  height: 220,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20.0,
+                        color: Color.fromRGBO(0, 0, 0, 0.15),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("PARECE QUE LA CAGASTE BRO"),
+                      SizedBox(height: 50,),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*8),
+                          child: Image.asset("assets/images/alert-dialog.png",fit: BoxFit.fitWidth,)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
         });
   }
 
