@@ -234,52 +234,83 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
     super.initState();
     firestoreDocumentFuture =
         Firestore.instance.collection("Users").document(email).get();
+    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
   }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
-    return BlocBuilder<UserBloc, UserBlocState>(
-      builder: (context, state) {
+
+    return BlocListener<UserBloc, UserBlocState>(
+      condition: (prevState,currentState){
+        if(prevState is UserLoadedState && currentState is UserLoadedState){
+          return false;
+        }else if(prevState == currentState){
+          return false;
+        }else if(currentState is UserLoadedState && (prevState==InitialUserBlocState || prevState == UserLoadingState)){
+          return true;
+        }else if(prevState is UserLoadedState && currentState is InitialUserBlocState){
+          return true;
+        }
+      },
+      listener: (context,state){
         if (state is UserLoadedState) {
           print("LOADED USER = ${state.user}");
 
           if (firebaseUserInfoCompleted2(state.user)) {
             BlocProvider.of<TokensBloc>(context).add(AddToken());
-            return HomeHub();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeHub(),
+              ),
+            );
+
           }
 
         } else if (state is UserNotLoadedState) {
           print("USER  NOT LOADEEED");
-          return ElijeUnRolWidget(email);
-        }//if(state is InitialUserBlocState)
-
-          BlocProvider.of<UserBloc>(context).add(LoadUser(email));
-          return Scaffold(
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ElijeUnRolWidget(email),
+            ),
+          ); ;
+        }else if(state is InitialUserBlocState){
+          Navigator.popUntil(
+            context,
+            ModalRoute.withName('/'),
+          );
+        }
+      },
+      child: Scaffold(
             body: Container(
               margin: EdgeInsets.all(1),
               child: Center(child: Image.asset('buymy-logo.png'))
             ),
-          );
+          ),
 
-//        else if(state is UserLoadingState){
-//          return CircularProgressIndicator();
-//        }
-//        return CircularProgressIndicator();
-//          FutureBuilder(
-//            future: firestoreDocumentFuture,
-//            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-//              if (!snapshot.hasData) {
-//                return CircularProgressIndicator();
-//              } else if (snapshot.data.exists) {
-//                print(snapshot.data.data);
-//                if (firebaseUserInfoCompleted(snapshot.data.data)) {
-//                  return HomeHub();
-//                }
-//              }
-//              return ElijeUnRolWidget(email);
-//            });
-      },
+//      builder: (context, state) {
+//        if (state is UserLoadedState) {
+//          print("LOADED USER = ${state.user}");
+//
+//          if (firebaseUserInfoCompleted2(state.user)) {
+//            BlocProvider.of<TokensBloc>(context).add(AddToken());
+//            return HomeHub();
+//          }
+//
+//        } else if (state is UserNotLoadedState) {
+//          print("USER  NOT LOADEEED");
+//          return ElijeUnRolWidget(email);
+//        }//if(state is InitialUserBlocState)
+//
+//          BlocProvider.of<UserBloc>(context).add(LoadUser(email));
+//          return Scaffold(
+//            body: Container(
+//              margin: EdgeInsets.all(1),
+//              child: Center(child: Image.asset('buymy-logo.png'))
+//            ),
+//          );
+//      },
     );
   }
 

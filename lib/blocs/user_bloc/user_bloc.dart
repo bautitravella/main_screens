@@ -32,12 +32,12 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
   }
 
    Stream<UserBlocState> _mapLoadUserToState(String email) async* {
-      userStreamSubscription?.cancel();
-      yield UserLoadingState();
+      //userStreamSubscription?.cancel();
+      //yield UserLoadingState();
       try {
         Stream<User> streamUser = databaseRepository.getUserInfo(email);
         if(streamUser != null){
-          streamUser.listen( (user) {
+          userStreamSubscription = streamUser.listen( (user) {
             if(user == null){
               add(UserNotLoaded());
             }else{
@@ -70,8 +70,8 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
   }
 
   Stream<UserBlocState> _mapUnloadUserToState()  async*{
-    userStreamSubscription.cancel();
     yield InitialUserBlocState();
+    userStreamSubscription.cancel();
   }
 
   @override
