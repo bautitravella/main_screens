@@ -495,54 +495,261 @@ class GridViewVendidos extends StatelessWidget {
     SizeConfig().init(context);
     // TODO crear alguna ilustracion para cuando no haya ningun libro publicado
     return  books == null || books.length == 0 ?
-       Center(
-      child:Column(
+    ClipRRect(
+      borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30)),
+      child: ListView(
+        scrollDirection: Axis.vertical,
         children: <Widget>[
-          SizedBox(height: 10),
           Container(
-            margin: EdgeInsets.only(left: 18),
-            /* color: Color.fromARGB(255, 255, 213, 104),*/
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            constraints: BoxConstraints.expand(height: 346),
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(50, 249, 196, 55),
+              borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            width: SizeConfig.blockSizeHorizontal * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Column(
+                SizedBox(height: 20),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "No has vendido ningun libro",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 57, 57),
+                            fontSize: 17,
+                            fontFamily: "Sf-r",
+                            fontWeight: FontWeight.w800,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "Pero no te preocupes, contamos con\nalgunos tips para que te llenes de oro\nen poco tiempo",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 57, 57, 57),
+                            fontSize: 11,
+                            fontFamily: "Sf-t",
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 100,
+                  height: 230,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                    child: Image.asset(
+                      "assets/images/no-ventas.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 15),
+          Container(
+            constraints: BoxConstraints.expand(height: 346),
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+            decoration: BoxDecoration(
+                color: Color.fromARGB(50, 249, 196, 55),
+                borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            width: SizeConfig.blockSizeHorizontal * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 30),
+                Row(
+                  children: <Widget>[
+                    SizedBox(width: 20),
                     Text(
-                      "Agrega libros \npara vender",
+                      "Tips que te pueden ayudar",
                       style: TextStyle(
-                        color: Colors.black87,
+                        color: Color.fromARGB(255, 57, 57, 57),
                         fontSize: 17,
                         fontFamily: "Sf-r",
                         fontWeight: FontWeight.w800,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Parece que no tienes ningun\nlibro publicado para vender.\n¡Apurate! La gente espera. ",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 11,
-                        fontFamily: "Sf-t",
-                        fontWeight: FontWeight.w500,
-                      ),
+                      textAlign: TextAlign.start,
                     ),
                   ],
                 ),
-                Container(
-                    height: 100,
-                    child: Image.asset("assets/images/add-sell.png", fit: BoxFit.fitWidth))
+                SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                            height: 8.0,
+                            width: 8.0,
+                            decoration: new BoxDecoration(
+                              color: Color.fromARGB(255, 57, 57, 57),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        SizedBox(width: 8),
+                        Text(
+                            "Puede que tus precios estén muy altos,\nprueba bajar un poco tus precios.",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 57, 57, 57),
+                              fontSize: 11,
+                              fontFamily: "Sf-t",
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
+                        ),
+                      ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 8.0,
+                              width: 8.0,
+                              decoration: new BoxDecoration(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Asegúrate de contestar rápido a los mensajes\nde tus compradores, y asegúrate siempre\nde ser gentil y educado.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 11,
+                                fontFamily: "Sf-t",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 8.0,
+                              width: 8.0,
+                              decoration: new BoxDecoration(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Intenta ser transparente en tus publicaciones,\npara que no halla mal entendidos en las compras.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 11,
+                                fontFamily: "Sf-t",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 8.0,
+                              width: 8.0,
+                              decoration: new BoxDecoration(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Intenta coordinar lugares de fácil acceso y\nde mutua comodidad al vender.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 11,
+                                fontFamily: "Sf-t",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 8.0,
+                              width: 8.0,
+                              decoration: new BoxDecoration(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "La prolijidad de las fotos suele influir bastante\nen la perspectiva del comprador.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 11,
+                                fontFamily: "Sf-t",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              height: 8.0,
+                              width: 8.0,
+                              decoration: new BoxDecoration(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              "Asegúrate de escribir una descripción precisa\ndel producto que quieras vender.",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 11,
+                                fontFamily: "Sf-t",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                    ]
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
-          SizedBox(height: 45),
-          Container(
-              constraints: BoxConstraints.expand(height: SizeConfig.blockSizeVertical*28),
-              child: Image.asset("assets/images/no-books.png", fit: BoxFit.fitHeight,))
         ],
-      ),)
+      ),
+    )
         : CustomScrollView(
           slivers: <Widget>[
           SliverGrid(
