@@ -12,7 +12,7 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
   UserBloc(this.databaseRepository);
 
   @override
-  UserBlocState get initialState => InitialUserBlocState();
+  UserBlocState get initialState =>UserLoadingState();
 
   @override
   Stream<UserBlocState> mapEventToState(
@@ -35,15 +35,26 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
       userStreamSubscription?.cancel();
       yield UserLoadingState();
       try {
-        userStreamSubscription =
-            databaseRepository.getUserInfo(email).listen((user) {
-              if(user == null){
-                add(UserNotLoaded());
-              }else{
-                add(LoadedUser(user));
-              }
+        Stream<User> streamUser = databaseRepository.getUserInfo(email);
+        if(streamUser != null){
+          streamUser.listen( (user) {
+            if(user == null){
+              add(UserNotLoaded());
+            }else{
+              add(LoadedUser(user));
+            }
 
-            });
+          }  );
+        }
+//        userStreamSubscription =
+//            databaseRepository.getUserInfo(email).listen((user) {
+//              if(user == null){
+//                add(UserNotLoaded());
+//              }else{
+//                add(LoadedUser(user));
+//              }
+//
+//            });
       }catch (e){
         print("ERROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRR = $e");
       }

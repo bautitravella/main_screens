@@ -258,7 +258,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
           return Scaffold(
             body: Container(
               margin: EdgeInsets.all(1),
-              child: Center(child: Text("BUYMY PERRI"))
+              child: Center(child: Image.asset('buymy-logo.png'))
             ),
           );
 
