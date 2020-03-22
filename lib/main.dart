@@ -256,7 +256,12 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
           return ElijeUnRolWidget(email);
         }else if(state is InitialUserBlocState){
           BlocProvider.of<UserBloc>(context).add(LoadUser(email));
-          return Example9();
+          return Scaffold(
+            body: Container(
+                margin: EdgeInsets.all(1),
+                child: Center(child: Text("BUYMY PERRI"))
+            ),
+          );
         }else if(state is UserLoadingState){
           return Scaffold(
             body: Container(

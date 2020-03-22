@@ -21,7 +21,6 @@ class FavoritosView extends StatefulWidget {
 }
 
 class _FavoritosViewState extends State<FavoritosView> {
-
   Widget build(BuildContext context) {
     //BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites("iex5V1rNdY0FVX2y9f7P"));
     SizeConfig().init(context);
@@ -71,7 +70,8 @@ class _FavoritosViewState extends State<FavoritosView> {
               Expanded(
                 child: Container(
                   child: SlidingUpPanel(
-                    panelBuilder: (ScrollController sc) => _scrollingList(sc,context),
+                    panelBuilder: (ScrollController sc) =>
+                        _scrollingList(sc, context),
                     maxHeight: SizeConfig.blockSizeVertical * 61.2,
                     minHeight: SizeConfig.blockSizeVertical * 61.2,
                     color: Colors.transparent,
@@ -121,36 +121,34 @@ class _FavoritosViewState extends State<FavoritosView> {
                         ),
                       );
                     },
-                    child: BlocBuilder<UserBloc,UserBlocState>(
-                        builder: (context,state) {
-                          if(state is UserLoadedState){
-                            return Container(
-                              height: 55,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 2, //
-                                  ),
-                                  borderRadius: new BorderRadius.circular(100)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Hero(
-                                  tag: 'avatar',
-                                  child: Image(
-                                    image: state.user.getProfileImage(),
-                                    fit: BoxFit.fill,
-                                    alignment: Alignment.center,
-                                  ),
-                                ),
+                    child: BlocBuilder<UserBloc, UserBlocState>(
+                        builder: (context, state) {
+                      if (state is UserLoadedState) {
+                        return Container(
+                          height: 55,
+                          width: 55,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2, //
                               ),
-                            );
-                          }
-                          return Container();
-
-                        }
-                    ),
+                              borderRadius: new BorderRadius.circular(100)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Hero(
+                              tag: 'avatar',
+                              child: Image(
+                                image: state.user.getProfileImage(),
+                                fit: BoxFit.fill,
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return Container();
+                    }),
                   ),
                 ),
               ],
@@ -165,138 +163,140 @@ class _FavoritosViewState extends State<FavoritosView> {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Hero(
-      tag: "Targeta sube",
-      child: Stack(
-        children: <Widget>[
+        tag: "Targeta sube",
+        child: Stack(children: <Widget>[
           Positioned(
             top: 0,
             right: 25,
             child: Row(
               children: <Widget>[
                 Icon(Icons.search, color: Colors.white, size: 26),
-                SizedBox(width: 5,
+                SizedBox(
+                  width: 5,
                 ),
                 Icon(Icons.more_vert, color: Colors.white, size: 26)
               ],
             ),
           ),
-          BlocBuilder<FavoritesBloc,FavoritesBlocState>(
-            builder: (context,state){
-              if(state is FavoriteBooksLoaded){
-                  //print("FAVORITE BOOOKS ============= " + state.books.toString());
-                return Positioned(
-                  top: 35,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 220,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(30),
-                          topLeft: Radius.circular(30)),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 20.0,
-                          color: Color.fromRGBO(0, 0, 0, 0.15),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(30),
-                          topLeft: Radius.circular(30)),
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: CustomScrollView(
-                          scrollDirection: Axis.vertical,
-                          controller: sc,
-                          slivers: <Widget>[
-                            SliverGrid(
-                              delegate: SliverChildBuilderDelegate(
-                                    (BuildContext context, int index) {
-                                  Book book = state.books[index];
+          Positioned(
+            top: 35,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              height: 220,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 20.0,
+                    color: Color.fromRGBO(0, 0, 0, 0.15),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
+                child: BlocBuilder<FavoritesBloc, FavoritesBlocState>(
+                    builder: (context, state) {
+                  if (state is FavoriteBooksLoaded) {
+                    return Container(
+                      margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: CustomScrollView(
+                        scrollDirection: Axis.vertical,
+                        controller: sc,
+                        slivers: <Widget>[
+                          SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                Book book = state.books[index];
 
-                                  return Container(
-                                    margin: EdgeInsets.only(
-                                        left: 0, right: 0, top: 0, bottom: 17),
-                                    child: Stack(
-                                      alignment: Alignment.topCenter,
-                                      children: <Widget>[
-                                        Positioned(
-                                          top: 150,
-                                          child: Container(
-                                            height: 65,
-                                            width: 97,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(0),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .start,
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    "${book.nombreLibro}",
-                                                    style: TextStyle(
-                                                      fontSize: 11,
-                                                      fontFamily: "Sf-r",
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 2,
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                      left: 0, right: 0, top: 0, bottom: 17),
+                                  child: Stack(
+                                    alignment: Alignment.topCenter,
+                                    children: <Widget>[
+                                      Positioned(
+                                        top: 150,
+                                        child: Container(
+                                          height: 65,
+                                          width: 97,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  "${book.nombreLibro}",
+                                                  style: TextStyle(
+                                                    fontSize: 11,
+                                                    fontFamily: "Sf-r",
+                                                    fontWeight: FontWeight.w600,
                                                   ),
-                                                  Text(
-                                                    "(${book.autor})",
-                                                    style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontFamily: "Sf-t",
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                                Text(
+                                                  "(${book.autor})",
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    fontFamily: "Sf-t",
+                                                    fontWeight: FontWeight.w400,
                                                   ),
-                                                ],
-                                              ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BookSection(book),
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(
-                                                    20.0),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black38,
-                                                    offset: Offset(0.0, 0.0),
-                                                    blurRadius: 9.0,
-                                                  )
-                                                ]),
-                                            child: Stack(
-                                              alignment: Alignment.topRight,
-                                              children: <Widget>[
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(
-                                                      5),
-                                                  child: Image(
-                                                    height: 141,
-                                                    width: 97,
-                                                    image: book.getFirstImageThumb(),
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BookSection(book),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black38,
+                                                  offset: Offset(0.0, 0.0),
+                                                  blurRadius: 9.0,
+                                                )
+                                              ]),
+                                          child: Stack(
+                                            alignment: Alignment.topRight,
+                                            children: <Widget>[
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                child: Image(
+                                                  height: 141,
+                                                  width: 97,
+                                                  image:
+                                                      book.getFirstImageThumb(),
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                /*Positioned(
+                                              ),
+                                              /*Positioned(
                                               right: 0,
                                               top: 0,
                                               child: Align(
@@ -328,74 +328,70 @@ class _FavoritosViewState extends State<FavoritosView> {
                                                 ),
                                               ),
                                             )*/ //Etiqueta arriba
-                                              ],
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        left: 7,
+                                        child: Container(
+                                          height: 20,
+                                          width: 60,
+                                          margin: EdgeInsets.only(top: 5),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                            border: Border.all(
+                                                width: 1,
+                                                color: Color.fromARGB(
+                                                    205, 112, 112, 112)),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              '\$${book.precio}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: "Sf-r",
+                                                color: Color.fromARGB(
+                                                    205, 112, 112, 112),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.0,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          bottom: 0,
-                                          left: 7,
-                                          child: Container(
-                                            height: 20,
-                                            width: 60,
-                                            margin: EdgeInsets.only(top: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(
-                                                  20.0),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color.fromARGB(
-                                                      205, 112, 112, 112)
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                '\$${book.precio}',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily: "Sf-r",
-                                                  color: Color.fromARGB(
-                                                      205, 112, 112, 112),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12.0,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                                childCount: state.books == null ? 0 : state.books.length,
-                              ),
-                              // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                              //   maxCrossAxisExtent: 200.0,
-                              //   mainAxisSpacing: 10.0,
-                              //   crossAxisSpacing: 10.0,
-                              //   childAspectRatio: 4.0,
-                              // ),
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 0,
-                                crossAxisSpacing: 0,
-                                childAspectRatio: 0.49,
-                              ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              childCount:
+                                  state.books == null ? 0 : state.books.length,
                             ),
-                          ],
-                        ),
+                            // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            //   maxCrossAxisExtent: 200.0,
+                            //   mainAxisSpacing: 10.0,
+                            //   crossAxisSpacing: 10.0,
+                            //   childAspectRatio: 4.0,
+                            // ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 0,
+                              crossAxisSpacing: 0,
+                              childAspectRatio: 0.49,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                );
-              }else{
-                return CircularProgressIndicator();
-              }
-            },
-
+                    );
+                  }
+                  return CircularProgressIndicator();
+                }),
+              ),
+            ),
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }
