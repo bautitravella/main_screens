@@ -55,7 +55,7 @@ class FirstscreenWidget extends StatelessWidget {
                     height:81,
                       margin: EdgeInsets.only(left: 35, right: 35, top: 50),
                       child: Image.asset(
-                        "assets/images/artboard-7.png",
+                        "assets/images/buymy-logo.png",
                         fit: BoxFit.cover,
                       ),
                     ),
