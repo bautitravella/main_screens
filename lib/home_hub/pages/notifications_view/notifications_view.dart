@@ -23,8 +23,8 @@ class NotificationView extends StatefulWidget {
 }
 
 class NotificationViewState extends State<NotificationView> {
-  static Widget listViewVenta ;//= ListViewVenta();
-  static Widget listViewCompra ;//= ListViewCompra();
+  static Widget listViewVenta; //= ListViewVenta();
+  static Widget listViewCompra; //= ListViewCompra();
   bool isVentaSelected = true;
 
   Widget listView = listViewVenta;
@@ -45,27 +45,29 @@ class NotificationViewState extends State<NotificationView> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
-                child: BlocBuilder<ChatsBloc,ChatsBlocState>(
-                  builder: (context, state){
-
-                    if(state is ChatsLoaded){
-
-                        listViewVenta = ListViewVenta( chats : state.chatsVentaList);
-                        listViewCompra = ListViewCompra(chats: state.chatsCompraList);
-                        if(isVentaSelected){
-                          listView = listViewVenta;
-                        }else{
-                          listView = listViewCompra;
-                        }
+                child: BlocBuilder<ChatsBloc, ChatsBlocState>(
+                  builder: (context, state) {
+                    if (state is ChatsLoaded) {
+                      listViewVenta =
+                          ListViewVenta(chats: state.chatsVentaList);
+                      listViewCompra =
+                          ListViewCompra(chats: state.chatsCompraList);
+                      if (isVentaSelected) {
+                        listView = listViewVenta;
+                      } else {
+                        listView = listViewCompra;
+                      }
                       return Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 3),
                         child: listView,
-                    ) ;
+                      );
                     }
-                    return Center(child: CircularProgressIndicator(),);
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   },
-                )
-            ),
+                )),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,36 +118,35 @@ class NotificationViewState extends State<NotificationView> {
                                 ),
                               );
                             },
-                            child: BlocBuilder<UserBloc,UserBlocState>(
-                                builder: (context,state) {
-                                  if(state is UserLoadedState){
-                                    return Container(
-                                      height: 55,
-                                      width: 55,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                            color: Colors.white,
-                                            width: 2, //
-                                          ),
-                                          borderRadius: new BorderRadius.circular(100)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(100),
-                                        child: Hero(
-                                          tag: 'avatar',
-                                          child: Image(
-                                            image: state.user.getProfileImage(),
-                                            fit: BoxFit.fill,
-                                            alignment: Alignment.center,
-                                          ),
-                                        ),
+                            child: BlocBuilder<UserBloc, UserBlocState>(
+                                builder: (context, state) {
+                              if (state is UserLoadedState) {
+                                return Container(
+                                  height: 55,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 2, //
                                       ),
-                                    );
-                                  }
-                                  return Container();
-
-                                }
-                            ),
+                                      borderRadius:
+                                          new BorderRadius.circular(100)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Hero(
+                                      tag: 'avatar',
+                                      child: Image(
+                                        image: state.user.getProfileImage(),
+                                        fit: BoxFit.fill,
+                                        alignment: Alignment.center,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            }),
                           ),
                         ),
                       ],
@@ -177,7 +178,6 @@ class NotificationViewState extends State<NotificationView> {
 }
 
 class ListViewVenta extends StatelessWidget {
-
   final List<Chat> chats;
 
   const ListViewVenta({Key key, this.chats}) : super(key: key);
@@ -189,213 +189,278 @@ class ListViewVenta extends StatelessWidget {
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
       color: Colors.white,
-      child: chats== null || chats.length == 0 ? Text('Parece que no todavia no hay ningun chat'):ListView.builder(
-          itemCount: chats.length,
-          itemBuilder: (BuildContext context, int index) {
-            final Chat chat = chats[index];
-            return GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.VENDEDOR));
-                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.VENDEDOR);}
-                  )),
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 0,
-                    left: SizeConfig.blockSizeHorizontal * 13,
-                    right: SizeConfig.blockSizeHorizontal * 3,
-                    bottom: 10,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: !chat.leidoPorElVendedor
-                            ? AppColors.secondaryBackground
-                            : Colors.white,
-                        borderRadius: !chat.leidoPorElVendedor
-                            ? BorderRadius.all(Radius.circular(30))
-                            : null,
-                        // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 0, bottom: 0),
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 5,
-                        right: SizeConfig.blockSizeHorizontal * 10,
-                        top: 15,
-                        bottom: 25),
-                    //decoration: BoxDecoration(
-                    // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage: chat.compradorImage,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    chats[index].compradorNombre,
-                                    style: TextStyle(
-                                      fontFamily: "Sf",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.45,
-                                    margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: chat.lastMessage != null?Text(
+      child: chats == null || chats.length == 0
+          ? Text('Parece que no todavia no hay ningun chat')
+          : ListView.builder(
+              itemCount: chats.length,
+              itemBuilder: (BuildContext context, int index) {
+                final Chat chat = chats[index];
+                return GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<MessagesBloc>(context)
+                        .add(LoadMessages(chat, ChatRole.VENDEDOR));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreenBuck(
+                              chat: chat, chatRole: ChatRole.VENDEDOR),
+                        ));
+                  },
 
-                                      chat.lastMessage,
-                                      style: TextStyle(
-                                        fontFamily: "Sf",
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 57, 57, 57),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ):Container(),
-                                  ),
-                                  Text(
-                                      chat.timestamp.toDate().hour.toString() +
-                                          ":" + (chat.timestamp.toDate().minute < 10 ?
-                                      '0${chat.timestamp.toDate().minute.toString()}':
-                                      chat.timestamp.toDate().minute.toString()),
-                                    style: TextStyle(
-                                      fontFamily: "Sf",
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+//                  Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                    builder: (_) {
+//                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.VENDEDOR));
+//                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.VENDEDOR);}
+//                  )),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned(
+                        top: 0,
+                        left: SizeConfig.blockSizeHorizontal * 13,
+                        right: SizeConfig.blockSizeHorizontal * 3,
+                        bottom: 10,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: !chat.leidoPorElVendedor
+                                ? AppColors.secondaryBackground
+                                : Colors.white,
+                            borderRadius: !chat.leidoPorElVendedor
+                                ? BorderRadius.all(Radius.circular(30))
+                                : null,
+                            // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,
+                          ),
                         ),
-                        Column(
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 0, bottom: 0),
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeHorizontal * 5,
+                            right: SizeConfig.blockSizeHorizontal * 10,
+                            top: 15,
+                            bottom: 25),
+                        //decoration: BoxDecoration(
+                        // borderRadius: chat.unread ?BorderRadius.only(bottomLeft: Radius.circular(30)):null,),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            //TODO cambiar esto por un handler del estadoTransaccion
-                            //si es true te permite aceptar o rechazar una compra
-                            //si es false solo te permite hablarle al usuario
-                            chat.estadoTransaccion == "Oferta"?
                             Row(
                               children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    print("RECHAAAAAZAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                                    showSlideDialogGrande(context: context,
-                                        child:CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
-                                          primaryFunction:() {
-                                            Navigator.of(context).pop();
-                                          },
-                                          secondaryFunction:() {
-                                            BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(chat));
-                                            Navigator.of(context).pop();
-                                          },) );
-                                  },
-                                  child: Container(
-                                    height: 21,
-                                    width: 21,
-                                    child: Image.asset('assets/images/sell-icon2.png')
-                                  ),
+                                CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundImage: chat.compradorImage,
                                 ),
                                 Container(
-                                  height: 21,
-                                  width: 2,
-                                  color: Color.fromARGB(
-                                      255, 57, 57, 57),
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 10),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print("AAAAAACEEEEEEEEPTAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                                    showSlideDialogGrande(context: context,
-                                        child:CustomDialog.customFunctions(title: "Aceptar Solicitud De Compra", description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro", primaryButtonText: "CANCELAR", secondaryButtonText: "Aceptar Compra",
-                                          primaryFunction:() {
-                                            Navigator.of(context).pop();
-                                          },
-                                          secondaryFunction:() {
-                                            BlocProvider.of<MessagesBloc>(context).add(AceptarSolicitudDeCompra(chat));
-                                            Navigator.of(context).pop();
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (_) {
-                                                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.VENDEDOR);}
-                                                ));
-                                          },) );
-                                  },
-                                  child: Container(
-                                      height: 21,
-                                      width: 21,
-                                      child: Image.asset('assets/images/sell-icon1.png')
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        chats[index].compradorNombre,
+                                        style: TextStyle(
+                                          fontFamily: "Sf",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                        ),
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.45,
+                                        margin:
+                                            EdgeInsets.only(top: 5, bottom: 5),
+                                        child: chat.lastMessage != null
+                                            ? Text(
+                                                chat.lastMessage,
+                                                style: TextStyle(
+                                                  fontFamily: "Sf",
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color.fromARGB(
+                                                      255, 57, 57, 57),
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                              )
+                                            : Container(),
+                                      ),
+                                      Text(
+                                        chat.timestamp
+                                                .toDate()
+                                                .hour
+                                                .toString() +
+                                            ":" +
+                                            (chat.timestamp.toDate().minute < 10
+                                                ? '0${chat.timestamp.toDate().minute.toString()}'
+                                                : chat.timestamp
+                                                    .toDate()
+                                                    .minute
+                                                    .toString()),
+                                        style: TextStyle(
+                                          fontFamily: "Sf",
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ],
-                            )
-                                :
-                            Row(
+                            ),
+                            Column(
                               children: <Widget>[
-                                Text(""),
-                                chat.leidoPorElVendedor
-                                    ? Container(
-                                  child: Icon(
-                                    FontAwesome5.comment,
-                                    size: 21,
-                                    color:
-                                    Color.fromARGB(255, 57, 57, 57),
-                                  ),
-                                )
-                                    : Container(
-                                  child: Icon(
-                                    FontAwesome5Solid.comment,
-                                    size: 21,
-                                    color:
-                                    Color.fromARGB(255, 57, 57, 57),
-                                  ),
-                                )
+                                //TODO cambiar esto por un handler del estadoTransaccion
+                                //si es true te permite aceptar o rechazar una compra
+                                //si es false solo te permite hablarle al usuario
+                                chat.estadoTransaccion == "Oferta"
+                                    ? Row(
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () {
+                                              print(
+                                                  "RECHAAAAAZAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                              showSlideDialogGrande(
+                                                  context: context,
+                                                  child: CustomDialog
+                                                      .customFunctions(
+                                                    title:
+                                                        "Rechazar Solicitud De Compra",
+                                                    description:
+                                                        "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra",
+                                                    primaryButtonText:
+                                                        "CANCELAR",
+                                                    secondaryButtonText:
+                                                        "Rechazar Compra",
+                                                    primaryFunction: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    secondaryFunction: () {
+                                                      BlocProvider.of<
+                                                                  MessagesBloc>(
+                                                              context)
+                                                          .add(
+                                                              RechazarSolicitudDeCompra(
+                                                                  chat));
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ));
+                                            },
+                                            child: Container(
+                                                height: 21,
+                                                width: 21,
+                                                child: Image.asset(
+                                                    'assets/images/sell-icon2.png')),
+                                          ),
+                                          Container(
+                                            height: 21,
+                                            width: 2,
+                                            color:
+                                                Color.fromARGB(255, 57, 57, 57),
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              print(
+                                                  "AAAAAACEEEEEEEEPTAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                              showSlideDialogGrande(
+                                                  context: context,
+                                                  child: CustomDialog
+                                                      .customFunctions(
+                                                    title:
+                                                        "Aceptar Solicitud De Compra",
+                                                    description:
+                                                        "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                                                    primaryButtonText:
+                                                        "CANCELAR",
+                                                    secondaryButtonText:
+                                                        "Aceptar Compra",
+                                                    primaryFunction: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    secondaryFunction: () {
+                                                      BlocProvider.of<
+                                                                  MessagesBloc>(
+                                                              context)
+                                                          .add(
+                                                              AceptarSolicitudDeCompra(
+                                                                  chat));
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) {
+                                                        return ChatScreenBuck(
+                                                            chat: chat,
+                                                            chatRole: ChatRole
+                                                                .VENDEDOR);
+                                                      }));
+                                                    },
+                                                  ));
+                                            },
+                                            child: Container(
+                                                height: 21,
+                                                width: 21,
+                                                child: Image.asset(
+                                                    'assets/images/sell-icon1.png')),
+                                          ),
+                                        ],
+                                      )
+                                    : Row(
+                                        children: <Widget>[
+                                          Text(""),
+                                          chat.leidoPorElVendedor
+                                              ? Container(
+                                                  child: Icon(
+                                                    FontAwesome5.comment,
+                                                    size: 21,
+                                                    color: Color.fromARGB(
+                                                        255, 57, 57, 57),
+                                                  ),
+                                                )
+                                              : Container(
+                                                  child: Icon(
+                                                    FontAwesome5Solid.comment,
+                                                    size: 21,
+                                                    color: Color.fromARGB(
+                                                        255, 57, 57, 57),
+                                                  ),
+                                                )
+                                        ],
+                                      )
                               ],
                             )
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 100,
+                        left: 85,
+                        right: 85,
+                        child: Container(
+                          height: 1,
+                          width: 100,
+                          color: Color.fromARGB(20, 57, 57, 57),
+                        ),
+                      )
+                    ],
                   ),
-                  Positioned(
-                    top: 100,
-                    left: 85,
-                    right: 85,
-                    child: Container(
-                      height: 1,
-                      width: 100,
-                      color: Color.fromARGB(20, 57, 57, 57),
-                    ),
-                  )
-                ],
-              ),
-            );
-          }),
+                );
+              }),
     );
   }
 }
 
 class ListViewCompra extends StatelessWidget {
-
   final List<Chat> chats;
 
   const ListViewCompra({Key key, this.chats}) : super(key: key);
@@ -413,14 +478,15 @@ class ListViewCompra extends StatelessWidget {
             final Chat chat = chats[index];
             return GestureDetector(
               onTap: () {
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
-                      return ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR);},
-                  ));},
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (_) {
+                    BlocProvider.of<MessagesBloc>(context)
+                        .add(LoadMessages(chat, ChatRole.COMPRADOR));
+                    return ChatScreenBuck(
+                        chat: chat, chatRole: ChatRole.COMPRADOR);
+                  },
+                ));
+              },
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -476,24 +542,30 @@ class ListViewCompra extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width *
                                         0.45,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    child: chat.lastMessage != null?Text(
-
-                                      chat.lastMessage,
-                                      style: TextStyle(
-                                        fontFamily: "Sf",
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromARGB(255, 57, 57, 57),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ):Container(),
+                                    child: chat.lastMessage != null
+                                        ? Text(
+                                            chat.lastMessage,
+                                            style: TextStyle(
+                                              fontFamily: "Sf",
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromARGB(
+                                                  255, 57, 57, 57),
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                          )
+                                        : Container(),
                                   ),
                                   Text(
                                     chat.timestamp.toDate().hour.toString() +
-                                        ":" + (chat.timestamp.toDate().minute < 10 ?
-                                    '0${chat.timestamp.toDate().minute.toString()}':
-                                    chat.timestamp.toDate().minute.toString()),
+                                        ":" +
+                                        (chat.timestamp.toDate().minute < 10
+                                            ? '0${chat.timestamp.toDate().minute.toString()}'
+                                            : chat.timestamp
+                                                .toDate()
+                                                .minute
+                                                .toString()),
                                     style: TextStyle(
                                       fontFamily: "Sf",
                                       fontSize: 9,
@@ -512,62 +584,88 @@ class ListViewCompra extends StatelessWidget {
                               children: <Widget>[
                                 chat.estadoTransaccion == "Pregunta"
                                     ? Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          MaterialIcons.shopping_basket,
-                                          size: 21,
-                                          color: Color.fromARGB(
-                                              255, 57, 57, 57),
+                                        child: Row(
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(
+                                                MaterialIcons.shopping_basket,
+                                                size: 21,
+                                                color: Color.fromARGB(
+                                                    255, 57, 57, 57),
+                                              ),
+                                              onPressed: () {
+                                                showSlideDialogGrande(
+                                                    context: context,
+                                                    child: CustomDialog
+                                                        .customFunctions(
+                                                      title:
+                                                          "Enviar Solicitud De Compra",
+                                                      description:
+                                                          "Una vez enviada la solicitud de compra esta no se podra cancelar",
+                                                      primaryButtonText:
+                                                          "CANCELAR",
+                                                      secondaryButtonText:
+                                                          "Solicitar Compra",
+                                                      primaryFunction: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      secondaryFunction: () {
+                                                        BlocProvider.of<
+                                                                    MessagesBloc>(
+                                                                context)
+                                                            .add(LoadMessages(
+                                                                chat,
+                                                                ChatRole
+                                                                    .COMPRADOR));
+                                                        BlocProvider.of<
+                                                                    MessagesBloc>(
+                                                                context)
+                                                            .add(
+                                                                SolicitarCompra(
+                                                                    chat));
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context,
+                                                            MaterialPageRoute(
+                                                                builder: (_) {
+                                                          return ChatScreenBuck(
+                                                              chat: chat,
+                                                              chatRole: ChatRole
+                                                                  .COMPRADOR);
+                                                        }));
+                                                      },
+                                                    ));
+                                              },
+                                            ),
+                                            Container(
+                                              height: 21,
+                                              width: 2,
+                                              color: Color.fromARGB(
+                                                  255, 57, 57, 57),
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                            )
+                                          ],
                                         ),
-
-                                        onPressed: () {  showSlideDialogGrande(context: context,
-                                        child:CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
-                                          primaryFunction:() {
-                                            Navigator.of(context).pop();
-                                          },
-                                        secondaryFunction:() {
-                                          BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat,ChatRole.COMPRADOR));
-                                          BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(chat));
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (_) {
-                                                    return ChatScreenBuck(chat : chat,chatRole : ChatRole.COMPRADOR);}
-                                              ));
-                                        },) );},
-                                      ),
-                                      Container(
-                                        height: 21,
-                                        width: 2,
-                                        color: Color.fromARGB(
-                                            255, 57, 57, 57),
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
                                       )
-                                    ],
-                                  ),
-                                )
                                     : Text(""),
                                 !chat.leidoPorElComprador
                                     ? Container(
-                                  child: Icon(
-                                    FontAwesome5Solid.comment,
-                                    size: 21,
-                                    color:
-                                    Color.fromARGB(255, 57, 57, 57),
-                                  ),
-                                )
+                                        child: Icon(
+                                          FontAwesome5Solid.comment,
+                                          size: 21,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                        ),
+                                      )
                                     : Container(
-                                  child: Icon(
-                                    FontAwesome5.comment,
-                                    size: 21,
-                                    color:
-                                    Color.fromARGB(255, 57, 57, 57),
-                                  ),
-                                )
+                                        child: Icon(
+                                          FontAwesome5.comment,
+                                          size: 21,
+                                          color:
+                                              Color.fromARGB(255, 57, 57, 57),
+                                        ),
+                                      )
                               ],
                             )
                           ],
@@ -594,18 +692,25 @@ class ListViewCompra extends StatelessWidget {
   }
 }
 
-
 showCustomDialog(BuildContext context) {
-  showSlideDialogGrande(context: context,
-      child:CustomDialog.customFunctions(title: "Que elegis?", description: "Que deseas elegir", primaryButtonText: "LoadingDialog", secondaryButtonText: "ErrorDialog",
-        primaryFunction:() {
-          print("SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
+  showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "Que elegis?",
+        description: "Que deseas elegir",
+        primaryButtonText: "LoadingDialog",
+        secondaryButtonText: "ErrorDialog",
+        primaryFunction: () {
+          print(
+              "SHOW LOAAAAAAAAAAAAAAAAAAAAAADIIIIIINNNNNNGGGGGGGG..................");
           showLoadingDialog(context);
         },
-        secondaryFunction:() {
-          print("SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
+        secondaryFunction: () {
+          print(
+              "SHOW ERRRRRRRRROOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR..................");
           showErrorDialog(context, "TODO MAL");
-        },) );
+        },
+      ));
 //  Center(child: Column(children: [
 //    RaisedButton(
 //      child: Text("showLoadingDialog"),

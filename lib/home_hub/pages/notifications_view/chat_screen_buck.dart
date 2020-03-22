@@ -649,8 +649,8 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               ),
             ),
           ),
-          _keyboardIsVisible() || (widget.chatRole == ChatRole.COMPRADOR && (widget.chat.estadoTransaccion == "Vendido" || widget.chat.estadoTransaccion == "Rechazada"))
-            || ( widget.chatRole == ChatRole.VENDEDOR  && (widget.chat.estadoTransaccion != "Oferta"))
+          (_keyboardIsVisible() || (widget.chatRole == ChatRole.COMPRADOR && (widget.chat.estadoTransaccion == "Vendido" || widget.chat.estadoTransaccion == "Rechazada"))
+          || widget.chatRole == ChatRole.VENDEDOR)
               ? Container(
                   width: 65,
                   margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
@@ -683,13 +683,13 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   width: 65,
                   margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
                   decoration: BoxDecoration(
-                    color: AppColors.secondaryBackground,
+                    color: widget.chatRole == ChatRole.COMPRADOR && widget.chat.estadoTransaccion == "Oferta"?Color.fromARGB(255, 255, 104, 104) : AppColors.secondaryBackground,
                     /*color: Color.fromARGB(255, 255, 104, 104),*/ //TODO implementar un state para compra solicitada o no
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.add_shopping_cart),
+                      icon: widget.chatRole == ChatRole.COMPRADOR && widget.chat.estadoTransaccion == "Oferta"?Icon(Icons.star):Icon(Icons.add_shopping_cart),
                       iconSize: 25,
                       color: Colors.white,
                       onPressed: () {
@@ -719,39 +719,40 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                               },) );
                             ;
                           }
-                        }else{
-                          if(widget.chat.estadoTransaccion == "Oferta"){
-                            showSlideDialogGrande(context: context,child:
-                            CustomDialog.customFunctions(title: "Solicitud de Compra", description: "Aceptar o Rechazar la solicitud de compra que te envio ${widget.chat.compradorNombre}", primaryButtonText: "RECHAZAR", secondaryButtonText: "VENDER",
-                              primaryFunction:() {
-                              showSlideDialogGrande(context: context, child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
-                                primaryFunction:() {
-                                  Navigator.of(context).pop();
-                                },
-                                secondaryFunction:() {
-                                  BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
-                                  Navigator.of(context).pop();
-                                },));
-                              },
-                              secondaryFunction:() {
-                                showSlideDialogGrande(context: context,child:
-                                CustomDialog.customFunctions(title: "Aceptar Solicitud De Compra", description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro", primaryButtonText: "CANCELAR", secondaryButtonText: "Aceptar Compra",
-                                  primaryFunction:() {
-                                    Navigator.of(context).pop();
-                                  },
-                                  secondaryFunction:() {
-                                    BlocProvider.of<MessagesBloc>(context).add(AceptarSolicitudDeCompra(widget.chat));
-                                    Navigator.of(context).pop();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) {
-                                              return ChatScreenBuck(chat : widget.chat,chatRole : ChatRole.VENDEDOR);}
-                                        ));
-                                  },));
-                              },));
-                          }
                         }
+//                        else{
+//                          if(widget.chat.estadoTransaccion == "Oferta"){
+//                            showSlideDialogGrande(context: context,child:
+//                            CustomDialog.customFunctions(title: "Solicitud de Compra", description: "Aceptar o Rechazar la solicitud de compra que te envio ${widget.chat.compradorNombre}", primaryButtonText: "RECHAZAR", secondaryButtonText: "VENDER",
+//                              primaryFunction:() {
+//                              showSlideDialogGrande(context: context, child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+//                                primaryFunction:() {
+//                                  Navigator.of(context).pop();
+//                                },
+//                                secondaryFunction:() {
+//                                  BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
+//                                  Navigator.of(context).pop();
+//                                },));
+//                              },
+//                              secondaryFunction:() {
+//                                showSlideDialogGrande(context: context,child:
+//                                CustomDialog.customFunctions(title: "Aceptar Solicitud De Compra", description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro", primaryButtonText: "CANCELAR", secondaryButtonText: "Aceptar Compra",
+//                                  primaryFunction:() {
+//                                    Navigator.of(context).pop();
+//                                  },
+//                                  secondaryFunction:() {
+//                                    BlocProvider.of<MessagesBloc>(context).add(AceptarSolicitudDeCompra(widget.chat));
+//                                    Navigator.of(context).pop();
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (_) {
+//                                              return ChatScreenBuck(chat : widget.chat,chatRole : ChatRole.VENDEDOR);}
+//                                        ));
+//                                  },));
+//                              },));
+//                          }
+//                        }
                         //showCustomDialog(context);
                       },
                     ),
