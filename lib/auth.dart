@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,7 +10,7 @@ abstract class BaseAuth {
   Stream<String> get onAuthStateChanged;
   Stream<FirebaseUser> get onAuthStateChangedUser;
   Future<String> signInWithEmailAndPassword(String email, String password,);
-
+  Future<bool> isVerified();
   Future<String> createUserWithEmailAndPassword(String email, String password,);
   Future<String> currentUserUID();
   Future<FirebaseUser> currentUser();
@@ -86,6 +88,13 @@ class Auth extends BaseAuth{
     AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: token.token);
     AuthResult firebaseUser = await _firebaseAuth.signInWithCredential(credential);
     return firebaseUser.user.uid;
+
+  }
+
+  Future<bool> isVerified()async{
+    FirebaseUser user = await currentUser();
+    user.reload();
+    return user.isEmailVerified;
 
   }
 

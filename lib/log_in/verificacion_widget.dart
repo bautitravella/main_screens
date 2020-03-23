@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
@@ -10,10 +11,9 @@ import '../auth.dart';
 
 class VerificacionWidget extends StatelessWidget {
   void onGoBack(BuildContext context) {
-    Navigator.push(context,MaterialPageRoute(builder: (context) => FirstscreenWidget()));
+    Navigator.pop(context);
   }
 
-  void onBtnBluePressed(BuildContext context) {}
 
   void sendVerificationEmail(BuildContext context) async {
     final auth = Provider.of<BaseAuth>(context,listen: false);
@@ -27,7 +27,18 @@ class VerificacionWidget extends StatelessWidget {
   void checkIfVerified(BuildContext context){
     final auth = Provider.of<BaseAuth>(context,listen: false);
     try{
-      auth.currentUser().then((user) => user.isEmailVerified ? () =>{Navigator.push(context, MaterialPageRoute(builder: (context) => ElijeUnRolWidget(user.email))), print('VERIFICACION TRUE')} : print('VERIFICACION FALSE'));
+      auth.isVerified().then((bool) async {
+        if(bool){
+        FirebaseUser user = await auth.currentUser();
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ElijeUnRolWidget(user.email)));
+        print('VERIFICACION TRUE');
+      }else{
+          print('VERIFICACION FALSE');
+        }
+      });
+
+
       //auth.currentUser().then((user) => print('VERIFICACION == ${user.isEmailVerified},userUID = ${user.uid}'));
     }catch (e){
       print(e);
