@@ -17,7 +17,7 @@ import 'package:marquee/marquee.dart';
 import '../../../size_config.dart';
 
 class ChatScreenBuck extends StatefulWidget {
-  final Chat chat;
+  Chat chat;
   final ChatRole chatRole;
   ChatScreenBuck({@required this.chat, @required this.chatRole});
 
@@ -221,6 +221,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       builder: (context, state) {
                         if (state is MessagesLoaded) {
                           print(state.messages);
+                          widget.chat = state.chat;
                           return ListView.builder(
                               reverse: true,
                               itemCount: state.messages.length,

@@ -85,6 +85,8 @@ abstract class DatabaseRepository {
 
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list);
 
+  Stream<Chat> getChat(Chat chat) {}
+
 
 }
 
@@ -511,6 +513,10 @@ class FirebaseRepository extends DatabaseRepository {
         .map((docs) => docs.documents
             .map((doc) => Chat.fromDocumentSnapshot(doc))
             .toList());
+  }
+
+  Stream<Chat> getChat(Chat chatWithUid){
+    return chatsReference.document(chatWithUid.uid).snapshots().map((doc) => Chat.fromDocumentSnapshot(doc));
   }
 
   @override

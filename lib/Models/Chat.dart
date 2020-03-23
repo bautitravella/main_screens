@@ -90,5 +90,46 @@ class Chat {
     return 'Chat{nombreLibro: $nombreLibro, publicacionId: $publicacionId, compradorEmail: $compradorEmail, compradorImageUrl: $compradorImageUrl, compradorNombre: $compradorNombre, vendedorEmail: $vendedorEmail, vendedorImageUrl: $vendedorImageUrl, vendedorNombre: $vendedorNombre, estadoTransaccion: $estadoTransaccion, uid: $uid, vendedorImage: $vendedorImage, leidoPorElVendedor: $leidoPorElVendedor, timestamp: $timestamp}';
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Chat &&
+              runtimeType == other.runtimeType &&
+              nombreLibro == other.nombreLibro &&
+              publicacionId == other.publicacionId &&
+              compradorEmail == other.compradorEmail &&
+              compradorImageUrl == other.compradorImageUrl &&
+              compradorNombre == other.compradorNombre &&
+              vendedorEmail == other.vendedorEmail &&
+              vendedorImageUrl == other.vendedorImageUrl &&
+              vendedorNombre == other.vendedorNombre &&
+              estadoTransaccion == other.estadoTransaccion &&
+              uid == other.uid &&
+              lastMessage == other.lastMessage &&
+              leidoPorElComprador == other.leidoPorElComprador &&
+              leidoPorElVendedor == other.leidoPorElVendedor &&
+              timestamp == other.timestamp &&
+              lastMessageTimestamp == other.lastMessageTimestamp;
+
+  @override
+  int get hashCode =>
+      nombreLibro.hashCode ^
+      publicacionId.hashCode ^
+      compradorEmail.hashCode ^
+      compradorImageUrl.hashCode ^
+      compradorNombre.hashCode ^
+      vendedorEmail.hashCode ^
+      vendedorImageUrl.hashCode ^
+      vendedorNombre.hashCode ^
+      estadoTransaccion.hashCode ^
+      uid.hashCode ^
+      lastMessage.hashCode ^
+      leidoPorElComprador.hashCode ^
+      leidoPorElVendedor.hashCode ^
+      timestamp.hashCode ^
+      lastMessageTimestamp.hashCode;
+
+
+
 
 }

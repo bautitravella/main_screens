@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/Message.dart';
 
 abstract class MessagesBlocState extends Equatable {
@@ -17,11 +18,12 @@ class MessagesLoading extends MessagesBlocState{
 
 class MessagesLoaded extends MessagesBlocState{
   final List<Message> messages;
+  final Chat chat;
 
-  MessagesLoaded(this.messages);
+  MessagesLoaded(this.messages,this.chat);
 
   @override
-  List<Object> get props => [messages];
+  List<Object> get props => [messages,chat];
 }
 
 class MessagesErrorLoading extends MessagesBlocState{

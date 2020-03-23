@@ -13,6 +13,7 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   final ChatsBloc chatBloc;
   StreamSubscription messagesSubscription;
   StreamSubscription _userStreamSubscription;
+  StreamSubscription chatSubscription;
   final DatabaseRepository databaseRepository;
   User downloadedUser;
   bool isUserDownloaded = false;
@@ -63,6 +64,7 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   Stream<MessagesBlocState> _mapLoadMessagesToState(Chat chat,ChatRole chatRole) async* {
     //agregar que cuando te bajas los mensajes ya se tildeee como ya leiste el mensaje
     yield MessagesLoading();
+    Stream<Chat> chatStream;
     if (downloadedUser != null) {
       currentChat = chat;
       if (chat.uid != null) {
@@ -72,6 +74,13 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
                 messages) {
               print("MESSAGES ================= $messages");
               databaseRepository.updateLeidoByField(chat, chatRole);
+              chatStream = databaseRepository.getChat(chat);
+              if(chatStream!= null){
+                chatSubscription = chatStream.listen((chat) {
+                  currentChat = chat;
+                  add(LoadedMessages(messages));
+                });
+              }
               add(LoadedMessages(messages));
             });
       } else {
@@ -87,6 +96,13 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
           messagesSubscription =
               databaseRepository.getMessagesWithUid(chatWithUid, downloadedUser)
                   .listen((messages) {
+                    chatStream = databaseRepository.getChat(chatWithUid);
+                    if(chatStream!= null){
+                      chatSubscription = chatStream.listen((chat) {
+                        currentChat = chat;
+                        add(LoadedMessages(messages));
+                      });
+                    }
                 databaseRepository.updateLeidoByField(currentChat, chatRole);
                 add(LoadedMessages(messages));
               });
@@ -103,7 +119,7 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   }
 
   Stream<MessagesBlocState> _mapLoadedMessagesToState(List<Message> messages) async* {
-    yield MessagesLoaded(messages);
+    yield MessagesLoaded(messages,currentChat);
   }
 
   _mapAddMessageToState(Message message,ChatRole chatRole) {
