@@ -650,7 +650,12 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               ),
             ),
           ),
-          (_keyboardIsVisible() || (widget.chatRole == ChatRole.COMPRADOR && (widget.chat.estadoTransaccion == "Vendido" || widget.chat.estadoTransaccion == "Rechazada"))
+          BlocBuilder<MessagesBloc, MessagesBlocState>(
+          builder: (context, state) {
+              if (state is MessagesLoaded) {
+              print(state.messages);
+              widget.chat = state.chat;}
+          return (_keyboardIsVisible() || (widget.chatRole == ChatRole.COMPRADOR && (widget.chat.estadoTransaccion == "Vendido" || widget.chat.estadoTransaccion == "Rechazada"))
           || widget.chatRole == ChatRole.VENDEDOR)
               ? Container(
                   width: 65,
@@ -704,7 +709,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                               secondaryFunction:() {
                                 BlocProvider.of<MessagesBloc>(context).add(LoadMessages(widget.chat,ChatRole.COMPRADOR));
                                 BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(widget.chat));
-
+                                Navigator.of(context).pop();
                               },)
 
                             );
@@ -716,7 +721,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                               secondaryFunction:() {
                                 BlocProvider.of<MessagesBloc>(context).add(LoadMessages(widget.chat,ChatRole.COMPRADOR));
                                 BlocProvider.of<MessagesBloc>(context).add(CancelarSolicitudDeCompra(widget.chat));
-
+                                Navigator.of(context).pop();
                               },) );
                             ;
                           }
@@ -764,7 +769,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       fit: BoxFit.fitHeight,),
                     )*/
                   ),
-                ),
+                );
+          }
+
+                )
         ],
       ),
     );
