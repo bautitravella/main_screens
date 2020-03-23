@@ -111,6 +111,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               ],
             ),
           ),
+
           _scrollingList(context),
           Container(
             height: 143,
@@ -152,9 +153,9 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                             child: CircleAvatar(
                               radius: 23.0,
                               backgroundImage:
-                                  widget.chatRole == ChatRole.COMPRADOR
-                                      ? widget.chat.vendedorImage
-                                      : widget.chat.compradorImage,
+                              widget.chatRole == ChatRole.COMPRADOR
+                                  ? widget.chat.vendedorImage
+                                  : widget.chat.compradorImage,
                             ),
                           ),
                           Positioned(
@@ -200,83 +201,75 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
       backgroundColor: Colors.transparent,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: BlocBuilder<MessagesBloc, MessagesBlocState>(
-          builder: (context, state) {
-            if (state is MessagesLoaded) {
-              print(state.messages);
-              widget.chat = state.chat;
-            }
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                      margin: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30)),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30)),
-                        child: BlocBuilder<MessagesBloc, MessagesBlocState>(
-                          builder: (context, state) {
-                            if (state is MessagesLoaded) {
-                              print(state.messages);
-                              widget.chat = state.chat;
-                              return ListView.builder(
-                                  reverse: true,
-                                  itemCount: state.messages.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final Message message =
-                                        state.messages[index];
-                                    bool isMe = true;
-                                    if (widget.chatRole == ChatRole.COMPRADOR) {
-                                      if (message.email !=
-                                          widget.chat.compradorEmail) {
-                                        isMe = true;
-                                      } else {
-                                        isMe = false;
-                                      }
-                                    } else {
-                                      if (message.email !=
-                                          widget.chat.vendedorEmail) {
-                                        isMe = true;
-                                      } else {
-                                        isMe = false;
-                                      }
-                                    }
-                                    //= message.sender.id == currentUser.id;
-                                    return _buildMessage(message, isMe);
-                                  });
-                            } else if (state is MessagesLoading) {
-                              return Center(child: CircularProgressIndicator());
-                            } else if (state is PotentialNewMessage) {
-                              return Center(
-                                child: Container(
-                                  width: SizeConfig.blockSizeHorizontal * 80,
-                                  child: Text(
-                                    'Estas por consultar sobre el libro \n"${widget.chat.nombreLibro}"'
-                                        .toUpperCase(),
-                                    style: TextStyle(
-                                      fontFamily: "Sf-r",
-                                      fontSize: 21,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black12,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
+                    child: BlocBuilder<MessagesBloc, MessagesBlocState>(
+                      builder: (context, state) {
+                        if (state is MessagesLoaded) {
+                          print(state.messages);
+                          widget.chat = state.chat;
+                          return ListView.builder(
+                              reverse: true,
+                              itemCount: state.messages.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final Message message = state.messages[index];
+                                bool isMe = true;
+                                if (widget.chatRole == ChatRole.COMPRADOR) {
+                                  if (message.email !=
+                                      widget.chat.compradorEmail) {
+                                    isMe = true;
+                                  } else {
+                                    isMe = false;
+                                  }
+                                } else {
+                                  if (message.email !=
+                                      widget.chat.vendedorEmail) {
+                                    isMe = true;
+                                  } else {
+                                    isMe = false;
+                                  }
+                                }
+                                //= message.sender.id == currentUser.id;
+                                return _buildMessage(message, isMe);
+                              });
+                        } else if (state is MessagesLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is PotentialNewMessage) {
+                          return Center(
+                            child: Container(
+                              width: SizeConfig.blockSizeHorizontal * 80,
+                              child: Text(
+                                'Estas por consultar sobre el libro \n"${widget.chat.nombreLibro}"'
+                                    .toUpperCase(),
+                                style: TextStyle(
+                                  fontFamily: "Sf-r",
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black12,
                                 ),
-                              );
-                            } else if (state is MessagesErrorLoading) {
-                              showErrorDialog(context, state.errorMessage);
-                              return Container();
-                            }
-                            return Center(child: CircularProgressIndicator());
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        } else if (state is MessagesErrorLoading) {
+                          showErrorDialog(context, state.errorMessage);
+                          return Container();
+                        }
+                        return Center(child: CircularProgressIndicator());
 //                          ListView.builder(
 //                            reverse: true,
 //                            itemCount: messages.length,
@@ -285,206 +278,174 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
 //                              final bool isMe  = true;//= message.sender.id == currentUser.id;
 //                              return _buildMessage(message, isMe);
 //                            });
-                          },
+                      },
+                    ),
+                  )),
+            ),
+            widget.chat.estadoTransaccion == "Oferta" &&
+                    widget.chatRole == ChatRole.VENDEDOR
+                ? Container(
+                    height: 155,
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20.0,
+                          color: Colors.black12,
                         ),
-                      )),
-                ),
-                widget.chat.estadoTransaccion == "Oferta" &&
-                        widget.chatRole == ChatRole.VENDEDOR
-                    ? Container(
-                        height: 155,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 20.0,
-                              color: Colors.black12,
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Opacity(
+                          opacity: 0.5,
+                          child: Container(
+                            height: 120,
+                            width: 64,
+                            padding: EdgeInsets.only(top: 28, bottom: 28, right: 28),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(
+                                    200, 0, 191, 131),
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(64), topRight: Radius.circular(64))
                             ),
-                          ],
+                            child: Image.asset("assets/images/accept-icon.png",fit: BoxFit.fill,),
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Opacity(
-                              opacity: 0.5,
-                              child: Container(
-                                height: 120,
-                                width: 64,
-                                padding: EdgeInsets.only(
-                                    top: 28, bottom: 28, right: 28),
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(200, 0, 191, 131),
-                                    borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(64),
-                                        topRight: Radius.circular(64))),
-                                child: Image.asset(
-                                  "assets/images/accept-icon.png",
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
+                            Text( "${widget.chat.compradorNombre}",
+                              style: TextStyle(
+                                  fontFamily: "Sf-r",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color.fromARGB(255, 118, 118, 118)),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
-                            Column(
+                            Text(
+                              "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
+                              style: TextStyle(
+                                  fontFamily: "Sf-r",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color.fromARGB(255, 118, 118, 118)),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 15),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  "${widget.chat.compradorNombre}",
-                                  style: TextStyle(
-                                      fontFamily: "Sf-r",
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color:
-                                          Color.fromARGB(255, 118, 118, 118)),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
+                                FlatButton(
+                                  color: Color.fromARGB(
+                                      200, 0, 191, 131),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(18.0),
+                                  ),
+                                  child: Text(
+                                      "Vender",
+                                    style: TextStyle(
+                                        fontFamily: "Sf-r",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white),
+                                  ),
+                                  onPressed: () => showSlideDialogGrande(
+                                      context: context,
+                                      child: CustomDialog.customFunctions(
+                                        title: "Aceptar Solicitud De Compra",
+                                        description:
+                                            "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                                        primaryButtonText: "CANCELAR",
+                                        secondaryButtonText: "Aceptar Compra",
+                                        primaryFunction: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        secondaryFunction: () {
+                                          BlocProvider.of<MessagesBloc>(context).add(
+                                              AceptarSolicitudDeCompra(widget.chat));
+                                          setState(() {
+                                            widget.chat.estadoTransaccion = "Vendido";
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                      )),
                                 ),
-                                Text(
-                                  "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
-                                  style: TextStyle(
-                                      fontFamily: "Sf-r",
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color:
-                                          Color.fromARGB(255, 118, 118, 118)),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 15),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    FlatButton(
-                                      color: Color.fromARGB(200, 0, 191, 131),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(18.0),
-                                      ),
-                                      child: Text(
-                                        "Vender",
-                                        style: TextStyle(
-                                            fontFamily: "Sf-r",
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white),
-                                      ),
-                                      onPressed: () => showSlideDialogGrande(
-                                          context: context,
-                                          child: CustomDialog.customFunctions(
-                                            title:
-                                                "Aceptar Solicitud De Compra",
-                                            description:
-                                                "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
-                                            primaryButtonText: "CANCELAR",
-                                            secondaryButtonText:
-                                                "Aceptar Compra",
-                                            primaryFunction: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            secondaryFunction: () {
-                                              BlocProvider.of<MessagesBloc>(
-                                                      context)
-                                                  .add(AceptarSolicitudDeCompra(
-                                                      widget.chat));
-                                              setState(() {
-                                                widget.chat.estadoTransaccion =
-                                                    "Vendido";
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    FlatButton(
-                                      color: Color.fromARGB(255, 255, 104, 104),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(18.0),
-                                      ),
-                                      child: Text(
-                                        "Rechazar",
-                                        style: TextStyle(
-                                            fontFamily: "Sf-r",
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white),
-                                      ),
-                                      onPressed: () => showSlideDialogGrande(
-                                          context: context,
-                                          child: CustomDialog.customFunctions(
-                                            title:
-                                                "Rechazar Solicitud De Compra",
-                                            description:
-                                                "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra",
-                                            primaryButtonText: "CANCELAR",
-                                            secondaryButtonText:
-                                                "Rechazar Compra",
-                                            primaryFunction: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            secondaryFunction: () {
-                                              BlocProvider.of<MessagesBloc>(
-                                                      context)
-                                                  .add(
-                                                      RechazarSolicitudDeCompra(
-                                                          widget.chat));
-                                              setState(() {
-                                                widget.chat.estadoTransaccion =
-                                                    "Rechazada";
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          )),
-                                    ),
-                                  ],
+                                SizedBox(width: 15,),
+                                FlatButton(
+                                  color: Color.fromARGB(
+                                      255, 255, 104, 104),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(18.0),
+                                  ),
+                                  child: Text(
+                                    "Rechazar",
+                                    style: TextStyle(
+                                        fontFamily: "Sf-r",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white),
+                                  ),
+                                  onPressed: () => showSlideDialogGrande(
+                                      context: context,
+                                      child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                                        primaryFunction:() {
+                                          Navigator.of(context).pop();
+                                        },
+                                        secondaryFunction:() {
+                                          BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
+                                          setState(() {
+                                            widget.chat.estadoTransaccion = "Rechazada";
+                                          });
+                                          Navigator.of(context).pop();
+                                        },)),
                                 ),
                               ],
                             ),
-                            Opacity(
-                              opacity: 0.5,
-                              child: Container(
-                                height: 120,
-                                width: 64,
-                                padding: EdgeInsets.only(
-                                    top: 28, bottom: 28, left: 28),
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 104, 104),
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(64),
-                                        topLeft: Radius.circular(64))),
-                                child: Image.asset(
-                                  "assets/images/decline-icon.png",
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
-                      )
-                    : Container(),
-                _buildMessageComposer()
-              ],
-            );
-          },
+                        Opacity(
+                          opacity: 0.5,
+                          child: Container(
+                            height: 120,
+                            width: 64,
+                            padding: EdgeInsets.only(top: 28, bottom: 28, left: 28),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(
+                                    255, 255, 104, 104),
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(64), topLeft: Radius.circular(64))
+                            ),
+                            child: Image.asset("assets/images/decline-icon.png",fit: BoxFit.fill,),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
+            _buildMessageComposer()
+          ],
         ),
       ),
     );
   }
 
   _buildMessage(Message message, bool isMe) {
-    if (message is EstadoMessage) {
+    if(message is EstadoMessage){
       return Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
               padding: EdgeInsets.only(top: 15, bottom: 8, right: 14, left: 18),
-              margin: EdgeInsets.only(top: 10, bottom: 10, right: 20),
+              margin:  EdgeInsets.only(top: 10, bottom: 10, right: 20),
               constraints: BoxConstraints(
                 maxWidth: SizeConfig.blockSizeHorizontal * 70,
               ),
               decoration: BoxDecoration(
-                color: Color.fromARGB(120, 255, 205, 77),
+                color:  Color.fromARGB(120, 255, 205, 77),
                 borderRadius: new BorderRadius.all(Radius.circular(20)),
               ),
               child: Column(
@@ -492,7 +453,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 children: <Widget>[
                   Text(
                     message.estado,
-                    style: TextStyle(
+                    style:  TextStyle(
                         fontFamily: "Sf",
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -505,10 +466,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           ":" +
                           (message.sentTimestamp.toDate().minute < 10
                               ? '0${message.sentTimestamp.toDate().minute.toString()}'
-                              : message.sentTimestamp
-                                  .toDate()
-                                  .minute
-                                  .toString()),
+                              : message.sentTimestamp.toDate().minute.toString()),
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontFamily: "Sf",
@@ -692,11 +650,13 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               ),
             ),
           ),
-          (_keyboardIsVisible() ||
-                  (widget.chatRole == ChatRole.COMPRADOR &&
-                      (widget.chat.estadoTransaccion == "Vendido" ||
-                          widget.chat.estadoTransaccion == "Rechazada")) ||
-                  widget.chatRole == ChatRole.VENDEDOR)
+          BlocBuilder<MessagesBloc, MessagesBlocState>(
+          builder: (context, state) {
+              if (state is MessagesLoaded) {
+              print(state.messages);
+              widget.chat = state.chat;}
+          return (_keyboardIsVisible() || (widget.chatRole == ChatRole.COMPRADOR && (widget.chat.estadoTransaccion == "Vendido" || widget.chat.estadoTransaccion == "Rechazada"))
+          || widget.chatRole == ChatRole.VENDEDOR)
               ? Container(
                   width: 65,
                   margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
@@ -710,8 +670,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       iconSize: 25,
                       color: Colors.white,
                       onPressed: () {
-                        if (messageTextController.text != null &&
-                            messageTextController.text.length != 0) {
+                        if(messageTextController.text != null && messageTextController.text.length != 0){
                           Message message = Message.fromChatWidget(
                               messageTextController.text,
                               'text',
@@ -719,9 +678,8 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           messageTextController.clear();
                           BlocProvider.of<MessagesBloc>(context)
                               .add(AddMessage(message, widget.chatRole));
-                        } else {
-                          showErrorDialog(context,
-                              "Debes intrucir un texto para poder enviar un mensaje");
+                        }else{
+                          showErrorDialog(context, "Debes intrucir un texto para poder enviar un mensaje");
                         }
                       },
                     ),
@@ -731,65 +689,40 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   width: 65,
                   margin: EdgeInsets.fromLTRB(0, 10, 5, 15),
                   decoration: BoxDecoration(
-                    color: widget.chatRole == ChatRole.COMPRADOR &&
-                            widget.chat.estadoTransaccion == "Oferta"
-                        ? Color.fromARGB(255, 255, 104, 104)
-                        : AppColors.secondaryBackground,
+                    color: widget.chatRole == ChatRole.COMPRADOR && widget.chat.estadoTransaccion == "Oferta"?Color.fromARGB(255, 255, 104, 104) : AppColors.secondaryBackground,
                     /*color: Color.fromARGB(255, 255, 104, 104),*/ //TODO implementar un state para compra solicitada o no
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: widget.chatRole == ChatRole.COMPRADOR &&
-                              widget.chat.estadoTransaccion == "Oferta"
-                          ? Icon(Icons.star)
-                          : Icon(Icons.add_shopping_cart),
+                      icon: widget.chatRole == ChatRole.COMPRADOR && widget.chat.estadoTransaccion == "Oferta"?Icon(Icons.star):Icon(Icons.add_shopping_cart),
                       iconSize: 25,
                       color: Colors.white,
                       onPressed: () {
-                        if (widget.chatRole == ChatRole.COMPRADOR) {
-                          if (widget.chat.estadoTransaccion == "Pregunta") {
-                            showSlideDialogGrande(
-                                context: context,
-                                child: CustomDialog.customFunctions(
-                                  title: "Enviar Solicitud De Compra",
-                                  description:
-                                      "Una vez enviada la solicitud de compra esta no se podra cancelar",
-                                  primaryButtonText: "CANCELAR",
-                                  secondaryButtonText: "Solicitar Compra",
-                                  primaryFunction: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  secondaryFunction: () {
-                                    BlocProvider.of<MessagesBloc>(context).add(
-                                        LoadMessages(
-                                            widget.chat, ChatRole.COMPRADOR));
-                                    BlocProvider.of<MessagesBloc>(context)
-                                        .add(SolicitarCompra(widget.chat));
-                                  },
-                                ));
-                          } else if (widget.chat.estadoTransaccion ==
-                              "Oferta") {
-                            showSlideDialogGrande(
-                                context: context,
-                                child: CustomDialog.customFunctions(
-                                  title: "Cancelar Pedido De Compra",
-                                  description:
-                                      "Al cancelar la solicitud de compra el usuario no podra venderte el producto",
-                                  primaryButtonText: "CANCELAR",
-                                  secondaryButtonText:
-                                      "Cancelar Solicitud De Compra",
-                                  primaryFunction: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  secondaryFunction: () {
-                                    BlocProvider.of<MessagesBloc>(context).add(
-                                        LoadMessages(
-                                            widget.chat, ChatRole.COMPRADOR));
-                                    BlocProvider.of<MessagesBloc>(context).add(
-                                        CancelarSolicitudDeCompra(widget.chat));
-                                  },
-                                ));
+                        if(widget.chatRole == ChatRole.COMPRADOR){
+                          if(widget.chat.estadoTransaccion == "Pregunta"){
+                            showSlideDialogGrande(context: context, child:
+                            CustomDialog.customFunctions(title: "Enviar Solicitud De Compra", description: "Una vez enviada la solicitud de compra esta no se podra cancelar", primaryButtonText: "CANCELAR", secondaryButtonText: "Solicitar Compra",
+                              primaryFunction:() {
+                                Navigator.of(context).pop();
+                              },
+                              secondaryFunction:() {
+                                BlocProvider.of<MessagesBloc>(context).add(LoadMessages(widget.chat,ChatRole.COMPRADOR));
+                                BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(widget.chat));
+                                Navigator.of(context).pop();
+                              },)
+
+                            );
+                          }else if(widget.chat.estadoTransaccion == "Oferta"){
+                            showSlideDialogGrande(context: context, child:CustomDialog.customFunctions(title: "Cancelar Pedido De Compra", description: "Al cancelar la solicitud de compra el usuario no podra venderte el producto", primaryButtonText: "CANCELAR", secondaryButtonText: "Cancelar Solicitud De Compra",
+                              primaryFunction:() {
+                                Navigator.of(context).pop();
+                              },
+                              secondaryFunction:() {
+                                BlocProvider.of<MessagesBloc>(context).add(LoadMessages(widget.chat,ChatRole.COMPRADOR));
+                                BlocProvider.of<MessagesBloc>(context).add(CancelarSolicitudDeCompra(widget.chat));
+                                Navigator.of(context).pop();
+                              },) );
                             ;
                           }
                         }
@@ -836,7 +769,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       fit: BoxFit.fitHeight,),
                     )*/
                   ),
-                ),
+                );
+          }
+
+                )
         ],
       ),
     );
