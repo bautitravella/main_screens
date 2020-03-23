@@ -54,9 +54,9 @@ class VerificacionWidget extends StatelessWidget {
           children: [
             Container(
               height: 46,
-              margin: EdgeInsets.only(left: 28, top: 85, right: 102),
+              margin: EdgeInsets.only(left: 28, top: 85),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
@@ -70,7 +70,11 @@ class VerificacionWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
+                  IconButton(
+                    icon: Icon(Icons.refresh, size: 40, color: AppColors.secondaryBackground,),
+                    onPressed: () => checkIfVerified(context),
+                  ),
+                  /*Expanded(
                     flex: 1,
                     child: Align(
                       alignment: Alignment.topLeft,
@@ -86,8 +90,8 @@ class VerificacionWidget extends StatelessWidget {
                   ),
                   RaisedButton(
                     onPressed: () => checkIfVerified(context),
-                    child: Text('refreshea'),
-                  ),
+                    child: Icon(Icons.refresh),
+                  ),*/
                 ],
               ),
             ),
@@ -108,10 +112,9 @@ class VerificacionWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.primaryText,
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w800,
                   fontSize: 26,
-                  letterSpacing: -0.41786,
                 ),
               ),
             ),
@@ -122,7 +125,7 @@ class VerificacionWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
-                  fontFamily: "Montserrat",
+                  fontFamily: "Sf-t",
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
                   letterSpacing: -0.1,
@@ -165,8 +168,8 @@ class VerificacionWidget extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColors.secondaryText,
-                                  fontFamily: "Roboto",
-                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 15,
                                 ),
                               ),
@@ -197,8 +200,8 @@ class VerificacionWidget extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppColors.secondaryText,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.w400,
+                                fontFamily: "Sf-r",
+                                fontWeight: FontWeight.w700,
                                 fontSize: 15,
                               ),
                             ),

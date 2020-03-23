@@ -695,7 +695,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   ),
                   child: Center(
                     child: IconButton(
-                      icon: widget.chatRole == ChatRole.COMPRADOR && widget.chat.estadoTransaccion == "Oferta"?Icon(Icons.star):Icon(Icons.add_shopping_cart),
+                      icon: widget.chatRole == ChatRole.COMPRADOR && widget.chat.estadoTransaccion == "Oferta"?/*Icon(Icons.star)*/Image.asset("assets/images/cancel-order.png", width: 20, height: 20,):Icon(Icons.add_shopping_cart),
                       iconSize: 25,
                       color: Colors.white,
                       onPressed: () {
