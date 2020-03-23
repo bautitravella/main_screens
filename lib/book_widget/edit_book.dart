@@ -653,7 +653,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                             Icon(Icons.supervised_user_circle, color: Colors.white, size: 30,)
                                           ],
                                         ),
-                                        onPressed: () => []),
+                                        onPressed: () => []),//Todo Metele la class que crees
                                     SizedBox(width: 10),
                                     FlatButton(
                                         color: Colors.black38,
@@ -704,7 +704,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                             Icon(Icons.collections_bookmark, color: Colors.white, size: 30,)
                                           ],
                                         ),
-                                        onPressed: () => []),
+                                        onPressed: () => []),//Todo Metele la class de materias
                                   ],
                                 )
                                 /* CheckboxListTile(
