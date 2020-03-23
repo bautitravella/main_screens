@@ -11,6 +11,7 @@ abstract class BaseAuth {
   Stream<FirebaseUser> get onAuthStateChangedUser;
   Future<String> signInWithEmailAndPassword(String email, String password,);
   Future<bool> isVerified();
+  Future sendResetEmail(String email);
   Future<String> createUserWithEmailAndPassword(String email, String password,);
   Future<String> currentUserUID();
   Future<FirebaseUser> currentUser();
@@ -96,6 +97,12 @@ class Auth extends BaseAuth{
     user.reload();
     return user.isEmailVerified;
 
+  }
+
+  Future sendResetEmail(String email){
+    if(email != null && email.length != 0){
+      return _firebaseAuth.sendPasswordResetEmail(email: email);
+    }
   }
 
 }

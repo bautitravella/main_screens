@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/auth.dart';
+import 'package:flutterui/dialogs/dialog_widget/error_dialog.dart';
+import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:provider/provider.dart';
 
-class RecuperationWidget extends StatelessWidget {
-  void onViewPressed(BuildContext context) {}
+class RecuperationWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return RecuperationWidgetState();
+  }
 
-  void onBtnBlueTwoPressed(BuildContext context) {}
+}
 
-  void onViewTwoPressed(BuildContext context) {}
+class RecuperationWidgetState extends State<RecuperationWidget>{
+
+  String titleMessage = "Ingresa tu mail";
+  String bodyMessage = "Se enviara un mail para \npoder cambiar tu contraseña";
+  String buttonMessage = "Enviar mail";
+  int numberOfMails = 0;
+  TextEditingController emailTextController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +78,7 @@ class RecuperationWidget extends StatelessWidget {
                           child: Opacity(
                             opacity: 0.63,
                             child: TextField(
+                              controller: emailTextController,
                               decoration: InputDecoration(
                                 hintText: "Correo",
                                 contentPadding: EdgeInsets.all(0),
@@ -101,7 +116,7 @@ class RecuperationWidget extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(bottom: 22),
                   child: Text(
-                    "Ingresa tu mail",
+                    titleMessage,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.primaryText,
@@ -116,7 +131,7 @@ class RecuperationWidget extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 10, right: 10, bottom: 100),
                 child: Text(
-                  "Se enviara un mail para \npoder cambiar tu contraseña",
+                  bodyMessage,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color.fromARGB(255, 118, 118, 118),
@@ -142,7 +157,7 @@ class RecuperationWidget extends StatelessWidget {
                         child: Opacity(
                           opacity: 0.91,
                           child: FlatButton(
-                            onPressed: () => this.onBtnBlueTwoPressed(context),
+                            onPressed: () => Navigator.pop(context),
                             color: AppColors.secondaryElement,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -182,7 +197,7 @@ class RecuperationWidget extends StatelessWidget {
                         height: 44,
                         child: Opacity(
                           opacity: 0.91,
-                          child: FlatButton(
+                          child: numberOfMails>8? Container():FlatButton(
                               color: AppColors.secondaryElement,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -191,7 +206,7 @@ class RecuperationWidget extends StatelessWidget {
                               textColor: Color.fromARGB(255, 255, 255, 255),
                               padding: EdgeInsets.all(0),
                               child: Text(
-                                "Volver a enviar mail",
+                                buttonMessage,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColors.secondaryText,
@@ -201,12 +216,7 @@ class RecuperationWidget extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomeHub()), // Temporalmente me manda a la siguiente pantalla, deberia esperar a confirmar el mail
-                                );
+                                sendResetPasswordEmail(context, emailTextController.text);
                               }),
                         ),
                       ),
@@ -218,4 +228,35 @@ class RecuperationWidget extends StatelessWidget {
           ),
         ));
   }
+
+
+  sendResetPasswordEmail(BuildContext context,String email) {
+    if(numberOfMails >7){
+      setState(() {
+        titleMessage = "";
+        bodyMessage = "Haz excedido el numero de mails que puedes enviar";
+        buttonMessage = "";
+      });
+      return null;
+    }
+    final auth = Provider.of<BaseAuth>(context,listen: false);
+    if(email != null && email.length != 0){
+      auth.sendResetEmail(email).then((smt) {
+        setState(() {
+          titleMessage = "Mail de Recuperacion Enviado";
+          bodyMessage = "Se ha enviado a su email $email un mail de recuperacion para poder acceder nuevamente a su cuenta";
+          numberOfMails ++;
+          buttonMessage = "Volver a enviar mail";
+        });
+      });
+
+    }else{
+      showErrorDialog(context, "Debes ingresar un email para poder enviar un mail de recuperacion.");
+    }
+
+  }
+}
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+      animatedPill: false);
 }
