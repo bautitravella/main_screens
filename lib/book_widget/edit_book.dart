@@ -624,9 +624,64 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                  top: 10,
+                                  top: 30,
                                 ),
-                                child: CheckboxListTile(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    FlatButton(
+                                        color: Colors.black38,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        ),
+                                        textColor: Color.fromARGB(255, 255, 255, 255),
+                                        padding: EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 8),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "Cambiar \ncursos",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: AppColors.secondaryText,
+                                                fontFamily: "Sf-r",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            SizedBox(height: 12),
+                                            Icon(Icons.school, color: Colors.white, size: 30,)
+                                          ],
+                                        ),
+                                        onPressed: () => _siguienteBtn()),
+                                    SizedBox(width: 25),
+                                    FlatButton(
+                                        color: Colors.black38,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        ),
+                                        textColor: Color.fromARGB(255, 255, 255, 255),
+                                        padding: EdgeInsets.only(left: 32, right: 32, top: 8, bottom: 12),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              "Cambiar \ncolegios",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: AppColors.secondaryText,
+                                                fontFamily: "Sf-r",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Image.asset("assets/images/group-1840.png",
+                                            height: 30,)
+                                          ],
+                                        ),
+                                        onPressed: () => _siguienteBtn()),
+                                  ],
+                                )
+                                /* CheckboxListTile(
                                   title: const Text(
                                     'Se publicara en  todos los colegios.',
                                     style: TextStyle(
@@ -643,7 +698,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                       _isMarcked = false;
                                     });
                                   },
-                                ),
+                                ),*/
                               ),
                               Center(
                                 child: Container(
