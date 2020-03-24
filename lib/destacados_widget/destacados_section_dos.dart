@@ -341,7 +341,12 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                               child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
                                                 builder: (context,state){
                                                   if(state is FavoriteBooksLoaded){
-                                                    if(state.books.contains(book)){
+                                                    bool isFavorite = false;
+                                                    for(Book favBook in state.books){
+                                                      if(book.uid == favBook.uid)isFavorite = true;
+                                                    }
+                                                    if(isFavorite){
+                                                    //if(state.books.contains(book)){
                                                       return IconButton(
                                                           icon: Icon(Icons.favorite),
                                                           iconSize: 30.0,

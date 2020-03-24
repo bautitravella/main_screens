@@ -18,9 +18,6 @@ import 'package:flutterui/values/colors.dart';
 import 'book_section_chota.dart';
 
 class BookSection extends StatefulWidget {
-  void onBtnBlueTwoPressed(BuildContext context) {}
-
-  void onBtnBluePressed(BuildContext context) {}
 
   Book book;
 
@@ -141,8 +138,11 @@ class _BookSectionState extends State<BookSection> {
                                         FavoritesBlocState>(
                                       builder: (context, state) {
                                         if (state is FavoriteBooksLoaded) {
-                                          if (state.books.contains(
-                                              widget.book)) {
+                                          bool isFavorite = false;
+                                          for(Book favBook in state.books){
+                                            if(widget.book.uid == favBook.uid)isFavorite = true;
+                                          }
+                                          if (isFavorite) {
                                             return IconButton(
                                                 icon: Icon(Icons.favorite),
                                                 iconSize: 30.0,

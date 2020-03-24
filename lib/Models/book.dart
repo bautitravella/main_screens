@@ -16,13 +16,13 @@ class Book {
       nombreLibro,
       imageVendedorUrl,uid;
   CachedNetworkImageProvider imageVendedor;
-  List<dynamic> colegios = [];
-  List<dynamic> cursos = [];
+  List<String> colegios = [];
+  List<String> cursos = [];
   List<List<int>> imagesRaw = [];
   List<List<int>> imagesRawThumb = [];
-  List<dynamic> imagesUrl = [];
+  List<String> imagesUrl = [];
   List<CachedNetworkImageProvider> _images = [];
-  List<dynamic> thumbImagesUrl = [];
+  List<String> thumbImagesUrl = [];
   List<CachedNetworkImageProvider> _thumbImages = [];
   List<String> materias = [];
   List<String> indexes;
@@ -73,9 +73,15 @@ class Book {
         'nombreLibro'];
     this.imageVendedorUrl = doc['imageVendedor'];
     imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
-    this.colegios = doc['colegios'];
-    this.cursos = doc['cursos'];
-    this.imagesUrl = doc['imagesUrl'];
+    doc['colegios'].forEach((item) {
+      this.colegios.add(item.toString());
+    });
+    doc['cursos'].forEach((item) {
+      this.cursos.add(item.toString());
+    });
+    doc['imagesUrl'].forEach((item) {
+      this.imagesUrl.add(item.toString());
+    });
     this.vendido = doc['vendido'];
     this.publico = doc['publico'];
     this.precio = doc['precio'];
@@ -89,7 +95,9 @@ class Book {
 //      element));
 //    });
     if(doc['thumbsUrl'] != null ) {
-      this.thumbImagesUrl = doc['thumbsUrl'];
+      doc['thumbsUrl'].forEach((item) {
+        this.thumbImagesUrl.add(item.toString());
+      });
 //      thumbImagesUrl.forEach((element) {
 //        _thumbImages.add(CachedNetworkImageProvider(
 //            element));
