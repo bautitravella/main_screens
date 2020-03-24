@@ -60,4 +60,24 @@ class Alumno extends User{
     return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email ,[Hijo(this.nombre,this.colegio,this.curso)]);
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          super == other &&
+              other is Alumno &&
+              runtimeType == other.runtimeType &&
+              colegio == other.colegio &&
+              curso == other.curso &&
+              role == other.role;
+
+  @override
+  int get hashCode =>
+      super.hashCode ^
+      colegio.hashCode ^
+      curso.hashCode ^
+      role.hashCode;
+
+
+
+
 }

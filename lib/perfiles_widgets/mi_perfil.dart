@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
@@ -1070,7 +1071,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     user.getRole() == "Padre"?
                     createParentLayout(user)
                         :
-                    Container(child: Text("Hola Alumne"),),
+                    createStudentLayout(user),
                   ],
                 ),
               ),
@@ -1191,7 +1192,7 @@ class _MiPerfilState extends State<MiPerfil> {
   List<DropdownMenuItem> createDropDownMenuListSmall(List<String> lista) {
     List<DropdownMenuItem> dropdownMenuItemList = [];
     for (String item in lista) {
-      dropdownMenuItemList.add(DropdownMenuItem(
+      dropdownMenuItemList.add(DropdownMenuItem<String>(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -1214,6 +1215,203 @@ class _MiPerfilState extends State<MiPerfil> {
       ));
     }
     return dropdownMenuItemList;
+  }
+
+  Widget createStudentLayout(Alumno user){
+    return Container(
+      constraints: BoxConstraints.expand(height: 380),
+      width: SizeConfig.blockSizeHorizontal*70,
+      margin: EdgeInsets.only(left: 0, right: 0),
+      padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 246, 246, 246),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+
+
+          SizedBox(height: 15),
+          Container(
+            height: 2,
+            width: SizeConfig.blockSizeHorizontal*90,
+            color:Colors.black12,
+          ),
+          SizedBox(height: 45),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Colegio",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        255, 110, 110, 110)),
+              ),
+              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
+                builder: (context,state){
+                  if(state is ColegiosLoaded){
+                    return Container(
+                      height: 38,
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black12, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal*45,
+                        height: 15,
+                        margin: EdgeInsets.only( top: 6),
+                        child: Opacity(
+                          opacity: 0.37,
+                          child: Center(
+                            child: new DropdownButton(
+                              icon: Icon(Icons.edit, size: 15,),
+                              underline: Text(""),
+                              items:createDropDownMenuListSmall(state.colegiosData.colegios),
+                              isExpanded: true,
+                              value:user.colegio,
+                              hint: new Text(
+                                'COLEGIO',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 53, 38, 65),
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 19,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                 user.colegio = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }else{//Colegios loading
+                    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                    return Container(child: Text("LOADING"));
+                  }
+                },
+
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Curso",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(
+                        255, 110, 110, 110)),
+              ),
+              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
+                builder: (context,state){
+                  if(state is ColegiosLoaded){
+                    return Container(
+                      height: 38,
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black12, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal*24,
+                        height: 15,
+                        margin: EdgeInsets.only( top: 6),
+                        child: Opacity(
+                          opacity: 0.37,
+                          child: new DropdownButton(
+                            icon: Icon(Icons.edit, size: 15,),
+                            underline: Text(""),
+                            items: createDropDownMenuListSmall(state.colegiosData.cursos),
+                            isExpanded: true,
+                            value: user.curso,
+                            hint: new Text(
+                              'Curso',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                               user.curso = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  }else{//Colegios loading
+                    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                    return Container(child: Text("LOADING"));
+                  }
+                },
+
+              ),
+
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: <Widget>[
+              FlatButton(
+                /*height: 30,
+                margin: EdgeInsets.only(left: 10),
+                width:
+                SizeConfig.blockSizeHorizontal *
+                    25,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(
+                      200, 0, 191, 131),
+                  borderRadius:
+                  BorderRadius.circular(30.0),
+                ),*/
+                color: Color.fromARGB(
+                    200, 0, 191, 131),
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(18.0),
+                ),
+                onPressed:  () => aceptarCambios(),
+                child: Text(
+                  "Guardar",
+                  style: TextStyle(
+                      fontFamily: "Sf-r",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+
+
+        ],
+      ),
+    );
   }
 
   Widget createParentLayout(Padre user){
@@ -1573,7 +1771,20 @@ class _MiPerfilState extends State<MiPerfil> {
             }
           });
         }
-
+        if(auxUser is Alumno){
+          auxUser.getColegios().forEach((colegio) {
+            if(colegio == null){
+              showErrorDialog(context, "Debes ingresar un colegio de la lista para poder continuar.");
+              return null;
+            }
+          });
+          auxUser.getCursos().forEach((curso){
+            if(curso ==null){
+              showErrorDialog(context, "Debes ingresar un curso de la lista para poder continuar.");
+              return null;
+            }
+          });
+        }
         if(auxUser != originalUser && editedImage == true){
           print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-------2");
           auxUser.fotoPerfilRaw = _image;

@@ -303,7 +303,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                             child: Center(
                               child: RaisedButton(
                                 child: Text('Cambiar Imagenes'),
-                                //Todo cuando se clickee que tambien se aabra lo de seleccionar imagenes
+
                                 onPressed: () {
                                   loadAssets();
                                   imagesChanged = true;
@@ -680,7 +680,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                               builder: (context) =>
                                                   EditBookCurso(clonedBook)),
                                         );
-                                      }), //Todo Metele la class que crees
+                                      }),
                                   SizedBox(width: 10),
                                   FlatButton(
                                       color: Colors.black38,
@@ -763,7 +763,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                               builder: (context) =>
                                                   EditBookMaterias(clonedBook)),
                                         );
-                                      }), //Todo Metele la class de materias
+                                      }),
                                 ],
                               )
                               /* CheckboxListTile(
@@ -910,7 +910,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
         precio == null ||
         precio.isEmpty ||
         (_isMarcked == false && _isTicked == false)) {
-      //TODO agregar dialog con el error
+
       showErrorDialog(
           context, "Para continuar debes completar todos los campos");
       print("falta completar algun campo");
@@ -964,7 +964,6 @@ class _EditBookWidgetState extends State<EditBookWidget> {
           print('444444444444444444444444444444444444444444444444444444444444');
           Navigator.of(context).pop();
         }
-        //TODO cambiar este BlocProvider por otro que llame a update book
         //BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(
 //      context,
