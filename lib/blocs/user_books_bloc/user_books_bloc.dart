@@ -21,16 +21,13 @@ class UserBooksBloc extends Bloc<UserBooksBlocEvent, UserBooksBlocState> {
     _userStreamSubscription = userBloc.listen((state) {
 
       if(state is UserLoadedState){
-        if(isUserDownloaded == false){
+
           isUserDownloaded = true;
-
-          add(LoadUserBooksEvent(state.user));
-
           downloadedUser = state.user;
-        }else{
-          add(UserUpdatedEvent (state.user));
-        }
+          add(LoadUserBooksEvent(downloadedUser));
 
+      }else{
+        add(UserUpdatedEvent());
       }
     });
 
@@ -48,22 +45,21 @@ class UserBooksBloc extends Bloc<UserBooksBlocEvent, UserBooksBlocState> {
    }else if(event is UserBooksLoadedEvent){
      yield* _mapUserBooksLoadedToState(event.books);
    }else if(event is UserUpdatedEvent){
-     yield* _mapUserUpdatedToState(event.user);
+     yield* _mapUserUpdatedToState();
    }
   }
 
   Stream<UserBooksBlocState> _mapLoadUserBooksToState(User user) {
 
-    if(isUserDownloaded == false){
-      if(downloadedUser != null){
+
+      if(user != null) {
         _booksStreamSubscription?.cancel();
-        _booksStreamSubscription = databaseRepository.getUserBooks(user).listen((books) {add(UserBooksLoadedEvent(books)); });
+        _booksStreamSubscription =
+            databaseRepository.getUserBooks(user).listen((books) {
+              add(UserBooksLoadedEvent(books));
+            });
       }
 
-    }else{
-      _booksStreamSubscription?.cancel();
-      _booksStreamSubscription = databaseRepository.getUserBooks(user).listen((books) {add(UserBooksLoadedEvent(books)); });
-    }
   }
 
 
@@ -74,8 +70,10 @@ class UserBooksBloc extends Bloc<UserBooksBlocEvent, UserBooksBlocState> {
 
   }
 
-  Stream<UserBooksBlocState> _mapUserUpdatedToState(User user) {
-    databaseRepository.reFilterUserBooks(user);
+  Stream<UserBooksBlocState> _mapUserUpdatedToState() async*{
+    _booksStreamSubscription.cancel();
+    yield UserBooksLoadingState();
+
   }
 
   List<List<Book>> separateInPublicadosYVendidos(List<Book> books){

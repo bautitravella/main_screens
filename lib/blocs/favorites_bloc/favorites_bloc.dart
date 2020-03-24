@@ -15,6 +15,7 @@ class FavoritesBloc extends Bloc<FavoritesBlocEvent, FavoritesBlocState> {
   bool isUserDownloaded = false;
   User downloadedUser;
   List<Book> favoriteBooks;
+  Stream<List> favoritesStream;
 
   FavoritesBloc(this.databaseRepository, this.userBloc) {
     if(userBloc != null){
@@ -49,19 +50,24 @@ class FavoritesBloc extends Bloc<FavoritesBlocEvent, FavoritesBlocState> {
 
   _mapLoadFavoriteBooksToState(User user) async {
     //_booksStreamSubscription?.cancel();
-    if(downloadedUser != null){
-      Stream<List> favoritesStream = databaseRepository.getUserFavoriteBooksList(user);
-      if(favoritesStream != null){
-        _booksStreamSubscription = favoritesStream.listen((booksList) async {
-          // print("LLego la lista?????????????????????????????????????????????????????????????????? " + booksList.toString());
-          databaseRepository.getUserFavoriteBooks(booksList, user).then((value) {
-            add(FavoriteBooksLoadedEvent(value));
-            favoriteBooks = value;
+    try {
+      if (downloadedUser != null) {
+        favoritesStream = databaseRepository
+            .getUserFavoriteBooksList(user);
+        if (favoritesStream != null) {
+          _booksStreamSubscription = favoritesStream?.listen((booksList) async {
+            // print("LLego la lista?????????????????????????????????????????????????????????????????? " + booksList.toString());
+            databaseRepository.getUserFavoriteBooks(booksList, user).then((
+                value) {
+              add(FavoriteBooksLoadedEvent(value));
+              favoriteBooks = value;
+            });
           });
-        });
+        }
       }
+    }catch(e){
+      print("ERROR FAVORITE BOOKS mLFBTS = " + e.toString());
     }
-
 
 //    _booksStreamSubscription = databaseRepository
 //        .getUserFavoriteBooksList(user)

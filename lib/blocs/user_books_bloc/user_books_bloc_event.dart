@@ -38,10 +38,9 @@ class UserBooksLoadedEvent extends UserBooksBlocEvent{
 //}
 
 class UserUpdatedEvent extends UserBooksBlocEvent{
-  final User user;
 
-  UserUpdatedEvent(this.user);
+  UserUpdatedEvent();
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [];
 }

@@ -79,6 +79,9 @@ class Book {
     doc['cursos'].forEach((item) {
       this.cursos.add(item.toString());
     });
+    doc['materias'].forEach((item) {
+      this.materias.add(item.toString());
+    });
     doc['imagesUrl'].forEach((item) {
       this.imagesUrl.add(item.toString());
     });

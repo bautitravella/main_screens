@@ -8,16 +8,16 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
-class EditarColegioLibro extends StatefulWidget {
+class EditBookCurso extends StatefulWidget {
   Book book;
 
-  EditarColegioLibro(this.book);
+  EditBookCurso(this.book);
 
   @override
-  _EditarColegioLibroState createState() => _EditarColegioLibroState();
+  _EditBookCursoState createState() => _EditBookCursoState();
 }
 
-class _EditarColegioLibroState extends State<EditarColegioLibro> {
+class _EditBookCursoState extends State<EditBookCurso> {
   bool _isChecked = false;
 
   Map<String, bool> values;
@@ -111,20 +111,17 @@ class _EditarColegioLibroState extends State<EditarColegioLibro> {
                       margin: EdgeInsets.only(
                           left: 4, right: 4, top: 25, bottom: 15),
                       //TODO cambiar este BlocBuilder por uno con el UserBloc y que ofrezca los colegios de la persona/los de sus hijos
-                      child: BlocBuilder<UserBloc, UserBlocState>(
+                      child:
+                      BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                           builder: (context, state) {
-                            if (state is UserNotLoaded) {
-                              showLoadingDialog(context);
-                              loadingDialogShown = true;
-                              return CircularProgressIndicator();
-                            } else if (state is UserLoadedState) {
+                            if (state is ColegiosLoaded) {
                               if (loadingDialogShown) {
                                 Navigator.of(context).pop();
                                 loadingDialogShown = false;
                               }
                               if (valuesHasBeenCreated == false) {
                                 values = createMapfromStringsList(
-                                    state.user.getColegios());
+                                    state.colegiosData.cursos);
                                 valuesHasBeenCreated = true;
                               }
                               return ListView(
@@ -158,39 +155,12 @@ class _EditarColegioLibroState extends State<EditarColegioLibro> {
                                 }).toList(),
                               );
                             }
+                            BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                            loadingDialogShown = true;
                             return CircularProgressIndicator();
+
                           }),
-                      //widget(
-//                        child: ListView(
-//                          children: values.keys.map((String key) {
-//                            return Column(
-//                              children: <Widget>[
-//                                CheckboxListTile(
-//                                  title: new Text(
-//                                    key,
-//                                    style: TextStyle(
-//                                        fontFamily: "Gibson",
-//                                        fontSize: 18,
-//                                        fontWeight: FontWeight.w600,
-//                                        color: Color.fromARGB(255, 69, 79, 99)),
-//                                  ),
-//                                  value: values[key],
-//                                  onChanged: (bool value) {
-//                                    setState(() {
-//                                      values[key] = value;
-//                                    });
-//                                  },
-//                                ),
-//                                Container(
-//                                  width: 180,
-//                                  height: 2,
-//                                  color: Colors.black12,
-//                                )
-//                              ],
-//                            );
-//                          }).toList(),
-//                        ),
-//                      ),
+
                     ),
                   ],
                 ),
@@ -199,7 +169,7 @@ class _EditarColegioLibroState extends State<EditarColegioLibro> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Selecciona el \ncolegio",
+                "Selecciona el \ncurso",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
@@ -213,7 +183,7 @@ class _EditarColegioLibroState extends State<EditarColegioLibro> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 35),
               child: Text(
-                "Selecciona el colegio en el que \n quieras publicar este libro",
+                "Selecciona el curso/s en el que \n quieras publicar este libro",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 118, 118, 118),
@@ -278,23 +248,32 @@ class _EditarColegioLibroState extends State<EditarColegioLibro> {
   _siguienteBtn() {
     bool canContinue = false;
     values.forEach((key, value) {
-      value ? canContinue = true : value;
+      if(value)canContinue = true;
     });
 
     if (canContinue) {
+      widget.book.cursos.clear();
       for (String key in values.keys) {
         if (values[key]) {
-          widget.book.colegios.add(key);
+          widget.book.cursos.add(key);
         }
       }
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DatosLibros(widget.book)),
-      );
+      Navigator.pop(context);
     } else {
       showErrorDialog(context,
-          "Debes seleccionar al menos una materia para poder continuar");
+          "Debes seleccionar al menos un curso para poder continuar");
     }
+  }
+
+  Map<String, bool> createMapfromStringsList(List<String> stringsList) {
+    Map<String, bool> map = Map();
+    for (String item in stringsList) {
+      if(widget.book.cursos.contains(item)){
+        map[item] = true;
+      }else{
+      map[item] = false;
+    }}
+    return map;
   }
 }
 
@@ -314,12 +293,4 @@ void showErrorDialog(BuildContext context, String errorMessage) {
         error: errorMessage,
       ),
       animatedPill: false);
-}
-
-Map<String, bool> createMapfromStringsList(List<String> stringsList) {
-  Map<String, bool> map = Map();
-  for (String item in stringsList) {
-    map[item] = false;
-  }
-  return map;
 }
