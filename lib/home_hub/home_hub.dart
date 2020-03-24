@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
 import 'package:flutterui/home_hub/pages/favoritos_view/favoritos_view.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_tres.dart';
@@ -10,6 +13,8 @@ import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:flutterui/log_in/firstscreen_widget.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -46,66 +51,104 @@ class _HomeHubState extends State<HomeHub> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavyBar(
-        selectedIndex: _currentIndex,
-        onItemSelected: (index) {
-          setState(() => _currentIndex = index);
-          _pageController.jumpToPage(index);
-        },
-        items: <BottomNavyBarItem>[
-          BottomNavyBarItem(
-            title: Text(
-              'Home', textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Sf-r",
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
+    return WillPopScope(
+      onWillPop:() {return _onWillPop();},
+      child: Scaffold(
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: _currentIndex,
+          onItemSelected: (index) {
+            setState(() => _currentIndex = index);
+            _pageController.jumpToPage(index);
+          },
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+              title: Text(
+                'Home', textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                ),
               ),
+              icon: Icon(Icons.home),
+              activeColor: Color.fromARGB(255, 254, 189, 16),
+              inactiveColor: Color.fromARGB(255, 128, 128, 128),
             ),
-            icon: Icon(Icons.home),
-            activeColor: Color.fromARGB(255, 254, 189, 16),
-            inactiveColor: Color.fromARGB(255, 128, 128, 128),
-          ),
-          BottomNavyBarItem(
-            title: Text('Mis libros', textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Sf-r",
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
+            BottomNavyBarItem(
+              title: Text('Mis libros', textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                ),
               ),
+              icon: Icon(Icons.inbox),
+              activeColor: Color.fromARGB(255, 254, 189, 16),
+              inactiveColor: Color.fromARGB(255, 128, 128, 128),
             ),
-            icon: Icon(Icons.inbox),
-            activeColor: Color.fromARGB(255, 254, 189, 16),
-            inactiveColor: Color.fromARGB(255, 128, 128, 128),
-          ),
-          BottomNavyBarItem(
-            title: Text('Favoritos', textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Sf-r",
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
+            BottomNavyBarItem(
+              title: Text('Favoritos', textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                ),
               ),
+              icon: Icon(Icons.favorite),
+              activeColor: Color.fromARGB(255, 254, 189, 16),
+              inactiveColor: Color.fromARGB(255, 128, 128, 128),
             ),
-            icon: Icon(Icons.favorite),
-            activeColor: Color.fromARGB(255, 254, 189, 16),
-            inactiveColor: Color.fromARGB(255, 128, 128, 128),
-          ),
-          BottomNavyBarItem(
-            title: Text('Mensajes', textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Sf-r",
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-              ),),
-            icon: Icon(FontAwesome5.comment_alt,),
-            activeColor: Color.fromARGB(255, 254, 189, 16),
-            inactiveColor: Color.fromARGB(255, 128, 128, 128),
-          ),
-        ],
+            BottomNavyBarItem(
+              title: Text('Mensajes', textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                ),),
+              icon: Icon(FontAwesome5.comment_alt,),
+              activeColor: Color.fromARGB(255, 254, 189, 16),
+              inactiveColor: Color.fromARGB(255, 128, 128, 128),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  _onWillPop() {
+    return showDialog(
+      context: context,
+      builder:(context) => AlertDialog(
+        content: ListTile(
+          title: Text("Sign Out"),
+          subtitle: Text("Si presionas Continuar, esto desconectara tu cuenta y te enviara al menu de log in"),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Continuar'),
+            onPressed:() async {
+              try {
+                final auth = Provider.of<BaseAuth>(context,
+                    listen: false);
+                await auth.signOut();
+                BlocProvider.of<UserBloc>(context).add(UnloadUser());
+                Navigator.pop(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FirstscreenWidget(),
+                  ),
+                );
+              } catch (e) {
+                print(e.message);
+              }
+            },
+          ),
+        ],
+      )
+    );
+
   }
 /* int _currentIndex = 2;
   final List<Widget> _children = [
