@@ -760,7 +760,6 @@ class GridViewVendidos extends StatelessWidget {
               return Container(
                 height: SizeConfig.blockSizeVertical * 10,
                 margin: EdgeInsets.only(left: 0, right: 0, top: 0),
-                color: Colors.red,
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[

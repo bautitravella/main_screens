@@ -428,6 +428,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                         width: 25 ,
                                                         child: CircleAvatar( backgroundImage: book.imageVendedor)
                                                         ),
+                                                    book.rating != null?
                                                     Container(
                                                       height: 21,
                                                       margin: EdgeInsets.only(left: 4),
@@ -460,7 +461,10 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
 
                                                         ],
                                                       ),
-                                                    ),
+                                                    ):
+                                                    Container(child:Row(children: <Widget>[
+                                                      Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor)
+                                                    ],)),
                                                   ],
                                                 ),
                                                 Padding(

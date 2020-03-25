@@ -174,17 +174,18 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: 20),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.more_horiz,
-                      size: 30,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
+                //TODO volver a agregar los puntitos pero esta vez agregarle funcionalidades
+//                Container(
+//                  margin: EdgeInsets.only(right: 20),
+//                  child: IconButton(
+//                    icon: Icon(
+//                      Icons.more_horiz,
+//                      size: 30,
+//                      color: Color.fromARGB(255, 255, 255, 255),
+//                    ),
+//                    onPressed: () => Navigator.pop(context),
+//                  ),
+//                ),
               ],
             ),
           ),
