@@ -87,10 +87,11 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     ),),*/
                     controller: _pc,
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 86,
+                    /*maxHeight: SizeConfig.blockSizeVertical * 86,*/
+                    maxHeight: SizeConfig.blockSizeVertical * 53,
                     minHeight: SizeConfig.blockSizeVertical * 53,
                     color: Colors.transparent,
-                    backdropEnabled: true,
+                    /*backdropEnabled: true,*/
                     backdropColor: AppColors.secondaryBackground,
                     body: _upperBody(),
                     parallaxEnabled: true,
@@ -463,7 +464,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       ],
                     ),
                   ),
-                  Row(
+                  /*Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
@@ -572,7 +573,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         ],
                       ),
                     ],
-                  ),
+                  ),*/ //TODO para proximo update
                 ],
               ),
             ),
@@ -889,12 +890,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
                           color: Color.fromARGB(255, 255, 213, 104),
                           borderRadius: BorderRadius.circular(100)),
                       child: Icon(
-                        MaterialIcons.school,
+                        Icons.inbox,
                         color: Colors.white,
                         size: 30,
                       )),
                   Text(
-                    "Colegios",
+                    "Mis Libros",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
@@ -919,12 +920,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         color: Color.fromARGB(255, 255, 213, 104),
                         borderRadius: BorderRadius.circular(100)),
                     child: Icon(
-                      Icons.class_,
+                      Icons.favorite_border,
                       color: Colors.white,
                       size: 30,
                     )),
                 Text(
-                  "Materias",
+                  "Favoritos",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 13,
@@ -948,12 +949,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         color: Color.fromARGB(255, 255, 213, 104),
                         borderRadius: BorderRadius.circular(100)),
                     child: Icon(
-                      Icons.group,
+                      FontAwesome5.comment,
                       color: Colors.white,
                       size: 30,
                     )),
                 Text(
-                  "Cursos",
+                  "Mensajes",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 13,
@@ -964,33 +965,43 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      FontAwesome5.address_book,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Usuarios",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MiPerfil(),
                 ),
-              ],
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Ajustes",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           GestureDetector(
@@ -1020,19 +1031,19 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         size: 30,
                       )),
                   Text(
-                    "HomeView2",
+                    "¡HELP!",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontFamily: "Sf-r",
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          GestureDetector(
+         /* GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -1070,7 +1081,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 ],
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
