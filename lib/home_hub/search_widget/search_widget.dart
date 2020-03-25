@@ -656,10 +656,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                                     left: SizeConfig.blockSizeHorizontal*6,
                                     bottom: 15,
                                     top: 15,
+                                    width: 75,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Image(
                                         image : book.getFirstImageThumb(),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
@@ -929,10 +931,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                               left: SizeConfig.blockSizeHorizontal*6,
                               bottom: 15,
                               top: 15,
+                              width: 75,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: Image(
                                   image : book.getFirstImageThumb(),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

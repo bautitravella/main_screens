@@ -688,13 +688,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                       ),
-                                      textColor:
-                                          Color.fromARGB(255, 255, 255, 255),
-                                      padding: EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                          top: 8,
-                                          bottom: 12),
+                                      textColor: Color.fromARGB(255, 255, 255, 255),
+                                      padding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 12),
                                       child: Column(
                                         children: <Widget>[
                                           Text(
