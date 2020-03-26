@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:android_intent/android_intent.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,56 +37,53 @@ bool _isMarcked = false;
 bool _isTicked = false;
 
 class _MiPerfilState extends State<MiPerfil> {
-  String colegioSelectedValue,cursoSelectedValue,hijosSelectedValue;
+  String colegioSelectedValue, cursoSelectedValue, hijosSelectedValue;
   List<Hijo> hijos;
   int indexHijo = 0;
   TextEditingController hijoNameController = new TextEditingController(),
-                        nombreTextController = new TextEditingController(),
-                        apellidoTextController = new TextEditingController();
-  User auxUser,originalUser;
-  bool editedImage = false,variablesHaveBeenSet = false;
+      nombreTextController = new TextEditingController(),
+      apellidoTextController = new TextEditingController();
+  User auxUser, originalUser;
+  bool editedImage = false, variablesHaveBeenSet = false;
   File _image;
-
-
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: BlocBuilder<UserBloc,UserBlocState>(
-        builder: (context,state){
-          if(state is UserLoadedState){
+      body: BlocBuilder<UserBloc, UserBlocState>(
+        builder: (context, state) {
+          if (state is UserLoadedState) {
             User user = state.user;
             originalUser = user;
-            if(variablesHaveBeenSet == false){
+            if (variablesHaveBeenSet == false) {
               auxUser = user.clone();
               nombreTextController.text = auxUser.nombre;
               apellidoTextController.text = auxUser.apellido;
               variablesHaveBeenSet = true;
             }
 
-
-          return Stack(
-            children: <Widget>[
-              Container(
-                color: AppColors.secondaryBackground,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Positioned(
-                      left: 0,
-                      top: SizeConfig.blockSizeVertical * 8,
-                      right: 0,
-                      child: Container(
-                        height: SizeConfig.blockSizeVertical * 40,
-                        decoration: BoxDecoration(),
-                        child: Image.asset(
-                          "assets/images/destacados-image.png",
-                          fit: BoxFit.fitWidth,
+            return Stack(
+              children: <Widget>[
+                Container(
+                  color: AppColors.secondaryBackground,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Positioned(
+                        left: 0,
+                        top: SizeConfig.blockSizeVertical * 8,
+                        right: 0,
+                        child: Container(
+                          height: SizeConfig.blockSizeVertical * 40,
+                          decoration: BoxDecoration(),
+                          child: Image.asset(
+                            "assets/images/destacados-image.png",
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
-                    ),
-                    /* Positioned(
+                      /* Positioned(
                     left: 22,
                     top: 45,
                     child: Container(
@@ -152,63 +150,63 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                     ),
                   )*/
-                    Positioned(
-                      top: SizeConfig.blockSizeVertical * 10,
-                      left: 28,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Ajustes",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontFamily: "Montserrat",
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 30,
+                      Positioned(
+                        top: SizeConfig.blockSizeVertical * 10,
+                        left: 28,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Ajustes",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 30,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 8,
-                          ),
-                        ],
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 8,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      color: Colors.transparent,
+                      height: SizeConfig.blockSizeVertical * 14,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: SlidingUpPanel(
+                          panelBuilder: (ScrollController sc) =>
+                              _scrollingList(sc, auxUser),
+                          maxHeight: SizeConfig.blockSizeVertical * 77,
+                          minHeight: SizeConfig.blockSizeVertical * 77,
+                          backdropEnabled: false,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(30),
+                              topLeft: Radius.circular(30)),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    color: Colors.transparent,
-                    height: SizeConfig.blockSizeVertical * 14,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: SlidingUpPanel(
-                        panelBuilder: (ScrollController sc) => _scrollingList(sc,auxUser),
-                        maxHeight: SizeConfig.blockSizeVertical * 77,
-                        minHeight: SizeConfig.blockSizeVertical * 77,
-                        backdropEnabled: false,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
+              ],
+            );
+          }
           return Container();
-          },
+        },
       ),
     );
   }
 
-  Widget _scrollingList(ScrollController sc,User user) {
-
+  Widget _scrollingList(ScrollController sc, User user) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
     return Container(
@@ -272,7 +270,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                         ),
                                         SizedBox(height: 3),
                                         Text(
-                                          "Cambiar mail y contraseña, eliminar cuenta",
+                                          "Mail",
                                           style: TextStyle(
                                               fontFamily: "Sf",
                                               fontSize: 10,
@@ -288,7 +286,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   ],
                                 ),
                               ),
-                             /* Container(
+                              /* Container(
                                 height: 50,
                                 margin: EdgeInsets.only(
                                     left: 12, right: 12, top: 12),
@@ -354,7 +352,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                     )
                                   ],
                                 ),
-                              ),*///TODO para future update confirmar contraseña
+                              ),*/ //TODO para future update confirmar contraseña
                               SizedBox(height: 30),
                               Container(
                                 margin: EdgeInsets.only(left: 22, right: 22),
@@ -380,11 +378,11 @@ class _MiPerfilState extends State<MiPerfil> {
                                           height: 24,
                                           margin: EdgeInsets.only(left: 10),
                                           width:
-                                              SizeConfig.blockSizeHorizontal * 50,
+                                              SizeConfig.blockSizeHorizontal *
+                                                  50,
                                           child: TextField(
                                             decoration: InputDecoration(
-                                              hintText:
-                                                  user.email,
+                                              hintText: user.email,
                                               alignLabelWithHint: true,
                                               border: InputBorder.none,
                                             ),
@@ -450,7 +448,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                         ),
                                       ],
                                     ),*/ //TODO para future update
-                                  /*  SizedBox(height: 30),*/
+                                    /*  SizedBox(height: 30),*/
                                     /*Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -488,7 +486,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           ),
                                         ),
                                       ],
-                                    ),*/// TODO para future update eliminar cuenta
+                                    ),*/ // TODO para future update eliminar cuenta
                                   ],
                                 ),
                               ),
@@ -534,7 +532,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                         ),
                                         SizedBox(height: 3),
                                         Text(
-                                          "Cambiar mail y contraseña, eliminar cuenta",
+                                          "Mail",
                                           style: TextStyle(
                                               fontFamily: "Sf",
                                               fontSize: 10,
@@ -555,7 +553,7 @@ class _MiPerfilState extends State<MiPerfil> {
                         ),
                       ),
                       SizedBox(height: 15),
-                    /*  ConfigurableExpansionTile(
+                      /*  ConfigurableExpansionTile(
                         headerExpanded: Container(
                           height: 310,
                           margin: EdgeInsets.only(left: 0, right: 0),
@@ -730,7 +728,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                           ),
                         ),
-                      ),*/  //TODO Para agregar en un futuro
+                      ),*/ //TODO Para agregar en un futuro
                       /*GestureDetector(
                         onTap: _showDialogWave,
                         child: Container(
@@ -842,9 +840,19 @@ class _MiPerfilState extends State<MiPerfil> {
                               child: RichText(
                                 text: TextSpan(
                                   children: <TextSpan>[
-                                    TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontFamily: "Gibson", fontSize: 20, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 57, 57, 57),),recognizer: new TapGestureRecognizer()
-                                      ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
-                                      },
+                                    TextSpan(
+                                      text: "Politica de Privacidad ",
+                                      style: TextStyle(
+                                        fontFamily: "Gibson",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                      ),
+                                      recognizer: new TapGestureRecognizer()
+                                        ..onTap = () {
+                                          launch(
+                                              'https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
+                                        },
                                     ),
                                   ],
                                 ),
@@ -855,9 +863,19 @@ class _MiPerfilState extends State<MiPerfil> {
                               child: RichText(
                                 text: TextSpan(
                                   children: <TextSpan>[
-                                    TextSpan(text: "Terminos y condiciones ",style: TextStyle(fontFamily: "Gibson", fontSize: 20, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 57, 57, 57),),recognizer: new TapGestureRecognizer()
-                                      ..onTap = () { launch('https://docs.google.com/document/d/1UxNGanYn83-RnF1BFWZm7dO5uJXW-B-ce9G8aNHZhQo/edit?usp=sharing');
-                                      },
+                                    TextSpan(
+                                      text: "Terminos y condiciones ",
+                                      style: TextStyle(
+                                        fontFamily: "Gibson",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                      ),
+                                      recognizer: new TapGestureRecognizer()
+                                        ..onTap = () {
+                                          launch(
+                                              'https://docs.google.com/document/d/1UxNGanYn83-RnF1BFWZm7dO5uJXW-B-ce9G8aNHZhQo/edit?usp=sharing');
+                                        },
                                     ),
                                   ],
                                 ),
@@ -889,23 +907,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                         color: Color.fromARGB(255, 57, 57, 57)),
                                   ),
                                 ),
-                                onTap: () async {
-                                  try {
-                                    final auth = Provider.of<BaseAuth>(context,
-                                        listen: false);
-                                    await auth.signOut();
-                                    BlocProvider.of<UserBloc>(context).add(UnloadUser());
-                                    Navigator.pop(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            FirstscreenWidget(),
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    print(e.message);
-                                  }
-                                }),
+                                onTap: _showDialogSignOut),
                           ],
                         ),
                       ),
@@ -921,7 +923,7 @@ class _MiPerfilState extends State<MiPerfil> {
               headerExpanded: Container(
                 padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
                 width: SizeConfig.blockSizeHorizontal * 100,
-                height: SizeConfig.blockSizeVertical*80,
+                height: SizeConfig.blockSizeVertical * 80,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25.0),
@@ -938,7 +940,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     children: <Widget>[
                       Container(
                         height: 75,
-                        margin: EdgeInsets.only(left:18),
+                        margin: EdgeInsets.only(left: 18),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -960,7 +962,8 @@ class _MiPerfilState extends State<MiPerfil> {
                                       fontFamily: "Sf",
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 184, 184, 184)),
+                                      color:
+                                          Color.fromARGB(255, 184, 184, 184)),
                                 ),
                               ],
                             ),
@@ -976,29 +979,38 @@ class _MiPerfilState extends State<MiPerfil> {
                                       child: CircleAvatar(
                                         radius: 23.0,
                                         backgroundImage:
-                                        editedImage && _image!= null?FileImage(_image):user.getProfileImage(),
+                                            editedImage && _image != null
+                                                ? FileImage(_image)
+                                                : user.getProfileImage(),
                                       ),
                                     ),
                                     Positioned(
-                                      right: 32,
-                                      top: 30,
-                                      child: Container(
-                                        padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(100),
-                                          color: Colors.white,
-                                          border:  Border.all(color: AppColors.secondaryBackground, width: 1.5),
-                                        ),
-                                        child: Icon(Icons.edit, color: AppColors.secondaryBackground, size: 18),
-                                      )/*CircleAvatar(
+                                        right: 32,
+                                        top: 30,
+                                        child: Container(
+                                          padding: EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: AppColors
+                                                    .secondaryBackground,
+                                                width: 1.5),
+                                          ),
+                                          child: Icon(Icons.edit,
+                                              color:
+                                                  AppColors.secondaryBackground,
+                                              size: 18),
+                                        ) /*CircleAvatar(
                                         radius: 12.0,
                                         backgroundImage: AssetImage(
                                             "assets/images/logocolegio-fds.png"),
                                       ),*/
-                                    ),
+                                        ),
                                   ],
                                 ),
-                                  onTap: () => selectImage(),
+                                onTap: () => selectImage(),
                               ),
                             ),
                           ],
@@ -1006,9 +1018,9 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                       SizedBox(height: 20),
                       Container(
-                        margin: EdgeInsets.only(left:18, right: 18),
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
+                        margin: EdgeInsets.only(left: 18, right: 18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               "Cambiar nombre y apellido",
@@ -1016,8 +1028,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                   fontFamily: "Sf",
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(
-                                      255, 110, 110, 110)),
+                                  color: Color.fromARGB(255, 110, 110, 110)),
                             ),
                             SizedBox(height: 10),
                             Row(
@@ -1025,41 +1036,7 @@ class _MiPerfilState extends State<MiPerfil> {
                               children: <Widget>[
                                 Container(
                                   height: 44,
-                                  width: SizeConfig.blockSizeHorizontal*37,
-                                  padding: EdgeInsets.only(left: 18),
-                                  decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  border: Border.all(
-                                      width: 1,
-                                      color:
-                                      Color.fromARGB(100, 112, 112, 112)),
-                                ),
-                                  child:Center(
-                                    child: TextField(
-                                      controller: nombreTextController,
-                                      decoration: InputDecoration(
-                                        alignLabelWithHint: true,
-                                        border: InputBorder.none,
-                                      ),
-                                      style: TextStyle(
-                                        color: Color.fromARGB(
-                                            255, 120, 120, 120),
-                                        fontFamily: "Sf-r",
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 14,
-                                      ),
-                                      maxLines:
-                                      1, //TODO resolver tema del overflow
-                                      keyboardType:
-                                      TextInputType.emailAddress,
-                                      autocorrect: false,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 44,
-                                  width: SizeConfig.blockSizeHorizontal*37,
+                                  width: SizeConfig.blockSizeHorizontal * 37,
                                   padding: EdgeInsets.only(left: 18),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
@@ -1067,9 +1044,42 @@ class _MiPerfilState extends State<MiPerfil> {
                                     border: Border.all(
                                         width: 1,
                                         color:
-                                        Color.fromARGB(100, 112, 112, 112)),
+                                            Color.fromARGB(100, 112, 112, 112)),
                                   ),
-                                  child:Center(
+                                  child: Center(
+                                    child: TextField(
+                                      controller: nombreTextController,
+                                      decoration: InputDecoration(
+                                        alignLabelWithHint: true,
+                                        border: InputBorder.none,
+                                      ),
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 120, 120, 120),
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines:
+                                          1, //TODO resolver tema del overflow
+                                      keyboardType: TextInputType.emailAddress,
+                                      autocorrect: false,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 44,
+                                  width: SizeConfig.blockSizeHorizontal * 37,
+                                  padding: EdgeInsets.only(left: 18),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    border: Border.all(
+                                        width: 1,
+                                        color:
+                                            Color.fromARGB(100, 112, 112, 112)),
+                                  ),
+                                  child: Center(
                                     child: TextField(
                                       controller: apellidoTextController,
                                       decoration: InputDecoration(
@@ -1077,16 +1087,15 @@ class _MiPerfilState extends State<MiPerfil> {
                                         border: InputBorder.none,
                                       ),
                                       style: TextStyle(
-                                        color: Color.fromARGB(
-                                            255, 120, 120, 120),
+                                        color:
+                                            Color.fromARGB(255, 120, 120, 120),
                                         fontFamily: "Sf-r",
                                         fontWeight: FontWeight.w800,
                                         fontSize: 14,
                                       ),
                                       maxLines:
-                                      1, //TODO resolver tema del overflow
-                                      keyboardType:
-                                      TextInputType.emailAddress,
+                                          1, //TODO resolver tema del overflow
+                                      keyboardType: TextInputType.emailAddress,
                                       autocorrect: false,
                                     ),
                                   ),
@@ -1097,10 +1106,9 @@ class _MiPerfilState extends State<MiPerfil> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      user.getRole() == "Padre"?
-                      createParentLayout(user)
-                          :
-                      createStudentLayout(user),
+                      user.getRole() == "Padre"
+                          ? createParentLayout(user)
+                          : createStudentLayout(user),
                     ],
                   ),
                 ),
@@ -1125,7 +1133,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     children: <Widget>[
                       Container(
                         height: 75,
-                        margin: EdgeInsets.only(left:18),
+                        margin: EdgeInsets.only(left: 18),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -1147,35 +1155,35 @@ class _MiPerfilState extends State<MiPerfil> {
                                       fontFamily: "Sf",
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 184, 184, 184)),
+                                      color:
+                                          Color.fromARGB(255, 184, 184, 184)),
                                 ),
                               ],
                             ),
                             Container(
                               width: 60,
-                                child: Stack(
-                                  alignment: Alignment.topRight,
-                                  children: <Widget>[
-                                    Positioned(
-                                      right: 10,
-                                      top: 8,
-                                      child: CircleAvatar(
-                                        radius: 23.0,
-                                        backgroundImage:
-                                        user.getProfileImage(),
-                                      ),
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: <Widget>[
+                                  Positioned(
+                                    right: 10,
+                                    top: 8,
+                                    child: CircleAvatar(
+                                      radius: 23.0,
+                                      backgroundImage: user.getProfileImage(),
                                     ),
-                                    Positioned(
-                                      right: 35,
-                                      top: 30,
-                                      child: CircleAvatar(
-                                        radius: 12.0,
-                                        backgroundImage: AssetImage(
-                                            "assets/images/logocolegio-fds.png"),
-                                      ),
+                                  ),
+                                  Positioned(
+                                    right: 35,
+                                    top: 30,
+                                    child: CircleAvatar(
+                                      radius: 12.0,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/logocolegio-fds.png"),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -1191,9 +1199,10 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
-  List<DropdownMenuItem> createDropDownMenuListWithIndexValues(List<String> lista) {
+  List<DropdownMenuItem> createDropDownMenuListWithIndexValues(
+      List<String> lista) {
     List<DropdownMenuItem> dropdownMenuItemList = [];
-    for(int i=0;i<lista.length;i++) {
+    for (int i = 0; i < lista.length; i++) {
       String item = lista[i];
       dropdownMenuItemList.add(DropdownMenuItem<int>(
         child: Column(
@@ -1249,10 +1258,10 @@ class _MiPerfilState extends State<MiPerfil> {
     return dropdownMenuItemList;
   }
 
-  Widget createStudentLayout(Alumno user){
+  Widget createStudentLayout(Alumno user) {
     return Container(
       constraints: BoxConstraints.expand(height: 380),
-      width: SizeConfig.blockSizeHorizontal*70,
+      width: SizeConfig.blockSizeHorizontal * 70,
       margin: EdgeInsets.only(left: 0, right: 0),
       padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
       decoration: BoxDecoration(
@@ -1262,13 +1271,11 @@ class _MiPerfilState extends State<MiPerfil> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-
-
           SizedBox(height: 15),
           Container(
             height: 2,
-            width: SizeConfig.blockSizeHorizontal*90,
-            color:Colors.black12,
+            width: SizeConfig.blockSizeHorizontal * 90,
+            color: Colors.black12,
           ),
           SizedBox(height: 45),
           SizedBox(height: 20),
@@ -1282,12 +1289,11 @@ class _MiPerfilState extends State<MiPerfil> {
                     fontFamily: "Sf",
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        255, 110, 110, 110)),
+                    color: Color.fromARGB(255, 110, 110, 110)),
               ),
-              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
-                builder: (context,state){
-                  if(state is ColegiosLoaded){
+              BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                builder: (context, state) {
+                  if (state is ColegiosLoaded) {
                     return Container(
                       height: 38,
                       margin: EdgeInsets.only(left: 10),
@@ -1297,18 +1303,22 @@ class _MiPerfilState extends State<MiPerfil> {
                           border: Border.all(color: Colors.black12, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal*45,
+                        width: SizeConfig.blockSizeHorizontal * 45,
                         height: 15,
-                        margin: EdgeInsets.only( top: 6),
+                        margin: EdgeInsets.only(top: 6),
                         child: Opacity(
                           opacity: 0.37,
                           child: Center(
                             child: new DropdownButton(
-                              icon: Icon(Icons.edit, size: 15,),
+                              icon: Icon(
+                                Icons.edit,
+                                size: 15,
+                              ),
                               underline: Text(""),
-                              items:createDropDownMenuListSmall(state.colegiosData.colegios),
+                              items: createDropDownMenuListSmall(
+                                  state.colegiosData.colegios),
                               isExpanded: true,
-                              value:user.colegio,
+                              value: user.colegio,
                               hint: new Text(
                                 'COLEGIO',
                                 style: TextStyle(
@@ -1321,7 +1331,7 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                 user.colegio = value;
+                                  user.colegio = value;
                                 });
                               },
                             ),
@@ -1329,12 +1339,12 @@ class _MiPerfilState extends State<MiPerfil> {
                         ),
                       ),
                     );
-                  }else{//Colegios loading
+                  } else {
+                    //Colegios loading
                     BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
                     return Container(child: Text("LOADING"));
                   }
                 },
-
               ),
             ],
           ),
@@ -1349,12 +1359,11 @@ class _MiPerfilState extends State<MiPerfil> {
                     fontFamily: "Sf",
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        255, 110, 110, 110)),
+                    color: Color.fromARGB(255, 110, 110, 110)),
               ),
-              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
-                builder: (context,state){
-                  if(state is ColegiosLoaded){
+              BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                builder: (context, state) {
+                  if (state is ColegiosLoaded) {
                     return Container(
                       height: 38,
                       margin: EdgeInsets.only(left: 10),
@@ -1364,15 +1373,19 @@ class _MiPerfilState extends State<MiPerfil> {
                           border: Border.all(color: Colors.black12, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal*24,
+                        width: SizeConfig.blockSizeHorizontal * 24,
                         height: 15,
-                        margin: EdgeInsets.only( top: 6),
+                        margin: EdgeInsets.only(top: 6),
                         child: Opacity(
                           opacity: 0.37,
                           child: new DropdownButton(
-                            icon: Icon(Icons.edit, size: 15,),
+                            icon: Icon(
+                              Icons.edit,
+                              size: 15,
+                            ),
                             underline: Text(""),
-                            items: createDropDownMenuListSmall(state.colegiosData.cursos),
+                            items: createDropDownMenuListSmall(
+                                state.colegiosData.cursos),
                             isExpanded: true,
                             value: user.curso,
                             hint: new Text(
@@ -1386,29 +1399,26 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                             onChanged: (value) {
                               setState(() {
-                               user.curso = value;
+                                user.curso = value;
                               });
                             },
                           ),
                         ),
                       ),
                     );
-                  }else{//Colegios loading
+                  } else {
+                    //Colegios loading
                     BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
                     return Container(child: Text("LOADING"));
                   }
                 },
-
               ),
-
             ],
           ),
           SizedBox(height: 30),
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               FlatButton(
                 /*height: 30,
@@ -1422,12 +1432,11 @@ class _MiPerfilState extends State<MiPerfil> {
                   borderRadius:
                   BorderRadius.circular(30.0),
                 ),*/
-                color: Color.fromARGB(
-                    200, 0, 191, 131),
+                color: Color.fromARGB(200, 0, 191, 131),
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(18.0),
                 ),
-                onPressed:  () => aceptarCambios(),
+                onPressed: () => aceptarCambios(),
                 child: Text(
                   "Guardar",
                   style: TextStyle(
@@ -1439,19 +1448,17 @@ class _MiPerfilState extends State<MiPerfil> {
               ),
             ],
           ),
-
-
         ],
       ),
     );
   }
 
-  Widget createParentLayout(Padre user){
+  Widget createParentLayout(Padre user) {
     hijos = user.hijos;
     hijoNameController.text = hijos[indexHijo].nombre;
     return Container(
       constraints: BoxConstraints.expand(height: 380),
-      width: SizeConfig.blockSizeHorizontal*70,
+      width: SizeConfig.blockSizeHorizontal * 70,
       margin: EdgeInsets.only(left: 0, right: 0),
       padding: EdgeInsets.fromLTRB(15, 20, 15, 15),
       decoration: BoxDecoration(
@@ -1461,7 +1468,6 @@ class _MiPerfilState extends State<MiPerfil> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -1476,10 +1482,13 @@ class _MiPerfilState extends State<MiPerfil> {
                         width: 19,
                         decoration: BoxDecoration(
                             color: Colors.green,
-                            borderRadius: BorderRadius.circular(100)
-                        ),
+                            borderRadius: BorderRadius.circular(100)),
                         child: Center(
-                          child: Icon(Icons.add, color: Colors.white, size: 16,),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                         ),
                       ),
                     ),
@@ -1490,21 +1499,23 @@ class _MiPerfilState extends State<MiPerfil> {
                           fontFamily: "Sf",
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(
-                              255, 110, 110, 110)),
+                          color: Color.fromARGB(255, 110, 110, 110)),
                     ),
                   ],
                 ),
               ),
-
               Container(
-                width: SizeConfig.blockSizeHorizontal*25,
+                width: SizeConfig.blockSizeHorizontal * 25,
                 height: 45,
                 margin: EdgeInsets.only(right: 5),
                 child: new DropdownButton(
                   icon: Icon(Icons.menu),
                   underline: Text(""),
-                  items:user is Padre? createDropDownMenuListWithIndexValues( user.getHijosNames() ):createDropDownMenuListWithIndexValues(['No pudimos cargar bien tu informacion']),
+                  items: user is Padre
+                      ? createDropDownMenuListWithIndexValues(
+                          user.getHijosNames())
+                      : createDropDownMenuListWithIndexValues(
+                          ['No pudimos cargar bien tu informacion']),
                   isExpanded: true,
                   value: indexHijo,
                   hint: new Text(
@@ -1529,8 +1540,8 @@ class _MiPerfilState extends State<MiPerfil> {
           SizedBox(height: 15),
           Container(
             height: 2,
-            width: SizeConfig.blockSizeHorizontal*90,
-            color:Colors.black12,
+            width: SizeConfig.blockSizeHorizontal * 90,
+            color: Colors.black12,
           ),
           SizedBox(height: 45),
           Row(
@@ -1543,8 +1554,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     fontFamily: "Sf",
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        255, 110, 110, 110)),
+                    color: Color.fromARGB(255, 110, 110, 110)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1555,31 +1565,27 @@ class _MiPerfilState extends State<MiPerfil> {
                     child: TextField(
                       controller: hijoNameController,
                       decoration: InputDecoration(
-
                         alignLabelWithHint: true,
                         border: InputBorder.none,
                       ),
                       style: TextStyle(
-                        color: Color.fromARGB(
-                            255, 120, 120, 120),
+                        color: Color.fromARGB(255, 120, 120, 120),
                         fontFamily: "Sf-r",
                         fontWeight: FontWeight.w800,
                         fontSize: 14,
                       ),
-                      maxLines:
-                      1, //TODO resolver tema del overflow
+                      maxLines: 1, //TODO resolver tema del overflow
                       autocorrect: false,
                       textAlign: TextAlign.right,
-                      onChanged: (text){
+                      onChanged: (text) {
                         hijos[indexHijo].nombre = text;
                       },
                     ),
                   ),
                   SizedBox(width: 5),
-                  Icon(Icons.person, size: 18, color:Colors.black38)
+                  Icon(Icons.person, size: 18, color: Colors.black38)
                 ],
               ),
-
             ],
           ),
           SizedBox(height: 20),
@@ -1593,12 +1599,11 @@ class _MiPerfilState extends State<MiPerfil> {
                     fontFamily: "Sf",
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        255, 110, 110, 110)),
+                    color: Color.fromARGB(255, 110, 110, 110)),
               ),
-              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
-                builder: (context,state){
-                  if(state is ColegiosLoaded){
+              BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                builder: (context, state) {
+                  if (state is ColegiosLoaded) {
                     return Container(
                       height: 38,
                       margin: EdgeInsets.only(left: 10),
@@ -1608,16 +1613,20 @@ class _MiPerfilState extends State<MiPerfil> {
                           border: Border.all(color: Colors.black12, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal*45,
+                        width: SizeConfig.blockSizeHorizontal * 45,
                         height: 15,
-                        margin: EdgeInsets.only( top: 6),
+                        margin: EdgeInsets.only(top: 6),
                         child: Opacity(
                           opacity: 0.37,
                           child: Center(
                             child: new DropdownButton(
-                              icon: Icon(Icons.edit, size: 15,),
+                              icon: Icon(
+                                Icons.edit,
+                                size: 15,
+                              ),
                               underline: Text(""),
-                              items: createDropDownMenuListSmall(state.colegiosData.colegios),
+                              items: createDropDownMenuListSmall(
+                                  state.colegiosData.colegios),
                               isExpanded: true,
                               value: hijos[indexHijo].colegio,
                               hint: new Text(
@@ -1640,12 +1649,12 @@ class _MiPerfilState extends State<MiPerfil> {
                         ),
                       ),
                     );
-                  }else{//Colegios loading
+                  } else {
+                    //Colegios loading
                     BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
                     return Container(child: Text("LOADING"));
                   }
                 },
-
               ),
             ],
           ),
@@ -1660,12 +1669,11 @@ class _MiPerfilState extends State<MiPerfil> {
                     fontFamily: "Sf",
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(
-                        255, 110, 110, 110)),
+                    color: Color.fromARGB(255, 110, 110, 110)),
               ),
-              BlocBuilder<ColegiosBloc,ColegiosBlocState>(
-                builder: (context,state){
-                  if(state is ColegiosLoaded){
+              BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                builder: (context, state) {
+                  if (state is ColegiosLoaded) {
                     return Container(
                       height: 38,
                       margin: EdgeInsets.only(left: 10),
@@ -1675,15 +1683,19 @@ class _MiPerfilState extends State<MiPerfil> {
                           border: Border.all(color: Colors.black12, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       child: Container(
-                        width: SizeConfig.blockSizeHorizontal*24,
+                        width: SizeConfig.blockSizeHorizontal * 24,
                         height: 15,
-                        margin: EdgeInsets.only( top: 6),
+                        margin: EdgeInsets.only(top: 6),
                         child: Opacity(
                           opacity: 0.37,
                           child: new DropdownButton(
-                            icon: Icon(Icons.edit, size: 15,),
+                            icon: Icon(
+                              Icons.edit,
+                              size: 15,
+                            ),
                             underline: Text(""),
-                            items: createDropDownMenuListSmall(state.colegiosData.cursos),
+                            items: createDropDownMenuListSmall(
+                                state.colegiosData.cursos),
                             isExpanded: true,
                             value: hijos[indexHijo].curso,
                             hint: new Text(
@@ -1704,37 +1716,33 @@ class _MiPerfilState extends State<MiPerfil> {
                         ),
                       ),
                     );
-                  }else{//Colegios loading
+                  } else {
+                    //Colegios loading
                     BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
                     return Container(child: Text("LOADING"));
                   }
                 },
-
               ),
-
             ],
           ),
           SizedBox(height: 30),
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              user.getHijosNames().length > 1?
-              GestureDetector(
-                onTap: () => eliminarHijo(user),
-                child: Text(
-                  "Eliminar perfil \n de hijo",
-                  style: TextStyle(
-                      fontFamily: "Sf",
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(
-                          100, 110, 110, 110)),
-                ),
-              ):
-              Container(),
+              user.getHijosNames().length > 1
+                  ? GestureDetector(
+                      onTap: () => eliminarHijo(user),
+                      child: Text(
+                        "Eliminar perfil \n de hijo",
+                        style: TextStyle(
+                            fontFamily: "Sf",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(100, 110, 110, 110)),
+                      ),
+                    )
+                  : Container(),
               FlatButton(
                 /*height: 30,
                 margin: EdgeInsets.only(left: 10),
@@ -1747,12 +1755,11 @@ class _MiPerfilState extends State<MiPerfil> {
                   borderRadius:
                   BorderRadius.circular(30.0),
                 ),*/
-                color: Color.fromARGB(
-                    200, 0, 191, 131),
+                color: Color.fromARGB(200, 0, 191, 131),
                 shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(18.0),
+                  borderRadius: new BorderRadius.circular(18.0),
                 ),
-                onPressed:  () => aceptarCambios(),
+                onPressed: () => aceptarCambios(),
                 child: Text(
                   "Guardar",
                   style: TextStyle(
@@ -1764,78 +1771,87 @@ class _MiPerfilState extends State<MiPerfil> {
               ),
             ],
           ),
-
-
         ],
       ),
     );
   }
 
-  void aceptarCambios(){
+  void aceptarCambios() {
     print("BOTON DE ACEPTAR CAMBIOS ACEPTADO");
-      if(auxUser != null && originalUser != null){
-        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO--------1");
-        auxUser.nombre = nombreTextController.text;
-        auxUser.apellido = apellidoTextController.text;
-        if(auxUser.nombre == null || auxUser.nombre.length == 0 || auxUser.apellido == null || auxUser.apellido.length == 0){
-          print('0');
-          showErrorDialog(context, "Debes completar tu nombre y apellido para poder guardar los cambios.");
-          return null;
-        }
+    if (auxUser != null && originalUser != null) {
+      print("BOTON DE ACEPTAR CAMBIOS ACEPTADO--------1");
+      auxUser.nombre = nombreTextController.text;
+      auxUser.apellido = apellidoTextController.text;
+      if (auxUser.nombre == null ||
+          auxUser.nombre.length == 0 ||
+          auxUser.apellido == null ||
+          auxUser.apellido.length == 0) {
+        print('0');
+        showErrorDialog(context,
+            "Debes completar tu nombre y apellido para poder guardar los cambios.");
+        return null;
+      }
 
-        if(auxUser is Padre){
-          Padre auxauxUser = auxUser;
-          auxauxUser.hijos.forEach((hijo) {
-            if(hijo.nombre == null || hijo.nombre == "Nombre"|| hijo.nombre.isEmpty ){
-              print('1');
-              showErrorDialog(context, "Debes ingresar un nombre valido para todos tus hijos.");
-              return null;
-            }
-            if(hijo.colegio == null || hijo.colegio.isEmpty){
-              print('2');
-              showErrorDialog(context, "Debes ingresar un colegio de la lista para cada uno de tus hijos.");
-              return null;
-            }
-            if(hijo.curso == null || hijo.curso.isEmpty){
-              print('3');
-              showErrorDialog(context, "Debes ingresar un curso de la lista para cada uno de tus hijos.");
-              return null;
-            }
-          });
-        }
-        if(auxUser is Alumno){
-          auxUser.getColegios().forEach((colegio) {
-            if(colegio == null){
-              showErrorDialog(context, "Debes ingresar un colegio de la lista para poder continuar.");
-              return null;
-            }
-          });
-          auxUser.getCursos().forEach((curso){
-            if(curso ==null){
-              showErrorDialog(context, "Debes ingresar un curso de la lista para poder continuar.");
-              return null;
-            }
-          });
-        }
-        if(auxUser != originalUser && editedImage == true){
-          print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-------2");
-          auxUser.fotoPerfilRaw = _image;
-          BlocProvider.of<UploadsBloc>(context).add(EditUserProfile(auxUser));
-        }else if(auxUser != originalUser){
-          print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-----3");
-          BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
-        }else if(editedImage){
-          print("BOTON DE ACEPTAR CAMBIOS ACEPTADO------4");
-          if(_image!= null){
-            auxUser.fotoPerfilRaw = _image;
-            BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
+      if (auxUser is Padre) {
+        Padre auxauxUser = auxUser;
+        auxauxUser.hijos.forEach((hijo) {
+          if (hijo.nombre == null ||
+              hijo.nombre == "Nombre" ||
+              hijo.nombre.isEmpty) {
+            print('1');
+            showErrorDialog(context,
+                "Debes ingresar un nombre valido para todos tus hijos.");
+            return null;
           }
+          if (hijo.colegio == null || hijo.colegio.isEmpty) {
+            print('2');
+            showErrorDialog(context,
+                "Debes ingresar un colegio de la lista para cada uno de tus hijos.");
+            return null;
+          }
+          if (hijo.curso == null || hijo.curso.isEmpty) {
+            print('3');
+            showErrorDialog(context,
+                "Debes ingresar un curso de la lista para cada uno de tus hijos.");
+            return null;
+          }
+        });
+      }
+      if (auxUser is Alumno) {
+        auxUser.getColegios().forEach((colegio) {
+          if (colegio == null) {
+            showErrorDialog(context,
+                "Debes ingresar un colegio de la lista para poder continuar.");
+            return null;
+          }
+        });
+        auxUser.getCursos().forEach((curso) {
+          if (curso == null) {
+            showErrorDialog(context,
+                "Debes ingresar un curso de la lista para poder continuar.");
+            return null;
+          }
+        });
+      }
+      if (auxUser != originalUser && editedImage == true) {
+        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-------2");
+        auxUser.fotoPerfilRaw = _image;
+        BlocProvider.of<UploadsBloc>(context).add(EditUserProfile(auxUser));
+      } else if (auxUser != originalUser) {
+        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-----3");
+        BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
+      } else if (editedImage) {
+        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO------4");
+        if (_image != null) {
+          auxUser.fotoPerfilRaw = _image;
+          BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
         }
       }
+    }
   }
 
-  void cancelarCambios(){
-    if(auxUser != null && originalUser!= null){
+  void cancelarCambios() {
+    if (auxUser != null && originalUser != null) {
       setState(() {
         auxUser = originalUser;
       });
@@ -1844,29 +1860,28 @@ class _MiPerfilState extends State<MiPerfil> {
 
   eliminarHijo(Padre user) {
     print("ELIMINEEE HIJOOOOO -------------------------------------");
-    if(user is Padre){
+    if (user is Padre) {
       setState(() {
         int aux = indexHijo;
-        if(indexHijo == user.getHijosNames().length -1){
-          indexHijo-=1;
+        if (indexHijo == user.getHijosNames().length - 1) {
+          indexHijo -= 1;
         }
         user.removeHijo(aux);
-
       });
     }
   }
 
   addHijo(Padre user) {
-    if(user is Padre){
+    if (user is Padre) {
       setState(() {
-        user.agregarHijo(Hijo("Nombre","Florida Day School","1er grado"));
+        user.agregarHijo(Hijo("Nombre", "Florida Day School", "1er grado"));
       });
     }
   }
 
-  void changeRoles(){
+  void changeRoles() {
     setState(() {
-      if(auxUser!= null){
+      if (auxUser != null) {
         auxUser = auxUser.changeRole();
       }
     });
@@ -1882,17 +1897,16 @@ class _MiPerfilState extends State<MiPerfil> {
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if(auxUser != null){
+    if (auxUser != null) {
       setState(() {
         _image = image;
         editedImage = true;
       });
     }
-
   }
 
   Future<void> _cropImage() async {
-    if(auxUser!= null){
+    if (auxUser != null) {
       File cropped = await ImageCropper.cropImage(
         sourcePath: _image.path,
         //ratioX: 1.0,
@@ -1904,27 +1918,82 @@ class _MiPerfilState extends State<MiPerfil> {
         editedImage = true;
       });
     }
-
   }
 
   void selectImage() {
     try {
       getImage().then((anything) => _cropImage());
-    }catch(e){
+    } catch (e) {
       editedImage = false;
     }
+  }
+
+  void _showDialogSignOut() {
+    showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "¿Estas seguro?",
+        description: "Deberas volver a iniciar sesión",
+        primaryButtonText: "Cancelar",
+        primaryFunction: () {
+          Navigator.pop(context);
+        },
+        secondaryButtonText: "Cerrar Sesion",
+        secondaryFunction: () async {
+          try {
+            final auth = Provider.of<BaseAuth>(context, listen: false);
+            await auth.signOut();
+            BlocProvider.of<UserBloc>(context).add(UnloadUser());
+            Navigator.pop(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FirstscreenWidget(),
+              ),
+            );
+          } catch (e) {
+            print(e.message);
+          }
+        },
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
   }
 
   void _showDialogAyuda() {
     showSlideDialogGrande(
       context: context,
-      child: CustomDialog(
-        title: "¿Estas seguro?",
-        description: "Deberas volver a iniciar sesión",
-        primaryButtonText: "Si",
-        primaryButtonRoute: "/logOut",
-        secondaryButtonText: "Cancelar",
-        secondaryButtonRoute: "/home",
+      child: CustomDialog.customFunctions(
+        title: "Contactanos",
+        description:
+            "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
+        primaryButtonText: "Cancelar",
+        primaryFunction: () {
+          Navigator.pop(context);
+        },
+        secondaryButtonText: "Enviar Mail",
+        secondaryFunction: () async {
+          try {
+//            if (Platform.isAndroid) {
+//              AndroidIntent intent = AndroidIntent(
+//                action: 'android.intent.action.MAIN',
+//                category: 'android.intent.category.APP_EMAIL',
+//              );
+//              intent.launch().catchError((e) {
+//                print(e.message);
+//              });
+//            } else if (Platform.isIOS) {
+//              //launch("message://")
+              launch("mailto:buymy.customerservice@gmail.com?subject=Duda/Consulta BuyMy&body=Estimados,les notifico que me ocurrio ...")
+                  .catchError((e) {
+                print(e.message);
+              });
+           // }
+          } catch (e) {
+            print(e.message);
+          }
+        },
       ),
       // barrierColor: Colors.white.withOpacity(0.7),
       // pillColor: Colors.red,
@@ -2014,8 +2083,4 @@ class _MiPerfilState extends State<MiPerfil> {
         ),
         animatedPill: false);
   }
-
-
-
-
 }
