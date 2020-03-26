@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../auth.dart';
 
@@ -833,6 +835,32 @@ class _MiPerfilState extends State<MiPerfil> {
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                     color: Color.fromARGB(255, 57, 57, 57)),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 30),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontFamily: "Gibson", fontSize: 20, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 57, 57, 57),),recognizer: new TapGestureRecognizer()
+                                      ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 30),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(text: "Terminos y condiciones ",style: TextStyle(fontFamily: "Gibson", fontSize: 20, fontWeight: FontWeight.w600, color: Color.fromARGB(255, 57, 57, 57),),recognizer: new TapGestureRecognizer()
+                                      ..onTap = () { launch('https://docs.google.com/document/d/1UxNGanYn83-RnF1BFWZm7dO5uJXW-B-ce9G8aNHZhQo/edit?usp=sharing');
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             GestureDetector(
