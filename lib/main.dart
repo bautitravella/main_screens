@@ -126,12 +126,72 @@ class MyDecider extends StatefulWidget {
     return MyDeciderState();
   }}
 class MyDeciderState extends State<MyDecider> {
-  StreamSubscription iosSubscription;
 
 
   @override
-  void initState() {
+  Widget build(BuildContext context) {
+    final auth = Provider.of<BaseAuth>(context);
+    return StreamBuilder<FirebaseUser>(
+      stream: auth.onAuthStateChangedUser,
+      builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final bool loggedIn = snapshot.hasData;
+          if (loggedIn) {
+            if (!isVerified(snapshot.data)) {
+              return VerificacionWidget();
+            }
+            return FirestoreDecider(snapshot.data.email);
+          } else {
+            return FirstscreenWidget();
+          }
+        }
+        //errorDialog(context);
+        return CircularProgressIndicator();
+      },
+    );
+  }
 
+  bool isVerified(FirebaseUser user) {
+    final providers = user.providerData;
+    bool isVerified = true;
+    //print('CANTIDAD = ${providers.length}');
+    for (UserInfo userProviders in providers) {
+      //print('MENSAJE provider = ${userProviders.providerId} ');
+      if (userProviders.providerId != 'password' &&
+          userProviders.providerId != 'firebase') {
+        return true;
+      } else {
+        isVerified = user.isEmailVerified;
+      }
+    }
+    //print('MENSAJE TRUE');
+    return isVerified;
+  }
+}
+
+
+
+class FirestoreDecider extends StatefulWidget {
+  String userEmail;
+  FirestoreDecider(this.userEmail);
+
+  @override
+  FirestoreDeciderState createState() => FirestoreDeciderState(userEmail);
+}
+
+class FirestoreDeciderState extends State<FirestoreDecider> {
+  Future<DocumentSnapshot> firestoreDocumentFuture;
+  String email;
+  StreamSubscription iosSubscription;
+
+  FirestoreDeciderState(this.email);
+
+  @override
+  void initState() {
+    super.initState();
+    firestoreDocumentFuture =
+        Firestore.instance.collection("Users").document(email).get();
+    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
     final FirebaseMessaging _fcm = FirebaseMessaging();
     if (Platform.isIOS) {
       iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
@@ -170,71 +230,6 @@ class MyDeciderState extends State<MyDecider> {
         // TODO optional
       },
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final auth = Provider.of<BaseAuth>(context);
-    return StreamBuilder<FirebaseUser>(
-      stream: auth.onAuthStateChangedUser,
-      builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          final bool loggedIn = snapshot.hasData;
-          if (loggedIn) {
-            if (!isVerified(snapshot.data)) {
-              return VerificacionWidget();
-            }
-            return FirestoreDecider(snapshot.data.email);
-          } else {
-            return FirstscreenWidget();
-          }
-        }
-        //errorDialog(context);
-        return CircularProgressIndicator();
-      },
-    );
-  }
-
-  bool isVerified(FirebaseUser user) {
-    final providers = user.providerData;
-    bool isVerified = true;
-    print('CANTIDAD = ${providers.length}');
-    for (UserInfo userProviders in providers) {
-      print('MENSAJE provider = ${userProviders.providerId} ');
-      if (userProviders.providerId != 'password' &&
-          userProviders.providerId != 'firebase') {
-        return true;
-      } else {
-        isVerified = user.isEmailVerified;
-      }
-    }
-    print('MENSAJE TRUE');
-    return isVerified;
-  }
-}
-
-
-
-class FirestoreDecider extends StatefulWidget {
-  String userEmail;
-  FirestoreDecider(this.userEmail);
-
-  @override
-  FirestoreDeciderState createState() => FirestoreDeciderState(userEmail);
-}
-
-class FirestoreDeciderState extends State<FirestoreDecider> {
-  Future<DocumentSnapshot> firestoreDocumentFuture;
-  String email;
-
-  FirestoreDeciderState(this.email);
-
-  @override
-  void initState() {
-    super.initState();
-    firestoreDocumentFuture =
-        Firestore.instance.collection("Users").document(email).get();
-    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
   }
 
   @override

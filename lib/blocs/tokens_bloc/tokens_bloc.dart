@@ -14,7 +14,8 @@ class TokensBloc extends Bloc<TokensBlocEvent, TokensBlocState> {
   bool isUserDownloaded = false;
 
   TokensBloc(this.databaseRepository, this.userBloc){
-    _userStreamSubscription = userBloc.listen((state) {
+
+    _userStreamSubscription = userBloc?.listen((state) {
 
       if(state is UserLoadedState){
         isUserDownloaded = true;

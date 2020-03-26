@@ -328,12 +328,13 @@ class FirebaseRepository extends DatabaseRepository {
           .document(email)
           .snapshots()
           .map((doc) {
-            if(doc.data==null){
-              return null;
+            if(doc.data!=null){
+              return createUserFromDocumentSnapshot(doc);
             }
-            return createUserFromDocumentSnapshot(doc);});
+            });
       //User.fromMap(doc.data, email));
     } catch (e) {
+      print("getUserInfo error = " + e.toString());
       rethrow;
     }
   }
