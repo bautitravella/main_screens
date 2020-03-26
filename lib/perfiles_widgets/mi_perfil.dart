@@ -1691,7 +1691,7 @@ class _MiPerfilState extends State<MiPerfil> {
             children: <Widget>[
               user.getHijosNames().length > 1?
               GestureDetector(
-                onTap: () => eliminarHijo(indexHijo,user),
+                onTap: () => eliminarHijo(user),
                 child: Text(
                   "Eliminar perfil \n de hijo",
                   style: TextStyle(
@@ -1810,7 +1810,7 @@ class _MiPerfilState extends State<MiPerfil> {
     }
   }
 
-  eliminarHijo(int indexHijo,Padre user) {
+  eliminarHijo(Padre user) {
     print("ELIMINEEE HIJOOOOO -------------------------------------");
     if(user is Padre){
       setState(() {
