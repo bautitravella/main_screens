@@ -4,6 +4,7 @@ import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
@@ -18,16 +19,21 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 
 class HomeViewTres extends StatefulWidget {
-  HomeViewTres({Key key}) : super(key: key);
+  HomeHubState homeHubState;
+  HomeViewTres({ this.homeHubState,Key key}) : super(key: key);
   @override
   _HomeViewTresState createState() => _HomeViewTresState();
 }
 
 class _HomeViewTresState extends State<HomeViewTres> {
   PanelController _pc = new PanelController();
+  HomeHubState homeHubState;
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    if(widget.homeHubState!= null){
+      homeHubState = widget.homeHubState;
+    }
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -870,12 +876,16 @@ class _HomeViewTresState extends State<HomeViewTres> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CategoriesColegios(),
-                ),
-              );
+              setState(() {
+                homeHubState?.changeToMyBooks();
+              });
+
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => CategoriesColegios(),
+//                ),
+//              );
             },
             child: Container(
               margin: EdgeInsets.only(right: 20),
@@ -907,62 +917,72 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.favorite_border,
+          GestureDetector(
+            onTap: (){
+              homeHubState?.changeToFavorites();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Favoritos",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Favoritos",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      FontAwesome5.comment,
+          GestureDetector(
+            onTap: (){
+              homeHubState?.changeToChats();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        FontAwesome5.comment,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Mensajes",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Mensajes",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           GestureDetector(

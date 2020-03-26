@@ -21,26 +21,47 @@ import 'package:provider/provider.dart';
 class HomeHub extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _HomeHubState();
+    return HomeHubState();
   }
 }
 
-class _HomeHubState extends State<HomeHub> {
+class HomeHubState extends State<HomeHub> {
   int _currentIndex = 0;
   PageController _pageController;
-  final List<Widget> _children = [
-
-    HomeViewTres(),
-    MyBooksView(),
-    FavoritosView(),
-    /*ExploreView(),*/
-    NotificationView(),
-  ];
+  List<Widget> _children;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _children = [
+
+      HomeViewTres(homeHubState: this),
+      MyBooksView(),
+      FavoritosView(),
+      /*ExploreView(),*/
+      NotificationView(),
+    ];
+  }
+
+  void changeToHome(){
+    setState(() => _currentIndex = 0);
+    _pageController.jumpToPage(0);
+  }
+
+  void changeToMyBooks(){
+      setState(() => _currentIndex = 1);
+      _pageController.jumpToPage(1);
+  }
+
+  void changeToFavorites(){
+    setState(() => _currentIndex = 2);
+    _pageController.jumpToPage(2);
+  }
+
+  void changeToChats(){
+    setState(() => _currentIndex = 3);
+    _pageController.jumpToPage(3);
   }
 
   @override
@@ -117,38 +138,43 @@ class _HomeHubState extends State<HomeHub> {
   }
 
   _onWillPop() {
-    return showDialog(
-      context: context,
-      builder:(context) => AlertDialog(
-        content: ListTile(
-          title: Text("Sign Out"),
-          subtitle: Text("Si presionas Continuar, esto desconectara tu cuenta y te enviara al menu de log in"),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Continuar'),
-            onPressed:() async {
-              try {
-                final auth = Provider.of<BaseAuth>(context,
-                    listen: false);
-                await auth.signOut();
-                BlocProvider.of<UserBloc>(context).add(UnloadUser());
-                Navigator.pop(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        FirstscreenWidget(),
+    if(_currentIndex != 0){
+      changeToHome();
+    }else {
+      return showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(
+                content: ListTile(
+                  title: Text("Sign Out"),
+                  subtitle: Text(
+                      "Si presionas Continuar, esto desconectara tu cuenta y te enviara al menu de log in"),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Continuar'),
+                    onPressed: () async {
+                      try {
+                        final auth = Provider.of<BaseAuth>(context,
+                            listen: false);
+                        await auth.signOut();
+                        BlocProvider.of<UserBloc>(context).add(UnloadUser());
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FirstscreenWidget(),
+                          ),
+                        );
+                      } catch (e) {
+                        print(e.message);
+                      }
+                    },
                   ),
-                );
-              } catch (e) {
-                print(e.message);
-              }
-            },
-          ),
-        ],
-      )
-    );
-
+                ],
+              )
+      );
+    }
   }
 /* int _currentIndex = 2;
   final List<Widget> _children = [
