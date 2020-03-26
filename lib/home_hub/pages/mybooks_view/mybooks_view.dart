@@ -205,7 +205,7 @@ class MyBooksViewState extends State<MyBooksView> {
             child: CategorySelector(this)
           ),
           Positioned(
-                  top: 80,
+                  top: 90,
                   left: 0,
                   right: 0,
                   bottom: 0,

@@ -4,6 +4,7 @@ import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
+import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -170,16 +171,35 @@ class _FavoritosViewState extends State<FavoritosView> {
             right: 25,
             child: Row(
               children: <Widget>[
-                Icon(Icons.search, color: Colors.white, size: 26),
+                IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
+                  BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          SearchWidget(),
+                    ),
+                  );
+                },),
                 SizedBox(
                   width: 5,
                 ),
-                Icon(Icons.more_vert, color: Colors.white, size: 26)
+                GestureDetector(
+                    child: Icon(Icons.more_vert, color: Colors.white, size: 26),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MiPerfil(),
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),
           Positioned(
-            top: 35,
+            top: 45,
             left: 0,
             right: 0,
             bottom: 0,

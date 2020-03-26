@@ -4,6 +4,8 @@ import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';
+import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
+import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
@@ -17,6 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeViewTres extends StatefulWidget {
   HomeHubState homeHubState;
@@ -1025,14 +1028,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeViewDos(),
-                ),
-              );
-            },
+            onTap: _showDialogAyuda,
             child: Container(
               margin: EdgeInsets.only(right: 20),
               child: Column(
@@ -1105,5 +1101,47 @@ class _HomeViewTresState extends State<HomeViewTres> {
         ],
       ),
     );
+
+
+
   } //TODO especificarle cual de todas las categories
+  void _showDialogAyuda() {
+    showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "Contactanos",
+        description:
+        "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
+        primaryButtonText: "Cancelar",
+        primaryFunction: () {
+          Navigator.pop(context);
+        },
+        secondaryButtonText: "Enviar Mail",
+        secondaryFunction: () async {
+          try {
+//            if (Platform.isAndroid) {
+//              AndroidIntent intent = AndroidIntent(
+//                action: 'android.intent.action.MAIN',
+//                category: 'android.intent.category.APP_EMAIL',
+//              );
+//              intent.launch().catchError((e) {
+//                print(e.message);
+//              });
+//            } else if (Platform.isIOS) {
+//              //launch("message://")
+            launch("mailto:buymy.customerservice@gmail.com?subject=Duda/Consulta BuyMy&body=Estimados,les notifico que me ocurrio ...")
+                .catchError((e) {
+              print(e.message);
+            });
+            // }
+          } catch (e) {
+            print(e.message);
+          }
+        },
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
 }
