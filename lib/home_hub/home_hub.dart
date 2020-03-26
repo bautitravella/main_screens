@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
 import 'package:flutterui/home_hub/pages/favoritos_view/favoritos_view.dart';
@@ -146,6 +147,11 @@ class HomeHubState extends State<HomeHub> {
     if(_currentIndex != 0){
       changeToHome();
     }else {
+      if(Platform.isIOS){
+        return null;
+      }else {
+        SystemNavigator.pop();
+      }
       return showDialog(
           context: context,
           builder: (context) =>
