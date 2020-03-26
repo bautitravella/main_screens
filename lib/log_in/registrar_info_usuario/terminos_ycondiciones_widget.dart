@@ -169,7 +169,7 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
               flex: 1,
               child: Container(
                 margin:
-                    EdgeInsets.only(left: 28, top: 20, right: 28, bottom: 19),
+                    EdgeInsets.only(left: 28, top: 20, right: 28, bottom: 0),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -177,7 +177,7 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
                       left: 0,
                       top: 0,
                       right: 0,
-                      bottom: 48,
+                      bottom: 0,
                       child: SingleChildScrollView(
                         padding: EdgeInsets.all(0),
                         child: Column(
@@ -278,6 +278,9 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
                                 ),
                               )
                             ),
+                            Container(
+                              height: 120,
+                            )
                           ],
                         ),
                       ),
@@ -285,7 +288,7 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
                     Positioned(
                       left: 4,
                       right: 3,
-                      bottom: 0,
+                      bottom: 10,
                       height: 53,
                       child: FlatButton(
                         onPressed: () => siguienteBtn(context),
