@@ -208,6 +208,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
       showErrorDialog(context,
           "Debes seleccionar como minimo 3 imagenes para poder continuar");
     } else {
+      showLoadingDialog(context);
       Book book = Book();
       List<Future<ByteData>> futuresList = [];
       List<Future<ByteData>> futuresThumbsList = [];
@@ -223,12 +224,15 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
       Future.wait([
         Future.wait(futuresList).then((value) => value.forEach((element) { book.imagesRaw.add(element.buffer.asUint8List());})),
         Future.wait(futuresThumbsList).then((value) => value.forEach((element) { book.imagesRawThumb.add(element.buffer.asUint8List());})),
-      ]).then((value) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SeleccionCursos(book),
-        ),
-      ));
+      ]).then((value) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SeleccionCursos(book),
+          ),
+        );
+      });
 
 
 
