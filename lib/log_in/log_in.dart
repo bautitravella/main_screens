@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -11,10 +12,10 @@ import 'package:flutterui/values/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../auth.dart';
 import '../main.dart';
-
 
 class LogIn extends StatefulWidget {
   @override
@@ -22,13 +23,11 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String _email;
   String _password;
   String _errorText = '';
-
 
   void logInWithGoogleBtn(BuildContext context) async {
     try {
@@ -45,22 +44,20 @@ class _LogInState extends State<LogIn> {
         _errorText = "${e.message}";
       });
       showErrorDialog(context, _errorText);
-    }catch (e){
+    } catch (e) {
       setState(() {
         _errorText = e.toString();
       });
 
       showErrorDialog(context, _errorText);
     }
-
-
   }
 
   void logInWithFacebookBtn(BuildContext context) async {
     var facebookLogin = FacebookLogin();
-    var result= await facebookLogin.logIn(['email']);
+    var result = await facebookLogin.logIn(['email']);
 
-    switch(result.status){
+    switch (result.status) {
       case FacebookLoginStatus.error:
         print("Surgio un error con el fucking facebook");
         setState(() {
@@ -72,20 +69,20 @@ class _LogInState extends State<LogIn> {
         print("Cancelado por el usuario");
         break;
       case FacebookLoginStatus.loggedIn:
-        try{
+        try {
           final auth = Provider.of<BaseAuth>(context, listen: false);
           String userUID = await auth.signInWithFacebook(result.accessToken);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MyDecider()),
           );
-        }on PlatformException catch (e) {
+        } on PlatformException catch (e) {
           setState(() {
             _errorText = "${e.message}";
           });
           showErrorDialog(context, _errorText);
           facebookLogin.logOut();
-        }catch (e){
+        } catch (e) {
           setState(() {
             _errorText = e.toString();
           });
@@ -95,10 +92,8 @@ class _LogInState extends State<LogIn> {
         }
 
         break;
-
     }
   }
-
 
   bool validateEmailAndPassword() {
     _email = emailController.text.trim();
@@ -107,7 +102,7 @@ class _LogInState extends State<LogIn> {
     if (_email.isEmpty) {
       setState(() {
         _errorText =
-        'Por favor completar el campo de email antes de continuar. ';
+            'Por favor completar el campo de email antes de continuar. ';
       });
       Navigator.pop(context);
       showErrorDialog(context, _errorText);
@@ -116,7 +111,7 @@ class _LogInState extends State<LogIn> {
     if (_password.isEmpty) {
       setState(() {
         _errorText +=
-        'Por favor completar el campo de password antes de continuar. ';
+            'Por favor completar el campo de password antes de continuar. ';
       });
       Navigator.pop(context);
       showErrorDialog(context, _errorText);
@@ -132,9 +127,9 @@ class _LogInState extends State<LogIn> {
 
     if (validateEmailAndPassword() == true) {
       try {
-        final auth = Provider.of<BaseAuth>(context,listen: false);
+        final auth = Provider.of<BaseAuth>(context, listen: false);
         String userUID =
-        await auth.signInWithEmailAndPassword(_email, _password);
+            await auth.signInWithEmailAndPassword(_email, _password);
 
         setState(() {
           _errorText = 'signed in with : $userUID})';
@@ -159,14 +154,15 @@ class _LogInState extends State<LogIn> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        width: SizeConfig.blockSizeHorizontal*100,
+        width: SizeConfig.blockSizeHorizontal * 100,
         child: Stack(
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*10),
+                  margin: EdgeInsets.only(
+                      left: 28, top: SizeConfig.blockSizeVertical * 10),
                   child: Text(
                     "Log In",
                     textAlign: TextAlign.left,
@@ -178,7 +174,10 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 38, right: 38, top: SizeConfig.blockSizeVertical*12),
+                  margin: EdgeInsets.only(
+                      left: 38,
+                      right: 38,
+                      top: SizeConfig.blockSizeVertical * 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -186,12 +185,9 @@ class _LogInState extends State<LogIn> {
                         child: Row(
                           children: [
                             Container(
-                              width: 22,
-                              height: 22,
-                              child: Icon(
-                                  Icons.alternate_email
-                              )
-                            ),
+                                width: 22,
+                                height: 22,
+                                child: Icon(Icons.alternate_email)),
                             Expanded(
                               child: Container(
                                 height: 35,
@@ -204,7 +200,8 @@ class _LogInState extends State<LogIn> {
                                     decoration: InputDecoration(
                                       hintText: "Correo",
                                       alignLabelWithHint: true,
-                                      contentPadding: EdgeInsets.only(bottom: 10),
+                                      contentPadding:
+                                          EdgeInsets.only(bottom: 10),
                                       border: InputBorder.none,
                                     ),
                                     style: TextStyle(
@@ -235,12 +232,9 @@ class _LogInState extends State<LogIn> {
                         child: Row(
                           children: [
                             Container(
-                              width: 22,
-                              height: 22,
-                              child: Icon(
-                                Icons.lock_outline
-                              )
-                            ),
+                                width: 22,
+                                height: 22,
+                                child: Icon(Icons.lock_outline)),
                             Expanded(
                               child: Container(
                                 height: 35,
@@ -253,7 +247,8 @@ class _LogInState extends State<LogIn> {
                                     decoration: InputDecoration(
                                       hintText: "Contraseña",
                                       alignLabelWithHint: true,
-                                      contentPadding: EdgeInsets.only(bottom: 10),
+                                      contentPadding:
+                                          EdgeInsets.only(bottom: 10),
                                       border: InputBorder.none,
                                     ),
                                     style: TextStyle(
@@ -280,29 +275,30 @@ class _LogInState extends State<LogIn> {
                         ),
                       ),
                       GestureDetector(
-                        child: Container(
-                          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*3),
-                          child: Text(
-                            "¿Has olvidado la contraseña?",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromARGB(100, 0, 0, 0),
-                              fontFamily: "Sf",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 3),
+                            child: Text(
+                              "¿Has olvidado la contraseña?",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color.fromARGB(100, 0, 0, 0),
+                                fontFamily: "Sf",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
-                        ),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => RecuperationWidget()),
                             );
-                          }
-                      ),
+                          }),
                       Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*1),
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical * 1),
                         child: Opacity(
                           opacity: 0.93,
                           child: Text(
@@ -322,7 +318,7 @@ class _LogInState extends State<LogIn> {
                 ),
                 Expanded(
                   child: Container(
-                    width: SizeConfig.blockSizeHorizontal*100,
+                    width: SizeConfig.blockSizeHorizontal * 100,
                     margin: EdgeInsets.only(left: 38, right: 38),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -353,7 +349,8 @@ class _LogInState extends State<LogIn> {
                                 width: 2,
                                 style: BorderStyle.solid,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(22.5)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(22.5)),
                             ),
                             textColor: Color.fromARGB(255, 117, 117, 117),
                             padding: EdgeInsets.all(0),
@@ -382,12 +379,14 @@ class _LogInState extends State<LogIn> {
                         ),
                         Container(
                           height: 45,
-                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical*13),
+                          margin: EdgeInsets.only(
+                              bottom: SizeConfig.blockSizeVertical * 13),
                           child: FlatButton(
                             onPressed: () => this.logInWithFacebookBtn(context),
                             color: Color.fromARGB(255, 59, 89, 152),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(22.5)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(22.5)),
                             ),
                             textColor: Color.fromARGB(255, 255, 255, 255),
                             padding: EdgeInsets.all(0),
@@ -421,6 +420,26 @@ class _LogInState extends State<LogIn> {
               ],
             ),
             Positioned(
+              bottom: 20,
+              left: 25,
+              child: Container(
+                margin: EdgeInsets.only(right: 150),
+                child: RichText(
+                  text: TextSpan(
+
+                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontSize: 18,color: Colors.blue),recognizer: new TapGestureRecognizer()
+                    ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
+                    },
+                  ),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
               bottom: 10,
               right: 0,
               child: Container(
@@ -436,9 +455,7 @@ class _LogInState extends State<LogIn> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.arrow_forward
-                        ),
+                        Icon(Icons.arrow_forward),
                         SizedBox(
                           width: 10,
                         ),
@@ -462,8 +479,6 @@ class _LogInState extends State<LogIn> {
       ),
     );
   }
-
-
 }
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -480,15 +495,23 @@ Future<void> _handleSignIn() async {
     print(_googleSignIn.currentUser.email);
   } catch (error) {
     print(error);
-
   }
 }
 
-
 void showLoadingDialog(BuildContext context) {
-  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
 }
-void showErrorDialog(BuildContext context,String errorMessage){
-  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
       animatedPill: false);
 }
