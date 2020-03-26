@@ -500,6 +500,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Chat>> getVentaChats(User user) {
     return chatsReference
         .where('vendedorEmail', isEqualTo: user.email)
+        .orderBy("lastMessageTimestamp",descending: true)
         .snapshots()
         .map((docs) => docs.documents
             .map((doc) => Chat.fromDocumentSnapshot(doc))
@@ -510,6 +511,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Chat>> getCompraChats(User user) {
     return chatsReference
         .where('compradorEmail', isEqualTo: user.email)
+        .orderBy("lastMessageTimestamp",descending: true)
         .snapshots()
         .map((docs) => docs.documents
             .map((doc) => Chat.fromDocumentSnapshot(doc))

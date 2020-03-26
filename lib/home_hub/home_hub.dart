@@ -80,7 +80,12 @@ class HomeHubState extends State<HomeHub> {
           selectedIndex: _currentIndex,
           onItemSelected: (index) {
             setState(() => _currentIndex = index);
-            _pageController.jumpToPage(index);
+            try{
+              _pageController?.jumpToPage(index);
+            }catch(e){
+              print("HOME HUB: PAGE CONTROLLER ERROR");
+            }
+
           },
           items: <BottomNavyBarItem>[
             BottomNavyBarItem(
