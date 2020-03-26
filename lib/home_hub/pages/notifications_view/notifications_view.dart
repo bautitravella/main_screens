@@ -327,45 +327,30 @@ class ListViewVenta extends StatelessWidget {
                                                   "RECHAAAAAZAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                                               showSlideDialogGrande(
                                                   context: context,
-                                                  child: CustomDialog
-                                                      .customFunctions(
-                                                    title:
-                                                        "Rechazar Solicitud De Compra",
-                                                    description:
-                                                        "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra",
-                                                    primaryButtonText:
-                                                        "CANCELAR",
-                                                    secondaryButtonText:
-                                                        "Rechazar Compra",
+                                                  child: CustomDialog.customFunctions(
+                                                    title: "Rechazar Solicitud De Compra",
+                                                    description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra",
+                                                    primaryButtonText: "CANCELAR",
+                                                    secondaryButtonText: "Rechazar Compra",
                                                     primaryFunction: () {
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      Navigator.of(context).pop();
                                                     },
                                                     secondaryFunction: () {
-                                                      BlocProvider.of<
-                                                                  MessagesBloc>(
-                                                              context)
-                                                          .add(
-                                                              RechazarSolicitudDeCompra(
-                                                                  chat));
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(chat));
+                                                      Navigator.of(context).pop();
                                                     },
                                                   ));
                                             },
                                             child: Container(
                                                 height: 21,
                                                 width: 21,
-                                                child: Image.asset(
-                                                    'assets/images/sell-icon2.png')),
+                                                child: Image.asset('assets/images/sell-icon2.png')),
                                           ),
                                           Container(
                                             height: 21,
                                             width: 2,
-                                            color:
-                                                Color.fromARGB(255, 57, 57, 57),
-                                            margin: EdgeInsets.only(
-                                                left: 10, right: 10),
+                                            color: Color.fromARGB(255, 57, 57, 57),
+                                            margin: EdgeInsets.only(left: 10, right: 10),
                                           ),
                                           GestureDetector(
                                             onTap: () {
@@ -373,36 +358,22 @@ class ListViewVenta extends StatelessWidget {
                                                   "AAAAAACEEEEEEEEPTAAAAAAAAAAAAAAAAAR  COOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                                               showSlideDialogGrande(
                                                   context: context,
-                                                  child: CustomDialog
-                                                      .customFunctions(
-                                                    title:
-                                                        "Aceptar Solicitud De Compra",
-                                                    description:
-                                                        "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
-                                                    primaryButtonText:
-                                                        "CANCELAR",
-                                                    secondaryButtonText:
-                                                        "Aceptar Compra",
-                                                    primaryFunction: () {
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                  child: CustomDialog.customFunctions(
+                                                    title: "Aceptar Solicitud De Compra",
+                                                    description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                                                    primaryButtonText: "CANCELAR",
+                                                    secondaryButtonText: "Aceptar Compra",
+                                                    primaryFunction: () {Navigator.of(context).pop();
                                                     },
                                                     secondaryFunction: () {
-                                                      BlocProvider.of<
-                                                                  MessagesBloc>(
-                                                              context)
-                                                          .add(
-                                                              AceptarSolicitudDeCompra(
-                                                                  chat));
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      BlocProvider.of<MessagesBloc>(context).add(AceptarSolicitudDeCompra(chat));
+                                                      Navigator.of(context).pop();
                                                       Navigator.push(context,
                                                           MaterialPageRoute(
                                                               builder: (_) {
                                                         return ChatScreenBuck(
                                                             chat: chat,
-                                                            chatRole: ChatRole
-                                                                .VENDEDOR);
+                                                            chatRole: ChatRole.VENDEDOR);
                                                       }));
                                                     },
                                                   ));
@@ -586,7 +557,44 @@ class ListViewCompra extends StatelessWidget {
                                     ? Container(
                                         child: Row(
                                           children: <Widget>[
-                                            IconButton(
+                                            GestureDetector(
+                                              onTap: () {
+                                                showSlideDialogGrande(
+                                                    context: context,
+                                                    child: CustomDialog.customFunctions(
+                                                      title: "Enviar Solicitud De Compra",
+                                                      description: "Una vez enviada la solicitud de compra esta no se podra cancelar",
+                                                      primaryButtonText: "CANCELAR",
+                                                      secondaryButtonText: "Solicitar Compra",
+                                                      primaryFunction: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                      secondaryFunction: () {
+                                                        BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat, ChatRole.COMPRADOR));
+                                                        BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(chat));
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context,
+                                                            MaterialPageRoute(
+                                                                builder: (_) {
+                                                                  return ChatScreenBuck(
+                                                                      chat: chat,
+                                                                      chatRole: ChatRole.COMPRADOR);
+                                                                }));
+                                                      },
+                                                    ));
+                                              },
+                                              child: Container(
+                                                  height: 21,
+                                                  width: 21,
+                                                  child: Icon(Icons.add_shopping_cart)),
+                                            ),
+                                            Container(
+                                              height: 21,
+                                              width: 2,
+                                              color: Color.fromARGB(255, 57, 57, 57),
+                                              margin: EdgeInsets.only(left: 10, right: 10),
+                                            ),
+                                           /* IconButton(
                                               icon: Icon(
                                                 MaterialIcons.shopping_basket,
                                                 size: 21,
@@ -596,42 +604,24 @@ class ListViewCompra extends StatelessWidget {
                                               onPressed: () {
                                                 showSlideDialogGrande(
                                                     context: context,
-                                                    child: CustomDialog
-                                                        .customFunctions(
-                                                      title:
-                                                          "Enviar Solicitud De Compra",
-                                                      description:
-                                                          "Una vez enviada la solicitud de compra esta no se podra cancelar",
-                                                      primaryButtonText:
-                                                          "CANCELAR",
-                                                      secondaryButtonText:
-                                                          "Solicitar Compra",
+                                                    child: CustomDialog.customFunctions(
+                                                      title: "Enviar Solicitud De Compra",
+                                                      description: "Una vez enviada la solicitud de compra esta no se podra cancelar",
+                                                      primaryButtonText: "CANCELAR",
+                                                      secondaryButtonText: "Solicitar Compra",
                                                       primaryFunction: () {
-                                                        Navigator.of(context)
-                                                            .pop();
+                                                        Navigator.of(context).pop();
                                                       },
                                                       secondaryFunction: () {
-                                                        BlocProvider.of<
-                                                                    MessagesBloc>(
-                                                                context)
-                                                            .add(LoadMessages(
-                                                                chat,
-                                                                ChatRole
-                                                                    .COMPRADOR));
-                                                        BlocProvider.of<
-                                                                    MessagesBloc>(
-                                                                context)
-                                                            .add(
-                                                                SolicitarCompra(
-                                                                    chat));
+                                                        BlocProvider.of<MessagesBloc>(context).add(LoadMessages(chat, ChatRole.COMPRADOR));
+                                                        BlocProvider.of<MessagesBloc>(context).add(SolicitarCompra(chat));
                                                         Navigator.pop(context);
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
                                                                 builder: (_) {
                                                           return ChatScreenBuck(
                                                               chat: chat,
-                                                              chatRole: ChatRole
-                                                                  .COMPRADOR);
+                                                              chatRole: ChatRole.COMPRADOR);
                                                         }));
                                                       },
                                                     ));
@@ -640,11 +630,9 @@ class ListViewCompra extends StatelessWidget {
                                             Container(
                                               height: 21,
                                               width: 2,
-                                              color: Color.fromARGB(
-                                                  255, 57, 57, 57),
-                                              margin: EdgeInsets.only(
-                                                  left: 10, right: 10),
-                                            )
+                                              color: Color.fromARGB(255, 57, 57, 57),
+                                              margin: EdgeInsets.only(left: 5, right: 5),
+                                            )*/
                                           ],
                                         ),
                                       )

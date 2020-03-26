@@ -435,7 +435,7 @@ class _LogInState extends State<LogIn> {
 
                     style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                     children: <TextSpan>[
-                      TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontSize: 18,color: Colors.blue),recognizer: new TapGestureRecognizer()
+                      TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontSize: 18,color: AppColors.secondaryBackground, fontFamily: "Sf-r"),recognizer: new TapGestureRecognizer()
                     ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
                     },
                   ),

@@ -423,6 +423,7 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                                               width: 25 ,
                                                               child: CircleAvatar( backgroundImage: book.imageVendedor)
                                                           ),
+                                                          book.rating != null?
                                                           Container(
                                                             height: 21,
                                                             margin: EdgeInsets.only(left: 4),
@@ -455,7 +456,21 @@ class _EconmicosSectionState extends State<EconomicosSection> {
 
                                                               ],
                                                             ),
-                                                          ),
+                                                          ):
+                                                          Container(
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  SizedBox(width: 5,),
+                                                                  Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                                    style: TextStyle(
+                                                                      fontSize: 12,
+                                                                      fontWeight: FontWeight.w700,
+                                                                      fontFamily: "Sf-r",
+                                                                      color: Color.fromARGB(
+                                                                          190, 0, 0, 0),
+                                                                    ),
+                                                                  )
+                                                                ],)),
                                                         ],
                                                       ),
                                                       Padding(

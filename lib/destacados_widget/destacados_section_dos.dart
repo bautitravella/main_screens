@@ -462,8 +462,19 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                         ],
                                                       ),
                                                     ):
-                                                    Container(child:Row(children: <Widget>[
-                                                      Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor)
+                                                    Container(
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            SizedBox(width: 5,),
+                                                            Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w700,
+                                                          fontFamily: "Sf-r",
+                                                          color: Color.fromARGB(
+                                                              190, 0, 0, 0),
+                                                        ),
+                                                      )
                                                     ],)),
                                                   ],
                                                 ),

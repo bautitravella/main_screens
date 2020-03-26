@@ -729,7 +729,7 @@ class _MiPerfilState extends State<MiPerfil> {
                           ),
                         ),
                       ),*/  //TODO Para agregar en un futuro
-                      GestureDetector(
+                      /*GestureDetector(
                         onTap: _showDialogWave,
                         child: Container(
                           margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -813,7 +813,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             ],
                           ),
                         ),
-                      ),
+                      ),*/ //TODO para agregar en un futuro
                       Container(
                         margin: EdgeInsets.fromLTRB(0, 0, 0, 60),
                         padding: EdgeInsets.fromLTRB(15, 20, 15, 15),

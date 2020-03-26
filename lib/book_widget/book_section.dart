@@ -118,17 +118,12 @@ class _BookSectionState extends State<BookSection> {
                                           );
                                         }
                                     ),
-                                    Container(
+                                   /* Container(
                                       color: Colors.black26,
                                       height: 25,
                                       width: 2,
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.delete),
-                                      iconSize: 30.0,
-                                      color: Colors.black,
-                                      onPressed: () => showErrorDialog(context, 'que onda perrrooooo? querias borrar un libro'),
-                                    ),
+                                    ),*/
+                                   //TODO para update
                                   ],
                                 ):
                                 Row(
