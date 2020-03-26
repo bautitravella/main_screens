@@ -132,7 +132,7 @@ class _SlideDialogGrandeState extends State<SlideDialogGrande> {
 
     return AnimatedPadding(
       padding: MediaQuery.of(context).viewInsets +
-          EdgeInsets.only(top: deviceHeight / 1.8 + _currentPosition),
+          EdgeInsets.only(top: deviceHeight / 1.98 + _currentPosition),
       duration: Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: MediaQuery.removeViewInsets(

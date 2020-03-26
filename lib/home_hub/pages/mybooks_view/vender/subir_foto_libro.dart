@@ -63,7 +63,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                   margin: EdgeInsets.only(
                       left: 28,
                       top: 24,
-                      bottom: SizeConfig.blockSizeVertical * 8),
+                      bottom: SizeConfig.blockSizeVertical * 5),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -86,7 +86,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                 _imagesListBuilder(),
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 40),
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
                     child: Text(
                       "Subí 3 fotos",
                       textAlign: TextAlign.center,
@@ -128,7 +128,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
               child: Container(
                 width: 124,
                 height: 44,
-                margin: EdgeInsets.only(right: 3, bottom: 30),
+                margin: EdgeInsets.only(right: 3, bottom: 15),
                 child: FlatButton(
                     color: AppColors.secondaryElement,
                     shape: RoundedRectangleBorder(
@@ -365,8 +365,8 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 22, top: 60),
-                  height: 225,
+                  margin: EdgeInsets.only(left: 22, top: SizeConfig.blockSizeVertical*4.5),
+                  height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: images.length,
@@ -377,7 +377,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                           alignment: Alignment.center,
                           children: <Widget>[
                             Container(
-                              width: 140,
+                              width: 141,
                               height: 220,
                               padding: EdgeInsets.all(5),
                               child: ClipRRect(
