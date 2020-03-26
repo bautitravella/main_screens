@@ -20,7 +20,8 @@ El Usuario reconoce que el ingreso de su información personal, y los datos que 
  
 El Usuario acepta expresamente los Términos y Condiciones, siendo condición esencial para la utilización de la aplicación. En el evento en que se encuentre en desacuerdo con estos Términos y Condiciones, solicitamos abandonar la aplicación inmediatamente. El Proveedor podrá modificar los presentes Términos y Condiciones, lo cual se entenderá aceptado por el usuario si éste continúa con el uso de la aplicación.​
  
-Al aceptar este documento de Términos y Condiciones dará por aceptado el documento de Política de Privacidad.""",
+Al aceptar este documento de Términos y Condiciones dará por aceptado el documento de Política de Privacidad.
+\n""",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan alcanceYUso= TextSpan(
@@ -94,22 +95,27 @@ De conformidad a lo anterior autoriza el tratamiento de su información en los t
   );
   TextSpan denegacionYRetiradaDelAccesoALaAplicacion= TextSpan(
     text: """El Proveedor se reserva el derecho de suspender el acceso de un Usuario a la aplicación, sin necesidad de Justificación o previa notificación a dicho Usuario.
-    
-    """,
+   \n """,
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan jurisdiccion= TextSpan(
-      text: """Estos términos y condiciones y todo lo que tenga que ver con esta aplicación, se rigen por las leyes de la República Argentina.
-     
-      """,
+      text:
+      """Estos términos y condiciones y todo lo que tenga que ver con esta aplicación, se rigen por las leyes de la República Argentina.
+      \n""",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan usoDeInformacionNoPersonal= TextSpan(
-      text: "El Proveedor también recolecta información no personal en forma agregada para seguimiento de datos como el número total de descargas de la aplicación, entre otros. Utilizamos esta información, que permanece en forma agregada, para entender el comportamiento de la aplicación,entre otros.",
+      text:
+      """El Proveedor también recolecta información no personal en forma agregada para seguimiento de datos como el número total de descargas de la aplicación, entre otros. Utilizamos esta información, que permanece en forma agregada, para entender el comportamiento de la aplicación,entre otros.
+      \n""",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan usoDeDireccionesIP= TextSpan(
-      text: "Una dirección de Protocolo de Internet (IP) es un conjunto de números que se asigna automáticamente a su o dispositivo móvil cuando usted accede a su Proveedor de servicios de internet, o a través de la red de área local (LAN) de su organización o la red de área amplia (WAN). Los servidores web automáticamente identifica su dispositivo móvil por la dirección IP asignada a él durante su sesión en línea.\nEl Proveedor podrán recolectar direcciones IP para propósitos de administración de sistemas y para auditar el uso de nuestro sitio, todo lo anterior de acuerdo con la autorización de protección de datos que se suscribe para tal efecto.",
+      text:
+      """Una dirección de Protocolo de Internet (IP) es un conjunto de números que se asigna automáticamente a su o dispositivo móvil cuando usted accede a su Proveedor de servicios de internet, o a través de la red de área local (LAN) de su organización o la red de área amplia (WAN). Los servidores web automáticamente identifica su dispositivo móvil por la dirección IP asignada a él durante su sesión en línea.
+
+El Proveedor podrán recolectar direcciones IP para propósitos de administración de sistemas y para auditar el uso de nuestro sitio, todo lo anterior de acuerdo con la autorización de protección de datos que se suscribe para tal efecto.
+""",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
 
@@ -192,6 +198,10 @@ De conformidad a lo anterior autoriza el tratamiento de su información en los t
                                 text: TextSpan(
                                   children: <TextSpan>[
                                     terminosYCondiciones,
+                                    TextSpan(
+                                      text: "Alcance y Uso\n\n",
+                                      style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                  ),
                                     alcanceYUso,
                                     requisitosYUso,
                                     obligacionesDeLosUsuarios,
