@@ -12,7 +12,20 @@ class TerminosYCondicionesWidget extends StatelessWidget {
   void onButtonsLargeGreenPressed(BuildContext context) {}
 
   TextSpan terminosYCondiciones= TextSpan(
-  text: """El presente documento establece las condiciones mediante las cuales se regirá el uso de la aplicación móvil: BuyMy (en adelante la Aplicación o App), la cual es provista por AGUSTÍN TORMAKH y BAUTISTA TRAVELLA en adelante el Proveedor de la aplicación.
+      children: [
+        TextSpan( text: """El presente documento establece las condiciones mediante las cuales se regirá el uso de la aplicación móvil:""",
+            style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
+        ),
+        TextSpan( text: """ BuyMy """,
+            style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w700, fontFamily: "Sf-t")
+        ),
+        TextSpan( text: """(en adelante la Aplicación o App), la cual es provista por""",
+            style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
+        ),
+        TextSpan( text: """ AGUSTÍN TORMAKH y BAUTISTA TRAVELLA """,
+            style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w700, fontFamily: "Sf-t")
+        ),
+        TextSpan( text: """en adelante el Proveedor de la aplicación.
 
 La aplicación funcionará como un nuevo canal para la realización de ciertas actividades con el objeto de facilitar el acceso a los usuarios de BuyMy a dichas actividades. Siendo el Usuario la persona que utiliza los servicios que brinda la App BuyMy.
 
@@ -22,10 +35,12 @@ El Usuario acepta expresamente los Términos y Condiciones, siendo condición es
  
 Al aceptar este documento de Términos y Condiciones dará por aceptado el documento de Política de Privacidad.
 \n""",
-      style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
+            style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
+        ),
+      ]
   );
   TextSpan alcanceYUso= TextSpan(
-    text: "En la aplicación se pondrá a disposición del Usuario información y/o permitirá la realización de las transacciones determinadas o habilitadas por BuyMy. El Proveedor podrá adicionar, modificar o eliminar las funcionalidades en cualquier momento, lo cual acepta el usuario mediante la instalación de la aplicación.",
+    text: "En la aplicación se pondrá a disposición del Usuario información y/o permitirá la realización de las transacciones determinadas o habilitadas por BuyMy. El Proveedor podrá adicionar, modificar o eliminar las funcionalidades en cualquier momento, lo cual acepta el usuario mediante la instalación de la aplicación.\n\n",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan requisitosYUso= TextSpan(
@@ -33,7 +48,8 @@ Al aceptar este documento de Términos y Condiciones dará por aceptado el docum
 
 La Aplicación se suministra sin garantía de ningún género, expresa o implícita, incluyendo sin limitación las garantías de calidad satisfactoria, adecuación para un fin particular o no infracción, por tanto, el Proveedor no garantiza el funcionamiento adecuado en los distintos sistemas operativos o dispositivos en los cuales se haga uso de la aplicación.
 
-El Usuario será responsable por la modalidad que elija para su registración en la app.""",
+El Usuario será responsable por la modalidad que elija para su registración en la app.
+\n""",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan obligacionesDeLosUsuarios= TextSpan(
@@ -54,7 +70,7 @@ El Usuario será responsable por la modalidad que elija para su registración en
 Exceptuando lo expresamente estipulado en estos Términos y Condiciones, queda prohibido todo acto de copia, reproducción, modificación, creación de trabajos derivados, venta o distribución, exhibición de los contenidos de esta aplicación, de manera o por medio alguno, incluyendo, más no limitado a, medios electrónicos, mecánicos, de fotocopiado, de grabación o de cualquier otra índole, sin el permiso previo y por escrito de el Proveedor,  titular de los respectivos derechos.
 
 En ningún caso estos Términos y Condiciones confieren derechos, licencias ni autorizaciones para realizar los actos anteriormente prohibidos. Cualquier uso no autorizado de los contenidos constituirá una violación del presente documento y a las normas vigentes sobre derechos de autor, a las normas vigentes nacionales e internacionales sobre Propiedad Intelectual, y a cualquier otra que sea aplicable.
-""",
+\n""",
       style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w400, fontFamily: "Sf-t")
   );
   TextSpan lincenciaParaCopiar= TextSpan(
@@ -201,18 +217,62 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
                                     TextSpan(
                                       text: "Alcance y Uso\n\n",
                                       style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
-                                  ),
+                                    ),
                                     alcanceYUso,
+                                    TextSpan(
+                                        text: "Requisitos para uso\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     requisitosYUso,
+                                    TextSpan(
+                                        text: "Obligaciones de los usuarios\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     obligacionesDeLosUsuarios,
+                                    TextSpan(
+                                        text: "Obligaciones de los usuarios\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     propiedadIntelectual,
+                                    TextSpan(
+                                        text: "Licencia para copiar para uso personal \n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     lincenciaParaCopiar,
+                                    TextSpan(
+                                        text: "Integración con otras aplicaciones \n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     integracionConOtras,
+                                    TextSpan(
+                                        text: "Uso de información y privacidad\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     usoDeInformacion,
+                                    TextSpan(
+                                        text: "Responsabilidad de el proveedor\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     responsabilidadDeElProveedor,
+                                    TextSpan(
+                                        text: "Denegación y retirada del acceso a la aplicación\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     denegacionYRetiradaDelAccesoALaAplicacion,
+                                    TextSpan(
+                                        text: "Jurisdicción\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     jurisdiccion,
+                                    TextSpan(
+                                        text: "Uso de información no personal\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     usoDeInformacionNoPersonal,
+                                    TextSpan(
+                                        text: "Uso de direcciones IP\n\n",
+                                        style: TextStyle(color: Color.fromARGB(255, 69, 79, 99), fontWeight: FontWeight.w600, fontSize: 18,fontFamily: "Sf")
+                                    ),
                                     usoDeDireccionesIP,
                                   ],
                                 ),
