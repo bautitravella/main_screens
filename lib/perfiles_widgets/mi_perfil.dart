@@ -904,135 +904,102 @@ class _MiPerfilState extends State<MiPerfil> {
                     ),
                   ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: 75,
-                      margin: EdgeInsets.only(left:18),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(height: 19),
-                              Text(
-                                "Perfil",
-                                style: TextStyle(
-                                    fontFamily: "Sf-r",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color.fromARGB(255, 57, 57, 57)),
-                              ),
-                              Text(
-                                "Nombre, Apellido, Colegio, Curso, Rol",
-                                style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 184, 184, 184)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 60,
-                            child: GestureDetector(
-                              child: Stack(
-                                alignment: Alignment.topRight,
-                                children: <Widget>[
-                                  Positioned(
-                                    right: 10,
-                                    top: 8,
-                                    child: CircleAvatar(
-                                      radius: 23.0,
-                                      backgroundImage:
-                                      editedImage && _image!= null?FileImage(_image):user.getProfileImage(),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 32,
-                                    top: 30,
-                                    child: Container(
-                                      padding: EdgeInsets.all(3),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(100),
-                                        color: Colors.white,
-                                        border:  Border.all(color: AppColors.secondaryBackground, width: 1.5),
-                                      ),
-                                      child: Icon(Icons.edit, color: AppColors.secondaryBackground, size: 18),
-                                    )/*CircleAvatar(
-                                      radius: 12.0,
-                                      backgroundImage: AssetImage(
-                                          "assets/images/logocolegio-fds.png"),
-                                    ),*/
-                                  ),
-                                ],
-                              ),
-                                onTap: () => selectImage(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      margin: EdgeInsets.only(left:18, right: 18),
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Cambiar nombre y apellido",
-                            style: TextStyle(
-                                fontFamily: "Sf",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(
-                                    255, 110, 110, 110)),
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                height: 44,
-                                width: SizeConfig.blockSizeHorizontal*37,
-                                padding: EdgeInsets.only(left: 18),
-                                decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20.0),
-                                border: Border.all(
-                                    width: 1,
-                                    color:
-                                    Color.fromARGB(100, 112, 112, 112)),
-                              ),
-                                child:Center(
-                                  child: TextField(
-                                    controller: nombreTextController,
-                                    decoration: InputDecoration(
-                                      alignLabelWithHint: true,
-                                      border: InputBorder.none,
-                                    ),
-                                    style: TextStyle(
-                                      color: Color.fromARGB(
-                                          255, 120, 120, 120),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 75,
+                        margin: EdgeInsets.only(left:18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                SizedBox(height: 19),
+                                Text(
+                                  "Perfil",
+                                  style: TextStyle(
                                       fontFamily: "Sf-r",
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 14,
-                                    ),
-                                    maxLines:
-                                    1, //TODO resolver tema del overflow
-                                    keyboardType:
-                                    TextInputType.emailAddress,
-                                    autocorrect: false,
-                                  ),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color.fromARGB(255, 57, 57, 57)),
                                 ),
+                                Text(
+                                  "Nombre, Apellido, Colegio, Curso, Rol",
+                                  style: TextStyle(
+                                      fontFamily: "Sf",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 184, 184, 184)),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: 60,
+                              child: GestureDetector(
+                                child: Stack(
+                                  alignment: Alignment.topRight,
+                                  children: <Widget>[
+                                    Positioned(
+                                      right: 10,
+                                      top: 8,
+                                      child: CircleAvatar(
+                                        radius: 23.0,
+                                        backgroundImage:
+                                        editedImage && _image!= null?FileImage(_image):user.getProfileImage(),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 32,
+                                      top: 30,
+                                      child: Container(
+                                        padding: EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(100),
+                                          color: Colors.white,
+                                          border:  Border.all(color: AppColors.secondaryBackground, width: 1.5),
+                                        ),
+                                        child: Icon(Icons.edit, color: AppColors.secondaryBackground, size: 18),
+                                      )/*CircleAvatar(
+                                        radius: 12.0,
+                                        backgroundImage: AssetImage(
+                                            "assets/images/logocolegio-fds.png"),
+                                      ),*/
+                                    ),
+                                  ],
+                                ),
+                                  onTap: () => selectImage(),
                               ),
-                              Container(
-                                height: 44,
-                                width: SizeConfig.blockSizeHorizontal*37,
-                                padding: EdgeInsets.only(left: 18),
-                                decoration: BoxDecoration(
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        margin: EdgeInsets.only(left:18, right: 18),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Cambiar nombre y apellido",
+                              style: TextStyle(
+                                  fontFamily: "Sf",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(
+                                      255, 110, 110, 110)),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  height: 44,
+                                  width: SizeConfig.blockSizeHorizontal*37,
+                                  padding: EdgeInsets.only(left: 18),
+                                  decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20.0),
                                   border: Border.all(
@@ -1040,39 +1007,74 @@ class _MiPerfilState extends State<MiPerfil> {
                                       color:
                                       Color.fromARGB(100, 112, 112, 112)),
                                 ),
-                                child:Center(
-                                  child: TextField(
-                                    controller: apellidoTextController,
-                                    decoration: InputDecoration(
-                                      alignLabelWithHint: true,
-                                      border: InputBorder.none,
+                                  child:Center(
+                                    child: TextField(
+                                      controller: nombreTextController,
+                                      decoration: InputDecoration(
+                                        alignLabelWithHint: true,
+                                        border: InputBorder.none,
+                                      ),
+                                      style: TextStyle(
+                                        color: Color.fromARGB(
+                                            255, 120, 120, 120),
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines:
+                                      1, //TODO resolver tema del overflow
+                                      keyboardType:
+                                      TextInputType.emailAddress,
+                                      autocorrect: false,
                                     ),
-                                    style: TextStyle(
-                                      color: Color.fromARGB(
-                                          255, 120, 120, 120),
-                                      fontFamily: "Sf-r",
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 14,
-                                    ),
-                                    maxLines:
-                                    1, //TODO resolver tema del overflow
-                                    keyboardType:
-                                    TextInputType.emailAddress,
-                                    autocorrect: false,
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                                Container(
+                                  height: 44,
+                                  width: SizeConfig.blockSizeHorizontal*37,
+                                  padding: EdgeInsets.only(left: 18),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    border: Border.all(
+                                        width: 1,
+                                        color:
+                                        Color.fromARGB(100, 112, 112, 112)),
+                                  ),
+                                  child:Center(
+                                    child: TextField(
+                                      controller: apellidoTextController,
+                                      decoration: InputDecoration(
+                                        alignLabelWithHint: true,
+                                        border: InputBorder.none,
+                                      ),
+                                      style: TextStyle(
+                                        color: Color.fromARGB(
+                                            255, 120, 120, 120),
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines:
+                                      1, //TODO resolver tema del overflow
+                                      keyboardType:
+                                      TextInputType.emailAddress,
+                                      autocorrect: false,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    user.getRole() == "Padre"?
-                    createParentLayout(user)
-                        :
-                    createStudentLayout(user),
-                  ],
+                      SizedBox(height: 20),
+                      user.getRole() == "Padre"?
+                      createParentLayout(user)
+                          :
+                      createStudentLayout(user),
+                    ],
+                  ),
                 ),
               ),
               header: Container(
@@ -1089,67 +1091,69 @@ class _MiPerfilState extends State<MiPerfil> {
                     ),
                   ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: 75,
-                      margin: EdgeInsets.only(left:18),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(height: 19),
-                              Text(
-                                "Perfil",
-                                style: TextStyle(
-                                    fontFamily: "Sf-r",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color.fromARGB(255, 57, 57, 57)),
-                              ),
-                              Text(
-                                "Nombre, Apellido, Colegio, Curso, Rol",
-                                style: TextStyle(
-                                    fontFamily: "Sf",
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 184, 184, 184)),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 60,
-                              child: Stack(
-                                alignment: Alignment.topRight,
-                                children: <Widget>[
-                                  Positioned(
-                                    right: 10,
-                                    top: 8,
-                                    child: CircleAvatar(
-                                      radius: 23.0,
-                                      backgroundImage:
-                                      user.getProfileImage(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 75,
+                        margin: EdgeInsets.only(left:18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                SizedBox(height: 19),
+                                Text(
+                                  "Perfil",
+                                  style: TextStyle(
+                                      fontFamily: "Sf-r",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color.fromARGB(255, 57, 57, 57)),
+                                ),
+                                Text(
+                                  "Nombre, Apellido, Colegio, Curso, Rol",
+                                  style: TextStyle(
+                                      fontFamily: "Sf",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 184, 184, 184)),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: 60,
+                                child: Stack(
+                                  alignment: Alignment.topRight,
+                                  children: <Widget>[
+                                    Positioned(
+                                      right: 10,
+                                      top: 8,
+                                      child: CircleAvatar(
+                                        radius: 23.0,
+                                        backgroundImage:
+                                        user.getProfileImage(),
+                                      ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    right: 35,
-                                    top: 30,
-                                    child: CircleAvatar(
-                                      radius: 12.0,
-                                      backgroundImage: AssetImage(
-                                          "assets/images/logocolegio-fds.png"),
+                                    Positioned(
+                                      right: 35,
+                                      top: 30,
+                                      child: CircleAvatar(
+                                        radius: 12.0,
+                                        backgroundImage: AssetImage(
+                                            "assets/images/logocolegio-fds.png"),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                                  ],
+                                ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
