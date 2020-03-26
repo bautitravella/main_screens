@@ -131,13 +131,19 @@ class _LogInState extends State<LogIn> {
         String userUID =
             await auth.signInWithEmailAndPassword(_email, _password);
 
-        setState(() {
-          _errorText = 'signed in with : $userUID})';
-        });
+//        setState(() {
+//          _errorText = 'signed in with : $userUID})';
+//        });
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyDecider()),
         );
+      }on PlatformException catch(e){
+        setState(() {
+          _errorText = '${e.message}';
+        });
+        Navigator.pop(context);
+        showErrorDialog(context, _errorText);
       } catch (error) {
         setState(() {
           _errorText = '$error';
