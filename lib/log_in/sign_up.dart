@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../auth.dart';
 import '../main.dart';
 import '../size_config.dart';
@@ -461,6 +463,26 @@ class SignUpState extends State<SignUp>{
                   ),
                 )
               ],
+            ),
+            Positioned(
+              bottom: 20,
+              left: 25,
+              child: Container(
+                margin: EdgeInsets.only(right: 150),
+                child: RichText(
+                  text: TextSpan(
+
+                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontSize: 18,color: Colors.blue),recognizer: new TapGestureRecognizer()
+                        ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
+                        },
+                      ),
+
+                    ],
+                  ),
+                ),
+              ),
             ),
             Positioned(
               bottom: 10,
