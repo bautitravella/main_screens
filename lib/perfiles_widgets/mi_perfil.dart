@@ -823,17 +823,17 @@ class _MiPerfilState extends State<MiPerfil> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            GestureDetector(
-                              onTap: _showDialogInvita,
-                              child: Text(
-                                "Invita a un amigo",
-                                style: TextStyle(
-                                    fontFamily: "Gibson",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 57, 57, 57)),
-                              ),
-                            ),
+//                            GestureDetector(
+//                              onTap: _showDialogInvita,
+//                              child: Text(
+//                                "Invita a un amigo",
+//                                style: TextStyle(
+//                                    fontFamily: "Gibson",
+//                                    fontSize: 20,
+//                                    fontWeight: FontWeight.w600,
+//                                    color: Color.fromARGB(255, 57, 57, 57)),
+//                              ),
+//                            ),
                             Container(
                               margin: EdgeInsets.only(top: 30),
                               child: RichText(

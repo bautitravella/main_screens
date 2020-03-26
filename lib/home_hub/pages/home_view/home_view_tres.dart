@@ -326,7 +326,17 @@ class _HomeViewTresState extends State<HomeViewTres> {
               SizedBox(
                 width: 5,
               ),
-              Icon(Icons.more_vert, color: Colors.white, size: 26)
+              GestureDetector(
+                child: Icon(Icons.more_vert, color: Colors.white, size: 26),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MiPerfil(),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),
