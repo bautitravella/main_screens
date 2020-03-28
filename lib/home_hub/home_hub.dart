@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterui/auth.dart';
@@ -43,6 +44,9 @@ class HomeHubState extends State<HomeHub> {
       /*ExploreView(),*/
       NotificationView(),
     ];
+
+//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+//    analytics.setCurrentScreen(screenName: "/home");
   }
 
   void changeToHome(){
@@ -73,6 +77,9 @@ class HomeHubState extends State<HomeHub> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/home");
+
     return WillPopScope(
       onWillPop:() {return _onWillPop();},
       child: Scaffold(

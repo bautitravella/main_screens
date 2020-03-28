@@ -48,6 +48,8 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
       yield* _mapLoadMessagesToState(event.chat,event.chatRole);
     }else if(event is LoadedMessages){
       yield* _mapLoadedMessagesToState(event.messages);
+    }else if(event is UnloadMessages){
+      yield* _mapUnloadMessagesToState();
     }else if(event is AddMessage){
       yield* _mapAddMessageToState(event.message,event.chatRole);
     }else if(event is SolicitarCompra){
@@ -179,6 +181,12 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
     messagesSubscription.cancel();
     return super.close();
   }
+
+  Stream<MessagesBlocState> _mapUnloadMessagesToState()async*{
+    messagesSubscription.cancel();
+    yield InitialMessagesBlocState();
+  }
+
 
 
 }

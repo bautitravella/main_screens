@@ -35,146 +35,148 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: AppColors.secondaryBackground,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Positioned(
-                  left: 0,
-                  top: SizeConfig.blockSizeVertical * 8,
-                  right: 0,
-                  child: Container(
-                    height: SizeConfig.blockSizeVertical * 40,
-                    decoration: BoxDecoration(),
-                    child: Image.asset(
-                      "assets/images/destacados-image.png",
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 45,
-                  child: Container(
-                    width: SizeConfig.blockSizeHorizontal * 43,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 2),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 43,
-                                child: Text(
-                                  //TODO Rolling text
-                                  widget.chatRole == ChatRole.COMPRADOR
-                                      ? widget.chat.vendedorNombre
-                                      : widget.chat.compradorNombre,
-                                  style: TextStyle(
-                                    fontFamily: "Sf-r",
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 43,
-                          child: Text(
-                            widget.chat.nombreLibro,
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(150, 255, 255, 255),
-                            ),
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-
-          _scrollingList(context),
-          Container(
-            height: 143,
-            margin: EdgeInsets.only(left: 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        size: 30,
-                        color: Color.fromARGB(255, 255, 255, 255),
+    return WillPopScope(
+      onWillPop: ()=>_onWillPop(context),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: <Widget>[
+            Container(
+              color: AppColors.secondaryBackground,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Positioned(
+                    left: 0,
+                    top: SizeConfig.blockSizeVertical * 8,
+                    right: 0,
+                    child: Container(
+                      height: SizeConfig.blockSizeVertical * 40,
+                      decoration: BoxDecoration(),
+                      child: Image.asset(
+                        "assets/images/destacados-image.png",
+                        fit: BoxFit.fitWidth,
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
                     ),
-                    Container(
-                      height: 60,
-                      width: 60,
-                      child: Stack(
+                  ),
+                  Positioned(
+                    top: 45,
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal * 43,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          //Positioned(
-                          //                    right: 0,
-                          //                    top: 0,
-                          //                    child: Align(
-                          //                      alignment: Alignment.topRight,
-                          //                      child: Container(
-                          //                        width: 138,
-                          //                        height: 143,
-                          //                        child: Image.asset(
-                          //                          "assets/images/round-underpic-shade.png",
-                          //                          fit: BoxFit.fill,
-                          //                        ),
-                          //                      ),
-                          //                    ),
-                          //                  ),
-                          Positioned(
-                            child: CircleAvatar(
-                              radius: 23.0,
-                              backgroundImage:
-                              widget.chatRole == ChatRole.COMPRADOR
-                                  ? widget.chat.vendedorImage
-                                  : widget.chat.compradorImage,
+                          Container(
+                            margin: EdgeInsets.only(bottom: 2),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 43,
+                                  child: Text(
+                                    //TODO Rolling text
+                                    widget.chatRole == ChatRole.COMPRADOR
+                                        ? widget.chat.vendedorNombre
+                                        : widget.chat.compradorNombre,
+                                    style: TextStyle(
+                                      fontFamily: "Sf-r",
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            left: SizeConfig.blockSizeHorizontal * 8,
-                            top: SizeConfig.blockSizeVertical * 4,
-                            child: Container(
-                              child: CircleAvatar(
-                                radius: 10.0,
-                                backgroundImage: AssetImage(
-                                    "assets/images/logocolegio-fds.png"),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 43,
+                            child: Text(
+                              widget.chat.nombreLibro,
+                              style: TextStyle(
+                                fontFamily: "Roboto",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                color: Color.fromARGB(150, 255, 255, 255),
                               ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                //TODO volver a agregar los puntitos pero esta vez agregarle funcionalidades
+                  )
+                ],
+              ),
+            ),
+
+            _scrollingList(context),
+            Container(
+              height: 143,
+              margin: EdgeInsets.only(left: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          size: 30,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        onPressed: () => _onWillPop(context),
+                      ),
+                      Container(
+                        height: 60,
+                        width: 60,
+                        child: Stack(
+                          children: <Widget>[
+                            //Positioned(
+                            //                    right: 0,
+                            //                    top: 0,
+                            //                    child: Align(
+                            //                      alignment: Alignment.topRight,
+                            //                      child: Container(
+                            //                        width: 138,
+                            //                        height: 143,
+                            //                        child: Image.asset(
+                            //                          "assets/images/round-underpic-shade.png",
+                            //                          fit: BoxFit.fill,
+                            //                        ),
+                            //                      ),
+                            //                    ),
+                            //                  ),
+                            Positioned(
+                              child: CircleAvatar(
+                                radius: 23.0,
+                                backgroundImage:
+                                widget.chatRole == ChatRole.COMPRADOR
+                                    ? widget.chat.vendedorImage
+                                    : widget.chat.compradorImage,
+                              ),
+                            ),
+                            Positioned(
+                              left: SizeConfig.blockSizeHorizontal * 8,
+                              top: SizeConfig.blockSizeVertical * 4,
+                              child: Container(
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundImage: AssetImage(
+                                      "assets/images/logocolegio-fds.png"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  //TODO volver a agregar los puntitos pero esta vez agregarle funcionalidades
 //                Container(
 //                  margin: EdgeInsets.only(right: 20),
 //                  child: IconButton(
@@ -186,10 +188,11 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
 //                    onPressed: () => Navigator.pop(context),
 //                  ),
 //                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -222,7 +225,10 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       builder: (context, state) {
                         if (state is MessagesLoaded) {
                           print(state.messages);
-                          widget.chat = state.chat;
+                          if(widget.chat.publicacionId == state.chat.publicacionId
+                          && widget.chat.vendedorEmail == state.chat.vendedorEmail){
+                            widget.chat = state.chat;
+                          }
                           return ListView.builder(
                               reverse: true,
                               itemCount: state.messages.length,
@@ -267,7 +273,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                             ),
                           );
                         } else if (state is MessagesErrorLoading) {
-                          showErrorDialog(context, state.errorMessage);
+                          //showErrorDialog(context, state.errorMessage);
                           return Container();
                         }
                         return Center(child: CircularProgressIndicator());
@@ -777,6 +783,11 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
         ],
       ),
     );
+  }
+
+  _onWillPop(BuildContext context) {
+    BlocProvider.of<MessagesBloc>(context).add(UnloadMessages());
+    Navigator.pop(context);
   }
 }
 

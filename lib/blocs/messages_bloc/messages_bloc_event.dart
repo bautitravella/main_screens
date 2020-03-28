@@ -31,6 +31,11 @@ class LoadedMessages extends MessagesBlocEvent{
   List<Object> get props => [messages];
 }
 
+class UnloadMessages extends MessagesBlocEvent{
+  @override
+  List<Object> get props => [];
+}
+
 
 
 class AddMessage extends MessagesBlocEvent{

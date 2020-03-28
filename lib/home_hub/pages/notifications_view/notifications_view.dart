@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/size_config.dart';
+import 'package:provider/provider.dart';
 import '../../../size_config.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -30,7 +32,15 @@ class NotificationViewState extends State<NotificationView> {
   Widget listView = listViewVenta;
 
   @override
+  void initState(){
+//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+//    analytics.setCurrentScreen(screenName: "/home/notifications");
+  }
+
+  @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/home/notifications");
     BlocProvider.of<ChatsBloc>(context).add(LoadChats());
     return Scaffold(
       backgroundColor: Colors.white,
