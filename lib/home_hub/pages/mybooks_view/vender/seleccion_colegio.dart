@@ -199,7 +199,7 @@ class _SeleccionColegioState extends State<SeleccionColegio> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Selecciona el \ncolegio",
+                "Seleccioná el \ncolegio",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),

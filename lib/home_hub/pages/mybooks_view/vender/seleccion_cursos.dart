@@ -174,7 +174,7 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Selecciona los \ncursos",
+                "Seleccioná los \ncursos",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),

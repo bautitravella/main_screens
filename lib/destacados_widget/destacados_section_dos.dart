@@ -140,8 +140,8 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                   ),
                 ),
                 Positioned(
-                  right: SizeConfig.blockSizeHorizontal * 4,
-                  top: SizeConfig.blockSizeVertical * 5,
+                  right: 20,
+                  top: 45,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -154,7 +154,11 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                     child: BlocBuilder<UserBloc,UserBlocState>(
                       builder: (context,state){
                         if(state is UserLoadedState){
-                          return Container(
+                          return CircleAvatar(
+                            radius: 27.0,
+                            backgroundImage: state.user.getProfileImage(),
+                          );
+                            /*Container(
                             height: 55,
                             width: 55,
                             decoration: BoxDecoration(
@@ -175,7 +179,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                 ),
                               ),
                             ),
-                          );
+                          )*/
                         }
                         return Container();
 

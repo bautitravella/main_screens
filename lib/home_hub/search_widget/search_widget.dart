@@ -22,7 +22,9 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SearchWidget extends StatefulWidget {
-  SearchWidget({Key key}) : super(key: key);
+  SearchWidget homeHubState;
+  SearchWidget({this.homeHubState,Key key}) : super(key: key);
+
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
 }
@@ -718,7 +720,87 @@ class _SearchWidgetState extends State<SearchWidget> {
                   );
                 } else if (state is SearchBooksLoaded) {
                   if(state.booksList.length == 0){
-                    return Container(child: Center(child: Text('No Pudimos encontrar ningun resultado para lo que nos estas pidiendo'),),);
+                    return GestureDetector(
+                      onTap: () {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
+                        }
+                      },
+                      child: ListView(
+                        scrollDirection: Axis.vertical,
+                        children: <Widget>[
+                          Container(
+                            constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*60),
+                            margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(50, 249, 196, 55),
+                                borderRadius: BorderRadius.all(Radius.circular(20))
+                            ),
+                            width: SizeConfig.blockSizeHorizontal * 100,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(width: 20),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal*70,
+                                          child: Text(
+                                            "No hay ningún resultado para tu busqueda...",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 57, 57, 57),
+                                              fontSize: 17,
+                                              fontFamily: "Sf-r",
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                        SizedBox(height: 20),
+                                        Container(
+                                          width: SizeConfig.blockSizeHorizontal*75,
+                                          child: Text(
+                                            "Parece que no hay ningún libro con ese nombre.¡No te desanimes! Seguro hay muchos mas por encontrar. ",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 57, 57, 57),
+                                              fontSize: 11,
+                                              fontFamily: "Sf-t",
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: SizeConfig.blockSizeVertical*10),
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  height: SizeConfig.blockSizeVertical*30,
+                                  margin: EdgeInsets.only(left: 5, right: 5),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                                    child: Image.asset(
+                                      "assets/images/not-found.png",
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                   return ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -1028,10 +1110,11 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget categoryScroll(BuildContext context) {
     return Container(
       height: 120,
-      width: SizeConfig.blockSizeHorizontal * 92,
+      width: SizeConfig.blockSizeHorizontal * 100,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
+          SizedBox(width: 28),
           GestureDetector(
             onTap: () {
               setState(() {

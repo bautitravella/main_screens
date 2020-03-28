@@ -199,7 +199,7 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: Text(
-                "Selecciona la \nmateria",
+                "Seleccioná la \nmateria",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),

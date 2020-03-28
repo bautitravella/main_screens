@@ -151,24 +151,27 @@ class _MiPerfilState extends State<MiPerfil> {
                   )*/
                       Positioned(
                         top: SizeConfig.blockSizeVertical * 10,
-                        left: 28,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Ajustes",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontFamily: "Montserrat",
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 30,
+                        left: 8,
+                        child: GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.arrow_back_ios, color: Colors.white, size: 25,),
+                              SizedBox(width: 10,),
+                              Text(
+                                "Ajustes",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 8,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -176,10 +179,6 @@ class _MiPerfilState extends State<MiPerfil> {
                 ),
                 Column(
                   children: <Widget>[
-                    Container(
-                      color: Colors.transparent,
-                      height: SizeConfig.blockSizeVertical * 14,
-                    ),
                     Expanded(
                       child: Container(
                         child: SlidingUpPanel(

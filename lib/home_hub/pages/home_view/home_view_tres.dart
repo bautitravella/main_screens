@@ -216,12 +216,13 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
             Positioned(
               top: SizeConfig.blockSizeVertical * 12,
-              left: 28,
+              left: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      height: SizeConfig.blockSizeVertical*4.5,
+                      height: 31,
+                      margin: EdgeInsets.only(left: 28),
                       child: Image.asset(
                         "assets/images/buymy-whitelogo-dos.png",
                         fit: BoxFit.fitHeight,
@@ -883,10 +884,11 @@ class _HomeViewTresState extends State<HomeViewTres> {
   Widget categoryScroll(BuildContext context) {
     return Container(
       height: 120,
-      width: SizeConfig.blockSizeHorizontal * 92,
+      width: SizeConfig.blockSizeHorizontal * 100,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
+          SizedBox(width: 28),
           GestureDetector(
             onTap: () {
               setState(() {
