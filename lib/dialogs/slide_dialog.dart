@@ -144,7 +144,7 @@ class _SlideDialogGrandeState extends State<SlideDialogGrande> {
         child: Center(
           child: Container(
             width: deviceWidth,
-            height: SizeConfig.blockSizeHorizontal*100,
+            height: SizeConfig.blockSizeHorizontal*110,
             child: Material(
               color: widget.backgroundColor ??
                   Theme.of(context).dialogBackgroundColor,
