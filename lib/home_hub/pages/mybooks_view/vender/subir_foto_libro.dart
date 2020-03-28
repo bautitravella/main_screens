@@ -327,34 +327,31 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                           blurRadius: 6.0,
                         ),
                       ]),
-                  child: Text(''),
-                ),
-              ),
-              Positioned(
-                left: SizeConfig.blockSizeHorizontal * 38.5,
-                top: SizeConfig.blockSizeVertical * 10,
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  child: FlatButton(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                      ),
-                      child: _image[0] == null
-                          ? Icon(
-                              Icons.cloud_upload,
-                              color: AppColors.secondaryBackground,
-                              size: 60,
-                            )
-                          : Icon(
-                              Icons.check,
-                              color: AppColors.secondaryBackground,
-                              size: 60,
-                            ),
-                      onPressed: () {
-                        loadAssets();
-                      }),
+                  child: Center(
+                    child: Container(
+                      width: 90,
+                      height: 90,
+                      child: FlatButton(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                          ),
+                          child: _image[0] == null
+                              ? Icon(
+                            Icons.cloud_upload,
+                            color: AppColors.secondaryBackground,
+                            size: 60,
+                          )
+                              : Icon(
+                            Icons.check,
+                            color: AppColors.secondaryBackground,
+                            size: 60,
+                          ),
+                          onPressed: () {
+                            loadAssets();
+                          }),
+                    ),
+                  ),
                 ),
               ),
             ],

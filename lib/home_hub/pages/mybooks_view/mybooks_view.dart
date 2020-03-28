@@ -138,8 +138,8 @@ class MyBooksViewState extends State<MyBooksView> {
                     ),
                   ),
                   Positioned(
-                    right: SizeConfig.blockSizeHorizontal * 4,
-                    top: SizeConfig.blockSizeVertical * 5,
+                    right: 20,
+                    top: 45,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -149,36 +149,36 @@ class MyBooksViewState extends State<MyBooksView> {
                           ),
                         );
                       },
-                      child:BlocBuilder<UserBloc,UserBlocState>(
-                          builder: (context,state) {
-                            if(state is UserLoadedState){
-                              return Container(
-                                height: 55,
-                                width: 55,
-                                decoration: BoxDecoration(
+                      child: BlocBuilder<UserBloc,UserBlocState>(
+                        builder: (context,state){
+                          if(state is UserLoadedState){
+                            return Container(
+                              height: 55,
+                              width: 55,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
                                     color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 2, //
-                                    ),
-                                    borderRadius: new BorderRadius.circular(100)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Hero(
-                                    tag: 'avatar',
-                                    child: Image(
-                                      image: state.user.getProfileImage(),
-                                      fit: BoxFit.fill,
-                                      alignment: Alignment.center,
-                                    ),
+                                    width: 2, //
+                                  ),
+                                  borderRadius: new BorderRadius.circular(100)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Hero(
+                                  tag: 'avatar',
+                                  child: Image(
+                                    image: state.user.getProfileImage(),
+                                    fit: BoxFit.fill,
+                                    alignment: Alignment.center,
                                   ),
                                 ),
-                              );
-                            }
-                            return Container();
-
+                              ),
+                            );
                           }
-                          ),
+                          return Container();
+
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -503,7 +503,7 @@ class GridViewVendidos extends StatelessWidget {
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Container(
-            constraints: BoxConstraints.expand(height: 346),
+            constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*45),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
             decoration: BoxDecoration(
               color: Color.fromARGB(50, 249, 196, 55),
@@ -549,12 +549,12 @@ class GridViewVendidos extends StatelessWidget {
                 SizedBox(height: 20),
                 Container(
                   width: SizeConfig.blockSizeHorizontal * 100,
-                  height: 230,
+                  height: SizeConfig.blockSizeVertical*30,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
                     child: Image.asset(
                       "assets/images/no-ventas.png",
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),

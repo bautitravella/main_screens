@@ -835,7 +835,7 @@ class _MiPerfilState extends State<MiPerfil> {
 //                              ),
 //                            ),
                             Container(
-                              margin: EdgeInsets.only(top: 30),
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
                               child: RichText(
                                 text: TextSpan(
                                   children: <TextSpan>[
@@ -858,7 +858,7 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 30),
+                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
                               child: RichText(
                                 text: TextSpan(
                                   children: <TextSpan>[
@@ -882,7 +882,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                             GestureDetector(
                               child: Container(
-                                margin: EdgeInsets.only(top: 30),
+                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
                                 child: Text(
                                   "Ayuda",
                                   style: TextStyle(
@@ -896,7 +896,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                             GestureDetector(
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 30),
+                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
                                   child: Text(
                                     "Cerrar sesión",
                                     style: TextStyle(

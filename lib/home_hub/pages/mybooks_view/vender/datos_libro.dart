@@ -527,10 +527,9 @@ class _DatosLibrosState extends State<DatosLibros> {
                           ),
                           Center(
                             child: Container(
-                                width: 215,
+                                width: SizeConfig.blockSizeHorizontal*45,
                                 height: 100,
-                                margin:
-                                    EdgeInsets.only(left: 4, right: 4, top: 20),
+                                margin: EdgeInsets.only(left: 4, right: 4, top: 20),
                                 child: Row(
                                   children: <Widget>[
                                     Icon(
@@ -542,8 +541,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       children: <Widget>[
                                         Container(
                                           height: 80,
-                                          width:
-                                              SizeConfig.blockSizeHorizontal * 35,
+                                          width: SizeConfig.blockSizeHorizontal * 35,
                                           child: TextField(
                                             controller: precioTextController,
                                             textAlign: TextAlign.center,

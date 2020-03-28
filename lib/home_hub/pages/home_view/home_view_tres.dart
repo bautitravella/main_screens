@@ -140,8 +140,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
                   ),
                 ),
                 Positioned(
-                  right: SizeConfig.blockSizeHorizontal * 4,
-                  top: SizeConfig.blockSizeVertical * 5,
+                  right: 20,
+                  top: 45,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -221,7 +221,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      height: 31,
+                      height: SizeConfig.blockSizeVertical*4.5,
                       child: Image.asset(
                         "assets/images/buymy-whitelogo-dos.png",
                         fit: BoxFit.fitHeight,
@@ -901,7 +901,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
 //              );
             },
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -935,7 +935,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               homeHubState?.changeToFavorites();
             },
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -969,7 +969,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               homeHubState?.changeToChats();
             },
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1008,7 +1008,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               );
             },
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1040,7 +1040,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           GestureDetector(
             onTap: _showDialogAyuda,
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[

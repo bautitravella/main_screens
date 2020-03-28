@@ -52,11 +52,10 @@ class FirstscreenWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    height:81,
                       margin: EdgeInsets.only(left: 35, right: 35, top: 50),
                       child: Image.asset(
-                        "assets/images/buymy-logo.png",
-                        fit: BoxFit.cover,
+                        "assets/images/buymy-hd.png",
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   Spacer(),

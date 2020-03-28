@@ -107,8 +107,8 @@ class NotificationViewState extends State<NotificationView> {
                           ),
                         ),
                         Positioned(
-                          right: SizeConfig.blockSizeHorizontal * 4,
-                          top: SizeConfig.blockSizeVertical * 5,
+                          right: 20,
+                          top: 45,
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -118,35 +118,36 @@ class NotificationViewState extends State<NotificationView> {
                                 ),
                               );
                             },
-                            child: BlocBuilder<UserBloc, UserBlocState>(
-                                builder: (context, state) {
-                              if (state is UserLoadedState) {
-                                return Container(
-                                  height: 55,
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
+                            child: BlocBuilder<UserBloc,UserBlocState>(
+                              builder: (context,state){
+                                if(state is UserLoadedState){
+                                  return Container(
+                                    height: 55,
+                                    width: 55,
+                                    decoration: BoxDecoration(
                                         color: Colors.white,
-                                        width: 2, //
-                                      ),
-                                      borderRadius:
-                                          new BorderRadius.circular(100)),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Hero(
-                                      tag: 'avatar',
-                                      child: Image(
-                                        image: state.user.getProfileImage(),
-                                        fit: BoxFit.fill,
-                                        alignment: Alignment.center,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2, //
+                                        ),
+                                        borderRadius: new BorderRadius.circular(100)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Hero(
+                                        tag: 'avatar',
+                                        child: Image(
+                                          image: state.user.getProfileImage(),
+                                          fit: BoxFit.fill,
+                                          alignment: Alignment.center,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }
-                              return Container();
-                            }),
+                                  );
+                                }
+                                return Container();
+
+                              },
+                            ),
                           ),
                         ),
                       ],
@@ -190,7 +191,78 @@ class ListViewVenta extends StatelessWidget {
       padding: EdgeInsets.only(top: 10),
       color: Colors.white,
       child: chats == null || chats.length == 0
-          ? Text('Parece que no todavia no hay ningun chat')
+          ?  ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Container(
+            constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*60),
+            margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+            decoration: BoxDecoration(
+                color: Color.fromARGB(50, 249, 196, 55),
+                borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            width: SizeConfig.blockSizeHorizontal * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal*70,
+                          child: Text(
+                            "Parece que no tienes chats activos",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 57, 57, 57),
+                              fontSize: 17,
+                              fontFamily: "Sf-r",
+                              fontWeight: FontWeight.w800,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal*75,
+                          child: Text(
+                            "Solo te queda esperar que alguien te escriba por algún libro que tengas publicado para vender.",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 57, 57, 57),
+                              fontSize: 11,
+                              fontFamily: "Sf-t",
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*10),
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 100,
+                  height: SizeConfig.blockSizeVertical*30,
+                  margin: EdgeInsets.only(left: 5, right: 5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                    child: Image.asset(
+                      "assets/images/no-chat-venta.png",
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )
           : ListView.builder(
               itemCount: chats.length,
               itemBuilder: (BuildContext context, int index) {
@@ -443,7 +515,80 @@ class ListViewCompra extends StatelessWidget {
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
       color: Colors.white,
-      child: ListView.builder(
+      child: chats == null || chats.length == 0
+          ?  ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Container(
+            constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*60),
+            margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+            decoration: BoxDecoration(
+                color: Color.fromARGB(50, 249, 196, 55),
+                borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            width: SizeConfig.blockSizeHorizontal * 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal*70,
+                          child: Text(
+                            "¿Todavía no has consultado por ningún libro?",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 57, 57, 57),
+                              fontSize: 17,
+                              fontFamily: "Sf-r",
+                              fontWeight: FontWeight.w800,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal*75,
+                          child: Text(
+                            "Prueba explorar entre tus libros recomendados. Probablemente encuentres alguno que te interesa.",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 57, 57, 57),
+                              fontSize: 11,
+                              fontFamily: "Sf-t",
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*10),
+                Container(
+                  width: SizeConfig.blockSizeHorizontal * 100,
+                  height: SizeConfig.blockSizeVertical*30,
+                  margin: EdgeInsets.only(left: 5, right: 5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                    child: Image.asset(
+                      "assets/images/no-chat-compra.png",
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )
+          :ListView.builder(
           itemCount: chats.length,
           itemBuilder: (BuildContext context, int index) {
             final Chat chat = chats[index];

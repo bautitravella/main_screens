@@ -5,6 +5,9 @@ import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:flutterui/dialogs/slide_popup_dialog.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
@@ -16,6 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchWidget extends StatefulWidget {
   SearchWidget({Key key}) : super(key: key);
@@ -25,6 +29,7 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   PanelController _pc = new PanelController();
+  HomeHubState homeHubState;
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
@@ -428,267 +433,280 @@ class _SearchWidgetState extends State<SearchWidget> {
                                   ),
                                 );
                               },
-                              child: Stack(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                                    padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
-                                    height: 127.0,
-                                    width: SizeConfig.blockSizeHorizontal * 100,
-                                    decoration: BoxDecoration(
-                                      /* color: Color.fromARGB(255, 241, 242, 242),*/
-                                      borderRadius: BorderRadius.circular(20.0),
+                                    margin: EdgeInsets.fromLTRB(22, 13, 10, 0),
+                                    height: 112,
+                                    width: 70,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child:book.getFirstImageThumb() != null ? Image(
+                                        image : book.getFirstImageThumb(),
+                                        fit: BoxFit.cover,
+                                      )
+                                          :
+                                      CircularProgressIndicator(),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Column(
+                                  ),
+                                  Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+                                        padding: EdgeInsets.fromLTRB(0, 13, 13, 11),
+                                        height: 127.0,
+                                        width: SizeConfig.blockSizeHorizontal * 70,
+                                        decoration: BoxDecoration(
+                                          /* color: Color.fromARGB(255, 241, 242, 242),*/
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                          child: Stack(
                                             children: <Widget>[
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                              Column(
                                                 children: <Widget>[
-                                                  Container(
-                                                    width: SizeConfig.blockSizeHorizontal * 45,
-                                                    child: Text(
-                                                      "${book.nombreLibro}",
-                                                      style: TextStyle(
-                                                        color: Color.fromARGB(200, 0, 0, 0),
-                                                        fontSize: 15,
-                                                        fontFamily: "Sf-r",
-                                                        fontWeight: FontWeight.w700,
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        width: SizeConfig.blockSizeHorizontal * 45,
+                                                        child: Text(
+                                                          "${book.nombreLibro}",
+                                                          style: TextStyle(
+                                                            color: Color.fromARGB(200, 0, 0, 0),
+                                                            fontSize: 15,
+                                                            fontFamily: "Sf-r",
+                                                            fontWeight: FontWeight.w700,
+                                                          ),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 2,
+                                                        ),
                                                       ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                    ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        width: SizeConfig.blockSizeHorizontal * 40,
+                                                        margin: EdgeInsets.only(top: 5),
+                                                        child: Text(
+                                                          "${book.autor}",
+                                                          style: TextStyle(
+                                                            fontSize: 11,
+                                                            fontFamily: "Sf",
+                                                            fontWeight: FontWeight.w500,
+                                                          ),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 2,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: <Widget>[
-                                                  Container(
-                                                    width: SizeConfig.blockSizeHorizontal * 40,
-                                                    margin: EdgeInsets.only(top: 5),
-                                                    child: Text(
-                                                      "${book.autor}",
-                                                      style: TextStyle(
-                                                        fontSize: 11,
-                                                        fontFamily: "Sf",
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          Positioned(
-                                            left: 0,
-                                            bottom: 0,
-                                            right: 0,
-                                            child: Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                children: <Widget>[
-                                                  Align(
-                                                    alignment: Alignment.topRight,
-                                                    child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
-                                                      builder: (context,state){
-                                                        if(state is FavoriteBooksLoaded){
-                                                          if(state.books.contains(book)){
-                                                            return IconButton(
-                                                                icon: Icon(Icons.favorite),
-                                                                iconSize: 30.0,
-                                                                color: Colors.black,
-                                                                onPressed: () {
+                                              Positioned(
+                                                left: 0,
+                                                bottom: 0,
+                                                right: 0,
+                                                child: Container(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                    children: <Widget>[
+                                                      Align(
+                                                        alignment: Alignment.topRight,
+                                                        child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
+                                                          builder: (context,state){
+                                                            if(state is FavoriteBooksLoaded){
+                                                              bool isFavorite = false;
+                                                              for(Book favBook in state.books){
+                                                                if(book.uid == favBook.uid)isFavorite = true;
+                                                              }
+                                                              if(isFavorite){
+                                                                //if(state.books.contains(book)){
+                                                                return IconButton(
+                                                                    icon: Icon(Icons.favorite),
+                                                                    iconSize: 30.0,
+                                                                    color: Colors.black,
+                                                                    onPressed: () {
+                                                                      BlocProvider.of<FavoritesBloc>(context).add(RemoveBookFromFavorites(book.uid));
+                                                                    });
+                                                              }else{
+                                                                return IconButton(
+                                                                    icon: Icon(Icons.favorite_border),
+                                                                    iconSize: 30.0,
+                                                                    color: Colors.black,
+                                                                    onPressed: () {
+                                                                      BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites(book.uid));
 
-                                                                  BlocProvider.of<FavoritesBloc>(context)
-                                                                      .add(RemoveBookFromFavorites(
-                                                                      book.uid));
-
-                                                                });
-                                                          }else{
+                                                                    });
+                                                              }
+                                                            }
                                                             return IconButton(
                                                                 icon: Icon(Icons.favorite_border),
                                                                 iconSize: 30.0,
                                                                 color: Colors.black,
                                                                 onPressed: () {
-
-                                                                  BlocProvider.of<FavoritesBloc>(context)
-                                                                      .add(AddBookToFavorites(
-                                                                      book.uid));
-
+                                                                  if (BlocProvider.of<FavoritesBloc>(context)
+                                                                      .favoriteBooks !=
+                                                                      null &&
+                                                                      BlocProvider.of<FavoritesBloc>(context)
+                                                                          .favoriteBooks
+                                                                          .contains(book)) {
+                                                                    BlocProvider.of<FavoritesBloc>(context)
+                                                                        .add(RemoveBookFromFavorites(
+                                                                        book.uid));
+                                                                  } else {
+                                                                    BlocProvider.of<FavoritesBloc>(context)
+                                                                        .add(AddBookToFavorites(
+                                                                        book.uid));
+                                                                  }
                                                                 });
-                                                          }
-                                                        }
-                                                        return IconButton(
-                                                            icon: Icon(Icons.favorite_border),
-                                                            iconSize: 30.0,
-                                                            color: Colors.black,
-                                                            onPressed: () {
-                                                              if (BlocProvider.of<FavoritesBloc>(context)
-                                                                  .favoriteBooks !=
-                                                                  null &&
-                                                                  BlocProvider.of<FavoritesBloc>(context)
-                                                                      .favoriteBooks
-                                                                      .contains(book)) {
-                                                                BlocProvider.of<FavoritesBloc>(context)
-                                                                    .add(RemoveBookFromFavorites(
-                                                                    book.uid));
-                                                              } else {
-                                                                BlocProvider.of<FavoritesBloc>(context)
-                                                                    .add(AddBookToFavorites(
-                                                                    book.uid));
-                                                              }
-                                                            });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 15),
-                                                  Align(
-                                                    alignment: Alignment.centerRight,
-                                                    child: Container(
-                                                      width: SizeConfig.blockSizeHorizontal * 14,
-                                                      height: 20,
-                                                      decoration: BoxDecoration(
-                                                        color: Color.fromARGB(20, 0, 0, 0),
-                                                        borderRadius: BorderRadius.circular(10.0),
-                                                      ),
-                                                      alignment: Alignment.center,
-                                                      child: Text(
-                                                        //todo sacar el boton de usado y cambiarlo por el de nuevo
-                                                        "USADO",
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontSize: 10,
-                                                          fontWeight: FontWeight.w700,
-                                                          fontFamily: "Sf-r",
-                                                          color: Color.fromARGB(100, 0, 0, 0),
+                                                          },
                                                         ),
-                                                        overflow: TextOverflow.ellipsis,
-                                                        maxLines: 2,
                                                       ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 5,),
-                                                  Container(
-                                                    width: SizeConfig.blockSizeHorizontal * 62.5,
-                                                    margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: <Widget>[
-                                                        Row(
-                                                          children: <Widget>[
-                                                            Container(
-                                                                height: 25,
-                                                                width: 25 ,
-                                                                child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                      SizedBox(height: 15),
+                                                      Align(
+                                                        alignment: Alignment.centerRight,
+                                                        child: Container(
+                                                          width: SizeConfig.blockSizeHorizontal * 14,
+                                                          height: 20,
+                                                          decoration: BoxDecoration(
+                                                            color: Color.fromARGB(20, 0, 0, 0),
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          alignment: Alignment.center,
+                                                          child: Text(
+                                                            //todo sacar el boton de usado y cambiarlo por el de nuevo
+                                                            "USADO",
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.w700,
+                                                              fontFamily: "Sf-r",
+                                                              color: Color.fromARGB(100, 0, 0, 0),
                                                             ),
-                                                            book.rating != null?
-                                                            Container(
-                                                              height: 21,
-                                                              margin: EdgeInsets.only(left: 4),
-                                                              padding: EdgeInsets.only(left: 4, right: 4),
-                                                              decoration: BoxDecoration(
-                                                                color: Color.fromARGB(100, 116, 116, 116),
-                                                                borderRadius: BorderRadius.circular(8.0),
-                                                                border: Border.all(
-                                                                    width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
-                                                              ),
-                                                              alignment: Alignment.center,
-                                                              child: Row(
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: <Widget>[
-                                                                  Icon(
-                                                                      Icons.star,
-                                                                      size: 17,
-                                                                      color: Colors.white),
-                                                                  Text(
-                                                                    '${book.rating}',
-                                                                    textAlign: TextAlign.center,
-                                                                    style: TextStyle(
-                                                                        fontSize: 15,
-                                                                        fontWeight: FontWeight.w800,
-                                                                        fontFamily: "Sf-r",
-                                                                        color: Colors.white
-                                                                    ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 2,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 5,),
+                                                      Container(
+                                                        width: SizeConfig.blockSizeHorizontal * 62.5,
+                                                        margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Container(
+                                                                    height: 25,
+                                                                    width: 25 ,
+                                                                    child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                                ),
+                                                                book.rating != null?
+                                                                Container(
+                                                                  height: 21,
+                                                                  margin: EdgeInsets.only(left: 4),
+                                                                  padding: EdgeInsets.only(left: 4, right: 4),
+                                                                  decoration: BoxDecoration(
+                                                                    color: Color.fromARGB(100, 116, 116, 116),
+                                                                    borderRadius: BorderRadius.circular(8.0),
+                                                                    border: Border.all(
+                                                                        width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
                                                                   ),
+                                                                  alignment: Alignment.center,
+                                                                  child: Row(
+                                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: <Widget>[
+                                                                      Icon(
+                                                                          Icons.star,
+                                                                          size: 17,
+                                                                          color: Colors.white),
+                                                                      Text(
+                                                                        '${book.rating}',
+                                                                        textAlign: TextAlign.center,
+                                                                        style: TextStyle(
+                                                                            fontSize: 15,
+                                                                            fontWeight: FontWeight.w800,
+                                                                            fontFamily: "Sf-r",
+                                                                            color: Colors.white
+                                                                        ),
+                                                                      ),
 
-                                                                ],
-                                                              ),
-                                                            ):
-                                                            Container(
+                                                                    ],
+                                                                  ),
+                                                                ):
+                                                                Container(
+                                                                    child: Row(
+                                                                      children: <Widget>[
+                                                                        SizedBox(width: 5,),
+                                                                        Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                                          style: TextStyle(
+                                                                            fontSize: 12,
+                                                                            fontWeight: FontWeight.w700,
+                                                                            fontFamily: "Sf-r",
+                                                                            color: Color.fromARGB(
+                                                                                190, 0, 0, 0),
+                                                                          ),
+                                                                        )
+                                                                      ],)),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                                padding:
+                                                                const EdgeInsets.only(right: 5),
                                                                 child: Row(
                                                                   children: <Widget>[
-                                                                    SizedBox(width: 5,),
-                                                                    Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                                    Text(
+                                                                      '\$${book.precio}',
+                                                                      textAlign: TextAlign.center,
                                                                       style: TextStyle(
-                                                                        fontSize: 12,
+                                                                        fontSize: 21,
                                                                         fontWeight: FontWeight.w700,
                                                                         fontFamily: "Sf-r",
                                                                         color: Color.fromARGB(
                                                                             190, 0, 0, 0),
                                                                       ),
                                                                     )
-                                                                  ],)),
+                                                                  ],
+                                                                )),
                                                           ],
                                                         ),
-                                                        Padding(
-                                                            padding:
-                                                            const EdgeInsets.only(right: 5),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Text(
-                                                                  '\$${book.precio}',
-                                                                  textAlign: TextAlign.center,
-                                                                  style: TextStyle(
-                                                                    fontSize: 21,
-                                                                    fontWeight: FontWeight.w700,
-                                                                    fontFamily: "Sf-r",
-                                                                    color: Color.fromARGB(
-                                                                        190, 0, 0, 0),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: SizeConfig.blockSizeHorizontal*6,
-                                    bottom: 15,
-                                    top: 15,
-                                    width: 75,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Image(
-                                        image : book.getFirstImageThumb(),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                      bottom: 0,
-                                      left: SizeConfig.blockSizeHorizontal*30,
-                                      right: 22,
-                                      child:Container(
-                                        height: 2,
-                                        color: Colors.black12,
+                                      /*Positioned(
+                                left: SizeConfig.blockSizeHorizontal*6,
+                                bottom: 15,
+                                top: 15,
+                                width: 75,
+                                child:
+                              ),*/
+                                      Positioned(
+                                          bottom: 0,
+                                          left: 5,
+                                          right: 22,
+                                          child:Container(
+                                            height: 2,
+                                            color: Colors.black12,
+                                          )
                                       )
-                                  )
+                                    ],
+                                  ),
+
                                 ],
                               ),
                             );
@@ -718,267 +736,280 @@ class _SearchWidgetState extends State<SearchWidget> {
                             ),
                           );
                         },
-                        child: Stack(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                              padding: EdgeInsets.fromLTRB(13, 13, 13, 11),
-                              height: 127.0,
-                              width: SizeConfig.blockSizeHorizontal * 100,
-                              decoration: BoxDecoration(
-                                /* color: Color.fromARGB(255, 241, 242, 242),*/
-                                borderRadius: BorderRadius.circular(20.0),
+                              margin: EdgeInsets.fromLTRB(22, 13, 10, 0),
+                              height: 112,
+                              width: 70,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child:book.getFirstImageThumb() != null ? Image(
+                                  image : book.getFirstImageThumb(),
+                                  fit: BoxFit.cover,
+                                )
+                                    :
+                                CircularProgressIndicator(),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(90, 0, 0, 0),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Column(
+                            ),
+                            Stack(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+                                  padding: EdgeInsets.fromLTRB(0, 13, 13, 11),
+                                  height: 127.0,
+                                  width: SizeConfig.blockSizeHorizontal * 70,
+                                  decoration: BoxDecoration(
+                                    /* color: Color.fromARGB(255, 241, 242, 242),*/
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                    child: Stack(
                                       children: <Widget>[
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        Column(
                                           children: <Widget>[
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 45,
-                                              child: Text(
-                                                "${book.nombreLibro}",
-                                                style: TextStyle(
-                                                  color: Color.fromARGB(200, 0, 0, 0),
-                                                  fontSize: 15,
-                                                  fontFamily: "Sf-r",
-                                                  fontWeight: FontWeight.w700,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal * 45,
+                                                  child: Text(
+                                                    "${book.nombreLibro}",
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(200, 0, 0, 0),
+                                                      fontSize: 15,
+                                                      fontFamily: "Sf-r",
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
                                                 ),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal * 40,
+                                                  margin: EdgeInsets.only(top: 5),
+                                                  child: Text(
+                                                    "${book.autor}",
+                                                    style: TextStyle(
+                                                      fontSize: 11,
+                                                      fontFamily: "Sf",
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 40,
-                                              margin: EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                "${book.autor}",
-                                                style: TextStyle(
-                                                  fontSize: 11,
-                                                  fontFamily: "Sf",
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Positioned(
-                                      left: 0,
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Container(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                                          children: <Widget>[
-                                            Align(
-                                              alignment: Alignment.topRight,
-                                              child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
-                                                builder: (context,state){
-                                                  if(state is FavoriteBooksLoaded){
-                                                    if(state.books.contains(book)){
-                                                      return IconButton(
-                                                          icon: Icon(Icons.favorite),
-                                                          iconSize: 30.0,
-                                                          color: Colors.black,
-                                                          onPressed: () {
+                                        Positioned(
+                                          left: 0,
+                                          bottom: 0,
+                                          right: 0,
+                                          child: Container(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                              children: <Widget>[
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                  child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
+                                                    builder: (context,state){
+                                                      if(state is FavoriteBooksLoaded){
+                                                        bool isFavorite = false;
+                                                        for(Book favBook in state.books){
+                                                          if(book.uid == favBook.uid)isFavorite = true;
+                                                        }
+                                                        if(isFavorite){
+                                                          //if(state.books.contains(book)){
+                                                          return IconButton(
+                                                              icon: Icon(Icons.favorite),
+                                                              iconSize: 30.0,
+                                                              color: Colors.black,
+                                                              onPressed: () {
+                                                                BlocProvider.of<FavoritesBloc>(context).add(RemoveBookFromFavorites(book.uid));
+                                                              });
+                                                        }else{
+                                                          return IconButton(
+                                                              icon: Icon(Icons.favorite_border),
+                                                              iconSize: 30.0,
+                                                              color: Colors.black,
+                                                              onPressed: () {
+                                                                BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites(book.uid));
 
-                                                            BlocProvider.of<FavoritesBloc>(context)
-                                                                .add(RemoveBookFromFavorites(
-                                                                book.uid));
-
-                                                          });
-                                                    }else{
+                                                              });
+                                                        }
+                                                      }
                                                       return IconButton(
                                                           icon: Icon(Icons.favorite_border),
                                                           iconSize: 30.0,
                                                           color: Colors.black,
                                                           onPressed: () {
-
-                                                            BlocProvider.of<FavoritesBloc>(context)
-                                                                .add(AddBookToFavorites(
-                                                                book.uid));
-
+                                                            if (BlocProvider.of<FavoritesBloc>(context)
+                                                                .favoriteBooks !=
+                                                                null &&
+                                                                BlocProvider.of<FavoritesBloc>(context)
+                                                                    .favoriteBooks
+                                                                    .contains(book)) {
+                                                              BlocProvider.of<FavoritesBloc>(context)
+                                                                  .add(RemoveBookFromFavorites(
+                                                                  book.uid));
+                                                            } else {
+                                                              BlocProvider.of<FavoritesBloc>(context)
+                                                                  .add(AddBookToFavorites(
+                                                                  book.uid));
+                                                            }
                                                           });
-                                                    }
-                                                  }
-                                                  return IconButton(
-                                                      icon: Icon(Icons.favorite_border),
-                                                      iconSize: 30.0,
-                                                      color: Colors.black,
-                                                      onPressed: () {
-                                                        if (BlocProvider.of<FavoritesBloc>(context)
-                                                            .favoriteBooks !=
-                                                            null &&
-                                                            BlocProvider.of<FavoritesBloc>(context)
-                                                                .favoriteBooks
-                                                                .contains(book)) {
-                                                          BlocProvider.of<FavoritesBloc>(context)
-                                                              .add(RemoveBookFromFavorites(
-                                                              book.uid));
-                                                        } else {
-                                                          BlocProvider.of<FavoritesBloc>(context)
-                                                              .add(AddBookToFavorites(
-                                                              book.uid));
-                                                        }
-                                                      });
-                                                },
-                                              ),
-                                            ),
-                                            SizedBox(height: 15),
-                                            Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Container(
-                                                width: SizeConfig.blockSizeHorizontal * 14,
-                                                height: 20,
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromARGB(20, 0, 0, 0),
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  //todo sacar el boton de usado y cambiarlo por el de nuevo
-                                                  "USADO",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Sf-r",
-                                                    color: Color.fromARGB(100, 0, 0, 0),
+                                                    },
                                                   ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Container(
-                                              width: SizeConfig.blockSizeHorizontal * 62.5,
-                                              margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: <Widget>[
-                                                  Row(
-                                                    children: <Widget>[
-                                                      Container(
-                                                          height: 25,
-                                                          width: 25 ,
-                                                          child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                SizedBox(height: 15),
+                                                Align(
+                                                  alignment: Alignment.centerRight,
+                                                  child: Container(
+                                                    width: SizeConfig.blockSizeHorizontal * 14,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromARGB(20, 0, 0, 0),
+                                                      borderRadius: BorderRadius.circular(10.0),
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      //todo sacar el boton de usado y cambiarlo por el de nuevo
+                                                      "USADO",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight: FontWeight.w700,
+                                                        fontFamily: "Sf-r",
+                                                        color: Color.fromARGB(100, 0, 0, 0),
                                                       ),
-                                                      book.rating != null?
-                                                      Container(
-                                                        height: 21,
-                                                        margin: EdgeInsets.only(left: 4),
-                                                        padding: EdgeInsets.only(left: 4, right: 4),
-                                                        decoration: BoxDecoration(
-                                                          color: Color.fromARGB(100, 116, 116, 116),
-                                                          borderRadius: BorderRadius.circular(8.0),
-                                                          border: Border.all(
-                                                              width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
-                                                        ),
-                                                        alignment: Alignment.center,
-                                                        child: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: <Widget>[
-                                                            Icon(
-                                                                Icons.star,
-                                                                size: 17,
-                                                                color: Colors.white),
-                                                            Text(
-                                                              '${book.rating}',
-                                                              textAlign: TextAlign.center,
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight: FontWeight.w800,
-                                                                  fontFamily: "Sf-r",
-                                                                  color: Colors.white
-                                                              ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5,),
+                                                Container(
+                                                  width: SizeConfig.blockSizeHorizontal * 62.5,
+                                                  margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Container(
+                                                              height: 25,
+                                                              width: 25 ,
+                                                              child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                          ),
+                                                          book.rating != null?
+                                                          Container(
+                                                            height: 21,
+                                                            margin: EdgeInsets.only(left: 4),
+                                                            padding: EdgeInsets.only(left: 4, right: 4),
+                                                            decoration: BoxDecoration(
+                                                              color: Color.fromARGB(100, 116, 116, 116),
+                                                              borderRadius: BorderRadius.circular(8.0),
+                                                              border: Border.all(
+                                                                  width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
                                                             ),
+                                                            alignment: Alignment.center,
+                                                            child: Row(
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: <Widget>[
+                                                                Icon(
+                                                                    Icons.star,
+                                                                    size: 17,
+                                                                    color: Colors.white),
+                                                                Text(
+                                                                  '${book.rating}',
+                                                                  textAlign: TextAlign.center,
+                                                                  style: TextStyle(
+                                                                      fontSize: 15,
+                                                                      fontWeight: FontWeight.w800,
+                                                                      fontFamily: "Sf-r",
+                                                                      color: Colors.white
+                                                                  ),
+                                                                ),
 
-                                                          ],
-                                                        ),
-                                                      ):
-                                                      Container(
+                                                              ],
+                                                            ),
+                                                          ):
+                                                          Container(
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  SizedBox(width: 5,),
+                                                                  Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                                    style: TextStyle(
+                                                                      fontSize: 12,
+                                                                      fontWeight: FontWeight.w700,
+                                                                      fontFamily: "Sf-r",
+                                                                      color: Color.fromARGB(
+                                                                          190, 0, 0, 0),
+                                                                    ),
+                                                                  )
+                                                                ],)),
+                                                        ],
+                                                      ),
+                                                      Padding(
+                                                          padding:
+                                                          const EdgeInsets.only(right: 5),
                                                           child: Row(
                                                             children: <Widget>[
-                                                              SizedBox(width: 5,),
-                                                              Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                              Text(
+                                                                '\$${book.precio}',
+                                                                textAlign: TextAlign.center,
                                                                 style: TextStyle(
-                                                                  fontSize: 12,
+                                                                  fontSize: 21,
                                                                   fontWeight: FontWeight.w700,
                                                                   fontFamily: "Sf-r",
                                                                   color: Color.fromARGB(
                                                                       190, 0, 0, 0),
                                                                 ),
                                                               )
-                                                            ],)),
+                                                            ],
+                                                          )),
                                                     ],
                                                   ),
-                                                  Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(right: 5),
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '\$${book.precio}',
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                              fontSize: 21,
-                                                              fontWeight: FontWeight.w700,
-                                                              fontFamily: "Sf-r",
-                                                              color: Color.fromARGB(
-                                                                  190, 0, 0, 0),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              left: SizeConfig.blockSizeHorizontal*6,
-                              bottom: 15,
-                              top: 15,
-                              width: 75,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Image(
-                                  image : book.getFirstImageThumb(),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                                bottom: 0,
-                                left: SizeConfig.blockSizeHorizontal*30,
-                                right: 22,
-                                child:Container(
-                                  height: 2,
-                                  color: Colors.black12,
+                                /*Positioned(
+                                left: SizeConfig.blockSizeHorizontal*6,
+                                bottom: 15,
+                                top: 15,
+                                width: 75,
+                                child:
+                              ),*/
+                                Positioned(
+                                    bottom: 0,
+                                    left: 5,
+                                    right: 22,
+                                    child:Container(
+                                      height: 2,
+                                      color: Colors.black12,
+                                    )
                                 )
-                            )
+                              ],
+                            ),
+
                           ],
                         ),
                       );
@@ -1003,15 +1034,19 @@ class _SearchWidgetState extends State<SearchWidget> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CategoriesColegios(),
-                ),
-              );
+              setState(() {
+                homeHubState?.changeToMyBooks();
+              });
+
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => CategoriesColegios(),
+//                ),
+//              );
             },
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1023,12 +1058,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                           color: Color.fromARGB(255, 255, 213, 104),
                           borderRadius: BorderRadius.circular(100)),
                       child: Icon(
-                        MaterialIcons.school,
+                        Icons.inbox,
                         color: Colors.white,
                         size: 30,
                       )),
                   Text(
-                    "Colegios",
+                    "Mis Libros",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
@@ -1040,91 +1075,72 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.class_,
+          GestureDetector(
+            onTap: (){
+              homeHubState?.changeToFavorites();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Favoritos",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Materias",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      Icons.group,
+          GestureDetector(
+            onTap: (){
+              homeHubState?.changeToChats();
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        FontAwesome5.comment,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Mensajes",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Cursos",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 213, 104),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: Icon(
-                      FontAwesome5.address_book,
-                      color: Colors.white,
-                      size: 30,
-                    )),
-                Text(
-                  "Usuarios",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           GestureDetector(
@@ -1132,12 +1148,44 @@ class _SearchWidgetState extends State<SearchWidget> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeViewDos(),
+                  builder: (context) => MiPerfil(),
                 ),
               );
             },
             child: Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Ajustes",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: _showDialogAyuda,
+            child: Container(
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1154,19 +1202,19 @@ class _SearchWidgetState extends State<SearchWidget> {
                         size: 30,
                       )),
                   Text(
-                    "HomeView2",
+                    "¡HELP!",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontFamily: "Sf-r",
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          GestureDetector(
+          /* GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -1204,9 +1252,48 @@ class _SearchWidgetState extends State<SearchWidget> {
                 ],
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
   } //TODO especificarle cual de todas las categories
+  void _showDialogAyuda() {
+    showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "Contactanos",
+        description:
+        "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
+        primaryButtonText: "Cancelar",
+        primaryFunction: () {
+          Navigator.pop(context);
+        },
+        secondaryButtonText: "Enviar Mail",
+        secondaryFunction: () async {
+          try {
+//            if (Platform.isAndroid) {
+//              AndroidIntent intent = AndroidIntent(
+//                action: 'android.intent.action.MAIN',
+//                category: 'android.intent.category.APP_EMAIL',
+//              );
+//              intent.launch().catchError((e) {
+//                print(e.message);
+//              });
+//            } else if (Platform.isIOS) {
+//              //launch("message://")
+            launch("mailto:buymy.customerservice@gmail.com?subject=Duda/Consulta BuyMy&body=Estimados,les notifico que me ocurrio ...")
+                .catchError((e) {
+              print(e.message);
+            });
+            // }
+          } catch (e) {
+            print(e.message);
+          }
+        },
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
 }

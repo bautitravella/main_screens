@@ -111,8 +111,8 @@ class _FavoritosViewState extends State<FavoritosView> {
                   ),
                 ),
                 Positioned(
-                  right: SizeConfig.blockSizeHorizontal * 4,
-                  top: SizeConfig.blockSizeVertical * 5,
+                  right: 20,
+                  top: 45,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -122,34 +122,36 @@ class _FavoritosViewState extends State<FavoritosView> {
                         ),
                       );
                     },
-                    child: BlocBuilder<UserBloc, UserBlocState>(
-                        builder: (context, state) {
-                      if (state is UserLoadedState) {
-                        return Container(
-                          height: 55,
-                          width: 55,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
+                    child: BlocBuilder<UserBloc,UserBlocState>(
+                      builder: (context,state){
+                        if(state is UserLoadedState){
+                          return Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
                                 color: Colors.white,
-                                width: 2, //
-                              ),
-                              borderRadius: new BorderRadius.circular(100)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Hero(
-                              tag: 'avatar',
-                              child: Image(
-                                image: state.user.getProfileImage(),
-                                fit: BoxFit.fill,
-                                alignment: Alignment.center,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2, //
+                                ),
+                                borderRadius: new BorderRadius.circular(100)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Hero(
+                                tag: 'avatar',
+                                child: Image(
+                                  image: state.user.getProfileImage(),
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment.center,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      return Container();
-                    }),
+                          );
+                        }
+                        return Container();
+
+                      },
+                    ),
                   ),
                 ),
               ],
