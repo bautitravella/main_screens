@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
@@ -10,6 +11,7 @@ import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,8 +24,17 @@ class FavoritosView extends StatefulWidget {
 }
 
 class _FavoritosViewState extends State<FavoritosView> {
+
+  @override
+  void initState(){
+//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+//    analytics.setCurrentScreen(screenName: "/home/favoritos");
+  }
+
   Widget build(BuildContext context) {
     //BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites("iex5V1rNdY0FVX2y9f7P"));
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/home/favoritos");
     SizeConfig().init(context);
     return Scaffold(
       body: Stack(

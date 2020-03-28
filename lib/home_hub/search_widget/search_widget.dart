@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
@@ -16,6 +17,7 @@ import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
@@ -34,8 +36,11 @@ class _SearchWidgetState extends State<SearchWidget> {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
   bool searchTextEmpty = true;
+  FirebaseAnalytics analytics;
 
   Widget build(BuildContext context) {
+    analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/home/search");
     SizeConfig().init(context);
     /*  if (_keyboardIsVisible()){_pc.open();} else { _pc.close();}*/
     return Scaffold(
@@ -223,6 +228,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                 width: SizeConfig.blockSizeHorizontal * 60,
                                 child: TextField(
                                   onChanged: (value) {
+                                    analytics.logSearch(searchTerm: value);
                                     print(value);
                                     if(value == null || value.length == 0){
                                       searchTextEmpty = true;

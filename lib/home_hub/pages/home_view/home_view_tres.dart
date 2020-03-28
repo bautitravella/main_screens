@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/books_model.dart';
@@ -16,6 +17,7 @@ import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
@@ -32,11 +34,20 @@ class _HomeViewTresState extends State<HomeViewTres> {
   PanelController _pc = new PanelController();
   HomeHubState homeHubState;
 
+
+  @override
+  void initState() {
+//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+//    analytics.setCurrentScreen(screenName: "/home/home_view");
+  }
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     if(widget.homeHubState!= null){
       homeHubState = widget.homeHubState;
     }
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/home/home_view");
     return Scaffold(
       body: Stack(
         children: <Widget>[

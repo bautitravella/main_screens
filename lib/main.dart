@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -27,93 +29,110 @@ void main() {
 }
 
 class App extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+  FirebaseAnalyticsObserver(analytics: analytics);
+  static BaseAuth auth = Auth();
+
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return Provider<BaseAuth>(
-      create: (_) => Auth(),
+    return MultiProvider(
+      providers: [
+        Provider<FirebaseAnalytics>.value(value: analytics),
+        Provider<FirebaseAnalyticsObserver>.value(value: observer),
+        Provider<BaseAuth>.value(value:auth),
+      ],
       child: RepositoryProvider(
         create: (context) => FirebaseRepository(),
-        child: BlocProvider(
-          create: (BuildContext context) =>
-              UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider<BooksBloc>(
-                create: (context) {
-                  return BooksBloc(
-                      RepositoryProvider.of<FirebaseRepository>(context),
-                      BlocProvider.of<UserBloc>(context));
-                },
-              ),
-              BlocProvider<UserBooksBloc>(
-                create: (context) {
-                  return UserBooksBloc(
-                      RepositoryProvider.of<FirebaseRepository>(context),
-                      BlocProvider.of<UserBloc>(context));
-                },
-              ),
-              BlocProvider<FavoritesBloc>(
-                create: (BuildContext context) {
-                  return FavoritesBloc(
-                      RepositoryProvider.of<FirebaseRepository>(context),
-                      BlocProvider.of<UserBloc>(context));
-                },
-              ),
-              BlocProvider<ColegiosBloc>(
-                create: (BuildContext context) {
-                  return ColegiosBloc(
-                      RepositoryProvider.of<FirebaseRepository>(context));
-                },
-              ),
-              BlocProvider<ChatsBloc>(create: (BuildContext context) {
-                return ChatsBloc(
-                    RepositoryProvider.of<FirebaseRepository>(context),
-                    BlocProvider.of<UserBloc>(context));
-              }),
-              BlocProvider<MessagesBloc>(create: (BuildContext context) {
-                return MessagesBloc(
-                    RepositoryProvider.of<FirebaseRepository>(context),
-                    BlocProvider.of<UserBloc>(context),
-                    BlocProvider.of<ChatsBloc>(context));
-              }),
-              BlocProvider<SearchBloc>(create: (BuildContext context) {
-                return SearchBloc(
-                    RepositoryProvider.of<FirebaseRepository>(context),
-                    BlocProvider.of<UserBloc>(context));
-              }),
-              BlocProvider<TokensBloc>(create: (BuildContext context) {
-                return TokensBloc(
-                    RepositoryProvider.of<FirebaseRepository>(context),
-                    BlocProvider.of<UserBloc>(context));
-              }),
-              BlocProvider<UploadsBloc>(
-                create: (BuildContext context){
-                  return UploadsBloc(RepositoryProvider.of<FirebaseRepository>(context));
-                },
-              ),
-              BlocProvider<EconomicosBloc>(
-                create: (BuildContext context){
-                  return EconomicosBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
-                },
-              ),
-            ],
-            child: MaterialApp(
-                //home: MyDecider(),
-                theme: ThemeData(
-                  accentColor: AppColors.secondaryBackground,
-                ),
-                routes: <String, WidgetBuilder>{
-                  '/home': (BuildContext context) => HomeHub(),
-                  '/logOut': (BuildContext context) => FirstscreenWidget(),
-                  '/': (BuildContext context) => MyDecider(),
-                }),
-          ),
-        ),
-      ),
+    child: BlocProvider(
+    create: (BuildContext context) =>
+    UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
+    child: MultiBlocProvider(
+    providers: [
+    BlocProvider<BooksBloc>(
+    create: (context) {
+    return BooksBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context));
+    },
+    ),
+    BlocProvider<UserBooksBloc>(
+    create: (context) {
+    return UserBooksBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context));
+    },
+    ),
+    BlocProvider<FavoritesBloc>(
+    create: (BuildContext context) {
+    return FavoritesBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context));
+    },
+    ),
+    BlocProvider<ColegiosBloc>(
+    create: (BuildContext context) {
+    return ColegiosBloc(
+    RepositoryProvider.of<FirebaseRepository>(context));
+    },
+    ),
+    BlocProvider<ChatsBloc>(create: (BuildContext context) {
+    return ChatsBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context));
+    }),
+    BlocProvider<MessagesBloc>(create: (BuildContext context) {
+    return MessagesBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context),
+    BlocProvider.of<ChatsBloc>(context));
+    }),
+    BlocProvider<SearchBloc>(create: (BuildContext context) {
+    return SearchBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context));
+    }),
+    BlocProvider<TokensBloc>(create: (BuildContext context) {
+    return TokensBloc(
+    RepositoryProvider.of<FirebaseRepository>(context),
+    BlocProvider.of<UserBloc>(context));
+    }),
+    BlocProvider<UploadsBloc>(
+    create: (BuildContext context){
+    return UploadsBloc(RepositoryProvider.of<FirebaseRepository>(context));
+    },
+    ),
+    BlocProvider<EconomicosBloc>(
+    create: (BuildContext context){
+    return EconomicosBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
+    },
+    ),
+    ],
+    child: MaterialApp(
+    //home: MyDecider(),
+    theme: ThemeData(
+    accentColor: AppColors.secondaryBackground,
+    ),
+    navigatorObservers: [
+    FirebaseAnalyticsObserver(analytics: analytics),
+    ],
+    routes: <String, WidgetBuilder>{
+    '/home': (BuildContext context) => HomeHub(),
+    '/logOut': (BuildContext context) => FirstscreenWidget(),
+    '/': (BuildContext context) => MyDecider(),
+    }),
+    ),
+    ),
+    ),
+    );
+    return Provider<BaseAuth>(
+      create: (_) => Auth(),
+
     );
   }
 }
