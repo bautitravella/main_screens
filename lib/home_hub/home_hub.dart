@@ -84,7 +84,7 @@ class HomeHubState extends State<HomeHub> {
             try{
               _pageController?.jumpToPage(index);
             }catch(e){
-              print("HOME HUB: PAGE CONTROLLER ERROR");
+              //print("HOME HUB: PAGE CONTROLLER ERROR");
             }
 
           },
