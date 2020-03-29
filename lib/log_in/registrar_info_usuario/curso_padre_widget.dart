@@ -57,6 +57,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
     }
     super.initState();
     hijos.add(ChildField(
+      widget.user,
       key: UniqueKey(),
     ));
   }
@@ -337,7 +338,7 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
   }
 
   agregarHijo() {
-    hijos.add(ChildField(key: UniqueKey()));
+    hijos.add(ChildField(widget.user,key: UniqueKey()));
     setState(() {
       _currentIndex = hijos.length - 1;
     });
@@ -366,11 +367,12 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
 }
 
 class ChildField extends StatefulWidget {
-  ChildField({Key key}) : super(key: key);
+  ChildField(this.user,{Key key}) : super(key: key);
 
   @override
   _ChildFieldState createState() => _ChildFieldState();
 
+  Padre user;
   String cursoSelectedValue;
   String colegioSelectedValue;
   TextEditingController nombreController = new TextEditingController();
@@ -482,7 +484,7 @@ class _ChildFieldState extends State<ChildField> {
                       child: new DropdownButton(
                         icon: Icon(Icons.menu),
                         underline: Text(""),
-                        items: createDropDownMenuList(state.colegiosData.colegios),
+                        items: createDropDownMenuListColegios(state.colegiosData.colegios),
                         isExpanded: true,
                         value: widget.colegioSelectedValue,
                         hint: new Text(
@@ -495,9 +497,15 @@ class _ChildFieldState extends State<ChildField> {
                           ),
                         ),
                         onChanged: (value) {
-                          setState(() {
-                            widget.colegioSelectedValue = value;
-                          });
+
+                            if (value == "+ Agregar Colegio") {
+                              agregarColegio(widget.user.email);
+                            } else {
+                              setState(() {
+                                widget.colegioSelectedValue = value;
+                              });
+                            }
+
                         },
                       ),
                     ),
@@ -558,8 +566,109 @@ class _ChildFieldState extends State<ChildField> {
       ),
     );
   }
-}
 
+  void agregarColegio(String email) {
+    TextEditingController colegioNameTextEditingController = TextEditingController();
+//    if(Platform.isIOS){
+//      showCupertinoDialog(context: context, builder: (BuildContext context) => CupertinoAlertDialog(
+//        title: Text("Enviar solicitud para agregar un colegio"),
+//        content: Container(
+//          child:Column(
+//            children: <Widget>[
+//              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado."),
+//              Container(child: TextField( controller: colegioNameTextEditingController)),
+//            ],
+//          )
+//        ),
+//        actions: <Widget>[
+//          CupertinoDialogAction(isDefaultAction: false,child: Text("Cancelar"),onPressed: ()=> Navigator.pop(context),),
+//          CupertinoDialogAction(isDefaultAction: true,child: Text("Enviar"),onPressed:(){
+//            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
+//              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+//            }
+//            Navigator.pop(context);
+//          },)
+//        ],
+//      ));
+//    }else{
+
+    showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+      title: Text("Enviar solicitud para agregar un colegio"),
+      content: Container(
+          child:Column(
+            children: <Widget>[
+              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado.Una vez aceptada o rechazada te enviaremos un mail con nuestra decision."),
+              TextField(
+                  controller: colegioNameTextEditingController
+              ),
+            ],
+          )
+      ),
+      actions: <Widget>[
+        FlatButton(child: Text("Cancelar"),
+          onPressed: ()=> Navigator.pop(context),
+        ),
+        FlatButton(child: Text("Enviar"),
+          onPressed: (){
+            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
+              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+            }
+            Navigator.pop(context);
+          },)
+      ],
+    ));
+    //}
+  }
+}
+List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
+  List<DropdownMenuItem> dropdownMenuItemList = [];
+  String agregarColegio =  "+ Agregar Colegio";
+  for (String item in lista) {
+    dropdownMenuItemList.add(DropdownMenuItem(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+              child: new Text(
+                item,
+                style: TextStyle(
+                  color: Color.fromARGB(255, 53, 38, 65),
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ]),
+      value: item,
+    ));
+  }
+  dropdownMenuItemList.add(DropdownMenuItem(
+    child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+            child: new Text(
+              agregarColegio,
+              style: TextStyle(
+                color: Color.fromARGB(255, 53, 38, 65),
+                fontFamily: "Montserrat",
+                fontWeight: FontWeight.w700,
+                fontSize: 19,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ]),
+    value: agregarColegio,
+  ));
+  return dropdownMenuItemList;
+}
 List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
   List<DropdownMenuItem> dropdownMenuItemList = [];
   for (String item in lista) {
@@ -587,6 +696,8 @@ List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
   }
   return dropdownMenuItemList;
 }
+
+
 
 void showLoadingDialog(BuildContext context) {
   showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
