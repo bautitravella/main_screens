@@ -121,7 +121,10 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   }
 
   Stream<MessagesBlocState> _mapLoadedMessagesToState(List<Message> messages) async* {
-    yield MessagesLoaded(messages,currentChat);
+    if(!(chatSubscription == null && messagesSubscription == null)){
+      yield MessagesLoaded(messages,currentChat);
+    }
+
   }
 
   _mapAddMessageToState(Message message,ChatRole chatRole) {
@@ -184,6 +187,9 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
 
   Stream<MessagesBlocState> _mapUnloadMessagesToState()async*{
     messagesSubscription.cancel();
+    chatSubscription.cancel();
+    messagesSubscription = null;
+    chatSubscription = null;
     yield InitialMessagesBlocState();
   }
 
