@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
@@ -156,13 +158,19 @@ class _MiPerfilState extends State<MiPerfil> {
                         top: SizeConfig.blockSizeVertical * 10,
                         left: 8,
                         child: GestureDetector(
-                            onTap: () => Navigator.pop(context),
+                          onTap: () => Navigator.pop(context),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.arrow_back_ios, color: Colors.white, size: 25,),
-                              SizedBox(width: 10,),
+                              Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
                               Text(
                                 "Ajustes",
                                 textAlign: TextAlign.left,
@@ -837,7 +845,8 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5),
                               child: RichText(
                                 text: TextSpan(
                                   children: <TextSpan>[
@@ -860,7 +869,8 @@ class _MiPerfilState extends State<MiPerfil> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5),
                               child: RichText(
                                 text: TextSpan(
                                   children: <TextSpan>[
@@ -884,7 +894,8 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                             GestureDetector(
                               child: Container(
-                                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 5),
                                 child: Text(
                                   "Ayuda",
                                   style: TextStyle(
@@ -898,7 +909,8 @@ class _MiPerfilState extends State<MiPerfil> {
                             ),
                             GestureDetector(
                                 child: Container(
-                                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 5),
                                   child: Text(
                                     "Cerrar sesión",
                                     style: TextStyle(
@@ -1259,6 +1271,57 @@ class _MiPerfilState extends State<MiPerfil> {
     return dropdownMenuItemList;
   }
 
+  List<DropdownMenuItem> createDropDownMenuListSmallColegios(
+      List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem<String>(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 2, bottom: 2),
+                child: new Text(
+                  item,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    }
+    String agregarColegio = "+ Agregar Colegio";
+    dropdownMenuItemList.add(DropdownMenuItem<String>(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 2, bottom: 2),
+              child: new Text(
+                agregarColegio,
+                style: TextStyle(
+                  color: Color.fromARGB(255, 53, 38, 65),
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ]),
+      value: agregarColegio,
+    ));
+    return dropdownMenuItemList;
+  }
+
   Widget createStudentLayout(Alumno user) {
     return Container(
       constraints: BoxConstraints.expand(height: 380),
@@ -1316,7 +1379,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                 size: 15,
                               ),
                               underline: Text(""),
-                              items: createDropDownMenuListSmall(
+                              items: createDropDownMenuListSmallColegios(
                                   state.colegiosData.colegios),
                               isExpanded: true,
                               value: user.colegio,
@@ -1331,9 +1394,13 @@ class _MiPerfilState extends State<MiPerfil> {
                                 textAlign: TextAlign.center,
                               ),
                               onChanged: (value) {
-                                setState(() {
-                                  user.colegio = value;
-                                });
+                                if (value == "+ Agregar Colegio") {
+                                  agregarColegio(user.email);
+                                } else {
+                                  setState(() {
+                                    user.colegio = value;
+                                  });
+                                }
                               },
                             ),
                           ),
@@ -1626,7 +1693,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                 size: 15,
                               ),
                               underline: Text(""),
-                              items: createDropDownMenuListSmall(
+                              items: createDropDownMenuListSmallColegios(
                                   state.colegiosData.colegios),
                               isExpanded: true,
                               value: hijos[indexHijo].colegio,
@@ -1641,9 +1708,13 @@ class _MiPerfilState extends State<MiPerfil> {
                                 textAlign: TextAlign.center,
                               ),
                               onChanged: (value) {
-                                setState(() {
-                                  hijos[indexHijo].colegio = value;
-                                });
+                                if (value == "+ Agregar Colegio") {
+                                  agregarColegio(user.email);
+                                } else {
+                                  setState(() {
+                                    hijos[indexHijo].colegio = value;
+                                  });
+                                }
                               },
                             ),
                           ),
@@ -1986,11 +2057,11 @@ class _MiPerfilState extends State<MiPerfil> {
 //              });
 //            } else if (Platform.isIOS) {
 //              //launch("message://")
-              launch("mailto:buymy.customerservice@gmail.com?subject=Duda/Consulta BuyMy&body=Estimados,les notifico que me ocurrio ...")
-                  .catchError((e) {
-                print(e.message);
-              });
-           // }
+            launch("mailto:buymy.customerservice@gmail.com?subject=Duda/Consulta BuyMy&body=Estimados,les notifico que me ocurrio ...")
+                .catchError((e) {
+              print(e.message);
+            });
+            // }
           } catch (e) {
             print(e.message);
           }
@@ -2002,8 +2073,8 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
-  void _showDialogInvita() async{
-    final auth = Provider.of<BaseAuth>(context,listen:false);
+  void _showDialogInvita() async {
+    final auth = Provider.of<BaseAuth>(context, listen: false);
     final FirebaseUser firebaseUser = await auth.currentUser();
     final String userEmail = firebaseUser.email;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
@@ -2022,9 +2093,10 @@ class _MiPerfilState extends State<MiPerfil> {
         medium: 'app',
         source: '$userEmail',
       ),
-      socialMetaTagParameters:  SocialMetaTagParameters(
+      socialMetaTagParameters: SocialMetaTagParameters(
         title: 'Invitacion a BuyMy',
-        description: 'Te invito a que descubras esta excelente manera de ganar plata por tus libros viejos',
+        description:
+            'Te invito a que descubras esta excelente manera de ganar plata por tus libros viejos',
       ),
     );
     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
@@ -2098,5 +2170,58 @@ class _MiPerfilState extends State<MiPerfil> {
           error: errorMessage,
         ),
         animatedPill: false);
+  }
+
+  void agregarColegio(String email) {
+    TextEditingController colegioNameTextEditingController = TextEditingController();
+//    if(Platform.isIOS){
+//      showCupertinoDialog(context: context, builder: (BuildContext context) => CupertinoAlertDialog(
+//        title: Text("Enviar solicitud para agregar un colegio"),
+//        content: Container(
+//          child:Column(
+//            children: <Widget>[
+//              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado."),
+//              Container(child: TextField( controller: colegioNameTextEditingController)),
+//            ],
+//          )
+//        ),
+//        actions: <Widget>[
+//          CupertinoDialogAction(isDefaultAction: false,child: Text("Cancelar"),onPressed: ()=> Navigator.pop(context),),
+//          CupertinoDialogAction(isDefaultAction: true,child: Text("Enviar"),onPressed:(){
+//            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
+//              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+//            }
+//            Navigator.pop(context);
+//          },)
+//        ],
+//      ));
+//    }else{
+
+      showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+        title: Text("Enviar solicitud para agregar un colegio"),
+        content: Container(
+            child:Column(
+              children: <Widget>[
+                Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado.Una vez aceptada o rechazada te enviaremos un mail con nuestra decision."),
+                TextField(
+                  controller: colegioNameTextEditingController
+                ),
+              ],
+            )
+        ),
+        actions: <Widget>[
+         FlatButton(child: Text("Cancelar"),
+          onPressed: ()=> Navigator.pop(context),
+         ),
+          FlatButton(child: Text("Enviar"),
+          onPressed: (){
+            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
+              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+            }
+            Navigator.pop(context);
+          },)
+        ],
+      ));
+    //}
   }
 }

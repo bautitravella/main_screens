@@ -64,6 +64,8 @@ abstract class DatabaseRepository {
 
   Stream<ColegiosData> getColegios();
 
+  Future<void> addSchool(String name,String email);
+
   //CHAT
   Stream<List<Chat>> getVentaChats(User user);
   Stream<List<Chat>> getCompraChats(User user);
@@ -95,6 +97,7 @@ class FirebaseRepository extends DatabaseRepository {
   final booksReference = Firestore.instance.collection("Publicaciones");
   final colegiosReference = Firestore.instance.collection("Colegios");
   final chatsReference = Firestore.instance.collection('Chats');
+  final requestsReference = Firestore.instance.collection("Requests");
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
@@ -698,6 +701,12 @@ class FirebaseRepository extends DatabaseRepository {
         .updateData({
       'tokensList': FieldValue.arrayRemove([token])
     });
+  }
+
+  @override
+  Future<void> addSchool(String name, String email) {
+
+    return requestsReference.add({"email": email,"schoolName": name, "timestamp":FieldValue.serverTimestamp(),"type":"add_school"});
   }
 
 

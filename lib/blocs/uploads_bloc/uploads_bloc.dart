@@ -37,6 +37,8 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
       yield* _mapErrorEditingToState(event.errorMessage);
     }else if(event is ResetEvent){
       yield* _mapResetToState();
+    }else if(event is AddSchool){
+      yield* _mapAddSchoolToState(event.schoolName,event.userEmail);
     }
   }
 
@@ -107,5 +109,12 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
 
   Stream<UploadsBlocState> _mapEditedUserProfileToState() async*{
     yield UserEdited();
+  }
+
+  Stream<UploadsBlocState>_mapAddSchoolToState(String schoolName, String userEmail) async*{
+    yield EditingState();
+    databaseRepository
+        .addSchool(schoolName, userEmail);
+    Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent()));
   }
 }

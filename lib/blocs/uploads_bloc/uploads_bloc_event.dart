@@ -31,8 +31,6 @@ class EditBookImages extends UploadsBlocEvent{
   @override
   List<Object> get props => [book];
 }
-
-
 class EditedBookReady extends UploadsBlocEvent{
 
 
@@ -41,7 +39,6 @@ class EditedBookReady extends UploadsBlocEvent{
   @override
   List<Object> get props => [];
 }
-
 class EditUserProfile extends UploadsBlocEvent{
   final User user;
 
@@ -50,7 +47,6 @@ class EditUserProfile extends UploadsBlocEvent{
   @override
   List<Object> get props => [user];
 }
-
 class EditUserInfo extends UploadsBlocEvent{
   final User user;
 
@@ -59,7 +55,6 @@ class EditUserInfo extends UploadsBlocEvent{
   @override
   List<Object> get props => [user];
 }
-
 class EditUserImage extends UploadsBlocEvent{
   final User user;
 
@@ -68,14 +63,12 @@ class EditUserImage extends UploadsBlocEvent{
   @override
   List<Object> get props => [user];
 }
-
 class EditedUserProfile extends UploadsBlocEvent{
 
   @override
   List<Object> get props => [];
 
 }
-
 class ErrorEditing extends UploadsBlocEvent{
   final String errorMessage;
 
@@ -85,8 +78,15 @@ class ErrorEditing extends UploadsBlocEvent{
   List<Object> get props => [errorMessage];
 
 }
-
 class ResetEvent extends UploadsBlocEvent{
   @override
   List<Object> get props => [];
+}
+class AddSchool extends UploadsBlocEvent{
+  final String schoolName,userEmail;
+
+  AddSchool( this.schoolName, this.userEmail);
+
+  @override
+  List<Object> get props => [schoolName,userEmail];
 }
