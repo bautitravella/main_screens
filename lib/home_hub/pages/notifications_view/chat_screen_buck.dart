@@ -289,149 +289,156 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                     ),
                   )),
             ),
-            widget.chat.estadoTransaccion == "Oferta" &&
-                    widget.chatRole == ChatRole.VENDEDOR
-                ? Container(
-                    height: 155,
+    BlocBuilder<MessagesBloc, MessagesBlocState>(
+    builder: (context, state) {
+    if (state is MessagesLoaded) {
+      return state.chat.estadoTransaccion == "Oferta" &&
+          widget.chatRole == ChatRole.VENDEDOR
+          ? Container(
+        height: 155,
 
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 20.0,
-                          color: Colors.black12,
-                        ),
-                      ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20.0,
+              color: Colors.black12,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                height: 120,
+                width: 64,
+                padding: EdgeInsets.only(top: 28, bottom: 28, right: 28),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(
+                        200, 0, 191, 131),
+                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(64), topRight: Radius.circular(64))
+                ),
+                child: Image.asset("assets/images/accept-icon.png",fit: BoxFit.fill,),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text( "${widget.chat.compradorNombre}",
+                  style: TextStyle(
+                      fontFamily: "Sf-r",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 118, 118, 118)),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                Text(
+                  "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
+                  style: TextStyle(
+                      fontFamily: "Sf-r",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 118, 118, 118)),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    FlatButton(
+                      color: Color.fromARGB(
+                          200, 0, 191, 131),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(18.0),
+                      ),
+                      child: Text(
+                        "Vender",
+                        style: TextStyle(
+                            fontFamily: "Sf-r",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
+                      onPressed: () => showSlideDialogGrande(
+                          context: context,
+                          child: CustomDialog.customFunctions(
+                            title: "Aceptar Solicitud De Compra",
+                            description:
+                            "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                            primaryButtonText: "CANCELAR",
+                            secondaryButtonText: "Aceptar Compra",
+                            primaryFunction: () {
+                              Navigator.of(context).pop();
+                            },
+                            secondaryFunction: () {
+                              BlocProvider.of<MessagesBloc>(context).add(
+                                  AceptarSolicitudDeCompra(widget.chat));
+                              setState(() {
+                                widget.chat.estadoTransaccion = "Vendido";
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          )),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Opacity(
-                          opacity: 0.5,
-                          child: Container(
-                            height: 120,
-                            width: 64,
-                            padding: EdgeInsets.only(top: 28, bottom: 28, right: 28),
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(
-                                    200, 0, 191, 131),
-                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(64), topRight: Radius.circular(64))
-                            ),
-                            child: Image.asset("assets/images/accept-icon.png",fit: BoxFit.fill,),
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text( "${widget.chat.compradorNombre}",
-                              style: TextStyle(
-                                  fontFamily: "Sf-r",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromARGB(255, 118, 118, 118)),
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
-                              style: TextStyle(
-                                  fontFamily: "Sf-r",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromARGB(255, 118, 118, 118)),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 15),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                FlatButton(
-                                  color: Color.fromARGB(
-                                      200, 0, 191, 131),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(18.0),
-                                  ),
-                                  child: Text(
-                                      "Vender",
-                                    style: TextStyle(
-                                        fontFamily: "Sf-r",
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white),
-                                  ),
-                                  onPressed: () => showSlideDialogGrande(
-                                      context: context,
-                                      child: CustomDialog.customFunctions(
-                                        title: "Aceptar Solicitud De Compra",
-                                        description:
-                                            "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
-                                        primaryButtonText: "CANCELAR",
-                                        secondaryButtonText: "Aceptar Compra",
-                                        primaryFunction: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        secondaryFunction: () {
-                                          BlocProvider.of<MessagesBloc>(context).add(
-                                              AceptarSolicitudDeCompra(widget.chat));
-                                          setState(() {
-                                            widget.chat.estadoTransaccion = "Vendido";
-                                          });
-                                          Navigator.of(context).pop();
-                                        },
-                                      )),
-                                ),
-                                SizedBox(width: 15,),
-                                FlatButton(
-                                  color: Color.fromARGB(
-                                      255, 255, 104, 104),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(18.0),
-                                  ),
-                                  child: Text(
-                                    "Rechazar",
-                                    style: TextStyle(
-                                        fontFamily: "Sf-r",
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white),
-                                  ),
-                                  onPressed: () => showSlideDialogGrande(
-                                      context: context,
-                                      child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
-                                        primaryFunction:() {
-                                          Navigator.of(context).pop();
-                                        },
-                                        secondaryFunction:() {
-                                          BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
-                                          setState(() {
-                                            widget.chat.estadoTransaccion = "Rechazada";
-                                          });
-                                          Navigator.of(context).pop();
-                                        },)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Opacity(
-                          opacity: 0.5,
-                          child: Container(
-                            height: 120,
-                            width: 64,
-                            padding: EdgeInsets.only(top: 28, bottom: 28, left: 28),
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(
-                                    255, 255, 104, 104),
-                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(64), topLeft: Radius.circular(64))
-                            ),
-                            child: Image.asset("assets/images/decline-icon.png",fit: BoxFit.fill,),
-                          ),
-                        ),
-                      ],
+                    SizedBox(width: 15,),
+                    FlatButton(
+                      color: Color.fromARGB(
+                          255, 255, 104, 104),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(18.0),
+                      ),
+                      child: Text(
+                        "Rechazar",
+                        style: TextStyle(
+                            fontFamily: "Sf-r",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
+                      onPressed: () => showSlideDialogGrande(
+                          context: context,
+                          child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                            primaryFunction:() {
+                              Navigator.of(context).pop();
+                            },
+                            secondaryFunction:() {
+                              BlocProvider.of<MessagesBloc>(context).add(RechazarSolicitudDeCompra(widget.chat));
+                              setState(() {
+                                widget.chat.estadoTransaccion = "Rechazada";
+                              });
+                              Navigator.of(context).pop();
+                            },)),
                     ),
-                  )
-                : Container(),
+                  ],
+                ),
+              ],
+            ),
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                height: 120,
+                width: 64,
+                padding: EdgeInsets.only(top: 28, bottom: 28, left: 28),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(
+                        255, 255, 104, 104),
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(64), topLeft: Radius.circular(64))
+                ),
+                child: Image.asset("assets/images/decline-icon.png",fit: BoxFit.fill,),
+              ),
+            ),
+          ],
+        ),
+      )
+          : Container();
+    }
+    return Container();
+    }),
+
             _buildMessageComposer()
           ],
         ),
