@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -822,17 +825,17 @@ class _MiPerfilState extends State<MiPerfil> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-//                            GestureDetector(
-//                              onTap: _showDialogInvita,
-//                              child: Text(
-//                                "Invita a un amigo",
-//                                style: TextStyle(
-//                                    fontFamily: "Gibson",
-//                                    fontSize: 20,
-//                                    fontWeight: FontWeight.w600,
-//                                    color: Color.fromARGB(255, 57, 57, 57)),
-//                              ),
-//                            ),
+                            GestureDetector(
+                              onTap: _showDialogInvita,
+                              child: Text(
+                                "Invita a un amigo",
+                                style: TextStyle(
+                                    fontFamily: "Gibson",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 57, 57, 57)),
+                              ),
+                            ),
                             Container(
                               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
                               child: RichText(
@@ -1999,19 +2002,34 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
-  void _showDialogInvita() {
-    showSlideDialogGrande(
-      context: context,
-      child: CustomDialog(
-        title: "Comparte la app",
-        description: "www.link.poronga",
-        primaryButtonText: "Copiar",
-        primaryButtonRoute: "/home",
+  void _showDialogInvita() async{
+    final auth = Provider.of<BaseAuth>(context,listen:false);
+    final FirebaseUser firebaseUser = await auth.currentUser();
+    final String userEmail = firebaseUser.email;
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://buymy.page.link',
+      link: Uri.parse('https://buymy.com.ar/'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.tormakhindustries.buymy',
       ),
-      // barrierColor: Colors.white.withOpacity(0.7),
-      // pillColor: Colors.red,
-      // backgroundColor: Colors.yellow,
+      iosParameters: IosParameters(
+        bundleId: 'com.tormakhindustries.buymypro',
+        minimumVersion: '1.0',
+        appStoreId: '1504741317',
+      ),
+      googleAnalyticsParameters: GoogleAnalyticsParameters(
+        campaign: 'App invite',
+        medium: 'app',
+        source: '$userEmail',
+      ),
+      socialMetaTagParameters:  SocialMetaTagParameters(
+        title: 'Invitacion a BuyMy',
+        description: 'Te invito a que descubras esta excelente manera de ganar plata por tus libros viejos',
+      ),
     );
+    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final Uri shortUrl = shortDynamicLink.shortUrl;
+    Share.share(shortUrl.toString());
   }
 
   void _showDialogWave() {
