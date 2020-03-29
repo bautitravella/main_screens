@@ -441,6 +441,15 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
 
   _buildMessage(Message message, bool isMe) {
     if(message is EstadoMessage){
+      String estado = message.estado;
+      String mensajeText = "TRAVE lo que quieras0";
+
+      if(estado == "Pregunta")mensajeText = "TRAVE lo que quieras1";
+      else if(estado == "Oferta")mensajeText = "TRAVE lo que quieras2";
+      else if(estado == "Vendido")mensajeText = "TRAVE lo que quieras3";
+      else if(estado == "Rechazada") mensajeText = "TRAVE lo que quieras4";
+      else if(estado == "Cancelada") mensajeText = "TRAVE lo que quieras5";
+
       return Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -459,7 +468,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    message.estado,
+                    mensajeText,
                     style:  TextStyle(
                         fontFamily: "Sf",
                         fontSize: 16,
