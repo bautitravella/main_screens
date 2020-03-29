@@ -444,58 +444,60 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
       String estado = message.estado;
       String mensajeText = "TRAVE lo que quieras0";
 
-      if(estado == "Pregunta")mensajeText = "TRAVE lo que quieras1";
-      else if(estado == "Oferta")mensajeText = "TRAVE lo que quieras2";
-      else if(estado == "Vendido")mensajeText = "TRAVE lo que quieras3";
-      else if(estado == "Rechazada") mensajeText = "TRAVE lo que quieras4";
-      else if(estado == "Cancelada") mensajeText = "TRAVE lo que quieras5";
+      if(estado == "Pregunta")mensajeText = isMe?"HAS INICIADO UNA CONSULTA":"HAN INICIADO UNA CONSULTA";
+      else if(estado == "Oferta")mensajeText = isMe?"HAS SOLICITADO UNA COMPRA":"HAN SOLICITADO UNA COMPRA";
+      else if(estado == "Vendido")mensajeText = isMe?"HAS VENDIDO EL LIBRO":"HAS COMPRADO EL LIBRO";
+      else if(estado == "Rechazada") mensajeText = isMe?"HAS RECHAZADO LA OFERTA":"TE HAN RECHAZADO LA OFERTA";
+      else if(estado == "Cancelada") mensajeText = isMe?"HAS CANCELADO LA OFERTA":"HAN CANCELADO LA OFERTA";
 
       return Flex(
         direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-              padding: EdgeInsets.only(top: 15, bottom: 8, right: 14, left: 18),
-              margin:  EdgeInsets.only(top: 10, bottom: 10, right: 20),
-              constraints: BoxConstraints(
-                maxWidth: SizeConfig.blockSizeHorizontal * 70,
-              ),
-              decoration: BoxDecoration(
-                color:  Color.fromARGB(120, 255, 205, 77),
-                borderRadius: new BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    mensajeText,
-                    style:  TextStyle(
-                        fontFamily: "Sf",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black54),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5, left: 0, right: 0),
-                    child: Text(
-                      message.sentTimestamp.toDate().hour.toString() +
-                          ":" +
-                          (message.sentTimestamp.toDate().minute < 10
-                              ? '0${message.sentTimestamp.toDate().minute.toString()}'
-                              : message.sentTimestamp.toDate().minute.toString()),
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontFamily: "Sf",
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: isMe
-                            ? Colors.white
-                            : Color.fromARGB(255, 96, 102, 115),
-                      ),
+          Center(
+            child: Container(
+                padding: EdgeInsets.only(top: 7, bottom: 7, right: 0, left: 0),
+                margin: EdgeInsets.only(top: 20, bottom: 20, left: SizeConfig.blockSizeHorizontal * 15, right: SizeConfig.blockSizeHorizontal * 15),
+                constraints: BoxConstraints(
+                  maxWidth: SizeConfig.blockSizeHorizontal * 70,
+                ),
+                decoration: BoxDecoration(
+                  color:  Color.fromARGB(255, 219, 219, 219),
+                  borderRadius: new BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      mensajeText,
+                      style:  TextStyle(
+                          fontFamily: "Sf",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
-                  )
-                ],
-              )),
+                    SizedBox(width: 5),
+                    Container(
+                      child: Text(
+                        message.sentTimestamp.toDate().hour.toString() +
+                            ":" +
+                            (message.sentTimestamp.toDate().minute < 10
+                                ? '0${message.sentTimestamp.toDate().minute.toString()}'
+                                : message.sentTimestamp.toDate().minute.toString()),
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontFamily: "Sf",
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color:Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                )),
+          ),
           /*Container(
               padding:  EdgeInsets.only(top: 15, bottom: 8, left: 10, right: 10),
               margin:EdgeInsets.only(top: 10, bottom: 10, right: 5,left: 5),
