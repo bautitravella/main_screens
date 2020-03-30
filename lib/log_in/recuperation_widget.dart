@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/dialogs/dialog_widget/error_dialog.dart';
@@ -21,6 +22,13 @@ class RecuperationWidgetState extends State<RecuperationWidget>{
   String buttonMessage = "Enviar mail";
   int numberOfMails = 0;
   TextEditingController emailTextController = TextEditingController();
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/recuperacion");
+    super.initState();
+  }
 
 
   @override

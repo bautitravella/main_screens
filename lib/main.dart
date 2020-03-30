@@ -146,6 +146,8 @@ class MyDecider extends StatefulWidget {
 }
 
 class MyDeciderState extends State<MyDecider> {
+
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<BaseAuth>(context);
@@ -158,6 +160,8 @@ class MyDeciderState extends State<MyDecider> {
             if (!isVerified(snapshot.data)) {
               return VerificacionWidget();
             }
+            FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+            analytics.setUserId(snapshot.data.email);
             return FirestoreDecider(snapshot.data.email);
           } else {
             return FirstscreenWidget();

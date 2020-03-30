@@ -33,14 +33,14 @@ class NotificationViewState extends State<NotificationView> {
 
   @override
   void initState(){
-//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
-//    analytics.setCurrentScreen(screenName: "/home/notifications");
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/notifications");
   }
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
-    analytics.setCurrentScreen(screenName: "/home/notifications");
+//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+//    analytics.setCurrentScreen(screenName: "/home/notifications");
     BlocProvider.of<ChatsBloc>(context).add(LoadChats());
     return Scaffold(
       backgroundColor: Colors.white,

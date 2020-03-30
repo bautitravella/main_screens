@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:provider/provider.dart';
 
 class EditBookWidget extends StatefulWidget {
   Book book;
@@ -49,6 +51,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
 
   @override
   void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/edit_book");
     nombreTextController.text = widget.book.nombreLibro;
     autorTextController.text = widget.book.autor;
     descripcionTextController.text = widget.book.descripcion;

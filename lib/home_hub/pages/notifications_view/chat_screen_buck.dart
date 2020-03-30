@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:marquee/marquee.dart';
+import 'package:provider/provider.dart';
 
 import '../../../size_config.dart';
 
@@ -27,9 +29,17 @@ class ChatScreenBuck extends StatefulWidget {
 
 class _ChatScreenBuckState extends State<ChatScreenBuck> {
   TextEditingController messageTextController = TextEditingController();
+  FirebaseAnalytics analytics ;
 
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
+  }
+
+  @override
+  void initState() {
+    analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/chat_screen");
+    super.initState();
   }
 
   @override

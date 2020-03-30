@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -33,6 +34,13 @@ class SignUpState extends State<SignUp>{
   String _password;
   String _passwordVerification;
   String _errorText = '';
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/sign_up");
+    super.initState();
+  }
 
 
   void logInWithGoogleBtn(BuildContext context) async {

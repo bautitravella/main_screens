@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -22,7 +23,7 @@ abstract class BaseAuth {
 }
 
 class Auth extends BaseAuth{
-  
+  FirebaseAnalytics analytics = FirebaseAnalytics();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -38,6 +39,7 @@ class Auth extends BaseAuth{
   
   @override
   Future<String> createUserWithEmailAndPassword(String email, String password) async {
+    analytics.logSignUp(signUpMethod: "email");
     final user = (await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).user;
     return user.uid;
   }
@@ -58,6 +60,7 @@ class Auth extends BaseAuth{
 
   @override
   Future<String> signInWithEmailAndPassword(String email, String password) async{
+    analytics.logLogin(loginMethod:"email");
     return (await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password)).user.uid;
   }
 
@@ -66,7 +69,7 @@ class Auth extends BaseAuth{
     final GoogleSignInAccount account = await _googleSignIn.signIn();
     final GoogleSignInAuthentication _auth = await account.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(idToken: _auth.idToken, accessToken: _auth.accessToken);
-
+    analytics.logLogin(loginMethod: "Google");
     return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
 
@@ -88,6 +91,7 @@ class Auth extends BaseAuth{
   Future<String> signInWithFacebook(FacebookAccessToken token) async {
     AuthCredential credential= FacebookAuthProvider.getCredential(accessToken: token.token);
     AuthResult firebaseUser = await _firebaseAuth.signInWithCredential(credential);
+    analytics.logLogin(loginMethod: "Facebook");
     return firebaseUser.user.uid;
 
   }

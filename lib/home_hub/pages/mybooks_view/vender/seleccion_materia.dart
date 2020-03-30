@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_colegio.d
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:provider/provider.dart';
 
 class SeleccionMateria extends StatefulWidget {
   Book book;
@@ -26,6 +28,13 @@ class _SeleccionMateriaState extends State<SeleccionMateria> {
   bool loadingDialogShown = false;
 
   bool valuesHasBeenCreated = false;
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/subir_libro/seleccionar_materia");
+    super.initState();
+  }
 //  = {
 //
 //    'Matematica': false,

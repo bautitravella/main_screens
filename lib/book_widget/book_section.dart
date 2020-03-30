@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dar
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'package:provider/provider.dart';
 import 'book_section_chota.dart';
 
 class BookSection extends StatefulWidget {
@@ -30,6 +32,13 @@ class BookSection extends StatefulWidget {
 class _BookSectionState extends State<BookSection> {
 
   bool isMyBook = false;
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/book_section");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

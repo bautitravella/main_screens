@@ -27,14 +27,14 @@ class _FavoritosViewState extends State<FavoritosView> {
 
   @override
   void initState(){
-//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
-//    analytics.setCurrentScreen(screenName: "/home/favoritos");
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/favoritos");
   }
 
   Widget build(BuildContext context) {
     //BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites("iex5V1rNdY0FVX2y9f7P"));
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
-    analytics.setCurrentScreen(screenName: "/home/favoritos");
+//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+//    analytics.setCurrentScreen(screenName: "/home/favoritos");
     SizeConfig().init(context);
     return Scaffold(
       body: Stack(
@@ -237,6 +237,9 @@ class _FavoritosViewState extends State<FavoritosView> {
                 child: BlocBuilder<FavoritesBloc, FavoritesBlocState>(
                     builder: (context, state) {
                   if (state is FavoriteBooksLoaded) {
+                    if(state.books == null || state.books.length == 0){
+                      return Container(child: Text("TRAVEEEE"));
+                    }
                     return Container(
                       margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: CustomScrollView(

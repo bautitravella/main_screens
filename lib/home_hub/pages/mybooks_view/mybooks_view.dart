@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +16,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MyBooksView extends StatefulWidget {
@@ -27,8 +29,16 @@ class MyBooksViewState extends State<MyBooksView> {
 
   List<Book>  publicados ;
   List<Book>  vendidos ;
+  FirebaseAnalytics analytics;
 
   Widget gridView ;
+
+  @override
+  void initState() {
+    analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/my_books");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +56,8 @@ class MyBooksViewState extends State<MyBooksView> {
 
             ),
             onPressed: () {
+
+              analytics.logEvent(name: "begins_subir_libro");
               Navigator.push(
                 context,
                 MaterialPageRoute(

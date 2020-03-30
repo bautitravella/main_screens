@@ -37,8 +37,9 @@ class _HomeViewTresState extends State<HomeViewTres> {
 
   @override
   void initState() {
-//    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
-//    analytics.setCurrentScreen(screenName: "/home/home_view");
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/home_view");
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -46,8 +47,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
     if(widget.homeHubState!= null){
       homeHubState = widget.homeHubState;
     }
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
-    analytics.setCurrentScreen(screenName: "/home/home_view");
     return Scaffold(
       body: Stack(
         children: <Widget>[

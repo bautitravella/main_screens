@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/gestures.dart';
@@ -50,6 +51,14 @@ class _MiPerfilState extends State<MiPerfil> {
   User auxUser, originalUser;
   bool editedImage = false, variablesHaveBeenSet = false;
   File _image;
+  FirebaseAnalytics analytics;
+
+  @override
+  void initState() {
+    analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/subir_libro/subir_foto_libro");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 
 import 'package:flutterui/main.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:provider/provider.dart';
 
 class TerminosYCondicionesWidget extends StatelessWidget {
   void onButtonsLargeGreenPressed(BuildContext context) {}
@@ -321,6 +324,16 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
 
   siguienteBtn(BuildContext context) {
     showLoadingDialog(context);
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    if(user is Padre ){
+      Padre auxUser = user;
+      analytics.setUserProperty(name: "rol", value: "Padre");
+      analytics.setUserProperty(name: "cant_hijos", value: auxUser.hijos.length.toString());
+    }else{
+      analytics.setUserProperty(name: "rol", value: "Alumno");
+    }
+    analytics.logEvent(name: "create_user");
+
     //todo cambiar toda esta poronga por un buen Future.wait
     uploadData2(context).then((smt) => {
       Future.delayed(Duration(seconds: 2)).then((value) => {

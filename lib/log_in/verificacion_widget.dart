@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
@@ -47,6 +48,8 @@ class VerificacionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context)  {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/verificacion");
     try{
       checkIfVerified(context);
       sendVerificationEmail(context);

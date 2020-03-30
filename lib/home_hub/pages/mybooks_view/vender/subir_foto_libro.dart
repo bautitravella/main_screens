@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class SubirFotoLibro extends StatefulWidget {
   @override
@@ -26,7 +28,12 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
 //    Navigator.pop(context);
 //  }
 
-
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/subir_libro/subir_foto_libro");
+    super.initState();
+  }
 
 
   @override

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:provider/provider.dart';
 
 class EditBookColegio extends StatefulWidget {
   Book book;
@@ -25,6 +27,13 @@ class _EditBookColegioState extends State<EditBookColegio> {
   bool loadingDialogShown = false;
 
   bool valuesHasBeenCreated = false;
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/edit_book/colegio");
+    super.initState();
+  }
 //  = {
 //
 //    'Matematica': false,

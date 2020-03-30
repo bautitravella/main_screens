@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/User.dart';
@@ -19,8 +20,8 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   bool isUserDownloaded = false;
   bool isChatCreated = false;
   Chat currentChat;
-
   bool isChatBeenCreated = false;
+  FirebaseAnalytics analytics = FirebaseAnalytics();
 
   MessagesBloc( this.databaseRepository,this.userBloc, this.chatBloc){
     _userStreamSubscription = userBloc.listen((state) {
@@ -138,6 +139,7 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
         message.email = currentChat.compradorEmail;
         message.title = currentChat.vendedorNombre + ' - '+currentChat.nombreLibro;
       }
+      analytics.logEvent(name: "send_message",parameters: {"message_length" : message.messageText.length,"message_words": message.messageText.split(" ").length});
       databaseRepository.sendMessage( currentChat , downloadedUser , message );
       databaseRepository.updateLastMessage(currentChat,message,chatRole);
     }else{ // esta parte del if es para cuando todavia no hubo ningun chat
@@ -154,6 +156,7 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   _mapSolicitarCompraToState(Chat chat) {//Por definicion si alguien esta solicitando una compra el ChatRole es COMPRADOR
     if(isChatCreated){
       isChatBeenCreated = false;
+      analytics.logEvent(name: "solicitar_compra");
       databaseRepository.solicitarCompra(currentChat);
     }else{
       if(isChatBeenCreated == false){
@@ -167,14 +170,17 @@ class MessagesBloc extends Bloc<MessagesBlocEvent, MessagesBlocState> {
   }
 
   _mapAceptarSolicitudToState(Chat chat) {
+    analytics.logEvent(name: "aceptar_solicitud_compra");
     databaseRepository.aceptarSolicitudDeCompra(chat);
   }
 
   _mapRechazarSolicitudToState(Chat chat) {
+    analytics.logEvent(name: "rechazar_solicitud_compra");
     databaseRepository.rechazarSolicitudDeCompra(chat);
   }
 
   _mapCancelarSolicitudToState(Chat chat){
+    analytics.logEvent(name: "cancelar_solicitud_compra");
     databaseRepository.cancelarSolicitudDeCompra(chat);
   }
 

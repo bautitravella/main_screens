@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +9,7 @@ import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:provider/provider.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
@@ -30,6 +32,8 @@ class _CursoPadreWidgetState extends State<CursoPadreWidget> {
 
   @override
   void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/curso_padre");
     for (int i = 0; i < 20; i++) {
       items.add(new DropdownMenuItem(
         child: Column(

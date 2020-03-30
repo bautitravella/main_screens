@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/blocs/bloc.dart';
@@ -27,6 +28,13 @@ class SubiFotoPerfilWidget extends StatefulWidget {
 
 class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   File _image;
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/subi_foto_perfil");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

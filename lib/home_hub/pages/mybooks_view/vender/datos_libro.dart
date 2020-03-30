@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:provider/provider.dart';
 
 class DatosLibros extends StatefulWidget {
   Book book;
@@ -40,7 +42,14 @@ class _DatosLibrosState extends State<DatosLibros> {
       descripcionTextController = new TextEditingController(),
       precioTextController = new TextEditingController();
 
+  FirebaseAnalytics analytics;
 
+@override
+  void initState() {
+  analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+  analytics.setCurrentScreen(screenName: "/home/subir_libro/datos_libro");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -670,6 +679,7 @@ class _DatosLibrosState extends State<DatosLibros> {
     if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
     if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
     print("todos los campos estan completos");
+    analytics.logEvent(name: "finish_subir_libro");
     BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(
 //      context,
