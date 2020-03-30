@@ -447,8 +447,21 @@ void showSchoolDialog(BuildContext context, String email) {
                       ),
                       SizedBox(height: 40),
                       TextField(
-                           controller: colegioNameTextEditingController,
+                        controller: colegioNameTextEditingController,
                         cursorColor: AppColors.secondaryBackground,
+                        decoration: InputDecoration(
+                          hintText: "Nombre del colegio que quieres agregar",
+                          alignLabelWithHint: true,
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          color: AppColors.accentText,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                        maxLines: 1,
+                        autocorrect: false,
                       ),
                     ],
                   )

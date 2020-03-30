@@ -499,7 +499,7 @@ class _ChildFieldState extends State<ChildField> {
                         onChanged: (value) {
 
                             if (value == "+ Agregar Colegio") {
-                              agregarColegio(widget.user.email);
+                              showSchoolDialog(context, widget.user.email);
                             } else {
                               setState(() {
                                 widget.colegioSelectedValue = value;
@@ -634,7 +634,7 @@ List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
                 item,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Montserrat",
+                  fontFamily: "Sf-r",
                   fontWeight: FontWeight.w700,
                   fontSize: 19,
                 ),
@@ -656,7 +656,7 @@ List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
               agregarColegio,
               style: TextStyle(
                 color: Color.fromARGB(255, 53, 38, 65),
-                fontFamily: "Montserrat",
+                fontFamily: "Sf-r",
                 fontWeight: FontWeight.w700,
                 fontSize: 19,
               ),
@@ -682,7 +682,7 @@ List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
                 item,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Montserrat",
+                  fontFamily: "Sf-r",
                   fontWeight: FontWeight.w700,
                   fontSize: 19,
                 ),
@@ -705,4 +705,109 @@ void showLoadingDialog(BuildContext context) {
 void showErrorDialog(BuildContext context,String errorMessage){
   showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
       animatedPill: false);
+}
+
+void showSchoolDialog(BuildContext context, String email) {
+  TextEditingController colegioNameTextEditingController = TextEditingController();
+  String errorMessage = "No has ingresado ningun colegio.";
+  showSlideDialogFull(
+      context: context,
+      child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 50),
+              Text(
+                "Enviar solicitud para\nagregar un colegio",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: "Sf-r",
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              Container(
+                  margin: EdgeInsets.only(left: 50, right: 50),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: "Sf-t",
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 40),
+                      TextField(
+                        controller: colegioNameTextEditingController,
+                        cursorColor: AppColors.secondaryBackground,
+                        decoration: InputDecoration(
+                          hintText: "Nombre del colegio que quieres agregar",
+                          alignLabelWithHint: true,
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          color: AppColors.accentText,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                        maxLines: 1,
+                        autocorrect: false,
+                      ),
+                    ],
+                  )
+              ),
+              SizedBox(height: 80),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FlatButton(child:
+                  Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Sf-r",
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                    onPressed: ()=> Navigator.pop(context),
+                  ),
+                  FlatButton(child:
+                  Text(
+                    "Enviar",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Sf-r",
+                      color: AppColors.secondaryBackground,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                    onPressed: (){
+                      if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
+                        BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+                        Navigator.pop(context);
+                        showLoadingDialog(context);
+                        Future.delayed(Duration(seconds: 2)).then((smt)=>Navigator.pop(context));
+                      }
+                      else{Navigator.pop(context);
+                      showErrorDialog(context, errorMessage);
+                      }
+                    },
+                  )
+                ],
+              )
+
+            ],
+          ),
+        ),
+      )
+  );
 }
