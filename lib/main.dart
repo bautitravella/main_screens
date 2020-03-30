@@ -307,40 +307,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
       child: Scaffold(
         body: Container(
             margin: EdgeInsets.all(1),
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Center(child: Image.asset('assets/images/buymy-hd.png')),
-                  FutureBuilder(
-                      future: Future.delayed(Duration(seconds: time)).then((smt) => "Cagamo"),
-                      builder: (context, snapshot) {
-                        if(snapshot != null && snapshot.connectionState == ConnectionState.done){
-                          return Container(
-                            child: RaisedButton(
-                              child: Text("Go to Login"),
-                              onPressed: () {
-                                final auth = Provider.of<BaseAuth>(context,listen: false);
-                                try{
-                                  auth.signOut();
-                                }catch(e){
-                                  print("main FirebaseDecider Error");
-                                }
-                                BlocProvider.of<UserBloc>(context).add(UnloadUser());
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FirstscreenWidget(),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                        return Container();
-                        })
-                ],
-              ),
-            )),
+            child: Center(child: Image.asset('assets/images/buymy-hd.png'))),
       ),
 
 //      builder: (context, state) {
