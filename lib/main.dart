@@ -31,9 +31,8 @@ void main() {
 class App extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
   static BaseAuth auth = Auth();
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,108 +44,108 @@ class App extends StatelessWidget {
       providers: [
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
-        Provider<BaseAuth>.value(value:auth),
+        Provider<BaseAuth>.value(value: auth),
       ],
       child: RepositoryProvider(
         create: (context) => FirebaseRepository(),
-    child: BlocProvider(
-    create: (BuildContext context) =>
-    UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
-    child: MultiBlocProvider(
-    providers: [
-    BlocProvider<BooksBloc>(
-    create: (context) {
-    return BooksBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context));
-    },
-    ),
-    BlocProvider<UserBooksBloc>(
-    create: (context) {
-    return UserBooksBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context));
-    },
-    ),
-    BlocProvider<FavoritesBloc>(
-    create: (BuildContext context) {
-    return FavoritesBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context));
-    },
-    ),
-    BlocProvider<ColegiosBloc>(
-    create: (BuildContext context) {
-    return ColegiosBloc(
-    RepositoryProvider.of<FirebaseRepository>(context));
-    },
-    ),
-    BlocProvider<ChatsBloc>(create: (BuildContext context) {
-    return ChatsBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context));
-    }),
-    BlocProvider<MessagesBloc>(create: (BuildContext context) {
-    return MessagesBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context),
-    BlocProvider.of<ChatsBloc>(context));
-    }),
-    BlocProvider<SearchBloc>(create: (BuildContext context) {
-    return SearchBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context));
-    }),
-    BlocProvider<TokensBloc>(create: (BuildContext context) {
-    return TokensBloc(
-    RepositoryProvider.of<FirebaseRepository>(context),
-    BlocProvider.of<UserBloc>(context));
-    }),
-    BlocProvider<UploadsBloc>(
-    create: (BuildContext context){
-    return UploadsBloc(RepositoryProvider.of<FirebaseRepository>(context));
-    },
-    ),
-    BlocProvider<EconomicosBloc>(
-    create: (BuildContext context){
-    return EconomicosBloc(RepositoryProvider.of<FirebaseRepository>(context),BlocProvider.of<UserBloc>(context));
-    },
-    ),
-    ],
-    child: MaterialApp(
-    //home: MyDecider(),
-    theme: ThemeData(
-    accentColor: AppColors.secondaryBackground,
-    ),
-    navigatorObservers: [
-    FirebaseAnalyticsObserver(analytics: analytics),
-    ],
-    routes: <String, WidgetBuilder>{
-    '/home': (BuildContext context) => HomeHub(),
-    '/logOut': (BuildContext context) => FirstscreenWidget(),
-    '/': (BuildContext context) => MyDecider(),
-    }),
-    ),
-    ),
-    ),
+        child: BlocProvider(
+          create: (BuildContext context) =>
+              UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<BooksBloc>(
+                create: (context) {
+                  return BooksBloc(
+                      RepositoryProvider.of<FirebaseRepository>(context),
+                      BlocProvider.of<UserBloc>(context));
+                },
+              ),
+              BlocProvider<UserBooksBloc>(
+                create: (context) {
+                  return UserBooksBloc(
+                      RepositoryProvider.of<FirebaseRepository>(context),
+                      BlocProvider.of<UserBloc>(context));
+                },
+              ),
+              BlocProvider<FavoritesBloc>(
+                create: (BuildContext context) {
+                  return FavoritesBloc(
+                      RepositoryProvider.of<FirebaseRepository>(context),
+                      BlocProvider.of<UserBloc>(context));
+                },
+              ),
+              BlocProvider<ColegiosBloc>(
+                create: (BuildContext context) {
+                  return ColegiosBloc(
+                      RepositoryProvider.of<FirebaseRepository>(context));
+                },
+              ),
+              BlocProvider<ChatsBloc>(create: (BuildContext context) {
+                return ChatsBloc(
+                    RepositoryProvider.of<FirebaseRepository>(context),
+                    BlocProvider.of<UserBloc>(context));
+              }),
+              BlocProvider<MessagesBloc>(create: (BuildContext context) {
+                return MessagesBloc(
+                    RepositoryProvider.of<FirebaseRepository>(context),
+                    BlocProvider.of<UserBloc>(context),
+                    BlocProvider.of<ChatsBloc>(context));
+              }),
+              BlocProvider<SearchBloc>(create: (BuildContext context) {
+                return SearchBloc(
+                    RepositoryProvider.of<FirebaseRepository>(context),
+                    BlocProvider.of<UserBloc>(context));
+              }),
+              BlocProvider<TokensBloc>(create: (BuildContext context) {
+                return TokensBloc(
+                    RepositoryProvider.of<FirebaseRepository>(context),
+                    BlocProvider.of<UserBloc>(context));
+              }),
+              BlocProvider<UploadsBloc>(
+                create: (BuildContext context) {
+                  return UploadsBloc(
+                      RepositoryProvider.of<FirebaseRepository>(context));
+                },
+              ),
+              BlocProvider<EconomicosBloc>(
+                create: (BuildContext context) {
+                  return EconomicosBloc(
+                      RepositoryProvider.of<FirebaseRepository>(context),
+                      BlocProvider.of<UserBloc>(context));
+                },
+              ),
+            ],
+            child: MaterialApp(
+                //home: MyDecider(),
+                theme: ThemeData(
+                  accentColor: AppColors.secondaryBackground,
+                ),
+                navigatorObservers: [
+                  FirebaseAnalyticsObserver(analytics: analytics),
+                ],
+                routes: <String, WidgetBuilder>{
+                  '/home': (BuildContext context) => HomeHub(),
+                  '/logOut': (BuildContext context) => FirstscreenWidget(),
+                  '/': (BuildContext context) => MyDecider(),
+                }),
+          ),
+        ),
+      ),
     );
     return Provider<BaseAuth>(
       create: (_) => Auth(),
-
     );
   }
 }
 
-
 class MyDecider extends StatefulWidget {
-
   @override
   MyDeciderState createState() {
     return MyDeciderState();
-  }}
+  }
+}
+
 class MyDeciderState extends State<MyDecider> {
-
-
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<BaseAuth>(context);
@@ -188,8 +187,6 @@ class MyDeciderState extends State<MyDecider> {
   }
 }
 
-
-
 class FirestoreDecider extends StatefulWidget {
   String userEmail;
   FirestoreDecider(this.userEmail);
@@ -220,19 +217,23 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
       _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
 
-
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        MessagesBlocState messagesBlocState = BlocProvider.of<MessagesBloc>(context).state;
+        MessagesBlocState messagesBlocState =
+            BlocProvider.of<MessagesBloc>(context).state;
         print("onMessage messages state = " + messagesBlocState.toString());
-        if(! ( messagesBlocState is MessagesLoaded)){
+        if (!(messagesBlocState is MessagesLoaded)) {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
               content: ListTile(
-                title: Text(Platform.isIOS?message['aps']['alert']['title']:message['notification']['title']),
-                subtitle: Text(Platform.isIOS?message['aps']['alert']['body']:message['notification']['body']),
+                title: Text(Platform.isIOS
+                    ? message['aps']['alert']['title']
+                    : message['notification']['title']),
+                subtitle: Text(Platform.isIOS
+                    ? message['aps']['alert']['body']
+                    : message['notification']['body']),
               ),
               actions: <Widget>[
                 FlatButton(
@@ -243,7 +244,6 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
             ),
           );
         }
-
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -258,20 +258,24 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
 
   @override
   Widget build(BuildContext context) {
-
+    int time = 5;
     return BlocListener<UserBloc, UserBlocState>(
-      condition: (prevState,currentState){
-        if(prevState is UserLoadedState && currentState is UserLoadedState){
+      condition: (prevState, currentState) {
+        print("prevState = " + prevState.toString() + " || nextState = " + currentState.toString());
+        if (prevState is UserLoadedState && currentState is UserLoadedState) {
           return false;
-        }else if(prevState == currentState){
+        } else if (prevState == currentState) {
           return false;
-        }else if(currentState is UserLoadedState && (prevState==InitialUserBlocState || prevState == UserLoadingState)){
+        } else if (currentState is UserLoadedState &&
+            (prevState == InitialUserBlocState ||
+                prevState == UserLoadingState)) {
           return true;
-        }else if(prevState is UserLoadedState && currentState is InitialUserBlocState){
+        } else if (prevState is UserLoadedState &&
+            currentState is InitialUserBlocState) {
           return true;
         }
       },
-      listener: (context,state){
+      listener: (context, state) {
         if (state is UserLoadedState) {
           print("LOADED USER = ${state.user}");
 
@@ -283,9 +287,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
                 builder: (context) => HomeHub(),
               ),
             );
-
           }
-
         } else if (state is UserNotLoadedState) {
           print("USER  NOT LOADEEED");
           Navigator.push(
@@ -293,8 +295,9 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
             MaterialPageRoute(
               builder: (context) => ElijeUnRolWidget(email),
             ),
-          ); ;
-        }else if(state is InitialUserBlocState){
+          );
+          ;
+        } else if (state is InitialUserBlocState) {
           Navigator.popUntil(
             context,
             ModalRoute.withName('/'),
@@ -302,11 +305,43 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
         }
       },
       child: Scaffold(
-            body: Container(
-              margin: EdgeInsets.all(1),
-              child: Center(child: Image.asset('assets/images/buymy-hd.png'))
-            ),
-          ),
+        body: Container(
+            margin: EdgeInsets.all(1),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  Center(child: Image.asset('assets/images/buymy-hd.png')),
+                  FutureBuilder(
+                      future: Future.delayed(Duration(seconds: time)).then((smt) => "Cagamo"),
+                      builder: (context, snapshot) {
+                        if(snapshot != null && snapshot.connectionState == ConnectionState.done){
+                          return Container(
+                            child: RaisedButton(
+                              child: Text("Go to Login"),
+                              onPressed: () {
+                                final auth = Provider.of<BaseAuth>(context,listen: false);
+                                try{
+                                  auth.signOut();
+                                }catch(e){
+                                  print("main FirebaseDecider Error");
+                                }
+                                BlocProvider.of<UserBloc>(context).add(UnloadUser());
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FirstscreenWidget(),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        return Container();
+                        })
+                ],
+              ),
+            )),
+      ),
 
 //      builder: (context, state) {
 //        if (state is UserLoadedState) {
