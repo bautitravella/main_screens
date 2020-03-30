@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
@@ -7,6 +8,7 @@ import './bloc.dart';
 
 class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
   final DatabaseRepository databaseRepository;
+  FirebaseAnalytics analytics = FirebaseAnalytics();
 
   UploadsBloc(this.databaseRepository);
 
@@ -49,6 +51,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString())))
         .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+    analytics.logEvent(name: "editBook",parameters: {"edited": "image && info"});
   }
 
   Stream<UploadsBlocState> _mapEditedBookToState() async* {
@@ -66,6 +69,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString())))
         .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+    analytics.logEvent(name: "editBook",parameters: {"edited": "info"});
   }
 
   Stream<UploadsBlocState> _mapEditBookInfoToState(Book book) async* {
@@ -74,6 +78,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
         .editBookInfo(book)
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString()))).whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+    analytics.logEvent(name: "editBook",parameters: {"edited": "image"});
   }
 
   Stream<UploadsBlocState> _mapResetToState() async*{
@@ -87,6 +92,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString())))
         .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+    analytics.logEvent(name: "editUserProfile",parameters: {"edited": "image && info"});
   }
 
   Stream<UploadsBlocState> _mapEditUserProfileInfoToState(User user) async*{
@@ -96,6 +102,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString())))
         .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+    analytics.logEvent(name: "editUserProfile",parameters: {"edited": "info"});
   }
 
   Stream<UploadsBlocState> _mapEditUserProfileImageToState(User user) async*{
@@ -105,6 +112,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
         .then((value) => add(EditedBookReady()))
         .catchError((e) => add(ErrorEditing(e.toString())))
         .whenComplete(() => Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent())));
+    analytics.logEvent(name: "editUserProfile",parameters: {"edited": "image"});
   }
 
   Stream<UploadsBlocState> _mapEditedUserProfileToState() async*{
@@ -115,6 +123,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
     yield EditingState();
     databaseRepository
         .addSchool(schoolName, userEmail);
+    analytics.logEvent(name: "add_school",parameters: {"school_name": schoolName});
     Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent()));
   }
 }

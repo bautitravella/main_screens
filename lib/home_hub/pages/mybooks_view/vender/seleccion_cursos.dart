@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
@@ -6,6 +7,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_materia.d
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:provider/provider.dart';
 
 class SeleccionCursos extends StatefulWidget {
   Book book;
@@ -33,6 +35,13 @@ class _SeleccionCursosState extends State<SeleccionCursos> {
   }
 
   Map<String, bool> values = {"holis":true};
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home/subir_libro/seleccion_cursos");
+    super.initState();
+  }
 //  = {
 //    '1er grado': false,
 //    '2do grado': false,

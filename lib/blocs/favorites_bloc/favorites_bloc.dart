@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/user_bloc/user_bloc.dart';
@@ -16,6 +17,8 @@ class FavoritesBloc extends Bloc<FavoritesBlocEvent, FavoritesBlocState> {
   User downloadedUser;
   List<Book> favoriteBooks;
   Stream<List> favoritesStream;
+
+  FirebaseAnalytics analytics = FirebaseAnalytics();
 
   FavoritesBloc(this.databaseRepository, this.userBloc) {
     if(userBloc != null){
@@ -86,10 +89,12 @@ class FavoritesBloc extends Bloc<FavoritesBlocEvent, FavoritesBlocState> {
   }
 
   _mapRemoveBookToFavoritesToState(String uid) {
+    analytics.logEvent(name: "remove_favorites",parameters: {"uid": uid});
     databaseRepository.removeFromFavorites(uid, downloadedUser);
   }
 
   _mapAddBookToFavoritesToState(String uid) {
+    analytics.logEvent(name: "add_favorites",parameters: {"uid": uid});
     databaseRepository.addBookToFavorites(uid, downloadedUser);
   }
 

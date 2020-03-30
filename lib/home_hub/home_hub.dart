@@ -34,6 +34,8 @@ class HomeHubState extends State<HomeHub> {
 
   @override
   void initState() {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/home");
     super.initState();
     _pageController = PageController();
     _children = [
@@ -77,8 +79,7 @@ class HomeHubState extends State<HomeHub> {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
-    analytics.setCurrentScreen(screenName: "/home");
+
 
     return WillPopScope(
       onWillPop:() {return _onWillPop();},
