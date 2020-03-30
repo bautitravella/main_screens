@@ -5,6 +5,7 @@ import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/datos_widget.dart';
 
 import 'package:flutterui/size_config.dart';
@@ -308,6 +309,10 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
       print(e.toString());
     }
     Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FirstscreenWidget()),
+    );
   }
 }
 

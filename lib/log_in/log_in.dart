@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -156,6 +157,8 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/log_in/log_in");
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,

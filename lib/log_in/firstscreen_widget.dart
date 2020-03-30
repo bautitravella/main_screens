@@ -1,6 +1,8 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/log_in/sign_up.dart';
 import 'package:flutterui/values/values.dart';
+import 'package:provider/provider.dart';
 
 import 'log_in.dart';
 
@@ -11,6 +13,8 @@ class FirstscreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
+    analytics.setCurrentScreen(screenName: "/log_in");
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
