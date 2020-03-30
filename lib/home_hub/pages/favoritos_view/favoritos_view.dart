@@ -238,7 +238,63 @@ class _FavoritosViewState extends State<FavoritosView> {
                     builder: (context, state) {
                   if (state is FavoriteBooksLoaded) {
                     if(state.books == null || state.books.length == 0){
-                      return Container(child: Text("TRAVEEEE"));
+                      return  ListView(
+                        scrollDirection: Axis.vertical,
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                                height: SizeConfig.blockSizeVertical*52,
+                                width: SizeConfig.blockSizeHorizontal * 100,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  child: Image.asset(
+                                    "assets/images/no-favorites-long.png",
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 20,
+                                top: 30,
+                                bottom: 50,
+                                width: SizeConfig.blockSizeHorizontal * 90,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "¡Que esperas!",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 27,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 4),
+                                      child: Text(
+                                        "Puedes agregar libros en\nlos que estés interesado.",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontFamily: "Sf-t",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      );
                     }
                     return Container(
                       margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
