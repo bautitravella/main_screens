@@ -7,6 +7,7 @@ import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
+import 'package:flutterui/main.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../../size_config.dart';
@@ -130,7 +131,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                         ),
                                         onChanged: (value) {
                                           if (value == "+ Agregar Colegio") {
-                                            agregarColegio(widget.user.email);
+                                            showSchoolDialog(context, widget.user.email);
                                           } else {
                                             setState(() {
                                               colegioSelectedValue = value;
@@ -287,59 +288,6 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
     );
   }
 
-  void agregarColegio(String email) {
-    TextEditingController colegioNameTextEditingController = TextEditingController();
-//    if(Platform.isIOS){
-//      showCupertinoDialog(context: context, builder: (BuildContext context) => CupertinoAlertDialog(
-//        title: Text("Enviar solicitud para agregar un colegio"),
-//        content: Container(
-//          child:Column(
-//            children: <Widget>[
-//              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado."),
-//              Container(child: TextField( controller: colegioNameTextEditingController)),
-//            ],
-//          )
-//        ),
-//        actions: <Widget>[
-//          CupertinoDialogAction(isDefaultAction: false,child: Text("Cancelar"),onPressed: ()=> Navigator.pop(context),),
-//          CupertinoDialogAction(isDefaultAction: true,child: Text("Enviar"),onPressed:(){
-//            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-//              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
-//            }
-//            Navigator.pop(context);
-//          },)
-//        ],
-//      ));
-//    }else{
-
-    showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-      title: Text("Enviar solicitud para agregar un colegio"),
-      content: Container(
-          child:Column(
-            children: <Widget>[
-              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado.Una vez aceptada o rechazada te enviaremos un mail con nuestra decision."),
-              TextField(
-                  controller: colegioNameTextEditingController
-              ),
-            ],
-          )
-      ),
-      actions: <Widget>[
-        FlatButton(child: Text("Cancelar"),
-          onPressed: ()=> Navigator.pop(context),
-        ),
-        FlatButton(child: Text("Enviar"),
-          onPressed: (){
-            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
-            }
-            Navigator.pop(context);
-          },)
-      ],
-    ));
-    //}
-  }
-
   List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
     List<DropdownMenuItem> dropdownMenuItemList = [];
     String agregarColegio =  "+ Agregar Colegio";
@@ -354,7 +302,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                   item,
                   style: TextStyle(
                     color: Color.fromARGB(255, 53, 38, 65),
-                    fontFamily: "Montserrat",
+                    fontFamily: "Sf-r",
                     fontWeight: FontWeight.w700,
                     fontSize: 19,
                   ),
@@ -376,7 +324,7 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                 agregarColegio,
                 style: TextStyle(
                   color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Montserrat",
+                  fontFamily: "Sf-r",
                   fontWeight: FontWeight.w700,
                   fontSize: 19,
                 ),
@@ -461,3 +409,96 @@ void showErrorDialog(BuildContext context, String errorMessage) {
       ),
       animatedPill: false);
 }
+
+void showSchoolDialog(BuildContext context, String email) {
+  TextEditingController colegioNameTextEditingController = TextEditingController();
+  String errorMessage = "No has ingresado ningun colegio.";
+  showSlideDialogFull(
+      context: context,
+      child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 50),
+              Text(
+                "Enviar solicitud para\nagregar un colegio",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: "Sf-r",
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              Container(
+                margin: EdgeInsets.only(left: 50, right: 50),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                          "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                        style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: "Sf-t",
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w700,
+                      ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 40),
+                      TextField(
+                           controller: colegioNameTextEditingController,
+                        cursorColor: AppColors.secondaryBackground,
+                      ),
+                    ],
+                  )
+              ),
+              SizedBox(height: 80),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FlatButton(child:
+                  Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Sf-r",
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                    onPressed: ()=> Navigator.pop(context),
+                  ),
+                  FlatButton(child:
+                  Text(
+                    "Enviar",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Sf-r",
+                      color: AppColors.secondaryBackground,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                    onPressed: (){
+                      if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
+                        BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+                        Navigator.pop(context);
+                        showLoadingDialog(context);
+                        Future.delayed(Duration(seconds: 2)).then((smt)=>Navigator.pop(context));
+                      }
+                      else{Navigator.pop(context);
+                      showErrorDialog(context, errorMessage);
+                      }
+                    },
+                   )
+                ],
+              )
+
+            ],
+          ),
+        ),
+      )
+  );
+}
+

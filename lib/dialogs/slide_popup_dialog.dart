@@ -95,3 +95,42 @@ Future<T> showSlideDialogGrande<T>({
   );
 }
 
+
+Future<T> showSlideDialogFull<T>({
+  @required BuildContext context,
+  @required Widget child,
+  Color barrierColor,
+  bool barrierDismissible = true,
+  Duration transitionDuration = const Duration(milliseconds: 300),
+  Color pillColor,
+  Color backgroundColor,
+}) {
+  assert(context != null);
+  assert(child != null);
+
+  return showGeneralDialog(
+    context: context,
+    pageBuilder: (context, animation1, animation2) {},
+    barrierColor: barrierColor ?? Colors.transparent.withOpacity(0.4),
+    barrierDismissible: barrierDismissible,
+    barrierLabel: "Dismiss",
+    transitionDuration: transitionDuration,
+    transitionBuilder: (context, animation1, animation2, widget) {
+      final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0;
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Transform(
+          transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+          child: Opacity(
+            opacity: animation1.value,
+            child: SlideDialogFull(
+              child: child,
+              pillColor: pillColor ?? Colors.blueGrey[200],
+              backgroundColor: backgroundColor ?? Theme.of(context).canvasColor,
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
