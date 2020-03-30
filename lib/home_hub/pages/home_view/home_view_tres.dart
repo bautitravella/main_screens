@@ -331,7 +331,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        SearchWidget(),
+                        SearchWidget(homeHubState: homeHubState),
                   ),
                 );
               },),

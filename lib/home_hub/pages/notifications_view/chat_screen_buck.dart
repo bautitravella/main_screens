@@ -640,7 +640,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(left: 0),
+                      margin: EdgeInsets.only(left: 0, right: 10),
                       child: TextField(
                         textCapitalization: TextCapitalization.sentences,
                         controller: messageTextController,
