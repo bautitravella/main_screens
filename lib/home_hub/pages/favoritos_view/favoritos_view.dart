@@ -237,6 +237,9 @@ class _FavoritosViewState extends State<FavoritosView> {
                 child: BlocBuilder<FavoritesBloc, FavoritesBlocState>(
                     builder: (context, state) {
                   if (state is FavoriteBooksLoaded) {
+                    if(state.books == null || state.books.length == 0){
+                      return Container(child: Text("TRAVEEEE"));
+                    }
                     return Container(
                       margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: CustomScrollView(
