@@ -266,6 +266,9 @@ class FirebaseRepository extends DatabaseRepository {
             user.getCursos().forEach((curso) {
               if(cursos.contains(curso))addBook = true;
             });
+            if(doc['emailVendedor'] != null && doc['emailVendedor'] == user.email ){
+              addBook = false;
+            }
             if(addBook){
               book = Book.fromDocumentSnapshot(doc);
               if (book != null) {

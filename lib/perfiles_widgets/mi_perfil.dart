@@ -2111,6 +2111,7 @@ class _MiPerfilState extends State<MiPerfil> {
     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
     final Uri shortUrl = shortDynamicLink.shortUrl;
     Share.share(shortUrl.toString());
+    analytics.logShare(contentType: "invitation");
   }
 
   void _showDialogWave() {

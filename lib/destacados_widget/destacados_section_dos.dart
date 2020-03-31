@@ -241,7 +241,9 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
               ],
             ),
           ),
-          Positioned(
+
+
+              Positioned(
             top: 55,
             left: 0,
             right: 0,
@@ -263,7 +265,9 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-                child: ListView.builder(
+                child:
+                state.books!= null && state.books.length> 0?
+                ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
                   itemCount: state.books.length,
@@ -556,10 +560,19 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                       ),
                     );
                   },
+                ):Container(child: Center(child: Text("Por el momento no encontramos ninguna recomendacion para vos",style: TextStyle(
+                    fontSize: 26,
+                    fontFamily: 'Sf-r',
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w700,
+
                 ),
+                  textAlign: TextAlign.center,
+                )),)
+                ,
               ),
             ),
-          ),
+          )
         ],
       );
     }
