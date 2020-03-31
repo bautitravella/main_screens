@@ -170,7 +170,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                                     : widget.chat.compradorImage,
                               ),
                             ),
-                            Positioned(
+                            /*Positioned(
                               left: SizeConfig.blockSizeHorizontal * 8,
                               top: SizeConfig.blockSizeVertical * 4,
                               child: Container(
@@ -180,7 +180,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                                       "assets/images/logocolegio-fds.png"),
                                 ),
                               ),
-                            ),
+                            ),*///TODO logo colegio
                           ],
                         ),
                       ),

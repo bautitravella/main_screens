@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -218,7 +219,7 @@ class _EconmicosSectionState extends State<EconomicosSection> {
     SizeConfig().init(context);
     return BlocBuilder<EconomicosBloc,EconomicosBlocState>(
         builder: (context, state) {
-          if(state is EconomicosBooksLoadedState){
+          if (state is EconomicosBooksLoadedState) {
             return Stack(
               children: <Widget>[
                 Positioned(
@@ -226,9 +227,12 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                   left: 5,
                   child: Row(
                     children: <Widget>[
-                      IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 26, color: Colors.white, onPressed:() {
-                        Navigator.pop(context);
-                      },),
+                      IconButton(icon: Icon(Icons.arrow_back_ios),
+                        iconSize: 26,
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },),
                       Text(
                         'Economicos',
                         style: TextStyle(
@@ -262,7 +266,8 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         controller: sc,
@@ -288,8 +293,9 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                   width: 70,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child:book.getFirstImageThumb() != null ? Image(
-                                      image : book.getFirstImageThumb(),
+                                    child: book.getFirstImageThumb() != null
+                                        ? Image(
+                                      image: book.getFirstImageThumb(),
                                       fit: BoxFit.cover,
                                     )
                                         :
@@ -300,53 +306,70 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                   children: <Widget>[
                                     Container(
                                       margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
-                                      padding: EdgeInsets.fromLTRB(0, 13, 13, 11),
+                                      padding: EdgeInsets.fromLTRB(
+                                          0, 13, 13, 11),
                                       height: 127.0,
-                                      width: SizeConfig.blockSizeHorizontal * 70,
+                                      width: SizeConfig.blockSizeHorizontal *
+                                          70,
                                       decoration: BoxDecoration(
                                         /* color: Color.fromARGB(255, 241, 242, 242),*/
-                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderRadius: BorderRadius.circular(
+                                            20.0),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                        padding: EdgeInsets.fromLTRB(
+                                            5, 0, 0, 0),
                                         child: Stack(
                                           children: <Widget>[
                                             Column(
                                               children: <Widget>[
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .start,
                                                   children: <Widget>[
                                                     Container(
-                                                      width: SizeConfig.blockSizeHorizontal * 45,
+                                                      width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          45,
                                                       child: Text(
                                                         "${book.nombreLibro}",
                                                         style: TextStyle(
-                                                          color: Color.fromARGB(200, 0, 0, 0),
+                                                          color: Color.fromARGB(
+                                                              200, 0, 0, 0),
                                                           fontSize: 15,
                                                           fontFamily: "Sf-r",
-                                                          fontWeight: FontWeight.w700,
+                                                          fontWeight: FontWeight
+                                                              .w700,
                                                         ),
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         maxLines: 2,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .spaceBetween,
                                                   children: <Widget>[
                                                     Container(
-                                                      width: SizeConfig.blockSizeHorizontal * 40,
-                                                      margin: EdgeInsets.only(top: 5),
+                                                      width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          40,
+                                                      margin: EdgeInsets.only(
+                                                          top: 5),
                                                       child: Text(
                                                         "${book.autor}",
                                                         style: TextStyle(
                                                           fontSize: 11,
                                                           fontFamily: "Sf",
-                                                          fontWeight: FontWeight.w500,
+                                                          fontWeight: FontWeight
+                                                              .w500,
                                                         ),
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         maxLines: 2,
                                                       ),
                                                     ),
@@ -360,55 +383,102 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                               right: 0,
                                               child: Container(
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .stretch,
                                                   children: <Widget>[
                                                     Align(
-                                                      alignment: Alignment.topRight,
-                                                      child:  BlocBuilder<FavoritesBloc,FavoritesBlocState>(
-                                                        builder: (context,state){
-                                                          if(state is FavoriteBooksLoaded){
+                                                      alignment: Alignment
+                                                          .topRight,
+                                                      child: BlocBuilder<
+                                                          FavoritesBloc,
+                                                          FavoritesBlocState>(
+                                                        builder: (context,
+                                                            state) {
+                                                          if (state is FavoriteBooksLoaded) {
                                                             bool isFavorite = false;
-                                                            for(Book favBook in state.books){
-                                                              if(book.uid == favBook.uid)isFavorite = true;
+                                                            for (Book favBook in state
+                                                                .books) {
+                                                              if (book.uid ==
+                                                                  favBook.uid)
+                                                                isFavorite =
+                                                                true;
                                                             }
-                                                            if(isFavorite){
+                                                            if (isFavorite) {
                                                               //if(state.books.contains(book)){
                                                               return IconButton(
-                                                                  icon: Icon(Icons.favorite),
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .favorite),
                                                                   iconSize: 30.0,
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   onPressed: () {
-                                                                    BlocProvider.of<FavoritesBloc>(context).add(RemoveBookFromFavorites(book.uid));
+                                                                    BlocProvider
+                                                                        .of<
+                                                                        FavoritesBloc>(
+                                                                        context)
+                                                                        .add(
+                                                                        RemoveBookFromFavorites(
+                                                                            book
+                                                                                .uid));
                                                                   });
-                                                            }else{
+                                                            } else {
                                                               return IconButton(
-                                                                  icon: Icon(Icons.favorite_border),
+                                                                  icon: Icon(
+                                                                      Icons
+                                                                          .favorite_border),
                                                                   iconSize: 30.0,
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   onPressed: () {
-                                                                    BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites(book.uid));
-
+                                                                    BlocProvider
+                                                                        .of<
+                                                                        FavoritesBloc>(
+                                                                        context)
+                                                                        .add(
+                                                                        AddBookToFavorites(
+                                                                            book
+                                                                                .uid));
                                                                   });
                                                             }
                                                           }
                                                           return IconButton(
-                                                              icon: Icon(Icons.favorite_border),
+                                                              icon: Icon(Icons
+                                                                  .favorite_border),
                                                               iconSize: 30.0,
-                                                              color: Colors.black,
+                                                              color: Colors
+                                                                  .black,
                                                               onPressed: () {
-                                                                if (BlocProvider.of<FavoritesBloc>(context)
+                                                                if (BlocProvider
+                                                                    .of<
+                                                                    FavoritesBloc>(
+                                                                    context)
                                                                     .favoriteBooks !=
                                                                     null &&
-                                                                    BlocProvider.of<FavoritesBloc>(context)
+                                                                    BlocProvider
+                                                                        .of<
+                                                                        FavoritesBloc>(
+                                                                        context)
                                                                         .favoriteBooks
-                                                                        .contains(book)) {
-                                                                  BlocProvider.of<FavoritesBloc>(context)
-                                                                      .add(RemoveBookFromFavorites(
-                                                                      book.uid));
+                                                                        .contains(
+                                                                        book)) {
+                                                                  BlocProvider
+                                                                      .of<
+                                                                      FavoritesBloc>(
+                                                                      context)
+                                                                      .add(
+                                                                      RemoveBookFromFavorites(
+                                                                          book
+                                                                              .uid));
                                                                 } else {
-                                                                  BlocProvider.of<FavoritesBloc>(context)
-                                                                      .add(AddBookToFavorites(
-                                                                      book.uid));
+                                                                  BlocProvider
+                                                                      .of<
+                                                                      FavoritesBloc>(
+                                                                      context)
+                                                                      .add(
+                                                                      AddBookToFavorites(
+                                                                          book
+                                                                              .uid));
                                                                 }
                                                               });
                                                         },
@@ -416,89 +486,150 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                                     ),
                                                     SizedBox(height: 15),
                                                     Align(
-                                                      alignment: Alignment.centerRight,
+                                                      alignment: Alignment
+                                                          .centerRight,
                                                       child: Container(
-                                                        width: SizeConfig.blockSizeHorizontal * 14,
+                                                        width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            14,
                                                         height: 20,
                                                         decoration: BoxDecoration(
-                                                          color: Color.fromARGB(20, 0, 0, 0),
-                                                          borderRadius: BorderRadius.circular(10.0),
+                                                          color: Color.fromARGB(
+                                                              20, 0, 0, 0),
+                                                          borderRadius: BorderRadius
+                                                              .circular(10.0),
                                                         ),
-                                                        alignment: Alignment.center,
+                                                        alignment: Alignment
+                                                            .center,
                                                         child: Text(
                                                           //todo sacar el boton de usado y cambiarlo por el de nuevo
                                                           "USADO",
-                                                          textAlign: TextAlign.center,
+                                                          textAlign: TextAlign
+                                                              .center,
                                                           style: TextStyle(
                                                             fontSize: 10,
-                                                            fontWeight: FontWeight.w700,
+                                                            fontWeight: FontWeight
+                                                                .w700,
                                                             fontFamily: "Sf-r",
-                                                            color: Color.fromARGB(100, 0, 0, 0),
+                                                            color: Color
+                                                                .fromARGB(
+                                                                100, 0, 0, 0),
                                                           ),
-                                                          overflow: TextOverflow.ellipsis,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           maxLines: 2,
                                                         ),
                                                       ),
                                                     ),
                                                     SizedBox(height: 5,),
                                                     Container(
-                                                      width: SizeConfig.blockSizeHorizontal * 62.5,
-                                                      margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
+                                                      width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                          62.5,
+                                                      margin: EdgeInsets.only(
+                                                          left: 0,
+                                                          right: 0,
+                                                          bottom: 0),
                                                       child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .spaceBetween,
                                                         children: <Widget>[
                                                           Row(
                                                             children: <Widget>[
                                                               Container(
                                                                   height: 25,
-                                                                  width: 25 ,
-                                                                  child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                                  width: 25,
+                                                                  child: CircleAvatar(
+                                                                      backgroundImage: book
+                                                                          .imageVendedor)
                                                               ),
-                                                              book.rating != null?
+                                                              book.rating !=
+                                                                  null ?
                                                               Container(
                                                                 height: 21,
-                                                                margin: EdgeInsets.only(left: 4),
-                                                                padding: EdgeInsets.only(left: 4, right: 4),
+                                                                margin: EdgeInsets
+                                                                    .only(
+                                                                    left: 4),
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                    left: 4,
+                                                                    right: 4),
                                                                 decoration: BoxDecoration(
-                                                                  color: Color.fromARGB(100, 116, 116, 116),
-                                                                  borderRadius: BorderRadius.circular(8.0),
-                                                                  border: Border.all(
-                                                                      width: 1.0, color: Color.fromARGB(255, 235, 235, 235)),
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                      100, 116,
+                                                                      116, 116),
+                                                                  borderRadius: BorderRadius
+                                                                      .circular(
+                                                                      8.0),
+                                                                  border: Border
+                                                                      .all(
+                                                                      width: 1.0,
+                                                                      color: Color
+                                                                          .fromARGB(
+                                                                          255,
+                                                                          235,
+                                                                          235,
+                                                                          235)),
                                                                 ),
-                                                                alignment: Alignment.center,
+                                                                alignment: Alignment
+                                                                    .center,
                                                                 child: Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  children: <Widget>[
+                                                                  crossAxisAlignment: CrossAxisAlignment
+                                                                      .center,
+                                                                  mainAxisAlignment: MainAxisAlignment
+                                                                      .center,
+                                                                  children: <
+                                                                      Widget>[
                                                                     Icon(
-                                                                        Icons.star,
+                                                                        Icons
+                                                                            .star,
                                                                         size: 17,
-                                                                        color: Colors.white),
+                                                                        color: Colors
+                                                                            .white),
                                                                     Text(
-                                                                      '${book.rating}',
-                                                                      textAlign: TextAlign.center,
+                                                                      '${book
+                                                                          .rating}',
+                                                                      textAlign: TextAlign
+                                                                          .center,
                                                                       style: TextStyle(
                                                                           fontSize: 15,
-                                                                          fontWeight: FontWeight.w800,
+                                                                          fontWeight: FontWeight
+                                                                              .w800,
                                                                           fontFamily: "Sf-r",
-                                                                          color: Colors.white
+                                                                          color: Colors
+                                                                              .white
                                                                       ),
                                                                     ),
 
                                                                   ],
                                                                 ),
-                                                              ):
+                                                              ) :
                                                               Container(
                                                                   child: Row(
-                                                                    children: <Widget>[
-                                                                      SizedBox(width: 5,),
-                                                                      Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+                                                                    children: <
+                                                                        Widget>[
+                                                                      SizedBox(
+                                                                        width: 5,),
+                                                                      Text(book
+                                                                          .nombreVendedor
+                                                                          .substring(
+                                                                          0,
+                                                                          1) +
+                                                                          "." +
+                                                                          book
+                                                                              .apellidoVendedor,
                                                                         style: TextStyle(
                                                                           fontSize: 12,
-                                                                          fontWeight: FontWeight.w700,
+                                                                          fontWeight: FontWeight
+                                                                              .w700,
                                                                           fontFamily: "Sf-r",
-                                                                          color: Color.fromARGB(
-                                                                              190, 0, 0, 0),
+                                                                          color: Color
+                                                                              .fromARGB(
+                                                                              190,
+                                                                              0,
+                                                                              0,
+                                                                              0),
                                                                         ),
                                                                       )
                                                                     ],)),
@@ -506,18 +637,27 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                                           ),
                                                           Padding(
                                                               padding:
-                                                              const EdgeInsets.only(right: 5),
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 5),
                                                               child: Row(
-                                                                children: <Widget>[
+                                                                children: <
+                                                                    Widget>[
                                                                   Text(
-                                                                    '\$${book.precio}',
-                                                                    textAlign: TextAlign.center,
+                                                                    '\$${book
+                                                                        .precio}',
+                                                                    textAlign: TextAlign
+                                                                        .center,
                                                                     style: TextStyle(
                                                                       fontSize: 21,
-                                                                      fontWeight: FontWeight.w700,
+                                                                      fontWeight: FontWeight
+                                                                          .w700,
                                                                       fontFamily: "Sf-r",
-                                                                      color: Color.fromARGB(
-                                                                          190, 0, 0, 0),
+                                                                      color: Color
+                                                                          .fromARGB(
+                                                                          190,
+                                                                          0, 0,
+                                                                          0),
                                                                     ),
                                                                   )
                                                                 ],
@@ -544,7 +684,7 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                         bottom: 0,
                                         left: 5,
                                         right: 22,
-                                        child:Container(
+                                        child: Container(
                                           height: 2,
                                           color: Colors.black12,
                                         )
@@ -563,63 +703,79 @@ class _EconmicosSectionState extends State<EconomicosSection> {
               ],
             );
           }
-          return Stack(
-            children: <Widget>[
-              Positioned(
-                top: 0,
-                left: 5,
-                child: Row(
-                  children: <Widget>[
-                    IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 26, color: Colors.white, onPressed:() {
-                      Navigator.pop(context);
-                    },),
-                    Text(
-                      'Economicos',
-                      style: TextStyle(
-                          fontSize: 23,
-                          fontFamily: 'Sf-r',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 55,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30)),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 20.0,
-                        color: Color.fromRGBO(0, 0, 0, 0.15),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+
+            return Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 0,
+                  left: 5,
+                  child: Row(
                     children: <Widget>[
-                      Text("PARECE QUE LA CAGASTE BRO"),
-                      SizedBox(height: 50,),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*8),
-                          child: Image.asset("assets/images/alert-dialog.png",fit: BoxFit.fitWidth,)),
+                      IconButton(icon: Icon(Icons.arrow_back_ios),
+                        iconSize: 26,
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },),
+                      Text(
+                        'Economicos',
+                        style: TextStyle(
+                            fontSize: 23,
+                            fontFamily: 'Sf-r',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700
+                        ),
+                      )
                     ],
                   ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: 55,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 220,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30)),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 20.0,
+                          color: Color.fromRGBO(0, 0, 0, 0.15),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        /*Text("PARECE QUE LA CAGASTE BRO"),*/
+                        SizedBox(height: 50,),
+                        Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.blockSizeHorizontal * 8),
+                            child: Image.asset("assets/images/alert-dialog.png",
+                              fit: BoxFit.fitWidth,)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
           );
-        });
   }
 
+  void showErrorDialog(BuildContext context, String errorMessage) {
+    showSlideDialogChico(
+        context: context,
+        child: ErrorDialog(
+          title: "Oops...",
+          error: errorMessage,
+        ),
+        animatedPill: false);
+  }
 
 }

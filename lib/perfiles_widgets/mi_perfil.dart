@@ -1195,7 +1195,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                       backgroundImage: user.getProfileImage(),
                                     ),
                                   ),
-                                  Positioned(
+                                 /* Positioned(
                                     right: 35,
                                     top: 30,
                                     child: CircleAvatar(
@@ -1203,7 +1203,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                       backgroundImage: AssetImage(
                                           "assets/images/logocolegio-fds.png"),
                                     ),
-                                  ),
+                                  ),*///Todo logo colegio
                                 ],
                               ),
                             ),
