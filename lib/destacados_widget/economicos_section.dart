@@ -611,11 +611,7 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                                                                         Widget>[
                                                                       SizedBox(
                                                                         width: 5,),
-                                                                      Text(book
-                                                                          .nombreVendedor
-                                                                          .substring(
-                                                                          0,
-                                                                          1) +
+                                                                      Text(book.nombreVendedor.substring(0, 1).toUpperCase() +
                                                                           "." +
                                                                           book
                                                                               .apellidoVendedor,
