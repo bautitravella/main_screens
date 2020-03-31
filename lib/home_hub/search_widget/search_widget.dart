@@ -226,11 +226,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                                 iconSize: 18,
                                 color: Colors.white,
                                 onPressed: () => Navigator.pop(context)),
-                            Center(
+                            /*Center(
                               child: Container(
-                                height: 24,
-                                margin: EdgeInsets.only(left: 10, bottom: 25),
-                                width: SizeConfig.blockSizeHorizontal * 60,
+                                height: 75,
+                                color: Colors.red,
+                                margin: EdgeInsets.only(left: 10, top: 30),
+                                width: SizeConfig.blockSizeHorizontal * 62,
                                 child: TextField(
                                   onChanged: (value) {
                                     analytics.logSearch(searchTerm: value);
@@ -244,7 +245,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                                     }
                                   },
                                   textCapitalization: TextCapitalization.sentences,
-                                  decoration: InputDecoration.collapsed(
+                                  decoration: InputDecoration(
+                                    contentPadding: new EdgeInsets.symmetric(vertical: 20.0),
                                     hintText: "Buscar",
                                     hintStyle: TextStyle(
                                       color: Colors.white54,
@@ -260,6 +262,41 @@ class _SearchWidgetState extends State<SearchWidget> {
                                     fontWeight: FontWeight.w800,
                                     fontSize: 20,
                                   ),
+                                ),
+                              ),
+                            ),*/
+                            Container(
+                              height: 50,
+                              width: SizeConfig.blockSizeHorizontal*63,
+                              child: TextField(
+                                onChanged: (value) {
+                                  analytics.logSearch(searchTerm: value);
+                                  print(value);
+                                  if(value == null || value.length == 0){
+                                    searchTextEmpty = true;
+                                  }else{
+                                    searchTextEmpty = false;
+                                    BlocProvider.of<SearchBloc>(context)
+                                        .add(SearchBooks(value.toLowerCase().split(' ')));
+                                  }
+                                },
+                                textCapitalization: TextCapitalization.sentences,
+                                decoration: InputDecoration(
+                                  contentPadding: new EdgeInsets.only(top: 15, bottom: 15),
+                                  hintText: "Buscar",
+                                  hintStyle: TextStyle(
+                                    color: Colors.white54,
+                                    fontFamily: "Sf-r",
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 20,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 20,
                                 ),
                               ),
                             ),
@@ -364,7 +401,7 @@ class _SearchWidgetState extends State<SearchWidget> {
             children: <Widget>[
               Container(
                 child: Text(
-                  'Recomendados',
+                  _keyboardIsVisible()? "Resultados":'Recomendados',
                   style: TextStyle(
                     fontFamily: 'Sf-r',
                     fontSize: 17,
@@ -373,7 +410,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   ),
                 ),
               ),
-              Container(
+        /*      Container(
                 height: 25,
                 width: 98,
                 alignment: Alignment.centerRight,
@@ -395,12 +432,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                     maxLines: 1,
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
         Positioned(
-          top: 45,
+          top: 40,
           left: 0,
           right: 0,
           bottom: 0,

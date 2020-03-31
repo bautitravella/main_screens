@@ -20,6 +20,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 import 'book_section_chota.dart';
+import 'package:photo_view/photo_view.dart';
 
 class BookSection extends StatefulWidget {
 
