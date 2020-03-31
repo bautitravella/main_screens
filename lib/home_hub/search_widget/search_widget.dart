@@ -1202,8 +1202,13 @@ class _SearchWidgetState extends State<SearchWidget> {
           GestureDetector(
             onTap: () {
               setState(() {
-                homeHubState?.changeToMyBooks();
-              });
+                try {
+                  Navigator.pop(context);
+                  homeHubState?.changeToMyBooks();
+                }catch(e){
+                  print("SEARCH ERROR = " + e.toString());
+                }
+                });
 
 //              Navigator.push(
 //                context,
@@ -1244,7 +1249,12 @@ class _SearchWidgetState extends State<SearchWidget> {
           ),
           GestureDetector(
             onTap: (){
-              homeHubState?.changeToFavorites();
+              try {
+                Navigator.pop(context);
+                homeHubState?.changeToFavorites();
+              }catch(e){
+                print("SEARCH ERROR = " + e.toString());
+              }
             },
             child: Container(
               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
@@ -1278,7 +1288,12 @@ class _SearchWidgetState extends State<SearchWidget> {
           ),
           GestureDetector(
             onTap: (){
-              homeHubState?.changeToChats();
+              try {
+                Navigator.pop(context);
+                homeHubState?.changeToChats();
+              }catch(e){
+                print("SEARCH ERROR = " + e.toString());
+              }
             },
             child: Container(
               margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),

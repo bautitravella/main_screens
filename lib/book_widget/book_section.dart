@@ -986,7 +986,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
       maxScale: PhotoViewComputedScale.covered * 1.1,
-      //heroAttributes: PhotoViewHeroAttributes(tag: index.toString()),
+      heroAttributes: PhotoViewHeroAttributes(tag: index.toString()),
     );
   }
 }
