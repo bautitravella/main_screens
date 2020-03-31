@@ -302,7 +302,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                 margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
                                 padding: EdgeInsets.fromLTRB(0, 13, 13, 11),
                                 height: 127.0,
-                                width: SizeConfig.blockSizeHorizontal * 70,
+                                width: SizeConfig.blockSizeHorizontal * 68,
                                 decoration: BoxDecoration(
                                   /* color: Color.fromARGB(255, 241, 242, 242),*/
                                   borderRadius: BorderRadius.circular(20.0),
