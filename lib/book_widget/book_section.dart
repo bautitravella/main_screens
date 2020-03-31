@@ -16,6 +16,8 @@ import 'package:flutterui/home_hub/pages/notifications_view/chat_screen_buck.dar
 import 'package:flutterui/perfiles_widgets/perfil_alguien.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 import 'book_section_chota.dart';
 
@@ -412,7 +414,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget verticalListView(Book book) {
+  Widget verticalListView(Book book) {
     return Container(
       height: SizeConfig.blockSizeVertical * 100,
       margin: EdgeInsets.all(0),
@@ -844,7 +846,7 @@ class _BookSectionState extends State<BookSection> {
     );
   }
 
-  static Widget horizontalPhotos(Book book) {
+  Widget horizontalPhotos(Book book) {
     return Container(
       height: 185,
       margin: EdgeInsets.only(left: 22, top: 60),
@@ -857,24 +859,140 @@ class _BookSectionState extends State<BookSection> {
             width: 123,
             margin: EdgeInsets.only(right: 35),
             padding: EdgeInsets.all(5),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
-                Image(
-                  image: book.getImages()[index],
-                  fit: BoxFit.cover,
-                )
-                    :
-                CircularProgressIndicator(),
+            child: GestureDetector(
+              onTap: (){
+                open(context, index,book);
+              },
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
+                  Image(
+                    image: book.getImages()[index],
+                    fit: BoxFit.cover,
+                  )
+                      :
+                  CircularProgressIndicator(),
 
-                ),
+                  ),
+            ),
           );
         },
       ),
     );
   }
 
-  static Widget horizontalListView = Container(
+  void open(BuildContext context, final int index,Book book) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GalleryPhotoViewWrapper(
+          galleryItems: book.getImages(),
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.black,
+          ),
+          initialIndex: index,
+          scrollDirection:  Axis.horizontal,
+        ),
+      ),
+    );
+  }
+
+
+}
+
+class GalleryPhotoViewWrapper extends StatefulWidget {
+  GalleryPhotoViewWrapper({
+    this.loadingBuilder,
+    this.backgroundDecoration,
+    this.minScale,
+    this.maxScale,
+    this.initialIndex,
+    @required this.galleryItems,
+    this.scrollDirection = Axis.horizontal,
+  }) : pageController = PageController(initialPage: initialIndex);
+
+  final LoadingBuilder loadingBuilder;
+  final Decoration backgroundDecoration;
+  final dynamic minScale;
+  final dynamic maxScale;
+  final int initialIndex;
+  final PageController pageController;
+  final List<ImageProvider> galleryItems;
+  final Axis scrollDirection;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _GalleryPhotoViewWrapperState();
+  }
+}
+
+class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
+  int currentIndex;
+
+  @override
+  void initState() {
+    currentIndex = widget.initialIndex;
+    super.initState();
+  }
+
+  void onPageChanged(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: widget.backgroundDecoration,
+        constraints: BoxConstraints.expand(
+          height: MediaQuery.of(context).size.height,
+        ),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: <Widget>[
+            PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              builder: _buildItem,
+              itemCount: widget.galleryItems.length,
+              loadingBuilder: widget.loadingBuilder,
+              backgroundDecoration: widget.backgroundDecoration,
+              pageController: widget.pageController,
+              onPageChanged: onPageChanged,
+              scrollDirection: widget.scrollDirection,
+            ),
+            Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                "Image ${currentIndex + 1}",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 17.0,
+                  decoration: null,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
+    final ImageProvider item = widget.galleryItems[index];
+    return  PhotoViewGalleryPageOptions(
+      imageProvider: item,
+      initialScale: PhotoViewComputedScale.contained,
+      minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
+      maxScale: PhotoViewComputedScale.covered * 1.1,
+      //heroAttributes: PhotoViewHeroAttributes(tag: index.toString()),
+    );
+  }
+}
+
+
+Widget horizontalListView = Container(
     height: 240,
     margin: EdgeInsets.only(left: 22),
     child: ListView.builder(
@@ -957,7 +1075,7 @@ class _BookSectionState extends State<BookSection> {
       },
     ),
   );
-}
+
 
 showCustomDialog(BuildContext context) {
   showSlideDialogGrande(
