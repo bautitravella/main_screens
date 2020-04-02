@@ -29,8 +29,16 @@ class ElijeUnRolWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              GestureDetector(
+                onTap: () => _onWillPop(context),
+                child: Container(
+                    margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*7),
+                    child: Icon(
+                      Icons.arrow_back_ios, size: 25, color: Colors.black87,)
+                    ),
+              ),
               Container(
-                margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*10),
+                margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*4),
                 child: Text(
                   "Tu cuenta",
                   textAlign: TextAlign.left,
