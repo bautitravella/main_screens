@@ -209,9 +209,14 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
   @override
   void initState() {
     super.initState();
-    firestoreDocumentFuture =
-        Firestore.instance.collection("Users").document(email).get();
-    BlocProvider.of<UserBloc>(context).add(LoadUser(email));
+    //firestoreDocumentFuture =
+        //Firestore.instance.collection("Users").document(email).get();
+    try{
+      BlocProvider.of<UserBloc>(context).add(LoadUser(email));
+    }catch(e){
+      print("MAIN FIRESTORE DECIDER ERROR");
+    }
+
     final FirebaseMessaging _fcm = FirebaseMessaging();
     if (Platform.isIOS) {
       iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
@@ -266,6 +271,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
     return BlocListener<UserBloc, UserBlocState>(
       condition: (prevState, currentState) {
         print("prevState = " + prevState.toString() + " || nextState = " + currentState.toString());
+
         if (prevState is UserLoadedState && currentState is UserLoadedState) {
           return false;
         } else if (prevState == currentState) {
@@ -308,10 +314,13 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
           );
         }
       },
-      child: Scaffold(
-        body: Container(
-            margin: EdgeInsets.all(1),
-            child: Center(child: Image.asset('assets/images/buymy-hd.png'))),
+      child: WillPopScope(
+        onWillPop:() =>  _onWillPop(),
+        child: Scaffold(
+          body: Container(
+              margin: EdgeInsets.all(1),
+              child: Center(child: Image.asset('assets/images/buymy-hd.png'))),
+        ),
       ),
 
 //      builder: (context, state) {
@@ -364,6 +373,16 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
       return false;
     }
     return true;
+  }
+
+  _onWillPop() {
+    BlocProvider.of<UserBloc>(context).add(UnloadUser());
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FirstscreenWidget(),
+      ),
+    );
   }
 }
 

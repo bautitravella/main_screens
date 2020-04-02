@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/auth.dart';
+import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/blocs/user_bloc/user_bloc.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/values/values.dart';
@@ -168,16 +171,18 @@ class ElijeUnRolWidget extends StatelessWidget {
   }
 
   _onWillPop(BuildContext context){
+    print("ELIJEUNROL PRINT    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     final auth = Provider.of<BaseAuth>(context,listen: false);
     try{
       auth.signOut();
     }catch(e){
       print(e.toString());
     }
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FirstscreenWidget()),
+    BlocProvider.of<UserBloc>(context).add(UnloadUser());
+    Navigator.popUntil(
+    context,
+    ModalRoute.withName('/'),
     );
+
   }
 }

@@ -83,7 +83,12 @@ class Auth extends BaseAuth{
     }
     String token = await _firebaseMessaging.getToken();
     FirebaseUser user = await currentUser();
-    Firestore.instance.collection("Users").document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])});
+    try{
+      Firestore.instance.collection("Users").document(user.email).collection('Tokens').document('tokens').updateData({'tokensList':FieldValue.arrayRemove([token])}).catchError((e )=> print("SMT"));
+
+    }catch(e){
+      print("AUTH SIGN OUT ERROR = " + e.toString());
+    }
     return FirebaseAuth.instance.signOut();
   }
 
