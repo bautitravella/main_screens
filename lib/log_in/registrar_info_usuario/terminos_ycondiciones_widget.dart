@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 
 import 'package:flutterui/main.dart';
@@ -336,12 +338,13 @@ El Proveedor podrán recolectar direcciones IP para propósitos de administraci�
 
     //todo cambiar toda esta poronga por un buen Future.wait
     uploadData2(context).then((smt) => {
-      Future.delayed(Duration(seconds: 2)).then((value) => {
-        print("PASANDO A LA PROXIMA PANTALLA"),
-        Navigator.popUntil(
+      Future.delayed(Duration(seconds: 2)).then((value) {
+        print("PASANDO A LA PROXIMA PANTALLA");
+      BlocProvider.of<UserBloc>(context).add(LoadUser(user.email));
+        Navigator.push(
           context,
-          ModalRoute.withName('/'),
-        ),
+          MaterialPageRoute(builder: (context) => HomeHub()),
+        );
       }),
         }).catchError((err) {
       print("HUBO UN ERROR 1, " + err.toString());

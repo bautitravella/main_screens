@@ -143,9 +143,9 @@ class _LogInState extends State<LogIn> {
 //        setState(() {
 //          _errorText = 'signed in with : $userUID})';
 //        });
-        Navigator.popUntil(
+        Navigator.push(
           context,
-          ModalRoute.withName('/'),
+          MaterialPageRoute(builder: (context) => MyDecider()),
         );
       }on PlatformException catch(e){
         setState(() {
