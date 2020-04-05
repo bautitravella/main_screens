@@ -151,13 +151,13 @@ class _LogInState extends State<LogIn> {
         setState(() {
           _errorText = '${e.message}';
         });
-        //Navigator.pop(context);
+        Navigator.pop(context);
         showErrorDialog(context, _errorText);
       } catch (error) {
         setState(() {
           _errorText = '$error';
         });
-        //Navigator.pop(context);
+        Navigator.pop(context);
         showErrorDialog(context, _errorText);
       }
     }
