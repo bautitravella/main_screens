@@ -53,6 +53,11 @@ class App extends StatelessWidget {
               UserBloc(RepositoryProvider.of<FirebaseRepository>(context)),
           child: MultiBlocProvider(
             providers: [
+              BlocProvider<IndexesBloc>( create: (context) {
+                return IndexesBloc(
+                    RepositoryProvider.of<FirebaseRepository>(context),
+                    BlocProvider.of<UserBloc>(context));
+              },),
               BlocProvider<BooksBloc>(
                 create: (context) {
                   return BooksBloc(

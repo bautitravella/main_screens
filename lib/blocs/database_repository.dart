@@ -89,6 +89,9 @@ abstract class DatabaseRepository {
 
   Stream<Chat> getChat(Chat chat) {}
 
+  Stream<DocumentSnapshot> getBookIndexes(String instituition);
+  Stream<DocumentSnapshot> getUsersIndexes(String instituition);
+
 
 }
 
@@ -172,7 +175,9 @@ class FirebaseRepository extends DatabaseRepository {
     });
   }
 
-  Future<List<List<String>>> uploadBookImages(Book book, String uid) async {
+  Future<List<List<String>>>
+
+  uploadBookImages(Book book, String uid) async {
     List<List<String>> urlLists = List(2);
     urlLists[0] = [];
     urlLists[1] = [];
@@ -710,6 +715,16 @@ class FirebaseRepository extends DatabaseRepository {
   Future<void> addSchool(String name, String email) {
 
     return requestsReference.add({"email": email,"schoolName": name, "timestamp":FieldValue.serverTimestamp(),"type":"add_school"});
+  }
+
+  @override
+  Stream<DocumentSnapshot> getBookIndexes(String instituition) {
+    return colegiosReference.document(instituition).collection("Books").document('indexes').snapshots();
+  }
+
+  @override
+  Stream<DocumentSnapshot> getUsersIndexes(String instituition) {
+    return colegiosReference.document(instituition).collection("Users").document('indexes').snapshots();
   }
 
 

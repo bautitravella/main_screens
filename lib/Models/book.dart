@@ -110,6 +110,25 @@ class Book {
     this.uid = doc.documentID;
   }
 
+  Book.fromIndexMap(Map<String,dynamic> map){
+    this.nombreVendedor = map[
+    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
+    this.emailVendedor = map['emailVendedor'];
+    this.nombreLibro = map['nombreLibro'];
+    map['colegios'].forEach((item) {
+      this.colegios.add(item.toString());
+    });
+    map['cursos'].forEach((item) {
+      this.cursos.add(item.toString());
+    });
+    map['materias'].forEach((item) {
+      this.materias.add(item.toString());
+    });
+    this.precio = map['precio'];
+    this.uid = map['publicacionId'];
+    this.thumbImagesUrl = map['firstImageUrl'];
+  }
+
   @override
   String toString() {
     return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $_images, thumbImages: $_thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';

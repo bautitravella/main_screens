@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'package:flutterui/Models/Alumno.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 
 class AlumnoUniversitario extends User{
@@ -10,7 +12,7 @@ class AlumnoUniversitario extends User{
 
   AlumnoUniversitario():super();
 
-  AlumnoUniversitario.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,String email) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms,email);
+  AlumnoUniversitario.allParameters(String nombre, String apellido, String fotoPerfil, bool hasAcceptedTerms,String email,this.universidades, this.colegios) : super.allParameters(nombre, apellido, fotoPerfil, hasAcceptedTerms,email);
 
   AlumnoUniversitario.fromImage(File image):super(){
     super.fotoPerfilRaw = image;
@@ -28,36 +30,23 @@ class AlumnoUniversitario extends User{
     var userMap = super.toMap();
     userMap['rol'] = role;
     universidades == null?userMap['universidades'] = []:userMap['universidades'] = universidades;
+    colegios == null?userMap['colegios'] =[]:userMap['colegios'] = colegios;
     return userMap;
   }
   @override
   List<String> getColegios(){
     List<String> colegiosList  = [];
-    _hijos.forEach((hijo)  {
-      String colegio = hijo.colegio;
-      if(!colegiosList.contains(colegio)){
-        colegiosList.add(colegio);
-      }
-    });
     return colegiosList;
   }
 
-  List<String> getCursos(){
-    List<String> cursos = [];
-    _hijos.forEach((hijo) => cursos.add(hijo.curso));
-    return cursos;
-  }
-
-  List<String> getHijosNames(){
-    List<String> nombres = [];
-    _hijos.forEach((hijo) => nombres.add(hijo.nombre));
-    return nombres;
-  }
-
-  removeHijo(int index){
-    if(index < _hijos.length || index >= 0){
-      _hijos.removeAt(index);
+  List<String> getActualInstitutions(){
+    if(colegios == null || colegios.length ==0) {
+      return universidades;
     }
+
+    List<String> result = universidades;
+    result.addAll(colegios);
+    return result;
   }
 
   @override
@@ -66,30 +55,31 @@ class AlumnoUniversitario extends User{
   }
 
   @override
-  Padre clone(){
-    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this.email,this._hijos);
+  AlumnoUniversitario clone(){
+    return AlumnoUniversitario.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms, this.email,this.universidades,this.colegios);
   }
 
   @override
-  Alumno changeRole(){
-    return Alumno.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email ,this._hijos.first.colegio, this._hijos.first.curso);
+  Alumno changeRoleToAlumno(){
+    return Alumno.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email ,null, null);
+  }
+
+  @override
+  Padre changeRoleToPadre(){
+    return Padre.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email ,null);
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           super == other &&
-              other is Padre &&
+              other is AlumnoUniversitario &&
               runtimeType == other.runtimeType &&
-              _hijos == other._hijos &&
               role == other.role;
 
   @override
   int get hashCode =>
       super.hashCode ^
-      _hijos.hashCode ^
       role.hashCode;
-
-
 
 }
