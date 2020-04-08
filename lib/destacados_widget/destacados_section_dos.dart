@@ -564,7 +564,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                       ),
                     );
                   },
-                ):Container(child: Center(child: Text("Por el momento no encontramos ninguna recomendacion para vos",style: TextStyle(
+                ):Container(child: Center(child: Text("Por el momento no pudimos encontrarte ninguna recomendacion.",style: TextStyle(
                     fontSize: 26,
                     fontFamily: 'Sf-r',
                     color: Colors.black54,
