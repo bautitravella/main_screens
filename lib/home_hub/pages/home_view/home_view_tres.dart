@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -398,17 +400,18 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image.asset(
                               "assets/images/explora-seleccion-grande.png",
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                         Positioned(
                           right: 10,
-                          top: 50,
-                          bottom: 50,
+                          top: SizeConfig.blockSizeVertical*2,
+                          bottom: SizeConfig.blockSizeVertical*2,
                           width: SizeConfig.blockSizeHorizontal * 40,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 "Recomendados",
@@ -418,6 +421,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                   fontFamily: "Sf-r",
                                   fontWeight: FontWeight.w800,
                                 ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                               SizedBox(
                                 height: 5,
@@ -455,17 +460,18 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image.asset(
                               "assets/images/explora-economicos.png",
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                         Positioned(
                           right: 10,
-                          top: 50,
-                          bottom: 50,
+                          top: SizeConfig.blockSizeVertical*2,
+                          bottom: SizeConfig.blockSizeVertical*2,
                           width: SizeConfig.blockSizeHorizontal * 40,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
                                 "Economicos",
@@ -475,12 +481,14 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                   fontFamily: "Sf-r",
                                   fontWeight: FontWeight.w800,
                                 ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                               SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                "Seleccion de libros con \nlos mejores precios",
+                                "Seleccion de libros con los mejores precios",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 11,

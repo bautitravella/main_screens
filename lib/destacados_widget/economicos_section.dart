@@ -233,13 +233,17 @@ class _EconmicosSectionState extends State<EconomicosSection> {
                         onPressed: () {
                           Navigator.pop(context);
                         },),
-                      Text(
-                        'Economicos',
-                        style: TextStyle(
-                            fontSize: 23,
-                            fontFamily: 'Sf-r',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal*50,
+                        child: Text(
+                          'Economicos',
+                          style: TextStyle(
+                              fontSize: 23,
+                              fontFamily: 'Sf-r',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       )
                     ],

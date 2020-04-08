@@ -357,6 +357,12 @@ class GridViewPublicados extends StatelessWidget {
         :CustomScrollView(
          slivers: <Widget>[
           SliverGrid(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 150.0,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 0,
+              childAspectRatio: 0.53,
+            ),
           delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
               Book book = books[index];
@@ -483,12 +489,6 @@ class GridViewPublicados extends StatelessWidget {
           //   crossAxisSpacing: 10.0,
           //   childAspectRatio: 4.0,
           // ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 0,
-            crossAxisSpacing: 0,
-            childAspectRatio: 0.49,
-          ),
         ),
       ],
     );
@@ -765,20 +765,25 @@ class GridViewVendidos extends StatelessWidget {
         : CustomScrollView(
           slivers: <Widget>[
           SliverGrid(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 150.0,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 0,
+              childAspectRatio: 0.53,
+            ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
               Book book = books[index];
 
-              return Container(
-                height: SizeConfig.blockSizeVertical * 10,
+              return  Container(
                 margin: EdgeInsets.only(left: 0, right: 0, top: 0),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
                     Positioned(
-                      top: SizeConfig.blockSizeVertical * 20,
+                      top: 150,
                       child: Container(
-                        height: SizeConfig.blockSizeVertical * 8,
+                        height: 65,
                         width: 97,
                         child: Padding(
                           padding: EdgeInsets.all(0),
@@ -789,8 +794,8 @@ class GridViewVendidos extends StatelessWidget {
                               Text(
                                 "${book.nombreLibro}",
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: "Montserrat",
+                                  fontSize: 11,
+                                  fontFamily: "Sf",
                                   fontWeight: FontWeight.w600,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -800,7 +805,7 @@ class GridViewVendidos extends StatelessWidget {
                                 "(${book.autor})",
                                 style: TextStyle(
                                   fontSize: 10,
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Sf",
                                   fontWeight: FontWeight.w400,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -816,23 +821,65 @@ class GridViewVendidos extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BookSectionChota(
-                                books2[0]),
+                            builder: (context) => BookSection(book),
                           ),
                         );
                       },
                       child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(1.0, 2.0),
+                                blurRadius: 6.0,
+                              )
+                            ]),
                         child: Stack(
+                          alignment: Alignment.topRight,
                           children: <Widget>[
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5),
-                              child: Image(
+                              child:book.getImages() != null && book.getImages().length > 0? //book.images[0],
+                              Image(
                                 height: 141,
                                 width: 97,
-                                image: book.getFirstImageThumb(),
+                                image: book.getImages()[0],
                                 fit: BoxFit.cover,
-                              ),    //book.images[0],
+                              ):
+                              CircularProgressIndicator(),
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  padding: EdgeInsets.all(0),
+                                  width: 43,
+                                  height: 25,
 
+                                  child: FlatButton(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.only(top: 0, right: 0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
+                                      ),
+                                      textColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                      child: Text(
+                                        '\$${book.precio}',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: "Gibson",
+                                          color: AppColors.secondaryBackground,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                      onPressed: () {}),
+                                ),
+                              ),
                             )
                           ],
                         ),
@@ -850,12 +897,6 @@ class GridViewVendidos extends StatelessWidget {
           //   crossAxisSpacing: 10.0,
           //   childAspectRatio: 4.0,
           // ),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 0,
-            crossAxisSpacing: 0,
-            childAspectRatio: 0.49,
-          ),
         ),
       ],
     );

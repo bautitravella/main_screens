@@ -203,7 +203,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               top: SizeConfig.blockSizeVertical * 7,
               width: SizeConfig.blockSizeHorizontal * 100,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
@@ -267,7 +267,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                             ),*/
                             Container(
                               height: 50,
-                              width: SizeConfig.blockSizeHorizontal*63,
+                              width: SizeConfig.blockSizeHorizontal*58,
                               child: TextField(
                                 onChanged: (value) {
                                   analytics.logSearch(searchTerm: value);

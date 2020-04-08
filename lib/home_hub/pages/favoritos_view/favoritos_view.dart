@@ -17,6 +17,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
 
+
 class FavoritosView extends StatefulWidget {
   FavoritosView({Key key}) : super(key: key);
   @override
@@ -303,13 +304,19 @@ class _FavoritosViewState extends State<FavoritosView> {
                         controller: sc,
                         slivers: <Widget>[
                           SliverGrid(
+                            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 150.0,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 0,
+                              childAspectRatio: 0.53,
+                            ),
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                                 Book book = state.books[index];
 
                                 return Container(
                                   margin: EdgeInsets.only(
-                                      left: 0, right: 0, top: 0, bottom: 17),
+                                      left: 5, right: 5, top: 0, bottom: 17),
                                   child: Stack(
                                     alignment: Alignment.topCenter,
                                     children: <Widget>[
@@ -467,13 +474,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                             //   crossAxisSpacing: 10.0,
                             //   childAspectRatio: 4.0,
                             // ),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              mainAxisSpacing: 0,
-                              crossAxisSpacing: 0,
-                              childAspectRatio: 0.49,
-                            ),
+
                           ),
                         ],
                       ),

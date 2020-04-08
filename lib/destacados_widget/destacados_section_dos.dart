@@ -229,13 +229,17 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                 IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 26, color: Colors.white, onPressed:() {
                   Navigator.pop(context);
                 },),
-                Text(
-                  'Recomendados',
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontFamily: 'Sf-r',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700
+                Container(
+                  width: SizeConfig.blockSizeHorizontal*50,
+                  child: Text(
+                    'Recomendados',
+                    style: TextStyle(
+                        fontSize: 23,
+                        fontFamily: 'Sf-r',
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 )
               ],

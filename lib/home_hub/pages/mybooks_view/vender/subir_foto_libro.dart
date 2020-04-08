@@ -284,9 +284,10 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(width: 10,),
                   Container(
-                    width: 161,
-                    height: 215,
+                    width: SizeConfig.blockSizeHorizontal*40,
+                    height: SizeConfig.blockSizeHorizontal*68,
                     margin: EdgeInsets.only(top: 15),
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 143, 143, 143),
@@ -301,8 +302,8 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                     child: Text(''),
                   ),
                   Container(
-                    width: 161,
-                    height: 215,
+                    width: SizeConfig.blockSizeHorizontal*40,
+                    height: SizeConfig.blockSizeHorizontal*68,
                     margin: EdgeInsets.only(top: 15),
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 143, 143, 143),
@@ -316,12 +317,13 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                         ]),
                     child: Text(''),
                   ),
+                  SizedBox(width: 10,),
                 ],
               ),
               Center(
                 child: Container(
-                  width: 161,
-                  height: 244,
+                  width: SizeConfig.blockSizeHorizontal*45,
+                  height: SizeConfig.blockSizeHorizontal*75,
                   padding: EdgeInsets.only(top: 0),
                   margin: EdgeInsets.only(top: 0),
                   decoration: BoxDecoration(

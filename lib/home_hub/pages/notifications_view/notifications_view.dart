@@ -316,6 +316,7 @@ class ListViewVenta extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        width: SizeConfig.blockSizeHorizontal*100,
                         margin: EdgeInsets.only(top: 0, bottom: 0),
                         padding: EdgeInsets.only(
                             left: SizeConfig.blockSizeHorizontal * 5,
@@ -335,9 +336,9 @@ class ListViewVenta extends StatelessWidget {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
+                                  width: SizeConfig.blockSizeHorizontal*43,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         chats[index].compradorNombre,
@@ -350,11 +351,8 @@ class ListViewVenta extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.45,
-                                        margin:
-                                            EdgeInsets.only(top: 5, bottom: 5),
+                                        width: MediaQuery.of(context).size.width * 0.45,
+                                        margin: EdgeInsets.only(top: 5, bottom: 5),
                                         child: chat.lastMessage != null
                                             ? Text(
                                                 chat.lastMessage,
@@ -647,11 +645,13 @@ class ListViewCompra extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             CircleAvatar(
+
                               radius: 30.0,
                               backgroundImage: chats[index].vendedorImage,
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 10),
+                              width: SizeConfig.blockSizeHorizontal*43,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[

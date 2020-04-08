@@ -177,8 +177,7 @@ class _CategorySelectorState extends State<CategorySelector> {
 //                      ],
 //                  );
 //                }),
-            Positioned(
-              top: 22,
+            Center(
               child: Container(
                 margin: EdgeInsets.only(left: 5, right: 5),
                 color: Colors.white70,

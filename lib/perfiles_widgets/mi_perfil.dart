@@ -515,7 +515,7 @@ class _MiPerfilState extends State<MiPerfil> {
                           height: 80,
                           margin: EdgeInsets.only(left: 0, right: 0),
                           padding: EdgeInsets.fromLTRB(0, 20, 0, 15),
-                          width: SizeConfig.blockSizeHorizontal * 92,
+                          width: SizeConfig.blockSizeHorizontal * 90,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 246, 246, 246),
                             borderRadius: BorderRadius.circular(20.0),
@@ -1638,7 +1638,7 @@ class _MiPerfilState extends State<MiPerfil> {
                 children: <Widget>[
                   Container(
                     height: 24,
-                    width: SizeConfig.blockSizeHorizontal * 40,
+                    width: SizeConfig.blockSizeHorizontal * 30,
                     child: TextField(
                       controller: hijoNameController,
                       decoration: InputDecoration(
@@ -1651,6 +1651,7 @@ class _MiPerfilState extends State<MiPerfil> {
                         fontWeight: FontWeight.w800,
                         fontSize: 14,
                       ),
+
                       maxLines: 1, //TODO resolver tema del overflow
                       autocorrect: false,
                       textAlign: TextAlign.right,
