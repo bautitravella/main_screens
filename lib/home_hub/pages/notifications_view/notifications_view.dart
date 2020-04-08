@@ -166,6 +166,7 @@ class NotificationViewState extends State<NotificationView> {
                   )
                 ],
               ), //Cartelito "Mis Libros"
+              SizedBox(height: 20),
               CategorySelectorNotification(this),
             ],
           ),

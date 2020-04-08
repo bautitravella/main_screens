@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/log_in/sign_up.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'log_in.dart';
 
@@ -87,10 +88,7 @@ class FirstscreenWidget extends StatelessWidget {
                         ),
                       ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LogIn()),
-                           );
+                          Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: LogIn()));
                         }
                     ),
                   ),
@@ -121,10 +119,11 @@ class FirstscreenWidget extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.push(context, PageTransition(type: PageTransitionType.downToUp, child: SignUp()));
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SignUp()),
-                    );
+                    );*/
                   }),
             ),
           ],
