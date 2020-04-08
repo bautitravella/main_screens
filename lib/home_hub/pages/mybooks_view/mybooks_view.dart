@@ -96,7 +96,7 @@ class MyBooksViewState extends State<MyBooksView> {
                       "Mis libros",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontFamily: "Montserrat",
+                        fontFamily: "Sf",
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
                         fontSize: 30,

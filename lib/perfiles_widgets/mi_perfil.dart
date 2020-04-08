@@ -79,7 +79,6 @@ class _MiPerfilState extends State<MiPerfil> {
             return Stack(
               children: <Widget>[
                 Container(
-                  color: AppColors.secondaryBackground,
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
@@ -88,7 +87,6 @@ class _MiPerfilState extends State<MiPerfil> {
                         top: SizeConfig.blockSizeVertical * 8,
                         right: 0,
                         child: Container(
-                          height: SizeConfig.blockSizeVertical * 40,
                           decoration: BoxDecoration(),
                           child: Image.asset(
                             "assets/images/destacados-image.png",
@@ -163,37 +161,7 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                     ),
                   )*/
-                      Positioned(
-                        top: SizeConfig.blockSizeVertical * 10,
-                        left: 8,
-                        child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                                size: 25,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Ajustes",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+
                     ],
                   ),
                 ),
@@ -214,6 +182,38 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                     ),
                   ],
+                ),
+                Positioned(
+                  top: SizeConfig.blockSizeVertical * 6,
+                  left: 10,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+
+                        Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black87,
+                          size: 25,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Ajustes",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: "Sf",
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             );

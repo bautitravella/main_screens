@@ -68,7 +68,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                     "Favoritos",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontFamily: "Montserrat",
+                      fontFamily: "Sf",
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
                       fontSize: 30,

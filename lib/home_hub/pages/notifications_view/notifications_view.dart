@@ -84,15 +84,16 @@ class NotificationViewState extends State<NotificationView> {
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 22, top: 120),
+                  Positioned(
+                    top: SizeConfig.blockSizeVertical * 12,
+                    left: 28,
                     child: Text(
                       "Mensajes",
                       style: TextStyle(
-                        fontFamily: "Gibson",
+                        fontFamily: "Sf",
                         color: Color.fromARGB(255, 57, 57, 57),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 30,
                       ),
                     ),
                   ),

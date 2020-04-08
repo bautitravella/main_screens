@@ -465,10 +465,10 @@ class _HomeViewTresState extends State<HomeViewTres> {
                           ),
                         ),
                         Positioned(
-                          right: 10,
+                          right: 30,
                           top: SizeConfig.blockSizeVertical*2,
                           bottom: SizeConfig.blockSizeVertical*2,
-                          width: SizeConfig.blockSizeHorizontal * 40,
+                          width: SizeConfig.blockSizeHorizontal * 36,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
