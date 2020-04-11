@@ -170,18 +170,21 @@ class _LogInState extends State<LogIn> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8, left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Iniciar sesión",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontFamily: "Sf",
-                    fontWeight: FontWeight.w700,
+                Container(
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
+                  child: Text(
+                    "Iniciar sesión",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                      fontFamily: "Sf",
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 SizedBox(height: 80),
