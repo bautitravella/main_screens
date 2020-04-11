@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/subi_foto_perfil_widget.dart';
 import '../../size_config.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:flutterui/test/elije_un_rol_new.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {
 
@@ -34,8 +34,21 @@ class ElijeUnRolWidget extends StatelessWidget {
                 onTap: () => _onWillPop(context),
                 child: Container(
                     margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*7),
-                    child: Icon(
-                      Icons.arrow_back_ios, size: 25, color: Colors.black87,)
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.arrow_back_ios, size: 25, color: Colors.black87,),
+                       /* Text(
+                          "Configura tu perfil",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: AppColors.accentText,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),*/
+                      ],
+                    )
                     ),
               ),
               Container(
@@ -52,7 +65,6 @@ class ElijeUnRolWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.red,
                   width: SizeConfig.blockSizeHorizontal*100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -173,6 +185,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                   ),
                 ),
               )
+             /* CarouselWithIndicator()*/
             ],
           ),
         ),

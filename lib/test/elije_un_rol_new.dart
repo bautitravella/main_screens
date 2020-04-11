@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/subi_foto_perfil_widget.dart';
+import 'package:flutterui/values/colors.dart';
+import 'package:flutterui/values/values.dart';
+
 
 final List<String> imgList = [
   "assets/images/rol-padre.png",
@@ -11,9 +14,15 @@ final List<String> imgList = [
   ];
 
 final List<String> imgText = [
-  "Texto de la imagen 0",
+  "Padres",
   "Texto de la imagen 1",
   "Texto de la imagen 2",
+];
+
+final List<String> imgSubText = [
+  "Esta opcion te dejara ir agregando multiples colegios para cada uno de tus hijos.",
+  "Sub Texto de la imagen 1",
+  "Sub Texto de la imagen 2",
 ];
 
 final List<Widget> imgNavigatorPush = [
@@ -27,6 +36,8 @@ final Widget placeholder = Container(color: Colors.grey);
 
 
 final List child = map2<Widget>(imgList,imgText,imgNavigatorPush, (index, i) {
+
+
     return GestureDetector(
       onTap: () => print("tapped in box number $index"),
       child: Container(
@@ -36,7 +47,7 @@ final List child = map2<Widget>(imgList,imgText,imgNavigatorPush, (index, i) {
           borderRadius: BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
-              blurRadius: 8.0,
+              blurRadius: 10.0,
               color: Color.fromRGBO(0, 0, 0, 0.15),
             ),
           ],
@@ -46,18 +57,34 @@ final List child = map2<Widget>(imgList,imgText,imgNavigatorPush, (index, i) {
           child: Stack(children: <Widget>[
             Image.asset(i, fit: BoxFit.cover, width: 1000.0),
             Positioned(
-              bottom: 0.0,
+              bottom: 25.0,
               left: 0.0,
               right: 0.0,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                child: Text(
-                  imgText[index],
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      imgText[index],
+                      style: TextStyle(
+                        fontFamily: "Sf-r",
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      imgSubText[index],
+                      style: TextStyle(
+                        fontFamily: "Sf-t",
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -98,16 +125,16 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           CarouselSlider(
             items: child,
             autoPlay: false,
             enlargeCenterPage: true,
-            aspectRatio: 0.8,
+            aspectRatio: 0.85,
+            initialPage: 1,
+            enableInfiniteScroll: false,
             onPageChanged: (index) {
               setState(() {
                 _current = index;
@@ -126,14 +153,12 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _current == index
-                          ? Color.fromRGBO(0, 0, 0, 0.9)
+                          ? AppColors.secondaryBackground
                           : Color.fromRGBO(0, 0, 0, 0.4)),
                 );
               },
             ),
           ),
-        ]),
-      ),
-    );
+        ]);
   }
 }
