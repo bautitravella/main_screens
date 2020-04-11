@@ -126,7 +126,7 @@ class Book {
     });
     this.precio = map['precio'];
     this.uid = map['publicacionId'];
-    this.thumbImagesUrl = map['firstImageUrl'];
+    this.thumbImagesUrl.add(map['firstImageUrl']);
   }
 
   @override

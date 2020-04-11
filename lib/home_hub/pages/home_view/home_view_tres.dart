@@ -10,6 +10,7 @@ import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
+import 'package:flutterui/home_hub/search_widget/search_prueba.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/test/test_search.dart';
@@ -481,6 +482,65 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               ),
                               Text(
                                 "Seleccion de libros con \nlos mejores precios",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontFamily: "Sf-t",
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: ()  {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SearchWidgetPrueba(homeHubState: homeHubState,),
+                        ),
+                      );
+                    },
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                          height: 151.0,
+                          width: SizeConfig.blockSizeHorizontal * 100,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              "assets/images/explora-seleccion-grande.png",
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 10,
+                          top: 50,
+                          bottom: 50,
+                          width: SizeConfig.blockSizeHorizontal * 40,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Search Artificial",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Esto lo hice yo PAPA",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 11,

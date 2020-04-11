@@ -9,7 +9,7 @@ import 'package:flutterui/Models/Padre.dart';
 
 
 
-class User extends Equatable{
+abstract class User extends Equatable{
   String nombre;
   String apellido;
   String fotoPerfilUrl,thumbFotoUrl;
@@ -73,9 +73,9 @@ class User extends Equatable{
     return null;
   }
 
-  User clone(){
-    return User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email);
-  }
+  User clone();//{
+//    return User.allParameters(this.nombre, this.apellido, this.fotoPerfilUrl, this.hasAcceptedTerms,this.email);
+//  }
 
   User changeRole(){
     return null;
@@ -130,6 +130,22 @@ class User extends Equatable{
 
 
 
+}
+
+User createIndexUserFromDocumentSnapshot(DocumentSnapshot documentSnapshot){
+  try {
+    assert(documentSnapshot != null );
+    assert(documentSnapshot.data != null);
+    assert(documentSnapshot.data['rol'] != null);
+    if (documentSnapshot.data['rol'] == 'Padre') {
+      return new Padre.fromIndexMap(
+          documentSnapshot.data, documentSnapshot.documentID);
+    } else {
+      return Alumno.fromIndexMap(documentSnapshot.data, documentSnapshot.documentID);
+    }
+  }catch(e){
+    return null;
+  }
 }
 
 User createUserFromDocumentSnapshot(DocumentSnapshot documentSnapshot){
