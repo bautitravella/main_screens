@@ -1,7 +1,19 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:flutterui/dialogs/slide_popup_dialog.dart';
+import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/test/textfield/textfield_widget.dart';
 import 'package:flutterui/values/colors.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+
+import '../auth.dart';
+import '../main.dart';
 
 class Test2 extends StatefulWidget {
   @override
@@ -9,6 +21,145 @@ class Test2 extends StatefulWidget {
 }
 
 class _Test2State extends State<Test2> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  String _email;
+  String _password;
+  String _errorText = '';
+  FirebaseAnalytics analytics;
+
+  @override
+  void initState() {
+    analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/log_in");
+    super.initState();
+  }
+
+  void logInWithGoogleBtn(BuildContext context) async {
+    try {
+      final auth = Provider.of<BaseAuth>(context, listen: false);
+      String userUID = await auth.signInWithGoogle();
+
+      print("Te logueaste con $userUID");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyDecider()),
+      );
+    } on PlatformException catch (e) {
+      setState(() {
+        _errorText = "${e.message}";
+      });
+      showErrorDialog(context, _errorText);
+    } catch (e) {
+      setState(() {
+        _errorText = e.toString();
+      });
+
+      showErrorDialog(context, _errorText);
+    }
+  }
+
+  void logInWithFacebookBtn(BuildContext context) async {
+    var facebookLogin = FacebookLogin();
+    var result = await facebookLogin.logIn(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.error:
+        print("Surgio un error con el fucking facebook");
+        setState(() {
+          _errorText = "${result.errorMessage}";
+        });
+        showErrorDialog(context, _errorText);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelado por el usuario");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        try {
+          final auth = Provider.of<BaseAuth>(context, listen: false);
+          String userUID = await auth.signInWithFacebook(result.accessToken);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyDecider()),
+          );
+        } on PlatformException catch (e) {
+          setState(() {
+            _errorText = "${e.message}";
+          });
+          showErrorDialog(context, _errorText);
+          facebookLogin.logOut();
+        } catch (e) {
+          setState(() {
+            _errorText = e.toString();
+          });
+
+          showErrorDialog(context, _errorText);
+          facebookLogin.logOut();
+        }
+
+        break;
+    }
+  }
+
+  bool validateEmailAndPassword() {
+    _email = emailController.text.trim();
+    _password = passwordController.text.trim();
+
+    if (_email.isEmpty) {
+      setState(() {
+        _errorText =
+        'Por favor completar el campo de email antes de continuar. ';
+      });
+      Navigator.pop(context);
+      showErrorDialog(context, _errorText);
+      return false;
+    }
+    if (_password.isEmpty) {
+      setState(() {
+        _errorText +=
+        'Por favor completar el campo de password antes de continuar. ';
+      });
+      Navigator.pop(context);
+      showErrorDialog(context, _errorText);
+      return false;
+    }
+    return true;
+  }
+
+  void _siguienteBtn(BuildContext context) async {
+    showLoadingDialog(context);
+    _email = emailController.text;
+    _password = passwordController.text;
+
+    if (validateEmailAndPassword() == true) {
+      try {
+        final auth = Provider.of<BaseAuth>(context, listen: false);
+        String userUID =
+        await auth.signInWithEmailAndPassword(_email, _password);
+
+//        setState(() {
+//          _errorText = 'signed in with : $userUID})';
+//        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyDecider()),
+        );
+      }on PlatformException catch(e){
+        setState(() {
+          _errorText = '${e.message}';
+        });
+        Navigator.pop(context);
+        showErrorDialog(context, _errorText);
+      } catch (error) {
+        setState(() {
+          _errorText = '$error';
+        });
+        Navigator.pop(context);
+        showErrorDialog(context, _errorText);
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +181,7 @@ class _Test2State extends State<Test2> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 80),
                 Text(
                   "Correo",
                   style: TextStyle(
@@ -41,6 +192,7 @@ class _Test2State extends State<Test2> {
                   ),
                 ),
                 BeautyTextfield(
+                  controller: emailController,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color
@@ -48,7 +200,7 @@ class _Test2State extends State<Test2> {
                   backgroundColor: Color.fromARGB(255, 222, 222, 222), //Not Focused Color
                   fontFamily: 'Sf', //Text Fontfamily
                   fontWeight: FontWeight.w500,
-                  autofocus: true,
+                  autofocus: false,
                   maxLines: 1,
                   margin: EdgeInsets.only(top: 10),
                   cornerRadius: BorderRadius.all(Radius.circular(15)),
@@ -81,6 +233,7 @@ class _Test2State extends State<Test2> {
                   ),
                 ),
                 BeautyTextfield(
+                  controller: passwordController,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color
@@ -110,13 +263,22 @@ class _Test2State extends State<Test2> {
                   },
                 ),
                 SizedBox(height: 40),
-                Text(
-                  "¿Has olvidado la contraseña?",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 100, 100, 100),
-                    fontSize: 15,
-                    fontFamily: "Sf",
-                    fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RecuperationWidget()),
+                    );
+                  },
+                  child: Text(
+                    "¿Has olvidado la contraseña?",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 100, 100, 100),
+                      fontSize: 15,
+                      fontFamily: "Sf",
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 SizedBox(height: 60),
@@ -135,7 +297,7 @@ class _Test2State extends State<Test2> {
                   width: double.maxFinite,
                   margin: EdgeInsets.only(bottom: 15),
                   child: FlatButton(
-                    onPressed: () => {},
+                    onPressed: () => this.logInWithGoogleBtn(context),
                     color: AppColors.accentElement,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
@@ -173,13 +335,13 @@ class _Test2State extends State<Test2> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
                 Container(
                   height: 50,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(bottom: 15),
                   child: FlatButton(
-                    onPressed: () => {},
+                    onPressed: () => this.logInWithFacebookBtn(context),
                     color: Color.fromARGB(255, 74, 74, 74),
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
@@ -217,14 +379,15 @@ class _Test2State extends State<Test2> {
                     ),
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: SizeConfig.blockSizeVertical*9),
                 Container(
                   height: 50,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(bottom: 15),
                   child: FlatButton(
-                    onPressed: () => {},
-                    color: Color.fromARGB(255, 222, 222, 222),
+                    onPressed: () => this._siguienteBtn(context),
+                    /*color: Color.fromARGB(255, 222, 222, 222),*/
+                    color: AppColors.secondaryBackground,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                       BorderRadius.all(Radius.circular(15)),
@@ -234,7 +397,8 @@ class _Test2State extends State<Test2> {
                         "Iniciar Sesión",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Color.fromARGB(255, 174, 174, 174),
+                          /*color: Color.fromARGB(255, 174, 174, 174),*/
+                          color: Colors.white,
                           fontFamily: "Sf",
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
@@ -251,4 +415,39 @@ class _Test2State extends State<Test2> {
 
     );
   }
+}
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
+
+Future<void> _handleSignIn() async {
+  try {
+    await _googleSignIn.signIn();
+    print("Hola , ");
+    print(_googleSignIn.currentUser.email);
+  } catch (error) {
+    print(error);
+  }
+}
+
+void showLoadingDialog(BuildContext context) {
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
+      animatedPill: false);
 }
