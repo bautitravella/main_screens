@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/values/colors.dart';
 
 class BeautyTextfield extends StatefulWidget {
+
+
+
   final BorderRadius cornerRadius;
   final TextEditingController controller;
   final double width, height, wordSpacing;
@@ -11,13 +15,14 @@ class BeautyTextfield extends StatefulWidget {
   final String placeholder, fontFamily;
   final Icon prefixIcon, suffixIcon;
   final TextInputType inputType;
+  final TextInputAction inputAction;
   final EdgeInsets margin;
   final Duration duration;
   final VoidCallback onClickSuffix;
   final TextBaseline textBaseline;
   final FontStyle fontStyle;
   final FontWeight fontWeight;
-  final bool autofocus, autocorrect, enabled, obscureText, isShadow;
+  final bool autofocus, autocorrect, enabled, obscureText, isShadow, passwordIcon;
   final FocusNode focusNode;
   final int maxLength, minLines, maxLines;
   final ValueChanged<String> onChanged, onSubmitted;
@@ -30,7 +35,9 @@ class BeautyTextfield extends StatefulWidget {
         this.prefixIcon,
         this.suffixIcon,
         this.eyeColor,
+        this.passwordIcon = false,
         this.controller,
+        this.inputAction,
         this.duration = const Duration(milliseconds: 500),
         this.margin = const EdgeInsets.all(10),
         this.obscureText = false,
@@ -66,11 +73,13 @@ class BeautyTextfield extends StatefulWidget {
 
 class _BeautyTextfieldState extends State<BeautyTextfield> {
 
-  bool isFocus = false;
+  bool passwordVisible = false;
 
+  bool isFocus = false;
 
   @override
   Widget build(BuildContext context) {
+
     return AnimatedContainer(
       width: widget.width,
       height: widget.height,
@@ -122,19 +131,26 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               margin: EdgeInsets.only(right: 15),
               alignment: Alignment.centerRight,
               child: Icon(
-                widget.suffixIcon.icon,
-                color: widget.eyeColor,
+                widget.passwordIcon?
+                     passwordVisible
+                    ? Icons.visibility
+                    : Icons.visibility_off
+
+                    : Icons.remove_red_eye,
+
+                color:  widget.passwordIcon? widget.eyeColor : Colors.transparent,
               ),
             ),
           ),
           Container(
             height: 50,
             width: widget.width-15,
-            margin: EdgeInsets.only(left: 8),
+            margin: widget.passwordIcon? EdgeInsets.only(left: 8, right: 50): EdgeInsets.only(left: 8, right: 8),
             child: TextField(
               controller: widget.controller,
               cursorWidth: 2,
-              obscureText: false,
+
+              obscureText: widget.obscureText? !passwordVisible: false,
               keyboardType: widget.inputType,
               style: TextStyle(
                 fontFamily: widget.fontFamily,
@@ -150,14 +166,16 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               focusNode: widget.focusNode,
               enabled: widget.enabled,
               maxLength: widget.maxLength,
-              maxLines: widget.maxLines,
+              maxLines: 1,
               minLines: widget.minLines,
               onChanged: widget.onChanged,
+
               onTap: () {
                 setState(() {
-                  isFocus = true;
+                 isFocus = true;
                 });
                 if (widget.onTap != null) {
+                  print('Focus');
                   widget.onTap();
                 }
               },
@@ -167,13 +185,29 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
                 });
                 widget.onSubmitted(t);
               },
-              textInputAction: TextInputAction.done,
+              textInputAction: widget.inputAction,
               decoration: InputDecoration(
                   hintStyle: TextStyle(color: widget.textColor),
                   hintText: widget.placeholder,
                   border: InputBorder.none),
               cursorColor:
               isFocus ? widget.accentColor : widget.backgroundColor,
+            ),
+          ),
+          Positioned(
+            right: 0,
+            child: GestureDetector(
+              onTap:  () {
+                // Update the state i.e. toogle the state of passwordVisible variable
+                setState(() {
+                  passwordVisible = !passwordVisible;
+                });
+              },
+              child: Container(
+                width: 50,
+              height: 50,
+                color: Colors.transparent,
+              ),
             ),
           ),
         ],
