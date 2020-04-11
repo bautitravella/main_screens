@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 import '../auth.dart';
 import '../main.dart';
 
@@ -489,7 +490,8 @@ class _LogInState extends State<LogIn> {
                         ),
                       ],
                     ),
-                    onPressed: () => this._siguienteBtn(context)),
+                    onPressed: () => this._siguienteBtn(context)
+            ),
               ),
             )
           ],

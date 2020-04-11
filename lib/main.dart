@@ -120,6 +120,11 @@ class App extends StatelessWidget {
                 theme: ThemeData(
                   accentColor: AppColors.secondaryBackground,
                 ),
+              /*  darkTheme: ThemeData(
+                    brightness: Brightness.dark,
+                  accentColor: AppColors.secondaryBackground,
+                  backgroundColor: Colors.black
+                ),*/
                 navigatorObservers: [
                   FirebaseAnalyticsObserver(analytics: analytics),
                 ],

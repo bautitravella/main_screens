@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/subi_foto_perfil_widget.dart';
 import '../../size_config.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ElijeUnRolWidget extends StatelessWidget {
 
@@ -51,6 +52,7 @@ class ElijeUnRolWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
+                  color: Colors.red,
                   width: SizeConfig.blockSizeHorizontal*100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,

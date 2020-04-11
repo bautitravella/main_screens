@@ -14,6 +14,7 @@ import 'package:flutterui/home_hub/pages/explore_view/categories/categories_cole
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
+import 'package:flutterui/test/elije_un_rol_new.dart';
 import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -1089,12 +1090,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
-         /* GestureDetector(
+          GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Example9(),
+                  builder: (context) => CarouselWithIndicator(),
                 ),
               );
             },
@@ -1127,7 +1128,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 ],
               ),
             ),
-          ),*/
+          ),
         ],
       ),
     );
