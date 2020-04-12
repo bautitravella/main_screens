@@ -18,9 +18,8 @@ class Padre extends User{
 
   Padre.fromEmail(String email): super.fromEmail(email);
 
-  Padre.fromIndexMap(Map<String, dynamic> data,String email): super.fromMap(data,email){
-    List<dynamic> hijosMapList = data['hijos'];
-    hijosMapList.forEach((hijoMap) {_hijos.add(Hijo.fromMap(hijoMap)); });
+  Padre.fromIndexMap(Map<String, dynamic> data): super.fromIndexMap(data){
+
   }
 
   Padre.fromMap(Map<String, dynamic> data,String email): super.fromMap(data,email){

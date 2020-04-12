@@ -19,6 +19,8 @@ class Alumno extends User{
     curso = data["curso"];
   }
 
+  Alumno.fromIndexMap(Map<String,dynamic> data):super.fromIndexMap(data);
+
   Alumno.fromImage(File image): super(){
     super.fotoPerfilRaw = image;
   }
@@ -76,8 +78,6 @@ class Alumno extends User{
       colegio.hashCode ^
       curso.hashCode ^
       role.hashCode;
-
-
 
 
 }

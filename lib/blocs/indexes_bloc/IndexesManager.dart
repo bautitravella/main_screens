@@ -33,8 +33,10 @@ class IndexesManager{
       aux = booksIndexes[key].searchByName(query);
       print("INDX MANAGER sbn2222222= " + aux.toString());
 
-      aux.forEach((element) {
-        results.add(element);
+      aux.forEach((book) {
+        User user = usersIndexes[key].getUserWithEmail(book.emailVendedor);
+        if(user != null)book.addUserInformation(user);
+        results.add(book);
       });
     });
     print("INDX MANAGER sbn= " + results.toString());
@@ -60,7 +62,7 @@ class BooksIndexes {
         book.createIndexes();
         book.indexes.forEach((index) {
           if(nameSearch[index] == null){
-            nameSearch[index] = List();
+            nameSearch[index] = [];
           }
           nameSearch[index].add(book.uid);
         });
@@ -85,15 +87,21 @@ class BooksIndexes {
 class UsersIndexes {
 
   Map<String,List<String>> nameSearch = SplayTreeMap();
-  Map<String,Book> usersList = SplayTreeMap();
+  Map<String,User> usersList = SplayTreeMap();
 
   UsersIndexes.fromDocumentSnapshot(DocumentSnapshot documentSnapshot){
     List users = documentSnapshot['indexes'];
+    //print("USERS = " + users.toString());
     if(users != null){
-      users.forEach((user) {
-        User user = createUserFromDocumentSnapshot(documentSnapshot)
+      users.forEach((userMap) {
+        User user = createIndexUserFromMap(userMap);
+        usersList[user.email] = user;
       });
     }
+  }
+
+  User getUserWithEmail(String email){
+    return usersList[email];
   }
 
 }

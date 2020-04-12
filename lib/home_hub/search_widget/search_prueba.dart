@@ -1099,7 +1099,7 @@ class _SearchWidgetPruebaState extends State<SearchWidgetPrueba> {
                                                               Container(
                                                                   height: 25,
                                                                   width: 25 ,
-                                                                  child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                                  child: CircleAvatar( backgroundImage: book.getImageVendedor())
                                                               ),
                                                               book.rating != null?
                                                               Container(
@@ -1139,7 +1139,10 @@ class _SearchWidgetPruebaState extends State<SearchWidgetPrueba> {
                                                                   child: Row(
                                                                     children: <Widget>[
                                                                       SizedBox(width: 5,),
-                                                                      Text(book.nombreVendedor.substring(0,1),
+                                                                      Text(book.nombreVendedor!= null && book.apellidoVendedor != null?
+                                                                      book.nombreVendedor.substring(0,1) + ". " +book.apellidoVendedor
+                                                                          :
+                                                                      "HOLA GENIO",
                                                                         style: TextStyle(
                                                                           fontSize: 12,
                                                                           fontWeight: FontWeight.w700,

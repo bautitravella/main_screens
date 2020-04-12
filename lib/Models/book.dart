@@ -111,13 +111,16 @@ class Book {
   }
 
   Book.fromIndexMap(Map<String,dynamic> map){
-    this.nombreVendedor = map[
-    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
+//    this.nombreVendedor = map[
+//    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.emailVendedor = map['emailVendedor'];
     this.nombreLibro = map['nombreLibro'];
-    map['colegios'].forEach((item) {
-      this.colegios.add(item.toString());
+    this.autor = map['autor'];
+    if(map['colegios'] != null){
+      map['colegios'].forEach((item) {
+        this.colegios.add(item.toString());
     });
+    }
     map['cursos'].forEach((item) {
       this.cursos.add(item.toString());
     });
@@ -158,6 +161,11 @@ class Book {
     return [AssetImage(
       "assets/images/icons-back-light-2.png",
     )];
+  }
+
+  ImageProvider getImageVendedor(){
+    imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
+    return imageVendedor;
   }
 
   ImageProvider getFirstImageThumb(){
@@ -238,9 +246,12 @@ class Book {
     indexes = [];
     palabrasImportantes = [];
     List<String> bookSplitList = this.nombreLibro.split(" ");
-    for (var value in this.autor.split(" ")) {
-      bookSplitList.add(value);
+    if(this.autor != null){
+      for (var value in this.autor.split(" ")) {
+        bookSplitList.add(value);
+      }
     }
+
 
 
     for (int i = 0; i < bookSplitList.length; i++) {

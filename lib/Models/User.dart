@@ -42,6 +42,17 @@ abstract class User extends Equatable{
     this.hasAcceptedTerms= hasAcceptedTerms;
   }
 
+  User.fromIndexMap(Map<String, dynamic> data){
+    String nombre = data['nombre'];
+    String apellido = data['apellido'];
+    String fotoPerfilUrl = data['fotoPerfilUrl'];
+    this.email = data['email'];
+    this.nombre = nombre;
+    this.apellido = apellido;
+    if(fotoPerfilUrl != null)this.fotoPerfilUrl = fotoPerfilUrl;
+
+  }
+
   bool isComplete() {
     if (nombre == null ||
         apellido == null ||
@@ -132,16 +143,30 @@ abstract class User extends Equatable{
 
 }
 
-User createIndexUserFromDocumentSnapshot(DocumentSnapshot documentSnapshot){
+//User createIndexUserFromDocumentSnapshot(DocumentSnapshot documentSnapshot){
+//  try {
+//    assert(documentSnapshot != null );
+//    assert(documentSnapshot.data != null);
+//    assert(documentSnapshot.data['rol'] != null);
+//    if (documentSnapshot.data['rol'] == 'Padre') {
+//      return new Padre.fromIndexMap(
+//          documentSnapshot.data, documentSnapshot.documentID);
+//    } else {
+//      return Alumno.fromIndexMap(documentSnapshot.data, documentSnapshot.documentID);
+//    }
+//  }catch(e){
+//    return null;
+//  }
+//}
+
+User createIndexUserFromMap(Map<String,dynamic> map){
   try {
-    assert(documentSnapshot != null );
-    assert(documentSnapshot.data != null);
-    assert(documentSnapshot.data['rol'] != null);
-    if (documentSnapshot.data['rol'] == 'Padre') {
-      return new Padre.fromIndexMap(
-          documentSnapshot.data, documentSnapshot.documentID);
+    assert(map != null );
+    assert(map['rol'] != null);
+    if (map['rol'] == 'Padre') {
+      return new Padre.fromIndexMap(map);
     } else {
-      return Alumno.fromIndexMap(documentSnapshot.data, documentSnapshot.documentID);
+      return Alumno.fromIndexMap(map);
     }
   }catch(e){
     return null;

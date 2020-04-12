@@ -55,8 +55,8 @@ class IndexesBloc extends Bloc<IndexesBlocEvent, IndexesBlocState> {
           _booksIndexesStreamSubscriptionList.add(  databaseRepository.getBookIndexes(institution).listen((booksList) {
             indexManager.updateBooksIndexes(booksList,institution);
           }));
-          _usersIndexesStreamSubscriptionList.add(  databaseRepository.getBookIndexes(institution).listen((booksList) {
-            indexManager.updateUsersIndexes(booksList,institution);
+          _usersIndexesStreamSubscriptionList.add(  databaseRepository.getUsersIndexes(institution).listen((usersList) {
+            indexManager.updateUsersIndexes(usersList,institution);
           }));
         }
 
