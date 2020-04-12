@@ -7,7 +7,6 @@ import 'package:flutterui/values/colors.dart';
 class BeautyTextfield extends StatefulWidget {
 
 
-
   final BorderRadius cornerRadius;
   final TextEditingController controller;
   final double width, height, wordSpacing;
@@ -72,6 +71,7 @@ class BeautyTextfield extends StatefulWidget {
 }
 
 class _BeautyTextfieldState extends State<BeautyTextfield> {
+
 
   bool passwordVisible = false;
 
@@ -149,18 +149,9 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
             child: TextField(
               controller: widget.controller,
               cursorWidth: 2,
-
               obscureText: widget.obscureText? !passwordVisible: false,
               keyboardType: widget.inputType,
-              style: TextStyle(
-                fontFamily: widget.fontFamily,
-                fontStyle: widget.fontStyle,
-                fontWeight: widget.fontWeight,
-                wordSpacing: widget.wordSpacing,
-                textBaseline: widget.textBaseline,
-                fontSize: 18,
-                color: widget.textColor,
-              ),
+              style: Theme.of(context).textTheme.headline3,
               autofocus: widget.autofocus,
               autocorrect: widget.autocorrect,
               focusNode: widget.focusNode,

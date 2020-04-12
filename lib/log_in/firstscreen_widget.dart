@@ -18,6 +18,7 @@ class FirstscreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context);
     analytics.setCurrentScreen(screenName: "/log_in");
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -57,7 +58,7 @@ class FirstscreenWidget extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.symmetric(
-                        horizontal: 50),
+                        horizontal: SizeConfig.blockSizeHorizontal*10),
                     child: Text(
                       "Bienvenido a Buymy",
                       style: TextStyle(
