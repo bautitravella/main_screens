@@ -19,6 +19,10 @@ class AppTheme {
     iconTheme: IconThemeData(
       color: Colors.black87,
     ),
+    primaryIconTheme: IconThemeData(
+      color: Colors.red,
+      size: 12
+    ),
     textTheme: TextTheme(
       headline1: TextStyle(
         color: Colors.black,
@@ -65,6 +69,10 @@ class AppTheme {
     ),*/
     cardTheme: CardTheme(
       color: Colors.teal,
+    ),
+    primaryIconTheme: IconThemeData(
+        color: Colors.red,
+        size: 12
     ),
     iconTheme: IconThemeData(
       color: Colors.black87,
