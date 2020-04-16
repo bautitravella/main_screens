@@ -9,7 +9,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutterui/Themes/AppStateNotifier.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/size_config.dart';
-import 'package:flutterui/test/textfield/textfield_widget.dart';
+import 'package:flutterui/textfield/textfield_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -201,7 +201,7 @@ class _LogInState extends State<LogIn> {
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color//Text Color
-                  backgroundColor: Provider.of<AppStateNotifier>(context).isDarkModeOn? /*Color.fromARGB(255, 222, 222, 222)*/ Colors.blue : Colors.red, //Not Focused Color
+                  backgroundColor: Theme.of(context).hintColor,
                   autofocus: false,
                   maxLines: 1,
                   margin: EdgeInsets.only(top: 10),
@@ -233,9 +233,9 @@ class _LogInState extends State<LogIn> {
                   controller: passwordController,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
-                  accentColor: Colors.white, // On Focus Color
+                  accentColor: Theme.of(context).focusColor, // On Focus Color
                   textColor: Colors.black, //Text Color
-                  backgroundColor: Color.fromARGB(255, 222, 222, 222), //Not Focused Color
+                  backgroundColor: Theme.of(context).hintColor, //Not Focused Color
                   textBaseline: TextBaseline.alphabetic,
                   fontFamily: 'Sf', //Text Fontfamily
                   fontWeight: FontWeight.w500,
@@ -383,13 +383,7 @@ class _LogInState extends State<LogIn> {
                       child: Text(
                         "Iniciar Sesión",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          /*color: Color.fromARGB(255, 174, 174, 174),*/
-                          color: Colors.white,
-                          fontFamily: "Sf",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                        ),
+                        style: Theme.of(context).textTheme.headline5,
                       ),
                     ),
                   ),

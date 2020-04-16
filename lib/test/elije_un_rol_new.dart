@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/subi_foto_perfil_widget.dart';
+import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/values/values.dart';
 
@@ -15,14 +16,14 @@ final List<String> imgList = [
 
 final List<String> imgText = [
   "Padres",
-  "Texto de la imagen 1",
-  "Texto de la imagen 2",
+  "Alumnos",
+  "Universitarios",
 ];
 
 final List<String> imgSubText = [
   "Esta opcion te dejara ir agregando multiples colegios para cada uno de tus hijos.",
-  "Sub Texto de la imagen 1",
-  "Sub Texto de la imagen 2",
+  "Esta opcion te permitira explorar entre los libros de tu colgio",
+  "Esta opcion te permitira explorar entre los libros de tu carrera y año, tambien podras vender los libros de tu ex colegio",
 ];
 
 final List<Widget> imgNavigatorPush = [
@@ -34,9 +35,7 @@ final List<Widget> imgNavigatorPush = [
 final Widget placeholder = Container(color: Colors.grey);
 
 
-
 final List child = map2<Widget>(imgList,imgText,imgNavigatorPush, (index, i) {
-
 
     return GestureDetector(
       onTap: () => print("tapped in box number $index"),
@@ -54,38 +53,39 @@ final List child = map2<Widget>(imgList,imgText,imgNavigatorPush, (index, i) {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          child: Stack(children: <Widget>[
+          child: Column(children: <Widget>[
             Image.asset(i, fit: BoxFit.cover, width: 1000.0),
-            Positioned(
-              bottom: 25.0,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      imgText[index],
-                      style: TextStyle(
-                        fontFamily: "Sf-r",
-                        color: Colors.black,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w800,
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    imgText[index],
+                    style: TextStyle(
+                      fontFamily: "Sf-r",
+                      color: Colors.black,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    height: SizeConfig.blockSizeVertical*8,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        imgSubText[index],
+                        style: TextStyle(
+                          fontFamily: "Sf-t",
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 5),
-                    Text(
-                      imgSubText[index],
-                      style: TextStyle(
-                        fontFamily: "Sf-t",
-                        color: Colors.black,
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ]),
@@ -132,7 +132,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             items: child,
             autoPlay: false,
             enlargeCenterPage: true,
-            aspectRatio: 0.85,
+            aspectRatio: 0.87,
             initialPage: 1,
             enableInfiniteScroll: false,
             onPageChanged: (index) {
@@ -154,7 +154,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                       shape: BoxShape.circle,
                       color: _current == index
                           ? AppColors.secondaryBackground
-                          : Color.fromRGBO(0, 0, 0, 0.4)),
+                          : Theme.of(context).hintColor,),
                 );
               },
             ),

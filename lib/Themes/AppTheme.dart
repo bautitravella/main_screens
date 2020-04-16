@@ -7,6 +7,8 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     accentColor: Color.fromARGB(255, 254, 189, 16),
+    hintColor: Color.fromARGB(255, 222, 222, 222),// fondo textfields sin apretar
+    focusColor: Colors.white,// fondo textfields apretados
    /* appBarTheme: AppBarTheme(
       color: Colors.teal,
       iconTheme: IconThemeData(
@@ -53,14 +55,22 @@ class AppTheme {
         fontFamily: "Sf",
         fontWeight: FontWeight.w700,
         fontSize: 15,
-      )//texto de botones
-
+      ),//texto de botones
+      headline6: TextStyle(
+      color: Colors.black,
+      fontSize: 30,
+      fontFamily: "Sf",
+      fontWeight: FontWeight.w700,
+    )//Titulos de configuracion
     ),
   );
 
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Color.fromARGB(255, 29, 29, 29),
     accentColor: Color.fromARGB(255, 254, 189, 16),
+    hintColor: Color.fromARGB(255, 70, 70, 70),// fondo textfields sin apretar
+    focusColor: Color.fromARGB(255, 29, 29, 29),// fondo textfields apretados
+
     /* appBarTheme: AppBarTheme(
       color: Colors.teal,
       iconTheme: IconThemeData(
@@ -70,12 +80,13 @@ class AppTheme {
     cardTheme: CardTheme(
       color: Colors.teal,
     ),
+
     primaryIconTheme: IconThemeData(
         color: Colors.red,
         size: 12
     ),
     iconTheme: IconThemeData(
-      color: Colors.black87,
+      color: Colors.white70,
     ),
     textTheme: TextTheme(
       headline1: TextStyle(
@@ -91,7 +102,7 @@ class AppTheme {
         fontWeight: FontWeight.w600,
       ),// Los headers de los textfields
       headline3: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontSize: 18,
         fontFamily: "Sf",
         fontWeight: FontWeight.w500,
@@ -107,8 +118,19 @@ class AppTheme {
           fontFamily: "Sf",
           fontWeight: FontWeight.w700,
           fontSize: 15,
-        )//texto de botones
-
+        ),//texto de botones,
+      headline6: TextStyle(
+        color: Colors.white,
+        fontSize: 30,
+        fontFamily: "Sf",
+        fontWeight: FontWeight.w700,
+    ),//Titulos de configuracion
+      subtitle1: TextStyle(
+      color: Colors.white70,
+      fontSize: 20,
+      fontFamily: "Sf",
+      fontWeight: FontWeight.w600,
+    )//Subtitulos de configuracion
     ),
   );
 }

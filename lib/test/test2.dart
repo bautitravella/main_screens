@@ -9,7 +9,7 @@ import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/size_config.dart';
-import 'package:flutterui/test/textfield/textfield_widget.dart';
+import 'package:flutterui/textfield/textfield_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';

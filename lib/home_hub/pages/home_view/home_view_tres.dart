@@ -19,6 +19,7 @@ import 'package:flutterui/test/test1.dart';
 import 'package:flutterui/test/test2.dart';
 import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/test/test4rol.dart';
+import 'package:flutterui/test/test_uploadimage.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -1160,6 +1161,45 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       )),
                   Text(
                     "test1",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TestFotoDePerfil(),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.developer_mode,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "foto de perfil",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,

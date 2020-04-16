@@ -2,7 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutterui/test/textfield/textfield_widget.dart';
+import 'package:flutterui/textfield/textfield_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -199,7 +199,7 @@ class SignUpState extends State<SignUp>{
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color//Text Color
-                  backgroundColor: Color.fromARGB(255, 222, 222, 222), //Not Focused Color
+                  backgroundColor: Theme.of(context).hintColor, //Not Focused Color
                   autofocus: false,
                   maxLines: 1,
                   margin: EdgeInsets.only(top: 10),
@@ -238,7 +238,7 @@ class SignUpState extends State<SignUp>{
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color
                   textColor: Colors.black, //Text Color
-                  backgroundColor: Color.fromARGB(255, 222, 222, 222), //Not Focused Color
+                  backgroundColor: Theme.of(context).hintColor, //Not Focused Color
                   textBaseline: TextBaseline.alphabetic,
                   fontFamily: 'Sf', //Text Fontfamily
                   fontWeight: FontWeight.w500,
@@ -406,13 +406,7 @@ class SignUpState extends State<SignUp>{
                       child: Text(
                         "Registrarse",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          /*color: Color.fromARGB(255, 174, 174, 174),*/
-                          color: Colors.white,
-                          fontFamily: "Sf",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                        ),
+                        style: Theme.of(context).textTheme.headline5,
                       ),
                     ),
                   ),

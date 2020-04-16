@@ -1,14 +1,10 @@
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterui/auth.dart';
-import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
-import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/datos_widget.dart';
-
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -38,233 +34,175 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
   @override
   Widget build(BuildContext context) {
-
+    SizeConfig().init(context);
     return Scaffold(
-      body: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*12),
-                child: Text(
-                  "Perfil",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 57, 57, 57),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 38,
+            body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8,left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                      SizedBox(width: 10),
+                      Text(
+                        "Configura tu perfil",
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*6, bottom: 12),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      right: 0,
-                      child: Image.asset(
+              SizedBox(height: SizeConfig.blockSizeVertical*7),
+              Container(
+                margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "¿Quieres subir \nuna foto?",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Podrás cambiarla mas tarde en la app.",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockSizeVertical*5),
+              Center(
+                child: Container(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.asset("assets/images/uploadimage.png"),
+                      Image.asset(
                         "assets/images/phonochico.png",
                         fit: BoxFit.fill,
                       ),
-                    ),
-                    Positioned(
-                      right: SizeConfig.blockSizeHorizontal*30,
-                      top: SizeConfig.blockSizeVertical*10,
-                      left: SizeConfig.blockSizeHorizontal*30,
-                      height: 160,
-                      child: Container(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Image.asset(
-                              "assets/images/uploadimage.png",
-                              fit: BoxFit.fill,
+                      FlatButton(
+                          color: Color.fromARGB(0, 0, 0, 0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(100)),
+                          ),
+                          textColor: Color.fromARGB(0, 0, 0, 0),
+                          child: _image == null ?
+                          Icon(
+                            FontAwesome.cloud_upload,
+                            color: Colors.white,
+                            size: 60,
+                              )
+                             : Container(
+                              height: 115,
+                              width: 115,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.file(_image,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
-                            Center(
-                              child: FlatButton(
-                                  color: Color.fromARGB(0, 0, 0, 0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
-                                  ),
-                                  textColor: Color.fromARGB(0, 0, 0, 0),
-                                  child: _image == null
-                                      ? Image.asset(
-                                    "assets/images/logo.png",
-                                    fit: BoxFit.none,
-                                    alignment: Alignment.center,
-                                  )
-                                      : Container(
-                                    height: 115,
-                                    width: 115,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.circular(100),
-                                      child: Image.file(
-                                        _image,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    selectImage();
-                                  }
+                          onPressed: () {
+                             selectImage();
+                          }
 
 //                              Navigator.push(
 //                                context,
 //                                MaterialPageRoute(builder: (context) => DatosWidget(user)),
 //                              );
 
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 85, top: 85),
-                                child:  _image == null
-                                    ? Text("")
-                                    : Container(
-                                  width: 58,
-                                  height: 58,
-                                  child: Opacity(
-                                    opacity: 1,
-                                    child: FlatButton(
-                                        color: Color.fromARGB(255, 255, 255, 255),
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            color: Color.fromARGB(255, 254, 189, 16),
-                                            width: 2,
-                                            style: BorderStyle.solid,
-                                          ),
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(100)),
-                                        ),
-                                        textColor: Color.fromARGB(0, 0, 0, 0),
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/icons8-edit-96px-11.png",
-                                              fit: BoxFit.none,
-                                              alignment: Alignment.center,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                          ],
-                                        ),
-                                        onPressed: () {
-                                          selectImage();
-                                        }),
+                      ),
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 85, top: 85),
+                          child:  _image == null
+                              ? Text("")
+                              : Container(
+                            width: 58,
+                            height: 58,
+                            child: Opacity(
+                              opacity: 1,
+                              child: FlatButton(
+                                  color: Theme.of(context).focusColor,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: Color.fromARGB(255, 254, 189, 16),
+                                      width: 2,
+                                      style: BorderStyle.solid,
+                                    ),
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
                                   ),
-                                ),
-                              ),
+                                  textColor: Color.fromARGB(0, 0, 0, 0),
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.edit, size: 20, color: Color.fromARGB(255, 254, 189, 16),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    selectImage();
+                                  }),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-
-
-                    Positioned(
-                      left:80,
-                      right: 80,
-                      bottom: SizeConfig.blockSizeVertical*5,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "Subí una foto",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Sf-r",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 26,
-
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2,),
-                            child: Text(
-                              "Es importante subir una foto \nen la que salgas bien.",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 163, 163, 163),
-                                fontFamily: "Sf-t",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                      _image == null
-                  ? Text("")
-                  : Container(
-                        width: 124,
-                        height: 44,
-                        margin: EdgeInsets.only(right: 3, bottom: 10),
+              SizedBox(height: SizeConfig.blockSizeVertical*5),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8, bottom: SizeConfig.blockSizeVertical*5),
+                  child: _image == null ?
+                      Text(
+                        "Saltar",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontFamily: "Sf-r",
+                            fontSize: 23,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                      :Container(
+                        height: 50,
+                        width: double.maxFinite,
+                        margin: EdgeInsets.only(bottom: 15),
                         child: FlatButton(
-                            color: AppColors.secondaryElement,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                          onPressed: () => siguienteBtn(context),
+                          /*color: Color.fromARGB(255, 222, 222, 222),*/
+                          color: AppColors.secondaryBackground,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(15)),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Continuar",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline5,
                             ),
-                            textColor: Color.fromARGB(255, 255, 255, 255),
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons-back-light-2.png",
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Siguiente",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: AppColors.secondaryText,
-                                    fontFamily: "Sf-r",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onPressed: () => siguienteBtn(context)),
-//                    {
-//                      Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (context) => CursoAlumnoWidget(user)),
-//                      );
-//                    }),
+                          ),
+                        ),
                       ),
-                    ],
-            ),
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
