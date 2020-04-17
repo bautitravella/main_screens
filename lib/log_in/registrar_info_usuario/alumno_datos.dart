@@ -33,11 +33,11 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/log_in/curso_alumno");
     super.initState();
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
   }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     SizeConfig().init(context);
     return Scaffold(
       body: GestureDetector(
@@ -151,7 +151,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                 BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                   builder: (context, state) {
                     if (state is ColegiosLoading) {
-                      showLoadingDialog(context);
+                      //showLoadingDialog(context);
                       loadingDialogShown = true;
                       return CircularProgressIndicator();
                     } else if (state is ColegiosLoaded) {
