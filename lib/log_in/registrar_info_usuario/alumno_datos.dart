@@ -25,6 +25,7 @@ class AlumnoDatos extends StatefulWidget {
 
 class _AlumnoDatosState extends State<AlumnoDatos> {
 
+  TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
   String colegioSelectedValue, cursoSelectedValue;
   bool loadingDialogShown = false;
   @override
@@ -36,6 +37,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     SizeConfig().init(context);
     return Scaffold(
       body: GestureDetector(
@@ -46,17 +48,20 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
-                      SizedBox(width: 10),
-                      Text(
-                        "Configura tu perfil",
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                        SizedBox(width: 10),
+                        Text(
+                          "Configura tu perfil",
+                          style: Theme.of(context).textTheme.headline1,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: SizeConfig.blockSizeVertical*7),
@@ -80,6 +85,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 BeautyTextfield(
+                  controller: nombreController,
                   textCapitalization: TextCapitalization.words,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
@@ -113,6 +119,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 BeautyTextfield(
+                  controller: apellidoController,
                   textCapitalization: TextCapitalization.words,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
@@ -312,17 +319,21 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
   }
 
   siguienteBtn(BuildContext context) {
-    if (cursoSelectedValue != null && colegioSelectedValue != null) {
+    if (cursoSelectedValue != null && colegioSelectedValue != null && nombreController.text.isNotEmpty && apellidoController.text.isNotEmpty) {
       widget.user.colegio = colegioSelectedValue;
       widget.user.curso = cursoSelectedValue;
+      widget.user.nombre = nombreController.text;
+      widget.user.apellido = apellidoController.text;
+
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => TerminosYCondicionesWidget(widget.user)));
     } else {
       //print("ERROR MESSAGE: ");
+
       showErrorDialog(context,
-          "Debes seleccionar el colegio y curso al que perteneces para poder continuar.");
+          nombreController.text.isNotEmpty && apellidoController.text.isNotEmpty? "Debes seleccionar el colegio y curso al que perteneces para poder continuar." : "Debes completar tu nombre y apellido");
     }
 
     //Mostrar un mensaje de error

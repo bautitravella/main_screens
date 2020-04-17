@@ -1,15 +1,21 @@
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
-import 'package:flutterui/log_in/registrar_info_usuario/datos_widget.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/curso_padre_widget.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/alumno_datos.dart';
+
+
+import 'alumno_datos.dart';
 
 
 class SubiFotoPerfilWidget extends StatefulWidget {
@@ -211,8 +217,10 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   siguienteBtn(BuildContext context) {
     if(_image != null){
       widget.user.fotoPerfilRaw = _image;
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DatosWidget(widget.user)));
+      Navigator.push(context,
+          MaterialPageRoute(
+              builder: (context) => widget.user is Padre? CursoPadreWidget(widget.user):AlumnoDatos(widget.user))
+      );
     }else{
       showErrorDialog(context, "Debe seleccionar una imagen para poder continuar");
     }
