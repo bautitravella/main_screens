@@ -119,21 +119,27 @@ class App extends StatelessWidget {
                 },
               ),
             ],
-            child: MaterialApp(
-                //home: MyDecider(),
-                debugShowCheckedModeBanner: false,
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
+            child: Consumer<AppStateNotifier>(
+              builder: (context, appState, child) {
+                return MaterialApp(
+                  //home: MyDecider(),
+                    debugShowCheckedModeBanner: false,
+                    theme: AppTheme.lightTheme,
+                    darkTheme: AppTheme.darkTheme,
+                    themeMode: appState.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+
+                    navigatorObservers: [
+                      FirebaseAnalyticsObserver(analytics: analytics),
+                    ],
+                    routes: <String, WidgetBuilder>{
+                      '/home': (BuildContext context) => HomeHub(),
+                      '/logOut': (BuildContext context) => FirstscreenWidget(),
+                      '/': (BuildContext context) => MyDecider(),
+                    });
 
 
-                navigatorObservers: [
-                  FirebaseAnalyticsObserver(analytics: analytics),
-                ],
-                routes: <String, WidgetBuilder>{
-                  '/home': (BuildContext context) => HomeHub(),
-                  '/logOut': (BuildContext context) => FirstscreenWidget(),
-                  '/': (BuildContext context) => MyDecider(),
-                }),
+              },
+            ),
           ),
         ),
       ),

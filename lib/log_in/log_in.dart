@@ -189,7 +189,8 @@ class _LogInState extends State<LogIn> {
                 Switch(
                   value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
                   onChanged: (boolVal) {
-                    Provider.of<AppStateNotifier>(context).updateTheme(boolVal);
+                    print("THEME " + boolVal.toString());
+                    Provider.of<AppStateNotifier>(context,listen: false).updateTheme(boolVal);
                   },
                 ),
                 Text(
