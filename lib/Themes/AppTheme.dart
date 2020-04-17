@@ -70,7 +70,7 @@ class AppTheme {
     accentColor: Color.fromARGB(255, 254, 189, 16),
     hintColor: Color.fromARGB(255, 70, 70, 70),// fondo textfields sin apretar
     focusColor: Color.fromARGB(255, 29, 29, 29),// fondo textfields apretados
-
+    
     /* appBarTheme: AppBarTheme(
       color: Colors.teal,
       iconTheme: IconThemeData(

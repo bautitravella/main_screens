@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterui/log_in/registrar_info_usuario/curso_padre_widget.dart';
 import 'package:flutterui/values/colors.dart';
 
 
@@ -219,11 +218,12 @@ class BeautyDropDown extends StatefulWidget {
   final BorderRadius cornerRadius;
   final double width, height, wordSpacing;
   final Color backgroundColor, accentColor, textColor, eyeColor;
-  final String placeholder, fontFamily;
+  final String placeholder, fontFamily, hint;
   final Icon prefixIcon, suffixIcon;
   final EdgeInsets margin;
   final Duration duration;
   final item;
+  final value;
   final VoidCallback onClickSuffix;
   final bool autofocus, enabled, isExpanded;
   final FocusNode focusNode;
@@ -236,6 +236,7 @@ class BeautyDropDown extends StatefulWidget {
         this.prefixIcon,
         this.suffixIcon,
         this.item,
+        this.hint,
         this.eyeColor,
         this.duration = const Duration(milliseconds: 500),
         this.margin = const EdgeInsets.all(10),
@@ -247,6 +248,7 @@ class BeautyDropDown extends StatefulWidget {
         this.onClickSuffix,
         this.isExpanded= true,
         this.wordSpacing,
+        this.value,
         this.fontFamily,
         this.autofocus = false,
         this.focusNode,
@@ -324,7 +326,7 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
               child: Icon(
                 Icons.arrow_drop_down,
 
-                color: Colors.white,
+                color: Colors.transparent,
               ),
             ),
           ),
@@ -343,31 +345,29 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
               color: Colors.transparent,
               width: widget.width-15,
               margin: EdgeInsets.only(left: 8, right: 8),
-              child: DropdownButton(
-                underline: Text(""),
-                items: widget.item, /*createDropDownMenuListColegios(state.colegiosData.colegios)*/
-                isExpanded: widget.isExpanded,/*true*/
-                value: colegioSelectedValue,
-                hint: new Text(
-                  'COLEGIO',
-                  style: TextStyle(
-                    color:
-                    Color.fromARGB(255, 53, 38, 65),
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 19,
+              child: Theme(
+                data: Theme.of(context).copyWith(canvasColor: Theme.of(context).hintColor,),
+                child: DropdownButton(
+                  underline: Text(""),
+                  icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).iconTheme.color, size: 30,),
+                  items: widget.item, /*createDropDownMenuListColegios(state.colegiosData.colegios)*/
+                  isExpanded: widget.isExpanded,/*true*/
+                  value: widget.value,
+                  hint: new Text(
+                    "",
+                    style: Theme.of(context).textTheme.headline3,
                   ),
+                  onChanged: widget.onChanged,
+                  /*(value) {
+                    if (value == "+ Agregar Colegio") {
+                      showSchoolDialog(context, widget.user.email);
+                    } else {
+                      setState(() {
+                        colegioSelectedValue = value;
+                      });
+                    }
+                  },*/
                 ),
-                onChanged: widget.onChanged,
-                /*(value) {
-                  if (value == "+ Agregar Colegio") {
-                    showSchoolDialog(context, widget.user.email);
-                  } else {
-                    setState(() {
-                      colegioSelectedValue = value;
-                    });
-                  }
-                },*/
               ),
              /*
                 onSubmitted: (t) {
