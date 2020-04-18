@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/values/colors.dart';
 
 class AppTheme {
   //
@@ -6,6 +7,7 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
+    backgroundColor: AppColors.secondaryBackground,
     accentColor: Color.fromARGB(255, 254, 189, 16),
     hintColor: Color.fromARGB(255, 222, 222, 222),// fondo textfields sin apretar
     focusColor: Colors.white,// fondo textfields apretados
@@ -63,10 +65,19 @@ class AppTheme {
       fontWeight: FontWeight.w700,
     )//Titulos de configuracion
     ),
+    primaryTextTheme: TextTheme(
+        headline1: TextStyle(
+          fontFamily: "Sf",
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+          fontSize: 30,
+        ),
+      )
   );
 
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Color.fromARGB(255, 29, 29, 29),
+    backgroundColor: Color.fromARGB(255, 29, 29, 29),
     accentColor: Color.fromARGB(255, 254, 189, 16),
     hintColor: Color.fromARGB(255, 70, 70, 70),// fondo textfields sin apretar
     focusColor: Color.fromARGB(255, 29, 29, 29),// fondo textfields apretados
@@ -79,6 +90,7 @@ class AppTheme {
     ),*/
     cardTheme: CardTheme(
       color: Colors.teal,
+
     ),
 
     primaryIconTheme: IconThemeData(
@@ -130,7 +142,17 @@ class AppTheme {
       fontSize: 20,
       fontFamily: "Sf",
       fontWeight: FontWeight.w600,
-    )//Subtitulos de configuracion
-    ),
+    ), //Subtitulos de configuracion
+
+
+    ),//Configuracion Style
+    primaryTextTheme: TextTheme(
+      headline1: TextStyle(
+        fontFamily: "Sf",
+        color: Colors.white,
+        fontWeight: FontWeight.w800,
+        fontSize: 30,
+      ),
+    )
   );
 }

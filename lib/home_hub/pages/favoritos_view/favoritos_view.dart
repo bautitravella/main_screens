@@ -41,7 +41,7 @@ class _FavoritosViewState extends State<FavoritosView> {
       body: Stack(
         children: <Widget>[
           Container(
-            color: AppColors.secondaryBackground,
+            color: Theme.of(context).backgroundColor,
             height: SizeConfig.blockSizeVertical * 100,
             child: Stack(
               alignment: Alignment.center,
@@ -220,7 +220,7 @@ class _FavoritosViewState extends State<FavoritosView> {
             child: Container(
               height: 220,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(30),
                     topLeft: Radius.circular(30)),

@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
+import 'package:flutterui/blocs/colegios_bloc/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/curso_padre_widget.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/padre_datos.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -35,7 +38,9 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   void initState() {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/log_in/subi_foto_perfil");
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     super.initState();
+
   }
 
   @override
@@ -219,7 +224,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
       widget.user.fotoPerfilRaw = _image;
       Navigator.push(context,
           MaterialPageRoute(
-              builder: (context) => widget.user is Padre? CursoPadreWidget(widget.user):AlumnoDatos(widget.user))
+              builder: (context) => widget.user is Padre? PadreDatos(widget.user):AlumnoDatos(widget.user))
       );
     }else{
       showErrorDialog(context, "Debe seleccionar una imagen para poder continuar");

@@ -52,7 +52,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
         body: Stack(
           children: <Widget>[
             Container(
-              color: AppColors.secondaryBackground,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
@@ -171,7 +171,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   margin:
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 14),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30)),
@@ -583,7 +583,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       height: 78,
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Row(
         children: <Widget>[
           Expanded(

@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';
@@ -57,10 +58,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            color: AppColors.secondaryBackground,
-            height: SizeConfig.blockSizeVertical * 100,
-          ),
           Column(
             children: <Widget>[
               Expanded(
@@ -211,7 +208,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
   Widget _upperBody() {
     return FadeIn(
       child: Container(
-        color: AppColors.secondaryBackground,
+        color: Theme.of(context).backgroundColor,
         height: SizeConfig.blockSizeVertical * 100,
         child: Stack(
           alignment: Alignment.center,
@@ -366,7 +363,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           child: Container(
             height: 220,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(30),
                   topLeft: Radius.circular(30)),

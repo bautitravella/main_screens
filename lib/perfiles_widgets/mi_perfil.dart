@@ -84,7 +84,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     children: <Widget>[
                       Positioned(
                         left: 0,
-                        top: SizeConfig.blockSizeVertical * 8,
+                        top: SizeConfig.blockSizeVertical * 11,
                         right: 0,
                         child: Container(
                           decoration: BoxDecoration(),
@@ -183,33 +183,17 @@ class _MiPerfilState extends State<MiPerfil> {
                     ),
                   ],
                 ),
-                Positioned(
-                  top: SizeConfig.blockSizeVertical * 6,
-                  left: 10,
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8,left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black87,
-                          size: 25,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                      children: <Widget>[
+                        Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                        SizedBox(width: 10),
                         Text(
                           "Ajustes",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: "Sf",
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 25,
-                          ),
+                          style: Theme.of(context).textTheme.headline1,
                         ),
                       ],
                     ),
@@ -231,6 +215,7 @@ class _MiPerfilState extends State<MiPerfil> {
       height: 220,
       margin: EdgeInsets.all(0),
       decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(30), topLeft: Radius.circular(30)),
       ),

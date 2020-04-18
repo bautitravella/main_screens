@@ -86,6 +86,8 @@ class HomeHubState extends State<HomeHub> {
       child: Scaffold(
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavyBar(
+          showElevation: false,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           selectedIndex: _currentIndex,
           onItemSelected: (index) {
             setState(() => _currentIndex = index);
