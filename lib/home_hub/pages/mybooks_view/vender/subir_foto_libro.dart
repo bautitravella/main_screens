@@ -208,6 +208,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
 
   void selectImage() {
     //getImage().then((anything) => _cropImage());
+
     Navigator.push(
       context,
       MaterialPageRoute(

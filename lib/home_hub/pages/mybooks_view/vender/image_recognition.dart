@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 class ImageRecognition extends StatefulWidget{
 
+
   @override
   State<StatefulWidget> createState() {
 
@@ -31,6 +32,8 @@ class ImageRecognitionState extends State<ImageRecognition>{
 
   CameraController _camera;
 
+  List<String> textBlocks = [];
+
   final TextRecognizer _textRecognizer =
   FirebaseVision.instance.textRecognizer();
 
@@ -38,6 +41,7 @@ class ImageRecognitionState extends State<ImageRecognition>{
   void initState() {
     super.initState();
     _initializeCamera();
+    textBlocks = [];
   }
 
   void _initializeCamera() async {
@@ -52,27 +56,32 @@ class ImageRecognitionState extends State<ImageRecognition>{
     await _camera.initialize();
 
     _camera.startImageStream((CameraImage image) {
-      if (_isDetecting) return;
+      if(mounted){
+        if (_isDetecting) return;
 
-      setState(() {
-        _isDetecting = true;
-      });
-      ScannerUtils.detect(
-        image: image,
-        detectInImage: _getDetectionMethod(),
-        imageRotation: description.sensorOrientation,
-      ).then(
-            (results) {
-          setState(() {
-            if (results != null) {
-              setState(() {
-                _textScanResults = results;
-              });
-            }
-          });
-        },
-      ).whenComplete(() => _isDetecting = false);
-    });
+        setState(() {
+          _isDetecting = true;
+        });
+        ScannerUtils.detect(
+          image: image,
+          detectInImage: _getDetectionMethod(),
+          imageRotation: description.sensorOrientation,
+        ).then(
+              (results) {
+                if(mounted){
+                    if (results != null) {
+                      setState(() {
+                        _textScanResults = results;
+                      });
+                    }
+                }
+
+          },
+        ).whenComplete(() => _isDetecting = false);
+      }
+
+      }
+    );
   }
 
   Future<VisionText> Function(FirebaseVisionImage image) _getDetectionMethod() {
@@ -82,24 +91,38 @@ class ImageRecognitionState extends State<ImageRecognition>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          _camera == null
-              ? Container(
-            color: Colors.black,
-          )
-              : Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height - 150,
-              child: CameraPreview(_camera)),
-          _buildResults(_textScanResults),
-        ],
+    return WillPopScope(
+      onWillPop: () => _onWillPop(),
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            _camera == null
+                ? Container(
+              color: Colors.black,
+            )
+                : Container(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height - 150,
+                child: CameraPreview(_camera)),
+            _buildResults(_textScanResults),
+          ],
+        ),
       ),
     );
+  }
+
+  _onWillPop(){
+    print("------BLOCS LIST------  " );
+    String result = " ";
+    textBlocks.sort();
+    textBlocks.forEach((block) {
+      result += (" | " + block);
+    });
+    print(result);
+    Navigator.pop(context);
   }
 
   Widget _buildResults(VisionText scanResults) {
@@ -110,7 +133,7 @@ class ImageRecognitionState extends State<ImageRecognition>{
         _camera.value.previewSize.width,
       );
       painter = TextDetectorPainter(imageSize, scanResults);
-      //getWords(scanResults);
+      getWords(scanResults);
 
       return CustomPaint(
         painter: painter,
@@ -118,6 +141,30 @@ class ImageRecognitionState extends State<ImageRecognition>{
     } else {
       return Container();
     }
+  }
+
+  void getWords(VisionText scanResults) {
+    List<TextBlock> blocks = scanResults.blocks;
+    for(TextBlock block in blocks){
+      if(block.text != null && block.text.length >5 && !textBlocks.contains(block.text)) {
+        List<TextLine> lines = block.lines;
+        for(TextLine line in lines){
+          if(line.text.length > 0 && !textBlocks.contains(line.text.trim())){
+            print("LINE = " + line.text);
+            textBlocks.add(line.text.trim());
+          }
+
+        }
+       //textBlocks.add(block.text);
+       // print("BLOCK = " + block.text);
+      }
+
+    }
+
+    dispose(){
+      _camera.dispose();
+    }
+
   }
 
 
