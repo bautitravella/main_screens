@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/image_recognition.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -206,8 +207,18 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
   }
 
   void selectImage() {
-    getImage().then((anything) => _cropImage());
+    //getImage().then((anything) => _cropImage());
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ImageRecognition(),
+      ),
+    );
   }
+
+
+
+
 
   _siguienteBtn() {
     //todo que se puedan seleccionar multiples imagenes
@@ -357,7 +368,8 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                             size: 60,
                           ),
                           onPressed: () {
-                            loadAssets();
+                            //loadAssets();
+                            selectImage();
                           }),
                     ),
                   ),
@@ -499,3 +511,7 @@ void showErrorDialog(BuildContext context, String errorMessage) {
       ),
       animatedPill: false);
 }
+
+
+
+
