@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/Themes/AppStateNotifier.dart';
+import 'package:flutterui/WidgetsCopy/Animated_screen.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';

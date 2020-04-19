@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
-
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
-
 
 
 class PadreDatos extends StatefulWidget {
@@ -25,11 +25,12 @@ class PadreDatos extends StatefulWidget {
 
 class _PadreDatosState extends State<PadreDatos> {
 
-
+  TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
   List<DropdownMenuItem> items = [];
   List<ChildField> hijos = [];
   int _currentIndex = 0;
   bool loadingDialogShown = false;
+
 
   @override
   void initState() {
@@ -66,6 +67,24 @@ class _PadreDatosState extends State<PadreDatos> {
       widget.user,
       key: UniqueKey(),
     ));
+  }
+
+  Widget listViewItem({int index}) {
+    // widget layout for listview items
+    return GestureDetector(
+      onTap: () => selectedItem(index),
+      child: Container(
+        margin: EdgeInsets.only(right: 10),
+        height: 70, width: 70,
+        decoration: BoxDecoration(
+          color: _currentIndex != index-1 ?Theme.of(context).hintColor: AppColors.secondaryBackground,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Center(
+          child: Text("$index", style: Theme.of(context).textTheme.headline1,),
+        ),
+      ),
+    );
   }
 
   @override
@@ -117,7 +136,7 @@ class _PadreDatosState extends State<PadreDatos> {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 BeautyTextfield(
-                  /*controller: nombreController,*/
+                  controller: nombreController,
                   textCapitalization: TextCapitalization.words,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
@@ -151,7 +170,7 @@ class _PadreDatosState extends State<PadreDatos> {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 BeautyTextfield(
-                  /*controller: apellidoController,*/
+                  controller: apellidoController,
                   textCapitalization: TextCapitalization.words,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
@@ -268,145 +287,52 @@ class _PadreDatosState extends State<PadreDatos> {
                 Container(
                   width: double.maxFinite,
                   height: 70,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        height: 70, width: 70,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).hintColor,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Center(
-                          child: Text("1", style: Theme.of(context).textTheme.headline1,),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        height: 70, width: 70,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 0, 191, 131),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Center(
-                          child: Icon(Icons.add, color: Colors.white,),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Container(
-                        height: 70, width: 70,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 217, 86, 86),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Center(
-                          child: Icon(Icons.delete, color: Colors.white,),
-                        ),
-                      ),
-                    ],
+                    itemCount: hijos.length + 2,
+                      itemBuilder: (BuildContext context, int index) {
+                        if(index == hijos.length){
+                          return GestureDetector(
+                          onTap: () => agregarHijo(),
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            height: 70, width: 70,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 0, 191, 131),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Center(
+                              child: Icon(Icons.add, color: Colors.white,),
+                            ),
+                          ),
+                        );}
+                        else if(index == hijos.length+1){
+                          return   _currentIndex == 0?Container():GestureDetector(
+                            onTap: () => borrarHijo(),
+                            child: Container(
+                              height: 70, width: 70,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 217, 86, 86),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Center(
+                                child: Icon(Icons.delete, color: Colors.white,),
+                              ),
+                            ),
+                          );}
+                        else{   return listViewItem(index: index+1);}
+                      }
                   ),
                 ),
                 SizedBox(height: 40),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Nombre",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                    BeautyTextfield(
-                      /*controller: nombreController,*/
-                      textCapitalization: TextCapitalization.words,
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      autofocus: false,
-                      maxLines: 1,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      inputType: TextInputType.text,
-                      inputAction: TextInputAction.done,//REQUIRED
-                      obscureText: false, //REQUIRED
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      onClickSuffix: () {
-                        print('Suffix Clicked');
-                      },
-                      onTap: () {
-                        print('Click');
-                      },
-                      onChanged: (text) {
-                        print(text);
-                      },
-                      onSubmitted: (data) {
-                        print(data.length);
-                      },
-                    ),
-                    SizedBox(height: 40),
-                    Text(
-                      "Colegio",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                  /*  BeautyDropDown(
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      item: createDropDownMenuListColegios(state.colegiosData.colegios),
-                      isExpanded: true,
-                      value:  widget.colegioSelectedValue,
-                      onChanged: (value) {
-                        if (value == "+ Agregar Colegio") {
-                          showSchoolDialog(context, widget.user.email);
-                        } else {
-                          setState(() {
-                            colegioSelectedValue = value;
-                          });
-                        }
-                      },
-                    ),*/
-                    SizedBox(height: 40),
-                    Text(
-                      "Curso",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                   /* BeautyDropDown(
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      item: createDropDownMenuListColegios(state.colegiosData.colegios),
-                      isExpanded: true,
-                      value: colegioSelectedValue,
-                      onChanged: (value) {
-                        if (value == "+ Agregar Colegio") {
-                          showSchoolDialog(context, widget.user.email);
-                        } else {
-                          setState(() {
-                            colegioSelectedValue = value;
-                          });
-                        }
-                      },
-                    ),*/
-                  ],
-                ),
-
+                hijos[_currentIndex],
                 SizedBox(height: SizeConfig.blockSizeVertical*9),
                 Container(
                   height: 50,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(bottom: 15),
                   child: FlatButton(
-                    onPressed: () => /*siguienteBtn(context)*/[],
+                    onPressed: () => siguienteBtn(context),
                     /*color: Color.fromARGB(255, 222, 222, 222),*/
                     color: AppColors.secondaryBackground,
                     shape: RoundedRectangleBorder(
@@ -439,6 +365,17 @@ class _PadreDatosState extends State<PadreDatos> {
     int cantErrores = 0;
     bool error = false;
 
+    if (nombreController.text.isNotEmpty && apellidoController.text.isNotEmpty) {
+      widget.user.nombre = nombreController.text;
+      widget.user.apellido = apellidoController.text;
+
+    } else {
+      //print("ERROR MESSAGE: ");
+
+      showErrorDialog(context, "Debes escribir tu nombre y apellido para poder continuar.");
+    }
+
+    //Mostrar un mensaje de error
 
     //fijarse si alguno de los hijos creados tiene algun campo incompleto
     for(int i = 0; i<=hijos.length-1 ; i++){
@@ -453,6 +390,7 @@ class _PadreDatosState extends State<PadreDatos> {
         }
       }
     }
+
     if(error == true){
       if(cantErrores> 1 ){
         errorMessagePlural += genericErrorMessage + " tienen campos que estan incompletos.";
@@ -486,6 +424,13 @@ class _PadreDatosState extends State<PadreDatos> {
     });
 
     hijos.removeLast();
+  }
+
+  selectedItem(index) {
+    print("selected $index");
+    setState(() {
+      _currentIndex= index-1;
+    });
   }
 
   goBack() {
@@ -575,123 +520,93 @@ class _ChildFieldState extends State<ChildField> {
                   Navigator.of(context).pop();
                   loadingDialogShown = false;
                 }
-                return Column(
+                return  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      width: SizeConfig.blockSizeHorizontal*52,
-                      height: 60,
-                      margin: EdgeInsets.only(
-                          left: 100, right: 110, top: SizeConfig.blockSizeVertical * 3),
-                      child: Opacity(
-                        opacity: 0.57,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "NOMBRE",
-                            contentPadding: EdgeInsets.only(top: 30),
-                            border: InputBorder.none,
-                          ),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 53, 38, 65),
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 19,
-                          ),
-                          maxLines: 1,
-                          autocorrect: false,
-                          controller: widget.nombreController,
-                        ),
-                      ),
+                    Text(
+                      "Nombre",
+                      style: Theme.of(context).textTheme.headline2,
                     ),
-                    Container(
-                      height: 2,
-                      width: SizeConfig.blockSizeHorizontal*60,
-                      margin: EdgeInsets.only(left: 100, right: 100),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(77, 0, 0, 0),
-                      ),
+                    BeautyTextfield(
+                      controller: widget.nombreController,
+                      textCapitalization: TextCapitalization.words,
+                      width: double.maxFinite, //REQUIRED
+                      height: 50, //REQUIRED
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      autofocus: false,
+                      maxLines: 1,
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      inputType: TextInputType.text,
+                      inputAction: TextInputAction.done,//REQUIRED
+                      obscureText: false, //REQUIRED
+                      suffixIcon: Icon(Icons.remove_red_eye),
+                      onClickSuffix: () {
+                        print('Suffix Clicked');
+                      },
+                      onTap: () {
+                        print('Click');
+                      },
+                      onChanged: (text) {
+                        print(text);
+                      },
+                      onSubmitted: (data) {
+                        print(data.length);
+                      },
                     ),
-                    Container(
-                      width: SizeConfig.blockSizeHorizontal*55,
-                      height: 45,
-                      margin: EdgeInsets.only( top: SizeConfig.blockSizeVertical * 4),
-                      child: Opacity(
-                        opacity: 0.37,
-                        child: new DropdownButton(
-                          icon: Icon(Icons.menu),
-                          underline: Text(""),
-                          items: createDropDownMenuListColegios(state.colegiosData.colegios),
-                          isExpanded: true,
-                          value: widget.colegioSelectedValue,
-                          hint: new Text(
-                            'COLEGIO',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19,
-                            ),
-                          ),
-                          onChanged: (value) {
+                    SizedBox(height: 40),
+                    Text(
+                      "Colegio",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                      BeautyDropDown(
+                      width: double.maxFinite, //REQUIRED
+                      height: 50, //REQUIRED
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      suffixIcon: Icon(Icons.remove_red_eye),
+                      item: createDropDownMenuListColegios(state.colegiosData.colegios),
+                      isExpanded: true,
+                      value: widget.colegioSelectedValue,
+                        onChanged: (value) {
 
-                            if (value == "+ Agregar Colegio") {
-                              showSchoolDialog(context, widget.user.email);
-                            } else {
-                              setState(() {
-                                widget.colegioSelectedValue = value;
-                              });
-                            }
-
-                          },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 2,
-                      width: SizeConfig.blockSizeHorizontal*60,
-                      margin: EdgeInsets.only(left: 100, right: 100),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(77, 0, 0, 0),
-                      ),
-                    ),
-                    Container(
-                      width: SizeConfig.blockSizeHorizontal*55,
-                      height: 45,
-                      margin: EdgeInsets.only(
-                          left: 110, right: 110, top: SizeConfig.blockSizeVertical * 4),
-                      child: Opacity(
-                        opacity: 0.37,
-                        child: new DropdownButton(
-                          icon: Icon(Icons.menu),
-                          underline: Text(""),
-                          items: createDropDownMenuList(state.colegiosData.cursos),
-                          isExpanded: true,
-                          value: widget.cursoSelectedValue,
-                          hint: new Text(
-                            'CURSO',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 53, 38, 65),
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 19,
-                            ),
-
-                          ),
-                          onChanged: (value) {
+                          if (value == "+ Agregar Colegio") {
+                            showSchoolDialog(context, widget.user.email);
+                          } else {
                             setState(() {
-                              widget.cursoSelectedValue = value;
+                              widget.colegioSelectedValue = value;
                             });
-                          },
-                        ),
-                      ),
+                          }
+
+                        },
                     ),
-                    Container(
-                      height: 2,
-                      width: SizeConfig.blockSizeHorizontal*60,
-                      margin: EdgeInsets.only(left: 100, right: 100),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(77, 0, 0, 0),
-                      ),
+                    SizedBox(height: 40),
+                    Text(
+                      "Curso",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                     BeautyDropDown(
+                      width: double.maxFinite, //REQUIRED
+                      height: 50, //REQUIRED
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      suffixIcon: Icon(Icons.remove_red_eye),
+                      item: createDropDownMenuList(state.colegiosData.cursos),
+                      isExpanded: true,
+                      value: widget.cursoSelectedValue,
+                       onChanged: (value) {
+                         setState(() {
+                           widget.cursoSelectedValue = value;
+                         });
+                       },
                     ),
                   ],
                 );
@@ -755,11 +670,28 @@ class _ChildFieldState extends State<ChildField> {
     ));
     //}
   }
-}
-List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
-  List<DropdownMenuItem> dropdownMenuItemList = [];
-  String agregarColegio =  "+ Agregar Colegio";
-  for (String item in lista) {
+
+  List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    String agregarColegio =  "+ Agregar Colegio";
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                child: new Text(
+                  item,
+                  style: Theme.of(context).textTheme.headline3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    }
     dropdownMenuItemList.add(DropdownMenuItem(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -767,9 +699,9 @@ List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
             Container(
               margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
               child: new Text(
-                item,
+                agregarColegio,
                 style: TextStyle(
-                  color: Color.fromARGB(255, 53, 38, 65),
+                  color: AppColors.secondaryBackground,
                   fontFamily: "Sf-r",
                   fontWeight: FontWeight.w700,
                   fontSize: 19,
@@ -779,59 +711,34 @@ List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
               ),
             ),
           ]),
-      value: item,
+      value: agregarColegio,
     ));
+    return dropdownMenuItemList;
   }
-  dropdownMenuItemList.add(DropdownMenuItem(
-    child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
-            child: new Text(
-              agregarColegio,
-              style: TextStyle(
-                color: Color.fromARGB(255, 53, 38, 65),
-                fontFamily: "Sf-r",
-                fontWeight: FontWeight.w700,
-                fontSize: 19,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ]),
-    value: agregarColegio,
-  ));
-  return dropdownMenuItemList;
-}
-List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
-  List<DropdownMenuItem> dropdownMenuItemList = [];
-  for (String item in lista) {
-    dropdownMenuItemList.add(DropdownMenuItem(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
-              child: new Text(
-                item,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
+  List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                child: new Text(
+                  item,
+                  style: Theme.of(context).textTheme.headline3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ]),
-      value: item,
-    ));
+            ]),
+        value: item,
+      ));
+    }
+    return dropdownMenuItemList;
   }
-  return dropdownMenuItemList;
 }
+
 
 
 

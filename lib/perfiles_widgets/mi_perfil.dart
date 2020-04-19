@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +14,7 @@ import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
+import 'package:flutterui/WidgetsCopy/Animated_screen.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
@@ -27,6 +29,10 @@ import 'package:share/share.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterui/values/colors.dart';
+import 'package:simple_animations/simple_animations.dart';
+
 
 import '../auth.dart';
 
@@ -1201,6 +1207,7 @@ class _MiPerfilState extends State<MiPerfil> {
               ),
             ),
           ),
+
         ],
       ),
     );
