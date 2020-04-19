@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutterui/values/colors.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 class FancyBackgroundApp extends StatelessWidget {
@@ -101,9 +102,9 @@ class AnimatedBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final tween = MultiTrackTween([
       Track("color1").add(Duration(seconds: 3),
-          ColorTween(begin: Color(0xffD38312), end: Colors.lightBlue.shade900)),
+          ColorTween(begin: Color.fromARGB(255, 29, 29, 29), end: AppColors.secondaryBackground,)),
       Track("color2").add(Duration(seconds: 3),
-          ColorTween(begin: Color(0xffA83279), end: Colors.blue.shade600))
+          ColorTween(begin: Color.fromARGB(255, 29, 29, 29), end: Color.fromARGB(255, 29, 29, 29),))
     ]);
 
     return ControlledAnimation(
