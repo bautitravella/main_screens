@@ -126,7 +126,7 @@ class App extends StatelessWidget {
                     debugShowCheckedModeBanner: false,
                     theme: AppTheme.lightTheme,
                     darkTheme: AppTheme.darkTheme,
-                    themeMode: appState.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+                   /* themeMode: appState.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,*/
 
                     navigatorObservers: [
                       FirebaseAnalyticsObserver(analytics: analytics),
