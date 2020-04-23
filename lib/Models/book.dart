@@ -110,7 +110,7 @@ class Book {
     this.uid = doc.documentID;
   }
 
-  Book.fromIndexMap(Map<String,dynamic> map){
+  Book.fromIndexMap(Map<String,dynamic> map,String uid){
 //    this.nombreVendedor = map[
 //    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.emailVendedor = map['emailVendedor'];
@@ -128,7 +128,8 @@ class Book {
       this.materias.add(item.toString());
     });
     this.precio = map['precio'];
-    this.uid = map['publicacionId'];
+    //this.uid = map['publicacionId'];
+    this.uid = uid;
     this.thumbImagesUrl.add(map['firstImageUrl']);
   }
 

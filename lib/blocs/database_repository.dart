@@ -698,7 +698,7 @@ class FirebaseRepository extends DatabaseRepository {
         .where("indexes", arrayContainsAny: list)
         .snapshots()
         .map((snapshot) => snapshot.documents
-        .map((document) => Book.fromDocumentSnapshot(document))
+        .map((document) => Book.fromIndexMap(document.data,document.documentID))
         .toList());
   }
 
