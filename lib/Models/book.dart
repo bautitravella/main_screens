@@ -7,6 +7,7 @@ import 'package:flutterui/Models/User.dart';
 
 class Book {
   String nombreVendedor,
+      nombreVendedorAcortado,
       apellidoVendedor,
       autor,
       categoria = "Libros",
@@ -30,17 +31,20 @@ class Book {
   bool vendido, publico;
   int precio,isbn;
   num rating;
+  bool isNuevo;
 
   Book();
 
   Book.fromCloning(Book book){
     this.nombreVendedor = book.nombreVendedor;
+    this.nombreVendedorAcortado = book.nombreVendedorAcortado;
     this.apellidoVendedor = book.apellidoVendedor;
     this.autor = book.autor;
     this.categoria = book.categoria;
     this.editorial = book.editorial;
     this.emailVendedor = book.emailVendedor;
     this.descripcion = book.descripcion;
+    this.isNuevo = book.isNuevo;
     this.nombreLibro = book.nombreLibro;
     this.imageVendedorUrl = book.imageVendedorUrl;
     this.uid = book.uid;
@@ -90,6 +94,7 @@ class Book {
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
     this.descripcion = doc['descripcion'];
+    if(doc['nuevo']!= null && doc['nuevo'] is bool)this.isNuevo = doc['nuevo'];
 //    imagesUrl.forEach((element) {
 //      images.add(CachedNetworkImageProvider(
 ////        imageUrl: element,
@@ -114,12 +119,11 @@ class Book {
 //    this.nombreVendedor = map[
 //    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.emailVendedor = map['emailVendedor'];
+    this.nombreVendedorAcortado = map['vendedorNombre'];
     this.nombreLibro = map['nombreLibro'];
     this.autor = map['autor'];
-    if(map['colegios'] != null){
-      map['colegios'].forEach((item) {
-        this.colegios.add(item.toString());
-      });
+    if(map['colegio'] != null){
+      this.colegios.add(map['colegio']);
     }
     if(map['cursos']!= null)map['cursos'].forEach((item) {
       this.cursos.add(item.toString());
@@ -128,9 +132,13 @@ class Book {
       this.materias.add(item.toString());
     });
     if(map['precio']!=null)this.precio = map['precio'];
+    if(map['vendedorImage'] != null){
+      this.imageVendedorUrl = map['vendedorImage'];
+    }
     //this.uid = map['publicacionId'];
     if(map['firstImageUrl']!=null)this.thumbImagesUrl.add(map['firstImageUrl']);
     this.uid = uid;
+    if(map['nuevo'] !=null && map['nuevo'] is bool)this.isNuevo = map['nuevo'];
   }
 
   @override
