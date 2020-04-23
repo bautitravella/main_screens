@@ -692,7 +692,7 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Stream<List<Book>> searchBooksBySchool(User downloadedUser, List<String> list,String colegio) {
-
+    print("SEARCHING");
     return booksCollectionGroupReference
         .where("colegio",isEqualTo: colegio)
         .where("indexes", arrayContainsAny: list)

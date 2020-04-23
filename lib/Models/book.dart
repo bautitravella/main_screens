@@ -121,16 +121,16 @@ class Book {
         this.colegios.add(item.toString());
       });
     }
-    map['cursos'].forEach((item) {
+    if(map['cursos']!= null)map['cursos'].forEach((item) {
       this.cursos.add(item.toString());
     });
-    map['materias'].forEach((item) {
+    if(map['materias']!= null)map['materias'].forEach((item) {
       this.materias.add(item.toString());
     });
-    this.precio = map['precio'];
+    if(map['precio']!=null)this.precio = map['precio'];
     //this.uid = map['publicacionId'];
+    if(map['firstImageUrl']!=null)this.thumbImagesUrl.add(map['firstImageUrl']);
     this.uid = uid;
-    this.thumbImagesUrl.add(map['firstImageUrl']);
   }
 
   @override

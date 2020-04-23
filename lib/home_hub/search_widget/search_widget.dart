@@ -274,11 +274,13 @@ class _SearchWidgetState extends State<SearchWidget> {
                                   print(value);
                                   if(value == null || value.length == 0){
                                     searchTextEmpty = true;
+
                                   }else{
                                     searchTextEmpty = false;
-                                    BlocProvider.of<SearchBloc>(context)
-                                        .add(SearchBooks(value.toLowerCase().split(' ')));
+
                                   }
+                                  BlocProvider.of<SearchBloc>(context)
+                                      .add(SearchBooks(value));
                                 },
                                 textCapitalization: TextCapitalization.sentences,
                                 decoration: InputDecoration(
@@ -1153,7 +1155,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                               child: Row(
                                                                 children: <Widget>[
                                                                   SizedBox(width: 5,),
-                                                                  Text(book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor,
+
+                                                                  Text(book.nombreVendedor!=null && book.apellidoVendedor!= null?
+                                                                      book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor
+                                                                    :
+                                                                    " ",
                                                                     style: TextStyle(
                                                                       fontSize: 12,
                                                                       fontWeight: FontWeight.w700,
