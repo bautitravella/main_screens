@@ -8,7 +8,7 @@ import './bloc.dart';
 class SearchBloc extends Bloc<SearchBlocEvent, SearchBlocState> {
   final UserBloc userBloc;
   StreamSubscription _userStreamSubscription;
-  StreamSubscription booksSubscription;
+  List<StreamSubscription> booksSubscriptionList;
   final DatabaseRepository databaseRepository;
   User downloadedUser;
   bool isUserDownloaded = false;
@@ -44,11 +44,16 @@ class SearchBloc extends Bloc<SearchBlocEvent, SearchBlocState> {
   Stream<SearchBlocState> _mapSearchBooksToState(List<String> list) async* {
     if(list.isNotEmpty) {
       if (downloadedUser != null) {
-        booksSubscription =
-            databaseRepository.searchBooks(downloadedUser, list).listen((
-                booksList) {
-              add(LoadedSearchBooks(booksList));
-            });
+        List<String> colegios;
+        for(int i=0; i<colegios.length;i++){
+          booksSubscriptionList[i] =
+              databaseRepository.searchBooksBySchool(downloadedUser, list,colegios[i]).listen((
+                  booksList) {
+                add(LoadedSearchBooks(booksList));
+              });
+        }
+
+
       }
     }else{
       yield InitialSearchBlocState();
@@ -58,4 +63,13 @@ class SearchBloc extends Bloc<SearchBlocEvent, SearchBlocState> {
   Stream<SearchBlocState>_mapSearchBooksLoadedToState(List<Book> booksList) async*{
     yield SearchBooksLoaded(booksList);
   }
+
+
+  @override
+  Future<void> close() {
+    _userStreamSubscription.cancel();
+    booksSubscriptionList.forEach((element) {element.cancel();});
+    return super.close();
+  }
+
 }

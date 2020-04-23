@@ -86,18 +86,25 @@ abstract class DatabaseRepository {
   Future<void> removeToken(User user);
 
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list);
+  Stream<List<Book>> searchBooksBySchool(User downloadedUser, List<String> list, String colegio);
 
   Stream<Chat> getChat(Chat chat) {}
+
+
 
 
 }
 
 class FirebaseRepository extends DatabaseRepository {
-  final usersReference = Firestore.instance.collection("Users");
-  final booksReference = Firestore.instance.collection("Publicaciones");
-  final colegiosReference = Firestore.instance.collection("Colegios");
-  final chatsReference = Firestore.instance.collection('Chats');
-  final requestsReference = Firestore.instance.collection("Requests");
+  static Firestore _firestoreInstance = Firestore.instance;
+
+
+  final usersReference = _firestoreInstance.collection("Users");
+  final booksReference = _firestoreInstance.collection("Publicaciones");
+  final colegiosReference = _firestoreInstance.collection("Colegios");
+  final chatsReference = _firestoreInstance.collection('Chats');
+  final requestsReference = _firestoreInstance.collection("Requests");
+  final booksCollectionGroupReference = _firestoreInstance.collectionGroup("colegiosSearch");
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
@@ -673,13 +680,26 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list) {
-    return booksReference
+
+    return booksCollectionGroupReference
         .where("indexes", arrayContainsAny: list)
         .where("vendido",isEqualTo: false)
         .snapshots()
         .map((snapshot) => snapshot.documents
             .map((document) => Book.fromDocumentSnapshot(document))
             .toList());
+  }
+
+  @override
+  Stream<List<Book>> searchBooksBySchool(User downloadedUser, List<String> list,String colegio) {
+
+    return booksCollectionGroupReference
+        .where("colegio",isEqualTo: colegio)
+        .where("indexes", arrayContainsAny: list)
+        .snapshots()
+        .map((snapshot) => snapshot.documents
+        .map((document) => Book.fromDocumentSnapshot(document))
+        .toList());
   }
 
   @override
