@@ -63,14 +63,14 @@ class Book {
 
   Book.fromDocumentSnapshot(DocumentSnapshot doc) {
     this.nombreVendedor = doc[
-        'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
+    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.apellidoVendedor = doc['apellidoVendedor'];
     this.autor = doc['autor'];
     this.categoria = doc['categoria'];
     this.editorial = doc['editorial'];
     this.emailVendedor = doc['emailVendedor'];
     this.nombreLibro = doc[
-        'nombreLibro'];
+    'nombreLibro'];
     this.imageVendedorUrl = doc['imageVendedor'];
     imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
     doc['colegios'].forEach((item) {
@@ -110,6 +110,28 @@ class Book {
     this.uid = doc.documentID;
   }
 
+  Book.fromIndexMap(Map<String,dynamic> map){
+//    this.nombreVendedor = map[
+//    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
+    this.emailVendedor = map['emailVendedor'];
+    this.nombreLibro = map['nombreLibro'];
+    this.autor = map['autor'];
+    if(map['colegios'] != null){
+      map['colegios'].forEach((item) {
+        this.colegios.add(item.toString());
+      });
+    }
+    map['cursos'].forEach((item) {
+      this.cursos.add(item.toString());
+    });
+    map['materias'].forEach((item) {
+      this.materias.add(item.toString());
+    });
+    this.precio = map['precio'];
+    this.uid = map['publicacionId'];
+    this.thumbImagesUrl.add(map['firstImageUrl']);
+  }
+
   @override
   String toString() {
     return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $_images, thumbImages: $_thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';
@@ -139,6 +161,13 @@ class Book {
     return [AssetImage(
       "assets/images/icons-back-light-2.png",
     )];
+  }
+
+  ImageProvider getImageVendedor(){
+    if(imageVendedor == null){
+      imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
+    }
+    return imageVendedor;
   }
 
   ImageProvider getFirstImageThumb(){
@@ -219,9 +248,12 @@ class Book {
     indexes = [];
     palabrasImportantes = [];
     List<String> bookSplitList = this.nombreLibro.split(" ");
-    for (var value in this.autor.split(" ")) {
-      bookSplitList.add(value);
+    if(this.autor != null){
+      for (var value in this.autor.split(" ")) {
+        bookSplitList.add(value);
+      }
     }
+
 
 
     for (int i = 0; i < bookSplitList.length; i++) {
