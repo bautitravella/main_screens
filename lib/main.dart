@@ -114,6 +114,11 @@ class App extends StatelessWidget {
                       BlocProvider.of<UserBloc>(context));
                 },
               ),
+              BlocProvider<IndividualDocumentsBloc>(
+                create: (BuildContext context){
+                  return IndividualDocumentsBloc(RepositoryProvider.of<FirebaseRepository>(context));
+                },
+              ),
             ],
             child: MaterialApp(
                 //home: MyDecider(),

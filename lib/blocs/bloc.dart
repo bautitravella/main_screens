@@ -39,3 +39,7 @@ export 'uploads_bloc/bloc.dart';
 
 //ECONOMICOS BLOC
 export 'economicos_bloc/bloc.dart';
+
+
+//INDIVIDUAL DOCUMENTS BLOC
+export 'individual_documents_bloc/bloc.dart';

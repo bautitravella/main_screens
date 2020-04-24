@@ -90,6 +90,8 @@ abstract class DatabaseRepository {
 
   Stream<Chat> getChat(Chat chat) {}
 
+  Stream<Book> getBook(String uid);
+
 
 
 
@@ -730,6 +732,11 @@ class FirebaseRepository extends DatabaseRepository {
   Future<void> addSchool(String name, String email) {
 
     return requestsReference.add({"email": email,"schoolName": name, "timestamp":FieldValue.serverTimestamp(),"type":"add_school"});
+  }
+
+  @override
+  Stream<Book> getBook(String uid) {
+      return booksReference.document(uid).snapshots().map((doc) => Book.fromDocumentSnapshot(doc));
   }
 
 

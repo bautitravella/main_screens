@@ -221,6 +221,7 @@ class Book {
     bookMap['imageVendedor'] = imageVendedorUrl;
     bookMap['vendido'] = vendido;
     bookMap['publico'] = publico;
+    bookMap['nuevo'] = isNuevo;
     bookMap['precio'] = precio;
     bookMap['nombreLibro'] = nombreLibro;
     bookMap['autor'] = autor;
