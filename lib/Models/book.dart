@@ -119,7 +119,7 @@ class Book {
 //    this.nombreVendedor = map[
 //    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.emailVendedor = map['emailVendedor'];
-    this.nombreVendedorAcortado = map['vendedorNombre'];
+    this.nombreVendedorAcortado = map['vendedorNombreAcortado'];
     this.nombreLibro = map['nombreLibro'];
     this.autor = map['autor'];
     if(map['colegio'] != null){
@@ -132,7 +132,7 @@ class Book {
       this.materias.add(item.toString());
     });
     if(map['precio']!=null)this.precio = map['precio'];
-    if(map['vendedorImage'] != null){
+    if(map['imageVendedor'] != null){
       this.imageVendedorUrl = map['vendedorImage'];
     }
     //this.uid = map['publicacionId'];
