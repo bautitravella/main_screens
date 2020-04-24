@@ -92,6 +92,8 @@ abstract class DatabaseRepository {
 
   Stream<Book> getBook(String uid);
 
+  Stream<List<Book>> getSimilarBooksBySchool(Book book,String school);
+
 
 
 
@@ -747,6 +749,25 @@ class FirebaseRepository extends DatabaseRepository {
 
       });
   }
+
+  Stream<List<Book>> getSimilarBooksBySchool(Book book,String school){
+    return booksCollectionGroupReference
+      .where("colegio",isEqualTo: school)
+      .where("palabrasImportantes",arrayContainsAny: book.palabrasImportantes)
+      .snapshots()
+      .map((bookDocsList) => bookDocsList.documents != null?bookDocsList.documents.map((bookDoc) {
+        if(bookDoc!= null && bookDoc.data!=null){
+          return Book.fromIndexMap(bookDoc.data);
+        }else{
+          return null;
+        }
+
+    }).toList()
+    :
+    null
+    );
+  }
+
 
 
 }

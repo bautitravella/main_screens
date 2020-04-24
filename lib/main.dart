@@ -119,6 +119,12 @@ class App extends StatelessWidget {
                   return IndividualDocumentsBloc(RepositoryProvider.of<FirebaseRepository>(context));
                 },
               ),
+              BlocProvider<SimilarBooksBloc>(
+                create: (BuildContext context){
+                  return SimilarBooksBloc(RepositoryProvider.of<FirebaseRepository>(context));
+                },
+              ),
+
             ],
             child: MaterialApp(
                 //home: MyDecider(),

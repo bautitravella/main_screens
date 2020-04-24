@@ -41,7 +41,10 @@ class _BookSectionState extends State<BookSection> {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/book_section");
     super.initState();
-    if(widget.book.uid != null) BlocProvider.of<IndividualDocumentsBloc>(context).add(GetBook(widget.book.uid));
+    if(widget.book.uid != null){
+      BlocProvider.of<IndividualDocumentsBloc>(context).add(GetBook(widget.book.uid));
+      BlocProvider.of<SimilarBooksBloc>(context).add(GetSimilarBooks(widget.book));
+    }
   }
 
   @override
@@ -698,157 +701,172 @@ class _BookSectionState extends State<BookSection> {
                       ),
                     ],
                   ),
-                 /* Row(
-                    children: <Widget>[
-                      Container(
-                        height: 55,
-                        width: SizeConfig.blockSizeHorizontal * 100,
-                        padding:
-                            const EdgeInsets.only(right: 80, left: 80, top: 30),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
+//                 /* Row(
+//                    children: <Widget>[
+//                      Container(
+//                        height: 55,
+//                        width: SizeConfig.blockSizeHorizontal * 100,
+//                        padding:
+//                            const EdgeInsets.only(right: 80, left: 80, top: 30),
+//                        decoration: BoxDecoration(
+//                          borderRadius: BorderRadius.circular(10.0),
+//                        ),
+//                        child: FlatButton(
+//                          shape: RoundedRectangleBorder(
+//                            borderRadius: BorderRadius.all(Radius.circular(24)),
+//                          ),
+//                          textColor: Color.fromARGB(255, 255, 255, 255),
+//                          padding: EdgeInsets.all(0),
+//                          child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.center,
+//                            children: [
+//                              Icon(
+//                                Icons.share,
+//                                color: Color.fromARGB(180, 118, 118, 118),
+//                                size: 25,
+//                              ),
+//                              Text(
+//                                "Compartir".toUpperCase(),
+//                                textAlign: TextAlign.center,
+//                                style: TextStyle(
+//                                  fontSize: 21,
+//                                  fontWeight: FontWeight.w600,
+//                                  fontFamily: "Montserrat",
+//                                  color: Color.fromARGB(180, 118, 118, 118),
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+                  BlocBuilder<SimilarBooksBloc,SimilarBooksBlocState>(builder: (BuildContext context, state) {
+                    if(state is SimilarBooksDownloadedState && state.booksList != null && state.booksList.length != 0){
+                      return Container(
+                        child: Column(
+                          children: [
+                            Container(
+                                height: 55,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(top: 15),
+                                padding:
+                                EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(left: 21),
+                                      child: Text(
+                                        "LIBROS SIMILARES",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 57, 57, 57),
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 50,
+                                      width: 98,
+                                      alignment: Alignment.centerRight,
+                                      child: FlatButton(
+                                        onPressed: null,
+                                        disabledColor: AppColors.secondaryBackground,
+                                        color: Color.fromARGB(255, 251, 187, 16),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(14)),
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => HomeHub()));
+                                          },
+                                          child: Text(
+                                            "VER TODO",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 255, 255, 255),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            horizontalListView(state.booksList),
+                          ],
                         ),
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                          ),
-                          textColor: Color.fromARGB(255, 255, 255, 255),
-                          padding: EdgeInsets.all(0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.share,
-                                color: Color.fromARGB(180, 118, 118, 118),
-                                size: 25,
-                              ),
-                              Text(
-                                "Compartir".toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: "Montserrat",
-                                  color: Color.fromARGB(180, 118, 118, 118),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      );
+                    }
+                    return Container();
+                  },
+
                   ),
-                  Container(
-                      height: 55,
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: 15),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 21),
-                            child: Text(
-                              "LIBROS SIMILARES",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 57, 57, 57),
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            width: 98,
-                            alignment: Alignment.centerRight,
-                            child: FlatButton(
-                              onPressed: null,
-                              disabledColor: AppColors.secondaryBackground,
-                              color: Color.fromARGB(255, 251, 187, 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(14)),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeHub()));
-                                },
-                                child: Text(
-                                  "VER TODO",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                  horizontalListView,
-                  Container(
-                      height: 55,
-                      alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 21),
-                            child: Text(
-                              "PARA VOS",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 57, 57, 57),
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            width: 98,
-                            alignment: Alignment.centerRight,
-                            child: FlatButton(
-                              onPressed: null,
-                              disabledColor: AppColors.secondaryBackground,
-                              color: Color.fromARGB(255, 251, 187, 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(14)),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeHub()));
-                                },
-                                child: Text(
-                                  "VER TODO",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                  horizontalListView,*/ //TODO Para agregar en un futuro
+
+                  //horizontalListView,
+//                  Container(
+//                      height: 55,
+//                      alignment: Alignment.center,
+//                      padding:
+//                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Container(
+//                            margin: EdgeInsets.only(left: 21),
+//                            child: Text(
+//                              "PARA VOS",
+//                              textAlign: TextAlign.left,
+//                              style: TextStyle(
+//                                color: Color.fromARGB(255, 57, 57, 57),
+//                                fontFamily: "Montserrat",
+//                                fontWeight: FontWeight.w700,
+//                                fontSize: 15,
+//                              ),
+//                            ),
+//                          ),
+//                          Container(
+//                            height: 50,
+//                            width: 98,
+//                            alignment: Alignment.centerRight,
+//                            child: FlatButton(
+//                              onPressed: null,
+//                              disabledColor: AppColors.secondaryBackground,
+//                              color: Color.fromARGB(255, 251, 187, 16),
+//                              shape: RoundedRectangleBorder(
+//                                borderRadius:
+//                                    BorderRadius.all(Radius.circular(14)),
+//                              ),
+//                              child: GestureDetector(
+//                                onTap: () {
+//                                  Navigator.push(
+//                                      context,
+//                                      MaterialPageRoute(
+//                                          builder: (context) => HomeHub()));
+//                                },
+//                                child: Text(
+//                                  "VER TODO",
+//                                  textAlign: TextAlign.center,
+//                                  style: TextStyle(
+//                                    color: Color.fromARGB(255, 255, 255, 255),
+//                                    fontWeight: FontWeight.w400,
+//                                    fontSize: 13,
+//                                  ),
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ],
+//                      )),
+//                  horizontalListView, //TODO Para agregar en un futuro
                 ],
               ),
             ],
@@ -1004,14 +1022,15 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
 }
 
 
-Widget horizontalListView = Container(
+Widget horizontalListView(List<Book> booksList){
+  return Container(
     height: 240,
     margin: EdgeInsets.only(left: 22),
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: books.length,
+      itemCount: booksList.length,
       itemBuilder: (BuildContext context, int index) {
-        Book2 book = books2[index];
+        Book book = booksList[index];
 
         return Container(
           margin: EdgeInsets.all(7.0),
@@ -1032,7 +1051,7 @@ Widget horizontalListView = Container(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "${book.name}",
+                          book.nombreLibro!=null?"${book.nombreLibro}":" ",
                           style: TextStyle(
                             fontSize: 12,
                             fontFamily: "Montserrat",
@@ -1042,7 +1061,7 @@ Widget horizontalListView = Container(
                           maxLines: 2,
                         ),
                         Text(
-                          "(${book.author})",
+                          book.autor!= null?"(${book.autor})": " ",
                           style: TextStyle(
                             fontSize: 10,
                             fontFamily: "Montserrat",
@@ -1061,7 +1080,7 @@ Widget horizontalListView = Container(
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookSectionChota(book),
+                      builder: (context) => BookSection(book),
                     ),
                   );
                 },
@@ -1073,7 +1092,7 @@ Widget horizontalListView = Container(
                         child: Image(
                           height: 141,
                           width: 97,
-                          image: AssetImage(book.imageUrl),
+                          image: book.getFirstImageThumb(),
                           fit: BoxFit.cover,
                         ),
                       )
@@ -1087,6 +1106,8 @@ Widget horizontalListView = Container(
       },
     ),
   );
+}
+
 
 
 showCustomDialog(BuildContext context) {

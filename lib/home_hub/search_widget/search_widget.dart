@@ -732,7 +732,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                                                 Container(
                                                                     height: 25,
                                                                     width: 25 ,
-                                                                    child: CircleAvatar( backgroundImage: book.imageVendedor)
+                                                                    child: CircleAvatar( backgroundImage: book.getImageVendedor())
                                                                 ),
                                                                 book.rating != null?
                                                                 Container(
