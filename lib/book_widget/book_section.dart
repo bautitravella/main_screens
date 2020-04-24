@@ -41,6 +41,7 @@ class _BookSectionState extends State<BookSection> {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/book_section");
     super.initState();
+    if(widget.book.uid != null) BlocProvider.of<IndividualDocumentsBloc>(context).add(GetBook(widget.book.uid));
   }
 
   @override
@@ -55,358 +56,367 @@ class _BookSectionState extends State<BookSection> {
           } else{
             isMyBook = false;
           }
-          return Scaffold(
-            body: Container(
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: SizeConfig.blockSizeVertical * 23,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: verticalListView(widget.book),
-                  ),
-                  Column(
+          return BlocBuilder<IndividualDocumentsBloc,IndividualDocumentsBlocState>(
+            builder: (context,state){
+              if(state is BookDownloadedState){
+                widget.book = state.book;
+              }
+              return Scaffold(
+                body: Container(
+                  child: Stack(
                     children: <Widget>[
-                      Stack(
+                      Positioned(
+                        top: SizeConfig.blockSizeVertical * 23,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: verticalListView(widget.book),
+                      ),
+                      Column(
                         children: <Widget>[
-                          Container(
-                            height: SizeConfig.blockSizeVertical * 34,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                              ),
-                              child: Container(
-                                height: SizeConfig.blockSizeVertical * 22,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 40.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(Icons.arrow_back),
-                                      iconSize: 30.0,
-                                      color: Colors.black,
-                                      onPressed: () => Navigator.pop(context),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 8),
-                                      child: Text(
-                                        "LIBROS",
-                                        style: TextStyle(
-                                          fontFamily: "Montserrat",
-                                          color: AppColors.accentText,
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                height: SizeConfig.blockSizeVertical * 34,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                isMyBook?Row(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                  ),
+                                  child: Container(
+                                    height: SizeConfig.blockSizeVertical * 22,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 40.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    IconButton(
-                                        icon: Icon(Icons.edit),
-                                        iconSize: 30.0,
-                                        color: Colors.black,
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              //TODO cambiar el DatosLibro por una pagina que sea posta para editar un libro
-                                              builder: (context) => EditBookWidget(widget.book),
+                                    Row(
+                                      children: <Widget>[
+                                        IconButton(
+                                          icon: Icon(Icons.arrow_back),
+                                          iconSize: 30.0,
+                                          color: Colors.black,
+                                          onPressed: () => Navigator.pop(context),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 8),
+                                          child: Text(
+                                            "LIBROS",
+                                            style: TextStyle(
+                                              fontFamily: "Montserrat",
+                                              color: AppColors.accentText,
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 18,
                                             ),
-                                          );
-                                        }
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                   /* Container(
-                                      color: Colors.black26,
-                                      height: 25,
-                                      width: 2,
-                                    ),*/
-                                   //TODO para update
-                                  ],
-                                ):
-                                Row(
-                                  children: <Widget>[
-                                    BlocBuilder<
-                                        FavoritesBloc,
-                                        FavoritesBlocState>(
-                                      builder: (context, state) {
-                                        if (state is FavoriteBooksLoaded) {
-                                          bool isFavorite = false;
-                                          for(Book favBook in state.books){
-                                            if(widget.book.uid == favBook.uid)isFavorite = true;
-                                          }
-                                          if (isFavorite) {
-                                            return IconButton(
-                                                icon: Icon(Icons.favorite),
-                                                iconSize: 30.0,
-                                                color: Colors.black,
-                                                onPressed: () {
-                                                  BlocProvider.of<
-                                                      FavoritesBloc>(context)
-                                                      .add(
-                                                      RemoveBookFromFavorites(
-                                                          widget.book.uid));
-                                                });
-                                          } else {
-                                            return IconButton(
-                                                icon: Icon(
-                                                    Icons.favorite_border),
-                                                iconSize: 30.0,
-                                                color: Colors.black,
-                                                onPressed: () {
-                                                  BlocProvider.of<
-                                                      FavoritesBloc>(context)
-                                                      .add(AddBookToFavorites(
-                                                      widget.book.uid));
-                                                });
-                                          }
-                                        }
-                                        return IconButton(
-                                            icon: Icon(Icons.favorite_border),
+                                    isMyBook?Row(
+                                      children: <Widget>[
+                                        IconButton(
+                                            icon: Icon(Icons.edit),
                                             iconSize: 30.0,
                                             color: Colors.black,
                                             onPressed: () {
-                                              if (BlocProvider
-                                                  .of<FavoritesBloc>(context)
-                                                  .favoriteBooks !=
-                                                  null &&
-                                                  BlocProvider
-                                                      .of<FavoritesBloc>(
-                                                      context)
-                                                      .favoriteBooks
-                                                      .contains(widget.book)) {
-                                                BlocProvider.of<FavoritesBloc>(
-                                                    context)
-                                                    .add(
-                                                    RemoveBookFromFavorites(
-                                                        widget.book.uid));
-                                              } else {
-                                                BlocProvider.of<FavoritesBloc>(
-                                                    context)
-                                                    .add(AddBookToFavorites(
-                                                    widget.book.uid));
-                                              }
-                                            });
-                                      },
-                                    ),
-
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal * 80,
-                                  height: SizeConfig.blockSizeVertical * 10,
-                                  margin: EdgeInsets.only(left: 22, top: 130),
-                                  child: Text(
-                                    widget.book.nombreLibro, //widget.book.name,
-                                    style: TextStyle(
-                                      fontFamily: "Gibson",
-                                      color: AppColors.accentText,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 30,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                                Container(
-                                  width: SizeConfig.blockSizeHorizontal * 80,
-                                  height: SizeConfig.blockSizeVertical * 5,
-                                  margin: EdgeInsets.only(left: 22, top: 5),
-                                  child: Text(
-                                    widget.book.autor,
-                                    style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      color: AppColors.accentText,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 13,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    left: 22,
-                    right: 22,
-                    bottom: 15,
-                    height: 53,
-                    child: Container(
-                      child: isMyBook? Container(): Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Container(
-                              width: SizeConfig.blockSizeHorizontal * 40,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 6.0,
-                                    )
-                                  ]),
-                              child: FlatButton(
-                                  color: AppColors.secondaryElement,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(24)),
-                                  ),
-                                  textColor: Color.fromARGB(255, 255, 255, 255),
-                                  padding: EdgeInsets.all(0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.shopping_cart,
-                                        color: Colors.white,
-                                        size: 25,
-                                      ),
-                                      Container(
-                                        width: 2,
-                                        height: 25,
-                                        color: Colors.white,
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                      ),
-                                      Text(
-                                        '\$${widget.book.precio}',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: AppColors.secondaryText,
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 25,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: () {
-                                    showSlideDialogGrande(
-                                        context: context,
-                                        child: CustomDialog.customFunctions(
-                                          title: "Enviar Solicitud De Compra",
-                                          description:
-                                          "Una vez enviada la solicitud de compra esta no se podra cancelar",
-                                          primaryButtonText: "CANCELAR",
-                                          secondaryButtonText: "Solicitar Compra",
-                                          primaryFunction: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          secondaryFunction: () {
-                                            Chat chat = Chat.fromBook(
-                                                widget.book);
-                                            chat.estadoTransaccion = "Oferta";
-                                            BlocProvider.of<ChatsBloc>(context)
-                                                .add(
-                                                AddChat(
-                                                    chat, function: (newChat) {
-                                                  BlocProvider.of<MessagesBloc>(
-                                                      context)
-                                                      .add(LoadMessages(
-                                                      newChat,
-                                                      ChatRole.COMPRADOR));
-                                                }));
-                                            Navigator.push(
+                                              Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ChatScreenBuck(
-                                                          chat: chat,
-                                                          chatRole:
-                                                          ChatRole.COMPRADOR,
-                                                        )));
+                                                  //TODO cambiar el DatosLibro por una pagina que sea posta para editar un libro
+                                                  builder: (context) => EditBookWidget(widget.book),
+                                                ),
+                                              );
+                                            }
+                                        ),
+                                        /* Container(
+                                        color: Colors.black26,
+                                        height: 25,
+                                        width: 2,
+                                      ),*/
+                                        //TODO para update
+                                      ],
+                                    ):
+                                    Row(
+                                      children: <Widget>[
+                                        BlocBuilder<
+                                            FavoritesBloc,
+                                            FavoritesBlocState>(
+                                          builder: (context, state) {
+                                            if (state is FavoriteBooksLoaded) {
+                                              bool isFavorite = false;
+                                              for(Book favBook in state.books){
+                                                if(widget.book.uid == favBook.uid)isFavorite = true;
+                                              }
+                                              if (isFavorite) {
+                                                return IconButton(
+                                                    icon: Icon(Icons.favorite),
+                                                    iconSize: 30.0,
+                                                    color: Colors.black,
+                                                    onPressed: () {
+                                                      BlocProvider.of<
+                                                          FavoritesBloc>(context)
+                                                          .add(
+                                                          RemoveBookFromFavorites(
+                                                              widget.book.uid));
+                                                    });
+                                              } else {
+                                                return IconButton(
+                                                    icon: Icon(
+                                                        Icons.favorite_border),
+                                                    iconSize: 30.0,
+                                                    color: Colors.black,
+                                                    onPressed: () {
+                                                      BlocProvider.of<
+                                                          FavoritesBloc>(context)
+                                                          .add(AddBookToFavorites(
+                                                          widget.book.uid));
+                                                    });
+                                              }
+                                            }
+                                            return IconButton(
+                                                icon: Icon(Icons.favorite_border),
+                                                iconSize: 30.0,
+                                                color: Colors.black,
+                                                onPressed: () {
+                                                  if (BlocProvider
+                                                      .of<FavoritesBloc>(context)
+                                                      .favoriteBooks !=
+                                                      null &&
+                                                      BlocProvider
+                                                          .of<FavoritesBloc>(
+                                                          context)
+                                                          .favoriteBooks
+                                                          .contains(widget.book)) {
+                                                    BlocProvider.of<FavoritesBloc>(
+                                                        context)
+                                                        .add(
+                                                        RemoveBookFromFavorites(
+                                                            widget.book.uid));
+                                                  } else {
+                                                    BlocProvider.of<FavoritesBloc>(
+                                                        context)
+                                                        .add(AddBookToFavorites(
+                                                        widget.book.uid));
+                                                  }
+                                                });
                                           },
-                                        ));
-                                  }),
-                            ),
-                          ),
-                          Spacer(),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Container(
-                              width: SizeConfig.blockSizeHorizontal * 20,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 6.0,
-                                    )
-                                  ]),
-                              child: FlatButton(
-                                  color: Colors.black54,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(24)),
-                                  ),
-                                  textColor: Color.fromARGB(255, 255, 255, 255),
-                                  padding: EdgeInsets.all(0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.chat_bubble,
-                                        color: Colors.white,
-                                        size: 25,
+                                        ),
+
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: SizeConfig.blockSizeHorizontal * 80,
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      margin: EdgeInsets.only(left: 22, top: 130),
+                                      child: Text(
+                                        widget.book.nombreLibro != null?widget.book.nombreLibro:
+                                        " ", //widget.book.name,
+                                        style: TextStyle(
+                                          fontFamily: "Gibson",
+                                          color: AppColors.accentText,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 30,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                       ),
-                                    ],
-                                  ),
-                                  onPressed: () {
-                                    Chat chat = Chat.fromBook(widget.book);
-                                    chat.estadoTransaccion = "Pregunta";
-                                    BlocProvider.of<MessagesBloc>(context)
-                                        .add(
-                                        LoadMessages(chat, ChatRole.COMPRADOR));
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChatScreenBuck(
-                                                    chat: chat,
-                                                    chatRole: ChatRole
-                                                        .COMPRADOR)));
-                                  }),
-                            ),
+                                    ),
+                                    Container(
+                                      width: SizeConfig.blockSizeHorizontal * 80,
+                                      height: SizeConfig.blockSizeVertical * 5,
+                                      margin: EdgeInsets.only(left: 22, top: 5),
+                                      child: Text(
+                                        widget.book.autor != null? widget.book.autor: " ",
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          color: AppColors.accentText,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                      Positioned(
+                        left: 22,
+                        right: 22,
+                        bottom: 15,
+                        height: 53,
+                        child: Container(
+                          child: isMyBook? Container(): Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Container(
+                                  width: SizeConfig.blockSizeHorizontal * 40,
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ]),
+                                  child: FlatButton(
+                                      color: AppColors.secondaryElement,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(24)),
+                                      ),
+                                      textColor: Color.fromARGB(255, 255, 255, 255),
+                                      padding: EdgeInsets.all(0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.shopping_cart,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          Container(
+                                            width: 2,
+                                            height: 25,
+                                            color: Colors.white,
+                                            margin: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                          ),
+                                          Text(
+                                            '\$${widget.book.precio}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: AppColors.secondaryText,
+                                              fontFamily: "Montserrat",
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 25,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        showSlideDialogGrande(
+                                            context: context,
+                                            child: CustomDialog.customFunctions(
+                                              title: "Enviar Solicitud De Compra",
+                                              description:
+                                              "Una vez enviada la solicitud de compra esta no se podra cancelar",
+                                              primaryButtonText: "CANCELAR",
+                                              secondaryButtonText: "Solicitar Compra",
+                                              primaryFunction: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              secondaryFunction: () {
+                                                Chat chat = Chat.fromBook(
+                                                    widget.book);
+                                                chat.estadoTransaccion = "Oferta";
+                                                BlocProvider.of<ChatsBloc>(context)
+                                                    .add(
+                                                    AddChat(
+                                                        chat, function: (newChat) {
+                                                      BlocProvider.of<MessagesBloc>(
+                                                          context)
+                                                          .add(LoadMessages(
+                                                          newChat,
+                                                          ChatRole.COMPRADOR));
+                                                    }));
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ChatScreenBuck(
+                                                              chat: chat,
+                                                              chatRole:
+                                                              ChatRole.COMPRADOR,
+                                                            )));
+                                              },
+                                            ));
+                                      }),
+                                ),
+                              ),
+                              Spacer(),
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Container(
+                                  width: SizeConfig.blockSizeHorizontal * 20,
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ]),
+                                  child: FlatButton(
+                                      color: Colors.black54,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(24)),
+                                      ),
+                                      textColor: Color.fromARGB(255, 255, 255, 255),
+                                      padding: EdgeInsets.all(0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.chat_bubble,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        Chat chat = Chat.fromBook(widget.book);
+                                        chat.estadoTransaccion = "Pregunta";
+                                        BlocProvider.of<MessagesBloc>(context)
+                                            .add(
+                                            LoadMessages(chat, ChatRole.COMPRADOR));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChatScreenBuck(
+                                                        chat: chat,
+                                                        chatRole: ChatRole
+                                                            .COMPRADOR)));
+                                      }),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+
           );
         }
         return CircularProgressIndicator();
@@ -451,7 +461,8 @@ class _BookSectionState extends State<BookSection> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    '${book.nombreVendedor + " " + book.apellidoVendedor}',
+                                    book.nombreVendedor != null && book.apellidoVendedor!= null?'${book.nombreVendedor + " " + book.apellidoVendedor}':
+                                    book.nombreVendedorAcortado!= null?book.nombreVendedorAcortado:" ",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 16,
@@ -546,7 +557,7 @@ class _BookSectionState extends State<BookSection> {
                                   padding: const EdgeInsets.only(top: 15),
                                   width: SizeConfig.blockSizeHorizontal * 80,
                                   child: Text(
-                                    book.descripcion,
+                                    book.descripcion!= null? book.descripcion: " ",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -596,7 +607,7 @@ class _BookSectionState extends State<BookSection> {
                                       const EdgeInsets.only(top: 5, left: 5),
                                   width: SizeConfig.blockSizeHorizontal * 70,
                                   child: Text(
-                                    book.autor,
+                                    book.autor != null? book.autor: " ",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 15,

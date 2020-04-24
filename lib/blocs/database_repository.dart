@@ -700,7 +700,7 @@ class FirebaseRepository extends DatabaseRepository {
         .where("indexes", arrayContainsAny: list)
         .snapshots()
         .map((snapshot) => snapshot.documents
-        .map((document) => Book.fromIndexMap(document.data,document.documentID))
+        .map((document) => Book.fromIndexMap(document.data))
         .toList());
   }
 
@@ -736,7 +736,16 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Stream<Book> getBook(String uid) {
-      return booksReference.document(uid).snapshots().map((doc) => Book.fromDocumentSnapshot(doc));
+      return booksReference.document(uid).snapshots().map((doc) {
+        if(doc != null){
+          print("PATH = " + doc.reference.path);
+          return Book.fromDocumentSnapshot(doc);
+        }
+        else{
+          return null;
+        }
+
+      });
   }
 
 
