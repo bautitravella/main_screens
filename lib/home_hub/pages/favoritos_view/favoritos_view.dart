@@ -335,22 +335,14 @@ class _FavoritosViewState extends State<FavoritosView> {
                                               children: <Widget>[
                                                 Text(
                                                   "${book.nombreLibro}",
-                                                  style: TextStyle(
-                                                    fontSize: 11,
-                                                    fontFamily: "Sf-r",
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                  style: Theme.of(context).primaryTextTheme.headline3,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                 ),
                                                 Text(
                                                   "(${book.autor})",
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    fontFamily: "Sf-t",
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
+                                                  style: Theme.of(context).primaryTextTheme.headline5,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,

@@ -111,11 +111,10 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     ),),*/
                     controller: _pc,
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    /*maxHeight: SizeConfig.blockSizeVertical * 86,*/
-                    maxHeight: SizeConfig.blockSizeVertical * 53,
+                    maxHeight: SizeConfig.blockSizeVertical * 86,
                     minHeight: SizeConfig.blockSizeVertical * 53,
                     color: Colors.transparent,
-                    /*backdropEnabled: true,*/
+                    backdropEnabled: true,
                     backdropColor: AppColors.secondaryBackground,
                     body: _upperBody(),
                     parallaxEnabled: true,
@@ -505,7 +504,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       ],
                     ),
                   ),
-                  /*Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
@@ -614,7 +613,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         ],
                       ),
                     ],
-                  ),*/ //TODO para proximo update
+                  ), //TODO para proximo update
                 ],
               ),
             ),

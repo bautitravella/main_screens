@@ -5,6 +5,8 @@ class AppTheme {
   //
   AppTheme._();
 
+  static final _darkWall = Color.fromARGB(255, 29, 29, 29) ;
+
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     backgroundColor: AppColors.secondaryBackground,
@@ -18,7 +20,7 @@ class AppTheme {
       ),
     ),*/
     cardTheme: CardTheme(
-      color: Colors.teal,
+      color: Color.fromARGB(255, 240, 240, 240),
     ),
     iconTheme: IconThemeData(
       color: Colors.black87,
@@ -63,25 +65,85 @@ class AppTheme {
       fontSize: 30,
       fontFamily: "Sf",
       fontWeight: FontWeight.w700,
-    )//Titulos de configuracion
+    ),//Titulos de configuracion
+      subtitle1: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontFamily: "Sf",
+        fontWeight: FontWeight.w600,
+      ), //Subtitulos de configuracion
+      subtitle2: TextStyle(
+        fontFamily: "Sf-r",
+        color: Color.fromARGB(255, 79, 79, 79),
+        fontWeight: FontWeight.w900,
+        fontSize: 18,
+      ),//Texto de los tiles
     ),
     primaryTextTheme: TextTheme(
-        headline1: TextStyle(
+      headline1: TextStyle(
           fontFamily: "Sf",
           color: Colors.white,
           fontWeight: FontWeight.w800,
           fontSize: 30,
         ),
-      )
+      headline2: TextStyle(
+        color: Color.fromARGB(200, 0, 0, 0),
+        fontSize: 15,
+        fontFamily: "Sf-r",
+        fontWeight: FontWeight.w700,
+      ), //Tile Book Name
+      headline3: TextStyle(
+        color: Color.fromARGB(190, 0, 0, 0),
+        fontSize: 11,
+        fontFamily: "Sf",
+        fontWeight: FontWeight.w500,
+      ),//Tile Author Name
+      headline4:  TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Sf-r",
+        color: Color.fromARGB(
+            190, 0, 0, 0),
+      ),//Tile User Name
+      headline5: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Sf-r",
+        color: Color.fromARGB(100, 0, 0, 0),
+      ),//Tile Estado
+      ),
+    accentTextTheme: TextTheme(
+    headline1: TextStyle(
+  fontFamily: "Sf",
+    color: Colors.black,
+    fontWeight: FontWeight.w800,
+    fontSize: 30,
+  ), // Headline PageView
+    headline2: TextStyle(
+        fontFamily: "Sf",
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color:
+        Color.fromARGB(255, 57, 57, 57),
+      ),//User Name NotificationView
+    headline3: TextStyle(
+        fontFamily: "Sf",
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+        color: Color.fromARGB(
+            255, 57, 57, 57),
+      ),//Last Message NotificationView
+  )
   );
 
   static final ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: Color.fromARGB(255, 29, 29, 29),
-    backgroundColor: Color.fromARGB(255, 29, 29, 29),
+
+    scaffoldBackgroundColor: _darkWall,
+    backgroundColor:  _darkWall,
     accentColor: Color.fromARGB(255, 254, 189, 16),
     hintColor: Color.fromARGB(255, 70, 70, 70),// fondo textfields sin apretar
-    focusColor: Color.fromARGB(255, 29, 29, 29),// fondo textfields apretados
-    
+    focusColor:  _darkWall,// fondo textfields apretados
+
     /* appBarTheme: AppBarTheme(
       color: Colors.teal,
       iconTheme: IconThemeData(
@@ -89,8 +151,7 @@ class AppTheme {
       ),
     ),*/
     cardTheme: CardTheme(
-      color: Colors.teal,
-
+     color: Color.fromARGB(255, 70, 70, 70),
     ),
 
     primaryIconTheme: IconThemeData(
@@ -143,7 +204,12 @@ class AppTheme {
       fontFamily: "Sf",
       fontWeight: FontWeight.w600,
     ), //Subtitulos de configuracion
-
+      subtitle2: TextStyle(
+        fontFamily: "Sf-r",
+        color: Colors.white,
+        fontWeight: FontWeight.w900,
+        fontSize: 18,
+      ),//Texto de los tiles
 
     ),//Configuracion Style
     primaryTextTheme: TextTheme(
@@ -153,6 +219,52 @@ class AppTheme {
         fontWeight: FontWeight.w800,
         fontSize: 30,
       ),
+      headline2: TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontFamily: "Sf-r",
+        fontWeight: FontWeight.w700,
+      ), //Tile Book Name
+      headline3: TextStyle(
+        color: Colors.white54,
+        fontSize: 11,
+        fontFamily: "Sf",
+        fontWeight: FontWeight.w500,
+      ),//Tile Author Name
+      headline4:  TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Sf-r",
+        color: Color.fromARGB(
+            190, 255, 255, 255),
+      ),//Tile User Name
+      headline5: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Sf-r",
+        color: Color.fromARGB(100, 255, 255, 255),
+      ),//Tile Estado
+
+    ),
+    accentTextTheme: TextTheme(
+      headline1: TextStyle(
+        fontFamily: "Sf",
+        color: Colors.white,
+        fontWeight: FontWeight.w800,
+        fontSize: 30,
+      ), // Headline PageView
+      headline2: TextStyle(
+        fontFamily: "Sf",
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      ),//User Name NotificationView
+      headline3: TextStyle(
+        fontFamily: "Sf",
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+        color: Colors.white60,
+      ),//Last Message NotificationView
     )
   );
 }
