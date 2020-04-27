@@ -13,6 +13,9 @@ class AppTheme {
     accentColor: Color.fromARGB(255, 254, 189, 16),
     hintColor: Color.fromARGB(255, 222, 222, 222),// fondo textfields sin apretar
     focusColor: Colors.white,// fondo textfields apretados
+    hoverColor: Color.fromRGBO(0, 0, 0, 0.15),
+    dialogBackgroundColor: Colors.white,
+
    /* appBarTheme: AppBarTheme(
       color: Colors.teal,
       iconTheme: IconThemeData(
@@ -133,7 +136,12 @@ class AppTheme {
         color: Color.fromARGB(
             255, 57, 57, 57),
       ),//Last Message NotificationView
-  )
+    headline4: TextStyle(
+          fontFamily: "Sf-r",
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: Color.fromARGB(255, 118, 118, 118)),//Chat Vender/Rechazar Text
+  ),
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -143,6 +151,8 @@ class AppTheme {
     accentColor: Color.fromARGB(255, 254, 189, 16),
     hintColor: Color.fromARGB(255, 70, 70, 70),// fondo textfields sin apretar
     focusColor:  _darkWall,// fondo textfields apretados
+    hoverColor: Colors.black,
+    dialogBackgroundColor: _darkWall,
 
     /* appBarTheme: AppBarTheme(
       color: Colors.teal,
@@ -265,6 +275,11 @@ class AppTheme {
         fontWeight: FontWeight.w500,
         color: Colors.white60,
       ),//Last Message NotificationView
+      headline4: TextStyle(
+          fontFamily: "Sf-r",
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: Colors.white),//Chat Vender/Rechazar Text
     )
   );
 }

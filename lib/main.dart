@@ -332,7 +332,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
         child: Scaffold(
           body: Container(
               margin: EdgeInsets.all(1),
-              child: Center(child: Image.asset('assets/images/buymy-hd.png'))),
+              child: Center(child: Image.asset('assets/images/buymy-hd.png', scale: 2.5,))),
         ),
       ),
 

@@ -85,7 +85,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                   child: SlidingUpPanel(
                     panelBuilder: (ScrollController sc) =>
                         _scrollingList(sc, context),
-                    maxHeight: SizeConfig.blockSizeVertical * 61.2,
+                    maxHeight: SizeConfig.blockSizeVertical * 78.2,
                     minHeight: SizeConfig.blockSizeVertical * 61.2,
                     color: Colors.transparent,
                     boxShadow: [
