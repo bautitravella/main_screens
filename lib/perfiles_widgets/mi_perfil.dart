@@ -39,6 +39,8 @@ import '../auth.dart';
 class MiPerfil extends StatefulWidget {
   MiPerfil({Key key}) : super(key: key);
 
+  bool isSelected = false;
+
   @override
   _MiPerfilState createState() => _MiPerfilState();
 }
@@ -1631,6 +1633,7 @@ class _MiPerfilState extends State<MiPerfil> {
                       textAlign: TextAlign.right,
                       onChanged: (text) {
                         hijos[indexHijo].nombre = text;
+                        widget.isSelected = false;
                       },
                     ),
                   ),
@@ -1697,6 +1700,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                 } else {
                                   setState(() {
                                     hijos[indexHijo].colegio = value;
+                                    widget.isSelected = false;
                                   });
                                 }
                               },
@@ -1766,6 +1770,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             onChanged: (value) {
                               setState(() {
                                 hijos[indexHijo].curso = value;
+                                widget.isSelected = false;
                               });
                             },
                           ),
@@ -1799,31 +1804,34 @@ class _MiPerfilState extends State<MiPerfil> {
                       ),
                     )
                   : Container(),
-              FlatButton(
-                /*height: 30,
-                margin: EdgeInsets.only(left: 10),
-                width:
-                SizeConfig.blockSizeHorizontal *
-                    25,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(
-                      200, 0, 191, 131),
-                  borderRadius:
-                  BorderRadius.circular(30.0),
-                ),*/
-                color: Color.fromARGB(200, 0, 191, 131),
+
+              FilterChip(
+                label: Text('${widget.isSelected ? 'Guardado' : 'Guardar'}', textAlign: TextAlign.center,),
+                labelPadding: EdgeInsets.only(top: 2, bottom: 2, right: 10, left: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(18.0),
                 ),
-                onPressed: () => aceptarCambios(),
-                child: Text(
-                  "Guardar",
-                  style: TextStyle(
-                      fontFamily: "Sf-r",
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white),
-                ),
+                labelStyle: widget.isSelected
+                    ?TextStyle(
+                    fontFamily: "Sf-r",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white)
+                    : TextStyle(
+                    fontFamily: "Sf-r",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,),
+                selected: widget.isSelected,
+                onSelected: (bool selected) {
+                  setState(() {
+                    widget.isSelected = !widget.isSelected;
+                    aceptarCambios();
+                  });
+                },
+                backgroundColor: Color.fromARGB(200, 0, 191, 131),
+                selectedColor: AppColors.secondaryBackground,
+                checkmarkColor: Colors.white,
               ),
             ],
           ),

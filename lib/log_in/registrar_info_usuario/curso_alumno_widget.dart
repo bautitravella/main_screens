@@ -12,7 +12,6 @@ import 'package:flutterui/main.dart';
 import 'package:flutterui/WidgetsCopy//textfield_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../../size_config.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 

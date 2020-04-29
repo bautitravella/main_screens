@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/WidgetsCopy/searchable_dropdown_dev.dart';
 import 'package:flutterui/values/colors.dart';
 
 
@@ -332,9 +333,6 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
           ),
           GestureDetector(
             onTap: () {
-              setState(() {
-                isFocus = true;
-              });
               if (widget.onTap != null) {
                 print('Focus');
                 widget.onTap();
@@ -342,32 +340,20 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
             },
             child: Container(
               height: 50,
-              color: Colors.transparent,
-              width: widget.width-15,
+              width: widget.width,
               margin: EdgeInsets.only(left: 8, right: 8),
-              child: Theme(
-                data: Theme.of(context).copyWith(canvasColor: Theme.of(context).hintColor,),
-                child: DropdownButton(
-                  underline: Text(""),
-                  icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).iconTheme.color, size: 30,),
-                  items: widget.item, /*createDropDownMenuListColegios(state.colegiosData.colegios)*/
-                  isExpanded: widget.isExpanded,/*true*/
-                  value: widget.value,
-                  hint: new Text(
-                    "",
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  onChanged: widget.onChanged,
-                  /*(value) {
-                    if (value == "+ Agregar Colegio") {
-                      showSchoolDialog(context, widget.user.email);
-                    } else {
-                      setState(() {
-                        colegioSelectedValue = value;
-                      });
-                    }
-                  },*/
+              child:  SearchableDropdown.single(
+                items: widget.item,
+                value: widget.value,
+                underline: "",
+                menuBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                displayClearIcon: false,
+                hint: new Text(
+                  "",
+                  style: Theme.of(context).textTheme.headline3,
                 ),
+                onChanged: widget.onChanged,
+                isExpanded: widget.isExpanded,
               ),
              /*
                 onSubmitted: (t) {

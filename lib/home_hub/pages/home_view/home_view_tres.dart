@@ -22,6 +22,7 @@ import 'package:flutterui/test/test2.dart';
 import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/test/test4rol.dart';
 import 'package:flutterui/test/test_uploadimage.dart';
+import 'package:flutterui/test/upload_book.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -1096,7 +1097,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CarouselWithIndicator(),
+                  builder: (context) => SubirLibroPrueba(),
                 ),
               );
             },
@@ -1118,7 +1119,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         size: 30,
                       )),
                   Text(
-                    "Search",
+                    "UploadBook",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,

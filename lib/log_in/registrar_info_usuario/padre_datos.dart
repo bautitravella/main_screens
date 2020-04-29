@@ -11,7 +11,6 @@ import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_wi
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
 

@@ -414,7 +414,7 @@ class _CategoriesColegiosState extends State<CategoriesColegios> {
                     child: Center(
                       child: Text(
                         "Curso nose cuanto por el amor de dios",
-                        style: Theme.of(context).textTheme.subtitle2,
+                        style: Theme.of(context).primaryTextTheme.subtitle1,
                       ),
                     ),
                   ),

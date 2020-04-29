@@ -76,11 +76,11 @@ class AppTheme {
         fontWeight: FontWeight.w600,
       ), //Subtitulos de configuracion
       subtitle2: TextStyle(
-        fontFamily: "Sf-r",
-        color: Color.fromARGB(255, 79, 79, 79),
-        fontWeight: FontWeight.w900,
-        fontSize: 18,
-      ),//Texto de los tiles
+        color: Colors.black87,
+        fontSize: 15,
+        fontFamily: "Sf",
+        fontWeight: FontWeight.w400,
+      ), //SubSubtitulos de configuracion
     ),
     primaryTextTheme: TextTheme(
       headline1: TextStyle(
@@ -114,6 +114,12 @@ class AppTheme {
         fontFamily: "Sf-r",
         color: Color.fromARGB(100, 0, 0, 0),
       ),//Tile Estado
+      subtitle1: TextStyle(
+        fontFamily: "Sf-r",
+        color: Color.fromARGB(255, 79, 79, 79),
+        fontWeight: FontWeight.w900,
+        fontSize: 18,
+      ),//Texto de los tiles
       ),
     accentTextTheme: TextTheme(
     headline1: TextStyle(
@@ -215,12 +221,11 @@ class AppTheme {
       fontWeight: FontWeight.w600,
     ), //Subtitulos de configuracion
       subtitle2: TextStyle(
-        fontFamily: "Sf-r",
-        color: Colors.white,
-        fontWeight: FontWeight.w900,
-        fontSize: 18,
-      ),//Texto de los tiles
-
+        color: Colors.white54,
+        fontSize: 15,
+        fontFamily: "Sf",
+        fontWeight: FontWeight.w400,
+      ), //SubSubtitulos de configuracion
     ),//Configuracion Style
     primaryTextTheme: TextTheme(
       headline1: TextStyle(
@@ -254,6 +259,12 @@ class AppTheme {
         fontFamily: "Sf-r",
         color: Color.fromARGB(100, 255, 255, 255),
       ),//Tile Estado
+      subtitle1: TextStyle(
+        fontFamily: "Sf-r",
+        color: Colors.white,
+        fontWeight: FontWeight.w900,
+        fontSize: 18,
+      ),//Texto de los tiles
 
     ),
     accentTextTheme: TextTheme(
