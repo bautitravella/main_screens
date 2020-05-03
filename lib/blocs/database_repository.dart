@@ -27,9 +27,6 @@ abstract class DatabaseRepository {
 
   Stream<User> getUserInfo(String email);
 
-
-
-
   //BOOKS
   Future<void> addNewBook(Book book, User user);
 
@@ -53,7 +50,7 @@ abstract class DatabaseRepository {
 
   Future<List<Book>> getUserFavoriteBooks(
       List<dynamic> favoritesList, User user);
-  
+
   Stream<List<Book>> getUserCheapBooks(User user);
 
   Future<void> reFilterUserBooks(User user);
@@ -64,7 +61,7 @@ abstract class DatabaseRepository {
 
   Stream<ColegiosData> getColegios();
 
-  Future<void> addSchool(String name,String email);
+  Future<void> addSchool(String name, String email);
 
   //CHAT
   Stream<List<Chat>> getVentaChats(User user);
@@ -86,42 +83,45 @@ abstract class DatabaseRepository {
   Future<void> removeToken(User user);
 
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list);
+  Stream<List<Book>> searchBooksBySchool(
+      User downloadedUser, List<String> list, String colegio);
 
   Stream<Chat> getChat(Chat chat) {}
 
+  Stream<Book> getBook(String uid);
 
+  Stream<List<Book>> getSimilarBooksBySchool(Book book, String school);
 }
 
 class FirebaseRepository extends DatabaseRepository {
-  final usersReference = Firestore.instance.collection("Users");
-  final booksReference = Firestore.instance.collection("Publicaciones");
-  final colegiosReference = Firestore.instance.collection("Colegios");
-  final chatsReference = Firestore.instance.collection('Chats');
-  final requestsReference = Firestore.instance.collection("Requests");
+  static Firestore _firestoreInstance = Firestore.instance;
+
+  final usersReference = _firestoreInstance.collection("Users");
+  final booksReference = _firestoreInstance.collection("Publicaciones");
+  final colegiosReference = _firestoreInstance.collection("Colegios");
+  final chatsReference = _firestoreInstance.collection('Chats');
+  final requestsReference = _firestoreInstance.collection("Requests");
+  final booksCollectionGroupReference =
+      _firestoreInstance.collectionGroup("colegiosSearch");
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
-  Future editBook(Book book){
-    return Future.wait([editBookInfo(book),editBookImages(book)]);
+  Future editBook(Book book) {
+    return Future.wait([editBookInfo(book), editBookImages(book)]);
   }
 
   @override
-  Future editBookInfo(Book book){
-
+  Future editBookInfo(Book book) {
     book.createIndexes();
-    return booksReference
-        .document(book.uid)
-        .updateData(book.toMap());
+    return booksReference.document(book.uid).updateData(book.toMap());
     //Todo faltaria hacer que se modifique el nombre del libro en todos los chats que sean de este libro
-
   }
 
   @override
-  Future editBookImages(Book book){
+  Future editBookImages(Book book) {
     book.imagesUrl.clear();
     book.thumbImagesUrl.clear();
-    Future uploadImages =
-    uploadBookImages(book, book.uid).then((urlLists) {
+    Future uploadImages = uploadBookImages(book, book.uid).then((urlLists) {
       urlLists[0].forEach((url) {
         book.imagesUrl.add(url);
       });
@@ -129,11 +129,8 @@ class FirebaseRepository extends DatabaseRepository {
         book.thumbImagesUrl.add(thumbUrl);
       });
     });
-    return  Future.wait([uploadImages]).then((urlLists) {
-
-      booksReference
-          .document(book.uid)
-          .updateData(book.toMap());
+    return Future.wait([uploadImages]).then((urlLists) {
+      booksReference.document(book.uid).updateData(book.toMap());
     });
   }
 
@@ -164,8 +161,7 @@ class FirebaseRepository extends DatabaseRepository {
         book.thumbImagesUrl.add(thumbUrl);
       });
     });
-    return  Future.wait([uploadImages]).then((urlLists) {
-
+    return Future.wait([uploadImages]).then((urlLists) {
       booksReference
           .document(documentReference.documentID)
           .setData(book.toMap());
@@ -250,64 +246,54 @@ class FirebaseRepository extends DatabaseRepository {
   @override
   Stream<List<Book>> getUserRecomendationBooks(User user) {
     print("GET USER BOOKS = $user");
-    return booksReference
-        .where("vendido",isEqualTo: false)
-        .where("colegios",arrayContainsAny: user.getColegios())
-        .snapshots().map((snapshot) {
-      print('DOCUMENTOS ================= ${snapshot.documents}');
-      List<Book> books = [];
-      Book book;
-      List<dynamic> cursos;
-      bool addBook=false;
-      snapshot.documents.forEach((doc) {
-        try {
-          if(doc['cursos'] != null) {
-            cursos = doc['cursos'];
-            user.getCursos().forEach((curso) {
-              if(cursos.contains(curso))addBook = true;
-            });
-            if(doc['emailVendedor'] != null && doc['emailVendedor'] == user.email ){
-              addBook = false;
-            }
-            if(addBook){
-              book = Book.fromDocumentSnapshot(doc);
-              if (book != null) {
-                books.add(book);
-              }
-            }
-          }
-        } catch (e) {
-          print("NO SE PUDO AGREGAR ESTE LIBRO");
-        }
-      });
-      return books;
-//      return snapshot.documents
-//          .map((doc) {
-//            try {
-//              return Book.fromDocumentSnapshot(doc);
-//            }catch(e){
-//              print(e);
-//            }
-//          })
-//          .toList();
-    });
-  }
-  @override
-  Stream<List<Book>> getUserCheapBooks(User user) {
-    print("GET USER BOOKS = $user");
-    return booksReference
-        .where("vendido",isEqualTo: false)
-        .where("colegios", arrayContainsAny: user.getColegios())
-        .orderBy("precio", descending: false)
-        .limit(50)
-        .snapshots().map((snapshot) {
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: user.getColegios().first)
+        .where('cursos', arrayContainsAny: user.getCursos())
+//      booksReference
+//        .where("vendido",isEqualTo: false)
+//        .where("colegios",arrayContainsAny: user.getColegios())
+        .snapshots()
+        .map((snapshot) {
       print('DOCUMENTOS ================= ${snapshot.documents}');
       List<Book> books = [];
       Book book;
       bool addBook = false;
       snapshot.documents.forEach((doc) {
         try {
-          book = Book.fromDocumentSnapshot(doc);
+          book = Book.fromIndexMap(doc.data);
+          if (book != null) {
+            books.add(book);
+          }
+        } catch (e) {
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
+        }
+      });
+      return books;
+    });
+  }
+
+  @override
+  Stream<List<Book>> getUserCheapBooks(User user) {
+    print("GET USER BOOKS = $user");
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: user.getColegios().first)
+        .orderBy("precio", descending: false)
+        .limit(50)
+        .snapshots()
+//    return booksReference
+//        .where("vendido",isEqualTo: false)
+//        .where("colegios", arrayContainsAny: user.getColegios())
+//        .orderBy("precio", descending: false)
+//        .limit(50)
+//        .snapshots()
+        .map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      bool addBook = false;
+      snapshot.documents.forEach((doc) {
+        try {
+          book = Book.fromIndexMap(doc.data);
           if (book != null) {
             books.add(book);
           }
@@ -330,14 +316,11 @@ class FirebaseRepository extends DatabaseRepository {
 //      return null;
 //    }
     try {
-      return usersReference
-          .document(email)
-          .snapshots()
-          .map((doc) {
-            if(doc.data!=null){
-              return createUserFromDocumentSnapshot(doc);
-            }
-            });
+      return usersReference.document(email).snapshots().map((doc) {
+        if (doc.data != null) {
+          return createUserFromDocumentSnapshot(doc);
+        }
+      });
       //User.fromMap(doc.data, email));
     } catch (e) {
       print("getUserInfo error = " + e.toString());
@@ -347,25 +330,28 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Future<void> editUser(User user) {
-    return Future.wait([editUserImage(user),editUserInfo(user)]);
+    return Future.wait([editUserImage(user), editUserInfo(user)]);
   }
 
   @override
   Future<void> editUserImage(User user) async {
     String downloadUrl = await uploadProfileImage(user);
-    usersReference.document(user.email).updateData({"fotoPerfilUrl":downloadUrl});
+    usersReference
+        .document(user.email)
+        .updateData({"fotoPerfilUrl": downloadUrl});
     return null;
   }
 
   Future<String> uploadProfileImage(User user) async {
-    StorageReference ref =
-    FirebaseStorage.instance.ref().child("profile_images2/" + user.email + ".jpg");
+    StorageReference ref = FirebaseStorage.instance
+        .ref()
+        .child("profile_images2/" + user.email + ".jpg");
     StorageUploadTask uploadTask = ref.putFile(user.fotoPerfilRaw);
     print(
         "---------------------------------------------------------Arranca la transferencia");
 
     String downloadUrl =
-    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+        (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
     print(
         "---------------------------------------------------------Termina la Transferencia");
 
@@ -479,19 +465,25 @@ class FirebaseRepository extends DatabaseRepository {
   Future<String> addChat(User user, Chat chat) async {
     chat.addCompradorInformation(user);
     Chat potentialChat = await getChatUid(chat, user);
-    Map<String,dynamic> estadoMap = {
-      "timestamp":FieldValue.serverTimestamp(),
-      "estadoTransaccion":chat.estadoTransaccion,
-      "emailRecipient":chat.vendedorEmail,
+    Map<String, dynamic> estadoMap = {
+      "timestamp": FieldValue.serverTimestamp(),
+      "estadoTransaccion": chat.estadoTransaccion,
+      "emailRecipient": chat.vendedorEmail,
     };
 
     if (potentialChat == null) {
       DocumentReference documentReference =
           await chatsReference.add(chat.toMap());
-      chatsReference.document(documentReference.documentID).collection("estadoTransaccion").add(estadoMap);
+      chatsReference
+          .document(documentReference.documentID)
+          .collection("estadoTransaccion")
+          .add(estadoMap);
       return documentReference.documentID;
     } else {
-      chatsReference.document(potentialChat.uid).collection("estadoTransaccion").add(estadoMap);
+      chatsReference
+          .document(potentialChat.uid)
+          .collection("estadoTransaccion")
+          .add(estadoMap);
       return potentialChat.uid;
     }
   }
@@ -506,7 +498,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Chat>> getVentaChats(User user) {
     return chatsReference
         .where('vendedorEmail', isEqualTo: user.email)
-        .orderBy("lastMessageTimestamp",descending: true)
+        .orderBy("lastMessageTimestamp", descending: true)
         .snapshots()
         .map((docs) => docs.documents
             .map((doc) => Chat.fromDocumentSnapshot(doc))
@@ -517,15 +509,18 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Chat>> getCompraChats(User user) {
     return chatsReference
         .where('compradorEmail', isEqualTo: user.email)
-        .orderBy("lastMessageTimestamp",descending: true)
+        .orderBy("lastMessageTimestamp", descending: true)
         .snapshots()
         .map((docs) => docs.documents
             .map((doc) => Chat.fromDocumentSnapshot(doc))
             .toList());
   }
 
-  Stream<Chat> getChat(Chat chatWithUid){
-    return chatsReference.document(chatWithUid.uid).snapshots().map((doc) => Chat.fromDocumentSnapshot(doc));
+  Stream<Chat> getChat(Chat chatWithUid) {
+    return chatsReference
+        .document(chatWithUid.uid)
+        .snapshots()
+        .map((doc) => Chat.fromDocumentSnapshot(doc));
   }
 
   @override
@@ -611,25 +606,31 @@ class FirebaseRepository extends DatabaseRepository {
   }
 
   Future<void> solicitarCompra(Chat chat) {
-    Map<String,dynamic> estadoMap = {
-      "timestamp":FieldValue.serverTimestamp(),
-      "estadoTransaccion":"Oferta",
-      "emailRecipient":chat.vendedorEmail,
+    Map<String, dynamic> estadoMap = {
+      "timestamp": FieldValue.serverTimestamp(),
+      "estadoTransaccion": "Oferta",
+      "emailRecipient": chat.vendedorEmail,
     };
-    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+    chatsReference
+        .document(chat.uid)
+        .collection("estadoTransaccion")
+        .add(estadoMap);
 //    chatsReference
 //        .document(chat.uid)
 //        .updateData({"estadoTransaccion": "Oferta"});
   }
 
   @override
-  Future<void> cancelarSolicitudDeCompra(Chat chat){
-    Map<String,dynamic> estadoMap = {
-      "timestamp":FieldValue.serverTimestamp(),
-      "estadoTransaccion":"Cancelada",
-      "emailRecipient":chat.vendedorEmail,
+  Future<void> cancelarSolicitudDeCompra(Chat chat) {
+    Map<String, dynamic> estadoMap = {
+      "timestamp": FieldValue.serverTimestamp(),
+      "estadoTransaccion": "Cancelada",
+      "emailRecipient": chat.vendedorEmail,
     };
-    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+    chatsReference
+        .document(chat.uid)
+        .collection("estadoTransaccion")
+        .add(estadoMap);
 //    chatsReference
 //        .document(chat.uid)
 //        .updateData({"estadoTransaccion": "Pregunta"});
@@ -637,12 +638,15 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Future<void> aceptarSolicitudDeCompra(Chat chat) async {
-    Map<String,dynamic> estadoMap = {
-      "timestamp":FieldValue.serverTimestamp(),
-      "estadoTransaccion":"Vendido",
-      "emailRecipient":chat.compradorEmail,
+    Map<String, dynamic> estadoMap = {
+      "timestamp": FieldValue.serverTimestamp(),
+      "estadoTransaccion": "Vendido",
+      "emailRecipient": chat.compradorEmail,
     };
-    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+    chatsReference
+        .document(chat.uid)
+        .collection("estadoTransaccion")
+        .add(estadoMap);
 //    chatsReference
 //        .document(chat.uid)
 //        .updateData({"estadoTransaccion": "Vendido"});
@@ -660,12 +664,15 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Future<void> rechazarSolicitudDeCompra(Chat chat) {
-    Map<String,dynamic> estadoMap = {
-      "timestamp":FieldValue.serverTimestamp(),
-      "estadoTransaccion":"Rechazada",
-      "emailRecipient":chat.compradorEmail,
+    Map<String, dynamic> estadoMap = {
+      "timestamp": FieldValue.serverTimestamp(),
+      "estadoTransaccion": "Rechazada",
+      "emailRecipient": chat.compradorEmail,
     };
-    chatsReference.document(chat.uid).collection("estadoTransaccion").add(estadoMap);
+    chatsReference
+        .document(chat.uid)
+        .collection("estadoTransaccion")
+        .add(estadoMap);
 //    chatsReference
 //        .document(chat.uid)
 //        .updateData({"estadoTransaccion": "Rechazada"});
@@ -673,12 +680,25 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Stream<List<Book>> searchBooks(User downloadedUser, List<String> list) {
-    return booksReference
+    return booksCollectionGroupReference
         .where("indexes", arrayContainsAny: list)
-        .where("vendido",isEqualTo: false)
+        .where("vendido", isEqualTo: false)
         .snapshots()
         .map((snapshot) => snapshot.documents
             .map((document) => Book.fromDocumentSnapshot(document))
+            .toList());
+  }
+
+  @override
+  Stream<List<Book>> searchBooksBySchool(
+      User downloadedUser, List<String> list, String colegio) {
+    print("SEARCHING");
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: colegio)
+        .where("indexes", arrayContainsAny: list)
+        .snapshots()
+        .map((snapshot) => snapshot.documents
+            .map((document) => Book.fromIndexMap(document.data))
             .toList());
   }
 
@@ -708,9 +728,40 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Future<void> addSchool(String name, String email) {
-
-    return requestsReference.add({"email": email,"schoolName": name, "timestamp":FieldValue.serverTimestamp(),"type":"add_school"});
+    return requestsReference.add({
+      "email": email,
+      "schoolName": name,
+      "timestamp": FieldValue.serverTimestamp(),
+      "type": "add_school"
+    });
   }
 
+  @override
+  Stream<Book> getBook(String uid) {
+    return booksReference.document(uid).snapshots().map((doc) {
+      if (doc != null) {
+        print("PATH = " + doc.reference.path);
+        return Book.fromDocumentSnapshot(doc);
+      } else {
+        return null;
+      }
+    });
+  }
 
+  Stream<List<Book>> getSimilarBooksBySchool(Book book, String school) {
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: school)
+        .where("palabrasImportantes",
+            arrayContainsAny: book.palabrasImportantes)
+        .snapshots()
+        .map((bookDocsList) => bookDocsList.documents != null
+            ? bookDocsList.documents.map((bookDoc) {
+                if (bookDoc != null && bookDoc.data != null) {
+                  return Book.fromIndexMap(bookDoc.data);
+                } else {
+                  return null;
+                }
+              }).toList()
+            : null);
+  }
 }

@@ -500,7 +500,10 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
                                                             child: Row(
                                                               children: <Widget>[
                                                                 SizedBox(width: 5,),
-                                                                Text(book.nombreVendedor.substring(0,1).toUpperCase() + "." + book.apellidoVendedor,
+                                                                Text(book.nombreVendedor!=null?book.nombreVendedor.substring(0,1).toUpperCase() + "." + book.apellidoVendedor
+                                                                  :
+                                                                    " "
+                                                                  ,
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                               fontWeight: FontWeight.w700,

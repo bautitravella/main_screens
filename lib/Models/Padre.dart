@@ -18,6 +18,10 @@ class Padre extends User{
 
   Padre.fromEmail(String email): super.fromEmail(email);
 
+  Padre.fromIndexMap(Map<String, dynamic> data): super.fromIndexMap(data){
+
+  }
+
   Padre.fromMap(Map<String, dynamic> data,String email): super.fromMap(data,email){
     List<dynamic> hijosMapList = data['hijos'];
     hijosMapList.forEach((hijoMap) {_hijos.add(Hijo.fromMap(hijoMap)); });
@@ -38,12 +42,12 @@ class Padre extends User{
   }
 
   Map<String,dynamic> toMap(){
-   var userMap = super.toMap();
-   userMap['rol'] = role;
-   List<Map> hijosMap = new List();
-   _hijos.forEach((element) {hijosMap.add(element.toMap());});
-   userMap['hijos'] = hijosMap;
-   return userMap;
+    var userMap = super.toMap();
+    userMap['rol'] = role;
+    List<Map> hijosMap = new List();
+    _hijos.forEach((element) {hijosMap.add(element.toMap());});
+    userMap['hijos'] = hijosMap;
+    return userMap;
   }
   @override
   List<String> getColegios(){
@@ -51,7 +55,7 @@ class Padre extends User{
     _hijos.forEach((hijo)  {
       String colegio = hijo.colegio;
       if(!colegiosList.contains(colegio)){
-      colegiosList.add(colegio);
+        colegiosList.add(colegio);
       }
     });
     return colegiosList;

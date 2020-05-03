@@ -6,19 +6,19 @@ abstract class SearchBlocEvent extends Equatable {
 }
 
 class SearchBooks extends SearchBlocEvent{
-  final List<String> list;
+  final String search;
 
-  SearchBooks(this.list);
+  SearchBooks(this.search);
 
   @override
-  List<Object> get props => [list];
+  List<Object> get props => [search];
 }
 
 class LoadedSearchBooks extends SearchBlocEvent{
-  final List<Book> booksList;
 
-  LoadedSearchBooks(this.booksList);
+
+  LoadedSearchBooks();
 
   @override
-  List<Object> get props => [booksList];
+  List<Object> get props => [];
 }
