@@ -224,219 +224,100 @@ class _GenericBookListState extends State<GenericBookList> {
   Widget _scrollingList(ScrollController sc) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: 0,
+          left: 5,
+          child: Row(
+            children: <Widget>[
+              IconButton(icon: Icon(Icons.arrow_back_ios),
+                iconSize: 26,
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.pop(context);
+                },),
+              Container(
+                width: SizeConfig.blockSizeHorizontal*50,
+                child: Text(
+                  'Materias',
+                  style: TextStyle(
+                      fontSize: 23,
+                      fontFamily: 'Sf-r',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
+          ),
+        ),
+        Positioned(
+          top: 60,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            height: 220,
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 20.0,
+                  color: Color.fromRGBO(0, 0, 0, 0.15),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30)),
+              child: selectList(sc),
+            ),
+          ),
+        ),
+      ],
+    );
+
+
+
+  }
+
+
+  Widget selectList(ScrollController sc){
     switch(widget.listType){
       case ListType.Economicos:
         return  BlocBuilder<EconomicosBloc,EconomicosBlocState>(
             builder: (context, state) {
               if (state is EconomicosBooksLoadedState) {
-                return Stack(
-                  children: <Widget>[
-                    Positioned(
-                      top: 0,
-                      left: 5,
-                      child: Row(
-                        children: <Widget>[
-                          IconButton(icon: Icon(Icons.arrow_back_ios),
-                            iconSize: 26,
-                            color: Colors.white,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal*50,
-                            child: Text(
-                              'Materias',
-                              style: TextStyle(
-                                  fontSize: 23,
-                                  fontFamily: 'Sf-r',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      top: 60,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        height: 220,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              topLeft: Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 20.0,
-                              color: Color.fromRGBO(0, 0, 0, 0.15),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              topLeft: Radius.circular(30)),
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            controller: sc,
-                            itemCount: state.books.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              Book book = state.books[index];
-                              return BookTile(book);
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  controller: sc,
+                  itemCount: state.books.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Book book = state.books[index];
+                    return BookTile(book);
+                  },
                 );
               }
-
-              return Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 0,
-                    left: 5,
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(icon: Icon(Icons.arrow_back_ios),
-                          iconSize: 26,
-                          color: Colors.white,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },),
-                        Text(
-                          'Economicos',
-                          style: TextStyle(
-                              fontSize: 23,
-                              fontFamily: 'Sf-r',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: 55,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: 220,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30)),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 20.0,
-                            color: Color.fromRGBO(0, 0, 0, 0.15),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          /*Text("PARECE QUE LA CAGASTE BRO"),*/
-                          SizedBox(height: 50,),
-                          Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.blockSizeHorizontal * 8),
-                              child: Image.asset("assets/images/alert-dialog.png",
-                                fit: BoxFit.fitWidth,)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }
-        );
+              return Container();
+            });
       case ListType.recomendados:
         return BlocBuilder<BooksBloc,BooksBlocState>(
             builder: (context, state) {
               if(state is BooksLoadedState){
-                return Stack(
-                  children: <Widget>[
-                    Positioned(
-                      top: 0,
-                      left: 5,
-                      child: Row(
-                        children: <Widget>[
-                          IconButton(icon: Icon(Icons.arrow_back_ios), iconSize: 26, color: Colors.white, onPressed:() {
-                            Navigator.pop(context);
-                          },),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal*50,
-                            child: Text(
-                              'Recomendados',
-                              style: TextStyle(
-                                  fontSize: 23,
-                                  fontFamily: 'Sf-r',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-
-                    Positioned(
-                      top: 55,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        height: 220,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              topLeft: Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 20.0,
-                              color: Color.fromRGBO(0, 0, 0, 0.15),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-                          child:
-                          state.books!= null && state.books.length> 0?
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            controller: sc,
-                            itemCount: state.books.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              Book book = state.books[index];
-                              return BookTile(book);
-                            },
-                          ):Container(child: Center(child: Text("Por el momento no pudimos encontrarte ninguna recomendacion.",style: TextStyle(
-                            fontSize: 26,
-                            fontFamily: 'Sf-r',
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w700,
-
-                          ),
-                            textAlign: TextAlign.center,
-                          )),)
-                          ,
-                        ),
-                      ),
-                    )
-                  ],
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  controller: sc,
+                  itemCount: state.books.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Book book = state.books[index];
+                    return BookTile(book);
+                  },
                 );
               }
               return Center(child: CircularProgressIndicator(),);
@@ -444,8 +325,6 @@ class _GenericBookListState extends State<GenericBookList> {
       default:
         return Container(child: Center(child: Text("PARECE QUE TODAVIA NO TENEMOS PREPARADA ESTA PANTALLA"),),);
     }
-
-
   }
 
   void showErrorDialog(BuildContext context, String errorMessage) {
