@@ -133,7 +133,7 @@ class Book {
     });
     if(map['precio']!=null)this.precio = map['precio'];
     if(map['imageVendedor'] != null){
-      this.imageVendedorUrl = map['vendedorImage'];
+      this.imageVendedorUrl = map['imageVendedor'];
     }
     //this.uid = map['publicacionId'];
     if(map['firstImageUrl']!=null)this.thumbImagesUrl.add(map['firstImageUrl']);
@@ -174,7 +174,9 @@ class Book {
 
   ImageProvider getImageVendedor(){
     if(imageVendedor == null){
-      imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
+      if(imageVendedorUrl !=null){
+        imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
+      }
     }
     return imageVendedor;
   }
