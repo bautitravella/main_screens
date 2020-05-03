@@ -38,138 +38,86 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: SizeConfig.blockSizeVertical * 100,
+      body:GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          child: SingleChildScrollView(
             child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 35),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.arrow_back_ios),
-                            iconSize: 30.0,
-                            color: AppColors.accentText,
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 46,
-                  margin: EdgeInsets.only(
-                      left: 28,
-                      top: 24,
-                      bottom: SizeConfig.blockSizeVertical * 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Vender",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: "Gibson",
-                            color: AppColors.accentText,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 38,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                _imagesListBuilder(),
-                Center(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
                   child: Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
-                    child: Text(
-                      "Subí 3 fotos",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 26,
-                        letterSpacing: -0.41786,
-                      ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Es importante subir fotos de tus libros \npara que otros usuarios tengan \nuna mejor experiencia al comprar.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 118, 118, 118),
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                        letterSpacing: -0.1,
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            right: 0,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                width: 124,
-                height: 44,
-                margin: EdgeInsets.only(right: 3, bottom: 15),
-                child: FlatButton(
-                    color: AppColors.secondaryElement,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    textColor: Color.fromARGB(255, 255, 255, 255),
-                    padding: EdgeInsets.all(0),
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8, left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/icons-back-light-2.png",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                      children: <Widget>[
+                        Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                        SizedBox(width: 10),
                         Text(
-                          "Siguiente",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.secondaryText,
-                            fontFamily: "Roboto",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
+                          "Configura tu perfil",
+                          style: Theme.of(context).textTheme.headline1,
                         ),
                       ],
                     ),
-                    onPressed: () => _siguienteBtn()),
-              ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*7),
+                Container(
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Subí 3 fotos",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Sube al menos tres fotos del libro que quieras vender.",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Es importante subir fotos de tus libros para que otros usuarios tengan una mejor experiencia al comprar.",
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*5),
+                _imagesListBuilder(),
+                SizedBox(height: SizeConfig.blockSizeVertical*9),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8, bottom: 15),
+                  child: FlatButton(
+                    onPressed: () => _siguienteBtn(),
+                    /*color: Color.fromARGB(255, 222, 222, 222),*/
+                    color: AppColors.secondaryBackground,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Continuar",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
             ),
           ),
-        ],
+        ),
       ),
+
     );
   }
 
@@ -357,7 +305,8 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                             size: 60,
                           ),
                           onPressed: () {
-                            loadAssets();
+                            /*loadAssets();*/
+                            showOptionsDialog(context, "hola");
                           }),
                     ),
                   ),
@@ -366,19 +315,19 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
             ],
           )
         : Container(
-            margin: EdgeInsets.only(left: 22, top: 0),
+
             //height: 295,
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 22, top: SizeConfig.blockSizeVertical*4.5),
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*4.5),
                   height: 200,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: images.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        margin: EdgeInsets.only(right: 20),
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
@@ -425,6 +374,89 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                 )*/
               ],
             ));
+  }
+
+  void showOptionsDialog(BuildContext context, String errorMessage) {
+    showSlideDialogChico(
+        context: context,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                onTap: (){
+                  loadAssets();
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 213, 104),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Icon(
+                            Icons.add_to_photos,
+                            color: Colors.white,
+                            size: 30,
+                          )),
+                      Text(
+                        "Fotos",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 40),
+              GestureDetector(
+                onTap: (){
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 213, 104),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 30,
+                          )),
+                      Text(
+                        "Camara",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        animatedPill: false);
   }
 
   Future<void> loadAssets() async {
@@ -499,3 +531,5 @@ void showErrorDialog(BuildContext context, String errorMessage) {
       ),
       animatedPill: false);
 }
+
+

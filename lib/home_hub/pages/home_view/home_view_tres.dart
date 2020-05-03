@@ -4,19 +4,25 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
+import 'package:flutterui/WidgetsCopy/Animated_screen.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';
 import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
-import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/test/elije_un_rol_new.dart';
+import 'package:flutterui/test/test1.dart';
+import 'package:flutterui/test/test2.dart';
 import 'package:flutterui/test/test_search.dart';
+import 'package:flutterui/test/test4rol.dart';
+import 'package:flutterui/test/test_uploadimage.dart';
+import 'package:flutterui/test/upload_book.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -54,10 +60,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            color: AppColors.secondaryBackground,
-            height: SizeConfig.blockSizeVertical * 100,
-          ),
           Column(
             children: <Widget>[
               Expanded(
@@ -110,11 +112,10 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     ),),*/
                     controller: _pc,
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    /*maxHeight: SizeConfig.blockSizeVertical * 86,*/
-                    maxHeight: SizeConfig.blockSizeVertical * 53,
+                    maxHeight: SizeConfig.blockSizeVertical * 86,
                     minHeight: SizeConfig.blockSizeVertical * 53,
                     color: Colors.transparent,
-                    /*backdropEnabled: true,*/
+                    backdropEnabled: true,
                     backdropColor: AppColors.secondaryBackground,
                     body: _upperBody(),
                     parallaxEnabled: true,
@@ -208,7 +209,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
   Widget _upperBody() {
     return FadeIn(
       child: Container(
-        color: AppColors.secondaryBackground,
+        color: Theme.of(context).backgroundColor,
         height: SizeConfig.blockSizeVertical * 100,
         child: Stack(
           alignment: Alignment.center,
@@ -363,7 +364,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           child: Container(
             height: 220,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(30),
                   topLeft: Radius.circular(30)),
@@ -504,69 +505,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: ()  {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              GenericBookList(ListType.Economicos),
-                        ),
-                      );
-                    },
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-                          height: 151.0,
-                          width: SizeConfig.blockSizeHorizontal * 100,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image.asset(
-                              "assets/images/explora-seleccion-grande.png",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 10,
-                          top: SizeConfig.blockSizeVertical*2,
-                          bottom: SizeConfig.blockSizeVertical*2,
-                          width: SizeConfig.blockSizeHorizontal * 40,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Recomendados",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w800,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Nuestra selección \nexclusiva para vos",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontFamily: "Sf-t",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  /*Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
@@ -675,7 +614,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         ],
                       ),
                     ],
-                  ),*/ //TODO para proximo update
+                  ), //TODO para proximo update
                 ],
               ),
             ),
@@ -1158,7 +1097,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CarouselWithIndicator(),
+                  builder: (context) => SubirLibroPrueba(),
                 ),
               );
             },
@@ -1180,7 +1119,85 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         size: 30,
                       )),
                   Text(
-                    "Search",
+                    "UploadBook",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+           GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TestRol(),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.developer_mode,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "test1",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TestFotoDePerfil(),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.developer_mode,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "foto de perfil",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,

@@ -1,44 +1,42 @@
-import 'dart:async';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutterui/Themes/AppStateNotifier.dart';
+import 'package:flutterui/dialogs/dialogs.dart';
+import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/WidgetsCopy//textfield_widget.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterui/dialogs/dialogs.dart';
-import 'package:flutterui/Themes/AppTheme.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 import '../auth.dart';
 import '../main.dart';
 
-class LogIn extends StatefulWidget {
+class Test2 extends StatefulWidget {
   @override
-  _LogInState createState() => _LogInState();
+  _Test2State createState() => _Test2State();
 }
 
-class _LogInState extends State<LogIn> {
+class _Test2State extends State<Test2> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String _email;
   String _password;
   String _errorText = '';
-  FirebaseAnalytics analytics;
 
   @override
   void initState() {
-    analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
-    analytics.setCurrentScreen(screenName: "/log_in/log_in");
+    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    analytics.setCurrentScreen(screenName: "/log_in/sign_up");
     super.initState();
   }
+
 
   void logInWithGoogleBtn(BuildContext context) async {
     try {
@@ -55,20 +53,22 @@ class _LogInState extends State<LogIn> {
         _errorText = "${e.message}";
       });
       showErrorDialog(context, _errorText);
-    } catch (e) {
+    }catch (e){
       setState(() {
         _errorText = e.toString();
       });
 
       showErrorDialog(context, _errorText);
     }
+
+
   }
 
   void logInWithFacebookBtn(BuildContext context) async {
     var facebookLogin = FacebookLogin();
-    var result = await facebookLogin.logIn(['email']);
+    var result= await facebookLogin.logIn(['email']);
 
-    switch (result.status) {
+    switch(result.status){
       case FacebookLoginStatus.error:
         print("Surgio un error con el fucking facebook");
         setState(() {
@@ -80,35 +80,34 @@ class _LogInState extends State<LogIn> {
         print("Cancelado por el usuario");
         break;
       case FacebookLoginStatus.loggedIn:
-        try {
+        try{
           final auth = Provider.of<BaseAuth>(context, listen: false);
           String userUID = await auth.signInWithFacebook(result.accessToken);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MyDecider()),
           );
-        } on PlatformException catch (e) {
+        }on PlatformException catch (e) {
           setState(() {
             _errorText = "${e.message}";
           });
           showErrorDialog(context, _errorText);
-          facebookLogin.logOut();
-        } catch (e) {
+        }catch (e){
           setState(() {
             _errorText = e.toString();
           });
 
           showErrorDialog(context, _errorText);
-          facebookLogin.logOut();
         }
 
         break;
+
     }
   }
 
   bool validateEmailAndPassword() {
-    _email = emailController.text.trim();
-    _password = passwordController.text.trim();
+    _email = emailController.text;
+    _password = passwordController.text;
 
     if (_email.isEmpty) {
       setState(() {
@@ -128,38 +127,40 @@ class _LogInState extends State<LogIn> {
       showErrorDialog(context, _errorText);
       return false;
     }
+    Navigator.pop(context);
+    showErrorDialog(context, _errorText);
     return true;
   }
 
   void _siguienteBtn(BuildContext context) async {
+    _email = emailController.text.trim();
+    _password = passwordController.text.trim();
     showLoadingDialog(context);
-    _email = emailController.text;
-    _password = passwordController.text;
-
     if (validateEmailAndPassword() == true) {
       try {
-        final auth = Provider.of<BaseAuth>(context, listen: false);
+        final auth = Provider.of<BaseAuth>(context,listen: false);
         String userUID =
+        await auth.createUserWithEmailAndPassword(_email, _password);
         await auth.signInWithEmailAndPassword(_email, _password);
-
-//        setState(() {
-//          _errorText = 'signed in with : $userUID})';
-//        });
+        setState(() {
+          _errorText = 'signed in with : ${userUID})';
+        });
+        auth.currentUser();//.then((msg) => print('MENSAJE: $msg'));
+        //Navigator.push(context,MaterialPageRoute(builder: (context) => VerificacionWidget()),);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyDecider()),
         );
-      }on PlatformException catch(e){
+      }on PlatformException catch (e) {
         setState(() {
-          _errorText = '${e.message}';
+          _errorText = "${e.message}";
         });
-        Navigator.pop(context);
         showErrorDialog(context, _errorText);
-      } catch (error) {
+      }catch (e){
         setState(() {
-          _errorText = '$error';
+          _errorText = e.toString();
         });
-        Navigator.pop(context);
+
         showErrorDialog(context, _errorText);
       }
     }
@@ -181,18 +182,11 @@ class _LogInState extends State<LogIn> {
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
                   child: Text(
-                    "Iniciar sesión",
+                    "Registrarse",
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
                 SizedBox(height: 80),
-                Switch(
-                  value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
-                  onChanged: (boolVal) {
-                    print("THEME " + boolVal.toString());
-                    Provider.of<AppStateNotifier>(context,listen: false).updateTheme(boolVal);
-                  },
-                ),
                 Text(
                   "Correo",
                   style: Theme.of(context).textTheme.headline2,
@@ -202,7 +196,7 @@ class _LogInState extends State<LogIn> {
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color//Text Color
-                  backgroundColor: Theme.of(context).hintColor,
+                  backgroundColor: Color.fromARGB(255, 222, 222, 222), //Not Focused Color
                   autofocus: false,
                   maxLines: 1,
                   margin: EdgeInsets.only(top: 10),
@@ -225,6 +219,11 @@ class _LogInState extends State<LogIn> {
                     print(data.length);
                   },
                 ),
+                SizedBox(height: 15),
+                Text(
+                  "Tendrás que verificar que eres el propietario de esta cuenta de correo electrónico",
+                  style: Theme.of(context).textTheme.headline4,
+                ),
                 SizedBox(height: 40),
                 Text(
                   "Contraseña",
@@ -234,9 +233,9 @@ class _LogInState extends State<LogIn> {
                   controller: passwordController,
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
-                  accentColor: Theme.of(context).focusColor, // On Focus Color
+                  accentColor: Colors.white, // On Focus Color
                   textColor: Colors.black, //Text Color
-                  backgroundColor: Theme.of(context).hintColor, //Not Focused Color
+                  backgroundColor: Color.fromARGB(255, 222, 222, 222), //Not Focused Color
                   textBaseline: TextBaseline.alphabetic,
                   fontFamily: 'Sf', //Text Fontfamily
                   fontWeight: FontWeight.w500,
@@ -260,21 +259,12 @@ class _LogInState extends State<LogIn> {
                     print(data.length);
                   },
                 ),
-                SizedBox(height: 40),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RecuperationWidget()),
-                    );
-                  },
-                  child: Text(
-                    "¿Has olvidado la contraseña?",
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
+                SizedBox(height: 15),
+                Text(
+                  '$_errorText',
+                  style: TextStyle(color: Color.fromARGB(255, 217, 86, 86), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600),
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 40),
                 Text(
                   "Conectate con",
                   style: Theme.of(context).textTheme.headline1,
@@ -367,7 +357,36 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical*9),
+                SizedBox(height: 25),
+                RichText(
+                  text: TextSpan(
+                    children:  <TextSpan>[
+                      TextSpan(
+                        text: "Al hacer clic en Registrarse, indicas que has leído y aceptado los",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      TextSpan(
+                        text: " términos y condiciones",
+                       style: TextStyle(color: Color.fromARGB(255, 254, 189, 16), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600, decoration: TextDecoration.underline,),
+                      ),
+                      TextSpan(
+                        text: " y ",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      TextSpan(
+                        text: "aviso de privacidad.",
+                        style: TextStyle(color: Color.fromARGB(255, 254, 189, 16), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600, decoration: TextDecoration.underline,),
+                      ),
+                    ],
+
+                    recognizer: new TapGestureRecognizer()
+                    ..onTap = () {
+                      launch(
+                          'https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
+                    },
+                  ),
+                ),
+                SizedBox(height: 15),
                 Container(
                   height: 50,
                   width: double.maxFinite,
@@ -382,9 +401,15 @@ class _LogInState extends State<LogIn> {
                     ),
                     child: Center(
                       child: Text(
-                        "Iniciar Sesión",
+                        "Registrarse",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline5,
+                        style: TextStyle(
+                          /*color: Color.fromARGB(255, 174, 174, 174),*/
+                          color: Colors.white,
+                          fontFamily: "Sf",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ),
@@ -399,37 +424,12 @@ class _LogInState extends State<LogIn> {
   }
 }
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: [
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ],
-);
 
-Future<void> _handleSignIn() async {
-  try {
-    await _googleSignIn.signIn();
-    print("Hola , ");
-    print(_googleSignIn.currentUser.email);
-  } catch (error) {
-    print(error);
-  }
-}
 
 void showLoadingDialog(BuildContext context) {
-  showSlideDialogChico(
-      context: context,
-      child: LoadingDialog(),
-      animatedPill: true,
-      barrierDismissible: false);
+  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
 }
-
-void showErrorDialog(BuildContext context, String errorMessage) {
-  showSlideDialogChico(
-      context: context,
-      child: ErrorDialog(
-        title: "Oops...",
-        error: errorMessage,
-      ),
+void showErrorDialog(BuildContext context,String errorMessage){
+  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
       animatedPill: false);
 }

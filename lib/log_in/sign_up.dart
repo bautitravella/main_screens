@@ -2,8 +2,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/values/values.dart';
-import 'package:flutterui/log_in/verificacion_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,10 +29,8 @@ class SignUp extends StatefulWidget {
 class SignUpState extends State<SignUp>{
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final passwordVerificationController = TextEditingController();
   String _email;
   String _password;
-  String _passwordVerification;
   String _errorText = '';
 
   @override
@@ -113,7 +111,6 @@ class SignUpState extends State<SignUp>{
   bool validateEmailAndPassword() {
     _email = emailController.text;
     _password = passwordController.text;
-    _passwordVerification = passwordVerificationController.text;
 
     if (_email.isEmpty) {
       setState(() {
@@ -132,11 +129,6 @@ class SignUpState extends State<SignUp>{
       Navigator.pop(context);
       showErrorDialog(context, _errorText);
       return false;
-    }
-    if(_password != _passwordVerification){
-      setState(() {
-        _errorText += 'La password y la pasword de verificacion no coinciden';
-      });
     }
     Navigator.pop(context);
     showErrorDialog(context, _errorText);
@@ -182,369 +174,260 @@ class SignUpState extends State<SignUp>{
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        width: SizeConfig.blockSizeHorizontal*100,
-        child: Stack(
-          children: <Widget>[
-            Column(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+          child: SingleChildScrollView(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(left: 28, top: SizeConfig.blockSizeVertical*10),
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
                   child: Text(
-                    "Sign Up",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: AppColors.accentText,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 38,
-                    ),
+                    "Registrarse",
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
+                SizedBox(height: 80),
+                Text(
+                  "Correo",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: emailController,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor, //Not Focused Color
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.emailAddress,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "Tendrás que verificar que eres el propietario de esta cuenta de correo electrónico",
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Contraseña",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: passwordController,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color
+                  textColor: Colors.black, //Text Color
+                  backgroundColor: Theme.of(context).hintColor, //Not Focused Color
+                  textBaseline: TextBaseline.alphabetic,
+                  fontFamily: 'Sf', //Text Fontfamily
+                  fontWeight: FontWeight.w500,
+                  passwordIcon: true,
+                  obscureText: true,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.text, //REQUIRED//REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 15),
+                Text(
+                  '$_errorText',
+                  style: TextStyle(color: Color.fromARGB(255, 217, 86, 86), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Conectate con",
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+                SizedBox(height: 30),
                 Container(
-                  margin: EdgeInsets.only(left: 38, right: 38, top: SizeConfig.blockSizeVertical*8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: [
-                            Container(
-                                width: 22,
-                                height: 22,
-                                child: Icon(
-                                    Icons.alternate_email
-                                )
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 35,
-                                width: 200,
-                                margin: EdgeInsets.only(left: 10),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    controller: emailController,
-                                    decoration: InputDecoration(
-                                      hintText: "Correo",
-                                      alignLabelWithHint: true,
-                                      contentPadding: EdgeInsets.only(bottom: 10),
-                                      border: InputBorder.none,
-                                    ),
-                                    style: TextStyle(
-                                      color: AppColors.accentText,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                    ),
-                                    maxLines: 1,
-                                    keyboardType: TextInputType.emailAddress,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 2,
-                        margin: EdgeInsets.only(top: 6),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(77, 0, 0, 0),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Container(
-                                width: 22,
-                                height: 22,
-                                child: Icon(
-                                    Icons.lock_outline
-                                )
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 35,
-                                width: 200,
-                                margin: EdgeInsets.only(left: 10),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    controller: passwordController,
-                                    decoration: InputDecoration(
-                                      hintText: "Contraseña",
-                                      alignLabelWithHint: true,
-                                      contentPadding: EdgeInsets.only(bottom: 10),
-                                      border: InputBorder.none,
-                                    ),
-                                    style: TextStyle(
-                                      color: AppColors.accentText,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                    ),
-                                    maxLines: 1,
-                                    keyboardType: TextInputType.emailAddress,
-                                    obscureText: true,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 2,
-                        margin: EdgeInsets.only(top: 6),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(77, 0, 0, 0),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Container(
-                                width: 22,
-                                height: 22,
-                                child: Icon(
-                                    Icons.lock_outline
-                                )
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 35,
-                                width: 200,
-                                margin: EdgeInsets.only(left: 10),
-                                child: Opacity(
-                                  opacity: 0.63,
-                                  child: TextField(
-                                    controller: passwordVerificationController,
-                                    decoration: InputDecoration(
-                                      hintText: "Confirmar contraseña",
-                                      alignLabelWithHint: true,
-                                      contentPadding: EdgeInsets.only(bottom: 10),
-                                      border: InputBorder.none,
-                                    ),
-                                    style: TextStyle(
-                                      color: AppColors.accentText,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20,
-                                    ),
-                                    maxLines: 1,
-                                    keyboardType: TextInputType.emailAddress,
-                                    obscureText: true,
-                                    autocorrect: false,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 2,
-                        margin: EdgeInsets.only(top: 6),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(77, 0, 0, 0),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*1),
-                        child: Opacity(
-                          opacity: 0.93,
-                          child: Text(
-                            '$_errorText',
-                            style: TextStyle(
-                              color: Colors.red[500],
-                              fontFamily: "Sf",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12,
-                            ),
-                              maxLines: 1,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: SizeConfig.blockSizeHorizontal*100,
-                    margin: EdgeInsets.only(left: 38, right: 38),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 20),
-                          child: Text(
-                            "Conectate con",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppColors.primaryText,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              letterSpacing: -0.43393,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 45,
-                          margin: EdgeInsets.only(bottom: 15),
-                          child: FlatButton(
-                            onPressed: () => this.logInWithGoogleBtn(context),
-                            color: AppColors.accentElement,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Color.fromARGB(112, 112, 112, 112),
-                                width: 2,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(22.5)),
-                            ),
-                            textColor: Color.fromARGB(255, 117, 117, 117),
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons8-google-96px.png",
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Continuar con Google",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 117, 117, 117),
-                                    fontFamily: "Roboto",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 45,
-                          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical*13),
-                          child: FlatButton(
-                            onPressed: () => this.logInWithFacebookBtn(context),
-                            color: Color.fromARGB(255, 59, 89, 152),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(22.5)),
-                            ),
-                            textColor: Color.fromARGB(255, 255, 255, 255),
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons8-facebook-96px-1.png",
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Continuar con Facebook",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: AppColors.secondaryText,
-                                    fontFamily: "Roboto",
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Positioned(
-              bottom: 20,
-              left: 25,
-              child: Container(
-                margin: EdgeInsets.only(right: 150),
-                child: RichText(
-                  text: TextSpan(
-
-                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
-                    children: <TextSpan>[
-                      TextSpan(text: "Politica de Privacidad ",style: TextStyle(fontSize: 18,color: Colors.blue),recognizer: new TapGestureRecognizer()
-                        ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
-                        },
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10,
-              right: 0,
-              child: Container(
-                width: 124,
-                height: 44,
-                child: FlatButton(
-                    color: AppColors.secondaryElement,
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                    onPressed: () => this.logInWithGoogleBtn(context),
+                    color: AppColors.accentElement,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      side: BorderSide(
+                        color: Color.fromARGB(112, 112, 112, 112),
+                        width: 2,
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15)),
                     ),
-                    textColor: Color.fromARGB(255, 255, 255, 255),
-                    padding: EdgeInsets.all(0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    textColor: Color.fromARGB(255, 117, 117, 117),
+                    child: Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Icon(
-                            Icons.arrow_forward
-                        ),
-                        SizedBox(
-                          width: 10,
+                        Container(
+                          constraints: BoxConstraints.expand(),
                         ),
                         Text(
-                          "Siguiente",
+                          "Continuar con Google",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: AppColors.secondaryText,
-                            fontFamily: "Roboto",
+                            color: Color.fromARGB(255, 117, 117, 117),
+                            fontFamily: "Sf",
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
                           ),
                         ),
+                        Positioned(
+                          left: 0,
+                          child: Image.asset(
+                            "assets/images/login-google.png", scale: 38,
+                          ),
+                        ),
                       ],
                     ),
-                    onPressed: () => this._siguienteBtn(context)),
-              ),
-            )
-          ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                    onPressed: () => this.logInWithFacebookBtn(context),
+                    color: Color.fromARGB(255, 74, 74, 74),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15)),
+                    ),
+                    textColor: Color.fromARGB(255, 117, 117, 117),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          constraints: BoxConstraints.expand(),
+                        ),
+                        Text(
+                          "Continuar con Apple",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Sf",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          child: Image.asset(
+                            "assets/images/login-apple.png", scale: 38,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
+                RichText(
+                  text: TextSpan(
+                    children:  <TextSpan>[
+                      TextSpan(
+                        text: "Al hacer clic en Registrarse, indicas que has leído y aceptado los",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      TextSpan(
+                        text: " términos y condiciones",
+                        style: TextStyle(color: Color.fromARGB(255, 254, 189, 16), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600, decoration: TextDecoration.underline,),
+                      ),
+                      TextSpan(
+                        text: " y ",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      TextSpan(
+                        text: "aviso de privacidad.",
+                        style: TextStyle(color: Color.fromARGB(255, 254, 189, 16), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600, decoration: TextDecoration.underline,),
+                      ),
+                    ],
+
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(
+                            'https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
+                      },
+                  ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                    onPressed: () => this._siguienteBtn(context),
+                    /*color: Color.fromARGB(255, 222, 222, 222),*/
+                    color: AppColors.secondaryBackground,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Registrarse",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
+
     );
   }
-
-
 }
+
 
 
 void showLoadingDialog(BuildContext context) {
   showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
 }
-void showErrorDialog(BuildContext context,String errorMessage){
-  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+void showErrorDialog(BuildContext context,String errorMessage) {
+  showSlideDialogChico(context: context, child: ErrorDialog(
+    title: "Oops...", error: errorMessage,),
       animatedPill: false);
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/Models/message_model.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/category_selector_notification.dart';
@@ -43,7 +44,7 @@ class NotificationViewState extends State<NotificationView> {
 //    analytics.setCurrentScreen(screenName: "/home/notifications");
     BlocProvider.of<ChatsBloc>(context).add(LoadChats());
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -53,7 +54,6 @@ class NotificationViewState extends State<NotificationView> {
             right: 0,
             child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
                 ),
                 child: BlocBuilder<ChatsBloc, ChatsBlocState>(
                   builder: (context, state) {
@@ -89,12 +89,7 @@ class NotificationViewState extends State<NotificationView> {
                     left: 28,
                     child: Text(
                       "Mensajes",
-                      style: TextStyle(
-                        fontFamily: "Sf",
-                        color: Color.fromARGB(255, 57, 57, 57),
-                        fontWeight: FontWeight.w800,
-                        fontSize: 30,
-                      ),
+                      style: Theme.of(context).accentTextTheme.headline1,
                     ),
                   ),
                   Container(
@@ -111,8 +106,8 @@ class NotificationViewState extends State<NotificationView> {
                               width: 138,
                               height: 143,
                               child: Image.asset(
-                                "assets/images/round-underpic.png",
-                                fit: BoxFit.none,
+                                "assets/images/round-underpic-shade.png",
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),
@@ -136,7 +131,6 @@ class NotificationViewState extends State<NotificationView> {
                                     height: 55,
                                     width: 55,
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
                                         border: Border.all(
                                           color: Colors.white,
                                           width: 2, //
@@ -201,7 +195,6 @@ class ListViewVenta extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
-      color: Colors.white,
       child: chats == null || chats.length == 0
           ?  ListView(
         scrollDirection: Axis.vertical,
@@ -309,7 +302,7 @@ class ListViewVenta extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: !chat.leidoPorElVendedor
                                 ? AppColors.secondaryBackground
-                                : Colors.white,
+                                : Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: !chat.leidoPorElVendedor
                                 ? BorderRadius.all(Radius.circular(30))
                                 : null,
@@ -344,13 +337,12 @@ class ListViewVenta extends StatelessWidget {
                                     children: <Widget>[
                                       Text(
                                         chats[index].compradorNombre,
-                                        style: TextStyle(
+                                        style:  !chat.leidoPorElVendedor?  TextStyle(
                                           fontFamily: "Sf",
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
-                                        ),
+                                          color: Color.fromARGB(255, 29, 29, 29)
+                                        ) :Theme.of(context).accentTextTheme.headline2,
                                       ),
                                       Container(
                                         width: MediaQuery.of(context).size.width * 0.45,
@@ -358,13 +350,12 @@ class ListViewVenta extends StatelessWidget {
                                         child: chat.lastMessage != null
                                             ? Text(
                                                 chat.lastMessage,
-                                                style: TextStyle(
-                                                  fontFamily: "Sf",
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color.fromARGB(
-                                                      255, 57, 57, 57),
-                                                ),
+                                          style:  !chat.leidoPorElVendedor?  TextStyle(
+                                            fontFamily: "Sf",
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color.fromARGB(255, 29, 29, 29)
+                                          ) :Theme.of(context).accentTextTheme.headline3,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                               )
@@ -386,8 +377,7 @@ class ListViewVenta extends StatelessWidget {
                                           fontFamily: "Sf",
                                           fontSize: 9,
                                           fontWeight: FontWeight.w500,
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
+                                          color: Color.fromARGB(255, 87, 87, 87),
                                         ),
                                       )
                                     ],
@@ -426,7 +416,7 @@ class ListViewVenta extends StatelessWidget {
                                             child: Container(
                                                 height: 21,
                                                 width: 21,
-                                                child: Image.asset('assets/images/sell-icon2.png')),
+                                                child: Image.asset('assets/images/sell-icon2.png', color: !chat.leidoPorElVendedor? Color.fromARGB(255, 29, 29, 29) : Theme.of(context).iconTheme.color)),
                                           ),
                                           Container(
                                             height: 21,
@@ -464,7 +454,7 @@ class ListViewVenta extends StatelessWidget {
                                                 height: 21,
                                                 width: 21,
                                                 child: Image.asset(
-                                                    'assets/images/sell-icon1.png')),
+                                                    'assets/images/sell-icon1.png', color: !chat.leidoPorElVendedor? Color.fromARGB(255, 29, 29, 29) : Theme.of(context).iconTheme.color)),
                                           ),
                                         ],
                                       )
@@ -476,16 +466,14 @@ class ListViewVenta extends StatelessWidget {
                                                   child: Icon(
                                                     FontAwesome5.comment,
                                                     size: 21,
-                                                    color: Color.fromARGB(
-                                                        255, 57, 57, 57),
+                                                    color: Theme.of(context).iconTheme.color,
                                                   ),
                                                 )
                                               : Container(
                                                   child: Icon(
                                                     FontAwesome5Solid.comment,
                                                     size: 21,
-                                                    color: Color.fromARGB(
-                                                        255, 57, 57, 57),
+                                                    color: Color.fromARGB(255, 29, 29, 29),
                                                   ),
                                                 )
                                         ],
@@ -524,7 +512,6 @@ class ListViewCompra extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 0, right: 0, top: 10),
       padding: EdgeInsets.only(top: 10),
-      color: Colors.white,
       child: chats == null || chats.length == 0
           ?  ListView(
         scrollDirection: Axis.vertical,
@@ -624,7 +611,7 @@ class ListViewCompra extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: !chat.leidoPorElComprador
                             ? AppColors.secondaryBackground
-                            : Colors.white,
+                            : Theme.of(context).scaffoldBackgroundColor,
                         borderRadius: !chat.leidoPorElComprador
                             ? BorderRadius.all(Radius.circular(30))
                             : null,
@@ -659,12 +646,12 @@ class ListViewCompra extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     chats[index].vendedorNombre,
-                                    style: TextStyle(
-                                      fontFamily: "Sf",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color.fromARGB(255, 57, 57, 57),
-                                    ),
+                                    style:  !chat.leidoPorElComprador?  TextStyle(
+                                        fontFamily: "Sf",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color.fromARGB(255, 29, 29, 29)
+                                    ) :Theme.of(context).accentTextTheme.headline2,
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width *
@@ -673,13 +660,12 @@ class ListViewCompra extends StatelessWidget {
                                     child: chat.lastMessage != null
                                         ? Text(
                                             chat.lastMessage,
-                                            style: TextStyle(
-                                              fontFamily: "Sf",
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color.fromARGB(
-                                                  255, 57, 57, 57),
-                                            ),
+                                            style:  !chat.leidoPorElComprador?  TextStyle(
+                                                fontFamily: "Sf",
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color.fromARGB(255, 29, 29, 29)
+                                            ) :Theme.of(context).accentTextTheme.headline3,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                           )
@@ -698,7 +684,7 @@ class ListViewCompra extends StatelessWidget {
                                       fontFamily: "Sf",
                                       fontSize: 9,
                                       fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 57, 57, 57),
+                                      color: Color.fromARGB(255, 87, 87, 87),
                                     ),
                                   )
                                 ],
@@ -743,7 +729,7 @@ class ListViewCompra extends StatelessWidget {
                                               child: Container(
                                                   height: 21,
                                                   width: 21,
-                                                  child: Icon(Icons.add_shopping_cart)),
+                                                  child: Icon(Icons.add_shopping_cart, color: !chat.leidoPorElComprador? Color.fromARGB(255, 29, 29, 29) : Theme.of(context).iconTheme.color,)),
                                             ),
                                             Container(
                                               height: 21,
@@ -799,16 +785,14 @@ class ListViewCompra extends StatelessWidget {
                                         child: Icon(
                                           FontAwesome5Solid.comment,
                                           size: 21,
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
+                                          color: Color.fromARGB(255, 57, 57, 57),
                                         ),
                                       )
                                     : Container(
                                         child: Icon(
                                           FontAwesome5.comment,
                                           size: 21,
-                                          color:
-                                              Color.fromARGB(255, 57, 57, 57),
+                                          color: Theme.of(context).iconTheme.color,
                                         ),
                                       )
                               ],

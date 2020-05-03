@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import 'notifications_view.dart';
 
@@ -34,7 +36,7 @@ class _CategorySelectorNotificationState extends State<CategorySelectorNotificat
     return Container(
         height: 60,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20)
@@ -66,7 +68,7 @@ class _CategorySelectorNotificationState extends State<CategorySelectorNotificat
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: "Gibson",
-                                color: index == selectedIndex ? Colors.white : Color.fromARGB(100, 57, 57, 57),
+                                color: index == selectedIndex ? Colors.white : Theme.of(context).iconTheme.color.withAlpha(80),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 17.0,
                               ),
@@ -96,5 +98,6 @@ class _CategorySelectorNotificationState extends State<CategorySelectorNotificat
             )
           ],
         ));
+
   }
 }

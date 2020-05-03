@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/log_in/registrar_info_usuario/alumno_datos.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/curso_alumno_widget.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/curso_padre_widget.dart';
 import 'package:flutterui/size_config.dart';
+import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
@@ -32,9 +34,8 @@ class DatosWidgetState extends State<DatosWidget>{
     BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
     SizeConfig().init(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: GestureDetector(
-        onTap: ()=> FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
@@ -215,6 +216,7 @@ class DatosWidgetState extends State<DatosWidget>{
                               fontSize: 15,
                             ),
                           ),
+
                         ],
                       ),
                       onPressed: () => siguienteBtn(context)
@@ -245,7 +247,7 @@ class DatosWidgetState extends State<DatosWidget>{
       //pasamos a la siguiente pantalla
       Navigator.push(context,
         MaterialPageRoute(
-            builder: (context) => widget.user is Padre? CursoPadreWidget(widget.user):CursoAlumnoWidget(widget.user))
+            builder: (context) => widget.user is Padre? CursoPadreWidget(widget.user):AlumnoDatos(widget.user))
       );
 
     }else{

@@ -69,7 +69,7 @@ class MyBooksViewState extends State<MyBooksView> {
         body: Stack(
           children: <Widget>[
             Container(
-              color: AppColors.secondaryBackground,
+              color: Theme.of(context).backgroundColor,
               height: SizeConfig.blockSizeVertical * 100,
               child: Stack(
                 alignment: Alignment.center,
@@ -224,7 +224,7 @@ class MyBooksViewState extends State<MyBooksView> {
                   child: Container(
                     height: 220,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),
                           topLeft: Radius.circular(30)),
@@ -385,21 +385,13 @@ class GridViewPublicados extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 "${book.nombreLibro}",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontFamily: "Sf",
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: Theme.of(context).primaryTextTheme.headline3,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                               ),
                               Text(
                                 "(${book.autor})",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: "Sf",
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                style: Theme.of(context).primaryTextTheme.headline5,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                               ),
@@ -793,21 +785,13 @@ class GridViewVendidos extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 "${book.nombreLibro}",
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontFamily: "Sf",
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: Theme.of(context).primaryTextTheme.headline3,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                               ),
                               Text(
                                 "(${book.autor})",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: "Sf",
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                style: Theme.of(context).primaryTextTheme.headline5,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                               ),

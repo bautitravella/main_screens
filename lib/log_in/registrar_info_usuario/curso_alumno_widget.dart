@@ -9,9 +9,9 @@ import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/main.dart';
+import 'package:flutterui/WidgetsCopy//textfield_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import '../../size_config.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
@@ -117,22 +117,19 @@ class _CursoAlumnoWidgetState extends State<CursoAlumnoWidget> {
                                         top: SizeConfig.blockSizeVertical * 3),
                                     child: Opacity(
                                       opacity: 0.37,
-                                      child: new DropdownButton(
-                                        icon: Icon(Icons.menu),
-                                        underline: Text(""),
-                                        items: createDropDownMenuListColegios(state.colegiosData.colegios),
+                                      child: new BeautyDropDown(
+                                        width: double.maxFinite, //REQUIRED
+                                        height: 50, //REQUIRED
+                                        accentColor: Colors.white, // On Focus Color//Text Color
+                                        backgroundColor: Theme.of(context).hintColor,
+                                        margin: EdgeInsets.only(top: 10),
+                                        cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                        duration: Duration(milliseconds: 300),
+                                        suffixIcon: Icon(Icons.remove_red_eye),
+                                        item: createDropDownMenuListColegios(state.colegiosData.colegios),
+                                        hint: "Master",
                                         isExpanded: true,
                                         value: colegioSelectedValue,
-                                        hint: new Text(
-                                          'COLEGIO',
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 53, 38, 65),
-                                            fontFamily: "Montserrat",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 19,
-                                          ),
-                                        ),
                                         onChanged: (value) {
                                           if (value == "+ Agregar Colegio") {
                                             showSchoolDialog(context, widget.user.email);

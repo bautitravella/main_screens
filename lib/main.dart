@@ -8,6 +8,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
+import 'package:flutterui/Themes/AppTheme.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/database_repository.dart';
@@ -34,6 +36,7 @@ class App extends StatelessWidget {
       FirebaseAnalyticsObserver(analytics: analytics);
   static BaseAuth auth = Auth();
 
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -45,6 +48,7 @@ class App extends StatelessWidget {
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
         Provider<BaseAuth>.value(value: auth),
+        ChangeNotifierProvider<AppStateNotifier>.value(value: AppStateNotifier()),
       ],
       child: RepositoryProvider(
         create: (context) => FirebaseRepository(),
@@ -126,24 +130,27 @@ class App extends StatelessWidget {
               ),
 
             ],
-            child: MaterialApp(
-                //home: MyDecider(),
-                theme: ThemeData(
-                  accentColor: AppColors.secondaryBackground,
-                ),
-              /*  darkTheme: ThemeData(
-                    brightness: Brightness.dark,
-                  accentColor: AppColors.secondaryBackground,
-                  backgroundColor: Colors.black
-                ),*/
-                navigatorObservers: [
-                  FirebaseAnalyticsObserver(analytics: analytics),
-                ],
-                routes: <String, WidgetBuilder>{
-                  '/home': (BuildContext context) => HomeHub(),
-                  '/logOut': (BuildContext context) => FirstscreenWidget(),
-                  '/': (BuildContext context) => MyDecider(),
-                }),
+            child: Consumer<AppStateNotifier>(
+              builder: (context, appState, child) {
+                return MaterialApp(
+                  //home: MyDecider(),
+                    debugShowCheckedModeBanner: false,
+                    theme: AppTheme.lightTheme,
+                    darkTheme: AppTheme.darkTheme,
+                   /* themeMode: appState.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,*/
+
+                    navigatorObservers: [
+                      FirebaseAnalyticsObserver(analytics: analytics),
+                    ],
+                    routes: <String, WidgetBuilder>{
+                      '/home': (BuildContext context) => HomeHub(),
+                      '/logOut': (BuildContext context) => FirstscreenWidget(),
+                      '/': (BuildContext context) => MyDecider(),
+                    });
+
+
+              },
+            ),
           ),
         ),
       ),
@@ -153,6 +160,7 @@ class App extends StatelessWidget {
     );
   }
 }
+
 
 class MyDecider extends StatefulWidget {
   @override
@@ -335,7 +343,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
         child: Scaffold(
           body: Container(
               margin: EdgeInsets.all(1),
-              child: Center(child: Image.asset('assets/images/buymy-hd.png'))),
+              child: Center(child: Image.asset('assets/images/buymy-hd.png', scale: 2.5,))),
         ),
       ),
 

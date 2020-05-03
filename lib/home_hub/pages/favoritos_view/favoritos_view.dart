@@ -41,7 +41,7 @@ class _FavoritosViewState extends State<FavoritosView> {
       body: Stack(
         children: <Widget>[
           Container(
-            color: AppColors.secondaryBackground,
+            color: Theme.of(context).backgroundColor,
             height: SizeConfig.blockSizeVertical * 100,
             child: Stack(
               alignment: Alignment.center,
@@ -85,7 +85,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                   child: SlidingUpPanel(
                     panelBuilder: (ScrollController sc) =>
                         _scrollingList(sc, context),
-                    maxHeight: SizeConfig.blockSizeVertical * 61.2,
+                    maxHeight: SizeConfig.blockSizeVertical * 78.2,
                     minHeight: SizeConfig.blockSizeVertical * 61.2,
                     color: Colors.transparent,
                     boxShadow: [
@@ -220,7 +220,7 @@ class _FavoritosViewState extends State<FavoritosView> {
             child: Container(
               height: 220,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(30),
                     topLeft: Radius.circular(30)),
@@ -335,22 +335,14 @@ class _FavoritosViewState extends State<FavoritosView> {
                                               children: <Widget>[
                                                 Text(
                                                   "${book.nombreLibro}",
-                                                  style: TextStyle(
-                                                    fontSize: 11,
-                                                    fontFamily: "Sf-r",
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                  style: Theme.of(context).primaryTextTheme.headline3,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                 ),
                                                 Text(
                                                   "(${book.autor})",
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    fontFamily: "Sf-t",
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
+                                                  style: Theme.of(context).primaryTextTheme.headline5,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 1,

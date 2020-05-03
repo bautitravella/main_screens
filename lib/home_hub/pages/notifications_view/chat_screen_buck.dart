@@ -8,6 +8,7 @@ import 'package:flutterui/Models/EstadoMessage.dart';
 import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/chat_roles.dart';
 import 'package:flutterui/Models/user_model.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
@@ -52,7 +53,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
         body: Stack(
           children: <Widget>[
             Container(
-              color: AppColors.secondaryBackground,
+              color: Theme.of(context).backgroundColor,
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
@@ -136,7 +137,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                               fontFamily: "Roboto",
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(150, 255, 255, 255),
+                              color: Color.fromARGB(255, 235, 235, 235),
                             ),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
@@ -171,7 +172,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   margin:
                       EdgeInsets.only(top: SizeConfig.blockSizeVertical * 14),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30)),
@@ -256,7 +257,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
           ? Container(
         height: 155,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 20.0,
@@ -285,22 +286,14 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text( "${widget.chat.compradorNombre}",
-                  style: TextStyle(
-                      fontFamily: "Sf-r",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color.fromARGB(255, 118, 118, 118)),
+                  style: Theme.of(context).accentTextTheme.headline4,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 Text(
                   "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
-                  style: TextStyle(
-                      fontFamily: "Sf-r",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color.fromARGB(255, 118, 118, 118)),
+                  style: Theme.of(context).accentTextTheme.headline4,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 15),
@@ -583,7 +576,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       height: 78,
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -602,6 +595,12 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       child: TextField(
                         textCapitalization: TextCapitalization.sentences,
                         controller: messageTextController,
+                        style: TextStyle(
+                          fontFamily: "Sf",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 96, 102, 115),
+                        ),
                         decoration: InputDecoration.collapsed(
                             hintText: "Di algo...",
                             hintStyle: TextStyle(
