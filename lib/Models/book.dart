@@ -174,7 +174,7 @@ class Book {
 
   ImageProvider getImageVendedor(){
     if(imageVendedor == null){
-      if(imageVendedorUrl !=null){
+      if(imageVendedorUrl != null){
         imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
       }
     }
