@@ -15,7 +15,8 @@ class Book {
       emailVendedor,
       descripcion,
       nombreLibro,
-      imageVendedorUrl,uid;
+      imageVendedorUrl,
+      uid;
   CachedNetworkImageProvider imageVendedor;
   List<String> colegios = [];
   List<String> cursos = [];
@@ -29,13 +30,13 @@ class Book {
   List<String> indexes;
   List<String> palabrasImportantes;
   bool vendido, publico;
-  int precio,isbn;
+  int precio, isbn;
   num rating;
   bool isNuevo;
 
   Book();
 
-  Book.fromCloning(Book book){
+  Book.fromCloning(Book book) {
     this.nombreVendedor = book.nombreVendedor;
     this.nombreVendedorAcortado = book.nombreVendedorAcortado;
     this.apellidoVendedor = book.apellidoVendedor;
@@ -67,14 +68,13 @@ class Book {
 
   Book.fromDocumentSnapshot(DocumentSnapshot doc) {
     this.nombreVendedor = doc[
-    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
+        'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.apellidoVendedor = doc['apellidoVendedor'];
     this.autor = doc['autor'];
     this.categoria = doc['categoria'];
     this.editorial = doc['editorial'];
     this.emailVendedor = doc['emailVendedor'];
-    this.nombreLibro = doc[
-    'nombreLibro'];
+    this.nombreLibro = doc['nombreLibro'];
     this.imageVendedorUrl = doc['imageVendedor'];
     imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
     doc['colegios'].forEach((item) {
@@ -94,7 +94,8 @@ class Book {
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
     this.descripcion = doc['descripcion'];
-    if(doc['nuevo']!= null && doc['nuevo'] is bool)this.isNuevo = doc['nuevo'];
+    if (doc['nuevo'] != null && doc['nuevo'] is bool)
+      this.isNuevo = doc['nuevo'];
 //    imagesUrl.forEach((element) {
 //      images.add(CachedNetworkImageProvider(
 ////        imageUrl: element,
@@ -102,7 +103,7 @@ class Book {
 ////        fit: BoxFit.fill,
 //      element));
 //    });
-    if(doc['thumbsUrl'] != null ) {
+    if (doc['thumbsUrl'] != null) {
       doc['thumbsUrl'].forEach((item) {
         this.thumbImagesUrl.add(item.toString());
       });
@@ -115,30 +116,34 @@ class Book {
     this.uid = doc.documentID;
   }
 
-  Book.fromIndexMap(Map<String,dynamic> map){
+  Book.fromIndexMap(Map<String, dynamic> map) {
 //    this.nombreVendedor = map[
 //    'nombreVendedor']; //Idealmente estaria bueno cambiar este campo en la base de datos a nombreVendedor
     this.emailVendedor = map['emailVendedor'];
     this.nombreVendedorAcortado = map['vendedorNombreAcortado'];
     this.nombreLibro = map['nombreLibro'];
     this.autor = map['autor'];
-    if(map['colegio'] != null){
+    if (map['colegio'] != null) {
       this.colegios.add(map['colegio']);
     }
-    if(map['cursos']!= null)map['cursos'].forEach((item) {
-      this.cursos.add(item.toString());
-    });
-    if(map['materias']!= null)map['materias'].forEach((item) {
-      this.materias.add(item.toString());
-    });
-    if(map['precio']!=null)this.precio = map['precio'];
-    if(map['imageVendedor'] != null){
+    if (map['cursos'] != null)
+      map['cursos'].forEach((item) {
+        this.cursos.add(item.toString());
+      });
+    if (map['materias'] != null)
+      map['materias'].forEach((item) {
+        this.materias.add(item.toString());
+      });
+    if (map['precio'] != null) this.precio = map['precio'];
+    if (map['imageVendedor'] != null) {
       this.imageVendedorUrl = map['imageVendedor'];
     }
     //this.uid = map['publicacionId'];
-    if(map['firstImageUrl']!=null)this.thumbImagesUrl.add(map['firstImageUrl']);
+    if (map['firstImageUrl'] != null)
+      this.thumbImagesUrl.add(map['firstImageUrl']);
     this.uid = map['uid'];
-    if(map['nuevo'] !=null && map['nuevo'] is bool)this.isNuevo = map['nuevo'];
+    if (map['nuevo'] != null && map['nuevo'] is bool)
+      this.isNuevo = map['nuevo'];
   }
 
   @override
@@ -147,49 +152,49 @@ class Book {
   }
 
   List<ImageProvider> getImages() {
-    if(thumbImagesUrl != null && thumbImagesUrl.length != 0){
-      if(_thumbImages.length  != thumbImagesUrl.length){
-        for(int i= 0; i< thumbImagesUrl.length;i++){
-          if(_thumbImages.length < i+1){
+    if (thumbImagesUrl != null && thumbImagesUrl.length != 0) {
+      if (_thumbImages.length != thumbImagesUrl.length) {
+        for (int i = 0; i < thumbImagesUrl.length; i++) {
+          if (_thumbImages.length < i + 1) {
             _thumbImages.add(CachedNetworkImageProvider(thumbImagesUrl[i]));
           }
         }
       }
       return _thumbImages;
-    }else if(imagesUrl != null && imagesUrl.length!= 0){
-
-      if(_images.length  != imagesUrl.length){
-        for(int i= 0; i< imagesUrl.length;i++){
-          if(_images.length < i+1){
+    } else if (imagesUrl != null && imagesUrl.length != 0) {
+      if (_images.length != imagesUrl.length) {
+        for (int i = 0; i < imagesUrl.length; i++) {
+          if (_images.length < i + 1) {
             _images.add(CachedNetworkImageProvider(imagesUrl[i]));
           }
         }
       }
       return _images;
     }
-    return [AssetImage(
-      "assets/images/icons-back-light-2.png",
-    )];
+    return [
+      AssetImage(
+        "assets/images/icons-back-light-2.png",
+      )
+    ];
   }
 
-  ImageProvider getImageVendedor(){
-    if(imageVendedor == null){
-      if(imageVendedorUrl != null){
+  ImageProvider getImageVendedor() {
+    if (imageVendedor == null) {
+      if (imageVendedorUrl != null) {
         imageVendedor = CachedNetworkImageProvider(imageVendedorUrl);
       }
     }
     return imageVendedor;
   }
 
-  ImageProvider getFirstImageThumb(){
-    if(thumbImagesUrl != null && thumbImagesUrl.length != 0){
-      if(_thumbImages.length == 0){
+  ImageProvider getFirstImageThumb() {
+    if (thumbImagesUrl != null && thumbImagesUrl.length != 0) {
+      if (_thumbImages.length == 0) {
         _thumbImages.add(CachedNetworkImageProvider(thumbImagesUrl.first));
       }
       return _thumbImages.first;
-
-    }else if(imagesUrl!= null && imagesUrl.length != 0){
-      if(_images.length == 0){
+    } else if (imagesUrl != null && imagesUrl.length != 0) {
+      if (_images.length == 0) {
         _images.add(CachedNetworkImageProvider(imagesUrl.first));
       }
       return _images.first;
@@ -199,20 +204,22 @@ class Book {
     );
   }
 
-  List<ImageProvider> getHighResImages(){
-    if(_images != null && _images.length > 0 ){
-      if(_images.length  != imagesUrl.length){
-        for(int i= 0; i< imagesUrl.length;i++){
-          if(_images.length < i+1){
+  List<ImageProvider> getHighResImages() {
+    if (_images != null && _images.length > 0) {
+      if (_images.length != imagesUrl.length) {
+        for (int i = 0; i < imagesUrl.length; i++) {
+          if (_images.length < i + 1) {
             _images.add(CachedNetworkImageProvider(imagesUrl[i]));
           }
         }
       }
       return _images;
     }
-    return [AssetImage(
-      "assets/images/icons-back-light-2.png",
-    )];
+    return [
+      AssetImage(
+        "assets/images/icons-back-light-2.png",
+      )
+    ];
   }
 
   Map<String, dynamic> toMap() {
@@ -223,102 +230,101 @@ class Book {
     bookMap['imageVendedor'] = imageVendedorUrl;
     bookMap['vendido'] = vendido;
     bookMap['publico'] = publico;
-    bookMap['nuevo'] = isNuevo;
+    if (isNuevo != null)
+      bookMap['nuevo'] = isNuevo;
+    else {
+      bookMap['nuevo'] = false;
+    }
     bookMap['precio'] = precio;
     bookMap['nombreLibro'] = nombreLibro;
     bookMap['autor'] = autor;
-    if(editorial != null) bookMap['editorial'] = editorial;
+    if (editorial != null) bookMap['editorial'] = editorial;
     bookMap['descripcion'] = descripcion;
     bookMap['categoria'] = categoria;
     bookMap['materias'] = materias;
     bookMap['colegios'] = colegios;
     bookMap['cursos'] = cursos;
-    if(indexes != null && indexes.length > 0) bookMap['indexes'] = indexes;
+    if (indexes != null && indexes.length > 0) bookMap['indexes'] = indexes;
     bookMap['imagesUrl'] = imagesUrl;
-    if( thumbImagesUrl != null && thumbImagesUrl.length != 0){
+    if (thumbImagesUrl != null && thumbImagesUrl.length != 0) {
       bookMap['thumbsUrl'] = thumbImagesUrl;
     }
     if (isbn != null) {
       bookMap['isbn'] = isbn;
     }
-    if(rating != null){
+    if (rating != null) {
       bookMap['rating'] = rating;
     }
-    if(palabrasImportantes!= null && palabrasImportantes.length != 0)bookMap['palabrasImportantes']=palabrasImportantes;
+    if (palabrasImportantes != null && palabrasImportantes.length != 0)
+      bookMap['palabrasImportantes'] = palabrasImportantes;
 
     return bookMap;
   }
 
-  addUserInformation(User user){
+  addUserInformation(User user) {
     this.nombreVendedor = user.nombre;
     this.apellidoVendedor = user.apellido;
     this.emailVendedor = user.email;
     this.imageVendedorUrl = user.fotoPerfilUrl;
   }
 
-  void createIndexes(){
+  void createIndexes() {
     indexes = [];
     palabrasImportantes = [];
     List<String> bookSplitList = this.nombreLibro.split(" ");
-    if(this.autor != null){
+    if (this.autor != null) {
       for (var value in this.autor.split(" ")) {
         bookSplitList.add(value);
       }
     }
 
-
-
     for (int i = 0; i < bookSplitList.length; i++) {
       for (int j = 2; j < bookSplitList[i].length + 1; j++) {
         indexes.add(bookSplitList[i].substring(0, j).toLowerCase());
       }
-      if(bookSplitList[i].length >2 && bookSplitList[i] != "El" && bookSplitList[i] != "La" && bookSplitList[i] != "The" && bookSplitList[i] != "Las"){
+      if (bookSplitList[i].length > 2 &&
+          bookSplitList[i] != "El" &&
+          bookSplitList[i] != "La" &&
+          bookSplitList[i] != "The" &&
+          bookSplitList[i] != "Las") {
         palabrasImportantes.add(bookSplitList[i]);
       }
     }
   }
 
-  Book clone(){
+  Book clone() {
     return Book.fromCloning(this);
   }
-
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Book &&
-              runtimeType == other.runtimeType &&
-              nombreVendedor == other.nombreVendedor &&
-              apellidoVendedor == other.apellidoVendedor &&
-              autor == other.autor &&
-              categoria == other.categoria &&
-              editorial == other.editorial &&
-              emailVendedor == other.emailVendedor &&
-              descripcion == other.descripcion &&
-              nombreLibro == other.nombreLibro &&
-              imageVendedorUrl == other.imageVendedorUrl &&
-              uid == other.uid &&
-              colegios == other.colegios &&
-              cursos == other.cursos &&
-              imagesUrl == other.imagesUrl &&
-              thumbImagesUrl == other.thumbImagesUrl &&
-              materias == other.materias &&
-              indexes == other.indexes &&
-              vendido == other.vendido &&
-              publico == other.publico &&
-              precio == other.precio &&
-              isbn == other.isbn &&
-              rating == other.rating;
-
+      other is Book &&
+          runtimeType == other.runtimeType &&
+          nombreVendedor == other.nombreVendedor &&
+          apellidoVendedor == other.apellidoVendedor &&
+          autor == other.autor &&
+          categoria == other.categoria &&
+          editorial == other.editorial &&
+          emailVendedor == other.emailVendedor &&
+          descripcion == other.descripcion &&
+          nombreLibro == other.nombreLibro &&
+          imageVendedorUrl == other.imageVendedorUrl &&
+          uid == other.uid &&
+          colegios == other.colegios &&
+          cursos == other.cursos &&
+          imagesUrl == other.imagesUrl &&
+          thumbImagesUrl == other.thumbImagesUrl &&
+          materias == other.materias &&
+          indexes == other.indexes &&
+          vendido == other.vendido &&
+          publico == other.publico &&
+          precio == other.precio &&
+          isbn == other.isbn &&
+          rating == other.rating;
 
   @override
   int get hashCode => uid.hashCode;
-
-
-
-
-
-
 }
 
 List<Book> books = [Book()];
