@@ -11,6 +11,7 @@ import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';
 import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
+import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
@@ -389,7 +390,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DestacadosSectionDos(),
+                              GenericBookList(ListType.recomendados),
                         ),
                       );
                     },
@@ -450,7 +451,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
-                            EconomicosSection(),
+                            GenericBookList(ListType.Economicos),
                       ));
                     },
                     child: Stack(

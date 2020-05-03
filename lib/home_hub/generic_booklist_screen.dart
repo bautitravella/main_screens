@@ -41,12 +41,12 @@ class _GenericBookListState extends State<GenericBookList> {
       body: Stack(
         children: <Widget>[
           Container(
-            color: AppColors.secondaryBackground,
+            color: Theme.of(context).backgroundColor,
             height: SizeConfig.blockSizeVertical * 100,
           ),
           Positioned(
             left: 0,
-            top: SizeConfig.blockSizeVertical * 5,
+            top: SizeConfig.blockSizeVertical * 6,
             right: 0,
             child: Opacity(
               opacity: 0.5,
@@ -245,7 +245,7 @@ class _GenericBookListState extends State<GenericBookList> {
                           Container(
                             width: SizeConfig.blockSizeHorizontal*50,
                             child: Text(
-                              'Economicos',
+                              'Materias',
                               style: TextStyle(
                                   fontSize: 23,
                                   fontFamily: 'Sf-r',
@@ -259,14 +259,14 @@ class _GenericBookListState extends State<GenericBookList> {
                       ),
                     ),
                     Positioned(
-                      top: 55,
+                      top: 60,
                       left: 0,
                       right: 0,
                       bottom: 0,
                       child: Container(
                         height: 220,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(30),
                               topLeft: Radius.circular(30)),
@@ -292,7 +292,7 @@ class _GenericBookListState extends State<GenericBookList> {
                           ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 );
               }

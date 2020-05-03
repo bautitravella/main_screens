@@ -26,7 +26,7 @@ class BookTile extends StatelessWidget{
           ),
         );
       },
-      child:Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -69,12 +69,7 @@ class BookTile extends StatelessWidget{
                                 width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
                                   "${book.nombreLibro}",
-                                  style: TextStyle(
-                                    color: Color.fromARGB(200, 0, 0, 0),
-                                    fontSize: 15,
-                                    fontFamily: "Sf-r",
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                  style: Theme.of(context).primaryTextTheme.headline2,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                 ),
@@ -89,11 +84,7 @@ class BookTile extends StatelessWidget{
                                 margin: EdgeInsets.only(top: 5),
                                 child: Text(
                                   "${book.autor}",
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontFamily: "Sf",
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  style: Theme.of(context).primaryTextTheme.headline3,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                 ),
@@ -124,7 +115,7 @@ class BookTile extends StatelessWidget{
                                         return IconButton(
                                             icon: Icon(Icons.favorite),
                                             iconSize: 30.0,
-                                            color: Colors.black,
+                                            color: Theme.of(context).iconTheme.color,
                                             onPressed: () {
                                               BlocProvider.of<FavoritesBloc>(context).add(RemoveBookFromFavorites(book.uid));
                                             });
@@ -132,7 +123,7 @@ class BookTile extends StatelessWidget{
                                         return IconButton(
                                             icon: Icon(Icons.favorite_border),
                                             iconSize: 30.0,
-                                            color: Colors.black,
+                                            color: Theme.of(context).iconTheme.color,
                                             onPressed: () {
                                               BlocProvider.of<FavoritesBloc>(context).add(AddBookToFavorites(book.uid));
 
@@ -169,23 +160,15 @@ class BookTile extends StatelessWidget{
                                   width: SizeConfig.blockSizeHorizontal * 14,
                                   height: 20,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(20, 0, 0, 0),
+                                    color: Theme.of(context).hintColor,
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
                                     //todo sacar el boton de usado y cambiarlo por el de nuevo
-                                    book.isNuevo!=null && book.isNuevo == true?
-                                    "NUEVO"
-                                        :
                                     "USADO",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: "Sf-r",
-                                      color: Color.fromARGB(100, 0, 0, 0),
-                                    ),
+                                    style: Theme.of(context).primaryTextTheme.headline5,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                   ),
@@ -203,7 +186,7 @@ class BookTile extends StatelessWidget{
                                         Container(
                                             height: 25,
                                             width: 25 ,
-                                            child: CircleAvatar( backgroundImage: book.getImageVendedor())
+                                            child: CircleAvatar( backgroundImage: book.imageVendedor)
                                         ),
                                         book.rating != null?
                                         Container(
@@ -243,18 +226,10 @@ class BookTile extends StatelessWidget{
                                             child: Row(
                                               children: <Widget>[
                                                 SizedBox(width: 5,),
-
-                                                Text(book.nombreVendedor!=null && book.apellidoVendedor!= null?
-                                                book.nombreVendedor.substring(0,1) + "." + book.apellidoVendedor
-                                                    :
-                                                " ",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Sf-r",
-                                                    color: Color.fromARGB(
-                                                        190, 0, 0, 0),
-                                                  ),
+                                                Text(book.nombreVendedor != null?book.nombreVendedor.substring(0,1).toUpperCase() + "." + book.apellidoVendedor
+                                                  :
+                                                  " ",
+                                                  style:Theme.of(context).primaryTextTheme.headline4,
                                                 )
                                               ],)),
                                       ],
@@ -267,13 +242,7 @@ class BookTile extends StatelessWidget{
                                             Text(
                                               '\$${book.precio}',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 21,
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: "Sf-r",
-                                                color: Color.fromARGB(
-                                                    190, 0, 0, 0),
-                                              ),
+                                              style: Theme.of(context).textTheme.headline2,
                                             )
                                           ],
                                         )),
