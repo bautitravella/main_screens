@@ -122,76 +122,6 @@ class _TestFotoDePerfilState extends State<TestFotoDePerfil> {
                   },
                 ),
                 SizedBox(height: 40),
-               /* BlocBuilder<ColegiosBloc, ColegiosBlocState>(
-                  builder: (context, state) {
-                    if (state is ColegiosLoading) {
-                      //showLoadingDialog(context);
-                      loadingDialogShown = true;
-                      return CircularProgressIndicator();
-                    } else if (state is ColegiosLoaded) {
-                      if (loadingDialogShown) {
-                        Navigator.of(context).pop();
-                        loadingDialogShown = false;
-                      }
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Colegio",
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                          BeautyDropDown(
-                            width: double.maxFinite, //REQUIRED
-                            height: 50, //REQUIRED
-                            accentColor: Colors.white, // On Focus Color//Text Color
-                            backgroundColor: Theme.of(context).hintColor,
-                            margin: EdgeInsets.only(top: 10),
-                            cornerRadius: BorderRadius.all(Radius.circular(15)),
-                            duration: Duration(milliseconds: 300),
-                            suffixIcon: Icon(Icons.remove_red_eye),
-                            item: createDropDownMenuListColegios(state.colegiosData.colegios),
-                            isExpanded: true,
-                            value: colegioSelectedValue,
-                            onChanged: (value) {
-                              if (value == "+ Agregar Colegio") {
-                                showSchoolDialog(context, widget.user.email);
-                              } else {
-                                setState(() {
-                                  colegioSelectedValue = value;
-                                });
-                              }
-                            },
-                          ),
-                          SizedBox(height: 40),
-                          Text(
-                            "Curso",
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                          BeautyDropDown(
-                            width: double.maxFinite, //REQUIRED
-                            height: 50, //REQUIRED
-                            accentColor: Colors.white, // On Focus Color//Text Color
-                            backgroundColor: Theme.of(context).hintColor,
-                            margin: EdgeInsets.only(top: 10),
-                            cornerRadius: BorderRadius.all(Radius.circular(15)),
-                            duration: Duration(milliseconds: 300),
-                            suffixIcon: Icon(Icons.remove_red_eye),
-                            item: createDropDownMenuList(state.colegiosData.cursos),
-                            isExpanded: true,
-                            value: cursoSelectedValue,
-                            onChanged: (value) {
-                              setState(() {
-                                cursoSelectedValue = value;
-                              });
-                            },
-                          ),
-
-                        ],
-                      );
-                    }
-                    return CircularProgressIndicator();
-                  },
-                ),*/
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -290,28 +220,6 @@ class _TestFotoDePerfilState extends State<TestFotoDePerfil> {
                       "Colegio",
                       style: Theme.of(context).textTheme.headline2,
                     ),
-                  /*  BeautyDropDown(
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      item: createDropDownMenuListColegios(state.colegiosData.colegios),
-                      isExpanded: true,
-                      value: colegioSelectedValue,
-                      onChanged: (value) {
-                        if (value == "+ Agregar Colegio") {
-                          showSchoolDialog(context, widget.user.email);
-                        } else {
-                          setState(() {
-                            colegioSelectedValue = value;
-                          });
-                        }
-                      },
-                    ),*/
                     BeautyTextfield(
                       /*controller: nombreController,*/
                       textCapitalization: TextCapitalization.words,
@@ -346,24 +254,6 @@ class _TestFotoDePerfilState extends State<TestFotoDePerfil> {
                       "Curso",
                       style: Theme.of(context).textTheme.headline2,
                     ),
-                   /* BeautyDropDown(
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      item: createDropDownMenuList(state.colegiosData.cursos),
-                      isExpanded: true,
-                      value: cursoSelectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          cursoSelectedValue = value;
-                        });
-                      },
-                    ),*/
                     BeautyTextfield(
                       /*controller: nombreController,*/
                       textCapitalization: TextCapitalization.words,
