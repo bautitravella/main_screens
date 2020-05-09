@@ -91,7 +91,7 @@ class _BookSectionState extends State<BookSection> {
                                   ),
                                   child: Container(
                                     height: SizeConfig.blockSizeVertical * 22,
-                                    color: Colors.white,
+                                    color: Theme.of(context).scaffoldBackgroundColor,
                                   ),
                                 ),
                               ),

@@ -75,12 +75,12 @@ class _BookSection2State extends State<BookSection2> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6, right: SizeConfig.blockSizeHorizontal*6),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
+                                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*7),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -252,7 +252,7 @@ class _BookSection2State extends State<BookSection2> {
                       SlidingUpPanel(
                         panelBuilder: (ScrollController sc) => _scrollingList(sc, widget.book),
                         maxHeight: SizeConfig.blockSizeVertical * 66,
-                        minHeight: SizeConfig.blockSizeVertical * 38,
+                        minHeight: SizeConfig.blockSizeVertical * 40,
                         color: Colors.transparent,
                         backdropEnabled: false,
                         backdropColor: AppColors.secondaryBackground,
@@ -460,9 +460,22 @@ class _BookSection2State extends State<BookSection2> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: 8,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).hintColor,
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                          )
+                        ],
+                      ),
                       Container(
-                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, top: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -520,7 +533,7 @@ class _BookSection2State extends State<BookSection2> {
                                             borderRadius: BorderRadius.circular(12)
                                         ),
                                         child: Center(
-                                          child: Text('\$${widget.book.precio}', style: TextStyle(
+                                          child: Text('\$${book.nombreVendedor}', style: TextStyle(
                                             fontFamily: "Sf",
                                             fontSize: 11,
                                             fontWeight: FontWeight.w700,
@@ -566,6 +579,7 @@ class _BookSection2State extends State<BookSection2> {
                                       ),
                                     ),
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Container(
                                           padding: const EdgeInsets.only(top: 15),
@@ -583,10 +597,11 @@ class _BookSection2State extends State<BookSection2> {
                                         ),
                                       ],
                                     ),
+                                    SizedBox(height: 10),
                                     Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Container(
-                                          padding: const EdgeInsets.only(top: 5),
                                           child: Text(
                                             "Autor:",
                                             textAlign: TextAlign.left,
@@ -600,7 +615,7 @@ class _BookSection2State extends State<BookSection2> {
                                         ),
                                         Container(
                                           padding:
-                                          const EdgeInsets.only(top: 5, left: 5),
+                                          const EdgeInsets.only(left: 5),
                                           width: SizeConfig.blockSizeHorizontal * 70,
                                           child: Text(
                                             book.autor != null? book.autor: " ",
@@ -1141,6 +1156,7 @@ class _BookSection2State extends State<BookSection2> {
                                   ],
                                 )),
                             horizontalListView(state.booksList),
+                            Container(height: 100, color: Colors.red,),
                           ],
                         ),
                       );
@@ -1225,7 +1241,7 @@ class _BookSection2State extends State<BookSection2> {
           return Container(
             height: 180,
             width: 123,
-            margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
+            margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*6),
             padding: EdgeInsets.all(5),
             child: GestureDetector(
               onTap: (){
@@ -1234,9 +1250,12 @@ class _BookSection2State extends State<BookSection2> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
-                Image(
-                  image: book.getImages()[index],
-                  fit: BoxFit.cover,
+                Hero(
+                  tag: index.toString(),
+                  child: Image(
+                    image: book.getImages()[index],
+                    fit: BoxFit.cover,
+                  ),
                 )
                     :
                 CircularProgressIndicator(),
@@ -1339,7 +1358,6 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
           children: <Widget>[
             PhotoViewGallery.builder(
               scrollPhysics: const BouncingScrollPhysics(),
-              
               builder: _buildItem,
               itemCount: widget.galleryItems.length,
               loadingBuilder: widget.loadingBuilder,
@@ -1361,7 +1379,12 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                       Icon(Icons.arrow_back_ios, color: Colors.white),
                       Text(
                         "IMAGEN ${currentIndex + 1}",
-                        style: Theme.of(context).textTheme.headline2,
+                        style: TextStyle(
+                          fontFamily: "Sf-r",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white
+                        ),
                       ),
                     ],
                   ),
@@ -1390,7 +1413,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
 Widget horizontalListView(List<Book> booksList){
   return Container(
     height: 240,
-    margin: EdgeInsets.only(left: 22),
+    margin: EdgeInsets.only(left: 22, bottom: 50),
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: booksList.length,
