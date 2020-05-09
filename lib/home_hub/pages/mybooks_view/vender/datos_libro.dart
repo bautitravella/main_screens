@@ -40,7 +40,6 @@ class _DatosLibrosState extends State<DatosLibros> {
   bool _universidadCheckBox = false;
   bool _colegioCheckBox = false;
 
-
   TextEditingController nombreTextController = new TextEditingController(),
       editorialTextController = new TextEditingController(),
       autorTextController = new TextEditingController(),
@@ -246,7 +245,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                       margin: EdgeInsets.only(top: 10),
                       cornerRadius: BorderRadius.all(Radius.circular(15)),
                       duration: Duration(milliseconds: 300),
-                      inputType: TextInputType.text,
+                      inputType: TextInputType.number,
                       inputAction: TextInputAction.done,//REQUIRED
                       obscureText: false, //REQUIRED
                       suffixIcon: Icon(Icons.remove_red_eye),
@@ -555,21 +554,17 @@ class _DatosLibrosState extends State<DatosLibros> {
                           "Universidad",
                           style: Theme.of(context).textTheme.headline2,
                         ),
-                        BeautyTextfield(
+                        BeautyDropDown(
                           /*controller: nombreController,*/
-                          textCapitalization: TextCapitalization.words,
+                          multiple: true,
                           width: double.maxFinite, //REQUIRED
                           height: 50, //REQUIRED
                           accentColor: Colors.white, // On Focus Color//Text Color
                           backgroundColor: Theme.of(context).hintColor,
                           autofocus: false,
-                          maxLines: 1,
                           margin: EdgeInsets.only(top: 10),
                           cornerRadius: BorderRadius.all(Radius.circular(15)),
                           duration: Duration(milliseconds: 300),
-                          inputType: TextInputType.text,
-                          inputAction: TextInputAction.done,//REQUIRED
-                          obscureText: false, //REQUIRED
                           suffixIcon: Icon(Icons.remove_red_eye),
                           onClickSuffix: () {
                             print('Suffix Clicked');
@@ -579,9 +574,6 @@ class _DatosLibrosState extends State<DatosLibros> {
                           },
                           onChanged: (text) {
                             print(text);
-                          },
-                          onSubmitted: (data) {
-                            print(data.length);
                           },
                         ),
                         SizedBox(height: 40),
@@ -755,7 +747,7 @@ class _DatosLibrosState extends State<DatosLibros> {
         descripcion.isEmpty ||
         precio == null ||
         precio.isEmpty ||
-        (_isMarcked == false && _isTicked == false)) {
+        (_isMarcked == true && _isTicked == true)) {
       //TODO agregar dialog con el error
       showErrorDialog(context, "Para continuar debes completar todos los campos");
       print("falta completar algun campo");

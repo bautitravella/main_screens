@@ -7,6 +7,7 @@ import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/size_config.dart';
+import 'package:flutterui/test/test1.dart';
 
 class BookTile extends StatelessWidget{
 
@@ -22,7 +23,7 @@ class BookTile extends StatelessWidget{
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BookSection(book),
+            builder: (context) => BookSection2(book),
           ),
         );
       },
