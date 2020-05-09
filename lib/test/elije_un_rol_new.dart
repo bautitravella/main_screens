@@ -57,7 +57,7 @@ List carousellItems(BuildContext context) {
             boxShadow: [
               BoxShadow(
                 blurRadius: 10.0,
-                color: Color.fromRGBO(0, 0, 0, 0.15),
+                color: /*Color.fromRGBO(0, 0, 0, 0.15)*/Theme.of(context).hoverColor,
               ),
             ],
           ),

@@ -2180,7 +2180,7 @@ class _MiPerfilState extends State<MiPerfil> {
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: "Sf-r",
-                    color: Colors.black54,
+                    color: Theme.of(context).textTheme.headline1.color,
                     fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.center,
@@ -2195,7 +2195,7 @@ class _MiPerfilState extends State<MiPerfil> {
                           style: TextStyle(
                             fontSize: 15,
                             fontFamily: "Sf-t",
-                            color: Colors.black54,
+                            color: Theme.of(context).textTheme.headline1.color,
                             fontWeight: FontWeight.w700,
                           ),
                           textAlign: TextAlign.center,
@@ -2210,7 +2210,7 @@ class _MiPerfilState extends State<MiPerfil> {
                              border: InputBorder.none,
                           ),
                           style: TextStyle(
-                            color: AppColors.accentText,
+                            color: Theme.of(context).textTheme.headline1.color,
                             fontFamily: "Sf-r",
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
@@ -2221,7 +2221,7 @@ class _MiPerfilState extends State<MiPerfil> {
                         Container(
                           height: 2,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(27, 0, 0, 0),
+                            color: Theme.of(context).hintColor.withAlpha(50),
                           ),
                         ),
                       ],
@@ -2239,7 +2239,7 @@ class _MiPerfilState extends State<MiPerfil> {
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: "Sf-r",
-                        color: Colors.black38,
+                        color: Theme.of(context).textTheme.headline1.color,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

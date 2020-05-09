@@ -121,7 +121,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                               ),
                             ),
                           onPressed: () {
-                             selectImage();
+                            showOptionsDialog(context, "hola");
                           }
 
 //                              Navigator.push(
@@ -165,7 +165,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    selectImage();
+                                    showOptionsDialog(context, "hola");
                                   }),
                             ),
                           ),
@@ -217,6 +217,89 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
         ),
       ),
     );
+  }
+
+  void showOptionsDialog(BuildContext context, String errorMessage) {
+    showSlideDialogChico(
+        context: context,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                onTap: (){
+                  selectImage();
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 213, 104),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Icon(
+                            Icons.add_to_photos,
+                            color: Colors.white,
+                            size: 30,
+                          )),
+                      Text(
+                        "Fotos",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 40),
+              GestureDetector(
+                onTap: (){
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 213, 104),
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 30,
+                          )),
+                      Text(
+                        "Camara",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        animatedPill: false);
   }
 
   siguienteBtn(BuildContext context) {

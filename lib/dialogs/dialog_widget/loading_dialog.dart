@@ -30,7 +30,7 @@ class LoadingDialog extends StatelessWidget {
                     Text(
                       "Loading...",
                       style: TextStyle(
-                        color: Color.fromARGB(255, 136, 136, 136),
+                        color: Theme.of(context).textTheme.headline1.color,
                         fontFamily: "Sf-r",
                         fontSize: 23,
                         fontWeight: FontWeight.w700,

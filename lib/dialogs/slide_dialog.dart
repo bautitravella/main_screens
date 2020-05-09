@@ -47,8 +47,7 @@ class _SlideDialogChicoState extends State<SlideDialogChico> {
             width: deviceWidth,
             height: SizeConfig.blockSizeHorizontal*40,
             child: Material(
-              color: widget.backgroundColor ??
-                  Theme.of(context).dialogBackgroundColor,
+              color: Theme.of(context).dialogBackgroundColor,
               elevation: 24.0,
               type: MaterialType.card,
               child: Column(
@@ -243,8 +242,7 @@ class _SlideDialogFullState extends State<SlideDialogFull> {
             width: deviceWidth,
             height: SizeConfig.blockSizeVertical*100,
             child: Material(
-              color: widget.backgroundColor ??
-                  Theme.of(context).dialogBackgroundColor,
+              color: Theme.of(context).dialogBackgroundColor,
               elevation: 24.0,
               type: MaterialType.card,
               child: SingleChildScrollView(
