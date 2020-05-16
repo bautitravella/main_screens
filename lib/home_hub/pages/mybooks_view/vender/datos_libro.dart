@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
@@ -49,7 +52,13 @@ class _DatosLibrosState extends State<DatosLibros> {
 
   FirebaseAnalytics analytics;
 
-  List<int> selectedItems = [];
+  Map<String, bool> values;
+  bool loadingDialogShown = false;
+  bool valuesHasBeenCreated = false;
+
+  List<int> selectedColegios = [];
+  List<int> selectedCursos = [];
+  List<int> selectedMaterias = [];
 
 @override
   void initState() {
@@ -357,302 +366,319 @@ class _DatosLibrosState extends State<DatosLibros> {
                       ],
                     ),
                     SizedBox(height: 40),
-                    Column(
-                      children: <Widget>[
-                        FlatButton(
-                          splashColor: Theme.of(context).backgroundColor,
-                          onPressed: () {
-                            setState(() {
-                              _colegioCheckBox =  !_colegioCheckBox;
-                            });
-                            print('Click');
-                          },
-                          padding: EdgeInsets.only(top: 0, bottom: 0),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal*50,
-                                padding: EdgeInsets.only(left: 20, right: 4, top: 20, bottom: 20),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).hintColor.withAlpha(60),
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                    BlocBuilder<UserBloc, UserBlocState>(
+                        builder: (context, state) {
+                          if (state is UserNotLoaded) {
+                           /* showLoadingDialog(context);*/
+                            loadingDialogShown = true;
+                            return CircularProgressIndicator();
+                          } else if (state is UserLoadedState) {
+
+                            return Column(
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    FlatButton(
+                                      splashColor: Theme.of(context).backgroundColor,
+                                      onPressed: () {
+                                        setState(() {
+                                          _colegioCheckBox =  !_colegioCheckBox;
+                                        });
+                                        print('Click');
+                                      },
+                                      padding: EdgeInsets.only(top: 0, bottom: 0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: SizeConfig.blockSizeHorizontal*50,
+                                            padding: EdgeInsets.only(left: 20, right: 4, top: 20, bottom: 20),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).hintColor.withAlpha(60),
+                                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                            ),
+                                            child: Opacity(
+                                                opacity: _colegioCheckBox? 1 : 0.2,
+                                                child: Text("Colegio", style: Theme.of(context).textTheme.headline2,)),
+                                          ),
+                                          SizedBox(width: SizeConfig.blockSizeHorizontal*15),
+                                          Center(
+                                            child: Container(
+                                              height: 27,
+                                              width: 27,
+                                              decoration: BoxDecoration(
+                                                color: _colegioCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
+                                                borderRadius:  BorderRadius.circular(5.0),
+                                              ),
+                                              child: Center(child: Icon(_colegioCheckBox? Icons.done: null, color: Colors.white, size: 17)
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    _colegioCheckBox
+                                        ?Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(height: 40),
+                                        Text(
+                                          "Colegio",
+                                          style: Theme.of(context).textTheme.headline2,
+                                        ),
+                                        BeautyDropDown(
+                                          multiple: true,
+                                          item: createDropDownMenuListColegios(state.user.getColegios()),
+                                          selectedItems: selectedColegios,
+                                          width: double.maxFinite, //REQUIRED
+                                          height: 50, //REQUIRED
+                                          accentColor: Colors.white, // On Focus Color//Text Color
+                                          backgroundColor: Theme.of(context).hintColor,
+                                          autofocus: false,
+                                          margin: EdgeInsets.only(top: 10),
+                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                          duration: Duration(milliseconds: 300),
+                                          onClickSuffix: () {
+                                            print('Suffix Clicked');
+                                          },
+                                          onTap: () {
+                                            print('Click');
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedColegios = value;
+                                              print(selectedColegios);
+                                            });
+                                          },
+                                        ),//DropDown Colegio
+                                        SizedBox(height: 40),
+                                        BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                                        builder: (context, state) {
+                                        if (state is ColegiosLoaded) {
+                                        return Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              "Año",
+                                              style: Theme.of(context).textTheme.headline2,
+                                            ),
+                                            BeautyDropDown(
+                                              multiple: true,
+                                              item: createDropDownMenuListColegios(state.colegiosData.cursos),
+                                              selectedItems: selectedCursos,
+                                              width: double.maxFinite, //REQUIRED
+                                              height: 50, //REQUIRED
+                                              accentColor: Colors.white, // On Focus Color//Text Color
+                                              backgroundColor: Theme.of(context).hintColor,
+                                              autofocus: false,
+                                              margin: EdgeInsets.only(top: 10),
+                                              cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                              duration: Duration(milliseconds: 300),
+                                              onClickSuffix: () {
+                                                print('Suffix Clicked');
+                                              },
+                                              onTap: () {
+                                                print('Click');
+                                              },
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedCursos = value;
+                                                  print(selectedCursos);
+                                                });
+                                              },
+                                            ),//DropDown Año
+                                            SizedBox(height: 40),
+                                            Text(
+                                              "Materia",
+                                              style: Theme.of(context).textTheme.headline2,
+                                            ),
+                                            BeautyDropDown(
+                                              multiple: true,
+                                              item: createDropDownMenuListColegios(state.colegiosData.materias),
+                                              selectedItems: selectedMaterias,
+                                              width: double.maxFinite, //REQUIRED
+                                              height: 50, //REQUIRED
+                                              accentColor: Colors.white, // On Focus Color//Text Color
+                                              backgroundColor: Theme.of(context).hintColor,
+                                              autofocus: false,
+                                              margin: EdgeInsets.only(top: 10),
+                                              cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                              duration: Duration(milliseconds: 300),
+                                              onClickSuffix: () {
+                                                print('Suffix Clicked');
+                                              },
+                                              onTap: () {
+                                                print('Click');
+                                              },
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedMaterias = value;
+                                                  print(selectedMaterias);
+                                                });
+                                              },
+                                            ),//DropDown Materia
+                                          ],
+                                        );
+                                        }return CircularProgressIndicator();}),
+                                      ],
+                                    )
+                                        :Container(),
+                                    SizedBox(height: 30),
+                                    state.user is AlumnoUniversitario
+                                    ?FlatButton(
+                                      splashColor: Theme.of(context).backgroundColor,
+                                      onPressed: () {
+                                        setState(() {
+                                          _universidadCheckBox =  !_universidadCheckBox;
+                                        });
+                                        print('Click');
+                                      },
+                                      padding: EdgeInsets.only(top: 0, bottom: 0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: SizeConfig.blockSizeHorizontal*50,
+                                            padding: EdgeInsets.only(left: 20, right: 4, top: 20, bottom: 20),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).hintColor.withAlpha(60),
+                                              borderRadius: BorderRadius.all(Radius.circular(15)),
+                                            ),
+                                            child: Opacity(
+                                                opacity: _universidadCheckBox? 1 : 0.2,
+                                                child: Text("Universidad", style: Theme.of(context).textTheme.headline2,)),
+                                          ),
+                                          SizedBox(width: SizeConfig.blockSizeHorizontal*15),
+                                          Center(
+                                            child: Container(
+                                              height: 27,
+                                              width: 27,
+                                              decoration: BoxDecoration(
+                                                color: _universidadCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
+                                                borderRadius:  BorderRadius.circular(5.0),
+                                              ),
+                                              child: Center(child: Icon(_universidadCheckBox? Icons.done: null, color: Colors.white, size: 17)
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ):
+                                        Container(),
+                                    _universidadCheckBox
+                                        ?Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(height: 40),
+                                        Text(
+                                          "Universidad",
+                                          style: Theme.of(context).textTheme.headline2,
+                                        ),
+                                        BeautyTextfield(
+                                          /*controller: nombreController,*/
+                                          textCapitalization: TextCapitalization.words,
+                                          width: double.maxFinite, //REQUIRED
+                                          height: 50, //REQUIRED
+                                          accentColor: Colors.white, // On Focus Color//Text Color
+                                          backgroundColor: Theme.of(context).hintColor,
+                                          autofocus: false,
+                                          maxLines: 1,
+                                          margin: EdgeInsets.only(top: 10),
+                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                          duration: Duration(milliseconds: 300),
+                                          inputType: TextInputType.text,
+                                          inputAction: TextInputAction.done,//REQUIRED
+                                          obscureText: false, //REQUIRED
+                                          suffixIcon: Icon(Icons.remove_red_eye),
+                                          onClickSuffix: () {
+                                            print('Suffix Clicked');
+                                          },
+                                          onTap: () {
+                                            print('Click');
+                                          },
+                                          onChanged: (text) {
+                                            print(text);
+                                          },
+                                          onSubmitted: (data) {
+                                            print(data.length);
+                                          },
+                                        ),
+                                        SizedBox(height: 40),
+                                        Text(
+                                          "Carrera",
+                                          style: Theme.of(context).textTheme.headline2,
+                                        ),
+                                        BeautyTextfield(
+                                          /*controller: apellidoController,*/
+                                          textCapitalization: TextCapitalization.words,
+                                          width: double.maxFinite, //REQUIRED
+                                          height: 50, //REQUIRED
+                                          accentColor: Colors.white, // On Focus Color//Text Color
+                                          backgroundColor: Theme.of(context).hintColor,
+                                          autofocus: false,
+                                          maxLines: 1,
+                                          margin: EdgeInsets.only(top: 10),
+                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                          duration: Duration(milliseconds: 300),
+                                          inputType: TextInputType.text,
+                                          inputAction: TextInputAction.done,//REQUIRED
+                                          obscureText: false, //REQUIRED
+                                          suffixIcon: Icon(Icons.remove_red_eye),
+                                          onClickSuffix: () {
+                                            print('Suffix Clicked');
+                                          },
+                                          onTap: () {
+                                            print('Click');
+                                          },
+                                          onChanged: (text) {
+                                            print(text);
+                                          },
+                                          onSubmitted: (data) {
+                                            print(data.length);
+                                          },
+                                        ),
+                                        SizedBox(height: 40),
+                                        Text(
+                                          "Año",
+                                          style: Theme.of(context).textTheme.headline2,
+                                        ),
+                                        BeautyTextfield(
+                                          /*controller: apellidoController,*/
+                                          textCapitalization: TextCapitalization.words,
+                                          width: double.maxFinite, //REQUIRED
+                                          height: 50, //REQUIRED
+                                          accentColor: Colors.white, // On Focus Color//Text Color
+                                          backgroundColor: Theme.of(context).hintColor,
+                                          autofocus: false,
+                                          maxLines: 1,
+                                          margin: EdgeInsets.only(top: 10),
+                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                          duration: Duration(milliseconds: 300),
+                                          inputType: TextInputType.text,
+                                          inputAction: TextInputAction.done,//REQUIRED
+                                          obscureText: false, //REQUIRED
+                                          suffixIcon: Icon(Icons.remove_red_eye),
+                                          onClickSuffix: () {
+                                            print('Suffix Clicked');
+                                          },
+                                          onTap: () {
+                                            print('Click');
+                                          },
+                                          onChanged: (text) {
+                                            print(text);
+                                          },
+                                          onSubmitted: (data) {
+                                            print(data.length);
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                        :Container(),
+                                  ],
                                 ),
-                                child: Opacity(
-                                    opacity: _colegioCheckBox? 1 : 0.2,
-                                    child: Text("Colegio", style: Theme.of(context).textTheme.headline2,)),
-                              ),
-                              SizedBox(width: SizeConfig.blockSizeHorizontal*15),
-                              Center(
-                                child: Container(
-                                  height: 27,
-                                  width: 27,
-                                  decoration: BoxDecoration(
-                                    color: _colegioCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
-                                    borderRadius:  BorderRadius.circular(5.0),
-                                  ),
-                                  child: Center(child: Icon(_colegioCheckBox? Icons.done: null, color: Colors.white, size: 17)
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        _colegioCheckBox
-                            ?Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 40),
-                            Text(
-                              "Colegio",
-                              style: Theme.of(context).textTheme.headline2,
-                            ),
-                            BeautyDropDown(
-                              /*controller: nombreController,*/
-                              multiple: true,
-                              item: createDropDownMenuListColegios(null),
-                              selectedItems: selectedItems,
-                              width: double.maxFinite, //REQUIRED
-                              height: 50, //REQUIRED
-                              accentColor: Colors.white, // On Focus Color//Text Color
-                              backgroundColor: Theme.of(context).hintColor,
-                              autofocus: false,
-                              margin: EdgeInsets.only(top: 10),
-                              cornerRadius: BorderRadius.all(Radius.circular(15)),
-                              duration: Duration(milliseconds: 300),
-                              onClickSuffix: () {
-                                print('Suffix Clicked');
-                              },
-                              onTap: () {
-                                print('Click');
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedItems = value;
-                                  print(selectedItems);
-                                });
-                              },
-                            ),
-                            SizedBox(height: 40),
-                            Text(
-                              "Año",
-                              style: Theme.of(context).textTheme.headline2,
-                            ),
-                            BeautyTextfield(
-                              /*controller: apellidoController,*/
-                              textCapitalization: TextCapitalization.words,
-                              width: double.maxFinite, //REQUIRED
-                              height: 50, //REQUIRED
-                              accentColor: Colors.white, // On Focus Color//Text Color
-                              backgroundColor: Theme.of(context).hintColor,
-                              autofocus: false,
-                              maxLines: 1,
-                              margin: EdgeInsets.only(top: 10),
-                              cornerRadius: BorderRadius.all(Radius.circular(15)),
-                              duration: Duration(milliseconds: 300),
-                              inputType: TextInputType.text,
-                              inputAction: TextInputAction.done,//REQUIRED
-                              obscureText: false, //REQUIRED
-                              suffixIcon: Icon(Icons.remove_red_eye),
-                              onClickSuffix: () {
-                                print('Suffix Clicked');
-                              },
-                              onTap: () {
-                                print('Click');
-                              },
-                              onChanged: (text) {
-                                print(text);
-                              },
-                              onSubmitted: (data) {
-                                print(data.length);
-                              },
-                            ),
-                            SizedBox(height: 40),
-                            Text(
-                              "Materia",
-                              style: Theme.of(context).textTheme.headline2,
-                            ),
-                            BeautyTextfield(
-                              /*controller: apellidoController,*/
-                              textCapitalization: TextCapitalization.words,
-                              width: double.maxFinite, //REQUIRED
-                              height: 50, //REQUIRED
-                              accentColor: Colors.white, // On Focus Color//Text Color
-                              backgroundColor: Theme.of(context).hintColor,
-                              autofocus: false,
-                              maxLines: 1,
-                              margin: EdgeInsets.only(top: 10),
-                              cornerRadius: BorderRadius.all(Radius.circular(15)),
-                              duration: Duration(milliseconds: 300),
-                              inputType: TextInputType.text,
-                              inputAction: TextInputAction.done,//REQUIRED
-                              obscureText: false, //REQUIRED
-                              suffixIcon: Icon(Icons.remove_red_eye),
-                              onClickSuffix: () {
-                                print('Suffix Clicked');
-                              },
-                              onTap: () {
-                                print('Click');
-                              },
-                              onChanged: (text) {
-                                print(text);
-                              },
-                              onSubmitted: (data) {
-                                print(data.length);
-                              },
-                            ),
-                          ],
-                        )
-                            :Container(),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    FlatButton(
-                      splashColor: Theme.of(context).backgroundColor,
-                      onPressed: () {
-                        setState(() {
-                          _universidadCheckBox =  !_universidadCheckBox;
-                        });
-                        print('Click');
-                      },
-                      padding: EdgeInsets.only(top: 0, bottom: 0),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal*50,
-                            padding: EdgeInsets.only(left: 20, right: 4, top: 20, bottom: 20),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).hintColor.withAlpha(60),
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                            ),
-                            child: Opacity(
-                                opacity: _universidadCheckBox? 1 : 0.2,
-                                child: Text("Universidad", style: Theme.of(context).textTheme.headline2,)),
-                          ),
-                          SizedBox(width: SizeConfig.blockSizeHorizontal*15),
-                          Center(
-                            child: Container(
-                              height: 27,
-                              width: 27,
-                              decoration: BoxDecoration(
-                                color: _universidadCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
-                                borderRadius:  BorderRadius.circular(5.0),
-                              ),
-                              child: Center(child: Icon(_universidadCheckBox? Icons.done: null, color: Colors.white, size: 17)
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    _universidadCheckBox
-                        ?Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(height: 40),
-                        Text(
-                          "Universidad",
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        BeautyTextfield(
-                          /*controller: nombreController,*/
-                          textCapitalization: TextCapitalization.words,
-                          width: double.maxFinite, //REQUIRED
-                          height: 50, //REQUIRED
-                          accentColor: Colors.white, // On Focus Color//Text Color
-                          backgroundColor: Theme.of(context).hintColor,
-                          autofocus: false,
-                          maxLines: 1,
-                          margin: EdgeInsets.only(top: 10),
-                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                          duration: Duration(milliseconds: 300),
-                          inputType: TextInputType.text,
-                          inputAction: TextInputAction.done,//REQUIRED
-                          obscureText: false, //REQUIRED
-                          suffixIcon: Icon(Icons.remove_red_eye),
-                          onClickSuffix: () {
-                            print('Suffix Clicked');
-                          },
-                          onTap: () {
-                            print('Click');
-                          },
-                          onChanged: (text) {
-                            print(text);
-                          },
-                          onSubmitted: (data) {
-                            print(data.length);
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        Text(
-                          "Carrera",
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        BeautyTextfield(
-                          /*controller: apellidoController,*/
-                          textCapitalization: TextCapitalization.words,
-                          width: double.maxFinite, //REQUIRED
-                          height: 50, //REQUIRED
-                          accentColor: Colors.white, // On Focus Color//Text Color
-                          backgroundColor: Theme.of(context).hintColor,
-                          autofocus: false,
-                          maxLines: 1,
-                          margin: EdgeInsets.only(top: 10),
-                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                          duration: Duration(milliseconds: 300),
-                          inputType: TextInputType.text,
-                          inputAction: TextInputAction.done,//REQUIRED
-                          obscureText: false, //REQUIRED
-                          suffixIcon: Icon(Icons.remove_red_eye),
-                          onClickSuffix: () {
-                            print('Suffix Clicked');
-                          },
-                          onTap: () {
-                            print('Click');
-                          },
-                          onChanged: (text) {
-                            print(text);
-                          },
-                          onSubmitted: (data) {
-                            print(data.length);
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        Text(
-                          "Año",
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        BeautyTextfield(
-                          /*controller: apellidoController,*/
-                          textCapitalization: TextCapitalization.words,
-                          width: double.maxFinite, //REQUIRED
-                          height: 50, //REQUIRED
-                          accentColor: Colors.white, // On Focus Color//Text Color
-                          backgroundColor: Theme.of(context).hintColor,
-                          autofocus: false,
-                          maxLines: 1,
-                          margin: EdgeInsets.only(top: 10),
-                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                          duration: Duration(milliseconds: 300),
-                          inputType: TextInputType.text,
-                          inputAction: TextInputAction.done,//REQUIRED
-                          obscureText: false, //REQUIRED
-                          suffixIcon: Icon(Icons.remove_red_eye),
-                          onClickSuffix: () {
-                            print('Suffix Clicked');
-                          },
-                          onTap: () {
-                            print('Click');
-                          },
-                          onChanged: (text) {
-                            print(text);
-                          },
-                          onSubmitted: (data) {
-                            print(data.length);
-                          },
-                        ),
-                      ],
-                    )
-                        :Container(),
+                              ],
+                            );
+                          }
+                          return CircularProgressIndicator();
+                        }),
                     SizedBox(height: 40),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -742,8 +768,8 @@ class _DatosLibrosState extends State<DatosLibros> {
     List<DropdownMenuItem> dropdownMenuItemList = [];
     String agregarColegio =  "+ Agregar Colegio";
     String item;
-    for (int i=0;i<lista.length;i++) {
-      item=lista[i];
+    for (int i=0;i<listaAux.length;i++) {
+      item=listaAux[i];
       dropdownMenuItemList.add(DropdownMenuItem(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -763,32 +789,12 @@ class _DatosLibrosState extends State<DatosLibros> {
                 ),
               ),
             ]),
-        value: i,
+        value: item,
       ));
-    }
-    dropdownMenuItemList.add(DropdownMenuItem(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
-              child: new Text(
-                agregarColegio,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 53, 38, 65),
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ]),
-      value: agregarColegio,
-    ));
+    };
     return dropdownMenuItemList;
   }
+
 
   _siguienteBtn() {
     String nombreLibro = nombreTextController.text;
@@ -894,4 +900,12 @@ void showLoadingDialog(BuildContext context) {
 void showErrorDialog(BuildContext context,String errorMessage){
   showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
       animatedPill: false);
+}
+
+Map<String, bool> createMapfromStringsList(List<String> stringsList) {
+  Map<String, bool> map = Map();
+  for (String item in stringsList) {
+    map[item] = false;
+  }
+  return map;
 }
