@@ -49,6 +49,8 @@ class _DatosLibrosState extends State<DatosLibros> {
 
   FirebaseAnalytics analytics;
 
+  List<int> selectedItems = [];
+
 @override
   void initState() {
   analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
@@ -404,33 +406,30 @@ class _DatosLibrosState extends State<DatosLibros> {
                               "Colegio",
                               style: Theme.of(context).textTheme.headline2,
                             ),
-                            BeautyTextfield(
+                            BeautyDropDown(
                               /*controller: nombreController,*/
-                              textCapitalization: TextCapitalization.words,
+                              multiple: true,
+                              item: createDropDownMenuListColegios(null),
+                              selectedItems: selectedItems,
                               width: double.maxFinite, //REQUIRED
                               height: 50, //REQUIRED
                               accentColor: Colors.white, // On Focus Color//Text Color
                               backgroundColor: Theme.of(context).hintColor,
                               autofocus: false,
-                              maxLines: 1,
                               margin: EdgeInsets.only(top: 10),
                               cornerRadius: BorderRadius.all(Radius.circular(15)),
                               duration: Duration(milliseconds: 300),
-                              inputType: TextInputType.text,
-                              inputAction: TextInputAction.done,//REQUIRED
-                              obscureText: false, //REQUIRED
-                              suffixIcon: Icon(Icons.remove_red_eye),
                               onClickSuffix: () {
                                 print('Suffix Clicked');
                               },
                               onTap: () {
                                 print('Click');
                               },
-                              onChanged: (text) {
-                                print(text);
-                              },
-                              onSubmitted: (data) {
-                                print(data.length);
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedItems = value;
+                                  print(selectedItems);
+                                });
                               },
                             ),
                             SizedBox(height: 40),
@@ -554,17 +553,21 @@ class _DatosLibrosState extends State<DatosLibros> {
                           "Universidad",
                           style: Theme.of(context).textTheme.headline2,
                         ),
-                        BeautyDropDown(
+                        BeautyTextfield(
                           /*controller: nombreController,*/
-                          multiple: true,
+                          textCapitalization: TextCapitalization.words,
                           width: double.maxFinite, //REQUIRED
                           height: 50, //REQUIRED
                           accentColor: Colors.white, // On Focus Color//Text Color
                           backgroundColor: Theme.of(context).hintColor,
                           autofocus: false,
+                          maxLines: 1,
                           margin: EdgeInsets.only(top: 10),
                           cornerRadius: BorderRadius.all(Radius.circular(15)),
                           duration: Duration(milliseconds: 300),
+                          inputType: TextInputType.text,
+                          inputAction: TextInputAction.done,//REQUIRED
+                          obscureText: false, //REQUIRED
                           suffixIcon: Icon(Icons.remove_red_eye),
                           onClickSuffix: () {
                             print('Suffix Clicked');
@@ -574,6 +577,9 @@ class _DatosLibrosState extends State<DatosLibros> {
                           },
                           onChanged: (text) {
                             print(text);
+                          },
+                          onSubmitted: (data) {
+                            print(data.length);
                           },
                         ),
                         SizedBox(height: 40),
@@ -729,6 +735,59 @@ class _DatosLibrosState extends State<DatosLibros> {
             ),
           ),
         ));
+  }
+
+  List<DropdownMenuItem> createDropDownMenuListColegios(List<String> listaAux) {
+  List<String> lista=["gosho","fds", "sanja", "san lucas"];
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    String agregarColegio =  "+ Agregar Colegio";
+    String item;
+    for (int i=0;i<lista.length;i++) {
+      item=lista[i];
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                child: new Text(
+                  item,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 53, 38, 65),
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: i,
+      ));
+    }
+    dropdownMenuItemList.add(DropdownMenuItem(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+              child: new Text(
+                agregarColegio,
+                style: TextStyle(
+                  color: Color.fromARGB(255, 53, 38, 65),
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ]),
+      value: agregarColegio,
+    ));
+    return dropdownMenuItemList;
   }
 
   _siguienteBtn() {

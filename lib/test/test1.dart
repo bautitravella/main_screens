@@ -1236,7 +1236,7 @@ class _BookSection2State extends State<BookSection2> {
       height: 185,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: book.getImages().length,
+        itemCount: book.getImages().length-1,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             height: 180,
@@ -1245,15 +1245,15 @@ class _BookSection2State extends State<BookSection2> {
             padding: EdgeInsets.all(5),
             child: GestureDetector(
               onTap: (){
-                open(context, index,book);
+                open(context, index+1,book);
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
                 Hero(
-                  tag: index.toString(),
+                  tag: (index+1).toString(),
                   child: Image(
-                    image: book.getImages()[index],
+                    image: book.getImages()[index+1],
                     fit: BoxFit.cover,
                   ),
                 )
@@ -1271,16 +1271,21 @@ class _BookSection2State extends State<BookSection2> {
     return Container(
       height: 140,
       width: 83,
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
-        Image(
-          image: book.getImages()[0],
-          fit: BoxFit.cover,
-        )
-            :
-        CircularProgressIndicator(),
+      child: GestureDetector(
+        onTap: (){
+          open(context, 0,book);
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          child: book.getImages() != null && book.getImages().length > 0? //book.images[0],
+          Image(
+            image: book.getImages()[0],
+            fit: BoxFit.cover,
+          )
+              :
+          CircularProgressIndicator(),
 
+        ),
       ),
     );
   }
