@@ -6,7 +6,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/AlumnoUniversitario.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
@@ -132,7 +134,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Asegúrate de escribir correctamente los datos del libro que vallas a vender.",
+                          "Asegúrate de escribir correctamente los datos del libro que vayas a vender.",
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
@@ -283,7 +285,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          "Escribe una breve descripción del  estado del libro que vallas a vender.",
+                          "Escribe una breve descripción del  estado del libro que vayas a vender.",
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
@@ -373,7 +375,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                             loadingDialogShown = true;
                             return CircularProgressIndicator();
                           } else if (state is UserLoadedState) {
-
+                            if (state.user is Alumno || state.user is Padre)_colegioCheckBox=true;
                             return Column(
                               children: <Widget>[
                                 Column(
@@ -470,6 +472,11 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               accentColor: Colors.white, // On Focus Color//Text Color
                                               backgroundColor: Theme.of(context).hintColor,
                                               autofocus: false,
+                                              selectedValueWidget: (item) {
+                                                return (Container(
+                                                    color: Colors.red,
+                                                    child: Text(item.toString())));
+                                              },
                                               margin: EdgeInsets.only(top: 10),
                                               cornerRadius: BorderRadius.all(Radius.circular(15)),
                                               duration: Duration(milliseconds: 300),
@@ -778,12 +785,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                 margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
                 child: new Text(
                   item,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 53, 38, 65),
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 19,
-                  ),
+                  style: Theme.of(context).textTheme.headline3,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

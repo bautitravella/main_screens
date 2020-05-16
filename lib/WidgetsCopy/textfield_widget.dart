@@ -232,6 +232,7 @@ class BeautyDropDown extends StatefulWidget {
   final item;
   final value;
   final selectedItems;
+  final selectedValueWidget;
   final VoidCallback onClickSuffix;
   final bool autofocus, enabled, isExpanded, multiple, clearIcon;
   final FocusNode focusNode;
@@ -257,7 +258,8 @@ class BeautyDropDown extends StatefulWidget {
     this.isExpanded = true,
     this.wordSpacing,
     this.value,
-    this.multiple,
+    this.selectedValueWidget,
+    this.multiple = false,
     this.clearIcon,
     this.selectedItems,
     this.fontFamily,
@@ -356,6 +358,7 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
                       items: widget.item,
                       selectedItems: widget.selectedItems,
                       displayClearIcon: false,
+                      selectedValueWidgetFn: widget.selectedValueWidget,
                       underline: "",
                       menuBackgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
@@ -369,6 +372,7 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
                   : SearchableDropdown.single(
                       items: widget.item,
                       value: widget.value,
+
                       underline: "",
                       menuBackgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,

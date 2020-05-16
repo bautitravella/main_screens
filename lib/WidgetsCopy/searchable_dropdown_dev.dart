@@ -808,23 +808,53 @@ class _DropdownDialogState<T> extends State<DropdownDialog> {
                 type: MaterialType.card,
                 child: Container(
                   padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      PillGesture(
-                        pillColor: Theme.of(context).iconTheme.color,
-                        onVerticalDragStart: _onVerticalDragStart,
-                        onVerticalDragEnd: _onVerticalDragEnd,
-                        onVerticalDragUpdate: _onVerticalDragUpdate,
-                        animatedPill: false,
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          PillGesture(
+                            pillColor: Theme.of(context).iconTheme.color,
+                            onVerticalDragStart: _onVerticalDragStart,
+                            onVerticalDragEnd: _onVerticalDragEnd,
+                            onVerticalDragUpdate: _onVerticalDragUpdate,
+                            animatedPill: false,
+                          ),
+                          SizedBox(height: 20),
+                          titleBar(),
+                          searchBar(),
+                          SizedBox(height: 20),
+                          list(),
+
+                        ],
                       ),
-                      SizedBox(height: 20),
-                      titleBar(),
-                      searchBar(),
-                      SizedBox(height: 20),
-                      list(),
+
+                     Positioned(
+                       bottom: 20,
+                       right: 20,
+                       child: widget.multipleSelection || widget.doneButton != null
+                           ? prepareWidget(widget.doneButton,
+                           parameter: selectedResult,
+                           context: context, stringToWidgetFunction: (string) {
+                             return FloatingActionButton(
+                               child: Icon(
+                                 Icons.done,
+                                 color: Colors.white,
+
+                               ),
+                               onPressed: !valid
+                                   ? null
+                                   : () {
+                                 pop();
+                                 setState(() {});
+                               },
+                             );
+                           })
+                           : SizedBox.shrink(),
+                     )
+
                     ],
                   ),
                 ),
@@ -892,22 +922,6 @@ class _DropdownDialogState<T> extends State<DropdownDialog> {
     )
         : validatorOutput;
 
-    Widget doneButtonWidget =
-    widget.multipleSelection || widget.doneButton != null
-        ? prepareWidget(widget.doneButton,
-        parameter: selectedResult,
-        context: context, stringToWidgetFunction: (string) {
-          return (FlatButton.icon(
-              onPressed: !valid
-                  ? null
-                  : () {
-                pop();
-                setState(() {});
-              },
-              icon: Icon(Icons.close),
-              label: Text(string)));
-        })
-        : SizedBox.shrink();
     return widget.hint != null
         ? new Container(
       margin: EdgeInsets.only(bottom: 8),
@@ -916,13 +930,13 @@ class _DropdownDialogState<T> extends State<DropdownDialog> {
           children: [
             prepareWidget(widget.hint),
             Column(
-              children: <Widget>[doneButtonWidget, validatorOutputWidget],
+              children: <Widget>[validatorOutputWidget],
             ),
           ]),
     )
         : new Container(
       child: Column(
-        children: <Widget>[doneButtonWidget, validatorOutputWidget],
+        children: <Widget>[validatorOutputWidget],
       ),
     );
   }

@@ -167,6 +167,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                             style: Theme.of(context).textTheme.headline2,
                           ),
                           BeautyDropDown(
+                            multiple: false,
                             width: double.maxFinite, //REQUIRED
                             height: 50, //REQUIRED
                             accentColor: Colors.white, // On Focus Color//Text Color
@@ -174,6 +175,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                             margin: EdgeInsets.only(top: 10),
                             cornerRadius: BorderRadius.all(Radius.circular(15)),
                             duration: Duration(milliseconds: 300),
+
                             suffixIcon: Icon(Icons.remove_red_eye),
                             item: createDropDownMenuListColegios(state.colegiosData.colegios),
                             isExpanded: true,
@@ -194,6 +196,7 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                             style: Theme.of(context).textTheme.headline2,
                           ),
                           BeautyDropDown(
+                            multiple: false,
                             width: double.maxFinite, //REQUIRED
                             height: 50, //REQUIRED
                             accentColor: Colors.white, // On Focus Color//Text Color
