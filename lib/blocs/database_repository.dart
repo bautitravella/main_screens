@@ -4,10 +4,11 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutterui/Models/Chat.dart';
+import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/Models/Message.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
-import 'package:flutterui/Models/Colegio.dart';
+import 'package:flutterui/Models/ColegiosData.dart';
 import 'package:flutter/services.dart';
 import 'dart:core';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -91,6 +92,9 @@ abstract class DatabaseRepository {
   Stream<Book> getBook(String uid);
 
   Stream<List<Book>> getSimilarBooksBySchool(Book book, String school);
+
+
+  Future<Instituition> getParticularInstituitionInfo(String instituitionName);
 }
 
 class FirebaseRepository extends DatabaseRepository {
@@ -764,4 +768,45 @@ class FirebaseRepository extends DatabaseRepository {
               }).toList()
             : null);
   }
+
+
+  Future<Instituition> getParticularInstituitionInfo(String instituitionName) async {
+//        List<List<String>> info = new List(4);
+//        List<Future<DocumentSnapshot>> futuresList = List(instituitions.length);
+//        List<String> carreras ,materiasUniversidad, materiasColegio, cursos;
+        DocumentSnapshot doc = await colegiosReference.document(instituitionName).get();
+
+        return createInstituitionFromMap(doc.data);
+//        for(String instituition in instituitions){
+//          futuresList.add(colegiosReference.document(instituition).get());
+//        }
+//
+//
+//        info = await Future.wait(futuresList).then((docSnapshots) async {
+//          docSnapshots.forEach((docSnapshot) {
+//            if(docSnapshot["carreras"] != null){
+//              if(carreras == null)carreras = List<String>();
+//              carreras.add(docSnapshot["carreras"]);
+//            }
+//            if(docSnapshot["materiasUniversidad"] != null){
+//              if(materiasUniversidad == null)materiasUniversidad = List<String>();
+//            materiasUniversidad.add(docSnapshot["materiasUniversidad"]);
+//            }
+//            if(docSnapshot["materiasColegio"] != null){
+//              if(materiasColegio == null)materiasColegio = List<String>();
+//            materiasColegio.add(docSnapshot["materiasColegio"]);
+//            }
+//            if(docSnapshot["cursos"] != null){
+//              if(cursos == null)cursos = List<String>();
+//              cursos.add(docSnapshot["cursos"]);
+//            }
+//          });
+//
+//          return [carreras,materiasColegio,materiasUniversidad,cursos];
+//        }).catchError((e) => null);
+//
+//        return info;
+  }
+
+
 }

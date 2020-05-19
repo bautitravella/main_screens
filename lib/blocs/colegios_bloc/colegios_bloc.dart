@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
-import 'package:flutterui/Models/Colegio.dart';
+import 'package:flutterui/Models/ColegiosData.dart';
 import './bloc.dart';
 
 class ColegiosBloc extends Bloc<ColegiosBlocEvent, ColegiosBlocState> {

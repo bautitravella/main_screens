@@ -128,6 +128,12 @@ class App extends StatelessWidget {
                   return SimilarBooksBloc(RepositoryProvider.of<FirebaseRepository>(context));
                 },
               ),
+              BlocProvider<ParticularInstituitionsInformationBloc>(
+                create: (BuildContext context){
+                  return ParticularInstituitionsInformationBloc(RepositoryProvider.of<FirebaseRepository>(context));
+                },
+              ),
+
 
             ],
             child: Consumer<AppStateNotifier>(

@@ -47,3 +47,7 @@ export 'individual_documents_bloc/bloc.dart';
 
 //SIMILAR BOOKS BLOC
 export 'similar_books_bloc/bloc.dart';
+
+
+//PARTICULAR INSTITUITIONS INFORMATION BLOC
+export 'particular_insituitions_information/bloc.dart';

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutterui/Models/Colegio.dart';
+import 'package:flutterui/Models/ColegiosData.dart';
 
 abstract class ColegiosBlocState extends Equatable {
   const ColegiosBlocState();
