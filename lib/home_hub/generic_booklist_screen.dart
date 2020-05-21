@@ -14,7 +14,7 @@ import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-enum ListType {Economicos , recomendados,hijos,materia,carrera,curso,colegio}
+enum ListType {Economicos , recomendados,hijos,subject,carrera,years,colegio}
 
 class GenericBookList extends StatefulWidget {
   
@@ -326,13 +326,13 @@ class _GenericBookListState extends State<GenericBookList> {
               }
               return Center(child: CircularProgressIndicator(),);
             });
-      case ListType.materia:
-        if(widget.listType == ListType.materia)BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+      case ListType.subject:
+        if(widget.listType == ListType.subject)BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
         return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
           builder: (context,state){
             if(state is InstituitionsInfoLoaded){
               print("STATE = " + state.toString());
-              if(widget.instituition != null && state.instituitionsMap != null){
+              if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
                 School school =  state.instituitionsMap[widget.instituition];
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -340,6 +340,28 @@ class _GenericBookListState extends State<GenericBookList> {
                   itemCount: school.subjects.length,
                   itemBuilder: (BuildContext context, int index) {
                     return StringTile(school.subjects[index]);
+                  },
+                );
+              }
+              return Container(child: Center(child: Text("Ha habido algun error, por favor volve a intentar, si el problema recurre te pedimos que nos envies un mail a buymy.customerservice@gmail.com"),),);
+            }
+            return Container(child: Center(child: CircularProgressIndicator(),),);
+          },
+        );
+      case ListType.years:
+        if(widget.listType == ListType.years)BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
+          builder: (context,state){
+            if(state is InstituitionsInfoLoaded){
+              print("STATE = " + state.toString());
+              if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
+                School school =  state.instituitionsMap[widget.instituition];
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  controller: sc,
+                  itemCount: school.years.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return StringTile(school.years[index]);
                   },
                 );
               }

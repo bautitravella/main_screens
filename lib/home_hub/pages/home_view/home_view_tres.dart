@@ -515,7 +515,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList(ListType.materia,instituition:"Florida Day School"),
+                                  GenericBookList(ListType.years,instituition:"Florida Day School"),
                             ),
                           );
                         },
@@ -567,52 +567,63 @@ class _HomeViewTresState extends State<HomeViewTres> {
                           ],
                         ),
                       ),
-                      Stack(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
-                            height: 225,
-                            width: SizeConfig.blockSizeHorizontal * 45,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image.asset(
-                                "assets/images/explora-materias.png",
-                                fit: BoxFit.fitHeight,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList(ListType.subject,instituition:"Florida Day School"),
+                            ),
+                          );
+                        },
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+                              height: 225,
+                              width: SizeConfig.blockSizeHorizontal * 45,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.asset(
+                                  "assets/images/explora-materias.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: 15,
-                            bottom: 15,
-                            width: SizeConfig.blockSizeHorizontal * 40,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "Materias",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontFamily: "Sf-r",
-                                    fontWeight: FontWeight.w800,
+                            Positioned(
+                              left: 15,
+                              bottom: 15,
+                              width: SizeConfig.blockSizeHorizontal * 40,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Materias",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Podrás elegir entre libros \nde materias especificas",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 11,
-                                    fontFamily: "Sf-t",
-                                    fontWeight: FontWeight.w500,
+                                  SizedBox(
+                                    height: 5,
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                                  Text(
+                                    "Podrás elegir entre libros \nde materias especificas",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontFamily: "Sf-t",
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ), //TODO para proximo update

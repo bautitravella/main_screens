@@ -29,7 +29,10 @@ class School extends Instituition {
 
   School.fromMap(Map<String, dynamic> map) : super.fromMap(map) {
     print('SCHOOL FROM MAP 1');
-    if (map['years'] != null) years = map['years'];
+    if (map['years'] != null) {
+      years = [];
+      map['years'].forEach((element) => years.add(element));
+    }
     if (map['subjects'] != null){
       subjects = [];
 //      List<dynamic> aux = map['subjects'];
@@ -54,8 +57,14 @@ class College extends Instituition {
       : super(name, abreviation, numberPeople, numberBooks);
 
   College.fromMap(Map<String, dynamic> map) : super.fromMap(map) {
-    if (map['careers'] != null) careers = map['careers'];
-    if (map['years'] != null) years = map['years'];
+    if (map['careers'] != null){
+      careers = [];
+      map['careers'].forEach((element) => careers.add(element));
+    }
+    if (map['years'] != null) {
+      years = [];
+      map['years'].forEach((element) => years.add(element));
+    }
   }
 
   @override
