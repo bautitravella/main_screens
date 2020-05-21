@@ -34,7 +34,18 @@ class _GenericBookListState extends State<GenericBookList> {
   void initState() {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/"+ widget.listType.toString().split(".").last);
-    BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
+    switch(widget.listType){
+      case ListType.Economicos:
+        BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
+        break;
+      case ListType.years:
+        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        break;
+      case ListType.subject:
+        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        break;
+    }
+
 
   }
 
@@ -327,11 +338,10 @@ class _GenericBookListState extends State<GenericBookList> {
               return Center(child: CircularProgressIndicator(),);
             });
       case ListType.subject:
-        if(widget.listType == ListType.subject)BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
         return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
           builder: (context,state){
             if(state is InstituitionsInfoLoaded){
-              print("STATE = " + state.toString());
+              //print("STATE = " + state.toString());
               if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
                 School school =  state.instituitionsMap[widget.instituition];
                 return ListView.builder(
@@ -349,11 +359,9 @@ class _GenericBookListState extends State<GenericBookList> {
           },
         );
       case ListType.years:
-        if(widget.listType == ListType.years)BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
         return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
           builder: (context,state){
             if(state is InstituitionsInfoLoaded){
-              print("STATE = " + state.toString());
               if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
                 School school =  state.instituitionsMap[widget.instituition];
                 return ListView.builder(
