@@ -51,6 +51,21 @@ class _GenericBookListState extends State<GenericBookList> {
 
   }
 
+  String titleGenerator(){
+    switch(widget.listType){
+      case ListType.Economicos:
+        return "Economicos";
+      case ListType.subject:
+        return "Materias";
+      case ListType.years:
+        return "Cursos";
+      case ListType.recomendados:
+        return "Recomendados";
+      default:
+        return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -94,7 +109,7 @@ class _GenericBookListState extends State<GenericBookList> {
                     Container(
                       width: SizeConfig.blockSizeHorizontal*50,
                       child: Text(
-                        'Materias',
+                        titleGenerator(),
                         style: TextStyle(
                             fontSize: 23,
                             fontFamily: 'Sf-r',
