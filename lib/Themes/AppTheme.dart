@@ -5,7 +5,7 @@ class AppTheme {
   //
   AppTheme._();
 
-  static final _darkWall = Color.fromARGB(255, 29, 29, 29) ;
+  static final _darkWall = Color.fromARGB(255, 10, 10, 10) ;
 
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,

@@ -44,6 +44,8 @@ class _GenericBookListState extends State<GenericBookList> {
       case ListType.subject:
         BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
         break;
+      default:
+        break;
     }
 
 
@@ -72,6 +74,57 @@ class _GenericBookListState extends State<GenericBookList> {
                   fit: BoxFit.fill,
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            top: SizeConfig.blockSizeVertical*6,
+            left: 5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    IconButton(icon: Icon(Icons.arrow_back_ios),
+                      iconSize: 26,
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal*50,
+                      child: Text(
+                        'Materias',
+                        style: TextStyle(
+                            fontSize: 23,
+                            fontFamily: 'Sf-r',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*1),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 40),
+                      child: Chip(
+                        elevation: 15,
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        label: Text('Matematica', style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                        deleteIcon: Icon(
+                          Icons.cancel, color: Theme.of(context).iconTheme.color,
+                        ),
+                        onDeleted: (){},
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Column(
@@ -126,7 +179,7 @@ class _GenericBookListState extends State<GenericBookList> {
                     ),),*/
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
                     maxHeight: SizeConfig.blockSizeVertical * 94,
-                    minHeight: SizeConfig.blockSizeVertical * 94,
+                    minHeight: SizeConfig.blockSizeVertical * 88,
                     color: Colors.transparent,
                     backdropEnabled: false,
                     backdropColor: AppColors.secondaryBackground,
@@ -241,33 +294,7 @@ class _GenericBookListState extends State<GenericBookList> {
     SizeConfig().init(context);
     return Stack(
       children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 5,
-          child: Row(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.arrow_back_ios),
-                iconSize: 26,
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.pop(context);
-                },),
-              Container(
-                width: SizeConfig.blockSizeHorizontal*50,
-                child: Text(
-                  'Materias',
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontFamily: 'Sf-r',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            ],
-          ),
-        ),
+
         Positioned(
           top: 60,
           left: 0,
