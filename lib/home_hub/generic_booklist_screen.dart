@@ -1,7 +1,9 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/Models/ListTile/book_list_tile.dart';
+import 'package:flutterui/Models/ListTile/string_list_tile.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialog_widget/error_dialog.dart';
@@ -18,8 +20,9 @@ class GenericBookList extends StatefulWidget {
   
   ListType listType;
   int childIndex;
-  
-  GenericBookList(this.listType,{this.childIndex});
+  String instituition;
+
+  GenericBookList(this.listType,{this.childIndex,this.instituition});
 
   @override
   _GenericBookListState createState() => _GenericBookListState();
@@ -32,6 +35,7 @@ class _GenericBookListState extends State<GenericBookList> {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/"+ widget.listType.toString().split(".").last);
     BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
+
   }
 
   @override
@@ -322,6 +326,28 @@ class _GenericBookListState extends State<GenericBookList> {
               }
               return Center(child: CircularProgressIndicator(),);
             });
+      case ListType.materia:
+        if(widget.listType == ListType.materia)BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
+          builder: (context,state){
+            if(state is InstituitionsInfoLoaded){
+              print("STATE = " + state.toString());
+              if(widget.instituition != null && state.instituitionsMap != null){
+                School school =  state.instituitionsMap[widget.instituition];
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  controller: sc,
+                  itemCount: school.subjects.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return StringTile(school.subjects[index]);
+                  },
+                );
+              }
+              return Container(child: Center(child: Text("Ha habido algun error, por favor volve a intentar, si el problema recurre te pedimos que nos envies un mail a buymy.customerservice@gmail.com"),),);
+            }
+            return Container(child: Center(child: CircularProgressIndicator(),),);
+          },
+        );
       default:
         return Container(child: Center(child: Text("PARECE QUE TODAVIA NO TENEMOS PREPARADA ESTA PANTALLA"),),);
     }

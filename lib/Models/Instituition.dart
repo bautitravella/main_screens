@@ -13,6 +13,11 @@ abstract class Instituition {
     if (map['numberPeople'] != null) numberPeople = map['numberPeople'];
     if (map['numberBooks'] != null) numberBooks = map['numberBooks'];
   }
+
+  @override
+  String toString() {
+    return 'Instituition{name: $name, abreviation: $abreviation, numberPeople: $numberPeople, numberBooks: $numberBooks';
+  }
 }
 
 class School extends Instituition {
@@ -23,8 +28,21 @@ class School extends Instituition {
       : super(name, abreviation, numberPeople, numberBooks);
 
   School.fromMap(Map<String, dynamic> map) : super.fromMap(map) {
+    print('SCHOOL FROM MAP 1');
     if (map['years'] != null) years = map['years'];
-    if (map['subjects'] != null) subjects = map['subjects'];
+    if (map['subjects'] != null){
+      subjects = [];
+//      List<dynamic> aux = map['subjects'];
+//      aux.forEach((element) {subjects.add(element);});
+      map['subjects'].forEach((element) => subjects.add(element));
+
+    }
+    print('SCHOOL FROM MAP 2');
+  }
+
+  @override
+  String toString() {
+    return super.toString() + 'years: $years, subjects: $subjects}';
   }
 }
 
@@ -39,11 +57,17 @@ class College extends Instituition {
     if (map['careers'] != null) careers = map['careers'];
     if (map['years'] != null) years = map['years'];
   }
+
+  @override
+  String toString() {
+    return super.toString() + ', $careers, years: $years}';
+  }
 }
 
 Instituition createInstituitionFromMap(Map<String,dynamic> map){
   if(map != null && map['type'] !=null){
-   return map['type'] == 'school'? School.fromMap(map):College.fromMap(map);
+    print('CREATE INSTITUITION');
+    return map['type'] == 'school'? School.fromMap(map):College.fromMap(map);
   }
   return null;
 }

@@ -16,8 +16,13 @@ class InstituitionsInfoLoaded extends ParticularInstituitionsInformationState{
   Map<String,Instituition> instituitionsMap;
 
 
-  InstituitionsInfoLoaded(instituitionsMap);
+  InstituitionsInfoLoaded(this.instituitionsMap);
 
   @override
   List<Object> get props => [instituitionsMap];
+
+  @override
+  String toString() {
+    return "instituitionsMap: " + instituitionsMap.toString();
+  }
 }

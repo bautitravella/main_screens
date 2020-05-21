@@ -515,7 +515,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  CategoriesColegios(),
+                                  GenericBookList(ListType.materia,instituition:"Florida Day School"),
                             ),
                           );
                         },

@@ -51,6 +51,7 @@ class ParticularInstituitionsInformationBloc extends Bloc<
         //auxCount++;
         if(auxCount >= REFRESH_THRESHOLD){
           databaseRepository.getParticularInstituitionInfo(instituition).then((info){
+            print('LOAD INSTITUITION 1' + info.toString());
             if(info !=null){
               instituitionsRefreshCount[instituition] = 0;
               aux = info;
@@ -60,6 +61,7 @@ class ParticularInstituitionsInformationBloc extends Bloc<
         }
       }else{
         databaseRepository.getParticularInstituitionInfo(instituition).then((info){
+          print('LOAD INSTITUITION 2' + info.toString());
           if(info !=null){
             instituitionsCache[instituition] = info;
             instituitionsRefreshCount[instituition] = 0;
@@ -74,8 +76,8 @@ class ParticularInstituitionsInformationBloc extends Bloc<
 
   }
 
-  mapLoadedInstituitionsInfoToState() async*{
-
+  Stream<ParticularInstituitionsInformationState> mapLoadedInstituitionsInfoToState() async*{
+    print("MAP LOADED INSTITUITION");
     yield InstituitionsInfoLoaded(instituitionsCache);
   }
 }
