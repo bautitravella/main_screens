@@ -14,15 +14,37 @@ import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-enum ListType {Economicos , recomendados,hijos,subject,carrera,years,colegio}
+enum ListType {cheapest , recomended,hijos,subject,career,years,colegio}
 
 class GenericBookList extends StatefulWidget {
   
   ListType listType;
   int childIndex;
   String instituition;
+  String parameter;
 
-  GenericBookList(this.listType,{this.childIndex,this.instituition});
+
+  GenericBookList(this.instituition,this.listType);
+
+  GenericBookList.cheapest(){
+    this.listType = ListType.cheapest;
+  }
+
+  GenericBookList.subject(this.instituition,{this.parameter = null}){
+    this.listType = ListType.subject;
+  }
+
+  GenericBookList.years(this.instituition,{this.parameter = null}){
+    this.listType = ListType.years;
+  }
+
+  GenericBookList.career(this.instituition,{this.parameter = null}){
+    this.listType = ListType.career;
+  }
+
+  GenericBookList.recomended(){
+    this.listType = ListType.recomended;
+  }
 
   @override
   _GenericBookListState createState() => _GenericBookListState();
@@ -35,7 +57,7 @@ class _GenericBookListState extends State<GenericBookList> {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/"+ widget.listType.toString().split(".").last);
     switch(widget.listType){
-      case ListType.Economicos:
+      case ListType.cheapest:
         BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
         break;
       case ListType.years:
@@ -49,21 +71,6 @@ class _GenericBookListState extends State<GenericBookList> {
     }
 
 
-  }
-
-  String titleGenerator(){
-    switch(widget.listType){
-      case ListType.Economicos:
-        return "Economicos";
-      case ListType.subject:
-        return "Materias";
-      case ListType.years:
-        return "Cursos";
-      case ListType.recomendados:
-        return "Recomendados";
-      default:
-        return "";
-    }
   }
 
   @override
@@ -109,7 +116,7 @@ class _GenericBookListState extends State<GenericBookList> {
                     Container(
                       width: SizeConfig.blockSizeHorizontal*50,
                       child: Text(
-                        titleGenerator(),
+                        'Materias',
                         style: TextStyle(
                             fontSize: 23,
                             fontFamily: 'Sf-r',
@@ -125,18 +132,30 @@ class _GenericBookListState extends State<GenericBookList> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
+                    widget.instituition != null? Container(
                       margin: EdgeInsets.only(left: 40),
                       child: Chip(
                         elevation: 15,
                         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                        label: Text('Matematica', style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                        label: Text(widget.instituition, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                      ),):
+                    Container(),
+                    widget.parameter != null? Container(
+                      margin: EdgeInsets.only(left: 40),
+                      child: Chip(
+                        elevation: 15,
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        label: Text(widget.parameter, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
                         deleteIcon: Icon(
                           Icons.cancel, color: Theme.of(context).iconTheme.color,
                         ),
-                        onDeleted: (){},
+                        onDeleted: (){
+                          print("HOLAAAAAaAAAAAAAAAAAA");
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
+                    ):
+                    Container(),
                   ],
                 ),
               ],
@@ -346,8 +365,25 @@ class _GenericBookListState extends State<GenericBookList> {
 
 
   Widget selectList(ScrollController sc){
+    if(widget.parameter!= null){
+      return  BlocBuilder<BooksBloc,BooksBlocState>(
+          builder: (context, state) {
+            if (state is BooksLoadedState) {
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                controller: sc,
+                itemCount: state.books.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Book book = state.books[index];
+                  return BookTile(book);
+                },
+              );
+            }
+            return Container();
+          });
+    }
     switch(widget.listType){
-      case ListType.Economicos:
+      case ListType.cheapest:
         return  BlocBuilder<EconomicosBloc,EconomicosBlocState>(
             builder: (context, state) {
               if (state is EconomicosBooksLoadedState) {
@@ -363,7 +399,7 @@ class _GenericBookListState extends State<GenericBookList> {
               }
               return Container();
             });
-      case ListType.recomendados:
+      case ListType.recomended:
         return BlocBuilder<BooksBloc,BooksBlocState>(
             builder: (context, state) {
               if(state is BooksLoadedState){
@@ -391,7 +427,19 @@ class _GenericBookListState extends State<GenericBookList> {
                   controller: sc,
                   itemCount: school.subjects.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return StringTile(school.subjects[index]);
+                    String str = school.subjects[index];
+                    return GestureDetector(
+                        onTap: (){
+                          BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.subject(widget.instituition,parameter: str,),
+                            ),
+                          );
+                        },
+                        child: StringTile(str));
                   },
                 );
               }
@@ -411,7 +459,19 @@ class _GenericBookListState extends State<GenericBookList> {
                   controller: sc,
                   itemCount: school.years.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return StringTile(school.years[index]);
+                    String str = school.years[index];
+                    return GestureDetector(
+                        onTap: () {
+                          BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.years(widget.instituition,parameter:str),
+                            ),
+                          );
+                        },
+                        child: StringTile(str));
                   },
                 );
               }

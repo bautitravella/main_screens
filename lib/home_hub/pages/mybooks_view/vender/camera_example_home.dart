@@ -178,24 +178,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                               child: Image.file(File(widget.imagePaths[index])),width: 64.0,height: 64.0,);
                   }),
             ),
-//            SizedBox(
-//              child: (videoController == null)
-//                  ? Image.file(File(imagePath))
-//                  : Container(
-//                child: Center(
-//                  child: AspectRatio(
-//                      aspectRatio:
-//                      videoController.value.size != null
-//                          ? videoController.value.aspectRatio
-//                          : 1.0,
-//                      child: VideoPlayer(videoController)),
-//                ),
-//                decoration: BoxDecoration(
-//                    border: Border.all(color: Colors.pink)),
-//              ),
-//              width: 64.0,
-//              height: 64.0,
-//            ),
           ],
         ),
       ),

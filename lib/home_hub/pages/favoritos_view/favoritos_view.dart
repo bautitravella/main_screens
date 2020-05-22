@@ -186,7 +186,7 @@ class _FavoritosViewState extends State<FavoritosView> {
             child: Row(
               children: <Widget>[
                 IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                  BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
+                  BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
                   Navigator.push(
                     context,
                     MaterialPageRoute(

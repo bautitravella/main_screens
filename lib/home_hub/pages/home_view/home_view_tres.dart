@@ -332,7 +332,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           child: Row(
             children: <Widget>[
               IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
+                BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -391,7 +391,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              GenericBookList(ListType.recomendados),
+                              GenericBookList.recomended(),
                         ),
                       );
                     },
@@ -452,7 +452,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
-                            GenericBookList(ListType.Economicos),
+                            GenericBookList.cheapest(),
                       ));
                     },
                     child: Stack(
@@ -516,7 +516,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList(ListType.years,instituition:"Florida Day School"),
+                                  GenericBookList.years("Florida Day School"),
                             ),
                           );
                         },
@@ -574,7 +574,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList(ListType.subject,instituition:"Florida Day School"),
+                                  GenericBookList.subject("Florida Day School"),
                             ),
                           );
                         },
@@ -1144,7 +1144,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
-           GestureDetector(
+          GestureDetector(
             onTap: () {
               Navigator.push(
                 context,

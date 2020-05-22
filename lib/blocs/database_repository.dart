@@ -19,47 +19,31 @@ abstract class DatabaseRepository {
   // USER
 
   Future<void> addUserInfo(User user);
-
   Future<void> editUserInfo(User user);
-
   Future<void> editUserImage(User user);
-
   Future<void> editUser(User user);
-
   Stream<User> getUserInfo(String email);
 
   //BOOKS
   Future<void> addNewBook(Book book, User user);
-
   Future<void> deleteBook(Book book);
-
   Stream<List<Book>> getAllBooks();
-
   Future editBook(Book book);
-
   Future editBookInfo(Book book);
-
   Future editBookImages(Book book);
-
   Future<void> reFilterBooks(User user);
-
   Stream<List<Book>> getUserRecomendationBooks(User user);
-
+  Stream<List<Book>> getBooksByInstituitionAndYear(String instituition,String year);
+  Stream<List<Book>> getBooksByInstituitionAndSubject(String instituition,String year);
+  Stream<List<Book>> getBooksByInstituitionAndCareer(String instituition,String year);
   Stream<List<Book>> getUserBooks(User user);
-
   Stream<List<dynamic>> getUserFavoriteBooksList(User user);
-
   Future<List<Book>> getUserFavoriteBooks(
       List<dynamic> favoritesList, User user);
-
   Stream<List<Book>> getUserCheapBooks(User user);
-
   Future<void> reFilterUserBooks(User user);
-
   Future<void> removeFromFavorites(String uid, User user);
-
   Future<void> addBookToFavorites(String uid, User user);
-
   Stream<ColegiosData> getColegios();
 
   Future<void> addSchool(String name, String email);
@@ -92,8 +76,6 @@ abstract class DatabaseRepository {
   Stream<Book> getBook(String uid);
 
   Stream<List<Book>> getSimilarBooksBySchool(Book book, String school);
-
-
   Future<Instituition> getParticularInstituitionInfo(String instituitionName);
 }
 
@@ -244,6 +226,78 @@ class FirebaseRepository extends DatabaseRepository {
       return snapshot.documents
           .map((doc) => Book.fromDocumentSnapshot(doc))
           .toList();
+    });
+  }
+
+  Stream<List<Book>> getBooksByInstituitionAndYear(String instituition,String year){
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: instituition)
+        .where('cursos', arrayContains: year)
+        .snapshots()
+        .map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      bool addBook = false;
+      snapshot.documents.forEach((doc) {
+        try {
+          book = Book.fromIndexMap(doc.data);
+          if (book != null) {
+            books.add(book);
+          }
+        } catch (e) {
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
+        }
+      });
+      return books;
+    });
+  }
+
+  Stream<List<Book>> getBooksByInstituitionAndSubject(String instituition,String subject){
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: instituition)
+        .where('materias', arrayContains: subject)
+        .snapshots()
+        .map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      bool addBook = false;
+      snapshot.documents.forEach((doc) {
+        try {
+          book = Book.fromIndexMap(doc.data);
+          if (book != null) {
+            books.add(book);
+          }
+        } catch (e) {
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
+        }
+      });
+      return books;
+    });
+  }
+
+  Stream<List<Book>> getBooksByInstituitionAndCareer(String instituition,String career){
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: instituition)
+        .where('career', arrayContains: career)
+        .snapshots()
+        .map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      bool addBook = false;
+      snapshot.documents.forEach((doc) {
+        try {
+          book = Book.fromIndexMap(doc.data);
+          if (book != null) {
+            books.add(book);
+          }
+        } catch (e) {
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
+        }
+      });
+      return books;
     });
   }
 

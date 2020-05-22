@@ -25,7 +25,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
   void initState() {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/destacados");
-    BlocProvider.of<BooksBloc>(context).add(LoadUserBooks());
+    BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
   }
 
   Widget build(BuildContext context) {

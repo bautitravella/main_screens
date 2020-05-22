@@ -1,18 +1,28 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 
 abstract class BooksBlocEvent extends Equatable {
   const BooksBlocEvent();
 }
 
-class LoadUserBooks extends BooksBlocEvent{
+class LoadUserRecomendationBooks extends BooksBlocEvent{
 
-  LoadUserBooks();
+  LoadUserRecomendationBooks();
 
   @override
   List<Object> get props => [];
+}
 
+class LoadBooksByInstituition extends BooksBlocEvent{
+  final String instituition;
+  final String parameter;
+  final ListType listType;
+
+  LoadBooksByInstituition(this.instituition, this.listType,this.parameter);
+  @override
+  List<Object> get props => [instituition,listType,parameter];
 
 }
 

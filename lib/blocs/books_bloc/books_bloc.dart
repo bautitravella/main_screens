@@ -20,11 +20,11 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
         if(isUserDownloaded == false){
           isUserDownloaded = true;
           downloadedUser = state.user;
-          add(LoadUserBooks());
+          add(LoadUserRecomendationBooks());
         }else{
           add(UserUpdated(state.user));
           downloadedUser = state.user;
-          add(LoadUserBooks());
+          add(LoadUserRecomendationBooks());
 
         }
 
@@ -40,7 +40,7 @@ class BooksBloc extends Bloc<BooksBlocEvent, BooksBlocState> {
   Stream<BooksBlocState> mapEventToState(
     BooksBlocEvent event,
   ) async* {
-    if(event is LoadUserBooks){
+    if(event is LoadUserRecomendationBooks){
       yield*  _mapLoadUserBooksToState();
     }else if(event is BooksLoaded){
       yield*  _mapBooksLoadedToState(event);
