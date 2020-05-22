@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/camera_example_home.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
@@ -423,6 +424,12 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
               SizedBox(width: 40),
               GestureDetector(
                 onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CameraExampleHome([]),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
