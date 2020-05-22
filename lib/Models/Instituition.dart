@@ -14,10 +14,54 @@ abstract class Instituition {
     if (map['numberBooks'] != null) numberBooks = map['numberBooks'];
   }
 
+  Instituition.fromCsvList(List<List> list){
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'abreviation'){
+        abreviation = list[i][1];
+      }
+    }
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'name'){
+        name = list[i][1];
+      }
+    }
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'numberPeople'){
+        if(list[i][2] is num){
+          numberPeople = list[i][2] as int;
+        }else{
+          numberPeople = int.parse(list[i][2]);
+        }
+
+      }
+    }
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'numberBooks'){
+        if(list[i][2] is num){
+          numberBooks = list[i][2] as int;
+        }else{
+          numberBooks = int.parse(list[i][2]);
+        }
+
+      }
+    }
+  }
+
+  Map<String,dynamic> toMap(){
+    Map<String,dynamic> map = new Map();
+    map['abreviation'] = abreviation;
+    map['name'] = name;
+    if(numberPeople!= null) map['numberPeople'] = numberPeople;
+    if(numberBooks != null) map['numberBooks'] = numberBooks;
+    return map;
+  }
+
   @override
   String toString() {
     return 'Instituition{name: $name, abreviation: $abreviation, numberPeople: $numberPeople, numberBooks: $numberBooks';
   }
+
+
 }
 
 class School extends Instituition {
@@ -41,6 +85,32 @@ class School extends Instituition {
 
     }
     print('SCHOOL FROM MAP 2');
+  }
+
+  School.fromCsvList(List<List> list) : super.fromCsvList(list){
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'years'){
+        years = [];
+        for(int j =1;j<list[i].length;j++){
+          years.add(list[i][j]);
+        }
+      }
+    }
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'subjects'){
+        subjects = [];
+        for(int j =1;j<list[i].length;j++){
+          subjects.add(list[i][j]);
+        }
+      }
+    }
+  }
+
+  Map<String,dynamic> toMap(){
+    Map<String,dynamic> map = super.toMap();
+    map['years'] = years;
+    map['subjects'] = subjects;
+    return map;
   }
 
   @override
@@ -67,6 +137,32 @@ class College extends Instituition {
     }
   }
 
+  College.fromCsvList(List<List> list):super.fromCsvList(list){
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'careers'){
+        careers = [];
+        for(int j =1;j<list[i].length;j++){
+          careers.add(list[i][j]);
+        }
+      }
+    }
+    for(int i = 1; i<list.length;i++) {
+      if(list[i][0] == 'years'){
+        years = [];
+        for(int j =1;j<list[i].length;j++){
+          years.add(list[i][j]);
+        }
+      }
+    }
+  }
+
+  Map<String,dynamic> toMap(){
+    Map<String,dynamic> map = super.toMap();
+    map['years'] = years;
+    map['careers'] = careers;
+    return map;
+  }
+
   @override
   String toString() {
     return super.toString() + ', $careers, years: $years}';
@@ -79,4 +175,14 @@ Instituition createInstituitionFromMap(Map<String,dynamic> map){
     return map['type'] == 'school'? School.fromMap(map):College.fromMap(map);
   }
   return null;
+}
+
+Instituition createInstituitionFromCsvList(List<List> list){
+  if(list != null && list[0][0] is String){
+
+    String firstString = list[0][0];
+    if(firstString != null){
+      return firstString == 'school'? School.fromCsvList(list):College.fromCsvList(list);
+    }
+  }
 }
