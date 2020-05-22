@@ -532,6 +532,7 @@ class _SearchableDropdownState<T> extends State<SearchableDropdown<T>> {
     } else {
      // widget.beautyDropDownState.changeHeight((list.length * 50.0));
       innerItemsWidget = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
       );
     }
