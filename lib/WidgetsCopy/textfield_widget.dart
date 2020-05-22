@@ -80,6 +80,13 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
   bool passwordVisible = false;
 
   bool isFocus = false;
+  double actualHeight;
+
+  @override
+  void initState() {
+    actualHeight = widget.height;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -239,6 +246,8 @@ class BeautyDropDown extends StatefulWidget {
   final GestureTapCallback onTap;
   final onChanged;
 
+
+
   const BeautyDropDown({
     @required this.width,
     @required this.height,
@@ -272,15 +281,23 @@ class BeautyDropDown extends StatefulWidget {
         assert(height != null);
 
   @override
-  _BeautyDropDownState createState() => _BeautyDropDownState();
+  BeautyDropDownState createState() => BeautyDropDownState();
 }
 
-class _BeautyDropDownState extends State<BeautyDropDown> {
+class BeautyDropDownState extends State<BeautyDropDown> {
   String colegioSelectedValue, cursoSelectedValue;
 
   bool passwordVisible = false;
 
   bool isFocus = false;
+
+  double actualHeight;
+
+  @override
+  void initState() {
+    actualHeight = widget.height;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -350,11 +367,11 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
               }
             },
             child: Container(
-              height: 50,
+              height: actualHeight,
               width: widget.width,
               margin: EdgeInsets.only(left: 8, right: 8),
               child: widget.multiple
-                  ? SearchableDropdown.multiple(
+                  ? SearchableDropdown.multiple(this,
                       items: widget.item,
                       selectedItems: widget.selectedItems,
                       displayClearIcon: false,
@@ -422,4 +439,11 @@ class _BeautyDropDownState extends State<BeautyDropDown> {
       duration: widget.duration,
     );
   }
+
+  void changeHeight(double newHeight){
+    setState(() {
+      actualHeight = newHeight;
+    });
+  }
+
 }

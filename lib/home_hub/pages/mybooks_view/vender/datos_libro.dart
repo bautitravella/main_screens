@@ -448,7 +448,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                           onChanged: (value) {
                                             setState(() {
                                               selectedColegios = value;
-                                              print(selectedColegios);
+                                              print("Colegios DROP:" +  selectedColegios.toString());
                                             });
                                           },
                                         ),//DropDown Colegio
@@ -468,11 +468,12 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               item: createDropDownMenuListColegios(state.colegiosData.cursos),
                                               selectedItems: selectedCursos,
                                               width: double.maxFinite, //REQUIRED
-                                              height: 50, //REQUIRED
+                                              height: 100, //REQUIRED
                                               accentColor: Colors.white, // On Focus Color//Text Color
                                               backgroundColor: Theme.of(context).hintColor,
                                               autofocus: false,
                                               selectedValueWidget: (item) {
+                                                print("Item DROP:" +  item.toString());
                                                 return (Container(
                                                     color: Colors.red,
                                                     child: Text(item.toString())));
@@ -489,7 +490,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               onChanged: (value) {
                                                 setState(() {
                                                   selectedCursos = value;
-                                                  print(selectedCursos);
+                                                  print("Año DROP:" +  selectedCursos.toString());
                                                 });
                                               },
                                             ),//DropDown Año
@@ -519,7 +520,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               onChanged: (value) {
                                                 setState(() {
                                                   selectedMaterias = value;
-                                                  print(selectedMaterias);
+                                                  print("Materia DROP:" +  selectedMaterias.toString());
                                                 });
                                               },
                                             ),//DropDown Materia
@@ -667,7 +668,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                             print('Suffix Clicked');
                                           },
                                           onTap: () {
-                                            print('Click');
+                                            print('Tap');
                                           },
                                           onChanged: (text) {
                                             print(text);

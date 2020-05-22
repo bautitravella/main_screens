@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/vender/datos_libro.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/vender/seleccion_cursos.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -185,7 +186,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SeleccionCursos(book),
+            builder: (context) => DatosLibros(book),
           ),
         );
       });
