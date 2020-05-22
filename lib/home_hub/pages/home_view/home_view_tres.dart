@@ -411,7 +411,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      GenericBookList(ListType.recomended),
+                                      GenericBookList.recomended(),
                                 ),
                               );
                             },
@@ -474,7 +474,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                   LoadUserEconomicosBooks());
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
-                                    GenericBookList(ListType.cheapest),
+                                    GenericBookList.cheapest(),
                               ));
                             },
                             child: Stack(
@@ -539,7 +539,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          GenericBookList.years(instituition: "Florida Day School"),
+                                          GenericBookList.years( "Florida Day School"),
                                     ),
                                   );
                                 },
@@ -601,8 +601,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          GenericBookList(ListType.subject,
-                                              instituition: "Florida Day School"),
+                                          GenericBookList.subject( "Florida Day School"),
                                     ),
                                   );
                                 },
@@ -666,255 +665,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     return CircularProgressIndicator();
                   }),
 
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                controller: sc,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: ()  {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              GenericBookList.recomended(),
-                        ),
-                      );
-                    },
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-                          height: 151.0,
-                          width: SizeConfig.blockSizeHorizontal * 100,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image.asset(
-                              "assets/images/explora-seleccion-grande.png",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 10,
-                          top: SizeConfig.blockSizeVertical*2,
-                          bottom: SizeConfig.blockSizeVertical*2,
-                          width: SizeConfig.blockSizeHorizontal * 40,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Recomendados",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w800,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Nuestra selección \nexclusiva para vos",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontFamily: "Sf-t",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            GenericBookList.cheapest(),
-                      ));
-                    },
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                          height: 151.0,
-                          width: SizeConfig.blockSizeHorizontal * 100,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image.asset(
-                              "assets/images/explora-economicos.png",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 30,
-                          top: SizeConfig.blockSizeVertical*2,
-                          bottom: SizeConfig.blockSizeVertical*2,
-                          width: SizeConfig.blockSizeHorizontal * 36,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Economicos",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w800,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Seleccion de libros con los mejores precios",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontFamily: "Sf-t",
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  GenericBookList.years("Florida Day School"),
-                            ),
-                          );
-                        },
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.fromLTRB(12, 5, 0, 5),
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              height: 225,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20.0),
-                                child: Image.asset(
-                                  "assets/images/explora-cursos.png",
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 28,
-                              bottom: 15,
-                              width: SizeConfig.blockSizeHorizontal * 40,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Cursos",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontFamily: "Sf-r",
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Podrás elegir entre libros \nde cursos especificos",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontFamily: "Sf-t",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  GenericBookList.subject("Florida Day School"),
-                            ),
-                          );
-                        },
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
-                              height: 225,
-                              width: SizeConfig.blockSizeHorizontal * 45,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20.0),
-                                child: Image.asset(
-                                  "assets/images/explora-materias.png",
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 15,
-                              bottom: 15,
-                              width: SizeConfig.blockSizeHorizontal * 40,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Materias",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontFamily: "Sf-r",
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Podrás elegir entre libros \nde materias especificas",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontFamily: "Sf-t",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ), //TODO para proximo update
-                ],
-              ),
             ),
           ),
         ),
@@ -1684,7 +1434,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList(ListType.recomended),
+                                  GenericBookList.recomended(),
                             ),
                           );
                           setState(() {
@@ -1802,7 +1552,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  GenericBookList(ListType.recomended),
+                  GenericBookList.recomended(),
             ),
           );
         },
