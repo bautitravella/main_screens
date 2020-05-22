@@ -367,11 +367,11 @@ class BeautyDropDownState extends State<BeautyDropDown> {
               }
             },
             child: Container(
-              height: actualHeight,
+              height: widget.height,
               width: widget.width,
               margin: EdgeInsets.only(left: 8, right: 8),
               child: widget.multiple
-                  ? SearchableDropdown.multiple(this,
+                  ? SearchableDropdown.multiple(
                       items: widget.item,
                       selectedItems: widget.selectedItems,
                       displayClearIcon: false,

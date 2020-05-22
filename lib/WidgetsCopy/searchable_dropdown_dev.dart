@@ -7,7 +7,7 @@ import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/values/colors.dart';
 
 import '../size_config.dart';
-import 'textfield_widget.dart';
+
 
 const EdgeInsetsGeometry _kAlignedButtonPadding =
 EdgeInsetsDirectional.only(start: 16.0, end: 4.0);
@@ -186,7 +186,6 @@ class SearchableDropdown<T> extends StatefulWidget {
       menuBackgroundColor: menuBackgroundColor,
     ));
   }
-  BeautyDropDownState beautyDropDownState;
   /// Search choices Widget with a multiple choice that opens a dialog or a menu to let the user do the selection conveniently with a search.
   ///
   /// @param items with __child__: [Widget] displayed ; __value__: any object with .toString() used to match search keyword.
@@ -218,7 +217,7 @@ class SearchableDropdown<T> extends StatefulWidget {
   /// @param menuConstraints [BoxConstraints] used to define the zone where to display the search menu. Example: BoxConstraints.tight(Size.fromHeight(250)) . Not to be used for dialogBox = true.
   /// @param readOnly [bool] whether to let the user choose the value to select or just present the selected value if any.
   /// @param menuBackgroundColor [Color] background color of the menu whether in dialog box or menu mode.
-  factory SearchableDropdown.multiple(BeautyDropDownState beautyDropDownState,{
+  factory SearchableDropdown.multiple({
     Key key,
     @required List<DropdownMenuItem<T>> items,
     @required Function onChanged,
@@ -251,7 +250,7 @@ class SearchableDropdown<T> extends StatefulWidget {
     Color menuBackgroundColor,
   }) {
     return (SearchableDropdown._(
-      beautyDropDownState: beautyDropDownState,
+
       key: key,
       items: items,
       style: style,
@@ -287,7 +286,6 @@ class SearchableDropdown<T> extends StatefulWidget {
   }
 
   SearchableDropdown._({
-    this.beautyDropDownState,
     Key key,
     @required this.items,
     this.onChanged,
@@ -532,7 +530,7 @@ class _SearchableDropdownState<T> extends State<SearchableDropdown<T>> {
     if (list.isEmpty && hintIndex != null) {
       innerItemsWidget = items[hintIndex];
     } else {
-      widget.beautyDropDownState.changeHeight((list.length * 50.0));
+     // widget.beautyDropDownState.changeHeight((list.length * 50.0));
       innerItemsWidget = Column(
         children: list,
       );

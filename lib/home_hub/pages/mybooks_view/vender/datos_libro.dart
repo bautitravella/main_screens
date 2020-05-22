@@ -468,7 +468,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               item: createDropDownMenuListColegios(state.colegiosData.cursos),
                                               selectedItems: selectedCursos,
                                               width: double.maxFinite, //REQUIRED
-                                              height: 100, //REQUIRED
+                                              height: (selectedCursos.length * 15.0 + 40.1), //REQUIRED
                                               accentColor: Colors.white, // On Focus Color//Text Color
                                               backgroundColor: Theme.of(context).hintColor,
                                               autofocus: false,
