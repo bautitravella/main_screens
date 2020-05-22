@@ -11,6 +11,7 @@ import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/destacados_widget/economicos_section.dart';
 import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
+import 'package:flutterui/home_hub/admin_widgets.dart';
 import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
@@ -1210,6 +1211,44 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       )),
                   Text(
                     "foto de perfil",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () =>
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreateInstituition(),
+                ),
+              ),
+            child: Container(
+              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.inbox,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "Create Instituition",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
