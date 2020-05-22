@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 abstract class Instituition {
   String name, abreviation;
-  int numberPeople, numberBooks;
+  int numberPeople =0, numberBooks = 0;
 
   Instituition(
       this.name, this.abreviation, this.numberPeople, this.numberBooks);
@@ -18,11 +18,13 @@ abstract class Instituition {
     for(int i = 1; i<list.length;i++) {
       if(list[i][0] == 'abreviation'){
         abreviation = list[i][1];
+        abreviation.toUpperCase();
       }
     }
     for(int i = 1; i<list.length;i++) {
       if(list[i][0] == 'name'){
         name = list[i][1];
+        name = titleCase(name);
       }
     }
     for(int i = 1; i<list.length;i++) {
@@ -47,6 +49,8 @@ abstract class Instituition {
     }
   }
 
+
+
   Map<String,dynamic> toMap(){
     Map<String,dynamic> map = new Map();
     map['abreviation'] = abreviation;
@@ -66,6 +70,7 @@ abstract class Instituition {
 
 class School extends Instituition {
   List<String> years, subjects;
+  String type = 'school';
 
   School(this.years, this.subjects, String name, String abreviation,
       int numberPeople, int numberBooks)
@@ -96,11 +101,14 @@ class School extends Instituition {
         }
       }
     }
+    String aux,aux2;
     for(int i = 1; i<list.length;i++) {
       if(list[i][0] == 'subjects'){
         subjects = [];
         for(int j =1;j<list[i].length;j++){
-          subjects.add(list[i][j]);
+          aux = list[i][j].substring(1);
+          aux2 = list[i][j].substring(0,1).toUpperCase();
+          subjects.add(aux2 + aux);
         }
       }
     }
@@ -110,6 +118,7 @@ class School extends Instituition {
     Map<String,dynamic> map = super.toMap();
     map['years'] = years;
     map['subjects'] = subjects;
+    map['type'] = type;
     return map;
   }
 
@@ -121,6 +130,7 @@ class School extends Instituition {
 
 class College extends Instituition {
   List<String> careers, years;
+  String type = "college";
 
   College(this.careers, this.years, String name, String abreviation,
       int numberPeople, int numberBooks)
@@ -138,10 +148,13 @@ class College extends Instituition {
   }
 
   College.fromCsvList(List<List> list):super.fromCsvList(list){
+    String aux,aux2;
     for(int i = 1; i<list.length;i++) {
       if(list[i][0] == 'careers'){
         careers = [];
         for(int j =1;j<list[i].length;j++){
+          aux = list[i][j].substring(1);
+          aux2 = list[i][j].substring(0,1).toUpperCase();
           careers.add(list[i][j]);
         }
       }
@@ -160,6 +173,7 @@ class College extends Instituition {
     Map<String,dynamic> map = super.toMap();
     map['years'] = years;
     map['careers'] = careers;
+    map['type'] = type;
     return map;
   }
 
@@ -185,4 +199,15 @@ Instituition createInstituitionFromCsvList(List<List> list){
       return firstString == 'school'? School.fromCsvList(list):College.fromCsvList(list);
     }
   }
+}
+
+String titleCase(String text) {
+  if (text.length <= 1) return text.toUpperCase();
+  var words = text.split(' ');
+  var capitalized = words.map((word) {
+    var first = word.substring(0, 1).toUpperCase();
+    var rest = word.substring(1);
+    return '$first$rest';
+  });
+  return capitalized.join(' ');
 }
