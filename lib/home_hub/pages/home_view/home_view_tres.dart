@@ -5,29 +5,17 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
-import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutterui/Models/User.dart';
-import 'package:flutterui/Models/books_model.dart';
-import 'package:flutterui/Models/user_model.dart';
-import 'package:flutterui/Themes/AppStateNotifier.dart';
-import 'package:flutterui/WidgetsCopy/Animated_screen.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
-import 'package:flutterui/destacados_widget/economicos_section.dart';
 import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/home_hub/admin_widgets.dart';
 import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
-import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
-import 'package:flutterui/test/elije_un_rol_new.dart';
-import 'package:flutterui/test/test1.dart';
-import 'package:flutterui/test/test2.dart';
-import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/test/test4rol.dart';
 import 'package:flutterui/test/test_uploadimage.dart';
 import 'package:flutterui/test/upload_book.dart';
@@ -42,34 +30,33 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeViewTres extends StatefulWidget {
-  MyBooksState homeHubState;
-  HomeViewTres({ this.homeHubState,Key key}) : super(key: key);
+  HomeHubState homeHubState;
+  HomeViewTres({this.homeHubState, Key key}) : super(key: key);
   @override
   _HomeViewTresState createState() => _HomeViewTresState();
 }
 
 class _HomeViewTresState extends State<HomeViewTres> {
   PanelController _pc = new PanelController();
-  MyBooksState homeHubState;
-
+  HomeHubState homeHubState;
 
   @override
   void initState() {
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(
-        context, listen: false);
+    FirebaseAnalytics analytics =
+        Provider.of<FirebaseAnalytics>(context, listen: false);
     analytics.setCurrentScreen(screenName: "/home/home_view");
     super.initState();
   }
 
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    if(widget.homeHubState!= null){
+    if (widget.homeHubState != null) {
       homeHubState = widget.homeHubState;
     }
     return GestureDetector(
       onTap: () {
         setState(() {
-          _ParentRecomendadosButton =  false;
+          _ParentRecomendadosButton = false;
         });
         print('Unfocus');
       },
@@ -81,51 +68,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 Expanded(
                   child: Container(
                     child: SlidingUpPanel(
-                      /*body: Container(color: Colors.red,
-                      constraints: BoxConstraints.expand(),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          Positioned(
-                            left: 0,
-                            top: SizeConfig.blockSizeVertical * 15,
-                            right: 0,
-                            child: Opacity(
-                              opacity: 0.5,
-                              child: Container(
-                                height: SizeConfig.blockSizeVertical * 45,
-                                child: Image.asset(
-                                  "assets/images/destacados-image.png",
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: SizeConfig.blockSizeVertical * 12,
-                            left: 28,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Explorar",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.blockSizeVertical * 8,
-                                ),
-                                categoryScroll,
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),),*/
                       controller: _pc,
                       panelBuilder: (ScrollController sc) => _scrollingList(sc),
                       maxHeight: SizeConfig.blockSizeVertical * 86,
@@ -345,16 +287,22 @@ class _HomeViewTresState extends State<HomeViewTres> {
           right: 25,
           child: Row(
             children: <Widget>[
-              IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                BlocProvider.of<BooksBloc>(context).add(LoadBooksByUser(ListType.recomended));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SearchWidget(homeHubState: homeHubState),
-                  ),
-                );
-              },),
+              IconButton(
+                icon: Icon(Icons.search),
+                iconSize: 26,
+                color: Colors.white,
+                onPressed: () {
+                  BlocProvider.of<BooksBloc>(context)
+                      .add(LoadBooksByUser(ListType.recomended));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          SearchWidget(homeHubState: homeHubState),
+                    ),
+                  );
+                },
+              ),
               SizedBox(
                 width: 5,
               ),
@@ -382,8 +330,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30)),
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
               boxShadow: [
                 BoxShadow(
                   blurRadius: 20.0,
@@ -393,68 +340,136 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30)),
-              child:
-              BlocBuilder<UserBloc, UserBlocState>(
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+              child: BlocBuilder<UserBloc, UserBlocState>(
                   builder: (context, state) {
-                    if (state is UserLoadedState) {
-                      return ListView(
-                        scrollDirection: Axis.vertical,
-                        controller: sc,
+                if (state is UserLoadedState) {
+                  return ListView(
+                    scrollDirection: Axis.vertical,
+                    controller: sc,
+                    children: <Widget>[
+                      state.user is Padre
+                          ? createParentLayout(state.user)
+                          : GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        GenericBookList.recomended(),
+                                  ),
+                                );
+                              },
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                                    height: 151.0,
+                                    width: SizeConfig.blockSizeHorizontal * 100,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Image.asset(
+                                        "assets/images/explora-seleccion-grande.png",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 10,
+                                    top: SizeConfig.blockSizeVertical * 2,
+                                    bottom: SizeConfig.blockSizeVertical * 2,
+                                    width: SizeConfig.blockSizeHorizontal * 40,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "Recomendados",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 17,
+                                            fontFamily: "Sf-r",
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          "Nuestra selección \nexclusiva para vos",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11,
+                                            fontFamily: "Sf-t",
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                      HomeTile(
+                        user: state.user,
+                        backgroundImagePath:
+                            "assets/images/explora-economicos.png",
+                        title: "hola genio",
+                        description: "soy un genio",
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          state.user is Padre
-                              ? createParentLayout(state.user)
-                              : GestureDetector(
+                          GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      GenericBookList.recomended(),
+                                  builder: (context) => GenericBookList.years(
+                                      "Florida Day School"),
                                 ),
                               );
                             },
                             child: Stack(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-                                  height: 151.0,
-                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  margin: EdgeInsets.fromLTRB(12, 5, 0, 5),
+                                  width: SizeConfig.blockSizeHorizontal * 45,
+                                  height: 225,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.asset(
-                                      "assets/images/explora-seleccion-grande.png",
-                                      fit: BoxFit.cover,
+                                      "assets/images/explora-cursos.png",
+                                      fit: BoxFit.fitHeight,
                                     ),
                                   ),
                                 ),
                                 Positioned(
-                                  right: 10,
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  bottom: SizeConfig.blockSizeVertical * 2,
+                                  left: 28,
+                                  bottom: 15,
                                   width: SizeConfig.blockSizeHorizontal * 40,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        "Recomendados",
+                                        "Cursos",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 17,
                                           fontFamily: "Sf-r",
                                           fontWeight: FontWeight.w800,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Text(
-                                        "Nuestra selección \nexclusiva para vos",
+                                        "Podrás elegir entre libros \nde cursos especificos",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 11,
@@ -470,53 +485,50 @@ class _HomeViewTresState extends State<HomeViewTres> {
                           ),
                           GestureDetector(
                             onTap: () {
-//                              BlocProvider.of<EconomicosBloc>(context).add(
-////                                  LoadUserEconomicosBooks());
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) =>
-                                    GenericBookList.cheapest(),
-                              ));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GenericBookList.subject(
+                                      "Florida Day School"),
+                                ),
+                              );
                             },
                             child: Stack(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                                  height: 151.0,
-                                  width: SizeConfig.blockSizeHorizontal * 100,
+                                  margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+                                  height: 225,
+                                  width: SizeConfig.blockSizeHorizontal * 45,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.asset(
-                                      "assets/images/explora-economicos.png",
-                                      fit: BoxFit.cover,
+                                      "assets/images/explora-materias.png",
+                                      fit: BoxFit.fitHeight,
                                     ),
                                   ),
                                 ),
                                 Positioned(
-                                  right: 30,
-                                  top: SizeConfig.blockSizeVertical * 2,
-                                  bottom: SizeConfig.blockSizeVertical * 2,
-                                  width: SizeConfig.blockSizeHorizontal * 36,
+                                  left: 15,
+                                  bottom: 15,
+                                  width: SizeConfig.blockSizeHorizontal * 40,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        "Economicos",
+                                        "Materias",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 17,
                                           fontFamily: "Sf-r",
                                           fontWeight: FontWeight.w800,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Text(
-                                        "Seleccion de libros con los mejores precios",
+                                        "Podrás elegir entre libros \nde materias especificas",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 11,
@@ -530,141 +542,13 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               ],
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          GenericBookList.years( "Florida Day School"),
-                                    ),
-                                  );
-                                },
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(12, 5, 0, 5),
-                                      width: SizeConfig.blockSizeHorizontal *
-                                          45,
-                                      height: 225,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            20.0),
-                                        child: Image.asset(
-                                          "assets/images/explora-cursos.png",
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 28,
-                                      bottom: 15,
-                                      width: SizeConfig.blockSizeHorizontal *
-                                          40,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
-                                        children: <Widget>[
-                                          Text(
-                                            "Cursos",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17,
-                                              fontFamily: "Sf-r",
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "Podrás elegir entre libros \nde cursos especificos",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11,
-                                              fontFamily: "Sf-t",
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          GenericBookList.subject( "Florida Day School"),
-                                    ),
-                                  );
-                                },
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
-                                      height: 225,
-                                      width: SizeConfig.blockSizeHorizontal *
-                                          45,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            20.0),
-                                        child: Image.asset(
-                                          "assets/images/explora-materias.png",
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: 15,
-                                      bottom: 15,
-                                      width: SizeConfig.blockSizeHorizontal *
-                                          40,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
-                                        children: <Widget>[
-                                          Text(
-                                            "Materias",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17,
-                                              fontFamily: "Sf-r",
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "Podrás elegir entre libros \nde materias especificas",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11,
-                                              fontFamily: "Sf-t",
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ), //TODO para proximo update
                         ],
-                      );
-                    }
-                    return CircularProgressIndicator();
-                  }),
-
+                      ), //TODO para proximo update
+                    ],
+                  );
+                }
+                return CircularProgressIndicator();
+              }),
             ),
           ),
         ),
@@ -972,7 +856,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
 //              );
             },
             child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1002,11 +887,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               homeHubState?.changeToFavorites();
             },
             child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1036,11 +922,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               homeHubState?.changeToChats();
             },
             child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1079,7 +966,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
               );
             },
             child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1111,7 +999,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
           GestureDetector(
             onTap: _showDialogAyuda,
             child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1179,7 +1068,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
-           GestureDetector(
+          GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -1258,15 +1147,15 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
           GestureDetector(
-            onTap: () =>
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreateInstituition(),
-                ),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateInstituition(),
               ),
+            ),
             child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+              margin:
+                  EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -1298,17 +1187,15 @@ class _HomeViewTresState extends State<HomeViewTres> {
         ],
       ),
     );
-
-
-
   } //TODO especificarle cual de todas las categories
+
   void _showDialogAyuda() {
     showSlideDialogGrande(
       context: context,
       child: CustomDialog.customFunctions(
         title: "Contactanos",
         description:
-        "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
+            "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
         primaryButtonText: "Cancelar",
         primaryFunction: () {
           Navigator.pop(context);
@@ -1341,218 +1228,220 @@ class _HomeViewTresState extends State<HomeViewTres> {
       // backgroundColor: Colors.yellow,
     );
   }
+
   bool _ParentRecomendadosButton = false;
 
   Widget createParentLayout(Padre user) {
     final _controller = ScrollController();
     if (user.hijos.length > 1) {
-      return  _ParentRecomendadosButton
-          ?Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-            height: 151.0,
-            width: SizeConfig.blockSizeHorizontal * 94,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.asset(
-                "assets/images/explora-seleccion-grande.png",
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            right: 10,
-            top: SizeConfig.blockSizeVertical * 2,
-            bottom: SizeConfig.blockSizeVertical * 2,
-            width: SizeConfig.blockSizeHorizontal * 40,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+      return _ParentRecomendadosButton
+          ? Stack(
+              alignment: Alignment.center,
               children: <Widget>[
-                Text(
-                  "Recomendados",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontFamily: "Sf-r",
-                    fontWeight: FontWeight.w800,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Nuestra selección \nexclusiva para vos",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontFamily: "Sf-t",
-                    fontWeight: FontWeight.w500,
+                Container(
+                  margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                  height: 151.0,
+                  width: SizeConfig.blockSizeHorizontal * 94,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.asset(
+                      "assets/images/explora-seleccion-grande.png",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 0,
-            bottom: 0,
-            right: 12,
-            left: 12,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                child: Container(
-                  color: Colors.white.withOpacity(0),
+                Positioned(
+                  right: 10,
+                  top: SizeConfig.blockSizeVertical * 2,
+                  bottom: SizeConfig.blockSizeVertical * 2,
+                  width: SizeConfig.blockSizeHorizontal * 40,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Recomendados",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Nuestra selección \nexclusiva para vos",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontFamily: "Sf-t",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-
-          ),
-          Positioned(
-            top: 30,
-            bottom: 0,
-            right: 30,
-            left: 12,
-            child: Container(
-              child: FadingEdgeScrollView.fromScrollView(
-                child: ListView.builder(
-                  controller: _controller,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: user.hijos.length + 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index >= 1) {
-                      String childName = user.hijos[index - 1].nombre;
-                      return GestureDetector(
-                        onTap: () {
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  GenericBookList.recomended(currentChild: user.hijos[index-1],),
-                            ),
-                          );
-                          setState(() {
-                            _ParentRecomendadosButton =  !_ParentRecomendadosButton;
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              right: SizeConfig.blockSizeHorizontal * 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  width: 62,
-                                  height: 62,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(20, 255, 213, 104),
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Colors.white,
-                                    size: 30,
-                                  )),
-                              Text(
-                                childName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w800,
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  right: 12,
+                  left: 12,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                      child: Container(
+                        color: Colors.white.withOpacity(0),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 30,
+                  bottom: 0,
+                  right: 30,
+                  left: 12,
+                  child: Container(
+                    child: FadingEdgeScrollView.fromScrollView(
+                      child: ListView.builder(
+                        controller: _controller,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: user.hijos.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index >= 1) {
+                            String childName = user.hijos[index - 1].nombre;
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        GenericBookList.recomended(
+                                      currentChild: user.hijos[index - 1],
+                                    ),
+                                  ),
+                                );
+                                setState(() {
+                                  _ParentRecomendadosButton =
+                                      !_ParentRecomendadosButton;
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    right: SizeConfig.blockSizeHorizontal * 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(bottom: 5),
+                                        width: 62,
+                                        height: 62,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                20, 255, 213, 104),
+                                            borderRadius:
+                                                BorderRadius.circular(100)),
+                                        child: Icon(
+                                          Icons.person,
+                                          color: Colors.white,
+                                          size: 30,
+                                        )),
+                                    Text(
+                                      childName,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            );
+                          } else {
+                            return SizedBox(
+                              width: SizeConfig.blockSizeHorizontal * 15,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          : GestureDetector(
+              onTap: () {
+                setState(() {
+                  _ParentRecomendadosButton = !_ParentRecomendadosButton;
+                });
+                print('Click');
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                    height: 151.0,
+                    width: SizeConfig.blockSizeHorizontal * 94,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.asset(
+                        "assets/images/explora-seleccion-grande.png",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 10,
+                    top: SizeConfig.blockSizeVertical * 2,
+                    bottom: SizeConfig.blockSizeVertical * 2,
+                    width: SizeConfig.blockSizeHorizontal * 40,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Recomendados",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontFamily: "Sf-r",
+                            fontWeight: FontWeight.w800,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Nuestra selección \nexclusiva para vos",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontFamily: "Sf-t",
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                      );
-                    }
-                    else {
-                      return SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 15,);
-                    }
-                  },
-                ),
-              ),
-            ),
-          )
-        ],
-      )
-          :GestureDetector(
-            onTap: () {
-              setState(() {
-                _ParentRecomendadosButton =  !_ParentRecomendadosButton;
-              });
-              print('Click');
-            },
-            child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-              height: 151.0,
-              width: SizeConfig.blockSizeHorizontal * 94,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Image.asset(
-                  "assets/images/explora-seleccion-grande.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 10,
-              top: SizeConfig.blockSizeVertical * 2,
-              bottom: SizeConfig.blockSizeVertical * 2,
-              width: SizeConfig.blockSizeHorizontal * 40,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Recomendados",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontFamily: "Sf-r",
-                      fontWeight: FontWeight.w800,
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "Nuestra selección \nexclusiva para vos",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontFamily: "Sf-t",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  )
                 ],
               ),
-            )
-        ],
-      ),
-          );
-    }
-    else {
+            );
+    } else {
       return GestureDetector(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  GenericBookList.recomended(),
+              builder: (context) => GenericBookList.recomended(),
             ),
           );
         },
@@ -1560,8 +1449,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-              height: 151.0,
-              width: SizeConfig.blockSizeHorizontal * 100,
+              height: double.maxFinite,
+              width: SizeConfig.blockSizeHorizontal * 94,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
@@ -1609,5 +1498,236 @@ class _HomeViewTresState extends State<HomeViewTres> {
         ),
       );
     }
+  }
+}
+
+class HomeTile extends StatefulWidget {
+  final String title, description, backgroundImagePath;
+  final User user;
+  HomeTile(
+      {Key key,
+      this.title,
+      this.description,
+      this.backgroundImagePath,
+      this.user})
+      : super(key: key){
+    if(user!= null && user is Padre){
+      userPadre = user;
+    }
+  }
+  Padre userPadre;
+
+  @override
+  _HomeTileState createState() => _HomeTileState();
+}
+
+class _HomeTileState extends State<HomeTile> {
+  bool _ParentRecomendadosButton = false;
+  final _controller = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return _ParentRecomendadosButton
+        ? Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
+                height: 151.0,
+                width: SizeConfig.blockSizeHorizontal * 100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Image.asset(
+                    widget.backgroundImagePath,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 10,
+                top: SizeConfig.blockSizeVertical * 2,
+                bottom: SizeConfig.blockSizeVertical * 2,
+                width: SizeConfig.blockSizeHorizontal * 40,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w800,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      widget.description,
+//                  "Seleccion de libros con los mejores precios",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontFamily: "Sf-t",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 0,
+                bottom: 0,
+                right: 12,
+                left: 12,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: Container(
+                      color: Colors.white.withOpacity(0),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 30,
+                bottom: 0,
+                right: 30,
+                left: 12,
+                child: Container(
+                  child: FadingEdgeScrollView.fromScrollView(
+                    child: ListView.builder(
+                      controller: _controller,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.userPadre.hijos.length + 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index >= 1) {
+                          String childName = widget.userPadre.hijos[index - 1].nombre;
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      GenericBookList.recomended(
+                                    currentChild: widget.userPadre.hijos[index - 1],
+                                  ),
+                                ),
+                              );
+                              setState(() {
+                                _ParentRecomendadosButton =
+                                    !_ParentRecomendadosButton;
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  right: SizeConfig.blockSizeHorizontal * 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(bottom: 5),
+                                      width: 62,
+                                      height: 62,
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromARGB(20, 255, 213, 104),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: Colors.white,
+                                        size: 30,
+                                      )),
+                                  Text(
+                                    childName,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          return SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 15,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
+        : GestureDetector(
+            onTap: () {
+              setState(() {
+                _ParentRecomendadosButton = !_ParentRecomendadosButton;
+              });
+              print('Click');
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                  height: 151.0,
+                  width: SizeConfig.blockSizeHorizontal * 94,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.asset(
+                      "assets/images/explora-seleccion-grande.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 10,
+                  top: SizeConfig.blockSizeVertical * 2,
+                  bottom: SizeConfig.blockSizeVertical * 2,
+                  width: SizeConfig.blockSizeHorizontal * 40,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Recomendados",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontFamily: "Sf-r",
+                          fontWeight: FontWeight.w800,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Nuestra selección \nexclusiva para vos",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontFamily: "Sf-t",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
   }
 }

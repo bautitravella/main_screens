@@ -3,17 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/ListTile/book_list_tile.dart';
 import 'package:flutterui/Models/book.dart';
-import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
-import 'package:flutterui/book_widget/book_section.dart';
-import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
-import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
-import 'package:flutterui/home_hub/pages/home_view/home_view_dos.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
-import 'package:flutterui/test/test_search.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -23,9 +16,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 
 class SearchWidget extends StatefulWidget {
-  MyBooksState homeHubState;
+  HomeHubState homeHubState;
   SearchWidget({this.homeHubState,Key key}) : super(key: key);
 
   @override
@@ -34,7 +28,7 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   PanelController _pc = new PanelController();
-  MyBooksState homeHubState;
+  HomeHubState homeHubState;
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
@@ -152,7 +146,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     minHeight: _keyboardIsVisible()
                         ? SizeConfig.blockSizeVertical * 85
                         : SizeConfig.blockSizeVertical * 65,
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     backdropEnabled: false,
                     backdropColor: AppColors.secondaryBackground,
                     body: _upperBody(),
@@ -180,7 +174,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget _upperBody() {
     return FadeIn(
       child: Container(
-        color: AppColors.secondaryBackground,
+        color: Theme.of(context).backgroundColor,
         height: SizeConfig.blockSizeVertical * 100,
         child: Stack(
           alignment: Alignment.center,
@@ -408,7 +402,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   style: TextStyle(
                     fontFamily: 'Sf-r',
                     fontSize: 17,
-                    color: Color.fromARGB(255, 57, 57, 57),
+                    color: Theme.of(context).primaryTextTheme.headline2.color,
                     fontWeight: FontWeight.w900,
                   ),
                 ),

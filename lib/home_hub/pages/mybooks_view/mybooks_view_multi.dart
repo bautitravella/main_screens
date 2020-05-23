@@ -48,7 +48,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'catergory_selector.dart';
 
 class MyBooksViewMulti extends StatefulWidget {
-  MyBooksState homeHubState;
+  HomeHubState homeHubState;
   MyBooksViewMulti({ this.homeHubState,Key key}) : super(key: key);
   @override
   MyBooksViewMultiState createState() => MyBooksViewMultiState();
@@ -56,7 +56,7 @@ class MyBooksViewMulti extends StatefulWidget {
 
 class MyBooksViewMultiState extends State<MyBooksViewMulti> {
   PanelController _pc = new PanelController();
-  MyBooksState myBooksState;
+  HomeHubState myBooksState;
 
   List<Book>  publicados ;
   List<Book>  vendidos ;

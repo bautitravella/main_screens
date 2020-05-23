@@ -24,11 +24,11 @@ import 'package:provider/provider.dart';
 class HomeHub extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyBooksState();
+    return HomeHubState();
   }
 }
 
-class MyBooksState extends State<HomeHub> {
+class HomeHubState extends State<HomeHub> {
   int _currentIndex = 0;
   PageController _pageController;
   List<Widget> _children;
