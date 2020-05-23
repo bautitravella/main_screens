@@ -345,9 +345,7 @@ class _GenericBookListState extends State<GenericBookList> {
       case ListType.recomended:
         return BlocBuilder<BooksBloc,BooksBlocState>(
             builder: (context, state) {
-              print("SWITCH 2.0");
               if(state is BooksLoadedState){
-                print("SWITCH 2.1");
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,

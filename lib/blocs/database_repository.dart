@@ -339,7 +339,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Book>> getChildRecommendedBooks(Hijo hijo) {
       return booksCollectionGroupReference
           .where("colegio", isEqualTo: hijo.colegio)
-          .where("curso",arrayContains: hijo.curso)
+          .where("cursos",arrayContains: hijo.curso)
           .limit(30)
           .snapshots()
           .map((snapshot) {

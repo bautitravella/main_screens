@@ -1434,7 +1434,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList.recomended(),
+                                  GenericBookList.recomended(currentChild: user.hijos[index-1],),
                             ),
                           );
                           setState(() {

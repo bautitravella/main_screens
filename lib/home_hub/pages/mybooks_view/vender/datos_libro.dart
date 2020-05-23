@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/Padre.dart';
+import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
@@ -32,9 +33,6 @@ class DatosLibros extends StatefulWidget {
   _DatosLibrosState createState() => _DatosLibrosState();
 }
 
-void onLogoPressed(BuildContext context) {}
-void onProfilePicture(BuildContext context) {}
-void onButtonPressed(BuildContext context) {}
 
 class _DatosLibrosState extends State<DatosLibros> {
 
@@ -57,10 +55,15 @@ class _DatosLibrosState extends State<DatosLibros> {
   Map<String, bool> values;
   bool loadingDialogShown = false;
   bool valuesHasBeenCreated = false;
+  bool isColegioSelected = false,isUniversidadSelected = false;
 
   List<int> selectedColegios = [];
   List<int> selectedCursos = [];
   List<int> selectedMaterias = [];
+
+  List<int> selectedUniversidades = [];
+  List<int> selectedCarreras = [];
+  List<int> selectedYearUniversidad = [];
 
 @override
   void initState() {
@@ -445,7 +448,19 @@ class _DatosLibrosState extends State<DatosLibros> {
                                                 deleteIcon: Icon(
                                                   Icons.cancel, color: Theme.of(context).iconTheme.color,
                                                 ),
-                                                onDeleted: (){},
+                                                onDeleted: (){
+                                                  print("Deleted + " + item.toString());
+                                                setState(() {
+
+                                                  selectedColegios.remove(state.user.getColegios().indexOf(item.toString()));
+                                                  if(selectedColegios != null && selectedColegios.length != 0){
+                                                    isColegioSelected = true;
+                                                  }else{
+                                                    isColegioSelected = false;
+                                                  }
+                                                });
+
+                                                },
                                               ),
                                             );
                                           },
@@ -459,6 +474,11 @@ class _DatosLibrosState extends State<DatosLibros> {
                                             print('Click');
                                           },
                                           onChanged: (value) {
+                                            if(value != null && value.length != 0){
+                                              isColegioSelected = true;
+                                            }else{
+                                              isColegioSelected = false;
+                                            }
                                             setState(() {
                                               selectedColegios = value;
                                               print("Colegios DROP:" +  selectedColegios.toString());
@@ -469,7 +489,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                                         builder: (context, state) {
                                         if (state is ColegiosLoaded) {
-                                        return Column(
+                                        return isColegioSelected?Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
@@ -558,13 +578,14 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               },
                                             ),//DropDown Materia
                                           ],
-                                        );
+                                        ):Container();
                                         }return CircularProgressIndicator();}),
                                       ],
                                     )
                                         :Container(),
                                     SizedBox(height: 30),
-                                    state.user is AlumnoUniversitario
+                                   true
+                                    //state.user is AlumnoUniversitario
                                     ?FlatButton(
                                       splashColor: Theme.of(context).backgroundColor,
                                       onPressed: () {
@@ -605,149 +626,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                     ):
                                         Container(),
                                     _universidadCheckBox
-                                        ?Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(height: 40),
-                                        Text(
-                                          "Universidad",
-                                          style: Theme.of(context).textTheme.headline2,
-                                        ),
-                                        BeautyDropDown(
-                                          multiple: true,
-                                          item: createDropDownMenuListColegios(state.user.getColegios()),
-                                          selectedItems: selectedColegios,
-                                          width: double.maxFinite, //REQUIRED
-                                          height: selectedColegios.length>0?(selectedColegios.length * 50.0): 50,
-                                          accentColor: Colors.white, // On Focus Color//Text Color
-                                          backgroundColor: Theme.of(context).hintColor,
-                                          autofocus: false,
-                                          selectedValueWidget: (item) {
-                                            print("Item DROP:" +  item.toString());
-                                            return Container(
-                                              child: Chip(
-                                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                deleteIcon: Icon(
-                                                  Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                ),
-                                                onDeleted: (){},
-                                              ),
-                                            );
-                                          },
-                                          margin: EdgeInsets.only(top: 10),
-                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                          duration: Duration(milliseconds: 300),
-                                          onClickSuffix: () {
-                                            print('Suffix Clicked');
-                                          },
-                                          onTap: () {
-                                            print('Click');
-                                          },
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedColegios = value;
-                                              print("Colegios DROP:" +  selectedColegios.toString());
-                                            });
-                                          },
-                                        ),//DropDown Colegio
-                                        SizedBox(height: 40),
-                                        BlocBuilder<ColegiosBloc, ColegiosBlocState>(
-                                            builder: (context, state) {
-                                              if (state is ColegiosLoaded) {
-                                                return Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Carrera",
-                                                      style: Theme.of(context).textTheme.headline2,
-                                                    ),
-                                                    BeautyDropDown(
-                                                      multiple: true,
-                                                      item: createDropDownMenuListColegios(state.colegiosData.materias),
-                                                      selectedItems: selectedMaterias,
-                                                      width: double.maxFinite, //REQUIRED
-                                                      height: selectedMaterias.length>0?(selectedMaterias.length * 50.0): 50,
-                                                      accentColor: Colors.white, // On Focus Color//Text Color
-                                                      backgroundColor: Theme.of(context).hintColor,
-                                                      autofocus: false,
-                                                      selectedValueWidget: (item) {
-                                                        print("Item DROP:" +  item.toString());
-                                                        return Container(
-                                                          child: Chip(
-                                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                            deleteIcon: Icon(
-                                                              Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                            ),
-                                                            onDeleted: (){},
-                                                          ),
-                                                        );
-                                                      },
-                                                      margin: EdgeInsets.only(top: 10),
-                                                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                                      duration: Duration(milliseconds: 300),
-                                                      onClickSuffix: () {
-                                                        print('Suffix Clicked');
-                                                      },
-                                                      onTap: () {
-                                                        print('Click');
-                                                      },
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          selectedMaterias = value;
-                                                          print("Materia DROP:" +  selectedMaterias.toString());
-                                                        });
-                                                      },
-                                                    ),//DropDown Materia
-                                                    SizedBox(height: 40),
-                                                    Text(
-                                                      "Año",
-                                                      style: Theme.of(context).textTheme.headline2,
-                                                    ),
-                                                    BeautyDropDown(
-                                                      multiple: true,
-                                                      item: createDropDownMenuListColegios(state.colegiosData.cursos),
-                                                      selectedItems: selectedCursos,
-                                                      width: double.maxFinite, //REQUIRED
-                                                      height: selectedCursos.length>0?(selectedCursos.length * 50.0): 50, //REQUIRED
-                                                      accentColor: Colors.white, // On Focus Color//Text Color
-                                                      backgroundColor: Theme.of(context).hintColor,
-                                                      autofocus: false,
-                                                      selectedValueWidget: (item) {
-                                                        print("Item DROP:" +  item.toString());
-                                                        return Container(
-                                                          child: Chip(
-                                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                            deleteIcon: Icon(
-                                                              Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                            ),
-                                                            onDeleted: (){},
-                                                          ),
-                                                        );
-                                                      },
-                                                      margin: EdgeInsets.only(top: 10),
-                                                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                                      duration: Duration(milliseconds: 300),
-                                                      onClickSuffix: () {
-                                                        print('Suffix Clicked');
-                                                      },
-                                                      onTap: () {
-                                                        print('Click');
-                                                      },
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          selectedCursos = value;
-                                                          print("Año DROP:" +  selectedCursos.toString());
-                                                        });
-                                                      },
-                                                    ),//DropDown Año
-                                                  ],
-                                                );
-                                              }return CircularProgressIndicator();}),
-                                      ],
-                                    )
+                                        ?universidadLayout(state.user)
                                         :Container()
                                   ],
                                 ),
@@ -963,6 +842,152 @@ class _DatosLibrosState extends State<DatosLibros> {
         .setData(widget.book.toMap())
         .then((value) => print("se mando bien la info a firebase" ))
         .catchError((err) => print("HUBO UN ERROR 2"));
+  }
+
+  Widget universidadLayout(Padre user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 40),
+        Text(
+          "Universidad",
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        BeautyDropDown(
+          multiple: true,
+          item: createDropDownMenuListColegios(user.getColegios()),
+          selectedItems: selectedUniversidades,
+          width: double.maxFinite, //REQUIRED
+          height: selectedUniversidades.length>0?(selectedUniversidades.length * 50.0): 50,
+          accentColor: Colors.white, // On Focus Color//Text Color
+          backgroundColor: Theme.of(context).hintColor,
+          autofocus: false,
+          selectedValueWidget: (item) {
+            print("Item DROP:" +  item.toString());
+            return Container(
+              child: Chip(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                deleteIcon: Icon(
+                  Icons.cancel, color: Theme.of(context).iconTheme.color,
+                ),
+                onDeleted: (){},
+              ),
+            );
+          },
+          margin: EdgeInsets.only(top: 10),
+          cornerRadius: BorderRadius.all(Radius.circular(15)),
+          duration: Duration(milliseconds: 300),
+          onClickSuffix: () {
+            print('Suffix Clicked');
+          },
+          onTap: () {
+            print('Click');
+          },
+          onChanged: (value) {
+            setState(() {
+              selectedUniversidades = value;
+              print("Colegios DROP:" +  selectedUniversidades.toString());
+            });
+          },
+        ),//DropDown Colegio
+        SizedBox(height: 40),
+        BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+            builder: (context, state) {
+              if (state is ColegiosLoaded) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Carrera",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    BeautyDropDown(
+                      multiple: true,
+                      item: createDropDownMenuListColegios(state.colegiosData.materias),
+                      selectedItems: selectedCarreras,
+                      width: double.maxFinite, //REQUIRED
+                      height: selectedCarreras.length>0?(selectedCarreras.length * 50.0): 50,
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      autofocus: false,
+                      selectedValueWidget: (item) {
+                        print("Item DROP:" +  item.toString());
+                        return Container(
+                          child: Chip(
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                            deleteIcon: Icon(
+                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                            ),
+                            onDeleted: (){},
+                          ),
+                        );
+                      },
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      onClickSuffix: () {
+                        print('Suffix Clicked');
+                      },
+                      onTap: () {
+                        print('Click');
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCarreras = value;
+                          print("Materia DROP:" +  selectedCarreras.toString());
+                        });
+                      },
+                    ),//DropDown Materia
+                    SizedBox(height: 40),
+                    Text(
+                      "Año",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    BeautyDropDown(
+                      multiple: true,
+                      item: createDropDownMenuListColegios(state.colegiosData.cursos),
+                      selectedItems: selectedYearUniversidad,
+                      width: double.maxFinite, //REQUIRED
+                      height: selectedYearUniversidad.length>0?(selectedYearUniversidad.length * 50.0): 50, //REQUIRED
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      autofocus: false,
+                      selectedValueWidget: (item) {
+                        print("Item DROP:" +  item.toString());
+                        return Container(
+                          child: Chip(
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                            deleteIcon: Icon(
+                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                            ),
+                            onDeleted: (){},
+                          ),
+                        );
+                      },
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      onClickSuffix: () {
+                        print('Suffix Clicked');
+                      },
+                      onTap: () {
+                        print('Click');
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedYearUniversidad = value;
+                          print("Año DROP:" +  selectedYearUniversidad.toString());
+                        });
+                      },
+                    ),//DropDown Año
+                  ],
+                );
+              }return CircularProgressIndicator();}),
+      ],
+    );
   }
 }
 
