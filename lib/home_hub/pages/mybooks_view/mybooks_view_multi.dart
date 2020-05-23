@@ -79,6 +79,23 @@ class MyBooksViewMultiState extends State<MyBooksViewMulti> {
       myBooksState = widget.homeHubState;
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+
+          ),
+          onPressed: () {
+
+            analytics.logEvent(name: "begins_subir_libro");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SubirFotoLibro(),
+              ),
+            );
+          }
+      ),
       body: Stack(
         children: <Widget>[
           Column(
@@ -247,7 +264,7 @@ class MyBooksViewMultiState extends State<MyBooksViewMulti> {
           child: Row(
             children: <Widget>[
               IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
