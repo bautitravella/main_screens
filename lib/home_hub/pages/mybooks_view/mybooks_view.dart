@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
+import 'package:flutterui/Themes/AppStateNotifier.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
 import 'package:flutterui/book_widget/book_section_chota.dart';
@@ -16,6 +17,7 @@ import 'package:flutterui/home_hub/pages/mybooks_view/vender/subir_foto_libro.da
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/size_config.dart';
+import 'package:flutterui/test/test1.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -406,7 +408,7 @@ class GridViewPublicados extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BookSection(book),
+                            builder: (context) => BookSection2(book),
                           ),
                         );
                       },
@@ -511,7 +513,7 @@ class GridViewVendidos extends StatelessWidget {
             constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*45),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
             decoration: BoxDecoration(
-              color: Color.fromARGB(50, 249, 196, 55),
+              color: Color.fromARGB(255, 255, 213, 104),
               borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             width: SizeConfig.blockSizeHorizontal * 100,

@@ -96,7 +96,7 @@ class AppTheme {
         fontWeight: FontWeight.w700,
       ), //Tile Book Name
       headline3: TextStyle(
-        color: Color.fromARGB(190, 0, 0, 0),
+        color: Color.fromARGB(200, 0, 0, 0),
         fontSize: 11,
         fontFamily: "Sf",
         fontWeight: FontWeight.w500,
@@ -241,7 +241,7 @@ class AppTheme {
         fontWeight: FontWeight.w700,
       ), //Tile Book Name
       headline3: TextStyle(
-        color: Colors.white54,
+        color: Colors.white,
         fontSize: 11,
         fontFamily: "Sf",
         fontWeight: FontWeight.w500,
@@ -257,7 +257,7 @@ class AppTheme {
         fontSize: 10,
         fontWeight: FontWeight.w700,
         fontFamily: "Sf-r",
-        color: Color.fromARGB(100, 255, 255, 255),
+        color: Color.fromARGB(200, 255, 255, 255),
       ),//Tile Estado
       subtitle1: TextStyle(
         fontFamily: "Sf-r",

@@ -613,106 +613,142 @@ class _DatosLibrosState extends State<DatosLibros> {
                                           "Universidad",
                                           style: Theme.of(context).textTheme.headline2,
                                         ),
-                                        BeautyTextfield(
-                                          /*controller: nombreController,*/
-                                          textCapitalization: TextCapitalization.words,
+                                        BeautyDropDown(
+                                          multiple: true,
+                                          item: createDropDownMenuListColegios(state.user.getColegios()),
+                                          selectedItems: selectedColegios,
                                           width: double.maxFinite, //REQUIRED
-                                          height: 50, //REQUIRED
+                                          height: selectedColegios.length>0?(selectedColegios.length * 50.0): 50,
                                           accentColor: Colors.white, // On Focus Color//Text Color
                                           backgroundColor: Theme.of(context).hintColor,
                                           autofocus: false,
-                                          maxLines: 1,
+                                          selectedValueWidget: (item) {
+                                            print("Item DROP:" +  item.toString());
+                                            return Container(
+                                              child: Chip(
+                                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                                deleteIcon: Icon(
+                                                  Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                ),
+                                                onDeleted: (){},
+                                              ),
+                                            );
+                                          },
                                           margin: EdgeInsets.only(top: 10),
                                           cornerRadius: BorderRadius.all(Radius.circular(15)),
                                           duration: Duration(milliseconds: 300),
-                                          inputType: TextInputType.text,
-                                          inputAction: TextInputAction.done,//REQUIRED
-                                          obscureText: false, //REQUIRED
-                                          suffixIcon: Icon(Icons.remove_red_eye),
                                           onClickSuffix: () {
                                             print('Suffix Clicked');
                                           },
                                           onTap: () {
                                             print('Click');
                                           },
-                                          onChanged: (text) {
-                                            print(text);
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedColegios = value;
+                                              print("Colegios DROP:" +  selectedColegios.toString());
+                                            });
                                           },
-                                          onSubmitted: (data) {
-                                            print(data.length);
-                                          },
-                                        ),
+                                        ),//DropDown Colegio
                                         SizedBox(height: 40),
-                                        Text(
-                                          "Carrera",
-                                          style: Theme.of(context).textTheme.headline2,
-                                        ),
-                                        BeautyTextfield(
-                                          /*controller: apellidoController,*/
-                                          textCapitalization: TextCapitalization.words,
-                                          width: double.maxFinite, //REQUIRED
-                                          height: 50, //REQUIRED
-                                          accentColor: Colors.white, // On Focus Color//Text Color
-                                          backgroundColor: Theme.of(context).hintColor,
-                                          autofocus: false,
-                                          maxLines: 1,
-                                          margin: EdgeInsets.only(top: 10),
-                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                          duration: Duration(milliseconds: 300),
-                                          inputType: TextInputType.text,
-                                          inputAction: TextInputAction.done,//REQUIRED
-                                          obscureText: false, //REQUIRED
-                                          suffixIcon: Icon(Icons.remove_red_eye),
-                                          onClickSuffix: () {
-                                            print('Suffix Clicked');
-                                          },
-                                          onTap: () {
-                                            print('Click');
-                                          },
-                                          onChanged: (text) {
-                                            print(text);
-                                          },
-                                          onSubmitted: (data) {
-                                            print(data.length);
-                                          },
-                                        ),
-                                        SizedBox(height: 40),
-                                        Text(
-                                          "Año",
-                                          style: Theme.of(context).textTheme.headline2,
-                                        ),
-                                        BeautyTextfield(
-                                          /*controller: apellidoController,*/
-                                          textCapitalization: TextCapitalization.words,
-                                          width: double.maxFinite, //REQUIRED
-                                          height: 50, //REQUIRED
-                                          accentColor: Colors.white, // On Focus Color//Text Color
-                                          backgroundColor: Theme.of(context).hintColor,
-                                          autofocus: false,
-                                          maxLines: 1,
-                                          margin: EdgeInsets.only(top: 10),
-                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                          duration: Duration(milliseconds: 300),
-                                          inputType: TextInputType.text,
-                                          inputAction: TextInputAction.done,//REQUIRED
-                                          obscureText: false, //REQUIRED
-                                          suffixIcon: Icon(Icons.remove_red_eye),
-                                          onClickSuffix: () {
-                                            print('Suffix Clicked');
-                                          },
-                                          onTap: () {
-                                            print('Tap');
-                                          },
-                                          onChanged: (text) {
-                                            print(text);
-                                          },
-                                          onSubmitted: (data) {
-                                            print(data.length);
-                                          },
-                                        ),
+                                        BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                                            builder: (context, state) {
+                                              if (state is ColegiosLoaded) {
+                                                return Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "Carrera",
+                                                      style: Theme.of(context).textTheme.headline2,
+                                                    ),
+                                                    BeautyDropDown(
+                                                      multiple: true,
+                                                      item: createDropDownMenuListColegios(state.colegiosData.materias),
+                                                      selectedItems: selectedMaterias,
+                                                      width: double.maxFinite, //REQUIRED
+                                                      height: selectedMaterias.length>0?(selectedMaterias.length * 50.0): 50,
+                                                      accentColor: Colors.white, // On Focus Color//Text Color
+                                                      backgroundColor: Theme.of(context).hintColor,
+                                                      autofocus: false,
+                                                      selectedValueWidget: (item) {
+                                                        print("Item DROP:" +  item.toString());
+                                                        return Container(
+                                                          child: Chip(
+                                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                                            deleteIcon: Icon(
+                                                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                            ),
+                                                            onDeleted: (){},
+                                                          ),
+                                                        );
+                                                      },
+                                                      margin: EdgeInsets.only(top: 10),
+                                                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                                      duration: Duration(milliseconds: 300),
+                                                      onClickSuffix: () {
+                                                        print('Suffix Clicked');
+                                                      },
+                                                      onTap: () {
+                                                        print('Click');
+                                                      },
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          selectedMaterias = value;
+                                                          print("Materia DROP:" +  selectedMaterias.toString());
+                                                        });
+                                                      },
+                                                    ),//DropDown Materia
+                                                    SizedBox(height: 40),
+                                                    Text(
+                                                      "Año",
+                                                      style: Theme.of(context).textTheme.headline2,
+                                                    ),
+                                                    BeautyDropDown(
+                                                      multiple: true,
+                                                      item: createDropDownMenuListColegios(state.colegiosData.cursos),
+                                                      selectedItems: selectedCursos,
+                                                      width: double.maxFinite, //REQUIRED
+                                                      height: selectedCursos.length>0?(selectedCursos.length * 50.0): 50, //REQUIRED
+                                                      accentColor: Colors.white, // On Focus Color//Text Color
+                                                      backgroundColor: Theme.of(context).hintColor,
+                                                      autofocus: false,
+                                                      selectedValueWidget: (item) {
+                                                        print("Item DROP:" +  item.toString());
+                                                        return Container(
+                                                          child: Chip(
+                                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                                            deleteIcon: Icon(
+                                                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                            ),
+                                                            onDeleted: (){},
+                                                          ),
+                                                        );
+                                                      },
+                                                      margin: EdgeInsets.only(top: 10),
+                                                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                                      duration: Duration(milliseconds: 300),
+                                                      onClickSuffix: () {
+                                                        print('Suffix Clicked');
+                                                      },
+                                                      onTap: () {
+                                                        print('Click');
+                                                      },
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          selectedCursos = value;
+                                                          print("Año DROP:" +  selectedCursos.toString());
+                                                        });
+                                                      },
+                                                    ),//DropDown Año
+                                                  ],
+                                                );
+                                              }return CircularProgressIndicator();}),
                                       ],
                                     )
-                                        :Container(),
+                                        :Container()
                                   ],
                                 ),
                               ],

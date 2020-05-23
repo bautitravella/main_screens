@@ -411,7 +411,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                       Text(
                         "Fotos",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).textTheme.headline4.color,
                           fontSize: 13,
                           fontFamily: "Sf-r",
                           fontWeight: FontWeight.w800,
@@ -451,7 +451,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                       Text(
                         "Camara",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).textTheme.headline4.color,
                           fontSize: 13,
                           fontFamily: "Sf-r",
                           fontWeight: FontWeight.w800,
