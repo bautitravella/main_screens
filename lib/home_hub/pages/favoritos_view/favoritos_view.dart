@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/books_model.dart';
 import 'package:flutterui/book_widget/book_section.dart';
+import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/home_hub/pages/explore_view/categories/categories_colegios.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
@@ -186,7 +187,7 @@ class _FavoritosViewState extends State<FavoritosView> {
             child: Row(
               children: <Widget>[
                 IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                  BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
+                  BlocProvider.of<BooksBloc>(context).add(LoadBooksByUser(ListType.recomended));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

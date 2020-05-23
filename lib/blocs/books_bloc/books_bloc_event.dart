@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/home_hub/generic_booklist_screen.dart';
@@ -7,12 +8,24 @@ abstract class BooksBlocEvent extends Equatable {
   const BooksBlocEvent();
 }
 
-class LoadUserRecomendationBooks extends BooksBlocEvent{
+class LoadBooksByUser extends BooksBlocEvent{
+  final ListType listType;
 
-  LoadUserRecomendationBooks();
+  LoadBooksByUser(this.listType);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [listType];
+}
+
+class LoadBooksByChild extends BooksBlocEvent{
+
+  final Hijo hijo;
+  final ListType listType;
+
+  LoadBooksByChild(this.listType,this.hijo);
+
+  @override
+  List<Object> get props => [listType,hijo];
 }
 
 class LoadBooksByInstituition extends BooksBlocEvent{

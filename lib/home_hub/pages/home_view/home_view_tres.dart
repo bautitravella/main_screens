@@ -346,7 +346,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           child: Row(
             children: <Widget>[
               IconButton(icon: Icon(Icons.search), iconSize: 26, color: Colors.white, onPressed:() {
-                BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
+                BlocProvider.of<BooksBloc>(context).add(LoadBooksByUser(ListType.recomended));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -470,8 +470,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              BlocProvider.of<EconomicosBloc>(context).add(
-                                  LoadUserEconomicosBooks());
+//                              BlocProvider.of<EconomicosBloc>(context).add(
+////                                  LoadUserEconomicosBooks());
                               Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     GenericBookList.cheapest(),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/Models/ListTile/book_list_tile.dart';
 import 'package:flutterui/Models/ListTile/string_list_tile.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialog_widget/error_dialog.dart';
@@ -20,30 +21,36 @@ class GenericBookList extends StatefulWidget {
   
   ListType listType;
   int childIndex;
+  Hijo currentChild;
   String instituition;
   String parameter;
 
 
   GenericBookList(this.instituition,this.listType);
 
-  GenericBookList.cheapest(){
+  GenericBookList.cheapest({this.currentChild = null}){
     this.listType = ListType.cheapest;
+    this.parameter = null;
   }
 
   GenericBookList.subject(this.instituition,{this.parameter = null}){
     this.listType = ListType.subject;
+    this.currentChild = null;
   }
 
   GenericBookList.years(this.instituition,{this.parameter = null}){
     this.listType = ListType.years;
+    this.currentChild = null;
   }
 
   GenericBookList.career(this.instituition,{this.parameter = null}){
     this.listType = ListType.career;
+    this.currentChild = null;
   }
 
-  GenericBookList.recomended(){
+  GenericBookList.recomended({this.currentChild = null}){
     this.listType = ListType.recomended;
+    this.parameter = null;
   }
 
   @override
@@ -58,7 +65,13 @@ class _GenericBookListState extends State<GenericBookList> {
     analytics.setCurrentScreen(screenName: "/home/"+ widget.listType.toString().split(".").last);
     switch(widget.listType){
       case ListType.cheapest:
-        BlocProvider.of<EconomicosBloc>(context).add(LoadUserEconomicosBooks());
+        if(widget.currentChild != null){
+          BlocProvider.of<BooksBloc>(context).add(LoadBooksByChild(widget.listType,widget.currentChild));
+        }else {
+          print("ADDED LOADBOOKSBYUSER + " + widget.listType.toString());
+          BlocProvider.of<BooksBloc>(context).add(
+              LoadBooksByUser(widget.listType));
+        }
         break;
       case ListType.years:
         BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
@@ -66,11 +79,20 @@ class _GenericBookListState extends State<GenericBookList> {
       case ListType.subject:
         BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
         break;
+      case ListType.career:
+        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        break;
+      case ListType.recomended:
+        if(widget.currentChild != null){
+          BlocProvider.of<BooksBloc>(context).add(LoadBooksByChild(widget.listType,widget.currentChild));
+        }else{
+          print("ADDED LOADBOOKSBYUSER + " + widget.listType.toString());
+          BlocProvider.of<BooksBloc>(context).add(LoadBooksByUser(widget.listType));
+        }
+        break;
       default:
         break;
     }
-
-
   }
 
   @override
@@ -166,51 +188,6 @@ class _GenericBookListState extends State<GenericBookList> {
               Expanded(
                 child: Container(
                   child: SlidingUpPanel(
-                    /*body: Container(color: Colors.red,
-                    constraints: BoxConstraints.expand(),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Positioned(
-                          left: 0,
-                          top: SizeConfig.blockSizeVertical * 15,
-                          right: 0,
-                          child: Opacity(
-                            opacity: 0.5,
-                            child: Container(
-                              height: SizeConfig.blockSizeVertical * 45,
-                              child: Image.asset(
-                                "assets/images/destacados-image.png",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: SizeConfig.blockSizeVertical * 12,
-                          left: 28,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Explorar",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 30,
-                                ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical * 8,
-                              ),
-                              categoryScroll,
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),),*/
                     panelBuilder: (ScrollController sc) => _scrollingList(sc),
                     maxHeight: SizeConfig.blockSizeVertical * 94,
                     minHeight: SizeConfig.blockSizeVertical * 88,
@@ -272,28 +249,6 @@ class _GenericBookListState extends State<GenericBookList> {
                             radius: 27.0,
                             backgroundImage: state.user.getProfileImage(),
                           );
-                          /*Container(
-                            height: 55,
-                            width: 55,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2, //
-                                ),
-                                borderRadius: new BorderRadius.circular(100)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Hero(
-                                tag: 'avatar',
-                                child: Image(
-                                  image: state.user.getProfileImage(),
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.center,
-                                ),
-                              ),
-                            ),
-                          )*/
                         }
                         return Container();
 
@@ -304,20 +259,6 @@ class _GenericBookListState extends State<GenericBookList> {
               ],
             ),
           ),
-          /*Positioned(
-            top: SizeConfig.blockSizeVertical * 10,
-            left: 28,
-            child: Text(
-              "Explorar",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: "Montserrat",
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 30,
-              ),
-            ),
-          ),*/
         ],
       ),
     );
@@ -365,7 +306,7 @@ class _GenericBookListState extends State<GenericBookList> {
 
 
   Widget selectList(ScrollController sc){
-    if(widget.parameter!= null){
+    if(widget.parameter!= null || widget.currentChild != null){
       return  BlocBuilder<BooksBloc,BooksBlocState>(
           builder: (context, state) {
             if (state is BooksLoadedState) {
@@ -384,9 +325,11 @@ class _GenericBookListState extends State<GenericBookList> {
     }
     switch(widget.listType){
       case ListType.cheapest:
-        return  BlocBuilder<EconomicosBloc,EconomicosBlocState>(
+        return  BlocBuilder<BooksBloc,BooksBlocState>(
             builder: (context, state) {
-              if (state is EconomicosBooksLoadedState) {
+              print("SWITCH 1.0");
+              if (state is BooksLoadedState){
+                print("SWITCH 1.1");
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
@@ -402,7 +345,9 @@ class _GenericBookListState extends State<GenericBookList> {
       case ListType.recomended:
         return BlocBuilder<BooksBloc,BooksBlocState>(
             builder: (context, state) {
+              print("SWITCH 2.0");
               if(state is BooksLoadedState){
+                print("SWITCH 2.1");
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
@@ -428,6 +373,39 @@ class _GenericBookListState extends State<GenericBookList> {
                   itemCount: school.subjects.length,
                   itemBuilder: (BuildContext context, int index) {
                     String str = school.subjects[index];
+                    return GestureDetector(
+                        onTap: (){
+                          BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.subject(widget.instituition,parameter: str,),
+                            ),
+                          );
+                        },
+                        child: StringTile(str));
+                  },
+                );
+              }
+              return Container(child: Center(child: Text("Ha habido algun error, por favor volve a intentar, si el problema recurre te pedimos que nos envies un mail a buymy.customerservice@gmail.com"),),);
+            }
+            return Container(child: Center(child: CircularProgressIndicator(),),);
+          },
+        );
+      case ListType.career:
+        return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
+          builder: (context,state){
+            if(state is InstituitionsInfoLoaded){
+              //print("STATE = " + state.toString());
+              if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
+                College college =  state.instituitionsMap[widget.instituition];
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  controller: sc,
+                  itemCount: college.careers.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String str = college.careers[index];
                     return GestureDetector(
                         onTap: (){
                           BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));

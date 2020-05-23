@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutterui/Models/Chat.dart';
 import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/Models/Message.dart';
+import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/Models/ColegiosData.dart';
@@ -33,6 +34,8 @@ abstract class DatabaseRepository {
   Future editBookImages(Book book);
   Future<void> reFilterBooks(User user);
   Stream<List<Book>> getUserRecomendationBooks(User user);
+  Stream<List<Book>> getChildRecommendedBooks(Hijo hijo);
+  Stream<List<Book>> getChildCheapestBooks(Hijo hijo);
   Stream<List<Book>> getBooksByInstituitionAndYear(String instituition,String year);
   Stream<List<Book>> getBooksByInstituitionAndSubject(String instituition,String year);
   Stream<List<Book>> getBooksByInstituitionAndCareer(String instituition,String year);
@@ -77,6 +80,8 @@ abstract class DatabaseRepository {
 
   Stream<List<Book>> getSimilarBooksBySchool(Book book, String school);
   Future<Instituition> getParticularInstituitionInfo(String instituitionName);
+
+
 }
 
 class FirebaseRepository extends DatabaseRepository {
@@ -331,6 +336,60 @@ class FirebaseRepository extends DatabaseRepository {
   }
 
   @override
+  Stream<List<Book>> getChildRecommendedBooks(Hijo hijo) {
+      return booksCollectionGroupReference
+          .where("colegio", isEqualTo: hijo.colegio)
+          .where("curso",arrayContains: hijo.curso)
+          .limit(30)
+          .snapshots()
+          .map((snapshot) {
+        print('DOCUMENTOS ================= ${snapshot.documents}');
+        List<Book> books = [];
+        Book book;
+        bool addBook = false;
+        snapshot.documents.forEach((doc) {
+          try {
+            book = Book.fromIndexMap(doc.data);
+            if (book != null) {
+              books.add(book);
+            }
+          } catch (e) {
+            print("NO SE PUDO AGREGAR ESTE LIBRO");
+          }
+        });
+        return books;
+      });
+
+  }
+
+  @override
+  Stream<List<Book>> getChildCheapestBooks(Hijo hijo) {
+    return booksCollectionGroupReference
+        .where("colegio", isEqualTo: hijo.colegio)
+        .orderBy("precio", descending: false)
+        .limit(30)
+        .snapshots()
+        .map((snapshot) {
+      print('DOCUMENTOS ================= ${snapshot.documents}');
+      List<Book> books = [];
+      Book book;
+      bool addBook = false;
+      snapshot.documents.forEach((doc) {
+        try {
+          book = Book.fromIndexMap(doc.data);
+          if (book != null) {
+            books.add(book);
+          }
+        } catch (e) {
+          print("NO SE PUDO AGREGAR ESTE LIBRO");
+        }
+      });
+      return books;
+    });
+
+  }
+
+  @override
   Stream<List<Book>> getUserCheapBooks(User user) {
     print("GET USER BOOKS = $user");
     return booksCollectionGroupReference
@@ -338,12 +397,6 @@ class FirebaseRepository extends DatabaseRepository {
         .orderBy("precio", descending: false)
         .limit(50)
         .snapshots()
-//    return booksReference
-//        .where("vendido",isEqualTo: false)
-//        .where("colegios", arrayContainsAny: user.getColegios())
-//        .orderBy("precio", descending: false)
-//        .limit(50)
-//        .snapshots()
         .map((snapshot) {
       print('DOCUMENTOS ================= ${snapshot.documents}');
       List<Book> books = [];
@@ -861,6 +914,8 @@ class FirebaseRepository extends DatabaseRepository {
 //
 //        return info;
   }
+
+
 
 
 }

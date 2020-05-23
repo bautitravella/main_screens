@@ -5,6 +5,7 @@ import 'package:flutterui/Models/ListTile/book_list_tile.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/book_section.dart';
+import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -25,7 +26,7 @@ class _DestacadosSectionDosState extends State<DestacadosSectionDos> {
   void initState() {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/destacados");
-    BlocProvider.of<BooksBloc>(context).add(LoadUserRecomendationBooks());
+    BlocProvider.of<BooksBloc>(context).add(LoadBooksByUser(ListType.recomended));
   }
 
   Widget build(BuildContext context) {

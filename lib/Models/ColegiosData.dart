@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ColegiosData{
-  List<String> colegios = [];
+  List<String> colegios = [],colleges = [];
   List<String> cursos = [];
   List<String> materias = [];
 
@@ -12,6 +12,7 @@ class ColegiosData{
       colegios = dynamicListToStringList(documentSnapshot['colegios']);
       cursos = dynamicListToStringList(documentSnapshot['cursos']);
       materias = dynamicListToStringList(documentSnapshot['materias']);
+      if(documentSnapshot['colleges'] != null) colleges = dynamicListToStringList(['colleges']);
     }catch (e){
       print("ERROR INTENTADO CREAR COLEGIOS DATA");
     }
