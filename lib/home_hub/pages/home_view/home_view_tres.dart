@@ -42,7 +42,7 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeViewTres extends StatefulWidget {
-  HomeHubState homeHubState;
+  MyBooksState homeHubState;
   HomeViewTres({ this.homeHubState,Key key}) : super(key: key);
   @override
   _HomeViewTresState createState() => _HomeViewTresState();
@@ -50,7 +50,7 @@ class HomeViewTres extends StatefulWidget {
 
 class _HomeViewTresState extends State<HomeViewTres> {
   PanelController _pc = new PanelController();
-  HomeHubState homeHubState;
+  MyBooksState homeHubState;
 
 
   @override

@@ -269,7 +269,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                     Text(
                                       "¡Que esperas!",
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: Theme.of(context).scaffoldBackgroundColor,
                                         fontSize: 27,
                                         fontFamily: "Sf-r",
                                         fontWeight: FontWeight.w800,
@@ -283,7 +283,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                       child: Text(
                                         "Puedes agregar libros en\nlos que estés interesado.",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Theme.of(context).scaffoldBackgroundColor,
                                           fontSize: 11,
                                           fontFamily: "Sf-t",
                                           fontWeight: FontWeight.w500,

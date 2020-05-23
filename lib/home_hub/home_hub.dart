@@ -8,6 +8,7 @@ import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
 import 'package:flutterui/home_hub/pages/favoritos_view/favoritos_view.dart';
 import 'package:flutterui/home_hub/pages/home_view/home_view_tres.dart';
 import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
+import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view_multi.dart';
 import 'package:flutterui/home_hub/pages/notifications_view/notifications_view.dart';
 import 'package:flutterui/home_hub/pages/pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,11 +24,11 @@ import 'package:provider/provider.dart';
 class HomeHub extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return HomeHubState();
+    return MyBooksState();
   }
 }
 
-class HomeHubState extends State<HomeHub> {
+class MyBooksState extends State<HomeHub> {
   int _currentIndex = 0;
   PageController _pageController;
   List<Widget> _children;
@@ -41,7 +42,7 @@ class HomeHubState extends State<HomeHub> {
     _children = [
 
       HomeViewTres(homeHubState: this),
-      MyBooksView(),
+      MyBooksViewMulti(),
       FavoritosView(),
       /*ExploreView(),*/
       NotificationView(),

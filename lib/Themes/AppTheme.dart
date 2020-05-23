@@ -25,6 +25,7 @@ class AppTheme {
     cardTheme: CardTheme(
       color: Color.fromARGB(255, 240, 240, 240),
     ),
+    cardColor: Color.fromARGB(50, 249, 196, 55),
     iconTheme: IconThemeData(
       color: Colors.black87,
     ),
@@ -169,7 +170,7 @@ class AppTheme {
     cardTheme: CardTheme(
      color: Color.fromARGB(255, 70, 70, 70),
     ),
-
+    cardColor: Color.fromARGB(255, 255, 213, 104),
     primaryIconTheme: IconThemeData(
         color: Colors.red,
         size: 12

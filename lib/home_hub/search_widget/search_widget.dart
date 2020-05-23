@@ -25,7 +25,7 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SearchWidget extends StatefulWidget {
-  HomeHubState homeHubState;
+  MyBooksState homeHubState;
   SearchWidget({this.homeHubState,Key key}) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   PanelController _pc = new PanelController();
-  HomeHubState homeHubState;
+  MyBooksState homeHubState;
   bool _keyboardIsVisible() {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }

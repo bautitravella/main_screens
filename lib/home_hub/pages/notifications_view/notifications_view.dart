@@ -204,7 +204,7 @@ class ListViewVenta extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
             padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
             decoration: BoxDecoration(
-                color: Color.fromARGB(50, 249, 196, 55),
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             width: SizeConfig.blockSizeHorizontal * 100,
@@ -521,7 +521,7 @@ class ListViewCompra extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
             padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
             decoration: BoxDecoration(
-                color: Color.fromARGB(50, 249, 196, 55),
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             width: SizeConfig.blockSizeHorizontal * 100,

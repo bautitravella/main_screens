@@ -305,54 +305,66 @@ class GridViewPublicados extends StatelessWidget {
             ),
           );
         },
-      child: Center(
-        child:Column(
+
+      child:  Container(
+        constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*45),
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+        decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.all(Radius.circular(20))
+        ),
+        width: SizeConfig.blockSizeHorizontal * 100,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 10),
+            SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "No has vendido ningun libro",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 57, 57, 57),
+                        fontSize: 17,
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w800,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      "Pero no te preocupes, contamos con\nalgunos tips para que te llenes de oro\nen poco tiempo",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 57, 57, 57),
+                        fontSize: 11,
+                        fontFamily: "Sf-t",
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
             Container(
-              margin: EdgeInsets.only(left: 18),
-             /* color: Color.fromARGB(255, 255, 213, 104),*/
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Agrega libros \npara vender",
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 17,
-                          fontFamily: "Sf-r",
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Parece que no tienes ningun\nlibro publicado para vender.\n¡Apurate! La gente espera. ",
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 11,
-                          fontFamily: "Sf-t",
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    height: 100,
-                      child: Image.asset("assets/images/add-sell.png", fit: BoxFit.fitWidth))
-                ],
+              width: SizeConfig.blockSizeHorizontal * 100,
+              height: SizeConfig.blockSizeVertical*30,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                child: Image.asset(
+                  "assets/images/no-books.png",
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-            SizedBox(height: 45),
-            Container(
-              constraints: BoxConstraints.expand(height: SizeConfig.blockSizeVertical*28),
-                child: Image.asset("assets/images/no-books.png", fit: BoxFit.fitHeight,))
           ],
-        ),),
+        ),
+      ),
     )
 
 
@@ -513,7 +525,7 @@ class GridViewVendidos extends StatelessWidget {
             constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*45),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 213, 104),
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             width: SizeConfig.blockSizeHorizontal * 100,
@@ -573,7 +585,7 @@ class GridViewVendidos extends StatelessWidget {
             constraints: BoxConstraints.expand(height: 346),
             margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
             decoration: BoxDecoration(
-                color: Color.fromARGB(50, 249, 196, 55),
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             width: SizeConfig.blockSizeHorizontal * 100,
