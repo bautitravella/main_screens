@@ -441,7 +441,6 @@ class _SearchWidgetState extends State<SearchWidget> {
           child: Container(
             height: 220,
             decoration: BoxDecoration(
-              color: Colors.white,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(30), topLeft: Radius.circular(30)),
             ),

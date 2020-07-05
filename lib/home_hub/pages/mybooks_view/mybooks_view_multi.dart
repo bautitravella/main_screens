@@ -941,7 +941,7 @@ class GridViewVendidos extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BookSection(book),
+                            builder: (context) => BookSection2(book),
                           ),
                         );
                       },

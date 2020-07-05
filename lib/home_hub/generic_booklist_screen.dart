@@ -127,28 +127,33 @@ class _GenericBookListState extends State<GenericBookList> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(icon: Icon(Icons.arrow_back_ios),
-                      iconSize: 26,
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },),
-                    Container(
-                      width: SizeConfig.blockSizeHorizontal*50,
-                      child: Text(
-                        'Materias',
-                        style: TextStyle(
-                            fontSize: 23,
-                            fontFamily: 'Sf-r',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700
+                GestureDetector(
+                  onTap: () {
+                  Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(icon: Icon(Icons.arrow_back_ios),
+                        iconSize: 26,
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },),
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal*50,
+                        child: Text(
+                          'Materias',
+                          style: TextStyle(
+                              fontSize: 23,
+                              fontFamily: 'Sf-r',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(height: SizeConfig.blockSizeVertical*1),
                 Row(

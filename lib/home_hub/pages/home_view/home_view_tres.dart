@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutterui/Models/User.dart';
@@ -57,6 +58,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
       onTap: () {
         setState(() {
           _ParentRecomendadosButton = false;
+          _ParentEconomicosButton = false;
+          _ParentMateriasButton = false;
         });
         print('Unfocus');
       },
@@ -207,70 +210,6 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 ],
               ),
             ),
-            /*Positioned(
-              top: 0,
-              right: 0,
-              child:  Container(
-                height: 143,
-                width: 143,
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: <Widget>[
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          width: 138,
-                          height: 143,
-                          child: Image.asset(
-                            "assets/images/round-underpic-shade.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: SizeConfig.blockSizeHorizontal * 4,
-                      top: SizeConfig.blockSizeVertical * 5,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MiPerfil(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: 55,
-                          width: 55,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 2, //
-                              ),
-                              borderRadius: new BorderRadius.circular(100)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Hero(
-                              tag: 'avatar',
-                              child: Image.asset(
-                                "assets/images/avatar.png",
-                                fit: BoxFit.fill,
-                                alignment: Alignment.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),*/
           ],
         ),
       ),
@@ -349,7 +288,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     controller: sc,
                     children: <Widget>[
                       state.user is Padre
-                          ? createParentLayout(state.user)
+                          ? createParentLayoutRecomendados(state.user)
                           : GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -414,13 +353,81 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 ],
                               ),
                             ),
-                      HomeTile(
+                      SizedBox(height: 5),
+                      state.user is Padre
+                          ? createParentLayoutEconomicos(state.user)
+                          : GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.cheapest(),
+                            ),
+                          );
+                        },
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                              height: 151.0,
+                              width: SizeConfig.blockSizeHorizontal * 100,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.asset(
+                                  "assets/images/explora-economicos.png",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 10,
+                              top: SizeConfig.blockSizeVertical * 2,
+                              bottom: SizeConfig.blockSizeVertical * 2,
+                              width: SizeConfig.blockSizeHorizontal * 40,
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "Recomendados",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontFamily: "Sf-r",
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Nuestra selección \nexclusiva para vos",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontFamily: "Sf-t",
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      /*HomeTile(
                         user: state.user,
                         backgroundImagePath:
                             "assets/images/explora-economicos.png",
                         title: "hola genio",
                         description: "soy un genio",
-                      ),
+                      ),*///PARA FUTURO UPDATE
+                      SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -483,7 +490,9 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               ],
                             ),
                           ),
-                          GestureDetector(
+                          state.user is Padre
+                              ? createParentLayoutMaterias(state.user)
+                              :GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -1228,10 +1237,11 @@ class _HomeViewTresState extends State<HomeViewTres> {
       // backgroundColor: Colors.yellow,
     );
   }
-
   bool _ParentRecomendadosButton = false;
+  bool _ParentEconomicosButton = false;
+  bool _ParentMateriasButton = false;
 
-  Widget createParentLayout(Padre user) {
+  Widget createParentLayoutRecomendados(Padre user) {
     final _controller = ScrollController();
     if (user.hijos.length > 1) {
       return _ParentRecomendadosButton
@@ -1499,9 +1509,540 @@ class _HomeViewTresState extends State<HomeViewTres> {
       );
     }
   }
+  Widget createParentLayoutEconomicos(Padre user) {
+    final _controller = ScrollController();
+    if (user.hijos.length > 1) {
+      return _ParentEconomicosButton
+          ? Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+            height: 151.0,
+            width: SizeConfig.blockSizeHorizontal * 94,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.asset(
+                "assets/images/explora-economicos.png",
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            right: 10,
+            top: SizeConfig.blockSizeVertical * 2,
+            bottom: SizeConfig.blockSizeVertical * 2,
+            width: SizeConfig.blockSizeHorizontal * 40,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Economicos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Selección de libros con los\n precios mas bajos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontFamily: "Sf-t",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            bottom: 0,
+            right: 12,
+            left: 12,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                child: Container(
+                  color: Colors.white.withOpacity(0),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            bottom: 0,
+            right: 30,
+            left: 12,
+            child: Container(
+              child: FadingEdgeScrollView.fromScrollView(
+                child: ListView.builder(
+                  controller: _controller,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: user.hijos.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index >= 1) {
+                      String childName = user.hijos[index - 1].nombre;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.cheapest(
+                                    currentChild: user.hijos[index - 1],
+                                  ),
+                            ),
+                          );
+                          setState(() {
+                            _ParentEconomicosButton =
+                            !_ParentEconomicosButton;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              right: SizeConfig.blockSizeHorizontal * 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  width: 62,
+                                  height: 62,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(
+                                          20, 255, 213, 104),
+                                      borderRadius:
+                                      BorderRadius.circular(100)),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                    size: 30,
+                                  )),
+                              Text(
+                                childName,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 15,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+          )
+        ],
+      )
+          : GestureDetector(
+        onTap: () {
+          setState(() {
+            _ParentEconomicosButton = !_ParentEconomicosButton;
+          });
+          print('Click');
+        },
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+              height: 151.0,
+              width: SizeConfig.blockSizeHorizontal * 94,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  "assets/images/explora-economicos.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 10,
+              top: SizeConfig.blockSizeVertical * 2,
+              bottom: SizeConfig.blockSizeVertical * 2,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Economicos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Selección de libros con\nlos precios mas bajos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GenericBookList.cheapest(),
+            ),
+          );
+        },
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+              height: double.maxFinite,
+              width: SizeConfig.blockSizeHorizontal * 94,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  "assets/images/explora-economicos.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 10,
+              top: SizeConfig.blockSizeVertical * 2,
+              bottom: SizeConfig.blockSizeVertical * 2,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Economicos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Selección de libros con\n los precios mas bajos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+  }
+  Widget createParentLayoutMaterias(Padre user) {
+    final _controller = ScrollController();
+    if (user.hijos.length > 1) {
+      return _ParentMateriasButton
+          ? Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+            height: 225,
+            width: SizeConfig.blockSizeHorizontal * 45,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.asset(
+                "assets/images/explora-materias.png",
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 15,
+            bottom: 15,
+            width: SizeConfig.blockSizeHorizontal * 40,
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Materias",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Podrás elegir entre libros \nde materias especificas",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontFamily: "Sf-t",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            bottom: 0,
+            right: 12,
+            left: 0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                child: Container(
+                  color: Colors.white.withOpacity(0),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            bottom: 0,
+            right: 30,
+            left: 12,
+            child: Container(
+              child: FadingEdgeScrollView.fromScrollView(
+                child: ListView.builder(
+                  controller: _controller,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: user.hijos.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index >= 1) {
+                      String childName = user.hijos[index - 1].nombre;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.cheapest(
+                                    currentChild: user.hijos[index - 1]
+                                  ),
+                            ),
+                          );
+                          setState(() {
+                            _ParentMateriasButton =
+                            !_ParentMateriasButton;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical*4,
+                              right: SizeConfig.blockSizeHorizontal * 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  width: 62,
+                                  height: 62,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(
+                                          20, 255, 213, 104),
+                                      borderRadius:
+                                      BorderRadius.circular(100)),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                    size: 30,
+                                  )),
+                              Text(
+                                childName,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 8,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+          )
+        ],
+      )
+          : GestureDetector(
+        onTap: () {
+          setState(() {
+            _ParentMateriasButton = !_ParentMateriasButton;
+          });
+          print('Click');
+        },
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+              height: 225,
+              width: SizeConfig.blockSizeHorizontal * 45,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  "assets/images/explora-materias.png",
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 15,
+              bottom: 15,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Materias",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Podrás elegir entre libros \nde materias especificas",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GenericBookList.cheapest(),
+            ),
+          );
+        },
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+              height: double.maxFinite,
+              width: SizeConfig.blockSizeHorizontal * 94,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  "assets/images/explora-economicos.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 10,
+              top: SizeConfig.blockSizeVertical * 2,
+              bottom: SizeConfig.blockSizeVertical * 2,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Economicos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Selección de libros con\n los precios mas bajos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+  }
 }
 
-class HomeTile extends StatefulWidget {
+/*class HomeTile extends StatefulWidget {
   final String title, description, backgroundImagePath;
   final User user;
   HomeTile(
@@ -1509,24 +2050,31 @@ class HomeTile extends StatefulWidget {
       this.title,
       this.description,
       this.backgroundImagePath,
-      this.user})
+      this.user,})
       : super(key: key){
     if(user!= null && user is Padre){
       userPadre = user;
     }
+    if(user != null && user is AlumnoUniversitario){
+      userUniversitario = user;
+    }
+
   }
   Padre userPadre;
+  AlumnoUniversitario userUniversitario;
 
-  @override
-  _HomeTileState createState() => _HomeTileState();
-}
+ *//* @override
+  _HomeTileState createState() => _HomeTileState();*//*//Arrange Update
+}*/
 
-class _HomeTileState extends State<HomeTile> {
+/*class _HomeTileState extends State<HomeTile> {
   bool _ParentRecomendadosButton = false;
-  final _controller = ScrollController();
+  final controllerMagico = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    if ((widget.user is Padre && widget.userPadre.hijos.length > 1)
+        || (widget.user is AlumnoUniversitario && widget.userUniversitario.universidades.length >1)) {
     return _ParentRecomendadosButton
         ? Stack(
             alignment: Alignment.center,
@@ -1602,7 +2150,7 @@ class _HomeTileState extends State<HomeTile> {
                 child: Container(
                   child: FadingEdgeScrollView.fromScrollView(
                     child: ListView.builder(
-                      controller: _controller,
+                      controller: controllerMagico,
                       scrollDirection: Axis.horizontal,
                       itemCount: widget.userPadre.hijos.length + 1,
                       itemBuilder: (BuildContext context, int index) {
@@ -1610,6 +2158,10 @@ class _HomeTileState extends State<HomeTile> {
                           String childName = widget.userPadre.hijos[index - 1].nombre;
                           return GestureDetector(
                             onTap: () {
+                              setState(() {
+                                _ParentRecomendadosButton =
+                                !_ParentRecomendadosButton;
+                              });
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -1619,10 +2171,7 @@ class _HomeTileState extends State<HomeTile> {
                                   ),
                                 ),
                               );
-                              setState(() {
-                                _ParentRecomendadosButton =
-                                    !_ParentRecomendadosButton;
-                              });
+
                             },
                             child: Container(
                               margin: EdgeInsets.only(
@@ -1686,7 +2235,7 @@ class _HomeTileState extends State<HomeTile> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image.asset(
-                      "assets/images/explora-seleccion-grande.png",
+                      widget.backgroundImagePath,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -1701,7 +2250,7 @@ class _HomeTileState extends State<HomeTile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Recomendados",
+                        widget.title,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -1715,7 +2264,7 @@ class _HomeTileState extends State<HomeTile> {
                         height: 5,
                       ),
                       Text(
-                        "Nuestra selección \nexclusiva para vos",
+                        widget.description,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 11,
@@ -1729,5 +2278,68 @@ class _HomeTileState extends State<HomeTile> {
               ],
             ),
           );
+  } else {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GenericBookList.recomended(),
+            ),
+          );
+        },
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
+              height: double.maxFinite,
+              width: SizeConfig.blockSizeHorizontal * 94,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  widget.backgroundImagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 10,
+              top: SizeConfig.blockSizeVertical * 2,
+              bottom: SizeConfig.blockSizeVertical * 2,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    widget.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    widget.description,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
-}
+}*///Arrange Update

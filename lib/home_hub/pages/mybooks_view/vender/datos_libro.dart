@@ -584,8 +584,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                     )
                                         :Container(),
                                     SizedBox(height: 30),
-                                   true
-                                    //state.user is AlumnoUniversitario
+                                    state.user is AlumnoUniversitario
                                     ?FlatButton(
                                       splashColor: Theme.of(context).backgroundColor,
                                       onPressed: () {

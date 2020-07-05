@@ -433,7 +433,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           fontFamily: "Sf",
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white),
+                          color: Theme.of(context).scaffoldBackgroundColor),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(width: 5),
@@ -449,7 +449,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                           fontFamily: "Sf",
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
-                          color:Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor
                         ),
                       ),
                     )
@@ -581,6 +581,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
         children: <Widget>[
           Expanded(
             child: Container(
+              height: double.maxFinite,
               margin: EdgeInsets.fromLTRB(10, 10, 10, 15),
               padding: EdgeInsets.only(left: 15),
               decoration: BoxDecoration(
