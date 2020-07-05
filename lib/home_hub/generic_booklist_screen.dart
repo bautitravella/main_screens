@@ -184,7 +184,9 @@ class _GenericBookListState extends State<GenericBookList> {
                           },
                         ),
                       ):
-                      Container(),
+                      Container(
+                      ),
+                      SizedBox(width: 80, height: 60,)
                     ],
                   ),
                 ),
