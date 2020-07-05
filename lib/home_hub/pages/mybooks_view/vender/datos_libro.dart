@@ -9,19 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/Padre.dart';
-import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/book.dart';
-import 'package:flutterui/Models/user_model.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/vender/precio_libro.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:flutterui/home_hub/pages/mybooks_view/mybooks_view.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 
 class DatosLibros extends StatefulWidget {

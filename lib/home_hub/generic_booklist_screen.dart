@@ -156,34 +156,37 @@ class _GenericBookListState extends State<GenericBookList> {
                   ),
                 ),
                 SizedBox(height: SizeConfig.blockSizeVertical*1),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    widget.instituition != null? Container(
-                      margin: EdgeInsets.only(left: 40),
-                      child: Chip(
-                        elevation: 15,
-                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                        label: Text(widget.instituition, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                      ),):
-                    Container(),
-                    widget.parameter != null? Container(
-                      margin: EdgeInsets.only(left: 40),
-                      child: Chip(
-                        elevation: 15,
-                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                        label: Text(widget.parameter, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                        deleteIcon: Icon(
-                          Icons.cancel, color: Theme.of(context).iconTheme.color,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      widget.instituition != null? Container(
+                        margin: EdgeInsets.only(left: 40),
+                        child: Chip(
+                          elevation: 15,
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                          label: Text(widget.instituition, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                        ),):
+                      Container(),
+                      widget.parameter != null? Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: Chip(
+                          elevation: 15,
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                          label: Text(widget.parameter, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                          deleteIcon: Icon(
+                            Icons.cancel, color: Theme.of(context).iconTheme.color,
+                          ),
+                          onDeleted: (){
+                            print("HOLAAAAAaAAAAAAAAAAAA");
+                            Navigator.pop(context);
+                          },
                         ),
-                        onDeleted: (){
-                          print("HOLAAAAAaAAAAAAAAAAAA");
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ):
-                    Container(),
-                  ],
+                      ):
+                      Container(),
+                    ],
+                  ),
                 ),
               ],
             ),

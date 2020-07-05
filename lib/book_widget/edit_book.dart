@@ -9,6 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/uploads_bloc/bloc.dart';
+import 'package:flutterui/Models/Alumno.dart';
+import 'package:flutterui/Models/AlumnoUniversitario.dart';
+import 'package:flutterui/Models/Padre.dart';
+import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/book_widget/edit_book_colegio.dart';
 import 'package:flutterui/book_widget/edit_book_curso.dart';
 import 'package:flutterui/book_widget/edit_book_materias.dart';
@@ -21,6 +25,8 @@ import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
+
 
 class EditBookWidget extends StatefulWidget {
   Book book;
@@ -35,6 +41,26 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   bool _isSelected = false;
   bool _isMarcked = false;
   bool _isTicked = false;
+
+  bool _newBookCheckBox = false;
+  bool _universidadCheckBox = false;
+  bool _colegioCheckBox = false;
+
+  FirebaseAnalytics analytics;
+
+  Map<String, bool> values;
+  bool loadingDialogShown = false;
+  bool valuesHasBeenCreated = false;
+  bool isColegioSelected = false,isUniversidadSelected = false;
+
+  List<int> selectedColegios = [];
+  List<int> selectedCursos = [];
+  List<int> selectedMaterias = [];
+
+  List<int> selectedUniversidades = [];
+  List<int> selectedCarreras = [];
+  List<int> selectedYearUniversidad = [];
+
 
   List<Asset> images = [];
   String _error;
@@ -97,808 +123,787 @@ class _EditBookWidgetState extends State<EditBookWidget> {
           }
         },
         child: Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 35),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
+                    child: Row(
                       children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.arrow_back_ios),
-                          iconSize: 30.0,
-                          color: AppColors.accentText,
-                          onPressed: () => Navigator.pop(context),
+                        Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                        SizedBox(width: 10),
+                        Text(
+                          "Subir libro",
+                          style: Theme.of(context).textTheme.headline1,
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  margin: EdgeInsets.only(left: 28, top: 24),
-                  child: Text(
-                    "Vender",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: "Gibson",
-                      color: AppColors.accentText,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 38,
-                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-                  child: ListView(
-                    children: <Widget>[
-                      Container(
-                        width: 50,
-                        margin: EdgeInsets.only(
-                            left: SizeConfig.blockSizeHorizontal * 8,
-                            right: SizeConfig.blockSizeHorizontal * 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Stack(
-                              children: <Widget>[
-                                Container(
-                                    height: 150,
-                                    margin: EdgeInsets.only(top: 5),
-                                    child: _imagesListBuilder()
-//                                    Row(
-//                                      mainAxisAlignment:
-//                                      MainAxisAlignment.spaceBetween,
-//                                      children: <Widget>[
-//                                        Container(
-//                                          width: 97,
-//                                          child: Stack(
-//                                            children: <Widget>[
-//                                              ClipRRect(
-//                                                borderRadius:
-//                                                BorderRadius.circular(10),
-//                                                child: Image(
-//                                                  height: 141,
-//                                                  width: 97,
-//                                                  image: AssetImage("assets/images/bookdescarte.png"),
-//                                                  fit: BoxFit.cover,
-//                                                ),
-//                                              ),
-//                                              Center(
-//                                                child: Container(
-//                                                  width: 40,
-//                                                  height: 40,
-//                                                  decoration: BoxDecoration(
-//                                                      boxShadow: [
-//                                                        BoxShadow(
-//                                                          color: Colors.black26,
-//                                                          offset: Offset(0.0, 2.0),
-//                                                          blurRadius: 6.0,
-//                                                        )
-//                                                      ],
-//                                                      color: Colors.white,
-//                                                      borderRadius: new BorderRadius.circular(100)),
-//                                                  child: OutlineButton(
-//                                                      padding: EdgeInsets.symmetric(horizontal: 5),
-//                                                      borderSide: BorderSide(color: AppColors.secondaryBackground, width: 2),
-//                                                      shape: RoundedRectangleBorder(
-//                                                        borderRadius: BorderRadius.all(Radius.circular(100)),
-//                                                      ),
-//                                                      child: Icon(
-//                                                        Icons.edit,
-//                                                        color: AppColors.secondaryBackground,
-//                                                        size: 20,
-//                                                      ),
-//                                                      onPressed: () {}),
-//                                                ),
-//                                              ),
-//                                            ],
-//                                          ),
-//                                        ),
-//                                        Center(
-//                                          child: Container(
-//                                            width: 97,
-//                                            child: Stack(
-//                                              children: <Widget>[
-//                                                ClipRRect(
-//                                                  borderRadius: BorderRadius.circular(10),
-//                                                  child: Image(
-//                                                    height: 141,
-//                                                    width: 97,
-//                                                    image: AssetImage("assets/images/bookdescarte.png"),
-//                                                    fit: BoxFit.cover,
-//                                                  ),
-//                                                ),
-//                                                Center(
-//                                                  child: Container(
-//                                                    width: 40,
-//                                                    height: 40,
-//                                                    decoration: BoxDecoration(
-//                                                        boxShadow: [
-//                                                          BoxShadow(
-//                                                            color: Colors.black26,
-//                                                            offset: Offset(0.0, 2.0),
-//                                                            blurRadius: 6.0,
-//                                                          )
-//                                                        ],
-//                                                        color: Colors.white,
-//                                                        borderRadius: new BorderRadius.circular(100)),
-//                                                    child: OutlineButton(
-//                                                        padding: EdgeInsets.symmetric(horizontal: 5),
-//                                                        borderSide: BorderSide(
-//                                                            color: AppColors.secondaryBackground, width: 2),
-//                                                        shape: RoundedRectangleBorder(
-//                                                          borderRadius: BorderRadius.all(Radius.circular(100)),
-//                                                        ),
-//                                                        child: Icon(
-//                                                          Icons.edit,
-//                                                          color: AppColors.secondaryBackground,
-//                                                          size: 20,
-//                                                        ),
-//                                                        onPressed: () {}),
-//                                                  ),
-//                                                ),
-//                                              ],
-//                                            ),
-//                                          ),
-//                                        ),
-//                                        Container(
-//                                          width: 97,
-//                                          child: Stack(
-//                                            children: <Widget>[
-//                                              ClipRRect(
-//                                                borderRadius:
-//                                                BorderRadius.circular(10),
-//                                                child: Image(
-//                                                  height: 141,
-//                                                  width: 97,
-//                                                  image: AssetImage(
-//                                                      "assets/images/bookdescarte.png"),
-//                                                  fit: BoxFit.cover,
-//                                                ),
-//                                              ),
-//                                              Center(
-//                                                child: Container(
-//                                                  width: 40,
-//                                                  height: 40,
-//                                                  decoration: BoxDecoration(
-//                                                      boxShadow: [
-//                                                        BoxShadow(
-//                                                          color: Colors.black26,
-//                                                          offset: Offset(0.0, 2.0),
-//                                                          blurRadius: 6.0,
-//                                                        )
-//                                                      ],
-//                                                      color: Colors.white,
-//                                                      borderRadius:
-//                                                      new BorderRadius.circular(
-//                                                          100)),
-//                                                  child: OutlineButton(
-//                                                      padding: EdgeInsets.symmetric(
-//                                                          horizontal: 5),
-//                                                      borderSide: BorderSide(
-//                                                          color: AppColors.secondaryBackground,
-//                                                          width: 2),
-//                                                      shape: RoundedRectangleBorder(
-//                                                        borderRadius: BorderRadius.all(Radius.circular(100)),
-//                                                      ),
-//                                                      child: Icon(
-//                                                        Icons.edit,
-//                                                        color: AppColors.secondaryBackground,
-//                                                        size: 20,
-//                                                      ),
-//                                                      onPressed: () {}),
-//                                                ),
-//                                              ),
-//                                            ],
-//                                          ),
-//                                        ),
-//                                      ],
-//                                    ),
-                                    ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 20, right: 20),
-                              child: Center(
-                                child: RaisedButton(
-                                  child: Text('Cambiar Imagenes'),
-
-                                  onPressed: () {
-                                    loadAssets();
-                                    imagesChanged = true;
-                                  },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Text(
-                                "Completa los datos \ndel libro",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 53, 38, 65),
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 26,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: Text(
-                                "Asegúrate de escribir correctamente \nlos datos del libro que vallas a vender.",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 53, 38, 65),
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    height: 45,
-                                    margin: EdgeInsets.only(top: 40),
-                                    child: Opacity(
-                                      opacity: 0.63,
-                                      child: TextField(
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: "NOMBRE",
-                                          contentPadding:
-                                              EdgeInsets.only(top: 30),
-                                          border: InputBorder.none,
-                                        ),
-                                        controller: nombreTextController,
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        style: TextStyle(
-                                          color: Color.fromARGB(180, 69, 79, 99),
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 17,
-                                        ),
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: 1,
-                                        autocorrect: false,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    color: Color.fromARGB(255, 69, 79, 99),
-                                    height: 2,
-                                  ),
-                                  Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(top: 0),
-                                    child: Opacity(
-                                      opacity: 0.63,
-                                      child: TextField(
-                                        textCapitalization:
-                                            TextCapitalization.words,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: "AUTOR",
-                                          contentPadding:
-                                              EdgeInsets.only(top: 30),
-                                          border: InputBorder.none,
-                                        ),
-                                        controller: autorTextController,
-                                        style: TextStyle(
-                                          color: Color.fromARGB(180, 69, 79, 99),
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 17,
-                                        ),
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: 1,
-                                        autocorrect: false,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    color: Color.fromARGB(255, 69, 79, 99),
-                                    height: 2,
-                                  ),
-                                  Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(top: 0),
-                                    child: Opacity(
-                                      opacity: 0.63,
-                                      child: TextField(
-                                        textCapitalization:
-                                            TextCapitalization.words,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: "EDITORIAL",
-                                          contentPadding:
-                                              EdgeInsets.only(top: 30),
-                                          border: InputBorder.none,
-                                        ),
-                                        controller: editorialTextController,
-                                        style: TextStyle(
-                                          color: Color.fromARGB(180, 69, 79, 99),
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 17,
-                                        ),
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: 1,
-                                        autocorrect: false,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    color: Color.fromARGB(255, 69, 79, 99),
-                                    height: 2,
-                                  ),
-                                  Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(top: 0),
-                                    child: Opacity(
-                                      opacity: 0.63,
-                                      child: TextField(
-                                        textCapitalization:
-                                            TextCapitalization.words,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: "ISBN",
-                                          contentPadding:
-                                              EdgeInsets.only(top: 30),
-                                          border: InputBorder.none,
-                                        ),
-                                        controller: ISBNTextController,
-                                        style: TextStyle(
-                                          color: Color.fromARGB(180, 69, 79, 99),
-                                          fontFamily: "Montserrat",
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 17,
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        maxLines: 1,
-                                        autocorrect: false,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    color: Color.fromARGB(255, 69, 79, 99),
-                                    height: 2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 40),
-                              child: Text(
-                                "Comenta sobre el \nlibro",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 53, 38, 65),
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 26,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: Text(
-                                "Escribe una breve descripción \ndel estado en el que se encuentra el libro a vender.",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 53, 38, 65),
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 205,
-                              margin: EdgeInsets.only(top: 20),
-                              child: ListView(
-                                children: <Widget>[
-                                  Stack(
-                                    children: <Widget>[
-                                      TextField(
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: "Descripcion",
-                                          border: InputBorder.none,
-                                        ),
-                                        controller: descripcionTextController,
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 69, 79, 99),
-                                            fontFamily: "Montserrat",
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 20,
-                                            height: 2.1),
-                                        keyboardType: TextInputType.multiline,
-                                        maxLines: null,
-                                        autocorrect: true,
-                                      ),
-                                      Center(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 50),
-                                            ),
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 40),
-                                            ),
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 40),
-                                            ),
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 40),
-                                            ),
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 40),
-                                            ),
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 40),
-                                            ),
-                                            Container(
-                                              color:
-                                                  Color.fromARGB(255, 69, 79, 99),
-                                              height: 2,
-                                              margin: EdgeInsets.only(top: 40),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              //CHECKBOX ES NUEVO
-                              margin: EdgeInsets.only(left: 6, right: 4, top: 15),
-                              child: CheckboxListTile(
-                                title: const Text(
-                                  'Dale "tick" si es que el libro es nuevo',
-                                  style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    color: Color.fromARGB(180, 69, 79, 99),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                value: _isSelected,
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    _isSelected = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            Container(
-                              height: 50,
-                              margin: EdgeInsets.only(top: 30),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "ESTE LIBRO SE PUBLICARA...",
-                                style: TextStyle(
-                                  color: Color.fromARGB(180, 69, 79, 99),
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 17,
-                                  letterSpacing: -0.41786,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              //CHECKBOX SOLO DE PULICARA EL LIBRO DENTRO...
-                              margin: EdgeInsets.only(top: 15),
-                              padding: EdgeInsets.only(left: 0),
-                              child: CheckboxListTile(
-                                title: const Text(
-                                  'Solo se publicara el libro dentro del colegio predeterminado.',
-                                  style: TextStyle(
-                                    fontFamily: "Montserrat",
-                                    color: Color.fromARGB(180, 69, 79, 99),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                                value: _isMarcked,
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    _isMarcked = newValue;
-                                    _isTicked = false;
-                                  });
-                                },
-                              ),
-                            ),
-                            Container(
-                                margin: EdgeInsets.only(
-                                  top: 30,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    FlatButton(
-                                        color: Colors.black38,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        textColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        padding: EdgeInsets.only(
-                                            left: 15,
-                                            right: 15,
-                                            top: 8,
-                                            bottom: 8),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              "Cambiar \ncursos",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: AppColors.secondaryText,
-                                                fontFamily: "Sf-r",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            SizedBox(height: 12),
-                                            Icon(
-                                              Icons.supervised_user_circle,
-                                              color: Colors.white,
-                                              size: 30,
-                                            )
-                                          ],
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditBookCurso(clonedBook)),
-                                          );
-                                        }),
-                                    SizedBox(width: 10),
-                                    FlatButton(
-                                        color: Colors.black38,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        textColor: Color.fromARGB(255, 255, 255, 255),
-                                        padding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 12),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              "Cambiar \ncolegios",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: AppColors.secondaryText,
-                                                fontFamily: "Sf-r",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Image.asset(
-                                              "assets/images/group-1840.png",
-                                              height: 30,
-                                            )
-                                          ],
-                                        ),
-                                        onPressed: (){
-                                    Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                    builder: (context) =>
-                                    EditBookColegio(clonedBook)),
-                                    );
-                                    }),
-                                    SizedBox(width: 10),
-                                    FlatButton(
-                                        color: Colors.black38,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        textColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        padding: EdgeInsets.only(
-                                            left: 15,
-                                            right: 15,
-                                            top: 8,
-                                            bottom: 12),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              "Cambiar \nmaterias",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: AppColors.secondaryText,
-                                                fontFamily: "Sf-r",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            SizedBox(height: 12),
-                                            Icon(
-                                              Icons.collections_bookmark,
-                                              color: Colors.white,
-                                              size: 30,
-                                            )
-                                          ],
-                                        ),
-                                        onPressed: (){
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditBookMaterias(clonedBook)),
-                                          );
-                                        }),
-                                  ],
-                                )
-                                /* CheckboxListTile(
-                                    title: const Text(
-                                      'Se publicara en  todos los colegios.',
-                                      style: TextStyle(
-                                        fontFamily: "Montserrat",
-                                        color: Color.fromARGB(180, 69, 79, 99),
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    value: _isTicked,
-                                    onChanged: (bool newValue) {
-                                      setState(() {
-                                        _isTicked = newValue;
-                                        _isMarcked = false;
-                                      });
-                                    },
-                                  ),*/
-                                ),
-                            Center(
-                              child: Container(
-                                  width: 215,
-                                  height: 100,
-                                  margin:
-                                      EdgeInsets.only(left: 4, right: 4, top: 20),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.attach_money,
-                                        size: 60.0,
-                                        color: Color.fromARGB(255, 112, 112, 112),
-                                      ),
-                                      Stack(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 80,
-                                            width:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    35,
-                                            child: TextField(
-                                              controller: precioTextController,
-                                              textAlign: TextAlign.center,
-                                              decoration: InputDecoration(
-                                                hintText: "PRECIO",
-                                                hintStyle: TextStyle(
-                                                  color:
-                                                      Color.fromARGB(20, 0, 0, 0),
-                                                ),
-                                                contentPadding:
-                                                    EdgeInsets.only(top: 20),
-                                                border: InputBorder.none,
-                                              ),
-                                              style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 112, 112, 112),
-                                                fontFamily: "Montserrat",
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 30,
-                                              ),
-                                              keyboardType: TextInputType.number,
-                                            ),
-                                          ),
-                                          Positioned(
-                                            bottom: 10,
-                                            child: Container(
-                                              color: Color.fromARGB(
-                                                  105, 112, 112, 112),
-                                              height: 2,
-                                              width:
-                                                  SizeConfig.blockSizeHorizontal *
-                                                      35,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        ),
+                SizedBox(height: SizeConfig.blockSizeVertical*7),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Cambia los datos",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Asegúrate de escribir correctamente los datos del libro que vayas a vender.",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*5),
+                Text(
+                  "*Nombre",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: nombreTextController,
+                  textCapitalization: TextCapitalization.words,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.text,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "*Autor",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: autorTextController,
+                  textCapitalization: TextCapitalization.words,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.text,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "*Editorial",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: editorialTextController,
+                  textCapitalization: TextCapitalization.words,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.text,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "ISBN",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: ISBNTextController,
+                  textCapitalization: TextCapitalization.words,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.number,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Descripción ",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Escribe una breve descripción del  estado del libro que vayas a vender.",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*5),
+                Container(
+                  padding: EdgeInsets.only(left: 8, right: 8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).hintColor,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  child:  TextField(
+                    controller: descripcionTextController,
+                    textCapitalization: TextCapitalization.sentences,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      hintStyle:TextStyle(
+                        color: Colors.black26,
+                        fontSize: 18,
+                        fontFamily: "Sf",
+                        fontWeight: FontWeight.w700,
                       ),
-                      Container(
-                        height: 44,
-                        margin: EdgeInsets.only(
-                            bottom: 20,
-                            top: 30,
-                            left: SizeConfig.blockSizeHorizontal * 65),
-                        child: FlatButton(
-                            color: AppColors.secondaryElement,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            textColor: Color.fromARGB(255, 255, 255, 255),
-                            padding: EdgeInsets.all(0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons-back-light-2.png",
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Siguiente",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: AppColors.secondaryText,
-                                    fontFamily: "Roboto",
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onPressed: () => _siguienteBtn()),
+                      hintText: "*DESCRIPCIÓN",
+                      border: InputBorder.none,
+                    ),
+                    style: Theme.of(context).textTheme.headline3,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    cursorColor: AppColors.secondaryBackground,
+                    autocorrect: true,
+                  ),
+                ),
+                SizedBox(height: 40),
+                FlatButton(
+                  splashColor: Theme.of(context).backgroundColor,
+                  onPressed: () {
+                    setState(() {
+                      _newBookCheckBox =  !_newBookCheckBox;
+                    });
+                    print('Click');
+                  },
+                  padding: EdgeInsets.only(top: 15, bottom: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        '¿Es nuevo el libro?',
+                        style: Theme.of(context).textTheme.headline3,
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(width: 30),
+                      Center(
+                        child: Container(
+                          height: 27,
+                          width: 27,
+                          decoration: BoxDecoration(
+                            color: _newBookCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
+                            borderRadius:  BorderRadius.circular(5.0),
+                          ),
+                          child: Center(child: Icon(_newBookCheckBox? Icons.done: null, color: Colors.white, size: 17)
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              )
-            ],
+                SizedBox(height: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "¿Donde lo publicaras?",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Los podrás vender en todos los lugares que tengas habilitados.",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+                BlocBuilder<UserBloc, UserBlocState>(
+                    builder: (context, state) {
+                      if (state is UserNotLoaded) {
+                        /* showLoadingDialog(context);*/
+                        loadingDialogShown = true;
+                        return CircularProgressIndicator();
+                      } else if (state is UserLoadedState) {
+                        if (state.user is Alumno || state.user is Padre)_colegioCheckBox=true;
+                        return Column(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                FlatButton(
+                                  splashColor: Theme.of(context).backgroundColor,
+                                  onPressed: () {
+                                    setState(() {
+                                      _colegioCheckBox =  !_colegioCheckBox;
+                                    });
+                                    print('Click');
+                                  },
+                                  padding: EdgeInsets.only(top: 0, bottom: 0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: SizeConfig.blockSizeHorizontal*50,
+                                        padding: EdgeInsets.only(left: 20, right: 4, top: 20, bottom: 20),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).hintColor.withAlpha(60),
+                                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                                        ),
+                                        child: Opacity(
+                                            opacity: _colegioCheckBox? 1 : 0.2,
+                                            child: Text("Colegio", style: Theme.of(context).textTheme.headline2,)),
+                                      ),
+                                      SizedBox(width: SizeConfig.blockSizeHorizontal*15),
+                                      Center(
+                                        child: Container(
+                                          height: 27,
+                                          width: 27,
+                                          decoration: BoxDecoration(
+                                            color: _colegioCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
+                                            borderRadius:  BorderRadius.circular(5.0),
+                                          ),
+                                          child: Center(child: Icon(_colegioCheckBox? Icons.done: null, color: Colors.white, size: 17)
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                _colegioCheckBox
+                                    ?Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 40),
+                                    Text(
+                                      "Colegio",
+                                      style: Theme.of(context).textTheme.headline2,
+                                    ),
+                                    BeautyDropDown(
+                                      multiple: true,
+                                      item: createDropDownMenuListColegios(state.user.getColegios()),
+                                      selectedItems: selectedColegios,
+                                      width: double.maxFinite, //REQUIRED
+                                      height: selectedColegios.length>0?(selectedColegios.length * 50.0): 50,
+                                      accentColor: Colors.white, // On Focus Color//Text Color
+                                      backgroundColor: Theme.of(context).hintColor,
+                                      autofocus: false,
+                                      selectedValueWidget: (item) {
+                                        print("Item DROP:" +  item.toString());
+                                        return Container(
+                                          child: Chip(
+                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                            deleteIcon: Icon(
+                                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                            ),
+                                            onDeleted: (){
+                                              print("Deleted + " + item.toString());
+                                              setState(() {
+
+                                                selectedColegios.remove(state.user.getColegios().indexOf(item.toString()));
+                                                if(selectedColegios != null && selectedColegios.length != 0){
+                                                  isColegioSelected = true;
+                                                }else{
+                                                  isColegioSelected = false;
+                                                }
+                                              });
+
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      margin: EdgeInsets.only(top: 10),
+                                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                      duration: Duration(milliseconds: 300),
+                                      onClickSuffix: () {
+                                        print('Suffix Clicked');
+                                      },
+                                      onTap: () {
+                                        print('Click');
+                                      },
+                                      onChanged: (value) {
+                                        if(value != null && value.length != 0){
+                                          isColegioSelected = true;
+                                        }else{
+                                          isColegioSelected = false;
+                                        }
+                                        setState(() {
+                                          selectedColegios = value;
+                                          print("Colegios DROP:" +  selectedColegios.toString());
+                                        });
+                                      },
+                                    ),//DropDown Colegio
+                                    SizedBox(height: 40),
+                                    BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                                        builder: (context, state) {
+                                          if (state is ColegiosLoaded) {
+                                            return isColegioSelected?Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  "Año",
+                                                  style: Theme.of(context).textTheme.headline2,
+                                                ),
+                                                BeautyDropDown(
+                                                  multiple: true,
+                                                  item: createDropDownMenuListColegios(state.colegiosData.cursos),
+                                                  selectedItems: selectedCursos,
+                                                  width: double.maxFinite, //REQUIRED
+                                                  height: selectedCursos.length>0?(selectedCursos.length * 50.0): 50, //REQUIRED
+                                                  accentColor: Colors.white, // On Focus Color//Text Color
+                                                  backgroundColor: Theme.of(context).hintColor,
+                                                  autofocus: false,
+                                                  selectedValueWidget: (item) {
+                                                    print("Item DROP:" +  item.toString());
+                                                    return Container(
+                                                      child: Chip(
+                                                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                        label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                                        deleteIcon: Icon(
+                                                          Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                        ),
+                                                        onDeleted: (){},
+                                                      ),
+                                                    );
+                                                  },
+                                                  margin: EdgeInsets.only(top: 10),
+                                                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                                  duration: Duration(milliseconds: 300),
+                                                  onClickSuffix: () {
+                                                    print('Suffix Clicked');
+                                                  },
+                                                  onTap: () {
+                                                    print('Click');
+                                                  },
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      selectedCursos = value;
+                                                      print("Año DROP:" +  selectedCursos.toString());
+                                                    });
+                                                  },
+                                                ),//DropDown Año
+                                                SizedBox(height: 40),
+                                                Text(
+                                                  "Materia",
+                                                  style: Theme.of(context).textTheme.headline2,
+                                                ),
+                                                BeautyDropDown(
+                                                  multiple: true,
+                                                  item: createDropDownMenuListColegios(state.colegiosData.materias),
+                                                  selectedItems: selectedMaterias,
+                                                  width: double.maxFinite, //REQUIRED
+                                                  height: selectedMaterias.length>0?(selectedMaterias.length * 50.0): 50,
+                                                  accentColor: Colors.white, // On Focus Color//Text Color
+                                                  backgroundColor: Theme.of(context).hintColor,
+                                                  autofocus: false,
+                                                  selectedValueWidget: (item) {
+                                                    print("Item DROP:" +  item.toString());
+                                                    return Container(
+                                                      child: Chip(
+                                                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                        label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                                        deleteIcon: Icon(
+                                                          Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                        ),
+                                                        onDeleted: (){},
+                                                      ),
+                                                    );
+                                                  },
+                                                  margin: EdgeInsets.only(top: 10),
+                                                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                                  duration: Duration(milliseconds: 300),
+                                                  onClickSuffix: () {
+                                                    print('Suffix Clicked');
+                                                  },
+                                                  onTap: () {
+                                                    print('Click');
+                                                  },
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      selectedMaterias = value;
+                                                      print("Materia DROP:" +  selectedMaterias.toString());
+                                                    });
+                                                  },
+                                                ),//DropDown Materia
+                                              ],
+                                            ):Container();
+                                          }return CircularProgressIndicator();}),
+                                  ],
+                                )
+                                    :Container(),
+                                SizedBox(height: 30),
+                                state.user is AlumnoUniversitario
+                                    ?FlatButton(
+                                  splashColor: Theme.of(context).backgroundColor,
+                                  onPressed: () {
+                                    setState(() {
+                                      _universidadCheckBox =  !_universidadCheckBox;
+                                    });
+                                    print('Click');
+                                  },
+                                  padding: EdgeInsets.only(top: 0, bottom: 0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: SizeConfig.blockSizeHorizontal*50,
+                                        padding: EdgeInsets.only(left: 20, right: 4, top: 20, bottom: 20),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).hintColor.withAlpha(60),
+                                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                                        ),
+                                        child: Opacity(
+                                            opacity: _universidadCheckBox? 1 : 0.2,
+                                            child: Text("Universidad", style: Theme.of(context).textTheme.headline2,)),
+                                      ),
+                                      SizedBox(width: SizeConfig.blockSizeHorizontal*15),
+                                      Center(
+                                        child: Container(
+                                          height: 27,
+                                          width: 27,
+                                          decoration: BoxDecoration(
+                                            color: _universidadCheckBox? AppColors.secondaryBackground : Theme.of(context).hintColor,
+                                            borderRadius:  BorderRadius.circular(5.0),
+                                          ),
+                                          child: Center(child: Icon(_universidadCheckBox? Icons.done: null, color: Colors.white, size: 17)
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ):
+                                Container(),
+                                _universidadCheckBox
+                                    ?universidadLayout(state.user)
+                                    :Container()
+                              ],
+                            ),
+                          ],
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    }),
+                SizedBox(height: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Ponle un precio",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Cuanto mas bajo sea el precio mas fácil te sera venderlo",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.attach_money,
+                      size: 60.0,
+                      color: Color.fromARGB(255, 112, 112, 112),
+                    ),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal*60,
+                      padding: EdgeInsets.only(left: 15),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).hintColor.withAlpha(60),
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: TextField(
+                        controller: precioTextController,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          hintText: "PRECIO",
+                          hintStyle: TextStyle(
+                            fontFamily: "Sf-r",
+                            color: Color.fromARGB(20, 0, 0, 0),
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          color: Color.fromARGB(
+                              255, 112, 112, 112),
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w900,
+                          fontSize: 30,
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*9),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                    onPressed: () => _siguienteBtn(),
+                    /*color: Color.fromARGB(255, 222, 222, 222),*/
+                    color: AppColors.secondaryBackground,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Finalizar",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     ));
+  }
+
+  List<DropdownMenuItem> createDropDownMenuListColegios(List<String> listaAux) {
+    List<String> lista=["gosho","fds", "sanja", "san lucas"];
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    String agregarColegio =  "+ Agregar Colegio";
+    String item;
+    for (int i=0;i<listaAux.length;i++) {
+      item=listaAux[i];
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                child: new Text(
+                  item,
+                  style: Theme.of(context).textTheme.headline3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    };
+    return dropdownMenuItemList;
+  }
+  Widget universidadLayout(Padre user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 40),
+        Text(
+          "Universidad",
+          style: Theme.of(context).textTheme.headline2,
+        ),
+        BeautyDropDown(
+          multiple: true,
+          item: createDropDownMenuListColegios(user.getColegios()),
+          selectedItems: selectedUniversidades,
+          width: double.maxFinite, //REQUIRED
+          height: selectedUniversidades.length>0?(selectedUniversidades.length * 50.0): 50,
+          accentColor: Colors.white, // On Focus Color//Text Color
+          backgroundColor: Theme.of(context).hintColor,
+          autofocus: false,
+          selectedValueWidget: (item) {
+            print("Item DROP:" +  item.toString());
+            return Container(
+              child: Chip(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                deleteIcon: Icon(
+                  Icons.cancel, color: Theme.of(context).iconTheme.color,
+                ),
+                onDeleted: (){},
+              ),
+            );
+          },
+          margin: EdgeInsets.only(top: 10),
+          cornerRadius: BorderRadius.all(Radius.circular(15)),
+          duration: Duration(milliseconds: 300),
+          onClickSuffix: () {
+            print('Suffix Clicked');
+          },
+          onTap: () {
+            print('Click');
+          },
+          onChanged: (value) {
+            setState(() {
+              selectedUniversidades = value;
+              print("Colegios DROP:" +  selectedUniversidades.toString());
+            });
+          },
+        ),//DropDown Colegio
+        SizedBox(height: 40),
+        BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+            builder: (context, state) {
+              if (state is ColegiosLoaded) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Carrera",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    BeautyDropDown(
+                      multiple: true,
+                      item: createDropDownMenuListColegios(state.colegiosData.materias),
+                      selectedItems: selectedCarreras,
+                      width: double.maxFinite, //REQUIRED
+                      height: selectedCarreras.length>0?(selectedCarreras.length * 50.0): 50,
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      autofocus: false,
+                      selectedValueWidget: (item) {
+                        print("Item DROP:" +  item.toString());
+                        return Container(
+                          child: Chip(
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                            deleteIcon: Icon(
+                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                            ),
+                            onDeleted: (){},
+                          ),
+                        );
+                      },
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      onClickSuffix: () {
+                        print('Suffix Clicked');
+                      },
+                      onTap: () {
+                        print('Click');
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCarreras = value;
+                          print("Materia DROP:" +  selectedCarreras.toString());
+                        });
+                      },
+                    ),//DropDown Materia
+                    SizedBox(height: 40),
+                    Text(
+                      "Año",
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    BeautyDropDown(
+                      multiple: true,
+                      item: createDropDownMenuListColegios(state.colegiosData.cursos),
+                      selectedItems: selectedYearUniversidad,
+                      width: double.maxFinite, //REQUIRED
+                      height: selectedYearUniversidad.length>0?(selectedYearUniversidad.length * 50.0): 50, //REQUIRED
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      autofocus: false,
+                      selectedValueWidget: (item) {
+                        print("Item DROP:" +  item.toString());
+                        return Container(
+                          child: Chip(
+                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                            deleteIcon: Icon(
+                              Icons.cancel, color: Theme.of(context).iconTheme.color,
+                            ),
+                            onDeleted: (){},
+                          ),
+                        );
+                      },
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      onClickSuffix: () {
+                        print('Suffix Clicked');
+                      },
+                      onTap: () {
+                        print('Click');
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedYearUniversidad = value;
+                          print("Año DROP:" +  selectedYearUniversidad.toString());
+                        });
+                      },
+                    ),//DropDown Año
+                  ],
+                );
+              }return CircularProgressIndicator();}),
+      ],
+    );
   }
 
   _siguienteBtn() {
@@ -979,6 +984,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
 //    ));
       });
     }
+
   }
 
   Future<void> loadAssets() async {
@@ -1006,6 +1012,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       images = resultList;
       if (error == null) _error = 'No Error Dectected';
     });
+
+
   }
 
   static Widget horizontalPhotos(Book book) {
