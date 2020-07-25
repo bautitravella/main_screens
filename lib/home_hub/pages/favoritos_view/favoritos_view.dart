@@ -8,6 +8,7 @@ import 'package:flutterui/home_hub/pages/explore_view/categories/categories_cole
 import 'package:flutterui/home_hub/pages/mybooks_view/your_book.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
+import 'package:flutterui/test/test1.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/values.dart';
@@ -359,7 +360,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  BookSection(book),
+                                                  BookSection2(book),
                                             ),
                                           );
                                         },
@@ -432,12 +433,9 @@ class _FavoritosViewState extends State<FavoritosView> {
                                           width: 60,
                                           margin: EdgeInsets.only(top: 5),
                                           decoration: BoxDecoration(
+                                             color: Theme.of(context).hintColor,
                                             borderRadius:
                                                 BorderRadius.circular(20.0),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromARGB(
-                                                    205, 112, 112, 112)),
                                           ),
                                           child: Center(
                                             child: Text(
@@ -445,8 +443,7 @@ class _FavoritosViewState extends State<FavoritosView> {
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontFamily: "Sf-r",
-                                                color: Color.fromARGB(
-                                                    205, 112, 112, 112),
+                                                color: Theme.of(context).textTheme.headline1.color,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12.0,
                                               ),

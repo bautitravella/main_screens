@@ -4,10 +4,12 @@ import 'dart:ui';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutterui/Models/User.dart';
+import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
@@ -33,6 +35,9 @@ import 'package:url_launcher/url_launcher.dart';
 class HomeViewTres extends StatefulWidget {
   HomeHubState homeHubState;
   HomeViewTres({this.homeHubState, Key key}) : super(key: key);
+
+  bool isSelected = false;
+
   @override
   _HomeViewTresState createState() => _HomeViewTresState();
 }
@@ -1078,14 +1083,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TestRol(),
-                ),
-              );
-            },
+            onTap: () {showSchoolDialog();},
+
             child: Container(
               margin: EdgeInsets.only(right: 20),
               child: Column(
@@ -1117,14 +1116,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TestFotoDePerfil(),
-                ),
-              );
-            },
+            onTap: _showNotificationDialog,
             child: Container(
               margin: EdgeInsets.only(right: 20),
               child: Column(
@@ -1198,6 +1190,319 @@ class _HomeViewTresState extends State<HomeViewTres> {
     );
   } //TODO especificarle cual de todas las categories
 
+  void _showNotificationDialog() {
+    showSlideDialogNotification(
+        context: context,
+        child: Container(
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3, right: SizeConfig.blockSizeHorizontal*3),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+             /* CircleAvatar(
+                radius: 25,
+                backgroundColor: Color.fromARGB(255, 255, 213, 104),
+                child: Icon(FontAwesome5Solid.comment, color: Colors.white),
+              ),*/
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal*80,
+                    child: Text(
+                      "Milagros travella",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal*80,
+                    child: Text(
+                      "Hola bauti como andas, estaba interesada en comprar the merchand of venice",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14,
+                        fontFamily: "Sf",
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+    );
+  }
+
+  void showSchoolDialog() {
+    TextEditingController colegioNameTextEditingController = TextEditingController();
+    String errorMessage = "No has ingresado ningun colegio.";
+    showSlideDialogFull(
+        context: context,
+        child: Container(
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: SizeConfig.blockSizeVertical*7),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Enviar solicitud para\nagregar un colegio",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Nombre del colegio a agregar",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: colegioNameTextEditingController,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.emailAddress,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Curso",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: colegioNameTextEditingController,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.emailAddress,
+                  inputAction: TextInputAction.done,//REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Materias de tu año",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Podras agregar una por una las materias correspondientes de tu año",
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+                SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    BeautyTextfield(
+                      width: SizeConfig.blockSizeHorizontal*60, //REQUIRED
+                      height: 50, //REQUIRED
+                      accentColor: Colors.white, // On Focus Color//Text Color
+                      backgroundColor: Theme.of(context).hintColor,
+                      autofocus: false,
+                      maxLines: 1,
+                      margin: EdgeInsets.only(top: 10),
+                      cornerRadius: BorderRadius.all(Radius.circular(15)),
+                      duration: Duration(milliseconds: 300),
+                      inputType: TextInputType.emailAddress,
+                      inputAction: TextInputAction.done,//REQUIRED
+                      obscureText: false, //REQUIRED
+                      suffixIcon: Icon(Icons.remove_red_eye),
+                      onClickSuffix: () {
+                        print('Suffix Clicked');
+                      },
+                      onTap: () {
+                        print('Click');
+
+                      },
+                      onChanged: (text) {
+                        print(text);
+                        widget.isSelected = false;
+                      },
+                      onSubmitted: (data) {
+                        print(data.length);
+                      },
+                    ),
+                    SizedBox(width: 10),
+
+                  FlatButton(child: Icon(Icons.move_to_inbox, size: 30, color: Theme.of(context).iconTheme.color,), onPressed:  (){},)
+                  ],
+                ),
+                SizedBox(height: 25),
+                 Wrap(
+                   children: [
+                        Container(
+                          margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                          child: Chip(
+                            label: Text( "Environmental Management", textAlign: TextAlign.center),
+                            labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                            deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                            onDeleted: (){},
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(15.0),
+                            ),
+                            labelStyle:  TextStyle(
+                              fontFamily: "Sf-r",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).dialogBackgroundColor),
+                            backgroundColor: AppColors.secondaryBackground,
+                          ),
+                        ),
+                     Container(
+                       margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                       child: Chip(
+                         label: Text( "Physics high", textAlign: TextAlign.center),
+                         labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                         deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                         onDeleted: (){},
+                         shape: RoundedRectangleBorder(
+                           borderRadius: new BorderRadius.circular(15.0),
+                         ),
+                         labelStyle:  TextStyle(
+                           fontFamily: "Sf-r",
+                           fontSize: 15,
+                           fontWeight: FontWeight.w700,
+                           color: Theme.of(context).dialogBackgroundColor),
+                         backgroundColor: AppColors.secondaryBackground,
+                       ),
+                     ),
+                     Container(
+                       margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                       child: Chip(
+                         label: Text( "Maths", textAlign: TextAlign.center),
+                         labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                         deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                         onDeleted: (){},
+                         shape: RoundedRectangleBorder(
+                           borderRadius: new BorderRadius.circular(15.0),
+                         ),
+                         labelStyle:  TextStyle(
+                           fontFamily: "Sf-r",
+                           fontSize: 15,
+                           fontWeight: FontWeight.w700,
+                           color: Theme.of(context).dialogBackgroundColor),
+                         backgroundColor: AppColors.secondaryBackground,
+                       ),
+                     ),
+                    Container(
+                      margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                      child: Chip(
+                         label: Text( "Philology", textAlign: TextAlign.center),
+                         labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                        deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                        onDeleted: (){},
+                         shape: RoundedRectangleBorder(
+                           borderRadius: new BorderRadius.circular(15.0),
+                         ),
+                         labelStyle:  TextStyle(
+                           fontFamily: "Sf-r",
+                           fontSize: 15,
+                           fontWeight: FontWeight.w700,
+                           color: Theme.of(context).dialogBackgroundColor),
+                         backgroundColor: AppColors.secondaryBackground,
+                       ),
+                    ),
+                      ],
+                 ),
+                SizedBox(height: 80),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(child:
+                    Text(
+                      "Cancelar",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Sf-r",
+                        color: Theme.of(context).iconTheme.color.withAlpha(200),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                      onPressed: ()=> Navigator.pop(context),
+                    ),
+                    FlatButton(child:
+                    Text(
+                      "Enviar",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Sf-r",
+                        color: AppColors.secondaryBackground,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                      onPressed: (){},
+                    )
+
+                  ],
+                ),
+                SizedBox(height:20),
+              ],
+            ),
+          ),
+        )
+    );
+  }
+
   void _showDialogAyuda() {
     showSlideDialogGrande(
       context: context,
@@ -1237,6 +1542,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
       // backgroundColor: Colors.yellow,
     );
   }
+
   bool _ParentRecomendadosButton = false;
   bool _ParentEconomicosButton = false;
   bool _ParentMateriasButton = false;

@@ -186,13 +186,13 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
                 SizedBox(height: 80),
-                Switch(
+               /* Switch(
                   value: Provider.of<AppStateNotifier>(context).isDarkModeOn,
                   onChanged: (boolVal) {
                     print("THEME " + boolVal.toString());
                     Provider.of<AppStateNotifier>(context,listen: false).updateTheme(boolVal);
                   },
-                ),
+                ),*/
                 Text(
                   "Correo",
                   style: Theme.of(context).textTheme.headline2,

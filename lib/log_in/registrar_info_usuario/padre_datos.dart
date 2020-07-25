@@ -472,6 +472,9 @@ class ChildField extends StatefulWidget {
 class _ChildFieldState extends State<ChildField> {
   List<DropdownMenuItem> items = [];
 
+  List createSchoolSubjects = List();
+
+
   bool loadingDialogShown = false;
 
   @override
@@ -502,14 +505,19 @@ class _ChildFieldState extends State<ChildField> {
       ));
     }
     super.initState();
+    createSchoolSubjects.add("English Literature");
+    createSchoolSubjects.add("Math");
+    createSchoolSubjects.add("History");
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: SingleChildScrollView(
         child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
             builder: (context, state) {
+
               if (state is ColegiosLoading) {
                 showLoadingDialog(context);
                 loadingDialogShown = true;
@@ -518,6 +526,7 @@ class _ChildFieldState extends State<ChildField> {
                 if (loadingDialogShown) {
                   Navigator.of(context).pop();
                   loadingDialogShown = false;
+
                 }
                 return  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -748,62 +757,230 @@ void showErrorDialog(BuildContext context,String errorMessage){
   showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
       animatedPill: false);
 }
-
 void showSchoolDialog(BuildContext context, String email) {
   TextEditingController colegioNameTextEditingController = TextEditingController();
   String errorMessage = "No has ingresado ningun colegio.";
+  String input = "";
   showSlideDialogFull(
       context: context,
       child: Container(
+        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 50),
-              Text(
-                "Enviar solicitud para\nagregar un colegio",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: "Sf-r",
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,
+              SizedBox(height: SizeConfig.blockSizeVertical*7),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Enviar solicitud para\nagregar un colegio",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ],
               ),
               SizedBox(height: 40),
-              Container(
-                  margin: EdgeInsets.only(left: 50, right: 50),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: "Sf-t",
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
+              Text(
+                "Nombre del colegio a agregar",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              BeautyTextfield(
+                controller: colegioNameTextEditingController,
+                width: double.maxFinite, //REQUIRED
+                height: 50, //REQUIRED
+                accentColor: Colors.white, // On Focus Color//Text Color
+                backgroundColor: Theme.of(context).hintColor,
+                autofocus: false,
+                maxLines: 1,
+                margin: EdgeInsets.only(top: 10),
+                cornerRadius: BorderRadius.all(Radius.circular(15)),
+                duration: Duration(milliseconds: 300),
+                inputType: TextInputType.emailAddress,
+                inputAction: TextInputAction.done,//REQUIRED
+                obscureText: false, //REQUIRED
+                suffixIcon: Icon(Icons.remove_red_eye),
+                onClickSuffix: () {
+                  print('Suffix Clicked');
+                },
+                onTap: () {
+                  print('Click');
+                },
+                onChanged: (text) {
+                  print(text);
+                },
+                onSubmitted: (data) {
+                  print(data.length);
+                },
+              ),
+              SizedBox(height: 40),
+              Text(
+                "Curso",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              BeautyTextfield(
+                controller: colegioNameTextEditingController,
+                width: double.maxFinite, //REQUIRED
+                height: 50, //REQUIRED
+                accentColor: Colors.white, // On Focus Color//Text Color
+                backgroundColor: Theme.of(context).hintColor,
+                autofocus: false,
+                maxLines: 1,
+                margin: EdgeInsets.only(top: 10),
+                cornerRadius: BorderRadius.all(Radius.circular(15)),
+                duration: Duration(milliseconds: 300),
+                inputType: TextInputType.emailAddress,
+                inputAction: TextInputAction.done,//REQUIRED
+                obscureText: false, //REQUIRED
+                suffixIcon: Icon(Icons.remove_red_eye),
+                onClickSuffix: () {
+                  print('Suffix Clicked');
+                },
+                onTap: () {
+                  print('Click');
+                },
+                onChanged: (text) {
+                  print(text);
+                },
+                onSubmitted: (data) {
+                  print(data.length);
+                },
+              ),
+              SizedBox(height: 40),
+              Text(
+                "Materias de tu año",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              SizedBox(height: 8),
+              Text(
+                "Podras agregar una por una las materias correspondientes de tu año",
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+              SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  BeautyTextfield(
+                    width: SizeConfig.blockSizeHorizontal*60, //REQUIRED
+                    height: 50, //REQUIRED
+                    accentColor: Colors.white, // On Focus Color//Text Color
+                    backgroundColor: Theme.of(context).hintColor,
+                    autofocus: false,
+                    maxLines: 1,
+                    margin: EdgeInsets.only(top: 10),
+                    cornerRadius: BorderRadius.all(Radius.circular(15)),
+                    duration: Duration(milliseconds: 300),
+                    inputType: TextInputType.emailAddress,
+                    inputAction: TextInputAction.done,//REQUIRED
+                    obscureText: false, //REQUIRED
+                    suffixIcon: Icon(Icons.remove_red_eye),
+                    onClickSuffix: () {
+                      print('Suffix Clicked');
+                    },
+                    onTap: () {
+                      print('Click');
+
+                    },
+                    onChanged: (String value) {
+                      input = value;
+                    },
+                    onSubmitted: (data) {
+                      print(data.length);
+                    },
+                  ),
+                  SizedBox(width: 10),
+
+                  FlatButton(
+                    child: Icon(
+                      Icons.move_to_inbox,
+                      size: 30,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    onPressed:(){
+                    }
+                    )
+                ],
+              ),
+              SizedBox(height: 25),
+              Wrap(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                    child: Chip(
+                      label: Text( "Environmental Management", textAlign: TextAlign.center),
+                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                      onDeleted: (){},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
                       ),
-                      SizedBox(height: 40),
-                      TextField(
-                        controller: colegioNameTextEditingController,
-                        cursorColor: AppColors.secondaryBackground,
-                        decoration: InputDecoration(
-                          hintText: "Nombre del colegio que quieres agregar",
-                          alignLabelWithHint: true,
-                          border: InputBorder.none,
-                        ),
-                        style: TextStyle(
-                          color: AppColors.accentText,
+                      labelStyle:  TextStyle(
                           fontFamily: "Sf-r",
-                          fontWeight: FontWeight.w600,
                           fontSize: 15,
-                        ),
-                        maxLines: 1,
-                        autocorrect: false,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).dialogBackgroundColor),
+                      backgroundColor: AppColors.secondaryBackground,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                    child: Chip(
+                      label: Text( "Physics high", textAlign: TextAlign.center),
+                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                      onDeleted: (){},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
                       ),
-                    ],
-                  )
+                      labelStyle:  TextStyle(
+                          fontFamily: "Sf-r",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).dialogBackgroundColor),
+                      backgroundColor: AppColors.secondaryBackground,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                    child: Chip(
+                      label: Text( "Maths", textAlign: TextAlign.center),
+                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                      onDeleted: (){},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
+                      ),
+                      labelStyle:  TextStyle(
+                          fontFamily: "Sf-r",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).dialogBackgroundColor),
+                      backgroundColor: AppColors.secondaryBackground,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
+                    child: Chip(
+                      label: Text( "Philology", textAlign: TextAlign.center),
+                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+                      onDeleted: (){},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
+                      ),
+                      labelStyle:  TextStyle(
+                          fontFamily: "Sf-r",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Theme.of(context).dialogBackgroundColor),
+                      backgroundColor: AppColors.secondaryBackground,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 80),
               Row(
@@ -816,7 +993,172 @@ void showSchoolDialog(BuildContext context, String email) {
                     style: TextStyle(
                       fontSize: 16,
                       fontFamily: "Sf-r",
-                      color: Colors.black38,
+                      color: Theme.of(context).iconTheme.color.withAlpha(200),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                    onPressed: ()=> Navigator.pop(context),
+                  ),
+                  FlatButton(child:
+                  Text(
+                    "Enviar",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Sf-r",
+                      color: AppColors.secondaryBackground,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                    onPressed: (){},
+                  )
+
+                ],
+              ),
+              SizedBox(height:20),
+            ],
+          ),
+        ),
+      )
+  );
+}
+/*
+void showSchoolDialog(BuildContext context, String email) {
+  TextEditingController colegioNameTextEditingController = TextEditingController();
+  String errorMessage = "No has ingresado ningun colegio.";
+  showSlideDialogFull(
+      context: context,
+      child: Container(
+        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: SizeConfig.blockSizeVertical*7),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Enviar solicitud para\nagregar un colegio",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+              Text(
+                "Nombre del colegio a agregar",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              BeautyTextfield(
+                controller: colegioNameTextEditingController,
+                width: double.maxFinite, //REQUIRED
+                height: 50, //REQUIRED
+                accentColor: Colors.white, // On Focus Color//Text Color
+                backgroundColor: Theme.of(context).hintColor,
+                autofocus: false,
+                maxLines: 1,
+                margin: EdgeInsets.only(top: 10),
+                cornerRadius: BorderRadius.all(Radius.circular(15)),
+                duration: Duration(milliseconds: 300),
+                inputType: TextInputType.emailAddress,
+                inputAction: TextInputAction.done,//REQUIRED
+                obscureText: false, //REQUIRED
+                suffixIcon: Icon(Icons.remove_red_eye),
+                onClickSuffix: () {
+                  print('Suffix Clicked');
+                },
+                onTap: () {
+                  print('Click');
+                },
+                onChanged: (text) {
+                  print(text);
+                },
+                onSubmitted: (data) {
+                  print(data.length);
+                },
+              ),
+              SizedBox(height: 40),
+              Text(
+                "Curso",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              BeautyTextfield(
+                controller: colegioNameTextEditingController,
+                width: double.maxFinite, //REQUIRED
+                height: 50, //REQUIRED
+                accentColor: Colors.white, // On Focus Color//Text Color
+                backgroundColor: Theme.of(context).hintColor,
+                autofocus: false,
+                maxLines: 1,
+                margin: EdgeInsets.only(top: 10),
+                cornerRadius: BorderRadius.all(Radius.circular(15)),
+                duration: Duration(milliseconds: 300),
+                inputType: TextInputType.emailAddress,
+                inputAction: TextInputAction.done,//REQUIRED
+                obscureText: false, //REQUIRED
+                suffixIcon: Icon(Icons.remove_red_eye),
+                onClickSuffix: () {
+                  print('Suffix Clicked');
+                },
+                onTap: () {
+                  print('Click');
+                },
+                onChanged: (text) {
+                  print(text);
+                },
+                onSubmitted: (data) {
+                  print(data.length);
+                },
+              ),
+              SizedBox(height: 40),
+              Text(
+                "Curso",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              BeautyTextfield(
+                controller: colegioNameTextEditingController,
+                width: double.maxFinite, //REQUIRED
+                height: 50, //REQUIRED
+                accentColor: Colors.white, // On Focus Color//Text Color
+                backgroundColor: Theme.of(context).hintColor,
+                autofocus: false,
+                maxLines: 1,
+                margin: EdgeInsets.only(top: 10),
+                cornerRadius: BorderRadius.all(Radius.circular(15)),
+                duration: Duration(milliseconds: 300),
+                inputType: TextInputType.emailAddress,
+                inputAction: TextInputAction.done,//REQUIRED
+                obscureText: false, //REQUIRED
+                suffixIcon: Icon(Icons.remove_red_eye),
+                onClickSuffix: () {
+                  print('Suffix Clicked');
+                },
+                onTap: () {
+                  print('Click');
+                },
+                onChanged: (text) {
+                  print(text);
+                },
+                onSubmitted: (data) {
+                  print(data.length);
+                },
+              ),
+              SizedBox(height: 80),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FlatButton(child:
+                  Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: "Sf-r",
+                      color: Theme.of(context).iconTheme.color.withAlpha(200),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -852,4 +1194,4 @@ void showSchoolDialog(BuildContext context, String email) {
         ),
       )
   );
-}
+}*/

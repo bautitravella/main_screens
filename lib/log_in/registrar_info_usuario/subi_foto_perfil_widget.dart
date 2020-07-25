@@ -180,13 +180,18 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                 child: Container(
                   margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8, bottom: SizeConfig.blockSizeVertical*5),
                   child: _image == null ?
-                      Text(
-                        "Saltar",
-                        style: TextStyle(
-                            color: Colors.redAccent,
-                            fontFamily: "Sf-r",
-                            fontSize: 23,
-                          fontWeight: FontWeight.w700,
+                      GestureDetector(
+                        onTap: () {
+                          showProfilePicsDialog(context, "hola");
+                        },
+                        child: Text(
+                          "Saltar",
+                          style: TextStyle(
+                              color: Colors.redAccent,
+                              fontFamily: "Sf-r",
+                              fontSize: 23,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       )
                       :Container(
@@ -222,7 +227,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   void showOptionsDialog(BuildContext context, String errorMessage) {
     showSlideDialogChico(
         context: context,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -233,7 +238,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+                 /* margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),*/
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -262,7 +267,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                   ),
                 ),
               ),
-              SizedBox(width: 40),
+             /* SizedBox(width: 40),
               GestureDetector(
                 onTap: (){
                 },
@@ -295,11 +300,155 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                     ],
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
         animatedPill: false);
+  }
+  void showProfilePicsDialog(BuildContext context, String errorMessage) {
+    showSlideDialogGrande(
+        context: context,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        child: Column(
+          children: [
+            SizedBox(height: SizeConfig.blockSizeVertical*3),
+            Text(
+              "Elije un avatar",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical*6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    width: 62,
+                    height: 62,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      child: Image.asset("assets/images/user_default_pic-14.png",),
+                    )
+                    ,),
+                ),
+                SizedBox(width: 40),
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Image.asset("assets/images/user_default_pic-15.png"),
+                          )
+                          ,),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 40),
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Image.asset("assets/images/user_default_pic-16.png"),
+                          )
+                          ,),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.blockSizeVertical*6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Image.asset("assets/images/user_default_pic-17.png"),
+                          )
+                          ,),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 40),
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Image.asset("assets/images/user_default_pic-18.png"),
+                          )
+                          ,),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 40),
+                GestureDetector(
+                  onTap: (){
+                  },
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          width: 62,
+                          height: 62,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Image.asset("assets/images/user_default_pic-19.png"),
+                          )
+                          ,),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+       );
   }
 
   siguienteBtn(BuildContext context) {

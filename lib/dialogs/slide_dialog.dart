@@ -5,6 +5,102 @@ import 'package:flutterui/size_config.dart';
 
 import './pill_gesture.dart';
 
+
+class SlideDialogNotification extends StatefulWidget {
+  final Widget child;
+  final Color backgroundColor;
+  final Color pillColor;
+  bool animatedPill = false;
+
+  SlideDialogNotification({
+    @required this.child,
+    @required this.pillColor,
+    @required this.backgroundColor,
+    this.animatedPill,
+  });
+
+  @override
+  _SlideDialogNotificationState createState() => _SlideDialogNotificationState();
+}
+
+class _SlideDialogNotificationState extends State<SlideDialogNotification> {
+  var _initialPosition = 0.0;
+  var _currentPosition = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.of(context).size.height;
+
+    return AnimatedPadding(
+      padding: MediaQuery.of(context).viewInsets +
+          EdgeInsets.only(bottom: deviceHeight / 1.2 + _currentPosition),
+      duration: Duration(milliseconds: 100),
+      curve: Curves.decelerate,
+      child: MediaQuery.removeViewInsets(
+        removeLeft: true,
+        removeTop: true,
+        removeRight: true,
+        removeBottom: true,
+        context: context,
+        child: Center(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onVerticalDragStart: _onVerticalDragStart,
+            onVerticalDragUpdate: _onVerticalDragUpdate,
+            onVerticalDragEnd: _onVerticalDragEnd,
+            child: Container(
+              width: deviceWidth-SizeConfig.blockSizeHorizontal*8,
+              height: SizeConfig.blockSizeHorizontal*20,
+              child: Material(
+                color: Colors.white.withAlpha(245),
+                elevation: 35.0,
+                type: MaterialType.card,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+
+                    widget.child,
+                  ],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onVerticalDragStart(DragStartDetails drag) {
+    setState(() {
+      _initialPosition = drag.globalPosition.dy;
+    });
+  }
+
+  void _onVerticalDragUpdate(DragUpdateDetails drag) {
+    setState(() {
+      final temp = _currentPosition;
+      _currentPosition = drag.globalPosition.dy + _initialPosition;
+      if (_currentPosition > 0) {
+        _currentPosition = temp;
+      }
+    });
+  }
+
+  void _onVerticalDragEnd(DragEndDetails drag) {
+    if (_currentPosition < 100.0) {
+      Navigator.pop(context);
+      return;
+    }
+    setState(() {
+      _currentPosition = 0.0;
+    });
+  }
+}
+
 class SlideDialogChico extends StatefulWidget {
   final Widget child;
   final Color backgroundColor;
@@ -48,7 +144,7 @@ class _SlideDialogChicoState extends State<SlideDialogChico> {
             height: SizeConfig.blockSizeHorizontal*40,
             child: Material(
               color: Theme.of(context).dialogBackgroundColor,
-              elevation: 24.0,
+              elevation: 40.0,
               type: MaterialType.card,
               child: Column(
                 children: <Widget>[
@@ -146,7 +242,7 @@ class _SlideDialogGrandeState extends State<SlideDialogGrande> {
             height: SizeConfig.blockSizeHorizontal*110,
             child: Material(
               color: Theme.of(context).dialogBackgroundColor,
-              elevation: 24.0,
+              elevation: 40.0,
               type: MaterialType.card,
               child: Column(
                 children: <Widget>[
@@ -243,7 +339,7 @@ class _SlideDialogFullState extends State<SlideDialogFull> {
             height: SizeConfig.blockSizeVertical*100,
             child: Material(
               color: Theme.of(context).dialogBackgroundColor,
-              elevation: 24.0,
+              elevation: 40.0,
               type: MaterialType.card,
               child: SingleChildScrollView(
                 child: Column(

@@ -7,10 +7,17 @@ import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
 import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import '../auth.dart';
+import '../size_config.dart';
 
 class VerificacionWidget extends StatelessWidget {
+
+  String titleMessage = "Revisa tu correo";
+  String bodyMessage = "Se ha enviado un link a tu correo electrónico.";
+  String buttonMessage = "Enviar mail";
+
   void onGoBack(BuildContext context) {
     Navigator.pop(context);
   }
@@ -58,178 +65,109 @@ class VerificacionWidget extends StatelessWidget {
     }
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 46,
-              margin: EdgeInsets.only(left: 28, top: 85),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Verificación",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: AppColors.accentText,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 38,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.refresh, size: 40, color: AppColors.secondaryBackground,),
-                    onPressed: () => checkIfVerified(context),
-                  ),
-                  /*Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        height: 29,
-                        margin: EdgeInsets.only(left: 11, top: 12),
-                        child: Image.asset(
-                          "assets/images/icons8-synchronize-100px.png",
-                          fit: BoxFit.none,
+      body:  GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                        SizedBox(width: 10),
+                        Text(
+                          "Verificación",
+                          style: Theme.of(context).textTheme.headline1,
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*7),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      titleMessage,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      bodyMessage,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*5),
+                Center(
+                  child: Image.asset(
+                    "assets/images/verificacion_ mail.png",
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+                SizedBox(height: SizeConfig.blockSizeVertical*13),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).hintColor,
+                        borderRadius: BorderRadius.circular(100)
+                      ),
+                      child: IconButton(
+                        icon: Icon(FontAwesome.refresh, size: 28, color: Theme.of(context).iconTheme.color.withAlpha(180)),
+                        onPressed: () => checkIfVerified(context),
+                      ),
+                    ),
+                    SizedBox(width: SizeConfig.blockSizeHorizontal*4),
+                    Container(
+                      width: SizeConfig.blockSizeHorizontal*67,
+                      child: Text(
+                        "Actualiza para verificar que hayas activado tu cuenta correspondiente.",
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
+                ],),
+                SizedBox(height: 60),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                      onPressed: () {
+                        sendVerificationEmail(context);
+                        checkIfVerified(context);},
+                    /*color: Color.fromARGB(255, 222, 222, 222),*/
+                    color: AppColors.secondaryBackground,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Volver a enviar mail",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline5,
                       ),
                     ),
                   ),
-                  RaisedButton(
-                    onPressed: () => checkIfVerified(context),
-                    child: Icon(Icons.refresh),
-                  ),*/
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.only(left: 59, top: 78, right: 58),
-                child: Image.asset(
-                  "assets/images/gmail-amarillopng.png",
-                  fit: BoxFit.contain,
                 ),
-              ),
+              ],
             ),
-            Container(
-              margin: EdgeInsets.only(left: 3, right: 3, bottom: 17),
-              child: Text(
-                "Revisa tu correo",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.primaryText,
-                  fontFamily: "Sf-r",
-                  fontWeight: FontWeight.w800,
-                  fontSize: 26,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 73, right: 77, bottom: 82),
-              child: Text(
-                "Se a enviado un mail a tu correo \ny abre el link para que podamos\ncomprobar la dirección ingresada.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 118, 118, 118),
-                  fontFamily: "Sf-t",
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  letterSpacing: -0.1,
-                  height: 1.4,
-                ),
-              ),
-            ),
-            Container(
-              height: 54,
-              margin: EdgeInsets.only(left: 4, right: 6, bottom: 40),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      width: 124,
-                      height: 44,
-                      child: Opacity(
-                        opacity: 0.91,
-                        child: FlatButton(
-                          onPressed: () => this.onGoBack(context),
-                          color: AppColors.secondaryElement,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          textColor: Color.fromARGB(255, 255, 255, 255),
-                          padding: EdgeInsets.all(0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/images/icons-back-light.png",
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Atras",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppColors.secondaryText,
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      width: 155,
-                      height: 44,
-                      child: Opacity(
-                        opacity: 0.91,
-                        child: FlatButton(
-                            color: AppColors.secondaryElement,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            textColor: Color.fromARGB(255, 255, 255, 255),
-                            padding: EdgeInsets.all(0),
-                            child: Text(
-                              "Volver a enviar mail",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.secondaryText,
-                                fontFamily: "Sf-r",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
-                              ),
-                            ),
-                            onPressed: () {
-                              sendVerificationEmail(context);
-                              checkIfVerified(context);
-                            }),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

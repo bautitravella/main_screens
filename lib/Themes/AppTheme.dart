@@ -159,7 +159,7 @@ class AppTheme {
     hintColor: Color.fromARGB(255, 70, 70, 70),// fondo textfields sin apretar
     focusColor:  _darkWall,// fondo textfields apretados
     hoverColor: Colors.black,
-    dialogBackgroundColor: _darkWall,
+    dialogBackgroundColor: Color.fromARGB(255, 22, 22, 22),
 
     /* appBarTheme: AppBarTheme(
       color: Colors.teal,

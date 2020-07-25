@@ -533,7 +533,7 @@ class _BookSection2State extends State<BookSection2> {
                                             borderRadius: BorderRadius.circular(12)
                                         ),
                                         child: Center(
-                                          child: Text('\$${book.nombreVendedor}', style: TextStyle(
+                                          child: Text( book.nombreVendedor, style: TextStyle(
                                             fontFamily: "Sf",
                                             fontSize: 11,
                                             fontWeight: FontWeight.w700,

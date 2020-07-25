@@ -27,6 +27,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 
+import 'book_section.dart';
+
 
 class EditBookWidget extends StatefulWidget {
   Book book;
@@ -160,6 +162,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                   ],
                 ),
                 SizedBox(height: SizeConfig.blockSizeVertical*5),
+                _imagesListBuilder(),
+                SizedBox(height: 40),
                 Text(
                   "*Nombre",
                   style: Theme.of(context).textTheme.headline2,
@@ -1023,20 +1027,40 @@ class _EditBookWidgetState extends State<EditBookWidget> {
         scrollDirection: Axis.horizontal,
         itemCount: book.imagesUrl.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 150,
-            width: 95,
-            margin: EdgeInsets.only(right: 35),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: book.getImages() != null && book.getImages().length > 0
-                  ? //book.images[0],
-                  Image(
-                      image: book.getImages()[index],
-                      fit: BoxFit.cover,
-                    )
-                  : CircularProgressIndicator(),
-            ),
+          return Stack(
+            children: [
+              Container(
+                height: 150,
+                width: 95,
+                margin: EdgeInsets.only(right: 35),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: book.getImages() != null && book.getImages().length > 0
+                      ? //book.images[0],
+                      Image(
+                          image: book.getImages()[index],
+                          fit: BoxFit.cover,
+                        )
+                      : CircularProgressIndicator(),
+                ),
+              ),
+              Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: FlatButton(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(360)),
+                  child: Icon(
+                  Icons.edit,
+                  color: AppColors.secondaryBackground,
+                  size: 30,
+                  ),
+                  onPressed: () {}),
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -1086,6 +1110,22 @@ class _EditBookWidgetState extends State<EditBookWidget> {
               ],
             ));
   }
+}
+
+void open(BuildContext context, final int index,Book book) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => GalleryPhotoViewWrapper(
+        galleryItems: book.getImages(),
+        backgroundDecoration: const BoxDecoration(
+          color: Colors.black,
+        ),
+        initialIndex: index,
+        scrollDirection:  Axis.horizontal,
+      ),
+    ),
+  );
 }
 
 void showLoadingDialog(BuildContext context) {

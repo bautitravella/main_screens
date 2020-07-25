@@ -18,6 +18,7 @@ import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
+import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -263,7 +264,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
             BlocProvider.of<MessagesBloc>(context).state;
         print("onMessage messages state = " + messagesBlocState.toString());
         if (!(messagesBlocState is MessagesLoaded)) {
-          showDialog(
+          /*showDialog(
             context: context,
             builder: (context) => AlertDialog(
               content: ListTile(
@@ -272,16 +273,25 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
                     : message['notification']['title']),
                 subtitle: Text(Platform.isIOS
                     ? message['aps']['alert']['body']
-                    : message['notification']['body']),
+                    : message['notification']['body'],
+                    style: TextStyle(
+                      fontFamily: "Sf",
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 30,
+                    )
+                ),
               ),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('Ok'),
+                  child: Text('Ok', style: TextStyle(color: Colors.red)),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),
-          );
+          )*/
+          _showNotificationDialog(context, message)
+          ;
         }
       },
       onLaunch: (Map<String, dynamic> message) async {
@@ -294,6 +304,64 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
       },
     );
   }
+
+  void _showNotificationDialog(BuildContext context, message) {
+    showSlideDialogNotification(
+        context: context,
+        child: Container(
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*3, right: SizeConfig.blockSizeHorizontal*3),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+            /*  CircleAvatar(
+                radius: 25,
+                child: Image.asset("assets/images/user_default_pic-19.png"),
+              ),*/
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal*80,
+                    child: Text(Platform.isIOS
+                        ? message['aps']['alert']['title']
+                        : message['notification']['title'],
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: "Sf-r",
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal*80,
+                    child: Text(Platform.isIOS
+                        ? message['aps']['alert']['body']
+                        : message['notification']['body'],
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14,
+                        fontFamily: "Sf",
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {

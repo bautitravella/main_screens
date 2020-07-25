@@ -144,7 +144,7 @@ class HomeHubState extends State<HomeHub> {
                   fontWeight: FontWeight.w800,
                   fontSize: 15,
                 ),),
-              icon: Icon(FontAwesome5.comment_alt,),
+              icon: Icon(FontAwesome5Solid.comment),
               activeColor: Color.fromARGB(255, 254, 189, 16),
               inactiveColor: Color.fromARGB(255, 128, 128, 128),
             ),
