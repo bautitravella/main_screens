@@ -437,7 +437,7 @@ class _BookSection2State extends State<BookSection2> {
           child: Container(
             height: 220,
             decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: Theme.of(context).dialogBackgroundColor,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(30),
                   topLeft: Radius.circular(30)),

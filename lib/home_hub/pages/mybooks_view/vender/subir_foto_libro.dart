@@ -392,7 +392,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
+                  /*margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),*/
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -421,7 +421,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                   ),
                 ),
               ),
-              SizedBox(width: 40),
+             /* SizedBox(width: 40),
               GestureDetector(
                 onTap: (){
                   Navigator.push(
@@ -460,7 +460,7 @@ class SubirFotoLibroState extends State<SubirFotoLibro> {
                     ],
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),
