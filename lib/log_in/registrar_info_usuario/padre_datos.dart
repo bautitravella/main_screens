@@ -807,16 +807,13 @@ void showSchoolDialog(BuildContext context, String email) {
       TextEditingController();
   String errorMessage = "No has ingresado ningun colegio.";
   String input = "";
-  List<Widget> coursesList = List();
-  coursesList.add(createCourseTag(context, "Lengua"));
-  coursesList.add(createCourseTag(context, "Matematica"));
   showSlideDialogFull(
     context: context,
     child: CreateSchoolDialogWidget(),
   );
 }
 
-Widget createCourseTag(BuildContext context, String str) {
+Widget createCourseTag(BuildContext context, String str,Function(String) fn){
   return Container(
     margin: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 5),
     child: Chip(
@@ -824,7 +821,7 @@ Widget createCourseTag(BuildContext context, String str) {
       labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
       deleteIcon:
           Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
-      onDeleted: () {},
+      onDeleted: () {fn(str);},
       shape: RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(15.0),
       ),
@@ -847,7 +844,7 @@ class CreateSchoolDialogWidget extends StatefulWidget {
 
 class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
   List<String> coursesList = ["Matematica", "Deporte", "Historia", "Geografia"];
-  List<Widget> coursesWidgetList = List();
+  List<CourseTag> coursesWidgetList = List();
   TextEditingController coursesTextEditingController;
   String courseErrorString = '';
 //
@@ -1015,7 +1012,7 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                             courseErrorString = "El nombre de la materia debe ser de por lo menos 3 letras";
                           } else {
                             //lo agregamos a la lista
-                            coursesWidgetList.add(createCourseTag(context, course));
+                            coursesWidgetList.add(CourseTag(course,deleteCourseTag));
                             coursesList.add(course);
                             courseErrorString = '';
                           }
@@ -1069,6 +1066,66 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
       ),
     );
   }
+
+  deleteCourseTag(String str){
+    setState(() {
+      coursesList.remove(str);
+      for(int i =0;i<coursesWidgetList.length;i++){
+        if(coursesWidgetList[i].str == str){
+          coursesWidgetList.removeAt(i);
+          break;
+        }
+      }
+    });
+
+    print("DELETE COURSE = " + str);
+    print(coursesList);
+    print(coursesWidgetList);
+  }
+}
+
+
+class CourseTag extends StatelessWidget{
+
+ final String str;
+ final Function(String) fn;
+
+  const CourseTag(this.str,this.fn);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 5),
+      child: Chip(
+        label: Text(str, textAlign: TextAlign.center),
+        labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+        deleteIcon:
+        Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+        onDeleted: () {fn(str);},
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(15.0),
+        ),
+        labelStyle: TextStyle(
+            fontFamily: "Sf-r",
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).dialogBackgroundColor),
+        backgroundColor: AppColors.secondaryBackground,
+      ),
+    );
+  }
+
+ @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is CourseTag &&
+          runtimeType == other.runtimeType &&
+          str == other.str;
+
+  @override
+  int get hashCode => super.hashCode ^ str.hashCode;
 }
 /*
 void showSchoolDialog(BuildContext context, String email) {
