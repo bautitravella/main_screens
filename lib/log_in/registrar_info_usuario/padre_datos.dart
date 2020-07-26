@@ -1016,6 +1016,7 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                           } else {
                             //lo agregamos a la lista
                             coursesWidgetList.add(createCourseTag(context, course));
+                            coursesList.add(course);
                             courseErrorString = '';
                           }
                         });
