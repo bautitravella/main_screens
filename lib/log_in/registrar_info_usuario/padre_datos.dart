@@ -13,7 +13,6 @@ import 'package:flutterui/values/values.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 
-
 class PadreDatos extends StatefulWidget {
   Padre user;
   PadreDatos(this.user);
@@ -23,17 +22,17 @@ class PadreDatos extends StatefulWidget {
 }
 
 class _PadreDatosState extends State<PadreDatos> {
-
-  TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
+  TextEditingController nombreController = new TextEditingController(),
+      apellidoController = new TextEditingController();
   List<DropdownMenuItem> items = [];
   List<ChildField> hijos = [];
   int _currentIndex = 0;
   bool loadingDialogShown = false;
 
-
   @override
   void initState() {
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+    FirebaseAnalytics analytics =
+        Provider.of<FirebaseAnalytics>(context, listen: false);
     analytics.setCurrentScreen(screenName: "/log_in/curso_padre");
 
     for (int i = 0; i < 20; i++) {
@@ -74,13 +73,19 @@ class _PadreDatosState extends State<PadreDatos> {
       onTap: () => selectedItem(index),
       child: Container(
         margin: EdgeInsets.only(right: 10),
-        height: 70, width: 70,
+        height: 70,
+        width: 70,
         decoration: BoxDecoration(
-          color: _currentIndex != index-1 ?Theme.of(context).hintColor: AppColors.secondaryBackground,
+          color: _currentIndex != index - 1
+              ? Theme.of(context).hintColor
+              : AppColors.secondaryBackground,
           borderRadius: BorderRadius.circular(100),
         ),
         child: Center(
-          child: Text("$index", style: Theme.of(context).textTheme.headline1,),
+          child: Text(
+            "$index",
+            style: Theme.of(context).textTheme.headline1,
+          ),
         ),
       ),
     );
@@ -90,10 +95,12 @@ class _PadreDatosState extends State<PadreDatos> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body:GestureDetector(
+      body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
-          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
+          margin: EdgeInsets.only(
+              left: SizeConfig.blockSizeHorizontal * 8,
+              right: SizeConfig.blockSizeHorizontal * 8),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,10 +108,14 @@ class _PadreDatosState extends State<PadreDatos> {
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical*8),
+                    margin:
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
+                        Icon(
+                          Icons.arrow_back_ios,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         SizedBox(width: 10),
                         Text(
                           "Configura tu perfil",
@@ -114,7 +125,7 @@ class _PadreDatosState extends State<PadreDatos> {
                     ),
                   ),
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical*7),
+                SizedBox(height: SizeConfig.blockSizeVertical * 7),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -129,7 +140,7 @@ class _PadreDatosState extends State<PadreDatos> {
                     ),
                   ],
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical*5),
+                SizedBox(height: SizeConfig.blockSizeVertical * 5),
                 Text(
                   "Nombre",
                   style: Theme.of(context).textTheme.headline2,
@@ -147,7 +158,7 @@ class _PadreDatosState extends State<PadreDatos> {
                   cornerRadius: BorderRadius.all(Radius.circular(15)),
                   duration: Duration(milliseconds: 300),
                   inputType: TextInputType.text,
-                  inputAction: TextInputAction.done,//REQUIRED
+                  inputAction: TextInputAction.done, //REQUIRED
                   obscureText: false, //REQUIRED
                   suffixIcon: Icon(Icons.remove_red_eye),
                   onClickSuffix: () {
@@ -181,7 +192,7 @@ class _PadreDatosState extends State<PadreDatos> {
                   cornerRadius: BorderRadius.all(Radius.circular(15)),
                   duration: Duration(milliseconds: 300),
                   inputType: TextInputType.text,
-                  inputAction: TextInputAction.done,//REQUIRED
+                  inputAction: TextInputAction.done, //REQUIRED
                   obscureText: false, //REQUIRED
                   suffixIcon: Icon(Icons.remove_red_eye),
                   onClickSuffix: () {
@@ -287,45 +298,56 @@ class _PadreDatosState extends State<PadreDatos> {
                   width: double.maxFinite,
                   height: 70,
                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: hijos.length + 2,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: hijos.length + 2,
                       itemBuilder: (BuildContext context, int index) {
-                        if(index == hijos.length){
+                        if (index == hijos.length) {
                           return GestureDetector(
-                          onTap: () => agregarHijo(),
-                          child: Container(
-                            margin: EdgeInsets.only(right: 10),
-                            height: 70, width: 70,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 0, 191, 131),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Center(
-                              child: Icon(Icons.add, color: Colors.white,),
-                            ),
-                          ),
-                        );}
-                        else if(index == hijos.length+1){
-                          return   _currentIndex == 0?Container():GestureDetector(
-                            onTap: () => borrarHijo(),
+                            onTap: () => agregarHijo(),
                             child: Container(
-                              height: 70, width: 70,
+                              margin: EdgeInsets.only(right: 10),
+                              height: 70,
+                              width: 70,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 217, 86, 86),
+                                color: Color.fromARGB(255, 0, 191, 131),
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               child: Center(
-                                child: Icon(Icons.delete, color: Colors.white,),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          );}
-                        else{   return listViewItem(index: index+1);}
-                      }
-                  ),
+                          );
+                        } else if (index == hijos.length + 1) {
+                          return _currentIndex == 0
+                              ? Container()
+                              : GestureDetector(
+                                  onTap: () => borrarHijo(),
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 217, 86, 86),
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                        } else {
+                          return listViewItem(index: index + 1);
+                        }
+                      }),
                 ),
                 SizedBox(height: 40),
                 hijos[_currentIndex],
-                SizedBox(height: SizeConfig.blockSizeVertical*9),
+                SizedBox(height: SizeConfig.blockSizeVertical * 9),
                 Container(
                   height: 50,
                   width: double.maxFinite,
@@ -335,8 +357,7 @@ class _PadreDatosState extends State<PadreDatos> {
                     /*color: Color.fromARGB(255, 222, 222, 222),*/
                     color: AppColors.secondaryBackground,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(15)),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                     child: Center(
                       child: Text(
@@ -347,13 +368,11 @@ class _PadreDatosState extends State<PadreDatos> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
         ),
       ),
-
     );
   }
 
@@ -364,45 +383,49 @@ class _PadreDatosState extends State<PadreDatos> {
     int cantErrores = 0;
     bool error = false;
 
-    if (nombreController.text.isNotEmpty && apellidoController.text.isNotEmpty) {
+    if (nombreController.text.isNotEmpty &&
+        apellidoController.text.isNotEmpty) {
       widget.user.nombre = nombreController.text;
       widget.user.apellido = apellidoController.text;
-
     } else {
       //print("ERROR MESSAGE: ");
 
-      showErrorDialog(context, "Debes escribir tu nombre y apellido para poder continuar.");
+      showErrorDialog(
+          context, "Debes escribir tu nombre y apellido para poder continuar.");
     }
 
     //Mostrar un mensaje de error
 
     //fijarse si alguno de los hijos creados tiene algun campo incompleto
-    for(int i = 0; i<=hijos.length-1 ; i++){
-      if(!hijos[i].isComplete()){
+    for (int i = 0; i <= hijos.length - 1; i++) {
+      if (!hijos[i].isComplete()) {
         //aca hay que poner el pop up de que ese usuario esta mal
         error = true;
         cantErrores++;
-        if(cantErrores >=2) {
+        if (cantErrores >= 2) {
           genericErrorMessage += ", ${i + 1} ";
-        }else{
+        } else {
           genericErrorMessage += " ${i + 1}";
         }
       }
     }
 
-    if(error == true){
-      if(cantErrores> 1 ){
-        errorMessagePlural += genericErrorMessage + " tienen campos que estan incompletos.";
+    if (error == true) {
+      if (cantErrores > 1) {
+        errorMessagePlural +=
+            genericErrorMessage + " tienen campos que estan incompletos.";
         genericErrorMessage = errorMessagePlural;
-      }else{
-        errorMessageIndividual +=  genericErrorMessage + " tiene campos que estan incompletos.";
+      } else {
+        errorMessageIndividual +=
+            genericErrorMessage + " tiene campos que estan incompletos.";
         genericErrorMessage = errorMessageIndividual;
       }
       //print("ERROR MESSAGE : " + genericErrorMessage);
       showErrorDialog(context, genericErrorMessage);
-
-    }else{
-      hijos.forEach((element) {widget.user.agregarHijo(element.toHijo());});
+    } else {
+      hijos.forEach((element) {
+        widget.user.agregarHijo(element.toHijo());
+      });
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -411,15 +434,15 @@ class _PadreDatosState extends State<PadreDatos> {
   }
 
   agregarHijo() {
-    hijos.add(ChildField(widget.user,key: UniqueKey()));
+    hijos.add(ChildField(widget.user, key: UniqueKey()));
     setState(() {
       _currentIndex = hijos.length - 1;
     });
   }
 
-  borrarHijo(){
+  borrarHijo() {
     setState(() {
-      _currentIndex --;
+      _currentIndex--;
     });
 
     hijos.removeLast();
@@ -428,7 +451,7 @@ class _PadreDatosState extends State<PadreDatos> {
   selectedItem(index) {
     print("selected $index");
     setState(() {
-      _currentIndex= index-1;
+      _currentIndex = index - 1;
     });
   }
 
@@ -447,7 +470,7 @@ class _PadreDatosState extends State<PadreDatos> {
 }
 
 class ChildField extends StatefulWidget {
-  ChildField(this.user,{Key key}) : super(key: key);
+  ChildField(this.user, {Key key}) : super(key: key);
 
   @override
   _ChildFieldState createState() => _ChildFieldState();
@@ -457,12 +480,16 @@ class ChildField extends StatefulWidget {
   String colegioSelectedValue;
   TextEditingController nombreController = new TextEditingController();
 
-  Hijo toHijo(){
-    return Hijo(nombreController.text.trim(),colegioSelectedValue,cursoSelectedValue);
+  Hijo toHijo() {
+    return Hijo(
+        nombreController.text.trim(), colegioSelectedValue, cursoSelectedValue);
   }
 
-  bool isComplete(){
-    if(cursoSelectedValue != null && colegioSelectedValue != null && nombreController.text != null && nombreController.text.isNotEmpty){
+  bool isComplete() {
+    if (cursoSelectedValue != null &&
+        colegioSelectedValue != null &&
+        nombreController.text != null &&
+        nombreController.text.isNotEmpty) {
       return true;
     }
     return false;
@@ -473,7 +500,6 @@ class _ChildFieldState extends State<ChildField> {
   List<DropdownMenuItem> items = [];
 
   List createSchoolSubjects = List();
-
 
   bool loadingDialogShown = false;
 
@@ -512,122 +538,118 @@ class _ChildFieldState extends State<ChildField> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: SingleChildScrollView(
         child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
             builder: (context, state) {
-
-              if (state is ColegiosLoading) {
-                showLoadingDialog(context);
-                loadingDialogShown = true;
-                return CircularProgressIndicator();
-              } else if (state is ColegiosLoaded) {
-                if (loadingDialogShown) {
-                  Navigator.of(context).pop();
-                  loadingDialogShown = false;
-
-                }
-                return  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Nombre",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                    BeautyTextfield(
-                      controller: widget.nombreController,
-                      textCapitalization: TextCapitalization.words,
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      autofocus: false,
-                      maxLines: 1,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      inputType: TextInputType.text,
-                      inputAction: TextInputAction.done,//REQUIRED
-                      obscureText: false, //REQUIRED
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      onClickSuffix: () {
-                        print('Suffix Clicked');
-                      },
-                      onTap: () {
-                        print('Click');
-                      },
-                      onChanged: (text) {
-                        print(text);
-                      },
-                      onSubmitted: (data) {
-                        print(data.length);
-                      },
-                    ),
-                    SizedBox(height: 40),
-                    Text(
-                      "Colegio",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                      BeautyDropDown(
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      item: createDropDownMenuListColegios(state.colegiosData.colegios),
-                      isExpanded: true,
-                      value: widget.colegioSelectedValue,
-                        onChanged: (value) {
-
-                          if (value == "+ Agregar Colegio") {
-                            showSchoolDialog(context, widget.user.email);
-                          } else {
-                            setState(() {
-                              widget.colegioSelectedValue = value;
-                            });
-                          }
-
-                        },
-                    ),
-                    SizedBox(height: 40),
-                    Text(
-                      "Curso",
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                     BeautyDropDown(
-                      width: double.maxFinite, //REQUIRED
-                      height: 50, //REQUIRED
-                      accentColor: Colors.white, // On Focus Color//Text Color
-                      backgroundColor: Theme.of(context).hintColor,
-                      margin: EdgeInsets.only(top: 10),
-                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                      duration: Duration(milliseconds: 300),
-                      suffixIcon: Icon(Icons.remove_red_eye),
-                      item: createDropDownMenuList(state.colegiosData.cursos),
-                      isExpanded: true,
-                      value: widget.cursoSelectedValue,
-                       onChanged: (value) {
-                         setState(() {
-                           widget.cursoSelectedValue = value;
-                         });
-                       },
-                    ),
-                  ],
-                );
-              }
-              return CircularProgressIndicator();
+          if (state is ColegiosLoading) {
+            showLoadingDialog(context);
+            loadingDialogShown = true;
+            return CircularProgressIndicator();
+          } else if (state is ColegiosLoaded) {
+            if (loadingDialogShown) {
+              Navigator.of(context).pop();
+              loadingDialogShown = false;
             }
-        ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Nombre",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyTextfield(
+                  controller: widget.nombreController,
+                  textCapitalization: TextCapitalization.words,
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.text,
+                  inputAction: TextInputAction.done, //REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (text) {
+                    print(text);
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Colegio",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyDropDown(
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  item: createDropDownMenuListColegios(
+                      state.colegiosData.colegios),
+                  isExpanded: true,
+                  value: widget.colegioSelectedValue,
+                  onChanged: (value) {
+                    if (value == "+ Agregar Colegio") {
+                      showSchoolDialog(context, widget.user.email);
+                    } else {
+                      setState(() {
+                        widget.colegioSelectedValue = value;
+                      });
+                    }
+                  },
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Curso",
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                BeautyDropDown(
+                  width: double.maxFinite, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  item: createDropDownMenuList(state.colegiosData.cursos),
+                  isExpanded: true,
+                  value: widget.cursoSelectedValue,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.cursoSelectedValue = value;
+                    });
+                  },
+                ),
+              ],
+            );
+          }
+          return CircularProgressIndicator();
+        }),
       ),
     );
   }
 
   void agregarColegio(String email) {
-    TextEditingController colegioNameTextEditingController = TextEditingController();
+    TextEditingController colegioNameTextEditingController =
+        TextEditingController();
 //    if(Platform.isIOS){
 //      showCupertinoDialog(context: context, builder: (BuildContext context) => CupertinoAlertDialog(
 //        title: Text("Enviar solicitud para agregar un colegio"),
@@ -651,44 +673,52 @@ class _ChildFieldState extends State<ChildField> {
 //      ));
 //    }else{
 
-    showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-      title: Text("Enviar solicitud para agregar un colegio"),
-      content: Container(
-          child:Column(
-            children: <Widget>[
-              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado.Una vez aceptada o rechazada te enviaremos un mail con nuestra decision."),
-              TextField(
-                  controller: colegioNameTextEditingController
-              ),
-            ],
-          )
-      ),
-      actions: <Widget>[
-        FlatButton(child: Text("Cancelar"),
-          onPressed: ()=> Navigator.pop(context),
-        ),
-        FlatButton(child: Text("Enviar"),
-          onPressed: (){
-            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
-            }
-            Navigator.pop(context);
-          },)
-      ],
-    ));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text("Enviar solicitud para agregar un colegio"),
+              content: Container(
+                  child: Column(
+                children: <Widget>[
+                  Text(
+                      "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado.Una vez aceptada o rechazada te enviaremos un mail con nuestra decision."),
+                  TextField(controller: colegioNameTextEditingController),
+                ],
+              )),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Cancelar"),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                FlatButton(
+                  child: Text("Enviar"),
+                  onPressed: () {
+                    if (colegioNameTextEditingController.text != null &&
+                        colegioNameTextEditingController.text.length > 2) {
+                      BlocProvider.of<UploadsBloc>(context).add(AddSchool(
+                          colegioNameTextEditingController.text, email));
+                    }
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ));
     //}
   }
 
   List<DropdownMenuItem> createDropDownMenuListColegios(List<String> lista) {
     List<DropdownMenuItem> dropdownMenuItemList = [];
-    String agregarColegio =  "+ Agregar Colegio";
+    String agregarColegio = "+ Agregar Colegio";
     for (String item in lista) {
       dropdownMenuItemList.add(DropdownMenuItem(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                margin: EdgeInsets.only(
+                    top: 10,
+                    bottom:
+                        10), //TODO encontrar alternativa para el container overflow
                 child: new Text(
                   item,
                   style: Theme.of(context).textTheme.headline3,
@@ -705,7 +735,10 @@ class _ChildFieldState extends State<ChildField> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+              margin: EdgeInsets.only(
+                  top: 10,
+                  bottom:
+                      10), //TODO encontrar alternativa para el container overflow
               child: new Text(
                 agregarColegio,
                 style: TextStyle(
@@ -723,6 +756,7 @@ class _ChildFieldState extends State<ChildField> {
     ));
     return dropdownMenuItemList;
   }
+
   List<DropdownMenuItem> createDropDownMenuList(List<String> lista) {
     List<DropdownMenuItem> dropdownMenuItemList = [];
     for (String item in lista) {
@@ -731,7 +765,10 @@ class _ChildFieldState extends State<ChildField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                margin: EdgeInsets.only(
+                    top: 10,
+                    bottom:
+                        10), //TODO encontrar alternativa para el container overflow
                 child: new Text(
                   item,
                   style: Theme.of(context).textTheme.headline3,
@@ -747,248 +784,260 @@ class _ChildFieldState extends State<ChildField> {
   }
 }
 
-
-
-
 void showLoadingDialog(BuildContext context) {
-  showSlideDialogChico(context: context, child: LoadingDialog(),animatedPill: true,barrierDismissible: false);
+  showSlideDialogChico(
+      context: context,
+      child: LoadingDialog(),
+      animatedPill: true,
+      barrierDismissible: false);
 }
-void showErrorDialog(BuildContext context,String errorMessage){
-  showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showSlideDialogChico(
+      context: context,
+      child: ErrorDialog(
+        title: "Oops...",
+        error: errorMessage,
+      ),
       animatedPill: false);
 }
+
 void showSchoolDialog(BuildContext context, String email) {
-  TextEditingController colegioNameTextEditingController = TextEditingController();
+  TextEditingController colegioNameTextEditingController =
+      TextEditingController();
   String errorMessage = "No has ingresado ningun colegio.";
   String input = "";
+  List<Widget> coursesList = List();
+  coursesList.add(createCourseTag(context, "Lengua"));
+  coursesList.add(createCourseTag(context, "Matematica"));
   showSlideDialogFull(
-      context: context,
-      child: Container(
-        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: SizeConfig.blockSizeVertical*7),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Enviar solicitud para\nagregar un colegio",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                ],
-              ),
-              SizedBox(height: 40),
-              Text(
-                "Nombre del colegio a agregar",
-                style: Theme.of(context).textTheme.headline2,
-              ),
-              BeautyTextfield(
-                controller: colegioNameTextEditingController,
-                width: double.maxFinite, //REQUIRED
-                height: 50, //REQUIRED
-                accentColor: Colors.white, // On Focus Color//Text Color
-                backgroundColor: Theme.of(context).hintColor,
-                autofocus: false,
-                maxLines: 1,
-                margin: EdgeInsets.only(top: 10),
-                cornerRadius: BorderRadius.all(Radius.circular(15)),
-                duration: Duration(milliseconds: 300),
-                inputType: TextInputType.emailAddress,
-                inputAction: TextInputAction.done,//REQUIRED
-                obscureText: false, //REQUIRED
-                suffixIcon: Icon(Icons.remove_red_eye),
-                onClickSuffix: () {
-                  print('Suffix Clicked');
-                },
-                onTap: () {
-                  print('Click');
-                },
-                onChanged: (text) {
-                  print(text);
-                },
-                onSubmitted: (data) {
-                  print(data.length);
-                },
-              ),
-              SizedBox(height: 40),
-              Text(
-                "Curso",
-                style: Theme.of(context).textTheme.headline2,
-              ),
-              BeautyTextfield(
-                controller: colegioNameTextEditingController,
-                width: double.maxFinite, //REQUIRED
-                height: 50, //REQUIRED
-                accentColor: Colors.white, // On Focus Color//Text Color
-                backgroundColor: Theme.of(context).hintColor,
-                autofocus: false,
-                maxLines: 1,
-                margin: EdgeInsets.only(top: 10),
-                cornerRadius: BorderRadius.all(Radius.circular(15)),
-                duration: Duration(milliseconds: 300),
-                inputType: TextInputType.emailAddress,
-                inputAction: TextInputAction.done,//REQUIRED
-                obscureText: false, //REQUIRED
-                suffixIcon: Icon(Icons.remove_red_eye),
-                onClickSuffix: () {
-                  print('Suffix Clicked');
-                },
-                onTap: () {
-                  print('Click');
-                },
-                onChanged: (text) {
-                  print(text);
-                },
-                onSubmitted: (data) {
-                  print(data.length);
-                },
-              ),
-              SizedBox(height: 40),
-              Text(
-                "Materias de tu año",
-                style: Theme.of(context).textTheme.headline2,
-              ),
-              SizedBox(height: 8),
-              Text(
-                "Podras agregar una por una las materias correspondientes de tu año",
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-              SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  BeautyTextfield(
-                    width: SizeConfig.blockSizeHorizontal*60, //REQUIRED
-                    height: 50, //REQUIRED
-                    accentColor: Colors.white, // On Focus Color//Text Color
-                    backgroundColor: Theme.of(context).hintColor,
-                    autofocus: false,
-                    maxLines: 1,
-                    margin: EdgeInsets.only(top: 10),
-                    cornerRadius: BorderRadius.all(Radius.circular(15)),
-                    duration: Duration(milliseconds: 300),
-                    inputType: TextInputType.emailAddress,
-                    inputAction: TextInputAction.done,//REQUIRED
-                    obscureText: false, //REQUIRED
-                    suffixIcon: Icon(Icons.remove_red_eye),
-                    onClickSuffix: () {
-                      print('Suffix Clicked');
-                    },
-                    onTap: () {
-                      print('Click');
+    context: context,
+    child: CreateSchoolDialogWidget(),
+  );
+}
 
-                    },
-                    onChanged: (String value) {
-                      input = value;
-                    },
-                    onSubmitted: (data) {
-                      print(data.length);
-                    },
-                  ),
-                  SizedBox(width: 10),
+Widget createCourseTag(BuildContext context, String str) {
+  return Container(
+    margin: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 5),
+    child: Chip(
+      label: Text(str, textAlign: TextAlign.center),
+      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
+      deleteIcon:
+          Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+      onDeleted: () {},
+      shape: RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(15.0),
+      ),
+      labelStyle: TextStyle(
+          fontFamily: "Sf-r",
+          fontSize: 15,
+          fontWeight: FontWeight.w700,
+          color: Theme.of(context).dialogBackgroundColor),
+      backgroundColor: AppColors.secondaryBackground,
+    ),
+  );
+}
 
-                  FlatButton(
+class CreateSchoolDialogWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return CreateSchoolDialogState();
+  }
+}
+
+class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
+  List<String> coursesList = ["Matematica", "Deporte", "Historia", "Geografia"];
+  List<Widget> coursesWidgetList = List();
+  TextEditingController coursesTextEditingController;
+  String courseErrorString = '';
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    standardCourses.forEach((element) {coursesList.add(createCourseTag(context, element));});
+//  }
+
+  @override
+  Widget build(BuildContext context) {
+    var colegioNameTextEditingController;
+    coursesTextEditingController = new TextEditingController();
+    String input = "";
+    return Container(
+      margin: EdgeInsets.only(
+          left: SizeConfig.blockSizeHorizontal * 8,
+          right: SizeConfig.blockSizeHorizontal * 8),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: SizeConfig.blockSizeVertical * 7),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Enviar solicitud para\nagregar un colegio",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              ],
+            ),
+            SizedBox(height: 40),
+            Text(
+              "Nombre del colegio a agregar",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            BeautyTextfield(
+              controller: colegioNameTextEditingController,
+              width: double.maxFinite, //REQUIRED
+              height: 50, //REQUIRED
+              accentColor: Colors.white, // On Focus Color//Text Color
+              backgroundColor: Theme.of(context).hintColor,
+              autofocus: false,
+              maxLines: 1,
+              margin: EdgeInsets.only(top: 10),
+              cornerRadius: BorderRadius.all(Radius.circular(15)),
+              duration: Duration(milliseconds: 300),
+              inputType: TextInputType.emailAddress,
+              inputAction: TextInputAction.done, //REQUIRED
+              obscureText: false, //REQUIRED
+              suffixIcon: Icon(Icons.remove_red_eye),
+              onClickSuffix: () {
+                print('Suffix Clicked');
+              },
+              onTap: () {
+                print('Click');
+              },
+              onChanged: (text) {
+                print(text);
+              },
+              onSubmitted: (data) {
+                print(data.length);
+              },
+            ),
+            SizedBox(height: 40),
+            Text(
+              "Curso",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            BeautyTextfield(
+              controller: colegioNameTextEditingController,
+              width: double.maxFinite, //REQUIRED
+              height: 50, //REQUIRED
+              accentColor: Colors.white, // On Focus Color//Text Color
+              backgroundColor: Theme.of(context).hintColor,
+              autofocus: false,
+              maxLines: 1,
+              margin: EdgeInsets.only(top: 10),
+              cornerRadius: BorderRadius.all(Radius.circular(15)),
+              duration: Duration(milliseconds: 300),
+              inputType: TextInputType.emailAddress,
+              inputAction: TextInputAction.done, //REQUIRED
+              obscureText: false, //REQUIRED
+              suffixIcon: Icon(Icons.remove_red_eye),
+              onClickSuffix: () {
+                print('Suffix Clicked');
+              },
+              onTap: () {
+                print('Click');
+              },
+              onChanged: (text) {
+                print(text);
+              },
+              onSubmitted: (data) {
+                print(data.length);
+              },
+            ),
+            SizedBox(height: 40),
+            Text(
+              "Materias de tu año",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            SizedBox(height: 8),
+            Text(
+              "Podras agregar una por una las materias correspondientes de tu año",
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+            SizedBox(height: 10),
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BeautyTextfield(
+                  width: SizeConfig.blockSizeHorizontal * 60, //REQUIRED
+                  height: 50, //REQUIRED
+                  accentColor: Colors.white, // On Focus Color//Text Color
+                  backgroundColor: Theme.of(context).hintColor,
+                  autofocus: false,
+                  maxLines: 1,
+                  margin: EdgeInsets.only(top: 10),
+                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                  duration: Duration(milliseconds: 300),
+                  inputType: TextInputType.emailAddress,
+                  inputAction: TextInputAction.done, //REQUIRED
+                  obscureText: false, //REQUIRED
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  controller: coursesTextEditingController,
+                  onClickSuffix: () {
+                    print('Suffix Clicked');
+                  },
+                  onTap: () {
+                    print('Click');
+                  },
+                  onChanged: (String value) {
+                    input = value;
+                  },
+                  onSubmitted: (data) {
+                    print(data.length);
+                  },
+                ),
+                SizedBox(width: 10),
+                FlatButton(
                     child: Icon(
                       Icons.move_to_inbox,
                       size: 30,
                       color: Theme.of(context).iconTheme.color,
                     ),
-                    onPressed:(){
-                    }
-                    )
-                ],
-              ),
-              SizedBox(height: 25),
-              Wrap(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
-                    child: Chip(
-                      label: Text( "Environmental Management", textAlign: TextAlign.center),
-                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
-                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
-                      onDeleted: (){},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(15.0),
-                      ),
-                      labelStyle:  TextStyle(
-                          fontFamily: "Sf-r",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).dialogBackgroundColor),
-                      backgroundColor: AppColors.secondaryBackground,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
-                    child: Chip(
-                      label: Text( "Physics high", textAlign: TextAlign.center),
-                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
-                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
-                      onDeleted: (){},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(15.0),
-                      ),
-                      labelStyle:  TextStyle(
-                          fontFamily: "Sf-r",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).dialogBackgroundColor),
-                      backgroundColor: AppColors.secondaryBackground,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
-                    child: Chip(
-                      label: Text( "Maths", textAlign: TextAlign.center),
-                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
-                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
-                      onDeleted: (){},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(15.0),
-                      ),
-                      labelStyle:  TextStyle(
-                          fontFamily: "Sf-r",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).dialogBackgroundColor),
-                      backgroundColor: AppColors.secondaryBackground,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only( left: 5, right: 5, bottom: 5, top: 5),
-                    child: Chip(
-                      label: Text( "Philology", textAlign: TextAlign.center),
-                      labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
-                      deleteIcon: Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
-                      onDeleted: (){},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(15.0),
-                      ),
-                      labelStyle:  TextStyle(
-                          fontFamily: "Sf-r",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).dialogBackgroundColor),
-                      backgroundColor: AppColors.secondaryBackground,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 80),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FlatButton(child:
-                  Text(
+                    onPressed: () {
+                      String course = coursesTextEditingController.text;
+
+                      if (course != null) {
+                        course = course.trim();
+                        setState(() {
+                          if (coursesList.contains(course)) {
+                            //avisamos al usuario que no se agrego a la lista porque esta repetido
+                            courseErrorString = "No se puede agregar a la lista \"" +course + "\" ya que se encuentra repetido";
+                          }
+                          else if(course.isEmpty || course.length <3){
+                            courseErrorString = "El nombre de la materia debe ser de por lo menos 3 letras";
+                          } else {
+                            //lo agregamos a la lista
+                            coursesWidgetList.add(createCourseTag(context, course));
+                            courseErrorString = '';
+                          }
+                        });
+                      }
+                    })
+              ],
+            ),
+            SizedBox(height: 25),
+            //TODO: @Trave elegite como queres displayear este texto
+            Container(
+              child:Text(courseErrorString,style:Theme.of(context).textTheme.subtitle2,),
+            ),
+            Wrap(
+              children: coursesWidgetList,
+            ),
+            SizedBox(height: 80),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton(
+                  child: Text(
                     "Cancelar",
                     style: TextStyle(
                       fontSize: 16,
@@ -997,10 +1046,10 @@ void showSchoolDialog(BuildContext context, String email) {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                    onPressed: ()=> Navigator.pop(context),
-                  ),
-                  FlatButton(child:
-                  Text(
+                  onPressed: () => Navigator.pop(context),
+                ),
+                FlatButton(
+                  child: Text(
                     "Enviar",
                     style: TextStyle(
                       fontSize: 16,
@@ -1009,17 +1058,16 @@ void showSchoolDialog(BuildContext context, String email) {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                    onPressed: (){},
-                  )
-
-                ],
-              ),
-              SizedBox(height:20),
-            ],
-          ),
+                  onPressed: () {},
+                )
+              ],
+            ),
+            SizedBox(height: 20),
+          ],
         ),
-      )
-  );
+      ),
+    );
+  }
 }
 /*
 void showSchoolDialog(BuildContext context, String email) {
