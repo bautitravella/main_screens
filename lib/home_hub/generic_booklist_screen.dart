@@ -142,7 +142,7 @@ class _GenericBookListState extends State<GenericBookList> {
                       Container(
                         width: SizeConfig.blockSizeHorizontal*50,
                         child: Text(
-                          'Materias',
+                          selectTitle(widget.listType),
                           style: TextStyle(
                               fontSize: 23,
                               fontFamily: 'Sf-r',
@@ -314,7 +314,24 @@ class _GenericBookListState extends State<GenericBookList> {
 
   }
 
-
+  String selectTitle(ListType listType){
+    switch(widget.listType){
+      case ListType.cheapest:
+        return 'Mejores Precios';
+        
+      case ListType.years:
+        return 'Cursos';
+      case ListType.subject:
+        return 'Materias';
+      case ListType.career:
+        return 'Carreras';
+      case ListType.recomended:
+        return 'Recomendados';
+      default:
+        break;
+    }
+    return '';
+  }
   Widget selectList(ScrollController sc){
     if(widget.parameter!= null || widget.currentChild != null){
       return  BlocBuilder<BooksBloc,BooksBlocState>(
