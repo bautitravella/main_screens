@@ -1439,7 +1439,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
     showSlideDialogChico(
       backgroundColor: Theme.of(context).dialogBackgroundColor,
         context: context,
-        child: SuccesfullDialog(title: "Felicitaciones", body: "Ya se envio la solicitud para agregar el colegio", )
+        child: SuccesfullDialog(title: "hello there", body: "Hello there again my rightfull friend", )
     );
   }
 
@@ -2025,7 +2025,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
   }
   Widget createParentLayoutMaterias(Padre user) {
     final _controller = ScrollController();
-    if (user.hijos.length > 1) {
+    if (user.getColegios().length > 1) {
       return _ParentMateriasButton
           ? Stack(
         alignment: Alignment.center,
@@ -2099,18 +2099,18 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 child: ListView.builder(
                   controller: _controller,
                   scrollDirection: Axis.horizontal,
-                  itemCount: user.hijos.length + 1,
+                  itemCount: user.getColegios().length + 1,
                   itemBuilder: (BuildContext context, int index) {
                     if (index >= 1) {
-                      String childName = user.hijos[index - 1].nombre;
+                      String childName = user.getColegios()[index - 1];
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList.cheapest(
-                                    currentChild: user.hijos[index - 1]
+                                  GenericBookList.subject(
+                                    childName
                                   ),
                             ),
                           );
@@ -2167,12 +2167,10 @@ class _HomeViewTresState extends State<HomeViewTres> {
       )
           : GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GenericBookList.subject(user.getColegios().first),
-            ),
-          );
+          setState(() {
+            _ParentMateriasButton = !_ParentMateriasButton;
+          });
+          print('Click');
         },
         child: Stack(
           alignment: Alignment.center,
