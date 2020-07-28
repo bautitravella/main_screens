@@ -17,6 +17,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
+import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 
@@ -86,17 +87,87 @@ class HomeHubState extends State<HomeHub> {
     return WillPopScope(
       onWillPop:() {return _onWillPop();},
       child: Scaffold(
-        body: PageTransitionSwitcher(
-          transitionBuilder: (child, primaryAnimation, secondaryAnimation){
-            return FadeThroughTransition(
-              fillColor: Theme.of(context).scaffoldBackgroundColor,
-              animation: primaryAnimation,
-              secondaryAnimation: secondaryAnimation,
+        body: Stack(
+          children: [
+            PageTransitionSwitcher(
+              transitionBuilder: (child, primaryAnimation, secondaryAnimation){
+                return FadeThroughTransition(
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation,
 
-              child: child,
-            );
-          },
-          child: _children[_currentIndex],
+                  child: child,
+                );
+              },
+              child: _children[_currentIndex],
+            ),
+            Container(
+              height: 143,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: <Widget>[
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        width: 138,
+                        height: 143,
+                        child: Image.asset(
+                          "assets/images/round-underpic-shade.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 20,
+                    top: 45,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MiPerfil(),
+                          ),
+                        );
+                      },
+                      child: BlocBuilder<UserBloc, UserBlocState>(
+                        builder: (context, state) {
+                          if (state is UserLoadedState) {
+                            return Container(
+                              height: 55,
+                              width: 55,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2, //
+                                  ),
+                                  borderRadius: new BorderRadius.circular(100)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Hero(
+                                  tag: 'avatar',
+                                  child: Image(
+                                    image: state.user.getProfileImage(),
+                                    fit: BoxFit.fill,
+                                    alignment: Alignment.center,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         bottomNavigationBar: BottomNavyBar(
           showElevation: false,

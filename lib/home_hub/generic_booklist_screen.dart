@@ -280,7 +280,6 @@ class _GenericBookListState extends State<GenericBookList> {
     SizeConfig().init(context);
     return Stack(
       children: <Widget>[
-
         Positioned(
           top: 60,
           left: 0,
@@ -374,7 +373,9 @@ class _GenericBookListState extends State<GenericBookList> {
         return BlocBuilder<BooksBloc,BooksBlocState>(
             builder: (context, state) {
               if(state is BooksLoadedState){
-                return ListView.builder(
+                print("libros recomendados ="+ state.books.toString());
+                return state.books.length!=0?
+                ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
                   itemCount: state.books.length,
@@ -382,8 +383,10 @@ class _GenericBookListState extends State<GenericBookList> {
                     Book book = state.books[index];
                     return BookTile(book);
                   },
-                );
+                ):
+                    Container(color: Colors.red, height: 100, width: 50,);
               }
+              print("LLega HASTA ACA");
               return Center(child: CircularProgressIndicator(),);
             });
       case ListType.subject:

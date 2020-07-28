@@ -96,101 +96,31 @@ class MyBooksViewMultiState extends State<MyBooksViewMulti> {
             );
           }
       ),
-      body: Stack(
+      body: Column(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  child: SlidingUpPanel(
-                    controller: _pc,
-                    panelBuilder: (ScrollController sc) => _scrollingList(sc),
-                    maxHeight: SizeConfig.blockSizeVertical * 86,
-                    minHeight: SizeConfig.blockSizeVertical * 53,
+          Expanded(
+            child: Container(
+              child: SlidingUpPanel(
+                controller: _pc,
+                panelBuilder: (ScrollController sc) => _scrollingList(sc),
+                maxHeight: SizeConfig.blockSizeVertical * 86,
+                minHeight: SizeConfig.blockSizeVertical * 53,
+                color: Colors.transparent,
+                backdropEnabled: true,
+                backdropColor: AppColors.secondaryBackground,
+                body: _upperBody(context),
+                parallaxEnabled: true,
+                parallaxOffset: 1.2,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 20.0,
                     color: Colors.transparent,
-                    backdropEnabled: true,
-                    backdropColor: AppColors.secondaryBackground,
-                    body: _upperBody(context),
-                    parallaxEnabled: true,
-                    parallaxOffset: 1.2,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 20.0,
-                        color: Colors.transparent,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30)),
                   ),
-                ),
+                ],
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
               ),
-            ],
-          ),
-          Container(
-            height: 143,
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: <Widget>[
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      width: 138,
-                      height: 143,
-                      child: Image.asset(
-                        "assets/images/round-underpic-shade.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 20,
-                  top: 45,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MiPerfil(),
-                        ),
-                      );
-                    },
-                    child: BlocBuilder<UserBloc, UserBlocState>(
-                      builder: (context, state) {
-                        if (state is UserLoadedState) {
-                          return Container(
-                            height: 55,
-                            width: 55,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2, //
-                                ),
-                                borderRadius: new BorderRadius.circular(100)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Hero(
-                                tag: 'avatar',
-                                child: Image(
-                                  image: state.user.getProfileImage(),
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.center,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ],

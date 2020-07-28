@@ -92,72 +92,7 @@ class NotificationViewState extends State<NotificationView> {
                       style: Theme.of(context).accentTextTheme.headline1,
                     ),
                   ),
-                  Container(
-                    height: 143,
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: <Widget>[
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                              width: 138,
-                              height: 143,
-                              child: Image.asset(
-                                "assets/images/round-underpic-shade.png",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 20,
-                          top: 45,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MiPerfil(),
-                                ),
-                              );
-                            },
-                            child: BlocBuilder<UserBloc,UserBlocState>(
-                              builder: (context,state){
-                                if(state is UserLoadedState){
-                                  return Container(
-                                    height: 55,
-                                    width: 55,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.white,
-                                          width: 2, //
-                                        ),
-                                        borderRadius: new BorderRadius.circular(100)),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Hero(
-                                        tag: 'avatar',
-                                        child: Image(
-                                          image: state.user.getProfileImage(),
-                                          fit: BoxFit.fill,
-                                          alignment: Alignment.center,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return Container();
-
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                  Container(height: 143)
                 ],
               ), //Cartelito "Mis Libros"
               SizedBox(height: 20),
