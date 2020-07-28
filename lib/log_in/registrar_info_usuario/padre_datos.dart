@@ -898,38 +898,6 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
               },
             ),
             SizedBox(height: 40),
-            Text(
-              "Curso",
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            BeautyTextfield(
-              controller: colegioNameTextEditingController,
-              width: double.maxFinite, //REQUIRED
-              height: 50, //REQUIRED
-              accentColor: Colors.white, // On Focus Color//Text Color
-              backgroundColor: Theme.of(context).hintColor,
-              autofocus: false,
-              maxLines: 1,
-              margin: EdgeInsets.only(top: 10),
-              cornerRadius: BorderRadius.all(Radius.circular(15)),
-              duration: Duration(milliseconds: 300),
-              inputType: TextInputType.emailAddress,
-              inputAction: TextInputAction.done, //REQUIRED
-              obscureText: false, //REQUIRED
-              suffixIcon: Icon(Icons.remove_red_eye),
-              onClickSuffix: () {
-                print('Suffix Clicked');
-              },
-              onTap: () {
-                print('Click');
-              },
-              onChanged: (text) {
-                print(text);
-              },
-              onSubmitted: (data) {
-                print(data.length);
-              },
-            ),
             SizedBox(height: 40),
             Text(
               "Materias de tu año",

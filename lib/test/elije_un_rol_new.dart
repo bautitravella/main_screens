@@ -31,9 +31,23 @@ final List<Widget> imgNavigatorPush = [
   SubiFotoPerfilWidget(Alumno()),
 ];
 
+Widget imgNavigatorPush2(String email,int index){
+  switch(index){
+    case 0:
+      return SubiFotoPerfilWidget(Padre.fromEmail(email));
+    case 1:
+      return SubiFotoPerfilWidget(Alumno.fromEmail(email));
+    case 2:
+      return SubiFotoPerfilWidget(Alumno.fromEmail(email));
+
+    default:
+      return null;
+  }
+}
+
 final Widget placeholder = Container(color: Colors.grey);
 
-List carousellItems(BuildContext context) {
+List carousellItems(BuildContext context,String email) {
   return map2<Widget>(
     imgList,
     imgText,
@@ -45,7 +59,7 @@ List carousellItems(BuildContext context) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => imgNavigatorPush[index],
+              builder: (context) => imgNavigatorPush2(email, index),
             ),
           );
         },
@@ -127,6 +141,9 @@ List<T> map<T>(List imageList, Function handler) {
 }
 
 class CarouselWithIndicator extends StatefulWidget {
+  String email;
+  CarouselWithIndicator(this.email);
+
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
 }
@@ -138,7 +155,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       CarouselSlider(
-        items: carousellItems(context),
+        items: carousellItems(context,widget.email),
         autoPlay: false,
         enlargeCenterPage: true,
         aspectRatio: 0.87,

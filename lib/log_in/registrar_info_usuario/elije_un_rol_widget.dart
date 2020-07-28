@@ -53,7 +53,7 @@ class ElijeUnRolWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: SizeConfig.blockSizeVertical*5),
-                  CarouselWithIndicator(),
+                  CarouselWithIndicator(email),
                 ],
               ),
             ),
