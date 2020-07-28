@@ -92,7 +92,7 @@ class HomeHubState extends State<HomeHub> {
             PageTransitionSwitcher(
               transitionBuilder: (child, primaryAnimation, secondaryAnimation){
                 return FadeThroughTransition(
-                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  fillColor: Theme.of(context).accentColor,
                   animation: primaryAnimation,
                   secondaryAnimation: secondaryAnimation,
 
@@ -185,7 +185,7 @@ class HomeHubState extends State<HomeHub> {
           items: <BottomNavyBarItem>[
             BottomNavyBarItem(
               title: Text(
-                'Home', textAlign: TextAlign.center,
+                'Inicio', textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Sf-r",
                   fontWeight: FontWeight.w800,

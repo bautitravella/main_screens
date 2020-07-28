@@ -1439,7 +1439,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
     showSlideDialogChico(
       backgroundColor: Theme.of(context).dialogBackgroundColor,
         context: context,
-        child: SuccesfullDialog(title: "hello there", body: "Hello there again my rightfull friend", )
+        child: SuccesfullDialog(title: "Felicitaciones", body: "Ya se envio la solicitud para agregar el colegio", )
     );
   }
 

@@ -365,15 +365,15 @@ class _BookSection2State extends State<BookSection2> {
                                   height: 55,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24.0),
-                                      boxShadow: [
+                                     /* boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
                                           offset: Offset(0.0, 2.0),
                                           blurRadius: 6.0,
                                         )
-                                      ]),
+                                      ]*/),
                                   child: FlatButton(
-                                      color: Theme.of(context).iconTheme.color,
+                                      color: Theme.of(context).iconTheme.color.withAlpha(150),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                         BorderRadius.all(Radius.circular(24)),
@@ -1271,7 +1271,7 @@ class _BookSection2State extends State<BookSection2> {
   Widget titlePhoto(Book book) {
     return Container(
       height: 140,
-      width: 83,
+      width: 95,
       child: GestureDetector(
         onTap: (){
           open(context, 0,book);
@@ -1465,7 +1465,7 @@ Widget horizontalListView(List<Book> booksList){
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookSection(book),
+                      builder: (context) => BookSection2(book),
                     ),
                   );
                 },

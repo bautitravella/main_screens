@@ -47,7 +47,7 @@ class SuccesfullDialog extends StatelessWidget {
                       child: Text(
                         body,
                         style: TextStyle(
-                          color: Color.fromARGB(255, 255, 104, 104),
+                          color: Color.fromARGB(255, 0, 191, 131),
                           fontFamily: "Sf-r",
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
