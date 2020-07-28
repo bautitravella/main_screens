@@ -18,6 +18,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 
 
 
@@ -85,7 +86,18 @@ class HomeHubState extends State<HomeHub> {
     return WillPopScope(
       onWillPop:() {return _onWillPop();},
       child: Scaffold(
-        body: _children[_currentIndex],
+        body: PageTransitionSwitcher(
+          transitionBuilder: (child, primaryAnimation, secondaryAnimation){
+            return FadeThroughTransition(
+              fillColor: Theme.of(context).scaffoldBackgroundColor,
+              animation: primaryAnimation,
+              secondaryAnimation: secondaryAnimation,
+
+              child: child,
+            );
+          },
+          child: _children[_currentIndex],
+        ),
         bottomNavigationBar: BottomNavyBar(
           showElevation: false,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

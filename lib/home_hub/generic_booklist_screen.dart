@@ -14,6 +14,7 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:animations/animations.dart';
 
 enum ListType {cheapest , recomended,hijos,subject,career,years,colegio}
 

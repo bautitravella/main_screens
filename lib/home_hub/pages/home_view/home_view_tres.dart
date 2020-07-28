@@ -13,6 +13,7 @@ import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
 import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
+import 'package:flutterui/dialogs/dialog_widget/succesfull_dialog.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/home_hub/admin_widgets.dart';
 import 'package:flutterui/home_hub/generic_booklist_screen.dart';
@@ -37,7 +38,6 @@ class HomeViewTres extends StatefulWidget {
   HomeViewTres({this.homeHubState, Key key}) : super(key: key);
 
   bool isSelected = false;
-
   @override
   _HomeViewTresState createState() => _HomeViewTresState();
 }
@@ -1490,7 +1490,10 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.pop(context);
+                      showSchoolDialogSent();
+                      },
                     )
 
                   ],
@@ -1500,6 +1503,13 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           ),
         )
+    );
+  }
+  void showSchoolDialogSent() {
+    showSlideDialogChico(
+      backgroundColor: Theme.of(context).dialogBackgroundColor,
+        context: context,
+        child: SuccesfullDialog(title: "hello there", body: "Hello there again my rightfull friend", )
     );
   }
 
