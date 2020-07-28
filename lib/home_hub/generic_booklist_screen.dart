@@ -7,6 +7,7 @@ import 'package:flutterui/Models/ListTile/string_list_tile.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialog_widget/custom_dialog.dart';
 import 'package:flutterui/dialogs/dialog_widget/error_dialog.dart';
 import 'package:flutterui/dialogs/slide_popup_dialog.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
@@ -15,6 +16,8 @@ import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:animations/animations.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 enum ListType {cheapest , recomended,hijos,subject,career,years,colegio}
 
@@ -270,6 +273,7 @@ class _GenericBookListState extends State<GenericBookList> {
               ],
             ),
           ),
+
         ],
       ),
     );
@@ -347,7 +351,78 @@ class _GenericBookListState extends State<GenericBookList> {
                 },
               );
             }
-            return Container();
+            return  ListView(
+              scrollDirection: Axis.vertical,
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*60),
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(50, 249, 196, 55),
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                  ),
+                  width: SizeConfig.blockSizeHorizontal * 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal*70,
+                                child: Text(
+                                  "No se han encontrado libros para esta materia...",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 57, 57),
+                                    fontSize: 17,
+                                    fontFamily: "Sf-r",
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal*75,
+                                child: Text(
+                                  "Parece que no hay ningún libro para esta materia.¡No te desanimes! Seguro hay muchos mas por encontrar. ",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 57, 57),
+                                    fontSize: 11,
+                                    fontFamily: "Sf-t",
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical*10),
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                        height: SizeConfig.blockSizeVertical*30,
+                        margin: EdgeInsets.only(left: 5, right: 5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                          child: Image.asset(
+                            "assets/images/not-found.png",
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
           });
     }
     switch(widget.listType){
@@ -417,7 +492,155 @@ class _GenericBookListState extends State<GenericBookList> {
                   },
                 );
               }
-              return Container(child: Center(child: Text("Ha habido algun error, por favor volve a intentar, si el problema recurre te pedimos que nos envies un mail a buymy.customerservice@gmail.com"),),);
+              return  Container(
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Column(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*25),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      width: SizeConfig.blockSizeHorizontal * 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*40,
+                                    child: Text(
+                                      "Parece que ha habido un error",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontSize: 19,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*45,
+                                    child: Text(
+                                      "Por favor vuelve a intentar. Si el problema recurre por favor contactanos",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontSize: 14,
+                                        fontFamily: "Sf-t",
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Icon(Icons.warning_amber_rounded, size: 110, color: Colors.black87),
+
+                            ],
+                          ),
+                          /*Container(
+                            width: SizeConfig.blockSizeHorizontal * 100,
+                            height: SizeConfig.blockSizeVertical*30,
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                              child: Image.asset(
+                                "assets/images/alert-dialog.png",
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),*/
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical*2,),
+                    GestureDetector(
+                      onTap: _showDialogAyuda,
+                      child: Container(
+                        constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*18),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).hintColor.withAlpha(180),
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                        ),
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                             margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
+                              width: SizeConfig.blockSizeHorizontal*40,
+                              child: Text(
+                                "Contactanos!",
+                                style: TextStyle(
+                                  color: Theme.of(context).textTheme.headline1.color,
+                                  fontSize: 19,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal*5,),
+                            Container(
+                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 8),
+                              width: 100,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 30,
+                                    child: Opacity(
+                                      opacity: 0.8,
+                                      child: Container(
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          width: 62,
+                                          height: 62,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(255, 255, 213, 104),
+                                              borderRadius: BorderRadius.circular(100)),
+                                          child: Icon(
+                                            Icons.developer_mode,
+                                            color: Colors.black87,
+                                            size: 30,
+                                          )),
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(bottom: 5),
+                                      width: 62,
+                                      height: 62,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 255, 213, 104),
+                                          borderRadius: BorderRadius.circular(100)),
+                                      child: Icon(
+                                          FontAwesome5Solid.comment,
+                                        color: Colors.black87,
+                                        size: 30,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
             return Container(child: Center(child: CircularProgressIndicator(),),);
           },
@@ -492,6 +715,45 @@ class _GenericBookListState extends State<GenericBookList> {
     }
   }
 
+  void _showDialogAyuda() {
+    showSlideDialogGrande(
+      context: context,
+      child: CustomDialog.customFunctions(
+        title: "Contactanos",
+        description:
+        "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
+        primaryButtonText: "Cancelar",
+        primaryFunction: () {
+          Navigator.pop(context);
+        },
+        secondaryButtonText: "Enviar Mail",
+        secondaryFunction: () async {
+          try {
+//            if (Platform.isAndroid) {
+//              AndroidIntent intent = AndroidIntent(
+//                action: 'android.intent.action.MAIN',
+//                category: 'android.intent.category.APP_EMAIL',
+//              );
+//              intent.launch().catchError((e) {
+//                print(e.message);
+//              });
+//            } else if (Platform.isIOS) {
+//              //launch("message://")
+            launch("mailto:buymy.customerservice@gmail.com?subject=Duda/Consulta BuyMy&body=Estimados,les notifico que me ocurrio ...")
+                .catchError((e) {
+              print(e.message);
+            });
+            // }
+          } catch (e) {
+            print(e.message);
+          }
+        },
+      ),
+      // barrierColor: Colors.white.withOpacity(0.7),
+      // pillColor: Colors.red,
+      // backgroundColor: Colors.yellow,
+    );
+  }
   void showErrorDialog(BuildContext context, String errorMessage) {
     showSlideDialogChico(
         context: context,
