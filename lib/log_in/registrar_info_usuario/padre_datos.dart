@@ -65,6 +65,7 @@ class _PadreDatosState extends State<PadreDatos> {
       widget.user,
       key: UniqueKey(),
     ));
+    print("USER = " + widget.user.toString());
   }
 
   Widget listViewItem({int index}) {
@@ -646,63 +647,40 @@ class _ChildFieldState extends State<ChildField> {
       ),
     );
   }
-
+  //NO SE USA ESTO
   void agregarColegio(String email) {
     TextEditingController colegioNameTextEditingController =
-        TextEditingController();
-//    if(Platform.isIOS){
-//      showCupertinoDialog(context: context, builder: (BuildContext context) => CupertinoAlertDialog(
-//        title: Text("Enviar solicitud para agregar un colegio"),
-//        content: Container(
-//          child:Column(
-//            children: <Widget>[
-//              Text("La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado."),
-//              Container(child: TextField( controller: colegioNameTextEditingController)),
-//            ],
-//          )
-//        ),
-//        actions: <Widget>[
-//          CupertinoDialogAction(isDefaultAction: false,child: Text("Cancelar"),onPressed: ()=> Navigator.pop(context),),
-//          CupertinoDialogAction(isDefaultAction: true,child: Text("Enviar"),onPressed:(){
-//            if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-//              BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
-//            }
-//            Navigator.pop(context);
-//          },)
-//        ],
-//      ));
-//    }else{
-
+    TextEditingController();
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-              title: Text("Enviar solicitud para agregar un colegio"),
-              content: Container(
-                  child: Column(
+          title: Text("Enviar solicitud para agregar un colegio"),
+          content: Container(
+              child: Column(
                 children: <Widget>[
                   Text(
                       "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado.Una vez aceptada o rechazada te enviaremos un mail con nuestra decision."),
                   TextField(controller: colegioNameTextEditingController),
                 ],
               )),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Cancelar"),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                FlatButton(
-                  child: Text("Enviar"),
-                  onPressed: () {
-                    if (colegioNameTextEditingController.text != null &&
-                        colegioNameTextEditingController.text.length > 2) {
-                      BlocProvider.of<UploadsBloc>(context).add(AddSchool(
-                          colegioNameTextEditingController.text, email));
-                    }
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ));
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cancelar"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            FlatButton(
+              child: Text("Enviar"),
+              onPressed: () {
+                if (colegioNameTextEditingController.text != null &&
+                    colegioNameTextEditingController.text.length > 2) {
+                  BlocProvider.of<UploadsBloc>(context).add(AddSchool(
+                      colegioNameTextEditingController.text, ["holaaaa"],email));
+                }
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ));
     //}
   }
 
@@ -809,7 +787,7 @@ void showSchoolDialog(BuildContext context, String email) {
   String input = "";
   showSlideDialogFull(
     context: context,
-    child: CreateSchoolDialogWidget(),
+    child: CreateSchoolDialogWidget(email),
   );
 }
 
@@ -836,6 +814,9 @@ Widget createCourseTag(BuildContext context, String str,Function(String) fn){
 }
 
 class CreateSchoolDialogWidget extends StatefulWidget {
+  String email;
+  CreateSchoolDialogWidget(this.email);
+
   @override
   State<StatefulWidget> createState() {
     return CreateSchoolDialogState();
@@ -845,19 +826,20 @@ class CreateSchoolDialogWidget extends StatefulWidget {
 class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
   List<String> coursesList = ["Matematica", "Deporte", "Historia", "Geografia"];
   List<CourseTag> coursesWidgetList = List();
-  TextEditingController coursesTextEditingController;
+  TextEditingController coursesTextEditingController,colegioNameTextEditingController;
   String courseErrorString = '';
-//
+
 //  @override
 //  void initState() {
+//    coursesList.forEach((element) {coursesWidgetList.add(createCourseTag(context, element,deleteCourseTag));});
 //    super.initState();
-//    standardCourses.forEach((element) {coursesList.add(createCourseTag(context, element));});
+//
 //  }
 
   @override
   Widget build(BuildContext context) {
-    var colegioNameTextEditingController;
     coursesTextEditingController = new TextEditingController();
+    colegioNameTextEditingController = new TextEditingController();
     String input = "";
     return Container(
       margin: EdgeInsets.only(
@@ -1056,7 +1038,18 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    String schoolName = colegioNameTextEditingController.text.trim();
+                    if(schoolName != null && schoolName.isNotEmpty && schoolName.length > 4){
+                      BlocProvider.of<UploadsBloc>(context).add(AddSchool(
+                          colegioNameTextEditingController.text,coursesList,widget.email));
+                      Navigator.pop(context);
+                    }else{
+                      showErrorDialog(context," El nombre del colegio no se completo");
+                    }
+
+
+                  },
                 )
               ],
             ),
@@ -1077,10 +1070,6 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
         }
       }
     });
-
-    print("DELETE COURSE = " + str);
-    print(coursesList);
-    print(coursesWidgetList);
   }
 }
 

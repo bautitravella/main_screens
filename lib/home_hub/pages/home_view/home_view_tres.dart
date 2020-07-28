@@ -2167,10 +2167,12 @@ class _HomeViewTresState extends State<HomeViewTres> {
       )
           : GestureDetector(
         onTap: () {
-          setState(() {
-            _ParentMateriasButton = !_ParentMateriasButton;
-          });
-          print('Click');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GenericBookList.subject(user.getColegios().first),
+            ),
+          );
         },
         child: Stack(
           alignment: Alignment.center,

@@ -49,7 +49,7 @@ abstract class DatabaseRepository {
   Future<void> addBookToFavorites(String uid, User user);
   Stream<ColegiosData> getColegios();
 
-  Future<void> addSchool(String name, String email);
+  Future<void> addSchool(String name,List<String> materias,String email);
 
   //CHAT
   Stream<List<Chat>> getVentaChats(User user);
@@ -838,12 +838,14 @@ class FirebaseRepository extends DatabaseRepository {
   }
 
   @override
-  Future<void> addSchool(String name, String email) {
+  Future<void> addSchool(String name, List<String> materiasList,String email) {
     return requestsReference.add({
       "email": email,
       "schoolName": name,
+      "materias":materiasList,
       "timestamp": FieldValue.serverTimestamp(),
-      "type": "add_school"
+      "type": "add_school",
+      "state":"pending",
     });
   }
 

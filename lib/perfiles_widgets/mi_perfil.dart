@@ -2257,7 +2257,7 @@ class _MiPerfilState extends State<MiPerfil> {
                     ),
                       onPressed: (){
                         if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-                          BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
+                          //BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
                           Navigator.pop(context);
                           showLoadingDialog(context);
                           Future.delayed(Duration(seconds: 2)).then((smt)=>Navigator.pop(context));

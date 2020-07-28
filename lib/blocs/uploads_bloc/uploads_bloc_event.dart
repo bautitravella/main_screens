@@ -84,8 +84,8 @@ class ResetEvent extends UploadsBlocEvent{
 }
 class AddSchool extends UploadsBlocEvent{
   final String schoolName,userEmail;
-
-  AddSchool( this.schoolName, this.userEmail);
+  final List<String> materiasList;
+  AddSchool( this.schoolName,this.materiasList, this.userEmail);
 
   @override
   List<Object> get props => [schoolName,userEmail];

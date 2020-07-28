@@ -40,7 +40,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
     }else if(event is ResetEvent){
       yield* _mapResetToState();
     }else if(event is AddSchool){
-      yield* _mapAddSchoolToState(event.schoolName,event.userEmail);
+      yield* _mapAddSchoolToState(event.schoolName,event.materiasList,event.userEmail);
     }
   }
 
@@ -119,10 +119,10 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
     yield UserEdited();
   }
 
-  Stream<UploadsBlocState>_mapAddSchoolToState(String schoolName, String userEmail) async*{
+  Stream<UploadsBlocState>_mapAddSchoolToState(String schoolName,List<String> materiasList, String userEmail) async*{
     yield EditingState();
     databaseRepository
-        .addSchool(schoolName, userEmail);
+        .addSchool(schoolName,materiasList, userEmail);
     analytics.logEvent(name: "add_school",parameters: {"school_name": schoolName});
     Future.delayed(Duration(milliseconds: 500)).then((value) => add(ResetEvent()));
   }
