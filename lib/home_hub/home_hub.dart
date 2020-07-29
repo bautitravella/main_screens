@@ -19,7 +19,6 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
 import 'package:provider/provider.dart';
-import 'package:animations/animations.dart';
 
 
 
@@ -89,18 +88,7 @@ class HomeHubState extends State<HomeHub> {
       child: Scaffold(
         body: Stack(
           children: [
-            PageTransitionSwitcher(
-              transitionBuilder: (child, primaryAnimation, secondaryAnimation){
-                return FadeThroughTransition(
-                  fillColor: Theme.of(context).accentColor,
-                  animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation,
-
-                  child: child,
-                );
-              },
-              child: _children[_currentIndex],
-            ),
+            _children[_currentIndex],
             Container(
               height: 143,
               child: Stack(

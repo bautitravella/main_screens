@@ -15,7 +15,6 @@ import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:animations/animations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
