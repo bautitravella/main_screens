@@ -798,7 +798,7 @@ Widget createCourseTag(BuildContext context, String str,Function(String) fn){
       label: Text(str, textAlign: TextAlign.center),
       labelPadding: EdgeInsets.only(top: 4, bottom: 4, right: 10, left: 10),
       deleteIcon:
-          Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
+      Icon(Icons.cancel, color: Theme.of(context).dialogBackgroundColor),
       onDeleted: () {fn(str);},
       shape: RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(15.0),
@@ -813,8 +813,10 @@ Widget createCourseTag(BuildContext context, String str,Function(String) fn){
   );
 }
 
+
 class CreateSchoolDialogWidget extends StatefulWidget {
   String email;
+
   CreateSchoolDialogWidget(this.email);
 
   @override
@@ -826,20 +828,18 @@ class CreateSchoolDialogWidget extends StatefulWidget {
 class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
   List<String> coursesList = ["Matematica", "Deporte", "Historia", "Geografia"];
   List<CourseTag> coursesWidgetList = List();
-  TextEditingController coursesTextEditingController,colegioNameTextEditingController;
+  TextEditingController coursesTextEditingController = new TextEditingController(),
+      colegioNameTextEditingController = new TextEditingController();
   String courseErrorString = '';
 
-//  @override
-//  void initState() {
-//    coursesList.forEach((element) {coursesWidgetList.add(createCourseTag(context, element,deleteCourseTag));});
-//    super.initState();
-//
-//  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    coursesTextEditingController = new TextEditingController();
-    colegioNameTextEditingController = new TextEditingController();
     String input = "";
     return Container(
       margin: EdgeInsets.only(
@@ -965,6 +965,7 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                             coursesWidgetList.add(CourseTag(course,deleteCourseTag));
                             coursesList.add(course);
                             courseErrorString = '';
+                            coursesTextEditingController.clear();
                           }
                         });
                       }
@@ -1012,6 +1013,7 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                       BlocProvider.of<UploadsBloc>(context).add(AddSchool(
                           colegioNameTextEditingController.text,coursesList,widget.email));
                       Navigator.pop(context);
+                      //TODO: @bauti @trave @juanba @singamagaz @rey_del_frizze
                     }else{
                       showErrorDialog(context," El nombre del colegio no se completo");
                     }
@@ -1039,6 +1041,8 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
       }
     });
   }
+
+
 }
 
 
