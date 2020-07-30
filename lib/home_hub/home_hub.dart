@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterui/WidgetsCopy/SmothAnimation/fade_scale_transition.dart';
 import 'package:flutterui/WidgetsCopy/SmothAnimation/fade_through_transition.dart';
 import 'package:flutterui/WidgetsCopy/SmothAnimation/page_transition_switcher.dart';
 import 'package:flutterui/auth.dart';
@@ -89,11 +90,10 @@ class HomeHubState extends State<HomeHub> {
         body:Stack(
           children: [
             PageTransitionSwitcher(
+              duration: Duration( milliseconds: 800),
               transitionBuilder: (child, primaryAnimation, secondaryAnimation){
-                return FadeThroughTransition(
-                  fillColor: Theme.of(context).accentColor,
+                return FadeScaleTransition(
                   animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation,
 
                   child: child,
                 );
