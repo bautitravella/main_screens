@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterui/WidgetsCopy/SmothAnimation/fade_through_transition.dart';
+import 'package:flutterui/WidgetsCopy/SmothAnimation/page_transition_switcher.dart';
 import 'package:flutterui/auth.dart';
 import 'package:flutterui/home_hub/pages/explore_view/explore_view.dart';
 import 'package:flutterui/home_hub/pages/favoritos_view/favoritos_view.dart';
@@ -41,7 +43,6 @@ class HomeHubState extends State<HomeHub> {
     super.initState();
     _pageController = PageController();
     _children = [
-
       HomeViewTres(homeHubState: this),
       MyBooksViewMulti(),
       FavoritosView(),
@@ -82,13 +83,23 @@ class HomeHubState extends State<HomeHub> {
   @override
   Widget build(BuildContext context) {
 
-
     return WillPopScope(
       onWillPop:() {return _onWillPop();},
       child: Scaffold(
-        body: Stack(
+        body:Stack(
           children: [
-            _children[_currentIndex],
+            PageTransitionSwitcher(
+              transitionBuilder: (child, primaryAnimation, secondaryAnimation){
+                return FadeThroughTransition(
+                  fillColor: Theme.of(context).accentColor,
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation,
+
+                  child: child,
+                );
+              },
+              child: _children[_currentIndex],
+            ),
             Container(
               height: 143,
               child: Stack(
@@ -162,6 +173,7 @@ class HomeHubState extends State<HomeHub> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           selectedIndex: _currentIndex,
           onItemSelected: (index) {
+            /*controller.forward(from: 0.0);*/
             setState(() => _currentIndex = index);
             try{
               _pageController?.jumpToPage(index);
