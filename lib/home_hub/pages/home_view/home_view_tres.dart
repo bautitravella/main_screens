@@ -223,7 +223,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     controller: sc,
                     children: <Widget>[
                       state.user is Padre
-                          ? createParentLayoutRecomendados(state.user)
+                          ? createParentLayoutRecomendados(state.user)//Recomendados Padres
                           : GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -287,10 +287,10 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                   )
                                 ],
                               ),
-                            ),
+                            ),//Recomendados alumnos
                       SizedBox(height: 5),
                       state.user is Padre
-                          ? createParentLayoutEconomicos(state.user)
+                          ? createParentLayoutEconomicos(state.user)//Economicos Padre
                           : GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -327,7 +327,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    "Recomendados",
+                                    "Economicos",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 17,
@@ -341,7 +341,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                     height: 5,
                                   ),
                                   Text(
-                                    "Nuestra selección \nexclusiva para vos",
+                                    "Selección de libros con\n los precios mas bajos",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 11,
@@ -354,7 +354,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             )
                           ],
                         ),
-                      ),
+                      ),//Economicos Alumnos
                       /*HomeTile(
                         user: state.user,
                         backgroundImagePath:
@@ -372,7 +372,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => GenericBookList.years(
-                                      "Florida Day School"),
+                                      "Florida Day School"),//TODO @Agus
                                 ),
                               );
                             },
@@ -424,9 +424,9 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 )
                               ],
                             ),
-                          ),
+                          ),//Cursos Padre y Alumno
                           state.user is Padre
-                              ? createParentLayoutMaterias(state.user)
+                              ? createParentLayoutMaterias(state.user) //Materias Padres
                               :GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -485,7 +485,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 )
                               ],
                             ),
-                          ),
+                          ),//Materias Alumnos
                         ],
                       ), //TODO para proximo update
                     ],
@@ -1439,7 +1439,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
     showSlideDialogChico(
       backgroundColor: Theme.of(context).dialogBackgroundColor,
         context: context,
-        child: SuccesfullDialog(title: "hello there", body: "Hello there again my rightfull friend", )
+        child: SuccesfullDialog(title: "hello there", body: "Hello there again my rightful friend", )
     );
   }
 
@@ -1691,7 +1691,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 ],
               ),
             );
-    } else {
+    }
+    else {
       return GestureDetector(
         onTap: () {
           Navigator.push(
@@ -1702,10 +1703,11 @@ class _HomeViewTresState extends State<HomeViewTres> {
           );
         },
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-              height: double.maxFinite,
+              height: 151.0,
               width: SizeConfig.blockSizeHorizontal * 94,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
@@ -1758,7 +1760,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
   Widget createParentLayoutEconomicos(Padre user) {
     final _controller = ScrollController();
     if (user.hijos.length > 1) {
-      return _ParentEconomicosButton
+      return _ParentEconomicosButton //Padre Econonomicos con mas de dos hijos
           ? Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -1959,7 +1961,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
           ],
         ),
       );
-    } else {
+    }
+    else {
       return GestureDetector(
         onTap: () {
           Navigator.push(
@@ -1970,10 +1973,11 @@ class _HomeViewTresState extends State<HomeViewTres> {
           );
         },
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-              height: double.maxFinite,
+              height: 151.0,
               width: SizeConfig.blockSizeHorizontal * 94,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
@@ -2007,7 +2011,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Selección de libros con\n los precios mas bajos",
+                    "Selección de libros con\nlos precios mas bajos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2021,7 +2025,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           ],
         ),
       );
-    }
+    }//Padre Economicos con solo un hijo
   }
   Widget createParentLayoutMaterias(Padre user) {
     final _controller = ScrollController();
@@ -2164,7 +2168,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             ),
           )
         ],
-      )
+      ) //Padre colegios materias button available
           : GestureDetector(
         onTap: () {
           setState(() {
@@ -2221,56 +2225,55 @@ class _HomeViewTresState extends State<HomeViewTres> {
             )
           ],
         ),
-      );
-    } else {
+      ); //Padre colegios materias button disable
+    }
+    else {
       return GestureDetector(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GenericBookList.cheapest(),
+              builder: (context) =>
+                  GenericBookList.cheapest(), // TODO @Agus poner para que valla a materias del colegio
             ),
           );
         },
         child: Stack(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-              height: double.maxFinite,
-              width: SizeConfig.blockSizeHorizontal * 94,
+              margin: EdgeInsets.fromLTRB(0, 5, 12, 5),
+              height: 225,
+              width: SizeConfig.blockSizeHorizontal * 45,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
-                  "assets/images/explora-economicos.png",
-                  fit: BoxFit.cover,
+                  "assets/images/explora-materias.png",
+                  fit: BoxFit.fitHeight,
                 ),
               ),
             ),
             Positioned(
-              right: 10,
-              top: SizeConfig.blockSizeVertical * 2,
-              bottom: SizeConfig.blockSizeVertical * 2,
+              left: 15,
+              bottom: 15,
               width: SizeConfig.blockSizeHorizontal * 40,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Economicos",
+                    "Materias",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontFamily: "Sf-r",
                       fontWeight: FontWeight.w800,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   Text(
-                    "Selección de libros con\n los precios mas bajos",
+                    "Podrás elegir entre libros \nde materias especificas",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2283,7 +2286,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             )
           ],
         ),
-      );
+      );//Padre materias cuando tiene solo un hijo
     }
   }
 }
