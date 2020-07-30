@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,6 +9,8 @@ import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/message_model.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialog_widget/create_school_dialog.dart';
+import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/terminos_ycondiciones_widget.dart';
 import 'package:flutterui/main.dart';
 import 'package:flutterui/WidgetsCopy//textfield_widget.dart';
@@ -328,10 +332,33 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
       widget.user.nombre = nombreController.text;
       widget.user.apellido = apellidoController.text;
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => TerminosYCondicionesWidget(widget.user)));
+//      Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//              builder: (context) => TerminosYCondicionesWidget(widget.user)));
+      showLoadingDialog(context);
+      FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+      //SUBIR PERFIL
+      analytics.setUserProperty(name: "rol", value: "Alumno");
+      analytics.logEvent(name: "create_user");
+
+      //todo cambiar toda esta poronga por un buen Future.wait
+      uploadData2(context).then((smt) => {
+        Future.delayed(Duration(seconds: 2)).then((value) {
+          print("PASANDO A LA PROXIMA PANTALLA");
+          BlocProvider.of<UserBloc>(context).add(LoadUser(widget.user.email));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeHub()),
+          );
+        }),
+      }).catchError((err) {
+        print("HUBO UN ERROR 1, " + err.toString());
+        Navigator.pop(context);
+        showErrorDialog(context,
+            "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}");
+      }
+      );
     } else {
       //print("ERROR MESSAGE: ");
 
@@ -340,6 +367,52 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
     }
 
     //Mostrar un mensaje de error
+  }
+
+
+  Future<void> uploadData2(BuildContext context)async{
+    String downloadUrl = await uploadImage();
+    widget.user.fotoPerfilUrl = downloadUrl;
+    widget.user.hasAcceptedTerms = true;
+    return Future.wait([uploadUserInformation(downloadUrl, context),createFavoritesDocument(),createTokensDocument()]);
+  }
+
+
+  Future<String> uploadImage() async {
+    StorageReference ref =
+    FirebaseStorage.instance.ref().child("profile_images2/" + widget.user.email + ".jpg");
+    StorageUploadTask uploadTask = ref.putFile(widget.user.fotoPerfilRaw);
+    print(
+        "---------------------------------------------------------Arranca la transferencia");
+
+    String downloadUrl =
+    (await (await uploadTask.onComplete).ref.getDownloadURL()).toString();
+    print(
+        "---------------------------------------------------------Termina la Transferencia");
+
+    print("DOWNLOAD URL  1: " + downloadUrl);
+    return downloadUrl;
+  }
+
+  Future uploadUserInformation(String downloadUrl, BuildContext context) {
+    return Firestore.instance
+        .collection('Users')
+        .document(widget.user.email)
+        .setData(widget.user.toMap())
+        .then((value) => print("se mando bien la info a firebase"))
+        .catchError((err) => {
+      Navigator.pop(context),
+      showErrorDialog(context,
+          "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}")
+    });
+  }
+
+  Future createFavoritesDocument() {
+    return  Firestore.instance.collection('Users').document(widget.user.email).collection('Favoritos').document('favoritos').setData({'favoritosList':[]});
+  }
+
+  Future createTokensDocument(){
+    return Firestore.instance.collection('Users').document(widget.user.email).collection('Tokens').document('tokens').setData({'tokensList':[]});
   }
 }
 // siguienteBtn(BuildContext context){
@@ -370,107 +443,13 @@ void showErrorDialog(BuildContext context, String errorMessage) {
 }
 
 void showSchoolDialog(BuildContext context, String email) {
-  TextEditingController colegioNameTextEditingController = TextEditingController();
+  TextEditingController colegioNameTextEditingController =
+  TextEditingController();
   String errorMessage = "No has ingresado ningun colegio.";
+  String input = "";
   showSlideDialogFull(
-      context: context,
-      child: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 50),
-              Text(
-                "Enviar solicitud para\nagregar un colegio",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: "Sf-r",
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 40),
-              Container(
-                  margin: EdgeInsets.only(left: 50, right: 50),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: "Sf-t",
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 40),
-                      TextField(
-                        controller: colegioNameTextEditingController,
-                        cursorColor: AppColors.secondaryBackground,
-                        decoration: InputDecoration(
-                          hintText: "Nombre del colegio que quieres agregar",
-                          alignLabelWithHint: true,
-                          border: InputBorder.none,
-                        ),
-                        style: TextStyle(
-                          color: AppColors.accentText,
-                          fontFamily: "Sf-r",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                        ),
-                        maxLines: 1,
-                        autocorrect: false,
-                      ),
-                    ],
-                  )
-              ),
-              SizedBox(height: 80),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  FlatButton(child:
-                  Text(
-                    "Cancelar",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: "Sf-r",
-                      color: Colors.black38,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                    onPressed: ()=> Navigator.pop(context),
-                  ),
-                  FlatButton(child:
-                  Text(
-                    "Enviar",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: "Sf-r",
-                      color: AppColors.secondaryBackground,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                    onPressed: (){
-                      if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-                        //BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
-                        Navigator.pop(context);
-                        showLoadingDialog(context);
-                        Future.delayed(Duration(seconds: 2)).then((smt)=>Navigator.pop(context));
-                      }
-                      else{Navigator.pop(context);
-                      showErrorDialog(context, errorMessage);
-                      }
-                    },
-                  )
-                ],
-              )
-
-            ],
-          ),
-        ),
-      )
+    context: context,
+    child: CreateSchoolDialogWidget(email),
   );
 }
 
