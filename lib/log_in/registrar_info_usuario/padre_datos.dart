@@ -392,73 +392,75 @@ class _PadreDatosState extends State<PadreDatos> {
         apellidoController.text.isNotEmpty) {
       widget.user.nombre = nombreController.text;
       widget.user.apellido = apellidoController.text;
-    } else {
-      //print("ERROR MESSAGE: ");
 
-      showErrorDialog(
-          context, "Debes escribir tu nombre y apellido para poder continuar.");
-    }
 
-    //Mostrar un mensaje de error
-
-    //fijarse si alguno de los hijos creados tiene algun campo incompleto
-    for (int i = 0; i <= hijos.length - 1; i++) {
-      if (!hijos[i].isComplete()) {
-        //aca hay que poner el pop up de que ese usuario esta mal
-        error = true;
-        cantErrores++;
-        if (cantErrores >= 2) {
-          genericErrorMessage += ", ${i + 1} ";
-        } else {
-          genericErrorMessage += " ${i + 1}";
+      //fijarse si alguno de los hijos creados tiene algun campo incompleto
+      for (int i = 0; i <= hijos.length - 1; i++) {
+        if (!hijos[i].isComplete()) {
+          //aca hay que poner el pop up de que ese usuario esta mal
+          error = true;
+          cantErrores++;
+          if (cantErrores >= 2) {
+            genericErrorMessage += ", ${i + 1} ";
+          } else {
+            genericErrorMessage += " ${i + 1}";
+          }
         }
       }
-    }
 
-    if (error == true) {
-      if (cantErrores > 1) {
-        errorMessagePlural +=
-            genericErrorMessage + " tienen campos que estan incompletos.";
-        genericErrorMessage = errorMessagePlural;
+      if (error == true) {
+        widget.user.hijos.clear();
+        if (cantErrores > 1) {
+          errorMessagePlural +=
+              genericErrorMessage + " tienen campos que estan incompletos.";
+          genericErrorMessage = errorMessagePlural;
+        } else {
+          errorMessageIndividual +=
+              genericErrorMessage + " tiene campos que estan incompletos.";
+          genericErrorMessage = errorMessageIndividual;
+        }
+        //print("ERROR MESSAGE : " + genericErrorMessage);
+        showErrorDialog(context, genericErrorMessage);
       } else {
-        errorMessageIndividual +=
-            genericErrorMessage + " tiene campos que estan incompletos.";
-        genericErrorMessage = errorMessageIndividual;
-      }
-      //print("ERROR MESSAGE : " + genericErrorMessage);
-      showErrorDialog(context, genericErrorMessage);
-    } else {
-      hijos.forEach((element) {
-        widget.user.agregarHijo(element.toHijo());
-      });
+        hijos.forEach((element) {
+          widget.user.agregarHijo(element.toHijo());
+        });
 //      Navigator.push(
 //          context,
 //          MaterialPageRoute(
 //              builder: (context) => TerminosYCondicionesWidget(widget.user)));
-      FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
-      Padre auxUser = widget.user;
-      analytics.setUserProperty(name: "rol", value: "Padre");
-      analytics.setUserProperty(name: "cant_hijos", value: auxUser.hijos.length.toString());
-      analytics.logEvent(name: "create_user");
+        FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
+        Padre auxUser = widget.user;
+        analytics.setUserProperty(name: "rol", value: "Padre");
+        analytics.setUserProperty(name: "cant_hijos", value: auxUser.hijos.length.toString());
+        analytics.logEvent(name: "create_user");
 
-      //todo cambiar toda esta poronga por un buen Future.wait
-      uploadData2(context).then((smt) => {
-        Future.delayed(Duration(seconds: 2)).then((value) {
-          print("PASANDO A LA PROXIMA PANTALLA");
-          BlocProvider.of<UserBloc>(context).add(LoadUser(widget.user.email));
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomeHub()),
-          );
-        }),
-      }).catchError((err) {
-        print("HUBO UN ERROR 1, " + err.toString());
-        Navigator.pop(context);
-        showErrorDialog(context,
-            "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}");
+        //todo cambiar toda esta poronga por un buen Future.wait
+        uploadData2(context).then((smt) => {
+          Future.delayed(Duration(seconds: 2)).then((value) {
+            print("PASANDO A LA PROXIMA PANTALLA");
+            BlocProvider.of<UserBloc>(context).add(LoadUser(widget.user.email));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeHub()),
+            );
+          }),
+        }).catchError((err) {
+          print("HUBO UN ERROR 1, " + err.toString());
+          Navigator.pop(context);
+          showErrorDialog(context,
+              "Hubo un error al intentar cargar tus datos.Error: ${err.toString()}");
+        }
+        );
       }
-      );
+
+    } else {
+      //print("ERROR MESSAGE: ");
+      showErrorDialog(
+          context, "Debes escribir tu nombre y apellido para poder continuar.");
+
     }
+
   }
 
   agregarHijo() {
