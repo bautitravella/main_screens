@@ -40,6 +40,7 @@ class MiPerfil extends StatefulWidget {
   MiPerfil({Key key}) : super(key: key);
 
   bool isSelected = false;
+  bool isAllDataCorrect = false;
 
   @override
   _MiPerfilState createState() => _MiPerfilState();
@@ -1806,7 +1807,7 @@ class _MiPerfilState extends State<MiPerfil> {
                   : Container(),
 
               FilterChip(
-                label: Text('${widget.isSelected ? 'Guardado' : 'Guardar'}', textAlign: TextAlign.center,),
+                label: Text('${widget.isSelected ? widget.isAllDataCorrect? 'Guardado':'No se Guardo' : 'Guardar'}', textAlign: TextAlign.center,),
                 labelPadding: EdgeInsets.only(top: 2, bottom: 2, right: 10, left: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(18.0),
@@ -1826,11 +1827,11 @@ class _MiPerfilState extends State<MiPerfil> {
                 onSelected: (bool selected) {
                   setState(() {
                     widget.isSelected = !widget.isSelected;
-                    aceptarCambios();
+                    widget.isAllDataCorrect = aceptarCambios();
                   });
                 },
                 backgroundColor: Color.fromARGB(200, 0, 191, 131),
-                selectedColor: AppColors.secondaryBackground,
+                selectedColor: widget.isAllDataCorrect? AppColors.secondaryBackground: Colors.red,
                 checkmarkColor: Colors.white,
               ),
             ],
@@ -1840,7 +1841,7 @@ class _MiPerfilState extends State<MiPerfil> {
     );
   }
 
-  void aceptarCambios() {
+  bool aceptarCambios() {
     print("BOTON DE ACEPTAR CAMBIOS ACEPTADO");
     if (auxUser != null && originalUser != null) {
       print("BOTON DE ACEPTAR CAMBIOS ACEPTADO--------1");
@@ -1853,7 +1854,7 @@ class _MiPerfilState extends State<MiPerfil> {
         print('0');
         showErrorDialog(context,
             "Debes completar tu nombre y apellido para poder guardar los cambios.");
-        return null;
+        return false;
       }
 
       if (auxUser is Padre) {
@@ -1865,19 +1866,19 @@ class _MiPerfilState extends State<MiPerfil> {
             print('1');
             showErrorDialog(context,
                 "Debes ingresar un nombre valido para todos tus hijos.");
-            return null;
+            return false;
           }
           if (hijo.colegio == null || hijo.colegio.isEmpty) {
             print('2');
             showErrorDialog(context,
                 "Debes ingresar un colegio de la lista para cada uno de tus hijos.");
-            return null;
+            return false;
           }
           if (hijo.curso == null || hijo.curso.isEmpty) {
             print('3');
             showErrorDialog(context,
                 "Debes ingresar un curso de la lista para cada uno de tus hijos.");
-            return null;
+            return false;
           }
         });
       }
@@ -1886,14 +1887,14 @@ class _MiPerfilState extends State<MiPerfil> {
           if (colegio == null) {
             showErrorDialog(context,
                 "Debes ingresar un colegio de la lista para poder continuar.");
-            return null;
+            return false;
           }
         });
         auxUser.getCursos().forEach((curso) {
           if (curso == null) {
             showErrorDialog(context,
                 "Debes ingresar un curso de la lista para poder continuar.");
-            return null;
+            return false;
           }
         });
       }
@@ -1901,16 +1902,17 @@ class _MiPerfilState extends State<MiPerfil> {
         print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-------2");
         auxUser.fotoPerfilRaw = _image;
         BlocProvider.of<UploadsBloc>(context).add(EditUserProfile(auxUser));
-      } else if (auxUser != originalUser) {
-        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-----3");
-        BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
-      } else if (editedImage) {
+      } else if (editedImage){
         print("BOTON DE ACEPTAR CAMBIOS ACEPTADO------4");
         if (_image != null) {
           auxUser.fotoPerfilRaw = _image;
           BlocProvider.of<UploadsBloc>(context).add(EditUserImage(auxUser));
         }
+      } else{
+        print("BOTON DE ACEPTAR CAMBIOS ACEPTADO-----3");
+        BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
       }
+      return true;
     }
   }
 

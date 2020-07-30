@@ -97,6 +97,7 @@ class UploadsBloc extends Bloc<UploadsBlocEvent, UploadsBlocState> {
 
   Stream<UploadsBlocState> _mapEditUserProfileInfoToState(User user) async*{
     yield EditingState();
+    print("Hola llegue hasta _mapEditUserProfileInfoToState");
     databaseRepository
         .editUserInfo(user)
         .then((value) => add(EditedBookReady()))

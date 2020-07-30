@@ -472,6 +472,8 @@ class FirebaseRepository extends DatabaseRepository {
 
   @override
   Future<void> editUserInfo(User user) {
+    print("hola llegue hasta editUserInfo");
+    print('USER == ' + user.toString());
     return usersReference.document(user.email).updateData(user.toMap());
   }
 
