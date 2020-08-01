@@ -408,6 +408,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                             int index = colegiosUser.indexOf(colegio);
                             if(index != -1)selectedColegios.add(index);
                           }
+                          isColegioSelected = true;
 
                         }
                         return Column(
@@ -522,15 +523,17 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                           if (state is ColegiosLoaded) {
                                             //BUSCO DE LA LISTA de COLEGIOS  DATA cual es el indice de los cursos y materias en los que ya estaba anotado el libro
                                             if(!isCoursesListLoaded){
-                                            for(String curso in widget.book.cursos){
-                                              int index = state.colegiosData.cursos.indexOf(curso);
-                                              if(index != -1) selectedCursos.add(index);
-                                            }
-                                            for(String materia in widget.book.materias){
-                                              int index = state.colegiosData.cursos.indexOf(materia);
-                                              if(index != -1) selectedMaterias.add(index);
-                                            }
-                                            isCoursesListLoaded = true;
+                                              for(String curso in widget.book.cursos){
+                                                int index = state.colegiosData.cursos.indexOf(curso);
+                                                if(index != -1) selectedCursos.add(index);
+                                              }
+                                              print("MATERIAS COLEGIOS = " + state.colegiosData.materias.toString()
+                                                  + '\n MATERIAS LIBRO = ' + widget.book.materias.toString() );
+                                              for(String materia in widget.book.materias){
+                                                int index = state.colegiosData.materias.indexOf(materia);
+                                                if(index != -1) selectedMaterias.add(index);
+                                              }
+                                              isCoursesListLoaded = true;
                                             }
                                             return isColegioSelected?Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -949,8 +952,9 @@ class _EditBookWidgetState extends State<EditBookWidget> {
         descripcion == null ||
         descripcion.isEmpty ||
         precio == null ||
-        precio.isEmpty ||
-        (_isMarcked == false && _isTicked == false)) {
+        precio.isEmpty //||
+        //(_isMarcked == false && _isTicked == false)
+    ){
 
       showErrorDialog(
           context, "Para continuar debes completar todos los campos");
@@ -996,15 +1000,18 @@ class _EditBookWidgetState extends State<EditBookWidget> {
           //en este caso solo se modificaron las imagenes del libro
           print('2222222222222222222222222222222222222222222222222222');
           BlocProvider.of<UploadsBloc>(context).add(EditBookImages(clonedBook));
-        } else if (clonedBook != widget.book) {
+          //} else if (clonedBook != widget.book) {
+        }else{
           //en este caso se modificaron solo los datos del libro
           print('333333333333333333333333333333333333333333333333333333');
           BlocProvider.of<UploadsBloc>(context).add(EditBookInfo(clonedBook));
-        } else {
-          //en este caso
-          print('444444444444444444444444444444444444444444444444444444444444');
-          Navigator.of(context).pop();
+          Navigator.pop(context);
         }
+//        else {
+//          //en este caso
+//          print('444444444444444444444444444444444444444444444444444444444444');
+//          Navigator.of(context).pop();
+//        }
         //BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(
 //      context,
