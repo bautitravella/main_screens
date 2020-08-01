@@ -53,7 +53,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   Map<String, bool> values;
   bool loadingDialogShown = false;
   bool valuesHasBeenCreated = false;
-  bool isColegioSelected = false,isUniversidadSelected = false;
+  bool isColegioSelected = false,isUniversidadSelected = false,isSchoolListLoaded = false,isCoursesListLoaded=false;
 
   List<int> selectedColegios = [];
   List<int> selectedCursos = [];
@@ -139,7 +139,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                         Icon(Icons.arrow_back_ios, color: Theme.of(context).iconTheme.color,),
                         SizedBox(width: 10),
                         Text(
-                          "Subir libro",
+                          "Editar libro",
                           style: Theme.of(context).textTheme.headline1,
                         ),
                       ],
@@ -400,6 +400,16 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                         return CircularProgressIndicator();
                       } else if (state is UserLoadedState) {
                         if (state.user is Alumno || state.user is Padre)_colegioCheckBox=true;
+                        //BUSCO DE LA LISTA de COLEGIOS cual es el indice de los colegios en los que ya estaba anotado el libro
+                        if(!isSchoolListLoaded){
+                          isSchoolListLoaded = true;
+                          List<String> colegiosUser = state.user.getColegios();
+                          for(String colegio in widget.book.colegios){
+                            int index = colegiosUser.indexOf(colegio);
+                            if(index != -1)selectedColegios.add(index);
+                          }
+
+                        }
                         return Column(
                           children: <Widget>[
                             Column(
@@ -510,6 +520,18 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                     BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                                         builder: (context, state) {
                                           if (state is ColegiosLoaded) {
+                                            //BUSCO DE LA LISTA de COLEGIOS  DATA cual es el indice de los cursos y materias en los que ya estaba anotado el libro
+                                            if(!isCoursesListLoaded){
+                                            for(String curso in widget.book.cursos){
+                                              int index = state.colegiosData.cursos.indexOf(curso);
+                                              if(index != -1) selectedCursos.add(index);
+                                            }
+                                            for(String materia in widget.book.materias){
+                                              int index = state.colegiosData.cursos.indexOf(materia);
+                                              if(index != -1) selectedMaterias.add(index);
+                                            }
+                                            isCoursesListLoaded = true;
+                                            }
                                             return isColegioSelected?Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
@@ -600,7 +622,9 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                                 ),//DropDown Materia
                                               ],
                                             ):Container();
-                                          }return CircularProgressIndicator();}),
+                                          }
+                                          BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                                          return CircularProgressIndicator();}),
                                   ],
                                 )
                                     :Container(),
