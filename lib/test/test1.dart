@@ -586,7 +586,7 @@ class _BookSection2State extends State<BookSection2> {
                                           padding: const EdgeInsets.only(top: 15),
                                           width: SizeConfig.blockSizeHorizontal * 80,
                                           child: Text(
-                                            "Destalles",
+                                            "Detalles",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontSize: 17,
