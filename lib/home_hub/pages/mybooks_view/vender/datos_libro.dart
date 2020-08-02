@@ -59,6 +59,7 @@ class _DatosLibrosState extends State<DatosLibros> {
   List<int> selectedUniversidades = [];
   List<int> selectedCarreras = [];
   List<int> selectedYearUniversidad = [];
+  List<String> colegiosList,cursosList,materiasList;
 
 @override
   void initState() {
@@ -374,6 +375,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                             return CircularProgressIndicator();
                           } else if (state is UserLoadedState) {
                             if (state.user is Alumno || state.user is Padre)_colegioCheckBox=true;
+                            colegiosList = state.user.getColegios();
                             return Column(
                               children: <Widget>[
                                 Column(
@@ -484,6 +486,8 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                                         builder: (context, state) {
                                         if (state is ColegiosLoaded) {
+                                          cursosList = state.colegiosData.cursos;
+                                          materiasList = state.colegiosData.materias;
                                         return isColegioSelected?Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
@@ -758,26 +762,59 @@ class _DatosLibrosState extends State<DatosLibros> {
         precio == null ||
         precio.isEmpty ||
         (_isMarcked == true && _isTicked == true)) {
-      //TODO agregar dialog con el error
-      showErrorDialog(context, "Para continuar debes completar todos los campos");
+      if(nombreLibro == null ||
+          nombreLibro.isEmpty ||
+          nombreLibro.length ==0 ){
+        showErrorDialog(
+            context, "Para continuar debes completar el nombre del libro");
+      }else if(autor == null ||
+          autor.isEmpty ||
+          autor.length == 0 ){
+        showErrorDialog(
+            context, "Para continuar debes completar el nombre del autor");
+      }else if( descripcion == null ||
+          descripcion.isEmpty ||
+          descripcion.length == 0 ){
+        showErrorDialog(
+            context, "Para continuar debes completar la descripcion del libro");
+      }else if(precio == null ||
+          precio.isEmpty ||
+          precio.length ==0){
+        showErrorDialog(
+            context, "Para continuar debes completar el precio del libro");
+      }
+
       print("falta completar algun campo");
       return null;
-    }
-    widget.book.nombreLibro = nombreLibro;
-    widget.book.autor = autor;
-    widget.book.descripcion = descripcion;
-    widget.book.precio = num.parse(precio);
-    widget.book.publico = _isTicked;
-    if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
-    if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
-    print("todos los campos estan completos");
-    analytics.logEvent(name: "finish_subir_libro");
-    BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
+    } else if(selectedColegios.length == 0){
+      showErrorDialog(
+          context, "Para continuar debes seleccionar al menos un colegio");
+    }else if(selectedCursos.length == 0){
+      showErrorDialog(
+          context, "Para continuar debes seleccionar al menos un curso en el que quieras registrar tu libro");
+    }else if(selectedMaterias.length == 0){
+      showErrorDialog(
+          context, "Para continuar debes seleccionar al menos una materia en la que quieras registrar tu libro");
+    }else{
+      widget.book.nombreLibro = nombreLibro;
+      widget.book.autor = autor;
+      widget.book.descripcion = descripcion;
+      widget.book.precio = num.parse(precio);
+      widget.book.publico = _isTicked;
+      if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
+      if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
+      selectedColegios.forEach((index) {widget.book.colegios.add(colegiosList[index]);});
+      selectedCursos.forEach((index) {widget.book.cursos.add(cursosList[index]);});
+      selectedMaterias.forEach((index) {widget.book.materias.add(materiasList[index]);});
+      print("todos los campos estan completos");
+      analytics.logEvent(name: "finish_subir_libro");
+      BlocProvider.of<BooksBloc>(context).add(AddBook(widget.book));
 //    uploadBook().then((smt) => Navigator.push(
 //      context,
 //      MaterialPageRoute(builder: (context) => MyBooksView()),
 //    ));
   }
+}
 
   Future uploadBook() async {
     try {
