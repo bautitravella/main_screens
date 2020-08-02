@@ -90,3 +90,12 @@ class AddSchool extends UploadsBlocEvent{
   @override
   List<Object> get props => [schoolName,userEmail];
 }
+
+class AddSubject extends UploadsBlocEvent{
+  final String schoolName,userEmail;
+  final List<String> materiasList;
+  AddSubject( this.schoolName,this.materiasList, this.userEmail);
+
+  @override
+  List<Object> get props => [schoolName,userEmail];
+}
