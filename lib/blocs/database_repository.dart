@@ -50,7 +50,7 @@ abstract class DatabaseRepository {
   Stream<ColegiosData> getColegios();
 
   Future<void> addSchool(String name,List<String> materias,String email);
-
+  Future<void> addSubject(String name,List<String> materiasList,String email);
   //CHAT
   Stream<List<Chat>> getVentaChats(User user);
   Stream<List<Chat>> getCompraChats(User user);
@@ -849,6 +849,18 @@ class FirebaseRepository extends DatabaseRepository {
       "type": "add_school",
       "state":"pending",
     });
+  }
+
+  @override
+  Future<void> addSubject(String name,List<String> materiasList,String email){
+    return requestsReference.add({
+        "email": email,
+        "schoolName": name,
+        "materias":materiasList,
+        "timestamp": FieldValue.serverTimestamp(),
+        "type": "add_subject",
+        "state":"pending",
+      });
   }
 
   @override
