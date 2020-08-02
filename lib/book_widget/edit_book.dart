@@ -63,6 +63,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   List<int> selectedCarreras = [];
   List<int> selectedYearUniversidad = [];
 
+  List<String> colegiosList,cursosList,materiasList;
+
 
   List<Asset> images = [];
   String _error;
@@ -113,7 +115,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
           showErrorDialog(context,
               "Ha habido un error cargando el libro a nuestra base de datos. ${state.errorMessage}");
         } else if (state is EditingState) {
-          showLoadingDialog(context);
+          //showLoadingDialog(context);
         }
       },
       child: GestureDetector(
@@ -401,6 +403,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                       } else if (state is UserLoadedState) {
                         if (state.user is Alumno || state.user is Padre)_colegioCheckBox=true;
                         //BUSCO DE LA LISTA de COLEGIOS cual es el indice de los colegios en los que ya estaba anotado el libro
+                        colegiosList = state.user.getColegios();
                         if(!isSchoolListLoaded){
                           isSchoolListLoaded = true;
                           List<String> colegiosUser = state.user.getColegios();
@@ -522,6 +525,8 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                         builder: (context, state) {
                                           if (state is ColegiosLoaded) {
                                             //BUSCO DE LA LISTA de COLEGIOS  DATA cual es el indice de los cursos y materias en los que ya estaba anotado el libro
+                                            cursosList = state.colegiosData.cursos;
+                                            materiasList = state.colegiosData.materias;
                                             if(!isCoursesListLoaded){
                                               for(String curso in widget.book.cursos){
                                                 int index = state.colegiosData.cursos.indexOf(curso);
@@ -938,32 +943,72 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   }
 
   _siguienteBtn() {
-    String nombreLibro = nombreTextController.text;
-    String autor = autorTextController.text;
-    String editorial = editorialTextController.text;
-    String ISBN = ISBNTextController.text;
-    String descripcion = descripcionTextController.text;
-    String precio = precioTextController.text;
-
+    String nombreLibro = nombreTextController.text.trim();
+    String autor = autorTextController.text.trim();
+    String editorial = editorialTextController.text.trim();
+    String ISBN = ISBNTextController.text.trim();
+    String descripcion = descripcionTextController.text.trim();
+    String precio = precioTextController.text.trim();
+    //reviso que ninguno de los campos que son de completar texto esten vacios
     if (nombreLibro == null ||
         nombreLibro.isEmpty ||
+        nombreLibro.length ==0 ||
         autor == null ||
         autor.isEmpty ||
+        autor.length == 0 ||
         descripcion == null ||
         descripcion.isEmpty ||
+        descripcion.length == 0 ||
         precio == null ||
-        precio.isEmpty //||
+        precio.isEmpty ||
+        precio.length ==0
         //(_isMarcked == false && _isTicked == false)
     ){
+      if(nombreLibro == null ||
+          nombreLibro.isEmpty ||
+          nombreLibro.length ==0 ){
+        showErrorDialog(
+            context, "Para continuar debes completar el nombre del libro");
+      }else if(autor == null ||
+          autor.isEmpty ||
+          autor.length == 0 ){
+        showErrorDialog(
+            context, "Para continuar debes completar el nombre del autor");
+      }else if( descripcion == null ||
+          descripcion.isEmpty ||
+          descripcion.length == 0 ){
+        showErrorDialog(
+            context, "Para continuar debes completar la descripcion del libro");
+      }else if(precio == null ||
+          precio.isEmpty ||
+          precio.length ==0){
+        showErrorDialog(
+            context, "Para continuar debes completar el precio del libro");
+      }
 
-      showErrorDialog(
-          context, "Para continuar debes completar todos los campos");
       print("falta completar algun campo");
       return null;
     } else if (images.length < 3 && imagesChanged) {
       showErrorDialog(context,
           "Debes seleccionar como minimo 3 imagenes para poder continuar");
-    } else {
+    } else if(selectedColegios.length == 0){
+      showErrorDialog(
+          context, "Para continuar debes seleccionar al menos un colegio");
+    }else if(selectedCursos.length == 0){
+      showErrorDialog(
+          context, "Para continuar debes seleccionar al menos un curso en el que quieras registrar tu libro");
+    }else if(selectedMaterias.length == 0){
+      showErrorDialog(
+          context, "Para continuar debes seleccionar al menos una materia en la que quieras registrar tu libro");
+    }else{
+      //agrego los elemento seleccionados en las listas al nuevo libro
+      clonedBook.colegios.clear();
+      clonedBook.cursos.clear();
+      clonedBook.materias.clear();
+      selectedColegios.forEach((index) {clonedBook.colegios.add(colegiosList[index]);});
+      selectedCursos.forEach((index) {clonedBook.cursos.add(cursosList[index]);});
+      selectedMaterias.forEach((index) {clonedBook.materias.add(materiasList[index]);});
+      //preparamos las IMAGENES para subirlas en un formato valido al libro
       showLoadingDialog(context);
       List<Future<ByteData>> futuresList = [];
       List<Future<ByteData>> futuresThumbsList = [];
@@ -982,6 +1027,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
               clonedBook.imagesRawThumb.add(element.buffer.asUint8List());
             })),
       ]).then((smt) {
+        //ahora is subimos este nuevo libro a firebase
         Navigator.pop(context);
         clonedBook.nombreLibro = nombreLibro;
         clonedBook.autor = autor;
