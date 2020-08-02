@@ -12,6 +12,7 @@ import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialog_widget/add_subject_school.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
@@ -540,7 +541,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                             ),
                                             BeautyDropDown(
                                               multiple: true,
-                                              item: createDropDownMenuListColegios(state.colegiosData.materias),
+                                              item: createDropDownMenuListMaterias(state.colegiosData.materias),
                                               selectedItems: selectedMaterias,
                                               width: double.maxFinite, //REQUIRED
                                               height: selectedMaterias.length>0?(selectedMaterias.length * 50.0): 50,
@@ -549,16 +550,21 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               autofocus: false,
                                               selectedValueWidget: (item) {
                                                 print("Item DROP:" +  item.toString());
-                                                return Container(
-                                                  child: Chip(
-                                                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                    label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                    deleteIcon: Icon(
-                                                      Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                if(item == "+ Agregar Materia"){
+                                                  showAddSubjectDialog(context,widget.book.emailVendedor,state.colegiosData.materias);
+                                                  return Container();
+                                                }else{
+                                                  return Container(
+                                                    child: Chip(
+                                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                      label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
+                                                      deleteIcon: Icon(
+                                                        Icons.cancel, color: Theme.of(context).iconTheme.color,
+                                                      ),
+                                                      onDeleted: (){},
                                                     ),
-                                                    onDeleted: (){},
-                                                  ),
-                                                );
+                                                  );
+                                                }
                                               },
                                               margin: EdgeInsets.only(top: 10),
                                               cornerRadius: BorderRadius.all(Radius.circular(15)),
@@ -718,7 +724,6 @@ class _DatosLibrosState extends State<DatosLibros> {
   }
 
   List<DropdownMenuItem> createDropDownMenuListColegios(List<String> listaAux) {
-  List<String> lista=["gosho","fds", "sanja", "san lucas"];
     List<DropdownMenuItem> dropdownMenuItemList = [];
     String agregarColegio =  "+ Agregar Colegio";
     String item;
@@ -741,6 +746,57 @@ class _DatosLibrosState extends State<DatosLibros> {
         value: item,
       ));
     };
+    return dropdownMenuItemList;
+  }
+
+  List<DropdownMenuItem> createDropDownMenuListMaterias(List<String> lista) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    String agregarMateria = "+ Agregar Materia";
+    for (String item in lista) {
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(
+                    top: 10,
+                    bottom:
+                    10), //TODO encontrar alternativa para el container overflow
+                child: new Text(
+                  item,
+                  style: Theme.of(context).textTheme.headline3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    }
+    dropdownMenuItemList.add(DropdownMenuItem(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(
+                  top: 10,
+                  bottom:
+                  10), //TODO encontrar alternativa para el container overflow
+              child: new Text(
+                agregarMateria,
+                style: TextStyle(
+                  color: AppColors.secondaryBackground,
+                  fontFamily: "Sf-r",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ]),
+      value: agregarMateria,
+    ));
     return dropdownMenuItemList;
   }
 
@@ -1020,6 +1076,8 @@ class _DatosLibrosState extends State<DatosLibros> {
       ],
     );
   }
+
+
 }
 
 void showLoadingDialog(BuildContext context) {
@@ -1028,6 +1086,12 @@ void showLoadingDialog(BuildContext context) {
 void showErrorDialog(BuildContext context,String errorMessage){
   showSlideDialogChico(context: context, child: ErrorDialog(title: "Oops...",error: errorMessage,),
       animatedPill: false);
+}
+void showAddSubjectDialog(BuildContext context,String email,List<String> colegiosList){
+  showSlideDialogFull(
+  context: context,
+  child: AddSubjectToSchoolDialogWidget(email,colegiosList),
+  );
 }
 
 Map<String, bool> createMapfromStringsList(List<String> stringsList) {

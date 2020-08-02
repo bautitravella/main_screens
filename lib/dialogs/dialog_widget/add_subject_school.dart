@@ -10,8 +10,9 @@ import 'package:flutterui/values/colors.dart';
 
 class AddSubjectToSchoolDialogWidget extends StatefulWidget {
   String email;
+  List<String> colegiosList;
 
-  AddSubjectToSchoolDialogWidget(this.email);
+  AddSubjectToSchoolDialogWidget(this.email,this.colegiosList);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,13 +21,14 @@ class AddSubjectToSchoolDialogWidget extends StatefulWidget {
 }
 
 class AddSubjectToSchoolDialogState extends State<AddSubjectToSchoolDialogWidget> {
-  List<String> coursesList = ["Matematica", "Deporte", "Historia", "Geografia"];
+  List<String> coursesList = [];
   //TODO: esto no termina de funcionar porque no se como hacer para que se
   // agreguen automaticamente los cosos de estas materias.
   List<CourseTag> coursesWidgetList = List();
   TextEditingController coursesTextEditingController = new TextEditingController(),
       colegioNameTextEditingController = new TextEditingController();
   String courseErrorString = '';
+  String colegioSelectedValue;
 
 
   @override
@@ -50,19 +52,19 @@ class AddSubjectToSchoolDialogState extends State<AddSubjectToSchoolDialogWidget
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Enviar solicitud para\nagregar un colegio",
+                  "Enviar solicitud para\nagregar materia/s",
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
+                  "La solicitud sera revisada por nuestro equipo antes de agregar la/s materias seleccionadas. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
             ),
             SizedBox(height: 40),
             Text(
-              "Nombre del colegio a agregar",
+              "Colegio en el que quieres la/las materias agregar",
               style: Theme.of(context).textTheme.headline2,
             ),
             BeautyTextfield(
@@ -93,15 +95,34 @@ class AddSubjectToSchoolDialogState extends State<AddSubjectToSchoolDialogWidget
                 print(data.length);
               },
             ),
+            BeautyDropDown(
+              width: double.maxFinite, //REQUIRED
+              height: 50, //REQUIRED
+              accentColor: Colors.white, // On Focus Color//Text Color
+              backgroundColor: Theme.of(context).hintColor,
+              margin: EdgeInsets.only(top: 10),
+              cornerRadius: BorderRadius.all(Radius.circular(15)),
+              duration: Duration(milliseconds: 300),
+              suffixIcon: Icon(Icons.remove_red_eye),
+              item: createDropDownMenuListColegios(
+                  widget.colegiosList),
+              isExpanded: true,
+              value: colegioSelectedValue,
+              onChanged: (value) {
+                  setState(() {
+                   colegioSelectedValue = value;
+                  });
+              },
+            ),
             SizedBox(height: 40),
             SizedBox(height: 40),
             Text(
-              "Materias de tu año",
+              "Materia/s que quieres agregar",
               style: Theme.of(context).textTheme.headline2,
             ),
             SizedBox(height: 8),
             Text(
-              "Podras agregar una por una las materias correspondientes de tu año",
+              "Podras agregar una por una las materias",
               style: Theme.of(context).textTheme.subtitle2,
             ),
             SizedBox(height: 10),
@@ -238,5 +259,32 @@ class AddSubjectToSchoolDialogState extends State<AddSubjectToSchoolDialogWidget
     });
   }
 
+  List<DropdownMenuItem> createDropDownMenuListColegios(List<String> listaAux) {
+    List<DropdownMenuItem> dropdownMenuItemList = [];
+    String agregarColegio =  "+ Agregar Colegio";
+    String item;
+    for (int i=0;i<listaAux.length;i++) {
+      item=listaAux[i];
+      dropdownMenuItemList.add(DropdownMenuItem(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10,bottom: 10), //TODO encontrar alternativa para el container overflow
+                child: new Text(
+                  item,
+                  style: Theme.of(context).textTheme.headline3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+        value: item,
+      ));
+    };
+    return dropdownMenuItemList;
+  }
+
 
 }
+
