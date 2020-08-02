@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/blocs/colegios_bloc/bloc.dart';
@@ -311,6 +312,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
         context: context,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: SizeConfig.blockSizeVertical*3),
             Text(
@@ -318,133 +320,25 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
               style: Theme.of(context).textTheme.headline6,
             ),
             SizedBox(height: SizeConfig.blockSizeVertical*6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    width: 62,
-                    height: 62,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.red,
-                      child: Image.asset("assets/images/user_default_pic-14.png",),
-                    )
-                    ,),
-                ),
-                SizedBox(width: 40),
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          width: 62,
-                          height: 62,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: Image.asset("assets/images/user_default_pic-15.png"),
-                          )
-                          ,),
-                      ],
+            Container(
+              height: SizeConfig.blockSizeVertical*30,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
+              child: CustomScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                slivers: [
+                  SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
                     ),
-                  ),
-                ),
-                SizedBox(width: 40),
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          width: 62,
-                          height: 62,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: Image.asset("assets/images/user_default_pic-16.png"),
-                          )
-                          ,),
-                      ],
+                    delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return  OmitirProfilePic();
+                        },
+                      childCount: 6,
                     ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: SizeConfig.blockSizeVertical*6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          width: 62,
-                          height: 62,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: Image.asset("assets/images/user_default_pic-17.png"),
-                          )
-                          ,),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 40),
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          width: 62,
-                          height: 62,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: Image.asset("assets/images/user_default_pic-18.png"),
-                          )
-                          ,),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 40),
-                GestureDetector(
-                  onTap: (){
-                  },
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5),
-                          width: 62,
-                          height: 62,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: Image.asset("assets/images/user_default_pic-19.png"),
-                          )
-                          ,),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                  )
+                ],
+              )
             ),
           ],
         ),
@@ -489,6 +383,25 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
   }
 
+}
+
+class OmitirProfilePic extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*4),
+        width: 62,
+        height: 62,
+        child: CircleAvatar(
+          child: Image.asset("assets/images/user_default_pic-14.png"),
+        ),
+      ),
+    );
+  }
 }
 
 
