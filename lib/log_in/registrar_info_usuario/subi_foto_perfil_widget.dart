@@ -182,14 +182,14 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
               ),
               SizedBox(height: SizeConfig.blockSizeVertical*5),
               Center(
-                child: Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8, bottom: SizeConfig.blockSizeVertical*5),
-                  child: _image == null ?
-                      GestureDetector(
-                        onTap: () {
-                          showProfilePicsDialog(context, "hola");
-                        },
-                        child: Text(
+                child: GestureDetector(
+                  onTap: () {
+                    showProfilePicsDialog(context, "hola");
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10, vertical: SizeConfig.blockSizeVertical*2),
+                    child: _image == null ?
+                        Text(
                           "Saltar",
                           style: TextStyle(
                               color: Colors.redAccent,
@@ -197,29 +197,29 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                               fontSize: 23,
                             fontWeight: FontWeight.w700,
                           ),
-                        ),
-                      )
-                      :Container(
-                        height: 50,
-                        width: double.maxFinite,
-                        margin: EdgeInsets.only(bottom: 15),
-                        child: FlatButton(
-                          onPressed: () => siguienteBtn(context),
-                          /*color: Color.fromARGB(255, 222, 222, 222),*/
-                          color: AppColors.secondaryBackground,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(15)),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Continuar",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline5,
+                        )
+                        :Container(
+                          height: 50,
+                          width: double.maxFinite,
+                          margin: EdgeInsets.only(bottom: 15),
+                          child: FlatButton(
+                            onPressed: () => siguienteBtn(context),
+                            /*color: Color.fromARGB(255, 222, 222, 222),*/
+                            color: AppColors.secondaryBackground,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Continuar",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                  ),
                 ),
               ),
             ],

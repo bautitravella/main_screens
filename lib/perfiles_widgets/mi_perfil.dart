@@ -16,6 +16,7 @@ import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
 import 'package:flutterui/WidgetsCopy/Animated_screen.dart';
 import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/dialogs/dialog_widget/create_school_dialog.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/values/colors.dart';
@@ -2166,116 +2167,14 @@ class _MiPerfilState extends State<MiPerfil> {
         ),
         animatedPill: false);
   }
-
   void showSchoolDialog(BuildContext context, String email) {
-    TextEditingController colegioNameTextEditingController = TextEditingController();
+    TextEditingController colegioNameTextEditingController =
+    TextEditingController();
     String errorMessage = "No has ingresado ningun colegio.";
+    String input = "";
     showSlideDialogFull(
-        context: context,
-        child: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 50),
-                Text(
-                  "Enviar solicitud para\nagregar un colegio",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Sf-r",
-                    color: Theme.of(context).textTheme.headline1.color,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 40),
-                Container(
-                    margin: EdgeInsets.only(left: 50, right: 50),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "La solicitud sera revisada por nuestro equipo antes de agregar el colegio seleccionado. Una vez aceptada o rechazada te enviaremos un mail con nuestra decision.",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: "Sf-t",
-                            color: Theme.of(context).textTheme.headline1.color,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 40),
-                        TextField(
-                          controller: colegioNameTextEditingController,
-                          cursorColor: AppColors.secondaryBackground,
-                          decoration: InputDecoration(
-                            hintText: "Nombre del colegio que quieres agregar",
-                            alignLabelWithHint: true,
-                             border: InputBorder.none,
-                          ),
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.headline1.color,
-                            fontFamily: "Sf-r",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                          ),
-                          maxLines: 1,
-                          autocorrect: false,
-                        ),
-                        Container(
-                          height: 2,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).hintColor.withAlpha(50),
-                          ),
-                        ),
-                      ],
-                    )
-                ),
-
-                SizedBox(height: 80),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FlatButton(child:
-                    Text(
-                      "Cancelar",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: "Sf-r",
-                        color: Theme.of(context).textTheme.headline1.color,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                      onPressed: ()=> Navigator.pop(context),
-                    ),
-                    FlatButton(child:
-                    Text(
-                      "Enviar",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: "Sf-r",
-                        color: AppColors.secondaryBackground,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                      onPressed: (){
-                        if(colegioNameTextEditingController.text != null && colegioNameTextEditingController.text.length > 2){
-                          //BlocProvider.of<UploadsBloc>(context).add(AddSchool(colegioNameTextEditingController.text,email));
-                          Navigator.pop(context);
-                          showLoadingDialog(context);
-                          Future.delayed(Duration(seconds: 2)).then((smt)=>Navigator.pop(context));
-                        }
-                        else{Navigator.pop(context);
-                        showErrorDialog(context, errorMessage);
-                        }
-                      },
-                    )
-                  ],
-                )
-
-              ],
-            ),
-          ),
-        )
+      context: context,
+      child: CreateSchoolDialogWidget(email),
     );
   }
 }

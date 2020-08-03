@@ -547,6 +547,10 @@ class _PadreDatosState extends State<PadreDatos> {
 class ChildField extends StatefulWidget {
   ChildField(this.user, {Key key}) : super(key: key);
 
+  bool _sinColegioCheckBoxVisible = false;
+  bool _sinColegioCheckBox = false;
+  static bool _colegioAgregado = false;
+
   @override
   _ChildFieldState createState() => _ChildFieldState();
 
@@ -577,6 +581,8 @@ class _ChildFieldState extends State<ChildField> {
   List createSchoolSubjects = List();
 
   bool loadingDialogShown = false;
+
+
 
   @override
   void initState() {
@@ -617,6 +623,7 @@ class _ChildFieldState extends State<ChildField> {
       child: SingleChildScrollView(
         child: BlocBuilder<ColegiosBloc, ColegiosBlocState>(
             builder: (context, state) {
+
           if (state is ColegiosLoading) {
             showLoadingDialog(context);
             loadingDialogShown = true;
@@ -625,6 +632,7 @@ class _ChildFieldState extends State<ChildField> {
             if (loadingDialogShown) {
               Navigator.of(context).pop();
               loadingDialogShown = false;
+
             }
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -685,11 +693,95 @@ class _ChildFieldState extends State<ChildField> {
                       showSchoolDialog(context, widget.user.email);
                     } else {
                       setState(() {
+                       widget._sinColegioCheckBoxVisible =  true;
                         widget.colegioSelectedValue = value;
                       });
                     }
                   },
                 ),
+                widget._sinColegioCheckBoxVisible?
+                Container(
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(top: 15),
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).hintColor.withAlpha(60),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                           widget._sinColegioCheckBox =  !widget._sinColegioCheckBox;
+                          });
+                          print('Click');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal*60,
+                              child: Text(
+                                "Mi colegio no se encuentra en la lista de colegios disponibles",
+                                style: Theme.of(context).textTheme.headline4,
+                              ),
+                            ),
+                            Container(
+                                height: 27,
+                                width: 27,
+                                decoration: BoxDecoration(
+                                  color: widget._sinColegioCheckBox? AppColors.secondaryBackground: Theme.of(context).hintColor,
+                                  borderRadius:  BorderRadius.circular(5.0),
+                                ),
+                                child: widget._sinColegioCheckBox?
+                                Center(
+                                    child: Icon(
+                                        Icons.done,
+                                        color: Colors.white,
+                                        size: 17)
+                                ):
+                                Container()
+                            ),
+                          ],
+                        ),
+                      ),
+                      widget._sinColegioCheckBox?
+                      GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              ChildField._colegioAgregado =  true;
+                              showSchoolDialog(context, widget.user.email);
+                            });
+                            print('Click');
+                          },
+                          child:Container(
+                            margin: EdgeInsets.only(top: 25),
+                            child: ChildField._colegioAgregado?
+                            Opacity(
+                              opacity: 0.5,
+                              child: Text(
+                                "Agregar colegio",
+                                style:  Theme.of(context).textTheme.headline4,
+                              ),
+                            )
+                                :Text(
+                              "Agregar colegio",
+                              style:  TextStyle(
+                                color: Color.fromARGB(255, 0, 191, 131),
+                                fontSize: 15,
+                                fontFamily: "Sf",
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ) ,
+                          )
+                      )
+                          :Container(),
+
+                    ],
+                  ),
+                ): Container(),
                 SizedBox(height: 40),
                 Text(
                   "Curso",

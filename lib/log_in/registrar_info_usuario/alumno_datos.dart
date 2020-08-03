@@ -32,6 +32,10 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
   TextEditingController nombreController = new TextEditingController(), apellidoController = new TextEditingController();
   String colegioSelectedValue, cursoSelectedValue;
   bool loadingDialogShown = false;
+  bool _sinColegioCheckBoxVisible = false;
+  bool _sinColegioCheckBox = false;
+  bool _colegioAgregado = false;
+
   @override
   void initState() {
     FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
@@ -166,33 +170,129 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            "Colegio",
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                          BeautyDropDown(
-                            multiple: false,
-                            width: double.maxFinite, //REQUIRED
-                            height: 50, //REQUIRED
-                            accentColor: Colors.white, // On Focus Color//Text Color
-                            backgroundColor: Theme.of(context).hintColor,
-                            margin: EdgeInsets.only(top: 10),
-                            cornerRadius: BorderRadius.all(Radius.circular(15)),
-                            duration: Duration(milliseconds: 300),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Colegio",
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                              BeautyDropDown(
+                                multiple: false,
+                                width: double.maxFinite, //REQUIRED
+                                height: 50, //REQUIRED
+                                accentColor: Colors.white, // On Focus Color//Text Color
+                                backgroundColor: Theme.of(context).hintColor,
+                                margin: EdgeInsets.only(top: 10),
+                                cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                duration: Duration(milliseconds: 300),
 
-                            suffixIcon: Icon(Icons.remove_red_eye),
-                            item: createDropDownMenuListColegios(state.colegiosData.colegios),
-                            isExpanded: true,
-                            value: colegioSelectedValue,
-                            onChanged: (value) {
-                              if (value == "+ Agregar Colegio") {
-                                showSchoolDialog(context, widget.user.email);
-                              } else {
-                                setState(() {
-                                  colegioSelectedValue = value;
-                                });
-                              }
-                            },
+                                suffixIcon: Icon(Icons.remove_red_eye),
+                                item: createDropDownMenuListColegios(state.colegiosData.colegios),
+                                isExpanded: true,
+                                value: colegioSelectedValue,
+                                onChanged: (value) {
+                                  if (value == "+ Agregar Colegio") {
+                                    showSchoolDialog(context, widget.user.email);
+                                  } else {
+                                    setState(() {
+                                      _sinColegioCheckBoxVisible =  true;
+                                      colegioSelectedValue = value;
+                                    });
+                                  }
+                                },
+                                onTap: (){
+                                  print('Click');
+                                  setState(() {
+                                    _sinColegioCheckBoxVisible =  true;
+                                  });
+
+                                },
+                              ),
+                              _sinColegioCheckBoxVisible?
+                              Container(
+                                width: double.maxFinite,
+                                margin: EdgeInsets.only(top: 15),
+                                padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).hintColor.withAlpha(60),
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _sinColegioCheckBox =  !_sinColegioCheckBox;
+                                        });
+                                        print('Click');
+                                       },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: SizeConfig.blockSizeHorizontal*60,
+                                            child: Text(
+                                              "Mi colegio no se encuentra en la lista de colegios disponibles",
+                                              style: Theme.of(context).textTheme.headline4,
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 27,
+                                            width: 27,
+                                            decoration: BoxDecoration(
+                                              color: _sinColegioCheckBox? AppColors.secondaryBackground: Theme.of(context).hintColor,
+                                              borderRadius:  BorderRadius.circular(5.0),
+                                            ),
+                                            child:  _sinColegioCheckBox?
+                                                Center(
+                                                child: Icon(
+                                                  Icons.done,
+                                                    color: Colors.white,
+                                                    size: 17)
+                                            ):
+                                                Container()
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    _sinColegioCheckBox?
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _colegioAgregado =  true;
+                                          showSchoolDialog(context, widget.user.email);
+                                        });
+                                        print('Click');
+                                      },
+                                      child:Container(
+                                        margin: EdgeInsets.only(top: 25),
+                                      child: _colegioAgregado?
+                                      Opacity(
+                                        opacity: 0.5,
+                                        child: Text(
+                                          "Agregar colegio",
+                                          style:  Theme.of(context).textTheme.headline4,
+                                        ),
+                                      )
+                                          :Text(
+                                        "Agregar colegio",
+                                        style:  TextStyle(
+                                          color: Color.fromARGB(255, 0, 191, 131),
+                                          fontSize: 15,
+                                          fontFamily: "Sf",
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ) ,
+                                      )
+                                    )
+                                    :Container(),
+
+                                  ],
+                                ),
+                              ): Container()
+                            ],
                           ),
                           SizedBox(height: 40),
                           Text(

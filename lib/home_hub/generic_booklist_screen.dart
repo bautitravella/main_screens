@@ -358,7 +358,7 @@ class _GenericBookListState extends State<GenericBookList> {
                   margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
                   padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(50, 249, 196, 55),
+                      color: Color.fromARGB(255, 255, 217, 131),
                       borderRadius: BorderRadius.all(Radius.circular(20))
                   ),
                   width: SizeConfig.blockSizeHorizontal * 100,
