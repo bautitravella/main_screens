@@ -2226,15 +2226,14 @@ class _HomeViewTresState extends State<HomeViewTres> {
           ],
         ),
       ); //Padre colegios materias button disable
-    }
-    else {
+    } else {
       return GestureDetector(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  GenericBookList.cheapest(), // TODO @Agus poner para que valla a materias del colegio
+                  GenericBookList.subject(user.getColegios().first),
             ),
           );
         },
