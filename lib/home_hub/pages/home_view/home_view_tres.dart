@@ -64,6 +64,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
         setState(() {
           _ParentRecomendadosButton = false;
           _ParentEconomicosButton = false;
+          _ParentCursosButton = false;
           _ParentMateriasButton = false;
         });
         print('Unfocus');
@@ -366,7 +367,9 @@ class _HomeViewTresState extends State<HomeViewTres> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          GestureDetector(
+                          state.user is Padre
+                              ? createParentLayoutCursos(state.user) //Materias Padres
+                              : GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -1485,6 +1488,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
 
   bool _ParentRecomendadosButton = false;
   bool _ParentEconomicosButton = false;
+  bool _ParentCursosButton = false;
   bool _ParentMateriasButton = false;
 
   Widget createParentLayoutRecomendados(Padre user) {
@@ -2027,6 +2031,266 @@ class _HomeViewTresState extends State<HomeViewTres> {
       );
     }//Padre Economicos con solo un hijo
   }
+  Widget createParentLayoutCursos(Padre user) {
+    final _controller = ScrollController();
+    if (user.getColegios().length > 1) {
+      return _ParentCursosButton
+          ? Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.fromLTRB(12, 5, 0, 5),
+            width: SizeConfig.blockSizeHorizontal * 45,
+            height: 225,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.asset(
+                "assets/images/explora-cursos.png",
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 28,
+            bottom: 15,
+            width: SizeConfig.blockSizeHorizontal * 40,
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Cursos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontFamily: "Sf-r",
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Podrás elegir entre libros \nde cursos especificos",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontFamily: "Sf-t",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            bottom: 5,
+            right: 0,
+            left: 12,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                child: Container(
+                  color: Colors.white.withOpacity(0),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            bottom: 0,
+            right: 30,
+            left: 12,
+            child: Container(
+              child: FadingEdgeScrollView.fromScrollView(
+                child: ListView.builder(
+                  controller: _controller,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: user.getColegios().length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index >= 1) {
+                      String childName = user.getColegios()[index - 1];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GenericBookList.subject(
+                                    childName
+                                  ),
+                            ),
+                          );
+                          setState(() {
+                            _ParentMateriasButton =
+                            !_ParentMateriasButton;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: SizeConfig.blockSizeVertical*4,
+                              right: SizeConfig.blockSizeHorizontal * 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  width: 62,
+                                  height: 62,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(
+                                          20, 255, 213, 104),
+                                      borderRadius:
+                                      BorderRadius.circular(100)),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                    size: 30,
+                                  )),
+                              Text(
+                                childName,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else {
+                      return SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 8,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+          )
+        ],
+      ) //Padre colegios materias button available
+          : GestureDetector(
+        onTap: () {
+          setState(() {
+            _ParentCursosButton = !_ParentCursosButton;
+          });
+          print('Click');
+        },
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 5, 0, 5),
+              width: SizeConfig.blockSizeHorizontal * 45,
+              height: 225,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  "assets/images/explora-cursos.png",
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 28,
+              bottom: 15,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Cursos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Podrás elegir entre libros \nde cursos especificos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ); //Padre colegios cursos button disable
+    } else {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  GenericBookList.subject(user.getColegios().first), //TODO @agus mandar al respectivo colegio cursos
+            ),
+          );
+        },
+        child:  Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 5, 0, 5),
+              width: SizeConfig.blockSizeHorizontal * 45,
+              height: 225,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  "assets/images/explora-cursos.png",
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 28,
+              bottom: 15,
+              width: SizeConfig.blockSizeHorizontal * 40,
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Cursos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Podrás elegir entre libros \nde cursos especificos",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontFamily: "Sf-t",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );//Padre cursos cuando tiene solo un hijo
+    }
+  }
   Widget createParentLayoutMaterias(Padre user) {
     final _controller = ScrollController();
     if (user.getColegios().length > 1) {
@@ -2080,7 +2344,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
           ),
           Positioned(
             top: 0,
-            bottom: 0,
+            bottom: 5,
             right: 12,
             left: 0,
             child: ClipRRect(
@@ -2114,7 +2378,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   GenericBookList.subject(
-                                    childName
+                                      childName
                                   ),
                             ),
                           );
@@ -2125,7 +2389,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical*4,
+                              top: SizeConfig.blockSizeVertical*4,
                               right: SizeConfig.blockSizeHorizontal * 5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,

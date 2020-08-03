@@ -10,7 +10,7 @@ import 'package:flutterui/values/values.dart';
 final List<String> imgList = [
   "assets/images/rol-padre.png",
   "assets/images/rol-alumno.png",
-  "assets/images/rol-universitario.png",
+/*  "assets/images/rol-universitario.png",*/
 ];
 
 final List<String> imgText = [
@@ -22,13 +22,13 @@ final List<String> imgText = [
 final List<String> imgSubText = [
   "Esta opcion te dejara ir agregando multiples colegios para cada uno de tus hijos.",
   "Esta opcion te permitira explorar entre los libros de tu colgio",
-  "Esta opcion te permitira explorar entre los libros de tu carrera y año, tambien podras vender los libros de tu ex colegio",
+ /* "Esta opcion te permitira explorar entre los libros de tu carrera y año, tambien podras vender los libros de tu ex colegio",*/
 ];
 
 final List<Widget> imgNavigatorPush = [
   SubiFotoPerfilWidget(Padre()),
   SubiFotoPerfilWidget(Alumno()),
-  SubiFotoPerfilWidget(Alumno()),
+ /* SubiFotoPerfilWidget(Alumno()),*/
 ];
 
 Widget imgNavigatorPush2(String email,int index){
@@ -37,8 +37,8 @@ Widget imgNavigatorPush2(String email,int index){
       return SubiFotoPerfilWidget(Padre.fromEmail(email));
     case 1:
       return SubiFotoPerfilWidget(Alumno.fromEmail(email));
-    case 2:
-      return SubiFotoPerfilWidget(Alumno.fromEmail(email));
+   /* case 2:
+      return SubiFotoPerfilWidget(Alumno.fromEmail(email));*/
 
     default:
       return null;
@@ -159,8 +159,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
         autoPlay: false,
         enlargeCenterPage: true,
         aspectRatio: 0.87,
-        initialPage: 1,
-        enableInfiniteScroll: false,
+        initialPage: 0,
+        enableInfiniteScroll: true,
         onPageChanged: (index) {
           setState(() {
             _current = index;
