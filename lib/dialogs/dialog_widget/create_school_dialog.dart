@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/book_widget/edit_book.dart';
+import 'package:flutterui/dialogs/dialog_widget/succesfull_dialog.dart';
 import 'package:flutterui/values/colors.dart';
 import '../../size_config.dart';
+import '../dialogs.dart';
 
 Widget createCourseTag(BuildContext context, String str,Function(String) fn){
   return Container(
@@ -115,7 +117,6 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                 print(data.length);
               },
             ),
-            SizedBox(height: 40),
             SizedBox(height: 40),
             Text(
               "Materias de tu año",
@@ -231,7 +232,7 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
                       BlocProvider.of<UploadsBloc>(context).add(AddSchool(
                           colegioNameTextEditingController.text,coursesList,widget.email));
                       Navigator.pop(context);
-                      //TODO: @bauti @trave @juanba @singamagaz @rey_del_frizze
+                      showSchoolDialogSent();
                     }else{
                       showErrorDialog(context," El nombre del colegio no se completo");
                     }
@@ -260,6 +261,13 @@ class CreateSchoolDialogState extends State<CreateSchoolDialogWidget> {
     });
   }
 
+  void showSchoolDialogSent() {
+    showSlideDialogChico(
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
+        context: context,
+        child: SuccesfullDialog(title: "Felicitaciones", body: "Tu solicitud sera revisada en la brevedad", )
+    );
+  }
 
 }
 
