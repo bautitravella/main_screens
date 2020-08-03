@@ -17,6 +17,8 @@ import 'package:image_picker_modern/image_picker_modern.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/alumno_datos.dart';
+import 'package:flutter/services.dart' show ByteData, rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 
 import 'alumno_datos.dart';
@@ -34,6 +36,8 @@ class SubiFotoPerfilWidget extends StatefulWidget {
 
 class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
   File _image;
+  List<String> imagesList=["assets/images/user_default_pic-14.png","assets/images/user_default_pic-15.png","assets/images/user_default_pic-16.png",
+    "assets/images/user_default_pic-17.png","assets/images/user_default_pic-18.png","assets/images/user_default_pic-19.png"];
 
   @override
   void initState() {
@@ -332,7 +336,7 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
                     ),
                     delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                          return  OmitirProfilePic();
+                          return  OmitirProfilePic(imagesList[index],selectAvatar);
                         },
                       childCount: 6,
                     ),
@@ -383,21 +387,51 @@ class _SubiFotoPerfilWidgetState extends State<SubiFotoPerfilWidget> {
 
   }
 
+  void selectAvatar(String img_path){
+    getImageFileFromAssets(img_path).then((value) => {
+      setState(() {
+    _image = value;
+    })});
+
+  }
+
+  Future<File> getImageFileFromAssets(String path) async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    var dbPath = directory.path + '/'+ "app.jpg";
+    ByteData data = await rootBundle.load(path);
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    return await File(dbPath).writeAsBytes(bytes);
+
+
+//    final byteData = await rootBundle.load('assets/$path');
+//
+//    final file = File('${(await getTemporaryDirectory()).path}/$path');
+//    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+//
+//    return file;
+  }
+
 }
 
 class OmitirProfilePic extends StatelessWidget{
+  String img_path;
+  Function(String) fn;
+
+  OmitirProfilePic(this.img_path,this.fn);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
+        Navigator.pop(context);
+        fn(img_path);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*4),
         width: 62,
         height: 62,
         child: CircleAvatar(
-          child: Image.asset("assets/images/user_default_pic-14.png"),
+          child: Image.asset(img_path),
         ),
       ),
     );
