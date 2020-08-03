@@ -15,6 +15,7 @@ import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/database_repository.dart';
 import 'package:flutterui/blocs/uploads_bloc/bloc.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
+import 'package:flutterui/home_hub/rincon.dart';
 import 'package:flutterui/log_in/registrar_info_usuario/elije_un_rol_widget.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 import 'package:flutterui/log_in/verificacion_widget.dart';
@@ -389,13 +390,25 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
 
           if (firebaseUserInfoCompleted2(state.user)) {
             BlocProvider.of<TokensBloc>(context).add(AddToken());
+            List<String> colegios = state.user.getColegios();
+            String colegioNoSeleccionado = "colegio NO seleccionado";
+            //if(true){
+            if(colegios.contains(colegioNoSeleccionado)){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Rincon(state.user),
+                ),
+              );
+            }else{
+
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => HomeHub(),
               ),
             );
-          }
+          }}
         } else if (state is UserNotLoadedState) {
           print("USER  NOT LOADEEED");
           Navigator.push(
