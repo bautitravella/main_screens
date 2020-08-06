@@ -11,6 +11,8 @@ import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/log_in/firstscreen_widget.dart';
 
+import '../size_config.dart';
+
 class Rincon extends StatefulWidget {
   User user;
 
@@ -26,8 +28,8 @@ class _RinconState extends State<Rincon> {
 
   @override
   void initState() {
-      BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
-      super.initState();
+    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+    super.initState();
   }
 
   @override
@@ -151,13 +153,15 @@ class _RinconState extends State<Rincon> {
   }
 
   _siguienteBtn() {
-    if(colegioSelectedValue != null){
+    if (colegioSelectedValue != null) {
       //TODO: @Trave @JUANBA ideal mostrar un dialog aca que diga si estas seguro que queres continuar
-      if(widget.user is Padre){
+      if (widget.user is Padre) {
         Padre auxUser = widget.user;
-        auxUser.hijos.forEach((element) {element.colegio = colegioSelectedValue;});
+        auxUser.hijos.forEach((element) {
+          element.colegio = colegioSelectedValue;
+        });
         BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
-      }else if(widget.user is Alumno){
+      } else if (widget.user is Alumno) {
         Alumno auxUser = widget.user;
         auxUser.colegio = colegioSelectedValue;
         BlocProvider.of<UploadsBloc>(context).add(EditUserInfo(auxUser));
@@ -165,7 +169,6 @@ class _RinconState extends State<Rincon> {
       Navigator.pop(context);
     }
   }
-
 }
 
 void showSchoolDialog(BuildContext context, String email) {

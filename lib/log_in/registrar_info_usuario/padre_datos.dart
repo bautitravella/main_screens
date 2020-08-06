@@ -675,7 +675,17 @@ class _ChildFieldState extends State<ChildField> {
                   "Colegio",
                   style: Theme.of(context).textTheme.headline2,
                 ),
-                BeautyDropDown(
+                widget._sinColegioCheckBox?
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: double.maxFinite, //REQUIRED
+                      height: 50, //REQUIRED
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).hintColor.withAlpha(100),
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                    )
+              : BeautyDropDown(
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color//Text Color
@@ -693,7 +703,7 @@ class _ChildFieldState extends State<ChildField> {
                       showSchoolDialog(context, widget.user.email);
                     } else {
                       setState(() {
-                       widget._sinColegioCheckBoxVisible =  true;
+                        widget._sinColegioCheckBoxVisible =  true;
                         widget.colegioSelectedValue = value;
                       });
                     }

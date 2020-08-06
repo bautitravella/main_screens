@@ -177,6 +177,17 @@ class _AlumnoDatosState extends State<AlumnoDatos> {
                                 "Colegio",
                                 style: Theme.of(context).textTheme.headline2,
                               ),
+                              _sinColegioCheckBox?
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                width: double.maxFinite, //REQUIRED
+                                height: 50, //REQUIRED
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).hintColor.withAlpha(100),
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                ),
+                              )
+                                  :
                               BeautyDropDown(
                                 multiple: false,
                                 width: double.maxFinite, //REQUIRED
