@@ -134,6 +134,7 @@ class SearchableDropdown<T> extends StatefulWidget {
     dynamic label,
     dynamic closeButton = "Close",
     bool displayClearIcon = true,
+    bool showClearIcon = false,
     Icon clearIcon = const Icon(Icons.clear),
     Color iconEnabledColor,
     Color iconDisabledColor,

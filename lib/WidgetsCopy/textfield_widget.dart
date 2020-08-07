@@ -241,10 +241,12 @@ class BeautyDropDown extends StatefulWidget {
   final selectedItems;
   final selectedValueWidget;
   final VoidCallback onClickSuffix;
-  final bool autofocus, enabled, isExpanded, multiple, clearIcon;
+  final bool autofocus, enabled, isExpanded, multiple, clearIcon, showClearIcon;
   final FocusNode focusNode;
   final GestureTapCallback onTap;
   final onChanged;
+  final onClear;
+  final onClearNew;
 
 
 
@@ -269,13 +271,16 @@ class BeautyDropDown extends StatefulWidget {
     this.value,
     this.selectedValueWidget,
     this.multiple = false,
-    this.clearIcon,
+    this.clearIcon = false,
+    this.showClearIcon = false,
     this.selectedItems,
     this.fontFamily,
     this.autofocus = false,
     this.focusNode,
     this.enabled = true,
     this.onTap,
+    this.onClear,
+    this.onClearNew,
     this.onChanged,
   })  : assert(width != null),
         assert(height != null);
@@ -393,13 +398,15 @@ class BeautyDropDownState extends State<BeautyDropDown> {
                       underline: "",
                       menuBackgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
-                      displayClearIcon: false,
+                      displayClearIcon: widget.clearIcon,
+                      showClearIcon: widget.showClearIcon,
                       hint: new Text(
                         "",
                         style: Theme.of(context).textTheme.headline3,
                       ),
                       onChanged: widget.onChanged,
                       isExpanded: widget.isExpanded,
+
                     ),
               /*
                 onSubmitted: (t) {
@@ -418,7 +425,7 @@ class BeautyDropDownState extends State<BeautyDropDown> {
               ),*/
             ),
           ),
-          Positioned(
+          /*Positioned(
             right: 0,
             child: GestureDetector(
               onTap: () {
@@ -431,6 +438,21 @@ class BeautyDropDownState extends State<BeautyDropDown> {
                 width: 50,
                 height: 50,
                 color: Colors.transparent,
+              ),
+            ),
+          ),*/
+          Positioned(
+            right: 0,
+            child: GestureDetector(
+              onTap: () {
+                //TODO @AGUS ACA SE EJECUTA
+              widget.onClearNew();
+              print("borrame todo hdp");
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                color: Colors.red,
               ),
             ),
           ),
