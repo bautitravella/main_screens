@@ -290,7 +290,7 @@ class BeautyDropDown extends StatefulWidget {
 }
 
 class BeautyDropDownState extends State<BeautyDropDown> {
-  String colegioSelectedValue, cursoSelectedValue;
+//  String colegioSelectedValue, cursoSelectedValue;
 
   bool passwordVisible = false;
 
@@ -306,6 +306,7 @@ class BeautyDropDownState extends State<BeautyDropDown> {
 
   @override
   Widget build(BuildContext context) {
+    print("SHOW CLEAR WIDGET = " + widget.showClearIcon.toString());
     return AnimatedContainer(
       width: widget.width,
       height: widget.height,
@@ -425,29 +426,14 @@ class BeautyDropDownState extends State<BeautyDropDown> {
               ),*/
             ),
           ),
-          /*Positioned(
-            right: 0,
-            child: GestureDetector(
-              onTap: () {
-                // Update the state i.e. toogle the state of passwordVisible variable
-                setState(() {
-                  passwordVisible = !passwordVisible;
-                });
-              },
-              child: Container(
-                width: 50,
-                height: 50,
-                color: Colors.transparent,
-              ),
-            ),
-          ),*/
+          widget.showClearIcon?
           Positioned(
             right: 0,
             child: GestureDetector(
               onTap: () {
                 //TODO @AGUS ACA SE EJECUTA
-              widget.onClearNew();
-              print("borrame todo hdp");
+                widget.onClearNew();
+                print("borrame todo hdp");
               },
               child: Container(
                 width: 50,
@@ -455,7 +441,20 @@ class BeautyDropDownState extends State<BeautyDropDown> {
                 color: Colors.red,
               ),
             ),
-          ),
+          )  :Container(),
+//          Positioned(
+//            right: 0,
+//            child: GestureDetector(
+//              onTap: () {
+//
+//              },
+//              child: Container(
+////                width: 50,
+////                height: 50,
+//                color: Colors.transparent,
+//              ),
+//            ),
+//          )
         ],
       ),
       duration: widget.duration,

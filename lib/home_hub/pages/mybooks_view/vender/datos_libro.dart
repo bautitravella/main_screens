@@ -429,6 +429,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                           style: Theme.of(context).textTheme.headline2,
                                         ),
                                         BeautyDropDown(
+                                          showClearIcon: false,
                                           multiple: true,
                                           item: createDropDownMenuListColegios(state.user.getColegios()),
                                           selectedItems: selectedColegios,
