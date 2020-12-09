@@ -240,151 +240,100 @@ class _FavoritosViewState extends State<FavoritosView> {
                         slivers: <Widget>[
                           SliverGrid(
                             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 150.0,
+                              maxCrossAxisExtent: 150,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 0,
-                              childAspectRatio: 0.53,
+                              childAspectRatio: 0.49,
                             ),
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                                 Book book = state.books[index];
 
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      left: 5, right: 5, top: 0, bottom: 17),
-                                  child: Stack(
-                                    alignment: Alignment.topCenter,
-                                    children: <Widget>[
-                                      Positioned(
-                                        top: 150,
-                                        child: Container(
-                                          height: 65,
-                                          width: 97,
-                                          child: Padding(
-                                            padding: EdgeInsets.all(0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  "${book.nombreLibro}",
-                                                  style: Theme.of(context).primaryTextTheme.headline3,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                ),
-                                                Text(
-                                                  "(${book.autor})",
-                                                  style: Theme.of(context).primaryTextTheme.headline5,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            BookSection2(book),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BookSection2(book),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black38,
-                                                  offset: Offset(0.0, 0.0),
-                                                  blurRadius: 9.0,
-                                                )
-                                              ]),
-                                          child: Stack(
-                                            alignment: Alignment.topRight,
-                                            children: <Widget>[
-                                              ClipRRect(
+                                    );
+                                  },
+                                  child: Container(
+                                    width: 97,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, top: 0),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(5),
-                                                child: Image(
-                                                  height: 141,
-                                                  width: 97,
-                                                  image:
-                                                      book.getFirstImageThumb(),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              /*Positioned(
-                                              right: 0,
-                                              top: 0,
-                                              child: Align(
-                                                alignment: Alignment.topRight,
-                                                child: Container(
-                                                  padding: EdgeInsets.all(0),
-                                                  width: 43,
-                                                  height: 25,
-
-                                                  child: FlatButton(
-                                                      color: Colors.white,
-                                                      padding: EdgeInsets.only(top: 0, right: 0),
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
-                                                      ),
-                                                      textColor:
-                                                      Color.fromARGB(255, 255, 255, 255),
-                                                      child: Text(
-                                                        '\$${book.price}',
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontFamily: "Gibson",
-                                                          color: AppColors.secondaryBackground,
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 12.0,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {}),
-                                                ),
-                                              ),
-                                            )*/ //Etiqueta arriba
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: 0,
-                                        left: 7,
-                                        child: Container(
-                                          height: 20,
-                                          width: 60,
-                                          margin: EdgeInsets.only(top: 5),
-                                          decoration: BoxDecoration(
-                                             color: Theme.of(context).hintColor,
-                                            borderRadius:
                                                 BorderRadius.circular(20.0),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '\$${book.precio}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily: "Sf-r",
-                                                color: Theme.of(context).textTheme.headline1.color,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12.0,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black38,
+                                                    offset: Offset(0.0, 0.0),
+                                                    blurRadius: 9.0,
+                                                  )
+                                                ]),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(5),
+                                              child: Image(
+                                                height: 141,
+                                                width: 97,
+                                                image:
+                                                book.getFirstImageThumb(),
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                          SizedBox(height: 10,),
+                                          Text(
+                                            "${book.nombreLibro}",
+                                            style: Theme.of(context).primaryTextTheme.headline3,
+                                            overflow:
+                                                TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                          ),
+                                          Text(
+                                            "(${book.autor})",
+                                            style: Theme.of(context).primaryTextTheme.headline5,
+                                            overflow:
+                                                TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          Container(
+                                            height: 20,
+                                            width: 60,
+                                            margin: EdgeInsets.only(top: 5),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).hintColor,
+                                              borderRadius:
+                                              BorderRadius.circular(20.0),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                '\$${book.precio}',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily: "Sf-r",
+                                                  color: Theme.of(context).textTheme.headline1.color,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12.0,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 );
                               },

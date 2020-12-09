@@ -41,6 +41,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black,
+      statusBarColor: Colors.transparent,
+    ));
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -392,7 +396,7 @@ class FirestoreDeciderState extends State<FirestoreDecider> {
             BlocProvider.of<TokensBloc>(context).add(AddToken());
             List<String> colegios = state.user.getColegios();
             String colegioNoSeleccionado = "colegio NO seleccionado";
-            //if(true){
+            /*if(true){*/ //TODO desabilite esta cosa, No me acuerdo que hacia.
             if(colegios.contains(colegioNoSeleccionado)){
               Navigator.push(
                 context,
