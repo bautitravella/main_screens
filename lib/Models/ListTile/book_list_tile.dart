@@ -271,7 +271,7 @@ class BookTile extends StatelessWidget{
                   right: 22,
                   child:Container(
                     height: 2,
-                    color: Colors.black12,
+                    color: Theme.of(context).iconTheme.color.withAlpha(10),
                   )
               )
             ],

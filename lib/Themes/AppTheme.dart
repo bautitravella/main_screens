@@ -15,6 +15,7 @@ class AppTheme {
     focusColor: Colors.white,// fondo textfields apretados
     hoverColor: Color.fromRGBO(0, 0, 0, 0.15),
     dialogBackgroundColor: Colors.white,
+    dividerColor: Color.fromARGB(255, 255, 213, 104),
 
    /* appBarTheme: AppBarTheme(
       color: Colors.teal,
@@ -160,6 +161,7 @@ class AppTheme {
     focusColor:  _darkWall,// fondo textfields apretados
     hoverColor: Colors.black,
     dialogBackgroundColor: Color.fromARGB(255, 22, 22, 22),
+    dividerColor: Color.fromARGB(40, 132, 111, 56),
 
     /* appBarTheme: AppBarTheme(
       color: Colors.teal,

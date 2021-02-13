@@ -205,7 +205,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     height: 50,
                     margin: EdgeInsets.only(right: 18, left: 18),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 211, 96),
+                      color: Theme.of(context).dividerColor,
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Row(
@@ -279,12 +279,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                                 },
                                 textCapitalization: TextCapitalization.sentences,
                                 decoration: InputDecoration(
-                                  contentPadding: new EdgeInsets.only(top: 15, bottom: 15),
+                                  contentPadding: new EdgeInsets.only(top: 15, bottom: 14),
                                   hintText: "Buscar",
                                   hintStyle: TextStyle(
                                     color: Colors.white54,
                                     fontFamily: "Sf-r",
-                                    fontWeight: FontWeight.w800,
+                                    fontWeight: FontWeight.w700,
                                     fontSize: 20,
                                   ),
                                   border: InputBorder.none,
