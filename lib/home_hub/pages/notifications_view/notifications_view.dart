@@ -44,64 +44,170 @@ class NotificationViewState extends State<NotificationView> {
 //    analytics.setCurrentScreen(screenName: "/home/notifications");
     BlocProvider.of<ChatsBloc>(context).add(LoadChats());
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            top: SizeConfig.blockSizeVertical * 23,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-                decoration: BoxDecoration(
-                ),
-                child: BlocBuilder<ChatsBloc, ChatsBlocState>(
-                  builder: (context, state) {
-                    if (state is ChatsLoaded) {
-                      listViewVenta =
-                          ListViewVenta(chats: state.chatsVentaList);
-                      listViewCompra =
-                          ListViewCompra(chats: state.chatsCompraList);
-                      if (isVentaSelected) {
-                        listView = listViewVenta;
-                      } else {
-                        listView = listViewCompra;
-                      }
-                      return Container(
-                        margin: EdgeInsets.only(
-                            top: SizeConfig.blockSizeVertical * 3),
-                        child: listView,
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                )),
-          ),
-          Column(
+      body:Container(
+        child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: SizeConfig.blockSizeVertical * 12,
-                    left: 28,
-                    child: Text(
-                      "Mensajes",
-                      style: Theme.of(context).accentTextTheme.headline1,
-                    ),
+              SizedBox(height: SizeConfig.blockSizeVertical * 12),
+              Container(
+                height: 31,
+                margin: EdgeInsets.only(left: 28),
+                child: Text(
+                  "Mensajes",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: "Sf",
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 30,
                   ),
-                  Container(height: 143)
-                ],
-              ), //Cartelito "Mis Libros"
+                ),),
               SizedBox(height: 20),
               CategorySelectorNotification(this),
+             Container(
+               height: SizeConfig.blockSizeVertical* 70,
+                 child: BlocBuilder<ChatsBloc, ChatsBlocState>(
+                   builder: (context, state) {
+                     if (state is ChatsLoaded) {
+                       listViewVenta =
+                           ListViewVenta(chats: state.chatsVentaList);
+                       listViewCompra =
+                           ListViewCompra(chats: state.chatsCompraList);
+                       if (isVentaSelected) {
+                         listView = listViewVenta;
+                       } else {
+                         listView = listViewCompra;
+                       }
+                       return Container(
+                         margin: EdgeInsets.only(
+                             top: SizeConfig.blockSizeVertical * 3),
+                         child: listView,
+                       );
+                     }
+                     return Center(
+                       child: CircularProgressIndicator(),
+                     );
+                   },
+                 )),
+
             ],
           ),
-        ],
+        ),
       ),
+
     );
+  }
+
+  // body: Stack(
+  //   children: <Widget>[
+  //     Positioned(
+  //       top: SizeConfig.blockSizeVertical * 23,
+  //       bottom: 0,
+  //       left: 0,
+  //       right: 0,
+  //       child: Container(
+  //           decoration: BoxDecoration(
+  //           ),
+  //           child: BlocBuilder<ChatsBloc, ChatsBlocState>(
+  //             builder: (context, state) {
+  //               if (state is ChatsLoaded) {
+  //                 listViewVenta =
+  //                     ListViewVenta(chats: state.chatsVentaList);
+  //                 listViewCompra =
+  //                     ListViewCompra(chats: state.chatsCompraList);
+  //                 if (isVentaSelected) {
+  //                   listView = listViewVenta;
+  //                 } else {
+  //                   listView = listViewCompra;
+  //                 }
+  //                 return Container(
+  //                   margin: EdgeInsets.only(
+  //                       top: SizeConfig.blockSizeVertical * 3),
+  //                   child: listView,
+  //                 );
+  //               }
+  //               return Center(
+  //                 child: CircularProgressIndicator(),
+  //               );
+  //             },
+  //           )),
+  //     ),
+  //     Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         Stack(
+  //           children: <Widget>[
+  //             Positioned(
+  //               top: SizeConfig.blockSizeVertical * 12,
+  //               left: 28,
+  //               child: Text(
+  //                 "Mensajes",
+  //                 style: Theme.of(context).accentTextTheme.headline1,
+  //               ),
+  //             ),
+  //             Container(height: 143,decoration: BoxDecoration(color: Colors.transparent),),
+  //           ],
+  //         ), //Cartelito "Mis Libros"
+  //         SizedBox(height: 20),
+  //         CategorySelectorNotification(this),
+  //       ],
+  //     ),
+  //   ],
+  // ),
+  Widget _upperBody(BuildContext context) {
+    return Container(
+        color: Theme.of(context).backgroundColor,
+        height: SizeConfig.blockSizeVertical * 100,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              left: 0,
+              top: SizeConfig.blockSizeVertical * 15,
+              right: 0,
+              child: Opacity(
+                opacity: 0.5,
+                child: Container(
+                  height: SizeConfig.blockSizeVertical * 45,
+                  child: Image.asset(
+                    "assets/images/destacados-image.png",
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: SizeConfig.blockSizeVertical * 12,
+              left: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 31,
+                    margin: EdgeInsets.only(left: 28),
+                    child: Text(
+                      "Mensajes",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontFamily: "Sf",
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 30,
+                      ),
+                    ),),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 8,
+                  ),
+                  CategorySelectorNotification(this),
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
+    ;
   }
 
   void changeFunction(int index) {

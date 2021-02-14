@@ -388,8 +388,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.asset(
-                                      "assets/images/explora-cursos.png",
-                                      fit: BoxFit.fitHeight,
+                                      "assets/images/home-cursos.png",
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -449,8 +449,8 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.asset(
-                                      "assets/images/explora-materias.png",
-                                      fit: BoxFit.fitHeight,
+                                      "assets/images/home-materias.png",
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
