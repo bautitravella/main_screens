@@ -59,7 +59,7 @@ class NotificationViewState extends State<NotificationView> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontFamily: "Sf",
-                    color: Colors.white,
+                    color: Theme.of(context).textTheme.headline1.color,
                     fontWeight: FontWeight.w800,
                     fontSize: 30,
                   ),
