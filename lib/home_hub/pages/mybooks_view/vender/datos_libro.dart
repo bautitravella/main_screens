@@ -19,6 +19,7 @@ import 'package:flutterui/values/colors.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_select/smart_select.dart';
 
 class DatosLibros extends StatefulWidget {
   Book book;
@@ -34,7 +35,7 @@ class _DatosLibrosState extends State<DatosLibros> {
 
   bool _isMarcked = false;
   bool _isTicked = false;
-
+  bool isFocusGlobal = false;
   bool _newBookCheckBox = false;
   bool _universidadCheckBox = false;
   bool _colegioCheckBox = false;
@@ -62,12 +63,36 @@ class _DatosLibrosState extends State<DatosLibros> {
   List<int> selectedYearUniversidad = [];
   List<String> colegiosList,cursosList,materiasList;
 
+  ScrollController _controller;
+  _scrollListener() {
+    if (_controller.position.pixels !=
+        _controller.position.maxScrollExtent) {
+     /* FocusScope.of(context).requestFocus(new FocusNode());*/
+      // ... call method to load more repositories
+    }
+  }
+
 @override
   void initState() {
+  _controller = ScrollController();
+  _controller.addListener(_scrollListener);
   analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
   analytics.setCurrentScreen(screenName: "/home/subir_libro/datos_libro");
     super.initState();
   }
+
+  List<int> value = [2];
+  List<S2Choice<int>> frameworks = [
+    S2Choice<int>(value: 1, title: 'Ionic'),
+    S2Choice<int>(value: 2, title: 'Flutter'),
+    S2Choice<int>(value: 3, title: 'React Native'),
+    S2Choice<int>(value: 4, title: 'Choto1'),
+    S2Choice<int>(value: 5, title: 'Choto2'),
+    S2Choice<int>(value: 6, title: 'Choto3'),
+    S2Choice<int>(value: 7, title: 'Choto4'),
+    S2Choice<int>(value: 8, title: 'Choto5'),
+    S2Choice<int>(value: 9, title: 'Choto6'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +122,9 @@ class _DatosLibrosState extends State<DatosLibros> {
           child: GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
-
+              setState(() {
+                isFocusGlobal=false;
+              });
               if (!currentFocus.hasPrimaryFocus) {
                 currentFocus.unfocus();
               }
@@ -105,6 +132,7 @@ class _DatosLibrosState extends State<DatosLibros> {
             child: Container(
               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8, right: SizeConfig.blockSizeHorizontal*8),
               child: SingleChildScrollView(
+                controller: _controller,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -145,6 +173,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     BeautyTextfield(
+                      isFocus: isFocusGlobal,
                       controller: nombreTextController,
                       textCapitalization: TextCapitalization.words,
                       width: double.maxFinite, //REQUIRED
@@ -179,6 +208,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     BeautyTextfield(
+                      isFocus: isFocusGlobal,
                       controller: autorTextController,
                       textCapitalization: TextCapitalization.words,
                       width: double.maxFinite, //REQUIRED
@@ -205,6 +235,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                       },
                       onSubmitted: (data) {
                         print(data.length);
+
                       },
                     ),
                     SizedBox(height: 40),
@@ -213,6 +244,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     BeautyTextfield(
+                      isFocus: isFocusGlobal,
                       controller: editorialTextController,
                       textCapitalization: TextCapitalization.words,
                       width: double.maxFinite, //REQUIRED
@@ -247,6 +279,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     BeautyTextfield(
+                      isFocus: isFocusGlobal,
                       controller: ISBNTextController,
                       textCapitalization: TextCapitalization.words,
                       width: double.maxFinite, //REQUIRED
@@ -366,6 +399,24 @@ class _DatosLibrosState extends State<DatosLibros> {
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
+                    ),
+                    SizedBox(height: 40),
+                    SmartSelect<int>.multiple(
+
+                      modalType: S2ModalType.bottomSheet,
+                      modalHeaderStyle: S2ModalHeaderStyle(
+                          backgroundColor: Theme.of(context).dialogBackgroundColor,
+                        textStyle: Theme.of(context).textTheme.headline6
+                      ),
+                      modalStyle: S2ModalStyle(
+                        elevation: 10,
+                        backgroundColor: Theme.of(context).dialogBackgroundColor
+                      ),
+                      modalFilter: false,
+                      title: 'Frameworks',
+                      value: value,
+                      choiceItems: frameworks,
+                      onChange: (state) => setState(() => value = state.value),
                     ),
                     SizedBox(height: 40),
                     BlocBuilder<UserBloc, UserBlocState>(

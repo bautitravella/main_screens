@@ -21,6 +21,7 @@ class BeautyTextfield extends StatefulWidget {
   final TextBaseline textBaseline;
   final FontStyle fontStyle;
   final FontWeight fontWeight;
+  bool isFocus;
   final bool autofocus,
       autocorrect,
       enabled,
@@ -32,7 +33,7 @@ class BeautyTextfield extends StatefulWidget {
   final ValueChanged<String> onChanged, onSubmitted;
   final GestureTapCallback onTap;
 
-  const BeautyTextfield(
+   BeautyTextfield(
       {@required this.width,
       @required this.height,
       @required this.inputType,
@@ -67,6 +68,7 @@ class BeautyTextfield extends StatefulWidget {
       this.minLines,
       this.onChanged,
       this.onTap,
+      this.isFocus =false,
       this.onSubmitted})
       : assert(width != null),
         assert(height != null),
@@ -79,7 +81,7 @@ class BeautyTextfield extends StatefulWidget {
 class _BeautyTextfieldState extends State<BeautyTextfield> {
   bool passwordVisible = false;
 
-  bool isFocus = false;
+ /* bool isFocus = false;*/
   double actualHeight;
 
   @override
@@ -104,7 +106,7 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               : BoxShadow(spreadRadius: 0, blurRadius: 0),
           borderRadius: widget.cornerRadius,
           color: widget.suffixIcon == null
-              ? isFocus ? widget.accentColor : widget.backgroundColor
+              ? widget.isFocus ? widget.accentColor : widget.backgroundColor
               : widget.backgroundColor),
       child: Stack(
         children: <Widget>[
@@ -113,22 +115,22 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               : Align(
                   alignment: Alignment.centerRight,
                   child: AnimatedContainer(
-                    width: isFocus ? widget.width : 40,
-                    height: isFocus ? widget.height : 40,
-                    margin: EdgeInsets.only(right: isFocus ? 0 : 7),
+                    width: widget.isFocus ? widget.width : 40,
+                    height: widget.isFocus ? widget.height : 40,
+                    margin: EdgeInsets.only(right: widget.isFocus ? 0 : 7),
                     duration: widget.duration,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: isFocus
+                        color: widget.isFocus
                             ? AppColors.secondaryBackground
                             : Colors
                                 .transparent, //                   <--- border color
                         width: 2.0,
                       ),
-                      borderRadius: isFocus
+                      borderRadius: widget.isFocus
                           ? widget.cornerRadius
                           : BorderRadius.all(Radius.circular(60)),
-                      color: isFocus
+                      color: widget.isFocus
                           ? Theme.of(context).focusColor
                           : Colors.transparent,
                     ),
@@ -139,7 +141,7 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               : GestureDetector(
                   onTap: () {
                     setState(() {
-                      isFocus ? isFocus = false : isFocus = true;
+                      widget.isFocus ? widget.isFocus = false : widget.isFocus = true;
                       if (widget.onClickSuffix != null) {
                         widget.onClickSuffix();
                       }
@@ -183,7 +185,7 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               onChanged: widget.onChanged,
               onTap: () {
                 setState(() {
-                  isFocus = true;
+                  widget.isFocus = true;
                 });
                 if (widget.onTap != null) {
                   print('Focus');
@@ -192,7 +194,7 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
               },
               onSubmitted: (t) {
                 setState(() {
-                  isFocus = false;
+                  widget.isFocus = false;
                 });
                 widget.onSubmitted(t);
               },
@@ -202,7 +204,7 @@ class _BeautyTextfieldState extends State<BeautyTextfield> {
                   hintText: widget.placeholder,
                   border: InputBorder.none),
               cursorColor:
-                  isFocus ? widget.accentColor : widget.backgroundColor,
+              widget.isFocus ? widget.accentColor : widget.backgroundColor,
             ),
           ),
           Positioned(
