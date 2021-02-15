@@ -10,6 +10,7 @@ import 'package:flutterui/Models/Alumno.dart';
 import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_magic.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialog_widget/add_subject_school.dart';
@@ -38,7 +39,7 @@ class _DatosLibrosState extends State<DatosLibros> {
   bool isFocusGlobal = false;
   bool _newBookCheckBox = false;
   bool _universidadCheckBox = false;
-  bool _colegioCheckBox = false;
+  bool _colegioCheckBox = true;
 
   TextEditingController nombreTextController = new TextEditingController(),
       editorialTextController = new TextEditingController(),
@@ -275,7 +276,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                     ),
                     SizedBox(height: 40),
                     Text(
-                      "ISBN",
+                      "ISBN (opcional)",
                       style: Theme.of(context).textTheme.headline2,
                     ),
                     BeautyTextfield(
@@ -479,61 +480,10 @@ class _DatosLibrosState extends State<DatosLibros> {
                                           "Colegio",
                                           style: Theme.of(context).textTheme.headline2,
                                         ),
-                                        BeautyDropDown(
-                                          showClearIcon: false,
-                                          multiple: true,
-                                          item: createDropDownMenuListColegios(state.user.getColegios()),
-                                          selectedItems: selectedColegios,
-                                          width: double.maxFinite, //REQUIRED
-                                          height: selectedColegios.length>0?(selectedColegios.length * 50.0): 50,
-                                          accentColor: Colors.white, // On Focus Color//Text Color
-                                          backgroundColor: Theme.of(context).hintColor,
-                                          autofocus: false,
-                                          selectedValueWidget: (item) {
-                                            print("Item DROP:" +  item.toString());
-                                            return Container(
-                                              child: Chip(
-                                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                deleteIcon: Icon(
-                                                  Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                ),
-                                                onDeleted: (){
-                                                  print("Deleted + " + item.toString());
-                                                setState(() {
-
-                                                  selectedColegios.remove(state.user.getColegios().indexOf(item.toString()));
-                                                  if(selectedColegios != null && selectedColegios.length != 0){
-                                                    isColegioSelected = true;
-                                                  }else{
-                                                    isColegioSelected = false;
-                                                  }
-                                                });
-
-                                                },
-                                              ),
-                                            );
-                                          },
-                                          margin: EdgeInsets.only(top: 10),
-                                          cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                          duration: Duration(milliseconds: 300),
-                                          onClickSuffix: () {
-                                            print('Suffix Clicked');
-                                          },
-                                          onTap: () {
-                                            print('Click');
-                                          },
-                                          onChanged: (value) {
-                                            if(value != null && value.length != 0){
-                                              isColegioSelected = true;
-                                            }else{
-                                              isColegioSelected = false;
-                                            }
-                                            setState(() {
-                                              selectedColegios = value;
-                                              print("Colegios DROP:" +  selectedColegios.toString());
-                                            });
-                                          },
+                                        DropDownMagic(title: 'Colegios',
+                                          value: selectedColegios,
+                                          choiceItems: createSmartSelectColegiosList(state.user.getColegios()),
+                                          onChange: (state) => setState(() => selectedColegios = state.value),
                                         ),//DropDown Colegio
                                         SizedBox(height: 40),
                                         BlocBuilder<ColegiosBloc, ColegiosBlocState>(
@@ -541,101 +491,33 @@ class _DatosLibrosState extends State<DatosLibros> {
                                         if (state is ColegiosLoaded) {
                                           cursosList = state.colegiosData.cursos;
                                           materiasList = state.colegiosData.materias;
-                                        return isColegioSelected?Column(
+                                         return Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
                                               "Año",
                                               style: Theme.of(context).textTheme.headline2,
                                             ),
-                                            BeautyDropDown(
-                                              multiple: true,
-                                              item: createDropDownMenuListColegios(state.colegiosData.cursos),
-                                              selectedItems: selectedCursos,
-                                              width: double.maxFinite, //REQUIRED
-                                              height: selectedCursos.length>0?(selectedCursos.length * 50.0): 50, //REQUIRED
-                                              accentColor: Colors.white, // On Focus Color//Text Color
-                                              backgroundColor: Theme.of(context).hintColor,
-                                              autofocus: false,
-                                              selectedValueWidget: (item) {
-                                                print("Item DROP:" +  item.toString());
-                                                return Container(
-                                                    child: Chip(
-                                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                      label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                      deleteIcon: Icon(
-                                                        Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                      ),
-                                                      onDeleted: (){},
-                                                    ),
-                                                  );
-                                              },
-                                              margin: EdgeInsets.only(top: 10),
-                                              cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                              duration: Duration(milliseconds: 300),
-                                              onClickSuffix: () {
-                                                print('Suffix Clicked');
-                                              },
-                                              onTap: () {
-                                                print('Click');
-                                              },
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedCursos = value;
-                                                  print("Año DROP:" +  selectedCursos.toString());
-                                                });
-                                              },
-                                            ),//DropDown Año
+                                            DropDownMagic(
+                                              title: 'Año',
+                                              value: selectedCursos,
+                                              choiceItems: createSmartSelectColegiosList(state.colegiosData.cursos),
+                                              onChange: (state) => setState(() => selectedCursos = state.value),
+                                            ),
                                             SizedBox(height: 40),
                                             Text(
                                               "Materia",
                                               style: Theme.of(context).textTheme.headline2,
                                             ),
-                                            BeautyDropDown(
-                                              multiple: true,
-                                              item: createDropDownMenuListMaterias(state.colegiosData.materias),
-                                              selectedItems: selectedMaterias,
-                                              width: double.maxFinite, //REQUIRED
-                                              height: selectedMaterias.length>0?(selectedMaterias.length * 50.0): 50,
-                                              accentColor: Colors.white, // On Focus Color//Text Color
-                                              backgroundColor: Theme.of(context).hintColor,
-                                              autofocus: false,
-                                              selectedValueWidget: (item) {
-                                                print("Item DROP:" +  item.toString());
-                                                if(item == "+ Agregar Materia"){
-                                                  showAddSubjectDialog(context,widget.book.emailVendedor,state.colegiosData.materias);
-                                                  return Container();
-                                                }else{
-                                                  return Container(
-                                                    child: Chip(
-                                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                      label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                      deleteIcon: Icon(
-                                                        Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                      ),
-                                                      onDeleted: (){},
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                              margin: EdgeInsets.only(top: 10),
-                                              cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                              duration: Duration(milliseconds: 300),
-                                              onClickSuffix: () {
-                                                print('Suffix Clicked');
-                                              },
-                                              onTap: () {
-                                                print('Click');
-                                              },
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedMaterias = value;
-                                                  print("Materia DROP:" +  selectedMaterias.toString());
-                                                });
-                                              },
-                                            ),//DropDown Materia
+
+                                            DropDownMagic(
+                                              title: 'Materias',
+                                              value: selectedMaterias,
+                                              choiceItems: createSmartSelectColegiosList(state.colegiosData.materias),
+                                              onChange: (state) => setState(() => selectedMaterias = state.value),
+                                            ),
                                           ],
-                                        ):Container();
+                                        );
                                         }return CircularProgressIndicator();}),
                                       ],
                                     )
@@ -1130,6 +1012,14 @@ class _DatosLibrosState extends State<DatosLibros> {
   }
 
 
+}
+
+createSmartSelectColegiosList(List<String> colegios) {
+  List<S2Choice<int>> result = [];
+  for(int i=0;i< colegios.length;i++){
+    result.add(S2Choice<int>(value: i,title: colegios[i]));
+  }
+  return result;
 }
 
 void showLoadingDialog(BuildContext context) {
