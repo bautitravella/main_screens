@@ -385,6 +385,8 @@ class SignUpState extends State<SignUp>{
                       TextSpan(
                         text: " términos y condiciones",
                         style: TextStyle(color: Color.fromARGB(255, 254, 189, 16), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600, decoration: TextDecoration.underline,),
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () { launch('https://docs.google.com/document/d/1UxNGanYn83-RnF1BFWZm7dO5uJXW-B-ce9G8aNHZhQo/edit?usp=sharing');}
                       ),
                       TextSpan(
                         text: " y ",
@@ -393,14 +395,10 @@ class SignUpState extends State<SignUp>{
                       TextSpan(
                         text: "aviso de privacidad.",
                         style: TextStyle(color: Color.fromARGB(255, 254, 189, 16), fontSize: 15, fontFamily: "Sf", fontWeight: FontWeight.w600, decoration: TextDecoration.underline,),
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () { launch('https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');}
                       ),
                     ],
-
-                    recognizer: new TapGestureRecognizer()
-                      ..onTap = () {
-                        launch(
-                            'https://docs.google.com/document/d/1Nlxwy9yRapiRkWzmYDiEp6EklW22LBzkeqiPn1Rv-1Y/edit?usp=sharing');
-                      },
                   ),
                 ),
                 SizedBox(height: 15),
