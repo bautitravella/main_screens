@@ -1,14 +1,10 @@
-import 'dart:math';
 import 'dart:ui';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutterui/Models/AlumnoUniversitario.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
-import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/destacados_widget/destacados_section_dos.dart';
@@ -20,8 +16,6 @@ import 'package:flutterui/home_hub/generic_booklist_screen.dart';
 import 'package:flutterui/home_hub/home_hub.dart';
 import 'package:flutterui/home_hub/search_widget/search_widget.dart';
 import 'package:flutterui/perfiles_widgets/mi_perfil.dart';
-import 'package:flutterui/test/test4rol.dart';
-import 'package:flutterui/test/test_uploadimage.dart';
 import 'package:flutterui/test/upload_book.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:flutterui/size_config.dart';
@@ -29,7 +23,6 @@ import 'package:flutterui/values/values.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -976,7 +969,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
-          GestureDetector(
+          /*GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -1117,7 +1110,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 ],
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
@@ -2553,305 +2546,3 @@ class _HomeViewTresState extends State<HomeViewTres> {
     }
   }
 }
-
-/*class HomeTile extends StatefulWidget {
-  final String title, description, backgroundImagePath;
-  final User user;
-  HomeTile(
-      {Key key,
-      this.title,
-      this.description,
-      this.backgroundImagePath,
-      this.user,})
-      : super(key: key){
-    if(user!= null && user is Padre){
-      userPadre = user;
-    }
-    if(user != null && user is AlumnoUniversitario){
-      userUniversitario = user;
-    }
-
-  }
-  Padre userPadre;
-  AlumnoUniversitario userUniversitario;
-
- *//* @override
-  _HomeTileState createState() => _HomeTileState();*//*//Arrange Update
-}*/
-
-/*class _HomeTileState extends State<HomeTile> {
-  bool _ParentRecomendadosButton = false;
-  final controllerMagico = ScrollController();
-
-  @override
-  Widget build(BuildContext context) {
-    if ((widget.user is Padre && widget.userPadre.hijos.length > 1)
-        || (widget.user is AlumnoUniversitario && widget.userUniversitario.universidades.length >1)) {
-    return _ParentRecomendadosButton
-        ? Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.fromLTRB(12, 5, 12, 5),
-                height: 151.0,
-                width: SizeConfig.blockSizeHorizontal * 100,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset(
-                    widget.backgroundImagePath,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 10,
-                top: SizeConfig.blockSizeVertical * 2,
-                bottom: SizeConfig.blockSizeVertical * 2,
-                width: SizeConfig.blockSizeHorizontal * 40,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      widget.title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontFamily: "Sf-r",
-                        fontWeight: FontWeight.w800,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      widget.description,
-//                  "Seleccion de libros con los mejores precios",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontFamily: "Sf-t",
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 0,
-                bottom: 0,
-                right: 12,
-                left: 12,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                    child: Container(
-                      color: Colors.white.withOpacity(0),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 30,
-                bottom: 0,
-                right: 30,
-                left: 12,
-                child: Container(
-                  child: FadingEdgeScrollView.fromScrollView(
-                    child: ListView.builder(
-                      controller: controllerMagico,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.userPadre.hijos.length + 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index >= 1) {
-                          String childName = widget.userPadre.hijos[index - 1].nombre;
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _ParentRecomendadosButton =
-                                !_ParentRecomendadosButton;
-                              });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      GenericBookList.recomended(
-                                    currentChild: widget.userPadre.hijos[index - 1],
-                                  ),
-                                ),
-                              );
-
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                      margin: EdgeInsets.only(bottom: 5),
-                                      width: 62,
-                                      height: 62,
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromARGB(20, 255, 213, 104),
-                                          borderRadius:
-                                              BorderRadius.circular(100)),
-                                      child: Icon(
-                                        Icons.person,
-                                        color: Colors.white,
-                                        size: 30,
-                                      )),
-                                  Text(
-                                    childName,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontFamily: "Sf-r",
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        } else {
-                          return SizedBox(
-                            width: SizeConfig.blockSizeHorizontal * 15,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )
-        : GestureDetector(
-            onTap: () {
-              setState(() {
-                _ParentRecomendadosButton = !_ParentRecomendadosButton;
-              });
-              print('Click');
-            },
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-                  height: 151.0,
-                  width: SizeConfig.blockSizeHorizontal * 94,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Image.asset(
-                      widget.backgroundImagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 10,
-                  top: SizeConfig.blockSizeVertical * 2,
-                  bottom: SizeConfig.blockSizeVertical * 2,
-                  width: SizeConfig.blockSizeHorizontal * 40,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        widget.title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontFamily: "Sf-r",
-                          fontWeight: FontWeight.w800,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        widget.description,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontFamily: "Sf-t",
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-  } else {
-      return GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GenericBookList.recomended(),
-            ),
-          );
-        },
-        child: Stack(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(12, 0, 12, 5),
-              height: double.maxFinite,
-              width: SizeConfig.blockSizeHorizontal * 94,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Image.asset(
-                  widget.backgroundImagePath,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 10,
-              top: SizeConfig.blockSizeVertical * 2,
-              bottom: SizeConfig.blockSizeVertical * 2,
-              width: SizeConfig.blockSizeHorizontal * 40,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontFamily: "Sf-r",
-                      fontWeight: FontWeight.w800,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    widget.description,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontFamily: "Sf-t",
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      );
-    }
-  }
-}*///Arrange Update

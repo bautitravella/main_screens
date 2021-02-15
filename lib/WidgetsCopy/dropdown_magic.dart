@@ -50,3 +50,11 @@ class DropDownMagic extends StatelessWidget{
   }
 
 }
+
+createSmartSelectColegiosList(List<String> colegios) {
+  List<S2Choice<int>> result = [];
+  for(int i=0;i< colegios.length;i++){
+    result.add(S2Choice<int>(value: i,title: colegios[i]));
+  }
+  return result;
+}

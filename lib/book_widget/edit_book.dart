@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/book.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_magic.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/uploads_bloc/bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
@@ -461,65 +463,16 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     SizedBox(height: 40),
-                                    Text(
+                                  /*  Text(
                                       "Colegio",
                                       style: Theme.of(context).textTheme.headline2,
+                                    ),*/
+                                    DropDownMagic(
+                                      title: 'Materias',
+                                      value: selectedColegios,
+                                      choiceItems: createSmartSelectColegiosList(state.user.getColegios()),
+                                      onChange: (state) => setState(() => selectedColegios = state.value),
                                     ),
-                                    BeautyDropDown(
-                                      multiple: true,
-                                      item: createDropDownMenuListColegios(state.user.getColegios()),
-                                      selectedItems: selectedColegios,
-                                      width: double.maxFinite, //REQUIRED
-                                      height: selectedColegios.length>0?(selectedColegios.length * 50.0): 50,
-                                      accentColor: Colors.white, // On Focus Color//Text Color
-                                      backgroundColor: Theme.of(context).hintColor,
-                                      autofocus: false,
-                                      selectedValueWidget: (item) {
-                                        print("Item DROP:" +  item.toString());
-                                        return Container(
-                                          child: Chip(
-                                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                            label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                            deleteIcon: Icon(
-                                              Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                            ),
-                                            onDeleted: (){
-                                              print("Deleted + " + item.toString());
-                                              setState(() {
-
-                                                selectedColegios.remove(state.user.getColegios().indexOf(item.toString()));
-                                                if(selectedColegios != null && selectedColegios.length != 0){
-                                                  isColegioSelected = true;
-                                                }else{
-                                                  isColegioSelected = false;
-                                                }
-                                              });
-
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      margin: EdgeInsets.only(top: 10),
-                                      cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                      duration: Duration(milliseconds: 300),
-                                      onClickSuffix: () {
-                                        print('Suffix Clicked');
-                                      },
-                                      onTap: () {
-                                        print('Click');
-                                      },
-                                      onChanged: (value) {
-                                        if(value != null && value.length != 0){
-                                          isColegioSelected = true;
-                                        }else{
-                                          isColegioSelected = false;
-                                        }
-                                        setState(() {
-                                          selectedColegios = value;
-                                          print("Colegios DROP:" +  selectedColegios.toString());
-                                        });
-                                      },
-                                    ),//DropDown Colegio
                                     SizedBox(height: 40),
                                     BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                                         builder: (context, state) {
@@ -543,91 +496,27 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                             return isColegioSelected?Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Text(
+                                               /* Text(
                                                   "Año",
                                                   style: Theme.of(context).textTheme.headline2,
-                                                ),
-                                                BeautyDropDown(
-                                                  multiple: true,
-                                                  item: createDropDownMenuListColegios(state.colegiosData.cursos),
-                                                  selectedItems: selectedCursos,
-                                                  width: double.maxFinite, //REQUIRED
-                                                  height: selectedCursos.length>0?(selectedCursos.length * 50.0): 50, //REQUIRED
-                                                  accentColor: Colors.white, // On Focus Color//Text Color
-                                                  backgroundColor: Theme.of(context).hintColor,
-                                                  autofocus: false,
-                                                  selectedValueWidget: (item) {
-                                                    print("Item DROP:" +  item.toString());
-                                                    return Container(
-                                                      child: Chip(
-                                                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                        label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                        deleteIcon: Icon(
-                                                          Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                        ),
-                                                        onDeleted: (){},
-                                                      ),
-                                                    );
-                                                  },
-                                                  margin: EdgeInsets.only(top: 10),
-                                                  cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                                  duration: Duration(milliseconds: 300),
-                                                  onClickSuffix: () {
-                                                    print('Suffix Clicked');
-                                                  },
-                                                  onTap: () {
-                                                    print('Click');
-                                                  },
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      selectedCursos = value;
-                                                      print("Año DROP:" +  selectedCursos.toString());
-                                                    });
-                                                  },
+                                                ),*/
+                                                DropDownMagic(
+                                                  title: "Año",
+                                                  value: selectedCursos,
+                                                  choiceItems: createSmartSelectColegiosList(state.colegiosData.cursos),
+                                                  onChange: (state) => setState(() => selectedCursos = state.value),
                                                 ),//DropDown Año
                                                 SizedBox(height: 40),
-                                                Text(
+                                               /* Text(
                                                   "Materia",
                                                   style: Theme.of(context).textTheme.headline2,
+                                                ),*/
+                                                DropDownMagic(
+                                                  title: "Materias",
+                                                  value: selectedMaterias,
+                                                  choiceItems: createSmartSelectColegiosList(state.colegiosData.materias),
+                                                  onChange: (state) => setState(() => selectedMaterias = state.value),
                                                 ),
-                                                BeautyDropDown(
-                                                  multiple: true,
-                                                  item: createDropDownMenuListColegios(state.colegiosData.materias),
-                                                  selectedItems: selectedMaterias,
-                                                  width: double.maxFinite, //REQUIRED
-                                                  height: selectedMaterias.length>0?(selectedMaterias.length * 50.0): 50,
-                                                  accentColor: Colors.white, // On Focus Color//Text Color
-                                                  backgroundColor: Theme.of(context).hintColor,
-                                                  autofocus: false,
-                                                  selectedValueWidget: (item) {
-                                                    print("Item DROP:" +  item.toString());
-                                                    return Container(
-                                                      child: Chip(
-                                                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                        label: Text(item.toString(), style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                                                        deleteIcon: Icon(
-                                                          Icons.cancel, color: Theme.of(context).iconTheme.color,
-                                                        ),
-                                                        onDeleted: (){},
-                                                      ),
-                                                    );
-                                                  },
-                                                  margin: EdgeInsets.only(top: 10),
-                                                  cornerRadius: BorderRadius.all(Radius.circular(15)),
-                                                  duration: Duration(milliseconds: 300),
-                                                  onClickSuffix: () {
-                                                    print('Suffix Clicked');
-                                                  },
-                                                  onTap: () {
-                                                    print('Click');
-                                                  },
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      selectedMaterias = value;
-                                                      print("Materia DROP:" +  selectedMaterias.toString());
-                                                    });
-                                                  },
-                                                ),//DropDown Materia
                                               ],
                                             ):Container();
                                           }
@@ -1108,36 +997,44 @@ class _EditBookWidgetState extends State<EditBookWidget> {
         itemCount: book.imagesUrl.length,
         itemBuilder: (BuildContext context, int index) {
           return Stack(
+            alignment: Alignment.center,
             children: [
-              Container(
-                height: 150,
-                width: 95,
+              Center(
+                child: Container(
+                  height: 150,
+                  width: 95,
+                  margin: EdgeInsets.only(right: 35),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: book.getImages() != null && book.getImages().length > 0
+                        ? //book.images[0],
+                        Image(
+                            image: book.getImages()[index],
+                            fit: BoxFit.cover,
+                          )
+                        : CircularProgressIndicator(),
+                  ),
+                ),
+              ),
+              Center(
+              child: Container(
+                height: 50,
+                width: 50,
                 margin: EdgeInsets.only(right: 35),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: book.getImages() != null && book.getImages().length > 0
-                      ? //book.images[0],
-                      Image(
-                          image: book.getImages()[index],
-                          fit: BoxFit.cover,
-                        )
-                      : CircularProgressIndicator(),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(360)),
+                child: Icon(Icons.edit, color: AppColors.secondaryBackground,)
                 ),
               ),
               Center(
                 child: Container(
                   height: 50,
                   width: 50,
-                  child: FlatButton(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(360)),
-                  child: Icon(
-                  Icons.edit,
-                  color: AppColors.secondaryBackground,
-                  size: 30,
+                  margin: EdgeInsets.only(right: 35),
+                    child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(360)),
+              onPressed: () => loadAssets()
                   ),
-                  onPressed: () => loadAssets()),
                 ),
               ),
             ],
@@ -1151,44 +1048,55 @@ class _EditBookWidgetState extends State<EditBookWidget> {
     return images.length == 0
         ? horizontalPhotos(widget.book)
         : Container(
-            margin: EdgeInsets.only(left: 22, top: 0),
-            //height: 295,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 22, top: 60),
-                  height: 225,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: images.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 180,
-                        width: 123,
-                        margin: EdgeInsets.only(right: 30),
-                        padding: EdgeInsets.all(5),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            child: AssetThumb(
-                              asset: images[index],
-                              height: 1300,
-                              width: 1300,
-                            ) //(book.images[index]),
-                            ),
-                      );
-                    },
+          height: 150,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: images.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+               Center(
+                  child: Container(
+                    height: 150,
+                    width: 95,
+                    margin: EdgeInsets.only(right: 35),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: AssetThumb(
+                          asset: images[index],
+                          height: 150,
+                          width: 95,
+                        ) //(book.images[index]),
+                        ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                        child: Text('Editar fotos elegidas'),
-                        onPressed: () => loadAssets()),
-                  ],
-                )
-              ],
-            ));
+                  Center(
+                    child: Container(
+                        height: 50,
+                        width: 50,
+                        margin: EdgeInsets.only(right: 35),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(360)),
+                        child: Icon(Icons.edit, color: AppColors.secondaryBackground,)
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      margin: EdgeInsets.only(right: 35),
+                      child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(360)),
+                          onPressed: () => loadAssets()
+                      ),
+                    ),
+                  ),
+              ]
+              );
+            },
+          ),
+        );
   }
 }
 
