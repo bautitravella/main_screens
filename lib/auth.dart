@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -17,7 +19,7 @@ abstract class BaseAuth {
   Future<String> currentUserUID();
   Future<FirebaseUser> currentUser();
   Future<void> signOut();
-
+  Future<FirebaseUser> signInWithApple({List<Scope> scopes = const []});
   Future<String> signInWithGoogle();
   Future<String> signInWithFacebook(FacebookAccessToken token);
 }
@@ -72,6 +74,48 @@ class Auth extends BaseAuth{
     analytics.logLogin(loginMethod: "Google");
     return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
+
+  Future<FirebaseUser> signInWithApple({List<Scope> scopes = const []}) async {
+    // 1. perform the sign-in request
+
+    final result = await AppleSignIn.performRequests(
+        [AppleIdRequest(requestedScopes: scopes)]);
+    // 2. check the result
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final appleIdCredential = result.credential;
+        final oAuthProvider = OAuthProvider( providerId: 'apple.com',);
+        final credential = oAuthProvider.getCredential(
+          idToken: String.fromCharCodes(appleIdCredential.identityToken),
+          accessToken:
+          String.fromCharCodes(appleIdCredential.authorizationCode),
+        );
+        final authResult = await _firebaseAuth.signInWithCredential(credential);
+        final firebaseUser = authResult.user;
+        if (scopes.contains(Scope.fullName)) {
+          final displayName =
+              '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}';
+          final userInfoUpdate = new UserUpdateInfo();
+          userInfoUpdate.displayName = displayName;
+          await firebaseUser.updateProfile(userInfoUpdate );
+        }
+        return firebaseUser;
+      case AuthorizationStatus.error:
+        throw PlatformException(
+          code: 'ERROR_AUTHORIZATION_DENIED',
+          message: result.error.toString(),
+        );
+
+      case AuthorizationStatus.cancelled:
+        throw PlatformException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+      default:
+        throw UnimplementedError();
+    }
+  }
+
 
   @override
   Future<void> signOut() async{

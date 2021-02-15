@@ -290,12 +290,8 @@ class BeautyDropDown extends StatefulWidget {
 }
 
 class BeautyDropDownState extends State<BeautyDropDown> {
-//  String colegioSelectedValue, cursoSelectedValue;
-
   bool passwordVisible = false;
-
   bool isFocus = false;
-
   double actualHeight;
 
   @override

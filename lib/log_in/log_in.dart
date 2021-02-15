@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutterui/Themes/AppStateNotifier.dart';
+import 'package:flutterui/log_in/AppleSignInAvailable.dart';
 import 'package:flutterui/log_in/recuperation_widget.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/WidgetsCopy//textfield_widget.dart';
@@ -70,7 +72,7 @@ class _LogInState extends State<LogIn> {
 
     switch (result.status) {
       case FacebookLoginStatus.error:
-        print("Surgio un error con el fucking facebook");
+        // print("Surgio un error con el fucking facebook");
         setState(() {
           _errorText = "${result.errorMessage}";
         });
@@ -168,6 +170,7 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
+    final appleSignInAvailable = Provider.of<AppleSignInAvailable>(context, listen: false);
     SizeConfig().init(context);
     return Scaffold(
       body: GestureDetector(
@@ -324,12 +327,21 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
                 SizedBox(height: 10),
+                appleSignInAvailable.isAvailable?
                 Container(
                   height: 50,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(bottom: 15),
                   child: FlatButton(
-                    onPressed: () => this.logInWithFacebookBtn(context),
+                    onPressed: () {
+                      final auth = Provider.of<BaseAuth>(
+                          context, listen: false);
+                      auth.signInWithApple(scopes: [Scope.email, Scope.fullName]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyDecider()),
+                      );
+                    },
                     color: Color.fromARGB(255, 74, 74, 74),
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
@@ -366,7 +378,9 @@ class _LogInState extends State<LogIn> {
                       ],
                     ),
                   ),
-                ),
+                )
+                    : Container(),
+
                 SizedBox(height: SizeConfig.blockSizeVertical*9),
                 Container(
                   height: 50,

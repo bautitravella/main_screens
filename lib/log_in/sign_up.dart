@@ -1,3 +1,4 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterui/size_config.dart';
 import 'package:flutterui/values/colors.dart';
+
+import 'AppleSignInAvailable.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -149,7 +152,9 @@ class SignUpState extends State<SignUp>{
           _errorText = 'signed in with : ${userUID})';
         });
         auth.currentUser();//.then((msg) => print('MENSAJE: $msg'));
-        //Navigator.push(context,MaterialPageRoute(builder: (context) => VerificacionWidget()),);
+        //Navigator.push(con
+        //
+        // text,MaterialPageRoute(builder: (context) => VerificacionWidget()),);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyDecider()),
@@ -172,6 +177,7 @@ class SignUpState extends State<SignUp>{
 
   @override
   Widget build(BuildContext context) {
+    final appleSignInAvailable = Provider.of<AppleSignInAvailable>(context, listen: false);
     SizeConfig().init(context);
     return Scaffold(
       body: GestureDetector(
@@ -317,12 +323,20 @@ class SignUpState extends State<SignUp>{
                   ),
                 ),
                 SizedBox(height: 10),
+                appleSignInAvailable.isAvailable?
                 Container(
                   height: 50,
                   width: double.maxFinite,
                   margin: EdgeInsets.only(bottom: 15),
                   child: FlatButton(
-                    onPressed: () => this.logInWithFacebookBtn(context),
+                    onPressed: () {
+                      final auth = Provider.of<BaseAuth>(context,listen: false);
+                      auth.signInWithApple(scopes: [Scope.email, Scope.fullName]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyDecider()),
+                      );
+                    },
                     color: Color.fromARGB(255, 74, 74, 74),
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
@@ -359,7 +373,7 @@ class SignUpState extends State<SignUp>{
                       ],
                     ),
                   ),
-                ),
+                ): Container(),
                 SizedBox(height: 25),
                 RichText(
                   text: TextSpan(
