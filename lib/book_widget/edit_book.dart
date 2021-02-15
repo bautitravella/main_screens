@@ -988,7 +988,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
 
       print("falta completar algun campo");
       return null;
-    } else if (images.length < 3 && imagesChanged) {
+    } else if (images.length != 0 && images.length < 3 ) {
       showErrorDialog(context,
           "Debes seleccionar como minimo 3 imagenes para poder continuar");
     } else if(selectedColegios.length == 0){
@@ -1038,14 +1038,17 @@ class _EditBookWidgetState extends State<EditBookWidget> {
           clonedBook.editorial = editorial;
         if (ISBN != null && ISBN.isNotEmpty) clonedBook.isbn = int.parse(ISBN);
         print("todos los campos estan completos");
-        if (clonedBook != widget.book && imagesChanged) {
+        if (clonedBook != widget.book && images.length > 0) {
           //en este caso se modificaron datos del libro e imagenes
           print("11111111111111111111111111111111111111111111111111");
           BlocProvider.of<UploadsBloc>(context).add(EditBook(clonedBook));
-        } else if (imagesChanged) {
+          Navigator.pop(context);
+        } else if (images.length >0) {
           //en este caso solo se modificaron las imagenes del libro
           print('2222222222222222222222222222222222222222222222222222');
           BlocProvider.of<UploadsBloc>(context).add(EditBookImages(clonedBook));
+          Navigator.pop(context);
+          Navigator.pop(context);
           //} else if (clonedBook != widget.book) {
         }else{
           //en este caso se modificaron solo los datos del libro
@@ -1097,7 +1100,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
 
   }
 
-  static Widget horizontalPhotos(Book book) {
+  Widget horizontalPhotos(Book book) {
     return Container(
       height: 150,
       child: ListView.builder(
@@ -1134,7 +1137,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                   color: AppColors.secondaryBackground,
                   size: 30,
                   ),
-                  onPressed: () {}),
+                  onPressed: () => loadAssets()),
                 ),
               ),
             ],
