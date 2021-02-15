@@ -685,7 +685,7 @@ class _ChildFieldState extends State<ChildField> {
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
                     )
-              : BeautyDropDown(
+              :BeautyDropDown(
                   width: double.maxFinite, //REQUIRED
                   height: 50, //REQUIRED
                   accentColor: Colors.white, // On Focus Color//Text Color
