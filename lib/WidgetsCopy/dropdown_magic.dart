@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterui/values/colors.dart';
 import 'package:smart_select/smart_select.dart';
 
 class DropDownMagic extends StatelessWidget{
@@ -16,6 +17,19 @@ class DropDownMagic extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SmartSelect<int>.multiple(
+      choiceHeaderStyle:S2ChoiceHeaderStyle(
+        textStyle: Theme.of(context).textTheme.headline6,
+      ),
+      modalHeader: false,
+      choiceStyle: S2ChoiceStyle(
+        titleStyle: Theme.of(context).textTheme.headline3,
+        color: Theme.of(context).iconTheme.color,
+        activeColor: AppColors.secondaryBackground,
+      ),
+      modalConfig: S2ModalConfig(
+        type: S2ModalType.bottomSheet,
+        enableDrag: true,
+      ),
       modalType: S2ModalType.bottomSheet,
       modalHeaderStyle: S2ModalHeaderStyle(
           backgroundColor: Theme.of(context).dialogBackgroundColor,
@@ -29,7 +43,9 @@ class DropDownMagic extends StatelessWidget{
       title: title,
       value: value,
       choiceItems: choiceItems,
-      onChange: onChange,
+      onChange: (data){
+        FocusScope.of(context).requestFocus(new FocusNode());
+        onChange(data);},
     );
   }
 

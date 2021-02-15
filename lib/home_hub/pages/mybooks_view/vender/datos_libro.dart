@@ -82,19 +82,6 @@ class _DatosLibrosState extends State<DatosLibros> {
     super.initState();
   }
 
-  List<int> value = [2];
-  List<S2Choice<int>> frameworks = [
-    S2Choice<int>(value: 1, title: 'Ionic'),
-    S2Choice<int>(value: 2, title: 'Flutter'),
-    S2Choice<int>(value: 3, title: 'React Native'),
-    S2Choice<int>(value: 4, title: 'Choto1'),
-    S2Choice<int>(value: 5, title: 'Choto2'),
-    S2Choice<int>(value: 6, title: 'Choto3'),
-    S2Choice<int>(value: 7, title: 'Choto4'),
-    S2Choice<int>(value: 8, title: 'Choto5'),
-    S2Choice<int>(value: 9, title: 'Choto6'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -402,24 +389,6 @@ class _DatosLibrosState extends State<DatosLibros> {
                       ],
                     ),
                     SizedBox(height: 40),
-                    SmartSelect<int>.multiple(
-
-                      modalType: S2ModalType.bottomSheet,
-                      modalHeaderStyle: S2ModalHeaderStyle(
-                          backgroundColor: Theme.of(context).dialogBackgroundColor,
-                        textStyle: Theme.of(context).textTheme.headline6
-                      ),
-                      modalStyle: S2ModalStyle(
-                        elevation: 10,
-                        backgroundColor: Theme.of(context).dialogBackgroundColor
-                      ),
-                      modalFilter: false,
-                      title: 'Frameworks',
-                      value: value,
-                      choiceItems: frameworks,
-                      onChange: (state) => setState(() => value = state.value),
-                    ),
-                    SizedBox(height: 40),
                     BlocBuilder<UserBloc, UserBlocState>(
                         builder: (context, state) {
                           if (state is UserNotLoaded) {
@@ -476,10 +445,10 @@ class _DatosLibrosState extends State<DatosLibros> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         SizedBox(height: 40),
-                                        Text(
+                                        /*Text(
                                           "Colegio",
                                           style: Theme.of(context).textTheme.headline2,
-                                        ),
+                                        ),*/
                                         DropDownMagic(title: 'Colegios',
                                           value: selectedColegios,
                                           choiceItems: createSmartSelectColegiosList(state.user.getColegios()),
@@ -494,10 +463,10 @@ class _DatosLibrosState extends State<DatosLibros> {
                                          return Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Text(
+                                           /* Text(
                                               "Año",
                                               style: Theme.of(context).textTheme.headline2,
-                                            ),
+                                            ),*/
                                             DropDownMagic(
                                               title: 'Año',
                                               value: selectedCursos,
@@ -505,10 +474,10 @@ class _DatosLibrosState extends State<DatosLibros> {
                                               onChange: (state) => setState(() => selectedCursos = state.value),
                                             ),
                                             SizedBox(height: 40),
-                                            Text(
+                                           /* Text(
                                               "Materia",
                                               style: Theme.of(context).textTheme.headline2,
-                                            ),
+                                            ),*/
 
                                             DropDownMagic(
                                               title: 'Materias',
