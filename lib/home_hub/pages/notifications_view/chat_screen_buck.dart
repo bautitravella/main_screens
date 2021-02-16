@@ -292,7 +292,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                   maxLines: 1,
                 ),
                 Text(
-                  "a solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
+                  "ha solicitado la compra de \n${widget.chat.nombreLibro},\n¡No la hagas esperar!",
                   style: Theme.of(context).accentTextTheme.headline4,
                   textAlign: TextAlign.center,
                 ),
@@ -317,9 +317,9 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       onPressed: () => showSlideDialogGrande(
                           context: context,
                           child: CustomDialog.customFunctions(
-                            title: "Aceptar Solicitud De Compra",
+                            title: "Aceptar solicitud de compra",
                             description:
-                            "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                            "Al aceptar la solicitud de compra serán rechazadas las ofertas restantes recibidas para este libro.",
                             primaryButtonText: "CANCELAR",
                             secondaryButtonText: "Aceptar Compra",
                             primaryFunction: () {
@@ -352,7 +352,7 @@ class _ChatScreenBuckState extends State<ChatScreenBuck> {
                       ),
                       onPressed: () => showSlideDialogGrande(
                           context: context,
-                          child: CustomDialog.customFunctions(title: "Rechazar Solicitud De Compra", description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
+                          child: CustomDialog.customFunctions(title: "Rechazar solicitud de compra", description: "Al rechazar la compra le llegará al usuario una notificación indicando que la compra ha sido rechazada.", primaryButtonText: "CANCELAR", secondaryButtonText: "Rechazar Compra",
                             primaryFunction:() {
                               Navigator.of(context).pop();
                             },

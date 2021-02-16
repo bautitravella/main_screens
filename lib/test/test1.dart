@@ -323,7 +323,7 @@ class _BookSection2State extends State<BookSection2> {
                                             child: CustomDialog.customFunctions(
                                               title: "Enviar Solicitud De Compra",
                                               description:
-                                              "Una vez enviada la solicitud de compra esta no se podra cancelar",
+                                              "Podrás cancelar tu solicitud de compra, mientras que el vendedor no la haya aceptado",
                                               primaryButtonText: "CANCELAR",
                                               secondaryButtonText: "Solicitar Compra",
                                               primaryFunction: () {

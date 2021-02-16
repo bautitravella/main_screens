@@ -677,7 +677,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image.asset(
-                                  "assets/images/explora-cursos.png",
+                                  "assets/images/home-cursos.png",
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
@@ -724,7 +724,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image.asset(
-                                  "assets/images/explora-materias.png",
+                                  "assets/images/home-materias.png",
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
@@ -2038,7 +2038,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
-                "assets/images/explora-cursos.png",
+                "assets/images/home-cursos.png",
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -2229,7 +2229,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  GenericBookList.subject(user.getColegios().first), //TODO @agus mandar al respectivo colegio cursos
+                  GenericBookList.years(user.getColegios().first), //TODO @agus mandar al respectivo colegio cursos
             ),
           );
         },
@@ -2242,7 +2242,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
-                  "assets/images/explora-cursos.png",
+                  "assets/images/home-cursos.png",
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -2298,7 +2298,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
-                "assets/images/explora-materias.png",
+                "assets/images/home-materias.png",
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -2503,7 +2503,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
-                  "assets/images/explora-materias.png",
+                  "assets/images/home-materias.png",
                   fit: BoxFit.fitHeight,
                 ),
               ),

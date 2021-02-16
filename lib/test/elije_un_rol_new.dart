@@ -20,8 +20,8 @@ final List<String> imgText = [
 ];
 
 final List<String> imgSubText = [
-  "Esta opcion te dejara ir agregando multiples colegios para cada uno de tus hijos.",
-  "Esta opcion te permitira explorar entre los libros de tu colgio",
+  "Esta opción te permitirá ir agregando múltiples colegios para cada uno de tus hijos.",
+  "Esta opción te permitirá explorar entre los libros ofrecidos en tu colegio.",
  /* "Esta opcion te permitira explorar entre los libros de tu carrera y año, tambien podras vender los libros de tu ex colegio",*/
 ];
 

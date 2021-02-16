@@ -468,7 +468,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                       style: Theme.of(context).textTheme.headline2,
                                     ),*/
                                     DropDownMagic(
-                                      title: 'Materias',
+                                      title: 'Colegio',
                                       value: selectedColegios,
                                       choiceItems: createSmartSelectColegiosList(state.user.getColegios()),
                                       onChange: (state) => setState(() => selectedColegios = state.value),

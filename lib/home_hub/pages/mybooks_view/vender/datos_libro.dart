@@ -449,7 +449,7 @@ class _DatosLibrosState extends State<DatosLibros> {
                                           "Colegio",
                                           style: Theme.of(context).textTheme.headline2,
                                         ),*/
-                                        DropDownMagic(title: 'Colegios',
+                                        DropDownMagic(title: 'Colegio',
                                           value: selectedColegios,
                                           choiceItems: createSmartSelectColegiosList(state.user.getColegios()),
                                           onChange: (state) => setState(() => selectedColegios = state.value),
