@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Instituition.dart';
+import 'package:flutterui/blocs/bloc.dart';
+import 'package:flutterui/blocs/particular_insituitions_information/particular_instituitions_information_bloc_event.dart';
 import 'package:flutterui/values/colors.dart';
 import 'package:smart_select/smart_select.dart';
 
@@ -57,4 +61,28 @@ createSmartSelectColegiosList(List<String> colegios) {
     result.add(S2Choice<int>(value: i,title: colegios[i]));
   }
   return result;
+}
+
+createSmartSelectMateriasList(List<String> colegios, Map<String,Instituition> instituitionsMap,BuildContext context, List<String> materiasList){
+  List<String> result = [];
+  List<S2Choice<int>> resultColegioAclaracion = [];
+  int i=0;
+  colegios.forEach((colegio) {
+    if(instituitionsMap.containsKey(colegio)){
+      print("AAAAA" + result.toString() + resultColegioAclaracion.toString() );
+      //seguimos para adelante
+      School school = instituitionsMap[colegio];
+      for(int j=i;j< school.subjects.length;j++,i++){
+        result.add(school.subjects[j]);
+        print("AAAAA" + result.toString() + (school.subjects[j].toString() + " (" + school.abreviation.toString() + ")"));
+        resultColegioAclaracion.add(S2Choice<int>(value: j,title: (school.subjects[j] + " (" + school.abreviation + ")")));
+      }
+      print("AAAAA" + result.toString() + resultColegioAclaracion.toString() );
+    }else{
+      //tenemos que solicitar que se cargue la info de este colegio
+      BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:colegio));
+    }
+  });
+  materiasList=result;
+  return resultColegioAclaracion;
 }

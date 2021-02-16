@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/Models/book.dart';
 import 'package:flutterui/WidgetsCopy/dropdown_magic.dart';
 import 'package:flutterui/blocs/bloc.dart';
@@ -28,7 +29,7 @@ import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
-
+import 'package:smart_select/smart_select.dart';
 import 'book_section.dart';
 
 
@@ -66,6 +67,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   List<int> selectedYearUniversidad = [];
 
   List<String> colegiosList,cursosList,materiasList;
+  List<S2Choice<int>> materiasDropDownList;
 
 
   List<Asset> images = [];
@@ -397,18 +399,18 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                 ),
                 SizedBox(height: 40),
                 BlocBuilder<UserBloc, UserBlocState>(
-                    builder: (context, state) {
-                      if (state is UserNotLoaded) {
+                    builder: (context, userState) {
+                      if (userState is UserNotLoaded) {
                         /* showLoadingDialog(context);*/
                         loadingDialogShown = true;
                         return CircularProgressIndicator();
-                      } else if (state is UserLoadedState) {
-                        if (state.user is Alumno || state.user is Padre)_colegioCheckBox=true;
+                      } else if (userState is UserLoadedState) {
+                        if (userState.user is Alumno || userState.user is Padre)_colegioCheckBox=true;
                         //BUSCO DE LA LISTA de COLEGIOS cual es el indice de los colegios en los que ya estaba anotado el libro
-                        colegiosList = state.user.getColegios();
+                        colegiosList = userState.user.getColegios();
                         if(!isSchoolListLoaded){
                           isSchoolListLoaded = true;
-                          List<String> colegiosUser = state.user.getColegios();
+                          List<String> colegiosUser = userState.user.getColegios();
                           for(String colegio in widget.book.colegios){
                             int index = colegiosUser.indexOf(colegio);
                             if(index != -1)selectedColegios.add(index);
@@ -468,18 +470,21 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                       style: Theme.of(context).textTheme.headline2,
                                     ),*/
                                     DropDownMagic(
-                                      title: 'Materias',
+                                      title: 'Colegios',
                                       value: selectedColegios,
-                                      choiceItems: createSmartSelectColegiosList(state.user.getColegios()),
-                                      onChange: (state) => setState(() => selectedColegios = state.value),
+                                      choiceItems: createSmartSelectColegiosList(userState.user.getColegios()),
+                                      onChange: (state) => setState(() {
+                                        selectedMaterias.clear();
+                                        selectedColegios = state.value;}),
                                     ),
                                     SizedBox(height: 40),
+
                                     BlocBuilder<ColegiosBloc, ColegiosBlocState>(
                                         builder: (context, state) {
                                           if (state is ColegiosLoaded) {
                                             //BUSCO DE LA LISTA de COLEGIOS  DATA cual es el indice de los cursos y materias en los que ya estaba anotado el libro
                                             cursosList = state.colegiosData.cursos;
-                                            materiasList = state.colegiosData.materias;
+                                            //materiasList = state.colegiosData.materias;
                                             if(!isCoursesListLoaded){
                                               for(String curso in widget.book.cursos){
                                                 int index = state.colegiosData.cursos.indexOf(curso);
@@ -487,10 +492,10 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                               }
                                               print("MATERIAS COLEGIOS = " + state.colegiosData.materias.toString()
                                                   + '\n MATERIAS LIBRO = ' + widget.book.materias.toString() );
-                                              for(String materia in widget.book.materias){
-                                                int index = state.colegiosData.materias.indexOf(materia);
-                                                if(index != -1) selectedMaterias.add(index);
-                                              }
+                                              // for(String materia in widget.book.materias){
+                                              //   int index = state.colegiosData.materias.indexOf(materia);
+                                              //   if(index != -1) selectedMaterias.add(index);
+                                              // }
                                               isCoursesListLoaded = true;
                                             }
                                             return isColegioSelected?Column(
@@ -511,12 +516,32 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                                   "Materia",
                                                   style: Theme.of(context).textTheme.headline2,
                                                 ),*/
-                                                DropDownMagic(
-                                                  title: "Materias",
-                                                  value: selectedMaterias,
-                                                  choiceItems: createSmartSelectColegiosList(state.colegiosData.materias),
-                                                  onChange: (state) => setState(() => selectedMaterias = state.value),
-                                                ),
+                                                BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
+                                                    builder: (context,state){
+                                                      if(state is InstituitionsInfoLoaded){
+                                                        if(userState.user.getColegios() != null && userState.user.getColegios().length != 0
+                                                            && state.instituitionsMap != null ){
+                                                          print("EDIT BOOK");
+                                                          print(state.instituitionsMap.toString());
+                                                          createMateriasLists(selectedColegios.map((colegioIndex) => userState.user.getColegios()[colegioIndex]).toList(),state.instituitionsMap,context);
+                                                          return DropDownMagic(
+                                                            title: "Materias",
+                                                            value: selectedMaterias,
+                                                            choiceItems: materiasDropDownList,
+                                                            onChange: (state) => setState(() => selectedMaterias = state.value),
+                                                          );
+                                                        }
+                                                      }else{
+                                                        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituitionsName:userState.user.getColegios()));
+                                                      }
+                                                      return CircularProgressIndicator();
+                                                    }),
+                                                // DropDownMagic(
+                                                //   title: "Materias",
+                                                //   value: selectedMaterias,
+                                                //   choiceItems: createSmartSelectColegiosList(state.instituitions),
+                                                //   onChange: (state) => setState(() => selectedMaterias = state.value),
+                                                // ),
                                               ],
                                             ):Container();
                                           }
@@ -526,7 +551,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                 )
                                     :Container(),
                                 SizedBox(height: 30),
-                                state.user is AlumnoUniversitario
+                                userState.user is AlumnoUniversitario
                                     ?FlatButton(
                                   splashColor: Theme.of(context).backgroundColor,
                                   onPressed: () {
@@ -567,7 +592,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                 ):
                                 Container(),
                                 _universidadCheckBox
-                                    ?universidadLayout(state.user)
+                                    ?universidadLayout(userState.user)
                                     :Container()
                               ],
                             ),
@@ -896,6 +921,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       clonedBook.materias.clear();
       selectedColegios.forEach((index) {clonedBook.colegios.add(colegiosList[index]);});
       selectedCursos.forEach((index) {clonedBook.cursos.add(cursosList[index]);});
+      print("SELECTED MATERIAS ===" + selectedMaterias.toString());
       selectedMaterias.forEach((index) {clonedBook.materias.add(materiasList[index]);});
       //preparamos las IMAGENES para subirlas en un formato valido al libro
       showLoadingDialog(context);
@@ -1097,6 +1123,40 @@ class _EditBookWidgetState extends State<EditBookWidget> {
             },
           ),
         );
+  }
+
+  void createMateriasLists(List<String> colegios, Map<String,Instituition> instituitionsMap,BuildContext context,) {
+    List<String> result = [];
+    List<S2Choice<int>> resultColegioAclaracion = [];
+    int i=0;
+    colegios.forEach((colegio) {
+      if(instituitionsMap.containsKey(colegio)){
+       // print("AAAAA" + result.toString() + resultColegioAclaracion.toString() );
+        //seguimos para adelante
+        School school = instituitionsMap[colegio];
+        for(int j=i;j< school.subjects.length;j++,i++){
+          result.add(school.subjects[j]);
+          //print("AAAAA" + result.toString() + (school.subjects[j].toString() + " (" + school.abreviation.toString() + ")"));
+          resultColegioAclaracion.add(S2Choice<int>(value: j,title: (school.subjects[j] + " (" + school.abreviation + ")")));
+        }
+        //print("AAAAA" + result.toString() + resultColegioAclaracion.toString() );
+      }else{
+        //tenemos que solicitar que se cargue la info de este colegio
+        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:colegio));
+      }
+    });
+    if(!this.mounted ){
+      setState((){
+        materiasList=result;
+        materiasDropDownList = resultColegioAclaracion;
+      });
+    }else{
+      materiasList=result;
+      materiasDropDownList = resultColegioAclaracion;
+    }
+
+
+
   }
 }
 
