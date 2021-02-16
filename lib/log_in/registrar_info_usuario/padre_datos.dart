@@ -140,7 +140,7 @@ class _PadreDatosState extends State<PadreDatos> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "Podrás cambiarla mas tarde en la app.",
+                      "Podrás cambiarlos mas tarde en la app.",
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
@@ -293,7 +293,7 @@ class _PadreDatosState extends State<PadreDatos> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "Puedes ir agregando hijos con el signo ",
+                      'Puedes ir agregando hijos con el signo "+" ',
                       style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],

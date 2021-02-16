@@ -442,7 +442,7 @@ class ListViewVenta extends StatelessWidget {
                                                   context: context,
                                                   child: CustomDialog.customFunctions(
                                                     title: "Rechazar Solicitud De Compra",
-                                                    description: "Al rechazar la compra le llegara al usuario una notificacion diciendo que le rechazaste la compra",
+                                                    description: "Al rechazar la compra le llegará al usuario una notificación indicando que la compra ha sido rechazada.",
                                                     primaryButtonText: "CANCELAR",
                                                     secondaryButtonText: "Rechazar Compra",
                                                     primaryFunction: () {
@@ -472,8 +472,8 @@ class ListViewVenta extends StatelessWidget {
                                               showSlideDialogGrande(
                                                   context: context,
                                                   child: CustomDialog.customFunctions(
-                                                    title: "Aceptar Solicitud De Compra",
-                                                    description: "Al Aceptar la compra se Rechazaran todas las otras ofertas de compra que tenias por este libro",
+                                                    title: "Aceptar solicitud de compra",
+                                                    description: "Al aceptar la solicitud de compra serán rechazadas las ofertas restantes recibidas para este libro.",
                                                     primaryButtonText: "CANCELAR",
                                                     secondaryButtonText: "Aceptar Compra",
                                                     primaryFunction: () {Navigator.of(context).pop();

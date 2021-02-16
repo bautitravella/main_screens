@@ -470,7 +470,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                   margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
                                   padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
                                   decoration: BoxDecoration(
-                                      color: Color.fromARGB(50, 249, 196, 55),
+                                      color: Color.fromARGB(226, 254, 242, 216),
                                       borderRadius: BorderRadius.all(Radius.circular(20))
                                   ),
                                   width: SizeConfig.blockSizeHorizontal * 100,
@@ -568,7 +568,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                             margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
                             padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(50, 249, 196, 55),
+                                color: Color.fromARGB(226, 254, 242, 216),
                                 borderRadius: BorderRadius.all(Radius.circular(20))
                             ),
                             width: SizeConfig.blockSizeHorizontal * 100,

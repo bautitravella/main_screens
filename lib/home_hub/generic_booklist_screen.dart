@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:page_transition/page_transition.dart';
+
 
 enum ListType {cheapest , recomended,hijos,subject,career,years,colegio}
 
@@ -339,7 +341,7 @@ class _GenericBookListState extends State<GenericBookList> {
     if(widget.parameter!= null || widget.currentChild != null){
       return  BlocBuilder<BooksBloc,BooksBlocState>(
           builder: (context, state) {
-            if (state is BooksLoadedState) {
+            if (state is BooksLoadedState && state.books.length>0) {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 controller: sc,

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -468,7 +469,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Podrás elegir entre libros \nde materias especificas",
+                                        "Podrás elegir entre libros \nde materias específicas",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 11,
@@ -677,7 +678,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image.asset(
-                                  "assets/images/explora-cursos.png",
+                                  "assets/images/home-cursos.png",
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
@@ -724,7 +725,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image.asset(
-                                  "assets/images/explora-materias.png",
+                                  "assets/images/home-materias.png",
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
@@ -749,7 +750,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                     height: 5,
                                   ),
                                   Text(
-                                    "Podrás elegir entre libros \nde materias especificas",
+                                    "Podrás elegir entre libros \nde materias específicas",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 11,
@@ -969,7 +970,49 @@ class _HomeViewTresState extends State<HomeViewTres> {
               ),
             ),
           ),
-          /*GestureDetector(
+        /*  GestureDetector(
+            onTap: () {
+              Firestore.instance.collection('Colegios').document("St. Mary of the Hills")
+                  .updateData({
+                'abreviation': "SMHS",
+                'subjects':["Lengua","Matemática","Geografia","Física","Química","Biología","Historia","Educación Física","Inglés","Arte","Filosofia","Computación","Salud y  adolescencia"],
+                'type':"school",
+                'typeOfInstituition':"school",
+                'years':["1er grado", "2do grado", "3er grado","4to grado", "5to grado", "6to grado","1er año", "2do año", "3er año","4to año", "5to año", "6to año" ],
+              });
+              print('holla');
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      width: 62,
+                      height: 62,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 213, 104),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Icon(
+                        Icons.developer_mode,
+                        color: Colors.white,
+                        size: 30,
+                      )),
+                  Text(
+                    "UploadSchool",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Sf-r",
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),*/
+         /* GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -1783,7 +1826,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Economicos",
+                  "Económicos",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
@@ -1797,7 +1840,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                   height: 5,
                 ),
                 Text(
-                  "Selección de libros con los\n precios mas bajos",
+                  "Selección de libros con los\n precios más bajos",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 11,
@@ -1930,7 +1973,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Economicos",
+                    "Económicos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,
@@ -1944,7 +1987,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Selección de libros con\nlos precios mas bajos",
+                    "Selección de libros con\nlos precios más bajos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -1994,7 +2037,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Economicos",
+                    "Económicos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,
@@ -2008,7 +2051,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Selección de libros con\nlos precios mas bajos",
+                    "Selección de libros con\nlos precios más bajos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2038,7 +2081,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
-                "assets/images/explora-cursos.png",
+                "assets/images/home-cursos.png",
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -2064,7 +2107,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                   height: 5,
                 ),
                 Text(
-                  "Podrás elegir entre libros \nde cursos especificos",
+                  "Podrás elegir entre libros \nde cursos específicos",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 11,
@@ -2110,14 +2153,14 @@ class _HomeViewTresState extends State<HomeViewTres> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  GenericBookList.subject(
+                                  GenericBookList.years(
                                     childName
                                   ),
                             ),
                           );
                           setState(() {
-                            _ParentMateriasButton =
-                            !_ParentMateriasButton;
+                            _ParentCursosButton =
+                            !_ParentCursosButton;
                           });
                         },
                         child: Container(
@@ -2208,7 +2251,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Podrás elegir entre libros \nde cursos especificos",
+                    "Podrás elegir entre libros \nde cursos específicos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2229,7 +2272,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  GenericBookList.subject(user.getColegios().first), //TODO @agus mandar al respectivo colegio cursos
+                  GenericBookList.years(user.getColegios().first), //TODO @agus mandar al respectivo colegio cursos
             ),
           );
         },
@@ -2242,7 +2285,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
-                  "assets/images/explora-cursos.png",
+                  "assets/images/home-cursos.png",
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -2268,7 +2311,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Podrás elegir entre libros \nde cursos especificos",
+                    "Podrás elegir entre libros \nde cursos específicos",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2298,7 +2341,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(
-                "assets/images/explora-materias.png",
+                "assets/images/home-materias.png",
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -2324,7 +2367,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                   height: 5,
                 ),
                 Text(
-                  "Podrás elegir entre libros \nde materias especificas",
+                  "Podrás elegir entre libros \nde materias específicas",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 11,
@@ -2469,7 +2512,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Podrás elegir entre libros \nde materias especificas",
+                    "Podrás elegir entre libros \nde materias específicas",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -2503,7 +2546,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Image.asset(
-                  "assets/images/explora-materias.png",
+                  "assets/images/home-materias.png",
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -2529,7 +2572,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                     height: 5,
                   ),
                   Text(
-                    "Podrás elegir entre libros \nde materias especificas",
+                    "Podrás elegir entre libros \nde materias específicas",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
