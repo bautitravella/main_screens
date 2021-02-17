@@ -20,7 +20,7 @@ import 'package:flutterui/values/colors.dart';
 import 'dart:async';
 import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_smartselect/smart_select.dart';
 
 class DatosLibros extends StatefulWidget {
   Book book;

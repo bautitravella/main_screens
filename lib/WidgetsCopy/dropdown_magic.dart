@@ -5,7 +5,7 @@ import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/particular_insituitions_information/particular_instituitions_information_bloc_event.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_smartselect/smart_select.dart';
 
 class DropDownMagic extends StatelessWidget{
 
@@ -24,7 +24,7 @@ class DropDownMagic extends StatelessWidget{
       choiceHeaderStyle:S2ChoiceHeaderStyle(
         textStyle: Theme.of(context).textTheme.headline6,
       ),
-      modalHeader: false,
+      modalHeader:false,
       choiceStyle: S2ChoiceStyle(
         titleStyle: Theme.of(context).textTheme.headline3,
         color: Theme.of(context).iconTheme.color,
