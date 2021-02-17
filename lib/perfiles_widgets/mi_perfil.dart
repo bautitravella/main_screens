@@ -385,6 +385,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           1, //TODO resolver tema del overflow
                                           keyboardType: TextInputType.emailAddress,
                                           autocorrect: false,
+                                          onChanged: (a)=>  widget.isSelected = false,
                                         ),
                                       ),
                                     ),
@@ -418,6 +419,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                           1, //TODO resolver tema del overflow
                                           keyboardType: TextInputType.emailAddress,
                                           autocorrect: false,
+                                          onChanged: (a)=>  widget.isSelected = false,
                                         ),
                                       ),
                                     ),
@@ -1386,6 +1388,7 @@ class _MiPerfilState extends State<MiPerfil> {
                                 } else {
                                   setState(() {
                                     user.colegio = value;
+                                    widget.isSelected = false;
                                   });
                                 }
                               },
@@ -1455,6 +1458,7 @@ class _MiPerfilState extends State<MiPerfil> {
                             onChanged: (value) {
                               setState(() {
                                 user.curso = value;
+                                widget.isSelected = false;
                               });
                             },
                           ),
@@ -1475,31 +1479,33 @@ class _MiPerfilState extends State<MiPerfil> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              FlatButton(
-                /*height: 30,
-                margin: EdgeInsets.only(left: 10),
-                width:
-                SizeConfig.blockSizeHorizontal *
-                    25,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(
-                      200, 0, 191, 131),
-                  borderRadius:
-                  BorderRadius.circular(30.0),
-                ),*/
-                color: Color.fromARGB(200, 0, 191, 131),
+              FilterChip(
+                label: Text('${widget.isSelected ? widget.isAllDataCorrect? 'Guardado':'No se Guardo' : 'Guardar'}', textAlign: TextAlign.center,),
+                labelPadding: EdgeInsets.only(top: 2, bottom: 2, right: 10, left: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(18.0),
                 ),
-                onPressed: () => aceptarCambios(),
-                child: Text(
-                  "Guardar",
-                  style: TextStyle(
-                      fontFamily: "Sf-r",
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white),
-                ),
+                labelStyle: widget.isSelected
+                    ?TextStyle(
+                    fontFamily: "Sf-r",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white)
+                    : TextStyle(
+                  fontFamily: "Sf-r",
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,),
+                selected: widget.isSelected,
+                onSelected: (bool selected) {
+                  setState(() {
+                    widget.isSelected = !widget.isSelected;
+                    widget.isAllDataCorrect = aceptarCambios();
+                  });
+                },
+                backgroundColor: Color.fromARGB(200, 0, 191, 131),
+                selectedColor: widget.isAllDataCorrect? AppColors.secondaryBackground: Colors.red,
+                checkmarkColor: Colors.white,
               ),
             ],
           ),

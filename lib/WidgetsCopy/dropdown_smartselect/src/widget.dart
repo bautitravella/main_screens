@@ -332,7 +332,7 @@ class SmartSelect<T> extends StatefulWidget {
     String title,
 
     /// The text displayed when the value is null
-    String placeholder = 'Select one or more',
+    String placeholder = 'Selecciona una o mas opciones',
 
     /// The current value of the multi choice widget.
     @required List<T> value,

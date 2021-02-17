@@ -36,9 +36,10 @@ class DropDownMagic extends StatelessWidget{
       ),
       modalType: S2ModalType.bottomSheet,
       modalHeaderStyle: S2ModalHeaderStyle(
+        elevation: 0,
           backgroundColor: Theme.of(context).dialogBackgroundColor,
           textStyle: TextStyle(
-            color: Colors.white54,
+            color: Theme.of(context).textTheme.headline1.color,
             fontFamily: "Sf-r",
             fontWeight: FontWeight.w700,
             fontSize: 20,

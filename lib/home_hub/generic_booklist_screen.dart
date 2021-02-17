@@ -673,7 +673,155 @@ class _GenericBookListState extends State<GenericBookList> {
                   },
                 );
               }
-              return Container(child: Center(child: Text("Ha habido algun error, por favor volve a intentar, si el problema recurre te pedimos que nos envies un mail a buymy.customerservice@gmail.com"),),);
+              return Container(
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Column(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*25),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      width: SizeConfig.blockSizeHorizontal * 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*40,
+                                    child: Text(
+                                      "Parece que ha habido un error",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontSize: 19,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*45,
+                                    child: Text(
+                                      "Por favor vuelve a intentar. Si el problema recurre por favor contactanos",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontSize: 14,
+                                        fontFamily: "Sf-t",
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Icon(Icons.warning_amber_rounded, size: 110, color: Colors.black87),
+
+                            ],
+                          ),
+                          /*Container(
+                            width: SizeConfig.blockSizeHorizontal * 100,
+                            height: SizeConfig.blockSizeVertical*30,
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                              child: Image.asset(
+                                "assets/images/alert-dialog.png",
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),*/
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical*2,),
+                    GestureDetector(
+                      onTap: _showDialogAyuda,
+                      child: Container(
+                        constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*18),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).hintColor.withAlpha(180),
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                        ),
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
+                              width: SizeConfig.blockSizeHorizontal*40,
+                              child: Text(
+                                "Contactanos!",
+                                style: TextStyle(
+                                  color: Theme.of(context).textTheme.headline1.color,
+                                  fontSize: 19,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal*5,),
+                            Container(
+                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 8),
+                              width: 100,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 30,
+                                    child: Opacity(
+                                      opacity: 0.8,
+                                      child: Container(
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          width: 62,
+                                          height: 62,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(255, 255, 213, 104),
+                                              borderRadius: BorderRadius.circular(100)),
+                                          child: Icon(
+                                            Icons.developer_mode,
+                                            color: Colors.black87,
+                                            size: 30,
+                                          )),
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(bottom: 5),
+                                      width: 62,
+                                      height: 62,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 255, 213, 104),
+                                          borderRadius: BorderRadius.circular(100)),
+                                      child: Icon(
+                                        FontAwesome5Solid.comment,
+                                        color: Colors.black87,
+                                        size: 30,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
             return Container(child: Center(child: CircularProgressIndicator(),),);
           },
@@ -705,7 +853,155 @@ class _GenericBookListState extends State<GenericBookList> {
                   },
                 );
               }
-              return Container(child: Center(child: Text("Ha habido algun error, por favor volve a intentar, si el problema recurre te pedimos que nos envies un mail a buymy.customerservice@gmail.com"),),);
+              return Container(
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Column(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*25),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      width: SizeConfig.blockSizeHorizontal * 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*40,
+                                    child: Text(
+                                      "Parece que ha habido un error",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontSize: 19,
+                                        fontFamily: "Sf-r",
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal*45,
+                                    child: Text(
+                                      "Por favor vuelve a intentar. Si el problema recurre por favor contactanos",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 57, 57, 57),
+                                        fontSize: 14,
+                                        fontFamily: "Sf-t",
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Icon(Icons.warning_amber_rounded, size: 110, color: Colors.black87),
+
+                            ],
+                          ),
+                          /*Container(
+                            width: SizeConfig.blockSizeHorizontal * 100,
+                            height: SizeConfig.blockSizeVertical*30,
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                              child: Image.asset(
+                                "assets/images/alert-dialog.png",
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),*/
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical*2,),
+                    GestureDetector(
+                      onTap: _showDialogAyuda,
+                      child: Container(
+                        constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*18),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).hintColor.withAlpha(180),
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                        ),
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
+                              width: SizeConfig.blockSizeHorizontal*40,
+                              child: Text(
+                                "Contactanos!",
+                                style: TextStyle(
+                                  color: Theme.of(context).textTheme.headline1.color,
+                                  fontSize: 19,
+                                  fontFamily: "Sf-r",
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            SizedBox(width: SizeConfig.blockSizeHorizontal*5,),
+                            Container(
+                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 8),
+                              width: 100,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    left: 30,
+                                    child: Opacity(
+                                      opacity: 0.8,
+                                      child: Container(
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          width: 62,
+                                          height: 62,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(255, 255, 213, 104),
+                                              borderRadius: BorderRadius.circular(100)),
+                                          child: Icon(
+                                            Icons.developer_mode,
+                                            color: Colors.black87,
+                                            size: 30,
+                                          )),
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(bottom: 5),
+                                      width: 62,
+                                      height: 62,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 255, 213, 104),
+                                          borderRadius: BorderRadius.circular(100)),
+                                      child: Icon(
+                                        FontAwesome5Solid.comment,
+                                        color: Colors.black87,
+                                        size: 30,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
             return Container(child: Center(child: CircularProgressIndicator(),),);
           },

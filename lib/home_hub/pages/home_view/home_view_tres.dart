@@ -369,7 +369,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => GenericBookList.years(
-                                      "Florida Day School"),//TODO @Agus
+                                      state.user.getColegios()[0]),//TODO @Agus
                                 ),
                               );
                             },
@@ -430,7 +430,7 @@ class _HomeViewTresState extends State<HomeViewTres> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => GenericBookList.subject(
-                                      "Florida Day School"),
+                                      state.user.getColegios()[0]),
                                 ),
                               );
                             },
