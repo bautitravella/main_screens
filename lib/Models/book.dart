@@ -94,8 +94,8 @@ class Book {
     this.precio = doc['precio'];
     this.isbn = doc['isbn'];
     this.descripcion = doc['descripcion'];
-    if (doc['nuevo'] != null && doc['nuevo'] is bool)
-      this.isNuevo = doc['nuevo'];
+
+    if (doc['nuevo'] != null && doc['nuevo'] is bool) this.isNuevo = doc['nuevo'];
 //    imagesUrl.forEach((element) {
 //      images.add(CachedNetworkImageProvider(
 ////        imageUrl: element,
@@ -142,13 +142,13 @@ class Book {
     if (map['firstImageUrl'] != null)
       this.thumbImagesUrl.add(map['firstImageUrl']);
     this.uid = map['uid'];
-    if (map['nuevo'] != null && map['nuevo'] is bool)
-      this.isNuevo = map['nuevo'];
+    if (map['nuevo'] != null && map['nuevo'] is bool) this.isNuevo = map['nuevo'];
+    if (map['vendido'] != null && map['vendido'] is bool) this.vendido = map['vendido'];
   }
 
   @override
   String toString() {
-    return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: $imageVendedor, colegios: $colegios, cursos: $cursos, images: $_images, thumbImages: $_thumbImages, vendido: $vendido, publico: $publico, precio: $precio, isbn: $isbn}';
+    return 'Book{nombreVendedor: $nombreVendedor, apellidoVendedor: $apellidoVendedor, autor: $autor, categoria: $categoria, editorial: $editorial, emailVendedor: $emailVendedor, descripcion: $descripcion, nombreLibro: $nombreLibro, imageVendedor: ${imageVendedor != null? "hay una imagen": "null"}, colegios: $colegios, cursos: $cursos, images: ${_images.length >0 ?"varias imagenes":"0 imagenes"}, thumbImages: ${_thumbImages.length >0 ?"varias imagenes":"0 imagenes"}, vendido: $vendido,isNuevo: $isNuevo, publico: $publico, precio: $precio, isbn: $isbn}\n';
   }
 
   List<ImageProvider> getImages() {

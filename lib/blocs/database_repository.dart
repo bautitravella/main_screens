@@ -247,7 +247,7 @@ class FirebaseRepository extends DatabaseRepository {
       snapshot.documents.forEach((doc) {
         try {
           book = Book.fromIndexMap(doc.data);
-          if (book != null) {
+          if (book != null && book.vendido != true) {
             books.add(book);
           }
         } catch (e) {
@@ -271,7 +271,7 @@ class FirebaseRepository extends DatabaseRepository {
       snapshot.documents.forEach((doc) {
         try {
           book = Book.fromIndexMap(doc.data);
-          if (book != null) {
+          if (book != null && book.vendido != true) {
             books.add(book);
           }
         } catch (e) {
@@ -295,7 +295,7 @@ class FirebaseRepository extends DatabaseRepository {
       snapshot.documents.forEach((doc) {
         try {
           book = Book.fromIndexMap(doc.data);
-          if (book != null) {
+          if (book != null && book.vendido != true) {
             books.add(book);
           }
         } catch (e) {
@@ -324,7 +324,7 @@ class FirebaseRepository extends DatabaseRepository {
       snapshot.documents.forEach((doc) {
         try {
           book = Book.fromIndexMap(doc.data);
-          if (book != null) {
+          if (book != null && book.vendido != true) {
             books.add(book);
           }
         } catch (e) {
@@ -350,7 +350,7 @@ class FirebaseRepository extends DatabaseRepository {
         snapshot.documents.forEach((doc) {
           try {
             book = Book.fromIndexMap(doc.data);
-            if (book != null) {
+            if (book != null && book.vendido != true) {
               books.add(book);
             }
           } catch (e) {
@@ -377,7 +377,7 @@ class FirebaseRepository extends DatabaseRepository {
       snapshot.documents.forEach((doc) {
         try {
           book = Book.fromIndexMap(doc.data);
-          if (book != null) {
+          if (book != null && book.vendido != true) {
             books.add(book);
           }
         } catch (e) {
@@ -405,7 +405,7 @@ class FirebaseRepository extends DatabaseRepository {
       snapshot.documents.forEach((doc) {
         try {
           book = Book.fromIndexMap(doc.data);
-          if (book != null) {
+          if (book != null && book.vendido != true) {
             books.add(book);
           }
         } catch (e) {
@@ -574,32 +574,7 @@ class FirebaseRepository extends DatabaseRepository {
     });
   }
 
-  @override
-  Future<String> addChat(User user, Chat chat) async {
-    chat.addCompradorInformation(user);
-    Chat potentialChat = await getChatUid(chat, user);
-    Map<String, dynamic> estadoMap = {
-      "timestamp": FieldValue.serverTimestamp(),
-      "estadoTransaccion": chat.estadoTransaccion,
-      "emailRecipient": chat.vendedorEmail,
-    };
 
-    if (potentialChat == null) {
-      DocumentReference documentReference =
-          await chatsReference.add(chat.toMap());
-      chatsReference
-          .document(documentReference.documentID)
-          .collection("estadoTransaccion")
-          .add(estadoMap);
-      return documentReference.documentID;
-    } else {
-      chatsReference
-          .document(potentialChat.uid)
-          .collection("estadoTransaccion")
-          .add(estadoMap);
-      return potentialChat.uid;
-    }
-  }
 
   @override
   Future<void> buyBook() {
@@ -716,6 +691,42 @@ class FirebaseRepository extends DatabaseRepository {
       "leidoPorElComprador": chatRole == ChatRole.COMPRADOR ? true : false,
       "leidoPorElVendedor": chatRole == ChatRole.VENDEDOR ? true : false
     });
+  }
+
+  @override
+  Future<String> addChat(User user, Chat chat) async {
+    chat.addCompradorInformation(user);
+    Chat potentialChat = await getChatUid(chat, user);
+    Map<String, dynamic> estadoMap = {
+      "timestamp": FieldValue.serverTimestamp(),
+      "estadoTransaccion": chat.estadoTransaccion,
+      "emailRecipient": chat.vendedorEmail,
+    };
+
+    if (potentialChat == null) {
+      print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n "
+          "POTENTIAL CHAT == NULL \n"
+          "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n "
+      );
+      chat.estadoTransaccion= "Pregunta";
+      DocumentReference documentReference =
+      await chatsReference.add(chat.toMap());
+      chatsReference
+          .document(documentReference.documentID)
+          .collection("estadoTransaccion")
+          .add(estadoMap);
+      return documentReference.documentID;
+    } else {
+      print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n "
+          "POTENTIAL CHAT != NULL \n"
+          "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n "
+      );
+      chatsReference
+          .document(potentialChat.uid)
+          .collection("estadoTransaccion")
+          .add(estadoMap);
+      return potentialChat.uid;
+    }
   }
 
   Future<void> solicitarCompra(Chat chat) {

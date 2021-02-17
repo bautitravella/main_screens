@@ -333,16 +333,10 @@ class _BookSection2State extends State<BookSection2> {
                                                 Chat chat = Chat.fromBook(
                                                     widget.book);
                                                 chat.estadoTransaccion = "Oferta";
-                                                BlocProvider.of<ChatsBloc>(context)
-                                                    .add(
-                                                    AddChat(
-                                                        chat, function: (newChat) {
-                                                      BlocProvider.of<MessagesBloc>(
-                                                          context)
-                                                          .add(LoadMessages(
-                                                          newChat,
-                                                          ChatRole.COMPRADOR));
-                                                    }));
+                                                Function(Chat) passingFunction = (newChat) {
+                                                  BlocProvider.of<MessagesBloc>(context).add(LoadMessages(newChat, ChatRole.COMPRADOR));
+                                                };
+                                                BlocProvider.of<ChatsBloc>(context).add(AddChat(chat, function: passingFunction));
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

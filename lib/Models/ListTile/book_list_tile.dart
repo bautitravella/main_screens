@@ -167,7 +167,7 @@ class BookTile extends StatelessWidget{
                                   alignment: Alignment.center,
                                   child: Text(
                                     //todo sacar el boton de usado y cambiarlo por el de nuevo
-                                    "USADO",
+                                    book.isNuevo?"NUEVO":"USADO",
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context).primaryTextTheme.headline5,
                                     overflow: TextOverflow.ellipsis,

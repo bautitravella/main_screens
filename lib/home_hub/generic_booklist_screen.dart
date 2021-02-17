@@ -457,6 +457,7 @@ class _GenericBookListState extends State<GenericBookList> {
                   itemCount: state.books.length,
                   itemBuilder: (BuildContext context, int index) {
                     Book book = state.books[index];
+                    //print("BOOK ISNUEVO= " + book.isNuevo.toString());
                     return BookTile(book);
                   },
                 ):

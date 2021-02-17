@@ -43,9 +43,9 @@ class ChatsBloc extends Bloc<ChatsBlocEvent, ChatsBlocState> {
       yield* _mapLoadedChatsToState(event.compraChats, event.ventaChats);
     }else if(event is AddChat){
       if(event.function != null){
-        yield* _mapAddChatToState(event.chat,function: event.function);
+        yield* _mapAddChatToState(event.chat,event.function);
       }else{
-        yield* _mapAddChatToState(event.chat);
+        yield* _mapAddChatToState(event.chat, null);
       }
 
 
@@ -69,11 +69,11 @@ class ChatsBloc extends Bloc<ChatsBlocEvent, ChatsBlocState> {
     yield   ChatsLoaded(compraChats,ventaChats);
   }
 
-  _mapAddChatToState(Chat chat,{Function function}) async {
+  _mapAddChatToState(Chat chat,Function(Chat) function) async {
     String chatUid = await  databaseRepository.addChat(downloadedUser, chat);
     if(function!= null){
       chat.uid = chatUid;
-      function(chat).call();
+      function(chat);
     }
   }
 }
