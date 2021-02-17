@@ -5,7 +5,7 @@ import 'package:flutterui/Models/Instituition.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/blocs/particular_insituitions_information/particular_instituitions_information_bloc_event.dart';
 import 'package:flutterui/values/colors.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_smartselect/smart_select.dart';
 
 class DropDownMagic extends StatelessWidget{
 
@@ -21,10 +21,10 @@ class DropDownMagic extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SmartSelect<int>.multiple(
-      choiceHeaderStyle:S2ChoiceHeaderStyle(
+      /*choiceHeaderStyle:S2ChoiceHeaderStyle(
         textStyle: Theme.of(context).textTheme.headline6,
-      ),
-      modalHeader: false,
+      ),*/
+      modalHeader:true,
       choiceStyle: S2ChoiceStyle(
         titleStyle: Theme.of(context).textTheme.headline3,
         color: Theme.of(context).iconTheme.color,
@@ -37,13 +37,19 @@ class DropDownMagic extends StatelessWidget{
       modalType: S2ModalType.bottomSheet,
       modalHeaderStyle: S2ModalHeaderStyle(
           backgroundColor: Theme.of(context).dialogBackgroundColor,
-          textStyle: Theme.of(context).textTheme.headline6
+          textStyle: TextStyle(
+            color: Colors.white54,
+            fontFamily: "Sf-r",
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+          ),
       ),
       modalStyle: S2ModalStyle(
           elevation: 10,
           backgroundColor: Theme.of(context).dialogBackgroundColor
       ),
-      modalFilter: false,
+      modalFilter: true,
+      modalFilterAuto: true,
       title: title,
       value: value,
       choiceItems: choiceItems,

@@ -29,7 +29,7 @@ import 'package:flutterui/dialogs/dialogs.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_smartselect/smart_select.dart';
 import 'book_section.dart';
 
 
