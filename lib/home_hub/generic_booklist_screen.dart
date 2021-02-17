@@ -82,7 +82,8 @@ class _GenericBookListState extends State<GenericBookList> {
         BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
         break;
       case ListType.subject:
-        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        //BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+      BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
         break;
       case ListType.career:
         BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));

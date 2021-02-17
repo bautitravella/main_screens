@@ -705,6 +705,7 @@ class _BookSection2State extends State<BookSection2> {
 
                       BlocBuilder<SimilarBooksBloc,SimilarBooksBlocState>(builder: (BuildContext context, state) {
                         if(state is SimilarBooksDownloadedState && state.booksList != null && state.booksList.length != 0){
+                          state.booksList.removeWhere((element) => element.vendido == true && element.uid == widget.book.uid);
                           return Container(
                             child: Column(
                               children: [
@@ -1411,6 +1412,8 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
 
 
 Widget horizontalListView(List<Book> booksList){
+
+  //booksList.removeWhere((element) => element.vendido ==true);
   return Container(
     height: 240,
     margin: EdgeInsets.only(left: 22, bottom: 50),
