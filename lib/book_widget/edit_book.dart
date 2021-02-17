@@ -95,7 +95,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       editorialTextController.text = widget.book.editorial;
     if (widget.book.isbn != null)
       ISBNTextController.text = widget.book.isbn.toString();
-    _newBookCheckBox = widget.book.isNuevo != null && widget.book.isNuevo is bool ?? widget.book.isNuevo;
+    _newBookCheckBox = widget.book.isNuevo != null && widget.book.isNuevo is bool ? widget.book.isNuevo: false;
     clonedBook = widget.book.clone();
     super.initState();
   }
