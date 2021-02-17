@@ -760,6 +760,7 @@ class _DatosLibrosState extends State<DatosLibros> {
       widget.book.descripcion = descripcion;
       widget.book.precio = num.parse(precio);
       widget.book.publico = _isTicked;
+      widget.book.isNuevo = _newBookCheckBox;
       if(editorial != null && editorial.isNotEmpty) widget.book.editorial = editorial;
       if(ISBN != null && ISBN.isNotEmpty) widget.book.isbn = int.parse(ISBN);
       selectedColegios.forEach((index) {widget.book.colegios.add(colegiosList[index]);});

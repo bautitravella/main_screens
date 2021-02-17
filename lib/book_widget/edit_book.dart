@@ -95,6 +95,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       editorialTextController.text = widget.book.editorial;
     if (widget.book.isbn != null)
       ISBNTextController.text = widget.book.isbn.toString();
+    _newBookCheckBox = widget.book.isNuevo;
     clonedBook = widget.book.clone();
     super.initState();
   }
@@ -474,7 +475,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                       value: selectedColegios,
                                       choiceItems: createSmartSelectColegiosList(userState.user.getColegios()),
                                       onChange: (state) => setState(() {
-                                        selectedMaterias.clear();
+
                                         selectedColegios = state.value;}),
                                     ),
                                     SizedBox(height: 40),
@@ -484,7 +485,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                           if (state is ColegiosLoaded) {
                                             //BUSCO DE LA LISTA de COLEGIOS  DATA cual es el indice de los cursos y materias en los que ya estaba anotado el libro
                                             cursosList = state.colegiosData.cursos;
-                                            //materiasList = state.colegiosData.materias;
+                                            materiasList = state.colegiosData.materias;
                                             if(!isCoursesListLoaded){
                                               for(String curso in widget.book.cursos){
                                                 int index = state.colegiosData.cursos.indexOf(curso);
@@ -492,10 +493,10 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                               }
                                               print("MATERIAS COLEGIOS = " + state.colegiosData.materias.toString()
                                                   + '\n MATERIAS LIBRO = ' + widget.book.materias.toString() );
-                                              // for(String materia in widget.book.materias){
-                                              //   int index = state.colegiosData.materias.indexOf(materia);
-                                              //   if(index != -1) selectedMaterias.add(index);
-                                              // }
+                                              for(String materia in widget.book.materias){
+                                                int index = state.colegiosData.materias.indexOf(materia);
+                                                if(index != -1) selectedMaterias.add(index);
+                                              }
                                               isCoursesListLoaded = true;
                                             }
                                             return isColegioSelected?Column(
@@ -516,32 +517,12 @@ class _EditBookWidgetState extends State<EditBookWidget> {
                                                   "Materia",
                                                   style: Theme.of(context).textTheme.headline2,
                                                 ),*/
-                                                BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
-                                                    builder: (context,state){
-                                                      if(state is InstituitionsInfoLoaded){
-                                                        if(userState.user.getColegios() != null && userState.user.getColegios().length != 0
-                                                            && state.instituitionsMap != null ){
-                                                          print("EDIT BOOK");
-                                                          print(state.instituitionsMap.toString());
-                                                          createMateriasLists(selectedColegios.map((colegioIndex) => userState.user.getColegios()[colegioIndex]).toList(),state.instituitionsMap,context);
-                                                          return DropDownMagic(
-                                                            title: "Materias",
-                                                            value: selectedMaterias,
-                                                            choiceItems: materiasDropDownList,
-                                                            onChange: (state) => setState(() => selectedMaterias = state.value),
-                                                          );
-                                                        }
-                                                      }else{
-                                                        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituitionsName:userState.user.getColegios()));
-                                                      }
-                                                      return CircularProgressIndicator();
-                                                    }),
-                                                // DropDownMagic(
-                                                //   title: "Materias",
-                                                //   value: selectedMaterias,
-                                                //   choiceItems: createSmartSelectColegiosList(state.instituitions),
-                                                //   onChange: (state) => setState(() => selectedMaterias = state.value),
-                                                // ),
+                                                DropDownMagic(
+                                                  title: 'Materias',
+                                                  value: selectedMaterias,
+                                                  choiceItems: createSmartSelectColegiosList(state.colegiosData.materias),
+                                                  onChange: (state) => setState(() => selectedMaterias = state.value),
+                                                ),
                                               ],
                                             ):Container();
                                           }
@@ -685,7 +666,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
   }
 
   List<DropdownMenuItem> createDropDownMenuListColegios(List<String> listaAux) {
-    List<String> lista=["gosho","fds", "sanja", "san lucas"];
+
     List<DropdownMenuItem> dropdownMenuItemList = [];
     String agregarColegio =  "+ Agregar Colegio";
     String item;
@@ -944,11 +925,13 @@ class _EditBookWidgetState extends State<EditBookWidget> {
       ]).then((smt) {
         //ahora is subimos este nuevo libro a firebase
         Navigator.pop(context);
+
         clonedBook.nombreLibro = nombreLibro;
         clonedBook.autor = autor;
         clonedBook.descripcion = descripcion;
         clonedBook.precio = num.parse(precio);
         clonedBook.publico = _isTicked;
+        clonedBook.isNuevo = _newBookCheckBox;
         if (editorial != null && editorial.isNotEmpty)
           clonedBook.editorial = editorial;
         if (ISBN != null && ISBN.isNotEmpty) clonedBook.isbn = int.parse(ISBN);
@@ -1125,39 +1108,7 @@ class _EditBookWidgetState extends State<EditBookWidget> {
         );
   }
 
-  void createMateriasLists(List<String> colegios, Map<String,Instituition> instituitionsMap,BuildContext context,) {
-    List<String> result = [];
-    List<S2Choice<int>> resultColegioAclaracion = [];
-    int i=0;
-    colegios.forEach((colegio) {
-      if(instituitionsMap.containsKey(colegio)){
-       // print("AAAAA" + result.toString() + resultColegioAclaracion.toString() );
-        //seguimos para adelante
-        School school = instituitionsMap[colegio];
-        for(int j=i;j< school.subjects.length;j++,i++){
-          result.add(school.subjects[j]);
-          //print("AAAAA" + result.toString() + (school.subjects[j].toString() + " (" + school.abreviation.toString() + ")"));
-          resultColegioAclaracion.add(S2Choice<int>(value: j,title: (school.subjects[j] + " (" + school.abreviation + ")")));
-        }
-        //print("AAAAA" + result.toString() + resultColegioAclaracion.toString() );
-      }else{
-        //tenemos que solicitar que se cargue la info de este colegio
-        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:colegio));
-      }
-    });
-    if(!this.mounted ){
-      setState((){
-        materiasList=result;
-        materiasDropDownList = resultColegioAclaracion;
-      });
-    }else{
-      materiasList=result;
-      materiasDropDownList = resultColegioAclaracion;
-    }
-
-
-
-  }
+  
 }
 
 void open(BuildContext context, final int index,Book book) {

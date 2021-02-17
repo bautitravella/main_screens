@@ -466,18 +466,17 @@ class _GenericBookListState extends State<GenericBookList> {
               return Center(child: CircularProgressIndicator(),);
             });
       case ListType.subject:
-        return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
+        List<String> materiasList;
+        return BlocBuilder<ColegiosBloc, ColegiosBlocState>(
           builder: (context,state){
-            if(state is InstituitionsInfoLoaded){
-              //print("STATE = " + state.toString());
-              if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
-                School school =  state.instituitionsMap[widget.instituition];
+            if (state is ColegiosLoaded) {
+              materiasList = state.colegiosData.materias;
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
-                  itemCount: school.subjects.length,
+                  itemCount: materiasList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    String str = school.subjects[index];
+                    String str = materiasList[index];
                     return GestureDetector(
                         onTap: (){
                           BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
@@ -642,10 +641,8 @@ class _GenericBookListState extends State<GenericBookList> {
                   ],
                 ),
               );
-            }
-            return Container(child: Center(child: CircularProgressIndicator(),),);
-          },
-        );
+            });
+            break;
       case ListType.career:
         return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
           builder: (context,state){
