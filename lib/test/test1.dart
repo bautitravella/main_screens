@@ -37,6 +37,8 @@ class BookSection2 extends StatefulWidget {
 class _BookSection2State extends State<BookSection2> {
 
   bool isMyBook = false;
+  List<String> dynamicChipsMaterias =[];
+  List<String> dynamicChipsCursos =[];
 
   @override
   void initState() {
@@ -47,6 +49,8 @@ class _BookSection2State extends State<BookSection2> {
       BlocProvider.of<IndividualDocumentsBloc>(context).add(GetBook(widget.book.uid));
       BlocProvider.of<SimilarBooksBloc>(context).add(GetSimilarBooks(widget.book));
     }
+    dynamicChipsMaterias = widget.book.materias;
+    dynamicChipsCursos = widget.book.cursos;
   }
 
   @override
@@ -418,6 +422,47 @@ class _BookSection2State extends State<BookSection2> {
 
     );
   }
+
+
+
+  dynamicChipsSubject() {
+    return Wrap(
+      spacing: 15.0,
+      runSpacing: 6.0,
+      children: List<Widget>.generate(dynamicChipsMaterias.length, (int index) {
+        return Chip(
+          backgroundColor: Theme.of(context).hintColor,
+          label: Text(dynamicChipsMaterias[index],
+            style:TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            fontFamily: "Sf-t",
+            color: Theme.of(context).textTheme.headline1.color,
+          ),),
+        );
+      }),
+    );
+  }
+
+  dynamicChipsYear() {
+    return Wrap(
+      spacing: 15.0,
+      runSpacing: 6.0,
+      children: List<Widget>.generate(dynamicChipsCursos.length, (int index) {
+        return Chip(
+          backgroundColor: Theme.of(context).hintColor,
+          label: Text(dynamicChipsCursos[index],
+            style:TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              fontFamily: "Sf-t",
+              color: Theme.of(context).textTheme.headline1.color,
+            ),),
+        );
+      }),
+    );
+  }
+
   Widget _scrollingList(ScrollController sc, Book book) {
     //ESTE ES EL QUE TENES QUE USAR Y ACA SE SUPONE QUE DEBERIAS PODER USAR EL CONTEXT
     SizeConfig().init(context);
@@ -528,7 +573,7 @@ class _BookSection2State extends State<BookSection2> {
                                         ),
                                         child: Center(
 
-                                          child: Text( book.nombreVendedor, style: TextStyle(
+                                          child: Text( book.isNuevo!=null?(book.isNuevo?"NUEVO":"USADO"):book.nombreVendedor, style: TextStyle(
                                             fontFamily: "Sf",
                                             fontSize: 11,
                                             fontWeight: FontWeight.w700,
@@ -695,6 +740,57 @@ class _BookSection2State extends State<BookSection2> {
                                       ],
                                     )
                                         : Container(),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.only(top: 15),
+                                          width: SizeConfig.blockSizeHorizontal * 80,
+                                          child: Text(
+                                            "Materias",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: "Sf",
+                                              color: Theme.of(context).textTheme.headline2.color,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      width: SizeConfig.blockSizeHorizontal*80,
+                                      child:
+                                        dynamicChipsSubject()
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.only(top: 15),
+                                          width: SizeConfig.blockSizeHorizontal * 80,
+                                          child: Text(
+                                            "Cursos",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w900,
+                                              fontFamily: "Sf",
+                                              color: Theme.of(context).textTheme.headline2.color,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                        width: SizeConfig.blockSizeHorizontal*80,
+                                        child:
+                                        dynamicChipsYear()
+                                    )
                                   ],
                                 ),
                               ],
