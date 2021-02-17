@@ -712,20 +712,32 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Container(
-          height: 40,
-          decoration: BoxDecoration(
-            color:Theme.of(context).dialogBackgroundColor,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
-          ),
-        ),
-        modalConfig.isFullPage != true ? modalHeader : null,
-        /*modalDivider,*/
+        modalDivider,
         Flexible(
           fit: modalConfig.isFullPage == true ? FlexFit.tight : FlexFit.loose,
           child: Container(
-            color: Theme.of(context).dialogBackgroundColor,
-              child:choiceItems),
+              decoration: BoxDecoration(
+                  color:Theme.of(context).dialogBackgroundColor,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
+              ),
+              child:Column(
+                children:[
+                  SizedBox(height: 20),
+                  Container(
+                    height: 5.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey[200],
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  modalConfig.isFullPage != true ? modalHeader : null,
+                  SizedBox(height: 20),
+                  Flexible(
+                      fit: modalConfig.isFullPage == true ? FlexFit.tight : FlexFit.loose,
+                      child: choiceItems)
+                ],)),
         ),
         modalDivider,
         modalFooter,
@@ -776,8 +788,13 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       style: modalHeaderStyle.textStyle,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration.collapsed(
-        hintText: modalConfig.filterHint ?? 'Search on $title',
-        hintStyle: modalHeaderStyle.textStyle,
+        hintText: modalConfig.filterHint ?? 'Buscar en $title',
+        hintStyle: /*modalHeaderStyle.textStyle ??*/ TextStyle(
+          color: Colors.white54,
+          fontFamily: "Sf-r",
+          fontWeight: FontWeight.w700,
+          fontSize: 20,
+        ),
       ),
       textAlign: modalConfig?.headerStyle?.centerTitle ?? false
         ? TextAlign.center
@@ -805,11 +822,11 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
   Widget get defaultModalFilterToggle {
     return !filter.activated
       ? IconButton(
-          icon: Icon(Icons.search),
+          icon: Icon(Icons.search, color: Theme.of(context).iconTheme.color),
           onPressed: () => filter.show(modalContext),
         )
       : IconButton(
-          icon: Icon(Icons.clear),
+          icon: Icon(Icons.clear,  color: Theme.of(context).iconTheme.color),
           onPressed: () => filter.hide(modalContext),
         );
   }
@@ -896,7 +913,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       iconTheme: modalHeaderStyle.iconTheme,
       centerTitle: modalHeaderStyle.centerTitle,
       automaticallyImplyLeading: modalConfig.type == S2ModalType.fullPage || filter.activated,
-      leading: filter.activated ? Icon(Icons.search) : null,
+      leading: filter.activated ? Icon(Icons.search, color: Theme.of(context).iconTheme.color,) : null,
       title: filter.activated == true
         ? modalFilter
         : Column(
