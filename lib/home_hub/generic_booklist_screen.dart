@@ -19,41 +19,38 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:page_transition/page_transition.dart';
 
-
-enum ListType {cheapest , recomended,hijos,subject,career,years,colegio}
+enum ListType { cheapest, recomended, hijos, subject, career, years, colegio }
 
 class GenericBookList extends StatefulWidget {
-  
   ListType listType;
   int childIndex;
   Hijo currentChild;
   String instituition;
   String parameter;
 
+  GenericBookList(this.instituition, this.listType);
 
-  GenericBookList(this.instituition,this.listType);
-
-  GenericBookList.cheapest({this.currentChild = null}){
+  GenericBookList.cheapest({this.currentChild = null}) {
     this.listType = ListType.cheapest;
     this.parameter = null;
   }
 
-  GenericBookList.subject(this.instituition,{this.parameter = null}){
+  GenericBookList.subject(this.instituition, {this.parameter = null}) {
     this.listType = ListType.subject;
     this.currentChild = null;
   }
 
-  GenericBookList.years(this.instituition,{this.parameter = null}){
+  GenericBookList.years(this.instituition, {this.parameter = null}) {
     this.listType = ListType.years;
     this.currentChild = null;
   }
 
-  GenericBookList.career(this.instituition,{this.parameter = null}){
+  GenericBookList.career(this.instituition, {this.parameter = null}) {
     this.listType = ListType.career;
     this.currentChild = null;
   }
 
-  GenericBookList.recomended({this.currentChild = null}){
+  GenericBookList.recomended({this.currentChild = null}) {
     this.listType = ListType.recomended;
     this.parameter = null;
   }
@@ -63,43 +60,50 @@ class GenericBookList extends StatefulWidget {
 }
 
 class _GenericBookListState extends State<GenericBookList> {
-
   @override
   void initState() {
-    FirebaseAnalytics analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
-    analytics.setCurrentScreen(screenName: "/home/"+ widget.listType.toString().split(".").last);
-    switch(widget.listType){
+    FirebaseAnalytics analytics =
+        Provider.of<FirebaseAnalytics>(context, listen: false);
+    analytics.setCurrentScreen(
+        screenName: "/home/" + widget.listType.toString().split(".").last);
+    switch (widget.listType) {
       case ListType.cheapest:
-        if(widget.currentChild != null){
-          BlocProvider.of<BooksBloc>(context).add(LoadBooksByChild(widget.listType,widget.currentChild));
-        }else {
+        if (widget.currentChild != null) {
+          BlocProvider.of<BooksBloc>(context)
+              .add(LoadBooksByChild(widget.listType, widget.currentChild));
+        } else {
           print("ADDED LOADBOOKSBYUSER + " + widget.listType.toString());
-          BlocProvider.of<BooksBloc>(context).add(
-              LoadBooksByUser(widget.listType));
+          BlocProvider.of<BooksBloc>(context)
+              .add(LoadBooksByUser(widget.listType));
         }
         break;
       case ListType.years:
-        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        BlocProvider.of<ParticularInstituitionsInformationBloc>(context)
+            .add(LoadInstituitionInfo(instituition: widget.instituition));
         break;
       case ListType.subject:
         //BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
-      BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+        BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
         break;
       case ListType.career:
-        BlocProvider.of<ParticularInstituitionsInformationBloc>(context).add(LoadInstituitionInfo(instituition:widget.instituition));
+        BlocProvider.of<ParticularInstituitionsInformationBloc>(context)
+            .add(LoadInstituitionInfo(instituition: widget.instituition));
         break;
       case ListType.recomended:
-        if(widget.currentChild != null){
-          BlocProvider.of<BooksBloc>(context).add(LoadBooksByChild(widget.listType,widget.currentChild));
-        }else{
+        if (widget.currentChild != null) {
+          BlocProvider.of<BooksBloc>(context)
+              .add(LoadBooksByChild(widget.listType, widget.currentChild));
+        } else {
           print("ADDED LOADBOOKSBYUSER + " + widget.listType.toString());
-          BlocProvider.of<BooksBloc>(context).add(LoadBooksByUser(widget.listType));
+          BlocProvider.of<BooksBloc>(context)
+              .add(LoadBooksByUser(widget.listType));
         }
         break;
       default:
         break;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +131,7 @@ class _GenericBookListState extends State<GenericBookList> {
             ),
           ),
           Positioned(
-            top: SizeConfig.blockSizeVertical*6,
+            top: SizeConfig.blockSizeVertical * 6,
             left: 5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -135,64 +139,79 @@ class _GenericBookListState extends State<GenericBookList> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                  Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                   child: Row(
                     children: <Widget>[
-                      IconButton(icon: Icon(Icons.arrow_back_ios),
+                      IconButton(
+                        icon: Icon(Icons.arrow_back_ios),
                         iconSize: 26,
                         color: Colors.white,
                         onPressed: () {
                           Navigator.pop(context);
-                        },),
+                        },
+                      ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal*50,
+                        width: SizeConfig.blockSizeHorizontal * 50,
                         child: Text(
                           selectTitle(widget.listType),
                           style: TextStyle(
                               fontSize: 23,
                               fontFamily: 'Sf-r',
                               color: Colors.white,
-                              fontWeight: FontWeight.w700
-                          ),
+                              fontWeight: FontWeight.w700),
                           overflow: TextOverflow.ellipsis,
                         ),
                       )
                     ],
                   ),
                 ),
-                SizedBox(height: SizeConfig.blockSizeVertical*1),
+                SizedBox(height: SizeConfig.blockSizeVertical * 1),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      widget.instituition != null? Container(
-                        margin: EdgeInsets.only(left: 40),
-                        child: Chip(
-                          elevation: 15,
-                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                          label: Text(widget.instituition, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                        ),):
-                      Container(),
-                      widget.parameter != null? Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: Chip(
-                          elevation: 15,
-                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                          label: Text(widget.parameter, style:  Theme.of(context).primaryTextTheme.headline2),//Tile Estado),
-                          deleteIcon: Icon(
-                            Icons.cancel, color: Theme.of(context).iconTheme.color,
-                          ),
-                          onDeleted: (){
-                            print("HOLAAAAAaAAAAAAAAAAAA");
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ):
-                      Container(
-                      ),
-                      SizedBox(width: 80, height: 60,)
+                      widget.instituition != null
+                          ? Container(
+                              margin: EdgeInsets.only(left: 40),
+                              child: Chip(
+                                elevation: 15,
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                label: Text(widget.instituition,
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline2), //Tile Estado),
+                              ),
+                            )
+                          : Container(),
+                      widget.parameter != null
+                          ? Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: Chip(
+                                elevation: 15,
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                label: Text(widget.parameter,
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline2), //Tile Estado),
+                                deleteIcon: Icon(
+                                  Icons.cancel,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                                onDeleted: () {
+                                  print("HOLAAAAAaAAAAAAAAAAAA");
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            )
+                          : Container(),
+                      SizedBox(
+                        width: 80,
+                        height: 60,
+                      )
                     ],
                   ),
                 ),
@@ -226,6 +245,7 @@ class _GenericBookListState extends State<GenericBookList> {
               ),
             ],
           ),
+
           Container(
             height: 143,
             child: Stack(
@@ -258,16 +278,15 @@ class _GenericBookListState extends State<GenericBookList> {
                         ),
                       );
                     },
-                    child: BlocBuilder<UserBloc,UserBlocState>(
-                      builder: (context,state){
-                        if(state is UserLoadedState){
+                    child: BlocBuilder<UserBloc, UserBlocState>(
+                      builder: (context, state) {
+                        if (state is UserLoadedState) {
                           return CircleAvatar(
                             radius: 27.0,
                             backgroundImage: state.user.getProfileImage(),
                           );
                         }
                         return Container();
-
                       },
                     ),
                   ),
@@ -275,7 +294,6 @@ class _GenericBookListState extends State<GenericBookList> {
               ],
             ),
           ),
-
         ],
       ),
     );
@@ -286,6 +304,20 @@ class _GenericBookListState extends State<GenericBookList> {
     SizeConfig().init(context);
     return Stack(
       children: <Widget>[
+        Positioned(
+          top: 0,
+          left: 5,
+          right: 5,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 80,
+              color: Colors.transparent,
+            )
+          ),
+        ),
         Positioned(
           top: 60,
           left: 0,
@@ -307,24 +339,20 @@ class _GenericBookListState extends State<GenericBookList> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30)),
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
               child: selectList(sc),
             ),
           ),
         ),
       ],
     );
-
-
-
   }
 
-  String selectTitle(ListType listType){
-    switch(widget.listType){
+  String selectTitle(ListType listType) {
+    switch (widget.listType) {
       case ListType.cheapest:
         return 'Mejores Precios';
-        
+
       case ListType.years:
         return 'Cursos';
       case ListType.subject:
@@ -338,65 +366,223 @@ class _GenericBookListState extends State<GenericBookList> {
     }
     return '';
   }
-  Widget selectList(ScrollController sc){
-    if(widget.parameter!= null || widget.currentChild != null){
-      return  BlocBuilder<BooksBloc,BooksBlocState>(
-          builder: (context, state) {
-            if (state is BooksLoadedState && state.books.length>0) {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                controller: sc,
-                itemCount: state.books.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Book book = state.books[index];
-                  return BookTile(book);
-                },
-              );
-            }
-            return  ListView(
-              scrollDirection: Axis.vertical,
-              children: <Widget>[
-                Container(
-                  constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*60),
-                  margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
-                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 217, 131),
-                      borderRadius: BorderRadius.all(Radius.circular(20))
+
+  Widget selectList(ScrollController sc) {
+    if (widget.parameter != null || widget.currentChild != null) {
+      return BlocBuilder<BooksBloc, BooksBlocState>(builder: (context, state) {
+        if (state is BooksLoadedState && state.books.length > 0) {
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            controller: sc,
+            itemCount: state.books.length,
+            itemBuilder: (BuildContext context, int index) {
+              Book book = state.books[index];
+              return BookTile(book);
+            },
+          );
+        }
+        return ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Container(
+              constraints: BoxConstraints.expand(
+                  height: SizeConfig.blockSizeVertical * 60),
+              margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+              padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeHorizontal * 2,
+                  right: SizeConfig.blockSizeHorizontal * 2),
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 255, 217, 131),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              width: SizeConfig.blockSizeHorizontal * 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 70,
+                            child: Text(
+                              "No se han encontrado libros para esta materia...",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 17,
+                                fontFamily: "Sf-r",
+                                fontWeight: FontWeight.w800,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 75,
+                            child: Text(
+                              "Parece que no hay ningún libro para esta materia.¡No te desanimes! Seguro hay muchos mas por encontrar. ",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 57, 57, 57),
+                                fontSize: 11,
+                                fontFamily: "Sf-t",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+                  SizedBox(height: SizeConfig.blockSizeVertical * 10),
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 100,
+                    height: SizeConfig.blockSizeVertical * 30,
+                    margin: EdgeInsets.only(left: 5, right: 5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20)),
+                      child: Image.asset(
+                        "assets/images/not-found.png",
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      });
+    }
+    switch (widget.listType) {
+      case ListType.cheapest:
+        return BlocBuilder<BooksBloc, BooksBlocState>(
+            builder: (context, state) {
+          print("SWITCH 1.0");
+          if (state is BooksLoadedState) {
+            print("SWITCH 1.1");
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              controller: sc,
+              itemCount: state.books.length,
+              itemBuilder: (BuildContext context, int index) {
+                Book book = state.books[index];
+                return BookTile(book);
+              },
+            );
+          }
+          return Container();
+        });
+      case ListType.recomended:
+        return BlocBuilder<BooksBloc, BooksBlocState>(
+            builder: (context, state) {
+          if (state is BooksLoadedState) {
+            print("libros recomendados =" + state.books.toString());
+            return state.books.length != 0
+                ? ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    controller: sc,
+                    itemCount: state.books.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Book book = state.books[index];
+                      //print("BOOK ISNUEVO= " + book.isNuevo.toString());
+                      return BookTile(book);
+                    },
+                  )
+                : Container(
+                    color: Colors.transparent,
+                    height: 100,
+                    width: 50,
+                  );
+          }
+          print("LLega HASTA ACA");
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+      case ListType.subject:
+        List<String> materiasList;
+        return BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+            builder: (context, state) {
+          if (state is ColegiosLoaded) {
+            materiasList = state.colegiosData.materias;
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              controller: sc,
+              itemCount: materiasList.length,
+              itemBuilder: (BuildContext context, int index) {
+                String str = materiasList[index];
+                return GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<BooksBloc>(context).add(
+                          LoadBooksByInstituition(
+                              widget.instituition, widget.listType, str));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GenericBookList.subject(
+                            widget.instituition,
+                            parameter: str,
+                          ),
+                        ),
+                      );
+                    },
+                    child: StringTile(str));
+              },
+            );
+          }
+          return Container(
+            margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: Column(
+              children: [
+                Container(
+                  constraints: BoxConstraints.expand(
+                      height: SizeConfig.blockSizeVertical * 25),
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   width: SizeConfig.blockSizeHorizontal * 100,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(height: 20),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(width: 20),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                width: SizeConfig.blockSizeHorizontal*70,
+                                width: SizeConfig.blockSizeHorizontal * 40,
                                 child: Text(
-                                  "No se han encontrado libros para esta materia...",
+                                  "Parece que ha habido un error",
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 57, 57, 57),
-                                    fontSize: 17,
+                                    fontSize: 19,
                                     fontFamily: "Sf-r",
                                     fontWeight: FontWeight.w800,
                                   ),
                                   textAlign: TextAlign.start,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               Container(
-                                width: SizeConfig.blockSizeHorizontal*75,
+                                width: SizeConfig.blockSizeHorizontal * 45,
                                 child: Text(
-                                  "Parece que no hay ningún libro para esta materia.¡No te desanimes! Seguro hay muchos mas por encontrar. ",
+                                  "Por favor vuelve a intentar. Si el problema recurre por favor contactanos",
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 57, 57, 57),
-                                    fontSize: 11,
+                                    fontSize: 14,
                                     fontFamily: "Sf-t",
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -405,154 +591,12 @@ class _GenericBookListState extends State<GenericBookList> {
                               ),
                             ],
                           ),
+                          SizedBox(width: 20),
+                          Icon(Icons.warning_amber_rounded,
+                              size: 110, color: Colors.black87),
                         ],
                       ),
-                      SizedBox(height: SizeConfig.blockSizeVertical*10),
-                      Container(
-                        width: SizeConfig.blockSizeHorizontal * 100,
-                        height: SizeConfig.blockSizeVertical*30,
-                        margin: EdgeInsets.only(left: 5, right: 5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
-                          child: Image.asset(
-                            "assets/images/not-found.png",
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          });
-    }
-    switch(widget.listType){
-      case ListType.cheapest:
-        return  BlocBuilder<BooksBloc,BooksBlocState>(
-            builder: (context, state) {
-              print("SWITCH 1.0");
-              if (state is BooksLoadedState){
-                print("SWITCH 1.1");
-                return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  controller: sc,
-                  itemCount: state.books.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Book book = state.books[index];
-                    return BookTile(book);
-                  },
-                );
-              }
-              return Container();
-            });
-      case ListType.recomended:
-        return BlocBuilder<BooksBloc,BooksBlocState>(
-            builder: (context, state) {
-              if(state is BooksLoadedState){
-                print("libros recomendados ="+ state.books.toString());
-                return state.books.length!=0?
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  controller: sc,
-                  itemCount: state.books.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Book book = state.books[index];
-                    //print("BOOK ISNUEVO= " + book.isNuevo.toString());
-                    return BookTile(book);
-                  },
-                ):
-                    Container(color: Colors.red, height: 100, width: 50,);
-              }
-              print("LLega HASTA ACA");
-              return Center(child: CircularProgressIndicator(),);
-            });
-      case ListType.subject:
-        List<String> materiasList;
-        return BlocBuilder<ColegiosBloc, ColegiosBlocState>(
-          builder: (context,state){
-            if (state is ColegiosLoaded) {
-              materiasList = state.colegiosData.materias;
-                return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  controller: sc,
-                  itemCount: materiasList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    String str = materiasList[index];
-                    return GestureDetector(
-                        onTap: (){
-                          BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  GenericBookList.subject(widget.instituition,parameter: str,),
-                            ),
-                          );
-                        },
-                        child: StringTile(str));
-                  },
-                );
-              }
-              return  Container(
-                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: Column(
-                  children: [
-                    Container(
-                      constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*25),
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.all(Radius.circular(20))
-                      ),
-                      width: SizeConfig.blockSizeHorizontal * 100,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 20),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal*40,
-                                    child: Text(
-                                      "Parece que ha habido un error",
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 57, 57, 57),
-                                        fontSize: 19,
-                                        fontFamily: "Sf-r",
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal*45,
-                                    child: Text(
-                                      "Por favor vuelve a intentar. Si el problema recurre por favor contactanos",
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 57, 57, 57),
-                                        fontSize: 14,
-                                        fontFamily: "Sf-t",
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(width: 20),
-                              Icon(Icons.warning_amber_rounded, size: 110, color: Colors.black87),
-
-                            ],
-                          ),
-                          /*Container(
+                      /*Container(
                             width: SizeConfig.blockSizeHorizontal * 100,
                             height: SizeConfig.blockSizeVertical*30,
                             margin: EdgeInsets.only(left: 5, right: 5),
@@ -564,94 +608,107 @@ class _GenericBookListState extends State<GenericBookList> {
                               ),
                             ),
                           ),*/
-
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.blockSizeVertical*2,),
-                    GestureDetector(
-                      onTap: _showDialogAyuda,
-                      child: Container(
-                        constraints: BoxConstraints.expand(height:SizeConfig.blockSizeVertical*18),
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*2, right: SizeConfig.blockSizeHorizontal*2),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).hintColor.withAlpha(180),
-                            borderRadius: BorderRadius.all(Radius.circular(20))
-                        ),
-                        width: SizeConfig.blockSizeHorizontal * 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                             margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal*8),
-                              width: SizeConfig.blockSizeHorizontal*40,
-                              child: Text(
-                                "Contactanos!",
-                                style: TextStyle(
-                                  color: Theme.of(context).textTheme.headline1.color,
-                                  fontSize: 19,
-                                  fontFamily: "Sf-r",
-                                  fontWeight: FontWeight.w800,
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2,
+                ),
+                GestureDetector(
+                  onTap: _showDialogAyuda,
+                  child: Container(
+                    constraints: BoxConstraints.expand(
+                        height: SizeConfig.blockSizeVertical * 18),
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeHorizontal * 2,
+                        right: SizeConfig.blockSizeHorizontal * 2),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).hintColor.withAlpha(180),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    width: SizeConfig.blockSizeHorizontal * 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 8),
+                          width: SizeConfig.blockSizeHorizontal * 40,
+                          child: Text(
+                            "Contactanos!",
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.headline1.color,
+                              fontSize: 19,
+                              fontFamily: "Sf-r",
+                              fontWeight: FontWeight.w800,
                             ),
-                            SizedBox(width: SizeConfig.blockSizeHorizontal*5,),
-                            Container(
-                              margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 8),
-                              width: 100,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 30,
-                                    child: Opacity(
-                                      opacity: 0.8,
-                                      child: Container(
-                                          margin: EdgeInsets.only(bottom: 5),
-                                          width: 62,
-                                          height: 62,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromARGB(255, 255, 213, 104),
-                                              borderRadius: BorderRadius.circular(100)),
-                                          child: Icon(
-                                            Icons.developer_mode,
-                                            color: Colors.black87,
-                                            size: 30,
-                                          )),
-                                    ),
-                                  ),
-                                  Container(
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        SizedBox(
+                          width: SizeConfig.blockSizeHorizontal * 5,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              right: SizeConfig.blockSizeHorizontal * 8),
+                          width: 100,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 30,
+                                child: Opacity(
+                                  opacity: 0.8,
+                                  child: Container(
                                       margin: EdgeInsets.only(bottom: 5),
                                       width: 62,
                                       height: 62,
                                       decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 255, 213, 104),
-                                          borderRadius: BorderRadius.circular(100)),
+                                          color: Color.fromARGB(
+                                              255, 255, 213, 104),
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
                                       child: Icon(
-                                          FontAwesome5Solid.comment,
+                                        Icons.developer_mode,
                                         color: Colors.black87,
                                         size: 30,
                                       )),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  width: 62,
+                                  height: 62,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 255, 213, 104),
+                                      borderRadius: BorderRadius.circular(100)),
+                                  child: Icon(
+                                    FontAwesome5Solid.comment,
+                                    color: Colors.black87,
+                                    size: 30,
+                                  )),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              );
-            });
-            break;
+              ],
+            ),
+          );
+        });
+        break;
       case ListType.career:
-        return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
-          builder: (context,state){
-            if(state is InstituitionsInfoLoaded){
+        return BlocBuilder<ParticularInstituitionsInformationBloc,
+            ParticularInstituitionsInformationState>(
+          builder: (context, state) {
+            if (state is InstituitionsInfoLoaded) {
               //print("STATE = " + state.toString());
-              if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
-                College college =  state.instituitionsMap[widget.instituition];
+              if (widget.instituition != null &&
+                  state.instituitionsMap != null &&
+                  state.instituitionsMap.containsKey(widget.instituition)) {
+                College college = state.instituitionsMap[widget.instituition];
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
@@ -659,13 +716,17 @@ class _GenericBookListState extends State<GenericBookList> {
                   itemBuilder: (BuildContext context, int index) {
                     String str = college.careers[index];
                     return GestureDetector(
-                        onTap: (){
-                          BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
+                        onTap: () {
+                          BlocProvider.of<BooksBloc>(context).add(
+                              LoadBooksByInstituition(
+                                  widget.instituition, widget.listType, str));
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  GenericBookList.subject(widget.instituition,parameter: str,),
+                              builder: (context) => GenericBookList.subject(
+                                widget.instituition,
+                                parameter: str,
+                              ),
                             ),
                           );
                         },
@@ -699,8 +760,8 @@ class _GenericBookListState extends State<GenericBookList> {
                                 children: <Widget>[
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal*40,
-                                    child: Text(
-                                      "Parece que ha habido un error",
+                  child: Text(
+                      "Parece que ha habido un error",
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 57, 57, 57),
                                         fontSize: 19,
@@ -823,15 +884,22 @@ class _GenericBookListState extends State<GenericBookList> {
                 ),
               );
             }
-            return Container(child: Center(child: CircularProgressIndicator(),),);
+            return Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           },
         );
       case ListType.years:
-        return BlocBuilder<ParticularInstituitionsInformationBloc,ParticularInstituitionsInformationState>(
-          builder: (context,state){
-            if(state is InstituitionsInfoLoaded){
-              if(widget.instituition != null && state.instituitionsMap != null && state.instituitionsMap.containsKey(widget.instituition)){
-                School school =  state.instituitionsMap[widget.instituition];
+        return BlocBuilder<ParticularInstituitionsInformationBloc,
+            ParticularInstituitionsInformationState>(
+          builder: (context, state) {
+            if (state is InstituitionsInfoLoaded) {
+              if (widget.instituition != null &&
+                  state.instituitionsMap != null &&
+                  state.instituitionsMap.containsKey(widget.instituition)) {
+                School school = state.instituitionsMap[widget.instituition];
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   controller: sc,
@@ -840,12 +908,15 @@ class _GenericBookListState extends State<GenericBookList> {
                     String str = school.years[index];
                     return GestureDetector(
                         onTap: () {
-                          BlocProvider.of<BooksBloc>(context).add(LoadBooksByInstituition(widget.instituition,widget.listType,str));
+                          BlocProvider.of<BooksBloc>(context).add(
+                              LoadBooksByInstituition(
+                                  widget.instituition, widget.listType, str));
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  GenericBookList.years(widget.instituition,parameter:str),
+                              builder: (context) => GenericBookList.years(
+                                  widget.instituition,
+                                  parameter: str),
                             ),
                           );
                         },
@@ -879,8 +950,8 @@ class _GenericBookListState extends State<GenericBookList> {
                                 children: <Widget>[
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal*40,
-                                    child: Text(
-                                      "Parece que ha habido un error",
+                  child: Text(
+                      "Parece que ha habido un error",
                                       style: TextStyle(
                                         color: Color.fromARGB(255, 57, 57, 57),
                                         fontSize: 19,
@@ -1003,11 +1074,20 @@ class _GenericBookListState extends State<GenericBookList> {
                 ),
               );
             }
-            return Container(child: Center(child: CircularProgressIndicator(),),);
+            return Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           },
         );
       default:
-        return Container(child: Center(child: Text("PARECE QUE TODAVIA NO TENEMOS PREPARADA ESTA PANTALLA"),),);
+        return Container(
+          child: Center(
+            child:
+                Text("PARECE QUE TODAVIA NO TENEMOS PREPARADA ESTA PANTALLA"),
+          ),
+        );
     }
   }
 
@@ -1017,7 +1097,7 @@ class _GenericBookListState extends State<GenericBookList> {
       child: CustomDialog.customFunctions(
         title: "Contactanos",
         description:
-        "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
+            "Ante cualquier problema o duda, no dudes en enviarnos un mail a \n buymy.customerservice@gmail.com",
         primaryButtonText: "Cancelar",
         primaryFunction: () {
           Navigator.pop(context);
@@ -1050,6 +1130,7 @@ class _GenericBookListState extends State<GenericBookList> {
       // backgroundColor: Colors.yellow,
     );
   }
+
   void showErrorDialog(BuildContext context, String errorMessage) {
     showSlideDialogChico(
         context: context,
@@ -1060,5 +1141,3 @@ class _GenericBookListState extends State<GenericBookList> {
         animatedPill: false);
   }
 }
-
-
