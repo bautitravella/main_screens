@@ -409,7 +409,7 @@ class _GenericBookListState extends State<GenericBookList> {
                           Container(
                             width: SizeConfig.blockSizeHorizontal * 70,
                             child: Text(
-                              "No se han encontrado libros para esta materia...",
+                              "No se han encontrado libros...",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 57, 57, 57),
                                 fontSize: 17,
@@ -423,7 +423,7 @@ class _GenericBookListState extends State<GenericBookList> {
                           Container(
                             width: SizeConfig.blockSizeHorizontal * 75,
                             child: Text(
-                              "Parece que no hay ningún libro para esta materia.¡No te desanimes! Seguro hay muchos mas por encontrar. ",
+                              "Parece que no hay ningún libro aquí.¡No te desanimes! Seguro hay muchos mas por encontrar. ",
                               style: TextStyle(
                                 color: Color.fromARGB(255, 57, 57, 57),
                                 fontSize: 11,
@@ -494,11 +494,82 @@ class _GenericBookListState extends State<GenericBookList> {
                       return BookTile(book);
                     },
                   )
-                : Container(
-                    color: Colors.transparent,
-                    height: 100,
-                    width: 50,
-                  );
+                : ListView(
+              scrollDirection: Axis.vertical,
+              children: <Widget>[
+                Container(
+                  constraints: BoxConstraints.expand(
+                      height: SizeConfig.blockSizeVertical * 60),
+                  margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeHorizontal * 2,
+                      right: SizeConfig.blockSizeHorizontal * 2),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 217, 131),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  width: SizeConfig.blockSizeHorizontal * 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 70,
+                                child: Text(
+                                  "Por el momento, no hemos encontrado libros para recomendarte...",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 57, 57),
+                                    fontSize: 17,
+                                    fontFamily: "Sf-r",
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 75,
+                                child: Text(
+                                  "¡No te desanimes! Esperamos prontamente recibir mas publicaciones ¡Invita amigos a subir libros a la App!",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 57, 57, 57),
+                                    fontSize: 11,
+                                    fontFamily: "Sf-t",
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockSizeVertical * 10),
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                        height: SizeConfig.blockSizeVertical * 30,
+                        margin: EdgeInsets.only(left: 5, right: 5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20)),
+                          child: Image.asset(
+                            "assets/images/not-found.png",
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
           }
           print("LLega HASTA ACA");
           return Center(
