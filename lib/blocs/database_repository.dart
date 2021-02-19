@@ -261,6 +261,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Book>> getBooksByInstituitionAndSubject(String instituition,String subject){
     return booksCollectionGroupReference
         .where("colegio", isEqualTo: instituition)
+        .where("vendido",isEqualTo: false)
         .where('materias', arrayContains: subject)
         .snapshots()
         .map((snapshot) {
@@ -366,6 +367,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Book>> getChildCheapestBooks(Hijo hijo) {
     return booksCollectionGroupReference
         .where("colegio", isEqualTo: hijo.colegio)
+
         .orderBy("precio", descending: false)
         .limit(30)
         .snapshots()
@@ -819,6 +821,7 @@ class FirebaseRepository extends DatabaseRepository {
     print("SEARCHING");
     return booksCollectionGroupReference
         .where("colegio", isEqualTo: colegio)
+        .where("vendido", isEqualTo: false)
         .where("indexes", arrayContainsAny: list)
         .snapshots()
         .map((snapshot) => snapshot.documents
@@ -889,6 +892,7 @@ class FirebaseRepository extends DatabaseRepository {
   Stream<List<Book>> getSimilarBooksBySchool(Book book, String school) {
     return booksCollectionGroupReference
         .where("colegio", isEqualTo: school)
+        .where("vendido",isEqualTo: false)
         .where("palabrasImportantes",
             arrayContainsAny: book.palabrasImportantes)
         .snapshots()
