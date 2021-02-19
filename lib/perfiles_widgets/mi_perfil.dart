@@ -2097,7 +2097,7 @@ class _MiPerfilState extends State<MiPerfil> {
       socialMetaTagParameters: SocialMetaTagParameters(
         title: 'Invitacion a BuyMy',
         description:
-            'Te invito a que descubras esta excelente manera de ganar plata por tus libros viejos',
+            'Te invito a que pruebes esta nueva app "BuyMy" para comprar y vender libros en forma agil y gratis.',
       ),
     );
     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
