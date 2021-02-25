@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterui/Models/Alumno.dart';
+import 'package:flutterui/Models/ColegiosData.dart';
 import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
@@ -56,7 +57,7 @@ bool _isTicked = false;
 class _MiPerfilState extends State<MiPerfil> {
   String colegioSelectedValue, cursoSelectedValue, hijosSelectedValue;
   List<Hijo> hijos;
-  List<HijosWidget> hijosWidgets=[];
+  List<HijoWidget> hijosWidgets=[];
 
   int indexHijo = 0;
   TextEditingController hijoNameController = new TextEditingController(),
@@ -111,74 +112,6 @@ class _MiPerfilState extends State<MiPerfil> {
                           ),
                         ),
                       ),
-                      /* Positioned(
-                    left: 22,
-                    top: 45,
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 2),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  "Bautista Travella",
-                                  style: TextStyle(
-                                    fontFamily: "Gibson",
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 20,
-                                      width: 30,
-                                      margin: EdgeInsets.only(left: 10),
-                                      decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 243, 243, 243),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10),
-                                          )),
-                                      child: Icon(
-                                        Icons.star_border,
-                                        size: 15,
-                                        color: AppColors.secondaryBackground,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        "4.8",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: "Gibson",
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Text(
-                            "Senior 2, Sociales",
-                            style: TextStyle(
-                              fontFamily: "Roboto",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(150, 255, 255, 255),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )*/
-
                     ],
                   ),
                 ),
@@ -1415,9 +1348,9 @@ class _MiPerfilState extends State<MiPerfil> {
     List<int> selectedCursos= [];
 
     hijos = user.hijos;
-    hijoNameController.text = hijos[indexHijo].nombre;
 
-    hijos.forEach((element) { hijosWidgets.add(HijosWidget(element, key: UniqueKey(),));});
+    hijosWidgets =[];
+    hijos.forEach((element) { hijosWidgets.add(HijoWidget(element, key: UniqueKey(),));});
 
     return ConfigurableExpansionTile(
       headerExpanded: Container(
@@ -1505,7 +1438,7 @@ class _MiPerfilState extends State<MiPerfil> {
                           ),
                         );
                       } else if (index == hijos.length + 1) {
-                        return indexHijo == 0
+                        return indexHijo == 0 && hijos.length==1
                             ? Container()
                             : GestureDetector(
                           onTap: () => eliminarHijo(user),
@@ -1530,31 +1463,6 @@ class _MiPerfilState extends State<MiPerfil> {
                     }),
               ),
               SizedBox(height: 20),
-             /* BlocBuilder<ColegiosBloc, ColegiosBlocState>(
-                builder: (context, state) {
-                  if (state is ColegiosLoaded) {
-                    return Column(
-                      children: [
-                        DropDownMagic(title: 'Colegio',
-                          value: selectedColegios,
-                          choiceItems: createSmartSelectColegiosList(state.colegiosData.colegios),
-                          onChange: (state) => setState(() => selectedColegios = state.value),
-                        ),//DropDown Colegio
-                        SizedBox(height: 40),
-                        DropDownMagic(title: 'Curso',
-                          value: selectedCursos,
-                          choiceItems: createSmartSelectColegiosList(state.colegiosData.cursos),
-                          onChange: (state) => setState(() => selectedColegios = state.value),
-                        ),//DropDown Colegio
-                      ],
-                    );
-                  } else {
-                    //Colegios loading
-                    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
-                    return Container(child: Text("LOADING"));
-                  }
-                },
-              ),*/
               hijosWidgets[indexHijo],
               SizedBox(height: 20),
               Container(
@@ -2333,6 +2241,7 @@ class _MiPerfilState extends State<MiPerfil> {
     if (user is Padre) {
       setState(() {
         user.agregarHijo(Hijo("Nombre", "Florida Day School", "1er grado"));
+        indexHijo=user.hijos.length;
       });
     }
   }
@@ -2570,15 +2479,22 @@ class _MiPerfilState extends State<MiPerfil> {
   }
 }
 
-class HijosWidget extends StatefulWidget {
-  HijosWidget(this.hijo, {Key key}):super(key: key);
+class HijoWidget extends StatefulWidget {
+  HijoWidget(this.hijo, {Key key}):super(key: key){
+    hijoNameController = new TextEditingController(text: this.hijo.nombre);
+
+  }
   Hijo hijo;
 
   @override
-  _HijosWidgetState createState() => _HijosWidgetState();
+  _HijoWidgetState createState() => _HijoWidgetState();
+
+  TextEditingController hijoNameController;
+  int selectedColegio;
+  int selectedCurso;
 }
 
-class _HijosWidgetState extends State<HijosWidget> {
+class _HijoWidgetState extends State<HijoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -2592,7 +2508,7 @@ class _HijosWidgetState extends State<HijosWidget> {
             style: Theme.of(context).textTheme.headline2,
           ),
           BeautyTextfield(
-            /*controller: hijoNameController,*/
+            controller: widget.hijoNameController,
             textCapitalization: TextCapitalization.words,
             width: double.maxFinite, //REQUIRED
             height: 50, //REQUIRED
@@ -2621,18 +2537,46 @@ class _HijosWidgetState extends State<HijosWidget> {
               print(data.length);
             },
           ),
-          SizedBox(height: 30),
+          BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+            builder: (context, state) {
+              if (state is ColegiosLoaded) {
+                assignIndexToSelectedFieds(state.colegiosData);
+                return Column(
+                  children: [
+                    SizedBox(height: 30),
+                    DropDownMagicSingle(title: 'Colegio',
+                      value: widget.selectedColegio,
+                      choiceItems: createSmartSelectColegiosList(state.colegiosData.colegios),
+                      onChange: (state) => setState(() => widget.selectedColegio = state.value),
+                    ),//DropDown Colegio
+                    SizedBox(height: 30),
+                    DropDownMagicSingle(title: 'Curso',
+                      value: widget.selectedCurso,
+                      choiceItems: createSmartSelectColegiosList(state.colegiosData.cursos),
+                      onChange: (state) => setState(() => widget.selectedCurso = state.value),
+                    ),//DropDown Colegio
+                  ],
+                );
+              } else {
+                //Colegios loading
+                BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                return Container(child: Text("LOADING"));
+              }
+            },
+          ),
+
           /*DropDownMagic(title: 'Colegio',
             value: selectedColegios,
             choiceItems: createSmartSelectColegiosList(state.colegiosData.colegios),
             onChange: (state) => setState(() => selectedColegios = state.value),
           ),*/
-          SizedBox(height: 30),
-          /*DropDownMagic(title: 'Colegio',
-            value: selectedColegios,
-            choiceItems: createSmartSelectColegiosList(state.colegiosData.colegios),
-            onChange: (state) => setState(() => selectedColegios = state.value),
-          ),*/
+          // SizedBox(height: 30),
+          // DropDownMagicSingle(
+          //   title: 'Colegio SINGLE',
+          //   value: widget.selectedColegio,
+          //   choiceItems: createSmartSelectColegiosList(["agustin","santiago"]),
+          //   onChange: (state) => setState(() => widget.selectedColegio = state.value),
+          // ),
 
 
 
@@ -2640,5 +2584,10 @@ class _HijosWidgetState extends State<HijosWidget> {
       ),
     );Container(height: 50,
     child: Text(widget.hijo.nombre),);
+  }
+
+  void assignIndexToSelectedFieds(ColegiosData colegiosData) {
+    widget.selectedColegio = colegiosData.colegios.indexOf(widget.hijo.colegio);
+    widget.selectedCurso = colegiosData.cursos.indexOf(widget.hijo.curso);
   }
 }

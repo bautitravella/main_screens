@@ -62,6 +62,61 @@ class DropDownMagic extends StatelessWidget{
 
 }
 
+class DropDownMagicSingle extends StatelessWidget{
+
+  String title;
+  Function onChange;
+  List<S2Choice<int>> choiceItems;
+  int value;
+
+  DropDownMagicSingle({this.title,this.onChange,this.choiceItems,this.value});
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SmartSelect<int>.single(
+      /*choiceHeaderStyle:S2ChoiceHeaderStyle(
+        textStyle: Theme.of(context).textTheme.headline6,
+      ),*/
+      modalHeader:true,
+      choiceStyle: S2ChoiceStyle(
+        titleStyle: Theme.of(context).textTheme.headline3,
+        color: Theme.of(context).iconTheme.color,
+        activeColor: AppColors.secondaryBackground,
+      ),
+      modalConfig: S2ModalConfig(
+        type: S2ModalType.bottomSheet,
+        enableDrag: true,
+      ),
+      modalType: S2ModalType.bottomSheet,
+      modalHeaderStyle: S2ModalHeaderStyle(
+        elevation: 0,
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
+        textStyle: TextStyle(
+          color: Theme.of(context).textTheme.headline1.color,
+          fontFamily: "Sf-r",
+          fontWeight: FontWeight.w700,
+          fontSize: 20,
+        ),
+      ),
+      modalStyle: S2ModalStyle(
+          elevation: 10,
+          backgroundColor: Theme.of(context).dialogBackgroundColor
+      ),
+      modalFilter: true,
+      modalFilterAuto: true,
+      title: title,
+      value: value,
+      choiceItems: choiceItems,
+      onChange: (data){
+        FocusScope.of(context).requestFocus(new FocusNode());
+        onChange(data);},
+    );
+  }
+
+}
+
 createSmartSelectColegiosList(List<String> colegios) {
   List<S2Choice<int>> result = [];
   for(int i=0;i< colegios.length;i++){
