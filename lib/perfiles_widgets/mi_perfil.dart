@@ -15,6 +15,8 @@ import 'package:flutterui/Models/Padre.dart';
 import 'package:flutterui/Models/User.dart';
 import 'package:flutterui/Models/school_model.dart';
 import 'package:flutterui/WidgetsCopy/Animated_screen.dart';
+import 'package:flutterui/WidgetsCopy/dropdown_magic.dart';
+import 'package:flutterui/WidgetsCopy/textfield_widget.dart';
 import 'package:flutterui/blocs/bloc.dart';
 import 'package:flutterui/dialogs/dialog_widget/create_school_dialog.dart';
 import 'package:flutterui/dialogs/dialogs.dart';
@@ -240,6 +242,381 @@ class _MiPerfilState extends State<MiPerfil> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                ConfigurableExpansionTile(
+                  headerExpanded: Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    width: SizeConfig.blockSizeHorizontal * 90,
+                    height: SizeConfig.blockSizeVertical * 80,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).hintColor.withAlpha(60),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: 75,
+                            margin: EdgeInsets.only(left: 22, right: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 19),
+                                    Text(
+                                      "Perfil",
+                                      style: TextStyle(
+                                          fontFamily: "Sf-r",
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Theme.of(context).textTheme.headline2.color),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Nombre, Apellido, Colegio, Curso, Rol",
+                                      style: TextStyle(
+                                          fontFamily: "Sf",
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                          Color.fromARGB(255, 184, 184, 184)),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  width: 60,
+                                  child: GestureDetector(
+                                    onTap: () => selectImage(),
+                                    child: Stack(
+                                      alignment: Alignment.topRight,
+                                      children: <Widget>[
+                                        Positioned(
+                                          right: 10,
+                                          top: 15,
+                                          child: CircleAvatar(
+                                            radius: 23.0,
+                                            backgroundImage:
+                                            editedImage && _image != null
+                                                ? FileImage(_image)
+                                                : user.getProfileImage(),
+                                          ),
+                                        ),
+                                        Positioned(
+                                            right: 32,
+                                            top: 40,
+                                            child: Container(
+                                              padding: EdgeInsets.all(3),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(100),
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: AppColors
+                                                        .secondaryBackground,
+                                                    width: 1.5),
+                                              ),
+                                              child: Icon(Icons.edit,
+                                                  color:
+                                                  AppColors.secondaryBackground,
+                                                  size: 18),
+                                            ) /*CircleAvatar(
+                                    radius: 12.0,
+                                    backgroundImage: AssetImage(
+                                        "assets/images/logocolegio-fds.png"),
+                                ),*/
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            margin: EdgeInsets.only(left: 18, right: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "Nombre",
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                                BeautyTextfield(
+                                  controller: nombreTextController,
+                                  textCapitalization: TextCapitalization.words,
+                                  width: double.maxFinite, //REQUIRED
+                                  height: 50, //REQUIRED
+                                  accentColor: Colors.white, // On Focus Color//Text Color
+                                  backgroundColor: Theme.of(context).hintColor,
+                                  autofocus: false,
+                                  maxLines: 1,
+                                  margin: EdgeInsets.only(top: 10),
+                                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                  duration: Duration(milliseconds: 300),
+                                  inputType: TextInputType.text,
+                                  inputAction: TextInputAction.done,//REQUIRED
+                                  obscureText: false, //REQUIRED
+                                  suffixIcon: Icon(Icons.remove_red_eye),
+                                  onClickSuffix: () {
+                                    print('Suffix Clicked');
+                                  },
+                                  onTap: () {
+                                    print('Click');
+                                  },
+                                  onChanged: (text) {
+                                    widget.isSelected = false;
+                                    print(text);
+                                  },
+                                  onSubmitted: (data) {
+                                    print(data.length);
+                                  },
+                                ),
+                                SizedBox(height: 40),
+                                Text(
+                                  "Apellido",
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                                BeautyTextfield(
+                                  controller: apellidoTextController,
+                                  textCapitalization: TextCapitalization.words,
+                                  width: double.maxFinite, //REQUIRED
+                                  height: 50, //REQUIRED
+                                  accentColor: Colors.white, // On Focus Color//Text Color
+                                  backgroundColor: Theme.of(context).hintColor,
+                                  autofocus: false,
+                                  maxLines: 1,
+                                  margin: EdgeInsets.only(top: 10),
+                                  cornerRadius: BorderRadius.all(Radius.circular(15)),
+                                  duration: Duration(milliseconds: 300),
+                                  inputType: TextInputType.text,
+                                  inputAction: TextInputAction.done,//REQUIRED
+                                  obscureText: false, //REQUIRED
+                                  suffixIcon: Icon(Icons.remove_red_eye),
+                                  onClickSuffix: () {
+                                    print('Suffix Clicked');
+                                  },
+                                  onTap: () {
+                                    print('Click');
+                                  },
+                                  onChanged: (text) {
+                                    widget.isSelected = false;
+                                    print(text);
+                                  },
+                                  onSubmitted: (data) {
+                                    print(data.length);
+                                  },
+                                ),
+                                SizedBox(height: 30),
+                                user.getRole() == "Padre"
+                                    ? createStudentLayoutNew(user)
+                                    : Container(),
+                                SizedBox(height: 30),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              "Mail",
+                                              style: TextStyle(
+                                                  fontFamily: "Sf-r",
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Theme.of(context).textTheme.headline2.color),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Icon(Icons.lock, size: 18)
+                                          ],
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          user.email,
+                                          style: TextStyle(
+                                              fontFamily: "Sf",
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromARGB(
+                                                  255, 184, 184, 184)),
+                                        ),
+                                      ],
+                                    ),
+                                    Icon(Icons.alternate_email,
+                                        size: 40,
+                                        color: Theme.of(context).iconTheme.color.withAlpha(30))
+                                  ],
+                                ),
+
+
+                                SizedBox(height: 80),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 44,
+                                      width: SizeConfig.blockSizeHorizontal * 37,
+                                      padding: EdgeInsets.only(left: 18),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        border: Border.all(
+                                            width: 1,
+                                            color:
+                                            Color.fromARGB(100, 112, 112, 112)),
+                                      ),
+                                      child: Center(
+                                        child: TextField(
+                                          controller: nombreTextController,
+                                          decoration: InputDecoration(
+                                            alignLabelWithHint: true,
+                                            border: InputBorder.none,
+                                          ),
+                                          style: TextStyle(
+                                            color:
+                                            Color.fromARGB(255, 120, 120, 120),
+                                            fontFamily: "Sf-r",
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 14,
+                                          ),
+                                          maxLines:
+                                          1, //TODO resolver tema del overflow
+                                          keyboardType: TextInputType.emailAddress,
+                                          autocorrect: false,
+                                          onChanged: (a)=>  widget.isSelected = false,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 44,
+                                      width: SizeConfig.blockSizeHorizontal * 37,
+                                      padding: EdgeInsets.only(left: 18),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        border: Border.all(
+                                            width: 1,
+                                            color:
+                                            Color.fromARGB(100, 112, 112, 112)),
+                                      ),
+                                      child: Center(
+                                        child: TextField(
+                                          controller: apellidoTextController,
+                                          decoration: InputDecoration(
+                                            alignLabelWithHint: true,
+                                            border: InputBorder.none,
+                                          ),
+                                          style: TextStyle(
+                                            color:
+                                            Color.fromARGB(255, 120, 120, 120),
+                                            fontFamily: "Sf-r",
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 14,
+                                          ),
+                                          maxLines:
+                                          1, //TODO resolver tema del overflow
+                                          keyboardType: TextInputType.emailAddress,
+                                          autocorrect: false,
+                                          onChanged: (a)=>  widget.isSelected = false,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          user.getRole() == "Padre"
+                              ? createParentLayout(user)
+                              : createStudentLayout(user),
+                        ],
+                      ),
+                    ),
+                  ),
+                  header: Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    width: SizeConfig.blockSizeHorizontal * 90,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).hintColor.withAlpha(40),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: 80,
+                            margin: EdgeInsets.only(left: 22, right: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 19),
+                                    Text(
+                                      "Perfil",
+                                      style: TextStyle(
+                                          fontFamily: "Sf-r",
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Theme.of(context).textTheme.headline2.color),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Nombre, Apellido, Colegio, Curso, Rol",
+                                      style: TextStyle(
+                                          fontFamily: "Sf",
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                          Color.fromARGB(255, 184, 184, 184)),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  width: 60,
+                                  child: Stack(
+                                    alignment: Alignment.topRight,
+                                    children: <Widget>[
+                                      Positioned(
+                                        right: 10,
+                                        top: 15,
+                                        child: CircleAvatar(
+                                          radius: 23.0,
+                                          backgroundImage: user.getProfileImage(),
+                                        ),
+                                      ),
+                                      /* Positioned(
+                              right: 35,
+                              top: 30,
+                              child: CircleAvatar(
+                                radius: 12.0,
+                                backgroundImage: AssetImage(
+                                    "assets/images/logocolegio-fds.png"),
+                              ),
+                            ),*///Todo logo colegio
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
                 ConfigurableExpansionTile(
                   headerExpanded: Container(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -1310,6 +1687,170 @@ class _MiPerfilState extends State<MiPerfil> {
     ));
     return dropdownMenuItemList;
   }
+
+  Widget createStudentLayoutNew(Alumno user) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+            builder: (context, state) {
+              if (state is ColegiosLoaded) {
+                return Column(
+                  children: [
+                   Container(color: Colors.red,
+                   height:20,
+                   width: 21,),
+                    Container(
+                      child: new DropdownButton(
+                        icon: Icon(
+                          Icons.edit,
+                          size: 15,
+                        ),
+                        underline: Text(""),
+                        items: createDropDownMenuListSmallColegios(
+                            state.colegiosData.colegios),
+                        isExpanded: true,
+                        value: user.colegio,
+                        hint: new Text(
+                          'COLEGIO',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 53, 38, 65),
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 19,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        onChanged: (value) {
+                          if (value == "+ Agregar Colegio") {
+                            showSchoolDialog(context, user.email);
+                          } else {
+                            setState(() {
+                              user.colegio = value;
+                              widget.isSelected = false;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                //Colegios loading
+                BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                return Container(child: Text("LOADING"));
+              }
+            },
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Curso",
+                style: TextStyle(
+                    fontFamily: "Sf",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 110, 110, 110)),
+              ),
+              BlocBuilder<ColegiosBloc, ColegiosBlocState>(
+                builder: (context, state) {
+                  if (state is ColegiosLoaded) {
+                    return Container(
+                      height: 38,
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black12, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      child: Container(
+                        width: SizeConfig.blockSizeHorizontal * 24,
+                        height: 15,
+                        margin: EdgeInsets.only(top: 6),
+                        child: Opacity(
+                          opacity: 0.37,
+                          child: new DropdownButton(
+                            icon: Icon(
+                              Icons.edit,
+                              size: 15,
+                            ),
+                            underline: Text(""),
+                            items: createDropDownMenuListSmall(
+                                state.colegiosData.cursos),
+                            isExpanded: true,
+                            value: user.curso,
+                            hint: new Text(
+                              'Curso',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 53, 38, 65),
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 19,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                user.curso = value;
+                                widget.isSelected = false;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    //Colegios loading
+                    BlocProvider.of<ColegiosBloc>(context).add(LoadColegios());
+                    return Container(child: Text("LOADING"));
+                  }
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              FilterChip(
+                label: Text('${widget.isSelected ? widget.isAllDataCorrect? 'Guardado':'No se Guardo' : 'Guardar'}', textAlign: TextAlign.center,),
+                labelPadding: EdgeInsets.only(top: 2, bottom: 2, right: 10, left: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(18.0),
+                ),
+                labelStyle: widget.isSelected
+                    ?TextStyle(
+                    fontFamily: "Sf-r",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white)
+                    : TextStyle(
+                  fontFamily: "Sf-r",
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,),
+                selected: widget.isSelected,
+                onSelected: (bool selected) {
+                  setState(() {
+                    widget.isSelected = !widget.isSelected;
+                    widget.isAllDataCorrect = aceptarCambios();
+                  });
+                },
+                backgroundColor: Color.fromARGB(200, 0, 191, 131),
+                selectedColor: widget.isAllDataCorrect? AppColors.secondaryBackground: Colors.red,
+                checkmarkColor: Colors.white,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget createStudentLayout(Alumno user) {
     return Container(
