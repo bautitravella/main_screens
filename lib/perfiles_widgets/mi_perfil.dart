@@ -410,9 +410,9 @@ class _MiPerfilState extends State<MiPerfil> {
                                   },
                                 ),
                                 SizedBox(height: 30),
-                                user.getRole() == "Padre"
+                                /*user.getRole() == "Padre"
                                     ? createStudentLayoutNew(user)
-                                    : Container(),
+                                    : Container(),*/
                                 SizedBox(height: 30),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
