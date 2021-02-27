@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterui/values/colors.dart';
 import './model/builder.dart';
 import './model/modal_theme.dart';
 import './model/modal_config.dart';
@@ -688,6 +689,10 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
 
   /// get default modal widget
   Widget get defaultModal {
+    final VoidCallback onPressed = changes.valid
+        ? () => closeModal(confirmed: true)
+        : null;
+
     return WillPopScope(
       onWillPop: () async => changes.valid,
       child: modalConfig.isFullPage == true
@@ -699,7 +704,13 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
             ),
             body: modalBody,
           )
-        : SafeArea(child: modalBody),
+        : Scaffold(
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColors.secondaryBackground,
+            child: Icon(Icons.done, color:Theme.of(context).focusColor),
+            onPressed: onPressed,
+        ),
+          body: modalBody),
     );
   }
 
@@ -885,7 +896,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
         padding: modalConfig.confirmMargin ?? const EdgeInsets.all(0),
         child: IconButton(
           icon: modalConfig.confirmIcon ?? Icon(Icons.check_circle_outline),
-          color: modalConfig.confirmColor,
+          color: modalConfig.confirmColor ?? Theme.of(context).iconTheme.color,
           onPressed: onPressed,
         ),
       );
