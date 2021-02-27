@@ -56,7 +56,7 @@ bool _isTicked = false;
 
 class _MiPerfilState extends State<MiPerfil> {
   String colegioSelectedValue, cursoSelectedValue, hijosSelectedValue;
-  List<Hijo> hijos;
+  List<Hijo> hijos =[];
   List<HijoWidget> hijosWidgets=[];
 
   int indexHijo = 0;
@@ -75,6 +75,7 @@ class _MiPerfilState extends State<MiPerfil> {
     analytics = Provider.of<FirebaseAnalytics>(context,listen: false);
     analytics.setCurrentScreen(screenName: "/home/subir_libro/subir_foto_libro");
     super.initState();
+
   }
 
   @override
@@ -89,9 +90,17 @@ class _MiPerfilState extends State<MiPerfil> {
             originalUser = user;
             if (variablesHaveBeenSet == false) {
               auxUser = user.clone();
+
               nombreTextController.text = auxUser.nombre;
               apellidoTextController.text = auxUser.apellido;
               variablesHaveBeenSet = true;
+              if(auxUser is Padre){
+                Padre user = auxUser;
+                hijos = user.hijos;
+
+                hijosWidgets =[];
+                hijos.forEach((element) { hijosWidgets.add(HijoWidget(element, key: new UniqueKey(),));});
+              }
             }
 
             return Stack(
@@ -1347,10 +1356,7 @@ class _MiPerfilState extends State<MiPerfil> {
     List<int> selectedColegios= [];
     List<int> selectedCursos= [];
 
-    hijos = user.hijos;
 
-    hijosWidgets =[];
-    hijos.forEach((element) { hijosWidgets.add(HijoWidget(element, key: UniqueKey(),));});
 
     return ConfigurableExpansionTile(
       headerExpanded: Container(
@@ -2240,7 +2246,9 @@ class _MiPerfilState extends State<MiPerfil> {
   addHijo(Padre user) {
     if (user is Padre) {
       setState(() {
-        user.agregarHijo(Hijo("Nombre", "Florida Day School", "1er grado"));
+        Hijo newHijo = Hijo("Nombre", "Florida Day School", "1er grado");
+        user.agregarHijo(newHijo);
+        hijosWidgets.add(HijoWidget( newHijo, key: new UniqueKey(),));
         indexHijo=user.hijos.length;
       });
     }
@@ -2480,9 +2488,8 @@ class _MiPerfilState extends State<MiPerfil> {
 }
 
 class HijoWidget extends StatefulWidget {
-  HijoWidget(this.hijo, {Key key}):super(key: key){
+  HijoWidget(this.hijo,  {Key key}) : super(key: key){
     hijoNameController = new TextEditingController(text: this.hijo.nombre);
-
   }
   Hijo hijo;
 
@@ -2495,6 +2502,8 @@ class HijoWidget extends StatefulWidget {
 }
 
 class _HijoWidgetState extends State<HijoWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -2508,6 +2517,7 @@ class _HijoWidgetState extends State<HijoWidget> {
             style: Theme.of(context).textTheme.headline2,
           ),
           BeautyTextfield(
+
             controller: widget.hijoNameController,
             textCapitalization: TextCapitalization.words,
             width: double.maxFinite, //REQUIRED
